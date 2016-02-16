@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-15"/>
+	<title>Ublu Midrange and Mainframe Life Cycle Extension Language</title>
+	<meta name="generator" content="LibreOffice 4.4.4.3 (OpenBSD)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2016-02-15T19:21:03.850329744"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-02-15T19:18:07.825370299">
+	<style type="text/css">
+		tt.cjk { font-family: "Nimbus Mono L", monospace }
+		code.cjk { font-family: "Nimbus Mono L", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<h1 align="center">Ublu<br/>
+Midrange and Mainframe<br/>
+Life Cycle
+Extension Language</h1>
+<h2>License</h2>
+<p><tt class="western"><font size="1" style="font-size: 8pt">/*<br/>
+&nbsp;*
+Copyright (c) 2014, Absolute Performance, Inc.
+http://www.absolute-performance.com<br/>
+&nbsp;* Copyright (c) 2016,
+Jack J. Woehr http://www.softwoehr.com<br/>
+&nbsp;* All rights
+reserved.<br/>
+&nbsp;*<br/>
+&nbsp;* Redistribution and use in source
+and binary forms, with or without<br/>
+&nbsp;* modification, are
+permitted provided that the following conditions are met:<br/>
+&nbsp;*<br/>
+&nbsp;*
+* Redistributions of source code must retain the above copyright
+notice, this<br/>
+&nbsp;*&nbsp;&nbsp; list of conditions and the
+following disclaimer.<br/>
+&nbsp;* * Redistributions in binary form
+must reproduce the above copyright notice,<br/>
+&nbsp;*&nbsp;&nbsp;
+this list of conditions and the following disclaimer in the
+documentation<br/>
+&nbsp;*&nbsp;&nbsp; and/or other materials
+provided with the distribution.<br/>
+&nbsp;*<br/>
+&nbsp;* THIS
+SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+IS&quot;<br/>
+&nbsp;* AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE<br/>
+&nbsp;* IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE<br/>
+&nbsp;* ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+BE<br/>
+&nbsp;* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR<br/>
+&nbsp;* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF<br/>
+&nbsp;* SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS<br/>
+&nbsp;* INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN<br/>
+&nbsp;*
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE)<br/>
+&nbsp;* ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE<br/>
+&nbsp;* POSSIBILITY OF SUCH
+DAMAGE.<br/>
+&nbsp;*/</font></tt></p>
+<h2>Overview</h2>
+<p>The Ublu project is a class library which assists Absolute
+Performance, Inc.'s team in supporting data management and operations
+with regard to midrange and mainframe computing. It also contains
+support for Postgres and MSSQL database operations.</p>
+<p>The library includes an interpreter for accessing the library as a
+command application by issuing a string of commands on the command
+line, or by entering commands interactively, or by piping input to
+<code class="western">stdin</code>.</p>
+<p>There is also a TCP/IP listener/server which can serve up the
+interpretive facilities of Ublu over a network connection in support
+of web applications</p>
+<p>The source for this NetBeans-structured project is found in the
+repository <code class="western">https://github.com/jwoehr/ublu.git</code></p>
+<p>The Main class is ublu.Ublu which launches interpreter interprets
+the commands. Assuming <font face="Liberation Mono, monospace">ublu.jar</font>
+resides in a directory with its ancillary open source support
+libraries residing in a <tt class="western"><font face="Liberation Mono, monospace">lib</font></tt>
+subdirectory, <tt class="western">main</tt> can be invoked via:</p>
+<blockquote><code class="western">java -jar ublu.jar</code> <i>commands
+...</i> 
+</blockquote>
+<h2>Notes on the code</h2>
+<h3>Some naming conventions</h3>
+<p>Variable names are as informative as we can make them, e.g.,
+<code class="western">tableNameList</code> or <code class="western">columnTypeNameList</code>.
+Where <code class="western">aBC</code> is this sort of descriptive
+variable name then: 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><code class="western">getABC()</code>
+	and <code class="western">setABC()</code> are simple getter-setters.
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><code class="western">generateABC()</code>
+	does work to get data suitable for a <code class="western">setABC()</code>
+	operation 
+	</p>
+	<li/>
+<p><code class="western">fetchABC()</code> or
+	<code class="western">fetchAParticularInstanceOfABC()</code> will
+	generally <code class="western">setTheParticularABCInstance(generateABC())</code>
+	. 
+	</p>
+</ul>
+<p>Jack J. Woehr</p>
+</body>
+</html>
