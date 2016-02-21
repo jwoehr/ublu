@@ -31,7 +31,6 @@ import ublu.util.DataSink;
 import ublu.db.Db;
 import ublu.db.DbAS400;
 import ublu.db.DbHelper;
-import ublu.db.DbMSSQL;
 import ublu.db.DbPostgres;
 import ublu.db.ResultSetClosure;
 import ublu.db.TableReplicator;
@@ -290,8 +289,6 @@ public class CmdDb extends Command {
                             case "postgres":
                                 setDb(new DbPostgres());
                                 break;
-                            case "mssql":
-                                setDb(new DbMSSQL());
                         }
                     }
                     break;
@@ -410,10 +407,6 @@ public class CmdDb extends Command {
                         getLogger().log(Level.SEVERE, "-db dbtype and a choice of function required for {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-
-                        if (getDb().getDbType() == Db.DBTYPE.MSSQL && getPort() == null) {
-                            setPort(DbMSSQL.MSSQL_DEFAULT_PORT); // MSSQL connect needs a specific port number
-                        }
                         try {
                             getDb().connect(system, getPort(), database, getConnectionProperties(), userid, password);
                         } catch (ClassNotFoundException | SQLException ex) {
