@@ -112,7 +112,7 @@ public class CmdUsage extends Command {
                 if (cmdName.equals("version")) {
                     getInterpreter().outputerrln(getInterpreter().getMyUblu().startupMessage());
                     getInterpreter().outputerrln(AboutToolbox.getVersionDescription().trim());
-                    getInterpreter().outputerrln("Postgresql version: " + org.postgresql.Driver.getVersion());                    
+                    // getInterpreter().outputerrln("Postgresql version: " + org.postgresql.Driver.getVersion());                    
                 } else {
                     CommandInterface c = getInterpreter().getCmd(getInterpreter(), cmdName);
                     if (c != null) {
