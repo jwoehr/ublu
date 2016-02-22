@@ -31,7 +31,7 @@ To build and run:
     </ul>
     </li>
 <li> cd to the top dir of the checkout and type ant</li>
-<li> ./dist/ublu.jar and its necessary .dist/lib directory are the runtime system.
+<li> ./dist/ublu.jar and its necessary ./dist/lib directory are the runtime system.
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
 Documentation and examples are being tidied up! Real Soon Now!
