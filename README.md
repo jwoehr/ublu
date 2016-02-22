@@ -27,6 +27,6 @@ To build and run:
 4. ./dist/ublu.jar and its necessary .dist/lib directory are the runtime system.
 5. java -jar ublu.jar to run Ublu
 
-Documentation is being tidied up! Real Soon Now!
+Documentation and examples are being tidied up! Real Soon Now!
  
 - Jack Woehr jwoehr@softwoehr.com 2016-02-21 
