@@ -1,0 +1,12 @@
+# connected.ublu ... see what services we are connected to
+FUNC connected ( as400 ) $[
+	LOCAL @svcs
+	put -to @svcs ${ CENTRAL COMMAND DATABASE DATAQUEUE FILE PRINT RECORDACCESS SIGNON }$
+	FOR @i in @svcs $[
+		LOCAL @conn
+		put -n -s -from @i
+		as400 -- @@as400 -connectedsvc @i -to @conn
+		put -from @conn
+	]$
+]$
+# End

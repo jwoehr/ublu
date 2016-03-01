@@ -1,0 +1,11 @@
+FUNC woof ( a b ) $[ tuple -map
+     LOCAL @i FOR @i in @@a $[ tuple -map
+     	   LOCAL @q put -n -s -to @q ${ @q will disappear }$ put -n -s -from @q put -n -s ${ with a woof upon }$ put -n -s -from @i put -from @@b
+     ]$
+     put -from @q
+     tuple -map
+     put -from @q
+]$ 
+put -to @z ${ 1 2 3 }$ put -to @x ${ doggie }$ 
+woof ( @z @x )
+tuple -map

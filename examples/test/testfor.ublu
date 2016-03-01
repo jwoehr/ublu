@@ -1,0 +1,5 @@
+put -to @list ${ a b c d e f g }$
+lifo -push @list
+lifo -dup
+lifo -dup
+FOR @i in ~ $[ put -from @i ]$

@@ -1,0 +1,123 @@
+# test_pigiron.ublu
+# test as much of PigIron as we can automatically
+# Copyright  *C* 2015 Jack J. Woehr jwoehr@softwoehr.com
+# PO Box 51 Golden CO 80402-0051
+#
+# A number of variables have to be set:
+#
+# @host		smapi host
+# @port		smapi port
+# @use_ssl	the simple word true if using ssl anything else no ssl
+# @default_user	user for most simple calls, e.g., MAINT
+# @def_password password for user for most simple calls
+# @active_user	target user for Image_Activate, Image_Activation_Query, etc.
+# @vswitch_name virtual switch name for Virtual_Network_Vswitch_Query
+# @adapter_owner	adapter owner for Virtual_Network_Adapter_Query	
+# @adapter_devnum	adapter device number for Virtual_Network_Adapter_Query
+# @dirmsearch_string 	string to search via Directory_Manager_Search_DM
+# @cpu_user	user of cpu number for Image_CPU_Query_DM
+# @cpu_number	cpu number for Image_CPU_Query_DM
+# @mdisk_query_owner owner of MDisk for Image_MDISK_Link_Query
+# @mdisk_query_vdev virtual device for Image_MDISK_Link_Query
+# @status_capture_user user for SMAPI_status_capture 
+
+include -silent ../all_pigiron.ublu
+
+# do some tests including default values from @include_file
+FUNC test_pigiron ( include_file ) $[
+	include -silent @@include_file
+	put -from @host
+	put -from @port	
+	put -n -s -from @use_ssl	put ${ the simple word true if using ssl anything else no ssl }$
+	put -n -s -from @default_user	put ${ user for most simple calls, e.g., MAINT }$
+	put -n -s -from @active_user	put ${ target user for Image_Activate, Image_Activation_Query, etc. }$
+	put -n -s -from @vswitch_name   put ${ virtual switch name for Virtual_Network_Vswitch_Query }$
+	put -n -s -from @adapter_owner  put ${ adapter owner for Virtual_Network_Adapter_Query }$	
+	put -n -s -from @adapter_devnum	put ${ adapter device number for Virtual_Network_Adapter_Query }$
+	put -n -s -from @dirmsearch_string put ${ string to search via Directory_Manager_Search_DM }$
+	put -n -s -from @cpu_user	put ${ user of cpu number for Image_CPU_Query_DM }$
+	put -n -s -from @cpu_number	put ${ cpu number for Image_CPU_Query_DM }$
+	put -n -s -from @mdisk_query_owner put ${ owner of MDisk for Image_MDISK_Link_Query }$
+	put -n -s -from @mdisk_query_vdev  put ${ virtual device for Image_MDISK_Link_Query }$
+	put -n -s -from @status_capture_user put ${ user for SMAPI_status_capture }$
+
+	LOCAL @h LOCAL @p
+	pigiron_host ( @host @port @default_user @def_password @use_ssl @h ) 
+	put ${ Testing Check_Authentication }$
+	Check_Authentication ( @h @p ) 
+	put -from @p 
+	put ${ Testing Query_API_Functional_Level }$
+	Query_API_Functional_Level ( @h @default_user @p )
+	put -from @p
+	put ${ Testing Query_Directory_Manager_Level_DM }$
+	Query_Directory_Manager_Level_DM ( @h @default_user @p ) 
+	put -from @p 
+	put ${ Testing Image_Query_DM }$
+	Image_Query_DM ( @h @active_user @p )
+	put -from @p
+	put ${ Testing Image_Status_Query (inactive) }$
+	Image_Status_Query ( @h @active_user @p )
+	put -from @p
+	put ${ Testing Image_Activate }$
+	Image_Activate ( @h @active_user @p )
+	put -from @p
+	put ${ Testing Image_Status_Query (active) }$
+	Image_Status_Query ( @h @active_user @p )
+	put -from @p
+	put ${ Testing Image_Query_Activate_Time with date format 1 }$
+	Image_Query_Activate_Time ( @h @active_user 1 @p )
+	put -from @p
+	put ${ Testing Image_Query_Activate_Time with date format 2 }$
+	Image_Query_Activate_Time ( @h @active_user 2 @p )
+	put -from @p
+	put ${ Testing Image_Query_Activate_Time with date format 3 }$
+	Image_Query_Activate_Time ( @h @active_user 3 @p )
+	put -from @p
+	put ${ Testing Image_Query_Activate_Time with date format 4 }$
+	Image_Query_Activate_Time ( @h @active_user 4 @p )
+	put -from @p
+	put ${ Testing Image_Query_Activate_Time with date format 5 }$
+	Image_Query_Activate_Time ( @h @active_user 5 @p )
+	put -from @p
+	put ${ Testing Image_Active_Configuration_Query }$
+	Image_Active_Configuration_Query ( @h @active_user @p )
+	put -from @p
+	put ${ Testing Image_CPU_Query }$
+	Image_CPU_Query ( @h @active_user @p )
+	put -from @p
+	put ${ Testing Image_CPU_Query_DM }$
+	Image_CPU_Query_DM ( @h @cpu_user @cpu_number @p )
+	put -from @p
+	put ${ Testing Image_Deactivate }$
+	Image_Deactivate ( @h @active_user IMMED @p ) 
+	put -from @p 
+	put ${ Testing Virtual_Network_Vswitch_Query }$
+	Virtual_Network_Vswitch_Query ( @h @default_user @vswitch_name @p ) 
+	put -from @p 
+	put ${ Testing Virtual_Network_Adapter_Query }$
+	Virtual_Network_Adapter_Query ( @h @adapter_owner @adapter_devnum @p ) 
+	put -from @p 
+	put ${ Testing Authorization_List_Query }$
+	Authorization_List_Query ( @h @default_user @default_user Authorization_List_Query @p ) 
+	put -from @p 
+	put ${ Testing Directory_Manager_Search_DM }$
+	Directory_Manager_Search_DM ( @h @default_user @dirmsearch_string @p )
+	put -from @p 
+	put ${ Testing Image_MDISK_Link_Query }$
+	Image_MDISK_Link_Query ( @h @mdisk_query_owner @mdisk_query_vdev @p )
+	put -from @p
+	put ${ Testing Asynchronous_Notification_Query_DM }$
+	put ${ ( This test needs some work. ) }$
+	put -n -to @nulls ${ }$
+	Asynchronous_Notification_Query_DM ( @h ALL 1 0 0 @nulls 0 * @p )
+	put -from @p
+	put ${ Testing SMAPI_Status_Capture }$
+	SMAPI_Status_Capture ( @h @status_capture_user @p )
+	put -from @p
+	put ${ Testing Echo_Parameters (the custom example from the SMAPI docs) }$
+	Echo_Parameters ( @h @default_user FOOSWICH 426923 @p )
+	put -from @p
+	put ${ Done Testing. }$
+
+]$
+# End

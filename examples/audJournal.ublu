@@ -1,0 +1,12 @@
+# audJournal.ublu -- read a number of entries from the audit journal
+# jack woehr jwoehr@softwoehr.com
+FUNC audJournal ( system user password numentries filename )  $[
+	LOCAL @as400
+	LOCAL @journal
+	LOCAL @entries
+	as400 -to @as400 @@system @@user @@password
+	jrnl -to @journal -as400 @as400
+	jrnl -- @journal -lib QSYS -journal QAUDJRN -get @@numentries -to @entries
+	put -from @entries -tofile @@filename
+	as400 -- @as400 -disconnect
+]$

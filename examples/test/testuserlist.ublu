@@ -1,0 +1,7 @@
+# testuserlist.ublu ... get all the user names on a system from a userlist command
+FUNC testUserList ( as400 ) $[
+	LOCAL @users
+	userlist -to @users -as400 @@as400
+	FOR @user in @users $[ user -- @user -query name ]$
+]$
+# end

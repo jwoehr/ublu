@@ -1,0 +1,40 @@
+# jvmmem.ublu
+# author: Jack Woehr jwoehr@softwoehr.com
+# Output a list of Absolute Performance, Inc System Shepherd [TM] datapoints
+# about JVM memory on an IBM i host (see http://www.absolute-performance.com)
+# !! Uses plaintext password authentication !!
+# !! Not suitable for use across the public net !!
+
+include memdpoints.ublu
+
+# host_system	name or ip of the host
+# jmx_ipport	port JMX is listening on
+# mon_passwd	password for JMX monitorRole
+# heap_crit_level	bytes of 'used' heap at which datapoint should be CRITICAL status
+# heap_crit_msg	message to attach to a CRITICAL state datapoint about heap usage
+# ###
+FUNC monitorJVMMem ( host_system jmx_ipport mon_passwd heap_crit_level heap_crit_msg ) $[
+	LOCAL @mylist
+	LOCAL @myJMX
+	jmxConnectAuth ( @@host_system @@jmx_ipport @myJMX monitorRole @@mon_passwd )
+	list -to @mylist
+	jmxMemoryDpoints ( @myJMX @mylist @@heap_crit_level @@heap_crit_msg )
+	FOR @i in @mylist $[ put -from @i ]$
+]$
+
+# host_system	name or ip of the host
+# jmx_ipport	port JMX is listening on
+# mon_passwd	password for JMX monitorRole
+# heap_crit_level	bytes of 'used' heap at which datapoint should be CRITICAL status
+# heap_crit_msg	message to attach to a CRITICAL state datapoint about heap usage
+# ###
+FUNC monitorIBMJVMMem ( host_system jmx_ipport mon_passwd heap_crit_level heap_crit_msg ) $[
+	LOCAL @mylist
+	LOCAL @myJMX
+	jmxConnectAuth ( @@host_system @@jmx_ipport @myJMX monitorRole @@mon_passwd )
+	list -to @mylist
+	jmxIBMMemoryDpoints ( @myJMX @mylist @@heap_crit_level @@heap_crit_msg )
+	FOR @i in @mylist $[ put -from @i ]$
+]$
+
+# End

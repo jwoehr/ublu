@@ -1,0 +1,114 @@
+# report memory factors from a remote JVM via JMX
+#
+# Log in somewhere and start a jvm running with jmx remote instrumentation enabled, e.g.:
+# 	java -Dcom.sun.management.jmxremote.port=9999 \
+#	-Dcom.sun.management.jmxremote.authenticate=false \
+#	-Dcom.sun.management.jmxremote.ssl=false -jar /opt/api-java/AbsPerfOS400.jar
+#
+# or alternatively with password file authentication:
+#
+# java \
+# -Dcom.sun.management.jmxremote.port=9999 \
+# -Dcom.sun.management.jmxremote.authenticate=true \
+# -Dcom.sun.management.jmxremote.password.file=/full/path/to/passwordfile \
+# -Dcom.sun.management.jmxremote.ssl=false \
+# -jar /opt/ublu/ublu.jar
+#
+# Note that the password file must be chmod 400 or 600 .
+# ######################################################
+
+FUNC jmxConnect ( hostname port connection ) $[
+	jmx -to @@connection -instance -host @@hostname -port @@port
+	jmx -jmx @@connection -connect
+]$
+
+FUNC jmxConnectAuth ( hostname port connection role pwrd ) $[
+	jmx -to @@connection -instance -host @@hostname -port @@port
+	jmx -jmx @@connection -connect -role @@role -password @@pwrd
+]$
+
+FUNC getMemBean ( connection membean ) $[
+	LOCAL @list LOCAL @i
+	jmx -jmx @@connection -query class sun.management.MemoryImpl -to @list 
+	FOR @i in @list $[
+		put -to @@membean -from @i
+	]$
+]$
+
+FUNC getIBMMemBean ( connection membean ) $[
+	LOCAL @list LOCAL @i
+	jmx -jmx @@connection -query class com.ibm.lang.management.MemoryMXBeanImpl -to @list 
+	FOR @i in @list $[
+		put -to @@membean -from @i
+	]$
+]$
+
+FUNC memFactors ( connection membean ) $[
+	jmx -jmx @@connection -obj @@membean -attribs ${ Verbose HeapMemoryUsage ObjectPendingFinalizationCount NonHeapMemoryUsage }$ 
+]$
+
+FUNC memBeanInfo ( connection membean ) $[
+	jmx -jmx @@connection -obj @@membean -mbeaninfo
+]$
+
+FUNC displayMemoryPoolAttribs ( connection objinst factors ) $[
+	LOCAL @i
+	FOR @i in @@factors $[
+		put -n -s -from @i put -n -s ${ == }$ jmx -jmx @@conn -obj @@obj -attrib @i
+	]$
+]$
+
+FUNC displayMemoryPool ( connection objinst ) $[
+	LOCAL @attribs 
+	put -to @attribs ${ Name Type Valid Usage CollectionUsageThresholdCount PeakUsage MemoryManagerNames CollectionUsageThreshold CollectionUsageThresholdExceeded CollectionUsageThresholdCount CollectionUsageThresholdSupported }$
+	displayMemoryPoolAttribs ( @@connection @@objinst @attribs )
+]$
+
+FUNC displayMemoryPoolByName ( jmx poolname ) $[
+	LOCAL @pool 
+	jmx -jmx @@jmx -to @pool -get * MemoryPool @@poolname
+	displayMemoryPool ( @@jmx @pool )
+]$
+
+FUNC displayMemoryPools ( connexion ) $[
+	LOCAL @poolName LOCAL @poolList
+	list -to @poolList 
+	list -list @poolList -addstr ${ Tenured Gen }$ -to NULL:
+	list -list @poolList -addstr ${ Perm Gen }$ -to NULL:
+	list -list @poolList -addstr ${ Survivor Space }$ -to NULL:
+	list -list @poolList -addstr ${ Eden Space }$ -to NULL:
+	FOR @poolName in @poolList $[
+		displayMemoryPoolByName ( @@connexion @poolName )
+	]$
+]$
+
+# put -to @poolName ${ Code Cache }$
+# displayMemoryPoolByName ( @@connexion @poolName )
+# put -to @poolName ${ Copy }$
+# displayMemoryPoolByName ( @@connexion @poolName )
+
+FUNC reportMemFactors ( hostname port ) $[
+	LOCAL @connector LOCAL @bean
+	jmxConnect ( @@hostname @@port @connector )
+	getMemBean ( @connector @bean )
+	memFactors ( @connector @bean )
+	displayMemoryPools ( @connector )
+]$
+
+FUNC  reportMemFactorsAuth ( hostname port roll passwd ) $[
+        LOCAL @connector LOCAL @bean
+        jmxConnectAuth ( @@hostname @@port @connector @@roll @@passwd )
+        getMemBean ( @connector @bean )
+        memFactors ( @connector @bean )
+        displayMemoryPools ( @connector )
+]$
+
+FUNC  reportIBMMemFactorsAuth ( hostname port roll passwd ) $[
+        LOCAL @connector LOCAL @bean
+        jmxConnectAuth ( @@hostname @@port @connector @@roll @@passwd )
+        getIBMMemBean ( @connector @bean )
+        memFactors ( @connector @bean )
+        displayMemoryPools ( @connector )
+]$
+
+# End

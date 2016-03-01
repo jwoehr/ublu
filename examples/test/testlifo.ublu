@@ -1,0 +1,13 @@
+put -to @foo woof
+put -to @bar -# -23
+put -to @arf ${ this is a string }$
+lifo -show
+lifo -push @foo
+lifo -push @bar
+lifo -show
+lifo -push @arf
+lifo -show
+lifo -pick 2
+lifo -show
+lifo -rot
+lifo -show

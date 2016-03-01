@@ -1,0 +1,39 @@
+# explore function parameter binding
+put -to @a ${ this is a }$ 
+put -to @b ${ this is b }$ 
+put -to @c ${ this is c }$ 
+
+FUNC foo ( a b c ) $[
+	put ${ this is foo }$
+	put -n -s -from @@a put -n -s -from @@b put -from @@c
+	tuple -name @@a
+        tuple -realname @@a
+        tuple -name @@b
+        tuple -realname @@b
+        tuple -name @@c
+        tuple -realname @@c
+	put ${ end of foo }$
+]$ 
+
+FUNC boo ( a b c ) $[ 
+	put ${ this is boo }$
+	LOCAL @a LOCAL @b LOCAL @c put -to @a aa put -to @b bb put -to @c cc put -from @@a put -from @@b put -from @@c put -from @a put -from @b put -from @c
+	tuple -name @@a
+	tuple -realname @@a 
+	tuple -name @@b
+	tuple -realname @@b 
+	tuple -name @@c
+	tuple -realname @@c 
+	tuple -name @a
+	tuple -realname @a 
+	tuple -name @b
+	tuple -realname @b 
+	tuple -name @c
+	tuple -realname @c 
+	put ${ now I'll try foo with my locals }$
+	foo ( @a @b @c )
+	put ${ now I'll try foo with my func params }$
+	foo ( @@a @@b @@c )
+	put ${ end of boo }$
+]$ 
+boo ( @a @b @c ) 

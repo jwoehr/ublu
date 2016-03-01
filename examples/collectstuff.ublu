@@ -1,0 +1,13 @@
+# collectstuff.ublu
+# Example(s) using collections
+
+# Turn a joblist into a string collection of the job users
+FUNC usersFromJoblist ( jlist collection ) $[
+	LOCAL @j LOCAL @u
+	put -to @@collection ${ }$
+	FOR @j in @@jlist $[
+		job -job @j -to @u -query user
+		string -to @@collection -cat @@collection @u
+		string -to @@collection -bl @@collection
+	]$
+]$

@@ -1,0 +1,7 @@
+Miscellaneous notes on use of PigIron SMAPI (tm IBM z/VM etc.) functions.
+
+When the SMAPI docs call for a null string, e.g., Asynchronous_Notification_Query_DM ip_address parameter can be null,
+you can use a tuple that you have put an empty string to, e.g, put -n -to @nullstring ${ }$
+
+When the SMAPI docs call for a null numeric value, e.g, Asynchronous_Notification_Query_DM port_number parameter,
+we think you can use a zero (0).

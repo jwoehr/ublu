@@ -1,0 +1,14 @@
+put -to @host MYHOST          # smapi host
+put -to @port 44444           # smapi port
+put -to @use_ssl false        # the simple word true if using ssl anything else no ssl
+put -to @default_user MAINT   # user for most simple calls, e.g., MAINT
+put -to @def_password XXXXXXX # password for user for most simple calls
+put -to @active_user  FRED    # target user for Image_Activate, Image_Activation_Query, etc.
+put -to @vswitch_name VSWSYS  # virtual switch name for Virtual_Network_Vswitch_Query
+put -to @adapter_owner  TCPIP # adapter owner for Virtual_Network_Adapter_Query
+put -to @adapter_devnum 330   # adapter device number for Virtual_Network_Adapter_Query
+put -to @dirmsearch_string COMMAND	# string to search via Directory_Manager_Search_DM
+put -to @cpu_user SOMEBODY    # user of  cpu number for Image_CPU_Query_DM
+put -to @cpu_number 0	      # cpu number for Image_CPU_Query_DM
+put -to @mdisk_query_owner TCPIP	# owner of MDisk for Image_MDISK_Link_Query
+put -to @mdisk_query_vdev vdev=592	# virtual device for Image_MDISK_Link_Query

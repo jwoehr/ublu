@@ -1,0 +1,16 @@
+# testtry.ublu ... test TRY CATCH THROW
+
+FUNC testTry ( ) $[
+	TRY $[
+		put ${ outer try block }$
+		TRY $[
+			put ${ inner TRY block }$
+			THROW oops
+		]$ CATCH $[
+			put ${ caught the oops }$
+		]$
+		put ${ continuing outer TRY }$
+	]$ CATCH $[
+		put ${ caught error in outer try block }$
+	]$
+]$

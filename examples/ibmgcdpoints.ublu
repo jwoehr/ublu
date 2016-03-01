@@ -1,0 +1,49 @@
+#
+# ibmgcdpoints.ublu -- print out IBM JVM garbage collection info via jmx as System Shepherd datapoints
+# #########################
+
+include memfactors.ublu
+
+# ##
+# Make a System Shepherd dpoint from one gc mbean 
+# example:
+#	jmxConnectAuth ( localhost 9999 @myjmx monitorRole xxxxxxxx )
+#	jmx -- @myjmx -get java.lang GarbageCollector MarkSweepCompact -to @mb
+#	dpointIBMgcMBean ( @myjmx @mb TotalCompacts @mydp )
+#	put -from @mydp
+# the system responds in the form:
+#	Java|JVM|JMX|Memory	11998528	0
+# or you can get all the useful ones with 
+# 	allIBMgcMBeanDpoints ( connection mbean dpointlist )
+# ##
+
+# Get a datapoint for a memory bean or memory pool bean attribute/key pair
+FUNC dpointIBMgcMBean ( connection mbean attribute datapoint ) $[
+	LOCAL @val
+	jmx -- @@connection -obj @@mbean -to @val -attrib @@attribute
+	dpoint -to @@datapoint -dkey Java|JVM|JMX|GC -type long -value @val -alertlevel 0 -compare lt -msg no_message
+	dpoint -to @@datapoint -- @@datapoint -addkey @@attribute
+]$
+
+# Get all datapoints for the IBM JVM GC Mbean
+# connection should hold an already-connected jmx instance
+# dp_list should be a list already created.
+# Lists CollectionCount CollectionTime LastCollectionStartTime LastCollectionEndTime MemoryUsed TotalMemoryFreed TotalCompacts
+FUNC allIBMgcMBeanDpoints ( connection mbean dpointlist ) $[
+	LOCAL @dp
+	dpointIBMgcMBean ( @@connection @@mbean CollectionCount @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointIBMgcMBean ( @@connection @@mbean CollectionTime @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointIBMgcMBean ( @@connection @@mbean LastCollectionStartTime @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointIBMgcMBean ( @@connection @@mbean LastCollectionEndTime @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointIBMgcMBean ( @@connection @@mbean MemoryUsed @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointIBMgcMBean ( @@connection @@mbean TotalMemoryFreed @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointIBMgcMBean ( @@connection @@mbean TotalCompacts @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+]$	
+# End

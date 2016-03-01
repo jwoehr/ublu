@@ -1,0 +1,24 @@
+# testswitch.ublu
+# test SWITCH statement
+#
+# Example session:
+# > put -to @sel red
+# > testSwitch ( @sel )
+# you chose red 
+# > put -to @sel green 
+# > testSwitch ( @sel )
+# you chose green 
+# > put -to @sel blue
+# > testSwitch ( @sel )
+# What!?  blue
+
+FUNC testSwitch ( selector ) $[
+	SWITCH @@selector
+		-case red
+			$[ put ${ you chose red }$ ]$
+		-case green
+			$[ put ${ you chose green }$ ]$
+		-default
+			$[ put -s -n ${ What!? }$ put -from @@selector ]$
+]$
+# End

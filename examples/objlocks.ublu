@@ -1,0 +1,11 @@
+# objlocks.ublu ... see locks on an OS/400 object
+# jack j. woehr jwoehr@absolute-performance.com jwoehr@softwoehr.com
+# 2015-03-12
+
+FUNC objLocks ( system user password ifspath ) $[
+	LOCAL @as400 LOCAL @objdesc LOCAL @locklist
+	as400 -to @as400 @@system @@user @@password
+	objdesc -to @objdesc -as400 @as400 -instance -path @@ifspath
+	objdesc -to @locklist -- @objdesc -locks
+	FOR @lock in @locklist $[ put -from @lock ]$
+]$

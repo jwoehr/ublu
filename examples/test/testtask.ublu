@@ -1,0 +1,18 @@
+# run TASK from various datasources
+# to make it stop at the end : tuple -false @whiletrue
+
+put -to @p ${ include localvarthread.os4 localVarThread ( 99 ) }$ 
+TASK -from @p -start
+put -from @p -to foo.pgm 
+put -from foo.pgm 
+TASK -from foo.pgm -start
+put -to @x 99 
+TASK -start $[ put -from @x ]$
+tuple -true @whiletrue 
+TASK -to @task $[ WHILE @whiletrue $[ put -from @x system ${ sleep 5 }$ ]$ ]$ 
+put -from @task
+thread -- @task -start
+put -to @x 88
+put ${ you can change the var with put -to @x WOOF or something like that }$
+put ${ to stop the background task use : tuple -false @whiletrue }$
+

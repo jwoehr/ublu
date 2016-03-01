@@ -1,0 +1,207 @@
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type float -value 1.23 -alertlevel 1.1 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type float -value 1.23 -alertlevel 1.1 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type float -value 1.23 -alertlevel 1.23 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type float -value 1.23 -alertlevel 1.23 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type float -value 1.23 -alertlevel 1.22 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type float -value 1.23 -alertlevel 1.22 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type int -value 123 -alertlevel 124 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type int -value 123 -alertlevel 124 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type int -value 123 -alertlevel 123 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type int -value 123 -alertlevel 123 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type int -value 123 -alertlevel 122 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type int -value 123 -alertlevel 122 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type long -value 1234567890  -alertlevel 1234567899 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type long -value 1234567890 -alertlevel 1234567899 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type long -value -1234567890 -alertlevel 11234567890 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type long -value 1234567890 -alertlevel 1234567890 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$
+put ${ dpoint -to @dp -dkey woof|foo|bar -addkey argle -type long -value 1234567890  -alertlevel 1234567889 }$
+put ${ gt }$
+dpoint -to @dp -dkey woof|foo|bar -addkey argle -type long -value 1234567890 -alertlevel 1234567889 -compare gt -msg ${ this is an alert }$
+put -from @dp
+put ${ gte }$
+dpoint -- @dp -to @dp -compare gte
+put -from @dp
+put ${ lt }$
+dpoint -- @dp -to @dp -compare lt 
+put -from @dp
+put ${ lte }$
+dpoint -- @dp -to @dp -compare lte 
+put -from @dp
+put ${ info }$
+dpoint -- @dp -to @dp -compare info
+put -from @dp
+put ${ warn }$
+dpoint -- @dp -to @dp -compare warn
+put -from @dp
+put ${ crit }$
+dpoint -- @dp -to @dp -compare crit
+put -from @dp
+put ${ --- }$

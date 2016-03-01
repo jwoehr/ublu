@@ -1,0 +1,20 @@
+# Test background threading with local vars
+# runIt ( 99 ) should work
+
+FUNC localVarThread ( var ) $[
+    LOCAL @myvar LOCAL @start LOCAL @end 
+    put @@var eval -to @myvar + 1 @@var
+    put -to @start 1 put -to @end 9 
+    DO @start @end $[ eval -to @myvar + @myvar 1 put -from @myvar  system ${ sleep 10 }$ ]$
+    put done!
+]$
+
+FUNC runIt ( number ) $[
+	put -to @x 100000
+	LOCAL @x
+	eval -to @x + @@number 7
+	put -to @p ${ localVarThread ( @x ) }$
+	thread -to @t -from @p
+	thread -thread @t -start
+]$
+

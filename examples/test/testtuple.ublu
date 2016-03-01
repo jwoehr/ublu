@@ -1,0 +1,122 @@
+# test tuples and param sub tuples
+
+FUNC tupleDelete ( tup ) $[ tuple -delete @@tup ]$
+FUNC tupleExists ( tup ) $[ tuple -exists @@tup ]$
+FUNC tuplePutToSimple ( tup  simpleval ) $[ put -to @@tup @@simpleval ]$
+FUNC tuplePutToTuple ( tup  simpleval ) $[ put -to @@tup -from @@simpleval ]$
+FUNC tuplePutFrom ( tup  ) $[ put -from @@tup ]$
+FUNC tupleTrue ( tup ) $[ tuple -true @@tup ]$
+FUNC tupleFalse ( tup ) $[ tuple -false @@tup ]$
+FUNC tupleShadow ( a b ) $[
+	put ${ declaring LOCALs @a and @b }$
+	LOCAL @a LOCAL @b
+	put ${ loading LOCALs @a and @b }$
+	put -to @a ${ this is LOCAL @a }$ put -to @b ${ this is LOCAL @b }$
+	put -n -s ${ LOCAL @a: }$ put -n -s -from @a put -n -s ${ LOCAL @b: }$ put -from @b
+	put ${ loading parameters a and b }$
+	put -to @@a ${ this is parameter a }$ put -to @@b ${ this is parameter b }$
+	put -n -s ${ reading LOCALs @a and @b }$ put -n -s -from @a put -from @b
+	put -n -s ${ reading parameters a and b }$ put -n -s -from @@a put -from @@b
+	put ${ does param a's tuple value exist? }$
+	tuple -exists @@a
+	put ${ does param b's tuple value exist? }$
+	tuple -exists @@b
+]$
+FUNC tupleShadow1 ( a b ) $[
+	put ${ declaring LOCALs @a and @b }$
+	LOCAL @a LOCAL @b
+	put ${ loading LOCALs @a and @b }$
+	put -to @a ${ this is LOCAL @a }$ put -to @b ${ this is LOCAL @b }$
+	put -n -s ${ LOCAL @a: }$ put -n -s -from @a put -n -s ${ LOCAL @b: }$ put -from @b
+	put ${ loading parameters a and b }$
+	put -to @@a ${ this is parameter a }$ put -to @@b ${ this is parameter b }$
+	put -n -s ${ reading LOCALs @a and @b }$ put -n -s -from @a put -from @b
+	put -n -s ${ reading parameters a and b }$ put -n -s -from @@a put -from @@b
+	put ${ does param a's tuple value exist? }$
+	tuple -exists @@a
+	put ${ does param b's tuple value exist? }$
+	tuple -exists @@b
+]$
+FUNC tupleShadow2 ( a b ) $[
+	put ${ tupleShadow2 declaring LOCALs @a and @b }$
+	LOCAL @a LOCAL @b
+	put ${ loading LOCALs @a and @b }$
+	put -to @a ${ this is tupleShadow2 LOCAL @a }$ put -to @b ${ this is tupleShadow2 LOCAL @b }$
+	put -n -s ${ LOCAL @a: }$ put -n -s -from @a put -n -s ${ LOCAL @b: }$ put -from @b
+	put ${ loading parameters a and b }$
+	put -to @@a ${ this is tupleShadow2 parameter a }$ put -to @@b ${ this is tupleShadow2 parameter b }$
+	put -n -s ${ reading LOCALs @a and @b }$ put -n -s -from @a put -from @b
+        put -n -s ${ reading parameters a and b }$ put -n -s -from @@a put -from @@b
+	put ${ calling tupleShadow1 with locals }$
+	tupleShadow1 ( @a @b )
+	put ${ calling tupleShadow1 with params }$
+	tupleShadow1 ( @@a @@b )
+]$
+
+FUNC zz ( a b ) $[
+	LOCAL @a LOCAL @b
+	put -from @@a put -from @@b
+	]$
+
+FUNC toZZ ( a b ) $[
+	LOCAL @a LOCAL @b
+	put -to @a toZZa put -to @b toZZb
+	zz ( @a @b )
+	zz ( @@a @@b )
+	]$
+
+FUNC testForItTup ( list ) $[ 
+	LOCAL @i
+	put -to @i local@i
+	FOR @i in @@list $[
+		put -from @i
+	]$
+	put -n -s ${ after loop LOCAL @i is : }$ put -from @i
+]$
+
+tupleExists ( @foo ) 
+tuplePutToSimple ( @foo bar  )
+tupleExists ( @foo ) 
+put -n -s ${ Value of @foo is }$ put -from @foo
+tupleDelete ( @foo ) 
+tupleExists ( @foo ) 
+put -to @bar ${ 99 bottles of beer }$
+tupleExists ( @bar )
+tuplePutToTuple ( @foo @bar )
+tupleExists ( @foo )
+tuplePutFrom ( @foo )
+tupleDelete ( @foo ) 
+tupleExists ( @foo ) 
+tupleDelete ( @bar ) 
+tupleExists ( @bar ) 
+tupleTrue ( @bar ) 
+tupleFalse ( @foo ) 
+tuplePutFrom ( @foo )
+tuplePutFrom ( @bar )
+tupleDelete ( @foo ) 
+tupleExists ( @foo ) 
+tupleDelete ( @bar ) 
+tupleExists ( @bar ) 
+tupleShadow ( @az @bz )
+tupleShadow ( @a @b )
+put ${ Now what are the values of @a and @b  }$
+put -from @a put -from @b
+put ${ deleting @a and @b }$
+tuple -delete @a tuple -delete @b 
+tupleShadow1 ( @a @b )
+put ${ Now what are the values of @a and @b  }$
+put -from @a put -from @b
+put ${ deleting @a and @b }$
+tuple -delete @a tuple -delete @b 
+tupleShadow1 ( @az @bz )
+put ${ Now what are the values of @az and @bz  }$
+put -from @az put -from @bz
+put ${ deleting @az and @bz }$
+tuple -delete @az tuple -delete @bz
+put -to @a outerA put -to @b outerB
+toZZ ( @a @b )
+list -to @mylist -instance
+list -- @mylist -addstr ${ list item one }$
+list -- @mylist -addstr ${ list item two }$
+testForItTup ( @mylist ) 
+# done

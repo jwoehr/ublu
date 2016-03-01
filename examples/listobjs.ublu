@@ -1,0 +1,15 @@
+# listobjs.ublu ... list objects
+# jwoehr@absolute-performance.com jwoehr@softwoehr.com
+# 2015-03-12
+# example:
+# listObjs ( s0mesys qsecofr xyz1234 *ALL FRED *ALL )
+
+# list specified objects on specified system
+FUNC listObjs ( system user password lib name type ) $[
+	LOCAL @as400 LOCAL @objlist LOCAL @txtlist
+	as400 -to @as400 @@system @@user @@password
+	objlist -to @objlist -as400 @as400 -lib @@lib -name @@name -type @@type
+	objlist -to @txtlist -- @objlist -list
+	FOR @obj in @txtlist $[ put -from @obj ]$
+]$
+# end

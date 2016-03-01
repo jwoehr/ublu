@@ -1,0 +1,41 @@
+# functions for ending jobs using a command call
+# workaround for job end code in JTOpen
+# jack j. woehr 2014
+
+FUNC endJob ( job ) $[
+	job -job @@job -getsys -to @$$as400 
+	put -n -to @$$cmd ${ ENDJOB JOB( }$
+	job -job @@job -spec -to @jobspec
+	put -n -append -to @$$cmd -from @jobspec
+	put -n -append -to @$$cmd ${ ) OPTION(*IMMED) SPLFILE(*NO) }$
+	put -n ${ Command string is }$ put -from @$$cmd
+	commandcall -as400 @$$as400 -from @$$cmd
+	]$
+ 
+FUNC endJobs ( joblist excluded ) $[
+    FOR @j in @@joblist $[
+        job -job @j -get user -to @jobuser
+        FOR @user in @@excluded $[
+            test -to @isExcluded -eq @jobuser @user
+            IF @isExcluded THEN $[ BREAK ]$
+        ]$
+        IF @isExcluded THEN $[
+            put -n ${ found excluded user }$ put -n -s -from @jobuser put -n ${ in job }$ put -from @j
+            ]$ ELSE $[
+            job -job @j -refresh
+            put -n ${ ending job immediate }$ put -from @j
+            endJob ( @j )
+        ]$
+    ]$
+]$
+
+FUNC endJobsForUser ( username as400 ) $[
+	joblist -as400 @@as400 -to @joblist -username @@username
+	put -to @null ${ }$
+	endJobs ( @joblist @null )
+]$
+
+FUNC endActiveInteractiveJobs ( as400 excluded ) $[
+     joblist -as400 @@as400 -to @$$joblist -type INTERACTIVE -active
+     endJobs ( @$$joblist @@excluded )
+     ]$

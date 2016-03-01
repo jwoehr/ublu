@@ -1,0 +1,34 @@
+# autoreply.ublu ... Find and reply to all *INQ & *NOTIFY messages in a given MSGQ
+# jack j. woehr jwoehr@absolute-performance.com jwoehr@softwoehr.com
+# 2015-03-10
+
+# instance message queue
+FUNC getMsgQ ( system user password ifspath msgq ) $[
+	LOCAL @as400
+	as400 -to @as400 @@system @@user @@password
+	msgq -to @@msgq -as400 @as400 -instance @@ifspath
+]$
+
+# get list of messages needing reply
+FUNC getReplyMsgs ( msgq replylist ) $[
+	msgq -- @@msgq -query -reply -to @@replylist
+]$
+
+# get messages, walk list and offer user chance to reply to each
+FUNC autoreply ( system user password ifspath ) $[
+	LOCAL @msgq LOCAL @replylist LOCAL @key
+	LOCAL @answer LOCAL @tf LOCAL @reply
+	getMsgQ ( @@system @@user @@password @@ifspath @msgq )
+	getReplyMsgs ( @msgq @replylist )
+	FOR @msg in @replylist $[
+		msg -- @msg -to @key -key
+		put -from @msg
+		ask -to @answer -say ${ Do you wish to reply to this message? (y/n) }$
+		test -to @tf -eq @answer y
+		IF @tf THEN $[
+			ask -to @reply -say ${ Please enter your reply }$
+			msgq -- @msgq -sendreplybinkey @key @reply
+			put ${ Reply sent. }$
+		]$
+	]$
+]$

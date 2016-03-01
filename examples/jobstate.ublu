@@ -1,0 +1,60 @@
+# jobstate.ublu gathers job state statistics
+# author Jack J. Woehr
+
+# jobNameActiveList ( jobname as400 jl )
+# Put a joblist of active jobs for jobname from a system to jl
+# ###
+FUNC jobNameActiveList ( jobname as400 jl ) $[
+	joblist -jobname @@jobname -active -as400 @@as400 -to @@jl
+]$
+
+# OS400 Job can be in one of these states, or blank for unknown
+# RUN HLD HLDT SIGS CMTW
+# CNDW DEQA DEQW EVTW
+# INEL JVAA JVAW LCKW
+# LSPW MTXW SELW SEMW
+# SIGW THDW TIMA TIMW
+
+FUNC jobNameDEQStates ( jobname theAs400 alertlevel ) $[
+	LOCAL @joblist LOCAL @job
+	LOCAL @stat LOCAL @tf LOCAL @pct
+	LOCAL @count LOCAL @DEQ
+	LOCAL @dp
+	jobNameActiveList ( @@jobname @@theAs400 @joblist )
+	put -to @count 0
+	put -to @DEQ 0
+	FOR @job in @joblist $[
+		eval -to @count + 1 @count
+		job -- @job -query activejobstatus -to @stat
+		string -startswith @stat DEQ -to @tf
+		IF @tf THEN $[ eval -to @DEQ + 1 @DEQ ]$
+	]$	
+	dpoint -to @dp -dkey OS400|Job|Jobname
+	dpoint -to @dp -- @dp -addkey @@jobname
+	dpoint -to @dp -- @dp -addkey Active|Count
+	dpoint -to @dp -- @dp -value @count -type int -compare info
+	put -from @dp
+	dpoint -to @dp -dkey OS400|Job|Jobname
+	dpoint -to @dp -- @dp -addkey @@jobname
+	dpoint -to @dp -- @dp -addkey ActiveStatus|DEQ*|Count
+	dpoint -to @dp -- @dp -value @DEQ -type int -compare info
+	put -from @dp
+	eval -to @tf > @count 0
+	IF @tf THEN $[
+		LOCAL @crit_msg
+		put -to @crit_msg ${ Too many jobs of this name in DEQA/DEQW active status }$
+		dpoint -to @dp -dkey OS400|Job|Jobname
+		dpoint -to @dp -- @dp -addkey @@jobname
+		dpoint -to @dp -- @dp -addkey ActiveStatus|DEQ*|PctTotal
+		eval -to @pct pct @DEQ @count
+		dpoint -to @dp -- @dp -value @pct -type int -compare gte -alertlevel @@alertlevel -msg @crit_msg 
+		put -from @dp
+	]$
+]$
+
+FUNC JobNameDEQDPoints ( sys us pword jbname lertlevel ) $[
+	LOCAL @as
+	as400 -to @as @@sys @@us @@pword
+	jobNameDEQStates ( @@jbname @as @@lertlevel )
+]$
+# End

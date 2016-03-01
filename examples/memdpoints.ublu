@@ -1,0 +1,148 @@
+# memdpoints.ublu -- print out heap info via jmx as System Shepherd datapoints
+# #########################
+
+include memfactors.ublu
+
+# ##
+# Make a System Shepherd dpoint from one mem bean factor
+# example:
+#	jmxConnectAuth ( localhost 9999 @myjmx monitorRole xxxxxxxx )
+#	getMemBean ( @myjmx @mb )
+#	dpointMemBean ( @myjmx @mb HeapMemoryUsage init long 9999999999 gt @msg @mydp )
+#	put -from @mydp
+# ## the system responds in the form:
+#	Java|JVM|JMX|Memory	11998528	0
+# ##
+
+# Get a datapoint for a memory bean or memory pool bean attribute/key pair
+FUNC dpointMemBean ( connection memorybean attribute key type alertlevel comparison message datapoint ) $[
+	LOCAL @val
+	jmx -- @@connection -obj @@memorybean -to @val -datakey @@attribute @@key
+	dpoint -to @@datapoint -dkey Java|JVM|JMX|Memory -type @@type -value @val -alertlevel @@alertlevel -compare @@comparison -msg @@message
+	dpoint -to @@datapoint -- @@datapoint -addkey @@attribute
+	dpoint -to @@datapoint -- @@datapoint -addkey @@key
+]$
+
+# Get a datapoint for any memory bean or memory pool bean attribute/key pair adding an arbitrary keypath to the SystemShepherd dkey
+FUNC dpointMemBeanAddKey ( connection memorybean attribute key type alertlevel comparison message datapoint added_key ) $[
+	LOCAL @val
+	jmx -- @@connection -obj @@memorybean -to @val -datakey @@attribute @@key
+	dpoint -to @@datapoint -dkey Java|JVM|JMX|Memory -type @@type -value @val -alertlevel @@alertlevel -compare @@comparison -msg @@message
+	dpoint -to @@datapoint -- @@datapoint -addkey @@added_key
+	dpoint -to @@datapoint -- @@datapoint -addkey @@attribute
+	dpoint -to @@datapoint -- @@datapoint -addkey @@key
+]$
+
+# Get all datapoints for the main memory bean
+# connection should hold an already-connected jmx instance
+# dp_list should be a list already created.
+FUNC allMemBeanDpoints ( connection dpointlist crit_usage_val crit_used_msg ) $[
+	LOCAL @memoryBean
+	LOCAL @dp
+	getMemBean ( @@connection @memoryBean )
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage used long @@crit_usage_val gte @@crit_used_msg  @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage init long 0 info no_message_provided @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage max long 0 info no_message_provided  @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage committed long 0 info no_message_provided @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+]$	
+
+# Get all datapoints for the main memory bean
+# connection should hold an already-connected jmx instance
+# dp_list should be a list already created.
+FUNC allIBMMemBeanDpoints ( connection dpointlist crit_usage_val crit_used_msg ) $[
+	LOCAL @memoryBean
+	LOCAL @dp
+	getIBMMemBean ( @@connection @memoryBean )
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage used long @@crit_usage_val gte @@crit_used_msg  @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage init long 0 info no_message_provided @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage max long 0 info no_message_provided  @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+	dpointMemBean ( @@connection @memoryBean HeapMemoryUsage committed long 0 info no_message_provided @dp )
+	list -- @@dpointlist -to NULL: -add @dp
+]$	
+
+# Get all datapoints for 1 Memory Pool
+# connection should hold an already-connected jmx instance
+# dp_list should a list already created.
+FUNC dpointsMemPool ( connection jmx_poolbean dp_list ) $[
+	LOCAL @key_list
+	LOCAL @a_key
+	LOCAL @dp
+	LOCAL @my_extra_key
+	jmx -- @@connection -obj @@jmx_poolbean -attrib Name -to @my_extra_key
+	list -to @key_list
+	list -- @key_list -addstr init -to NULL:
+	list -- @key_list -addstr max -to NULL:
+	list -- @key_list -addstr used -to NULL:
+	list -- @key_list -addstr committed -to NULL:
+	FOR @a_key in @key_list $[
+		dpointMemBeanAddKey ( @@connection @@jmx_poolbean Usage @a_key long 0 info no_message_provided @dp @my_extra_key )
+		list -- @@dp_list -add @dp -to NULL:
+	]$
+]$
+
+# Get all datapoints of interest for all memory pools
+# connection should hold an already-connected jmx instance
+# dp_list should be a list already created.
+FUNC allMemPoolDpoints ( connection dp_list ) $[
+	LOCAL @poolList
+	LOCAL @poolName
+	LOCAL @pinto
+	list -to @poolList
+	list -- @poolList -addstr ${ Tenured Gen }$ -to NULL:
+	list -- @poolList -addstr ${ Perm Gen }$ -to NULL:
+	list -- @poolList -addstr ${ Survivor Space }$ -to NULL:
+	list -- @poolList -addstr ${ Eden Space }$ -to NULL:
+	FOR @poolName in @poolList $[
+		jmx -- @@connection -get * MemoryPool @poolName -to @pinto	
+		dpointsMemPool ( @@connection @pinto @@dp_list )
+	]$
+]$
+
+# Get all datapoints of interest for all memory pools
+# connection should hold an already-connected jmx instance
+# dp_list should be a list already created.
+FUNC allIBMMemPoolDpoints ( connection dp_list ) $[
+	LOCAL @poolList
+	LOCAL @poolName
+	LOCAL @pinto
+	list -to @poolList
+	list -- @poolList -addstr ${ JIT code cache }$ -to NULL:
+	list -- @poolList -addstr ${ JIT data cache }$ -to NULL:
+	list -- @poolList -addstr ${ Java heap }$ -to NULL:
+	list -- @poolList -addstr ${ miscellaneous non-heap storage }$ -to NULL:
+	list -- @poolList -addstr ${ class storage }$ -to NULL:
+	FOR @poolName in @poolList $[
+		jmx -- @@connection -get * MemoryPool @poolName -to @pinto	
+		dpointsMemPool ( @@connection @pinto @@dp_list )
+	]$
+]$
+
+# Get datapoints for all the memory factors we handle
+# connection_tuple : holds an already-connected jmx instance
+# critical_usage_value is the long at which heap memory alerts
+# critical_message : message for critical datapoint when heap memory alerts.
+# resultant list is returned in @@dp_list
+FUNC jmxMemoryDpoints ( connection dp_list critical_usage_value critical_message ) $[ 
+	list -to @@dp_list
+	allMemBeanDpoints ( @@connection @@dp_list @@critical_usage_value @@critical_message )
+	allMemPoolDpoints ( @@connection @@dp_list )
+]$
+
+# Get datapoints for all the memory factors we handle
+# connection_tuple : holds an already-connected jmx instance
+# critical_usage_value is the long at which heap memory alerts
+# critical_message : message for critical datapoint when heap memory alerts.
+# resultant list is returned in @@dp_list
+FUNC jmxIBMMemoryDpoints ( connection dp_list critical_usage_value critical_message ) $[ 
+	list -to @@dp_list
+	allIBMMemBeanDpoints ( @@connection @@dp_list @@critical_usage_value @@critical_message )
+	allIBMMemPoolDpoints ( @@connection @@dp_list )
+]$
+# End

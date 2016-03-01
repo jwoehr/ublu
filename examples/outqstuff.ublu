@@ -1,0 +1,23 @@
+# outqstuff.ublu
+# functions to operate on output queues
+
+FUNC showOutQs ( qnamelist as400 ) $[
+    LOCAL @qname
+    FOR @qname in @@qnamelist $[
+        outq -as400 @@as400 -from @qname -info
+    ]$
+]$
+
+FUNC holdOutQs ( qnamelist as400 ) $[
+    LOCAL @qname
+    FOR @qname in @@qnamelist $[
+        outq -as400 @@as400 -from @qname -hold
+    ]$
+]$
+
+FUNC releaseOutQs ( qnamelist as400 ) $[
+    LOCAL @qname
+    FOR @qname in @@qnamelist $[
+        outq -as400 @@as400 -from @qname -release
+    ]$
+]$

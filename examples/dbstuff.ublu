@@ -1,0 +1,10 @@
+# Functions for databasing
+
+FUNC connectDb ( dbinstance dbtype system dbname username password ) $[
+	db -to @@dbinstance -connect -db @@dbtype @@system @@dbname @@username @@password
+]$
+
+FUNC selectStarFrom ( dbinstance tablename ) $[
+	db -dbconnected @@dbinstance -star @@tablename
+]$
+

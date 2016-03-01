@@ -1,0 +1,14 @@
+# test IF THEN ELSE
+# simply include this file, it's obvious
+tuple -false @f
+tuple -true @t
+TRY $[ IF @t THEN put true ELSE put false ]$ CATCH $[ put -n -s ${ expected fail }$ ]$  put continuing
+TRY $[ IF @t THEN $[ put true ]$ ELSE put false ]$ CATCH $[  put -n -s ${ expected fail }$ ]$ put continuing
+TRY $[ IF @t THEN put true ELSE $[ put false ]$ ]$ CATCH $[ put -n -s ${ expected fail }$ ]$ put continuing
+TRY $[ IF @t THEN $[ put true ]$ ELSE $[ put false ]$ ]$ CATCH $[ put -n -s ${ expected pass }$ ]$ put continuing
+TRY $[ IF @f THEN put true ELSE put false ]$ CATCH $[ put -n -s ${ expected fail }$ ]$  put continuing
+TRY $[ IF @f THEN $[ put true ]$ ELSE put false ]$ CATCH $[  put -n -s  ${ expected fail }$ ]$ put continuing
+TRY $[ IF @f THEN put true ELSE $[ put false ]$ ]$ CATCH $[ put -n -s  ${ expected fail }$ ]$ put continuing
+TRY $[ IF @f THEN $[ put true ]$ ELSE $[ put false ]$ ]$ CATCH $[ put -n -s ${ expected pass }$ ]$ put continuing 
+TRY $[ IF @t THEN $[ put true ]$ ]$ CATCH $[ put -n -s ${ expected pass }$ ]$ put continuing 
+TRY $[ IF @f THEN $[ put true ]$ ]$ CATCH $[ put -n -s ${ expected pass }$ ]$ put done

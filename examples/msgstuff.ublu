@@ -1,0 +1,44 @@
+# msgstuff.ublu
+# Routines for utilizing message capabilities of host
+# Jack Woehr 2014-06-03
+
+# Convert system object and username to a message queue object
+FUNC userToMsgQ ( as400 user mq ) $[
+	LOCAL @%ux LOCAL @%ifspath LOCAL @tst 
+	string -to @@user -trim @@user
+	string -to @tst -trim ${ }$
+	test -to @tst -ne @tst @@user
+	tuple -null @@mq
+	IF @tst THEN $[
+		user -as400 @@as400 -to @%ux -instance -userprofile @@user
+		user -user @%ux -to @%ifspath -query msgq
+		msgq -as400 @@as400 -instance -to @@mq @%ifspath
+	]$
+]$
+
+# Send an informational message to a user
+FUNC sendInfo ( as400 user text mq ) $[
+	LOCAL @tst
+	userToMsgQ ( @@as400 @@user @@mq )
+	test -to @tst -nnull @@mq
+	IF @tst THEN $[
+		msgq -msgq @@mq -sendinfo @@text
+	]$ ELSE $[
+		put ${ null message queue passed in sendInfo }$
+	]$
+]$
+
+# Get messages for a user
+FUNC getMsgs ( as400 user mq msgs ) $[
+	userToMsgQ ( @@as400 @@user @@mq )
+	msgq -msgq @@mq -query -to @@msgs
+]$
+
+# Send an informational message to a list of users
+FUNC broadcastInfo ( as400 userlist text ) $[
+	LOCAL @%u
+	FOR @%u in @@userlist $[
+	sendInfo ( @@as400 @%u @@text @mq )
+	]$
+]$
+

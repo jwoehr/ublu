@@ -1,0 +1,34 @@
+# test_Query_All_DM.ublu
+# test PigIron Query_All_DM separately since FORMAT=YES is very slow
+# Copyright  *C* 2015 Jack J. Woehr jwoehr@softwoehr.com
+# PO Box 51 Golden CO 80402-0051
+#
+# A number of variables have to be set:
+#
+# @host		smapi host
+# @port		smapi port
+# @use_ssl	the simple word true if using ssl anything else no ssl
+# @default_user	user for most simple calls, e.g., MAINT
+# @def_password password for user for most simple calls
+# @qadm_user	authorized user for Query_All_DM, typically MAINT 
+# @format_qadm	format for Query_All_DM, either FORMAT=YES or FORMAT=NO
+
+include -silent ../all_pigiron.ublu
+
+# do some tests including default values from @include_file
+FUNC test_Query_All_DM ( include_file qadm_user format_qadm ) $[
+	include -silent @@include_file
+	put -from @host
+	put -from @port	
+	put -n -s -from @use_ssl	put ${ the simple word true if using ssl anything else no ssl }$
+	put -n -s -from @default_user	put ${ user for most simple calls, e.g., MAINT }$
+	put -n -s -from @@qadm_user	put ${ authorized user for Query_All_DM }$
+	put -n -s -from @@format_qadm    put ${ format for Query_All_DM, either FORMAT=YES or FORMAT=NO }$ 
+	LOCAL @h LOCAL @p
+	pigiron_host ( @host @port @default_user @def_password @use_ssl @h ) 
+	put ${ Testing Query_All_DM }$
+	Query_All_DM ( @h @@qadm_user @@format_qadm @p )
+	put -from @p
+	put ${ Done Testing. }$
+]$
+# End

@@ -1,0 +1,60 @@
+# functions for working with jobs
+# jack j. woehr 2014
+
+# Show all jobs in a joblist
+FUNC showJobs ( joblist ) $[
+    LOCAL @j LOCAL @subsys LOCAL @type
+    FOR @j in @@joblist $[
+        put -n -s ${ job }$
+	put -n -s -from @j
+	job -job @j -get subsystem -to @subsys
+	job -job @j -get type -to @type
+	put -n -s -from @subsys put -n -s -from @type
+        put -n -s ${ is owned by }$ job -job @j -get user
+    ]$
+]$
+
+# End all jobs on a joblist except those excluded
+# We preset the @isExcluded flag false in case FOR never entered
+FUNC endJobs ( joblist excluded ) $[
+    LOCAL @j
+    FOR @j in @@joblist $[
+        LOCAL @jobuser LOCAL @user LOCAL @isExcluded
+	tuple -false @isExcluded
+        job -job @j -get user -to @jobuser
+        FOR @user in @@excluded $[
+            test -to @isExcluded -eq @jobuser @user
+            IF @isExcluded THEN $[ BREAK ]$
+        ]$
+        IF @isExcluded THEN $[
+            put -n ${ found excluded user }$ put -n -s -from @jobuser put -n ${ in job }$ put -from @j
+            ]$ ELSE $[
+            job -job @j -refresh
+            put -n ${ ending job controlled }$ put -from @j
+            job -job @j -end -1
+        ]$
+    ]$
+]$
+
+# End all jobs for a given user
+FUNC endJobsForUser ( username as400 ) $[
+        LOCAL @joblist LOCAL @nada
+	joblist -as400 @@as400 -to @joblist -username @@username
+	put -to @nada ${ }$
+	endJobs ( @joblist @nada )
+]$
+
+# End all active interactive jobs except those whose users are excluded
+FUNC endActiveInteractiveJobs ( as400 excluded ) $[
+     LOCAL @joblist
+     joblist -as400 @@as400 -to @joblist -jobtype INTERACTIVE -active
+     endJobs ( @joblist @@excluded )
+]$
+
+# End all disconnected interactive jobs except those whose users are excluded
+FUNC endDisconnectedInteractiveJobs ( as400 excluded ) $[
+     LOCAL @joblist
+     joblist -as400 @@as400 -to @joblist -jobtype INTERACTIVE -disconnected
+     endJobs ( @joblist @@excluded )
+]$
+

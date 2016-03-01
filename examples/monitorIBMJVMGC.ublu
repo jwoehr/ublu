@@ -1,0 +1,23 @@
+# monitorIBMJVMGC.ublu
+# author: Jack Woehr jwoehr@softwoehr.com
+# Output a list of System Shepherd datapoints about JVM garbage collection on an IBM i host
+# !! Uses plaintext password authentication !!
+# !! Not suitable for use across the public net !!
+# Doesn't bother about alerting, we're doing that in the SystemShepherd templates which call this.
+
+include ibmgcdpoints.ublu
+
+# host_system	name or ip of the host
+# jmx_ipport	port JMX is listening on
+# mon_passwd	password for JMX monitorRole
+# ###
+FUNC monitorIBMJVMGC ( host_system jmx_ipport mon_passwd ) $[
+	LOCAL @mylist
+	LOCAL @myjmx
+	jmxConnectAuth ( @@host_system @@jmx_ipport @myjmx monitorRole @@mon_passwd )
+	jmx -- @myjmx -get java.lang GarbageCollector MarkSweepCompact -to @mb
+	list -to @mylist
+	allIBMgcMBeanDpoints ( @myjmx @mb @mylist )
+	FOR @i in @mylist $[ put -from @i ]$
+]$
+# End

@@ -1,0 +1,27 @@
+# Fetch a list of spooled files generating names algorithmically
+
+FUNC fileNameFromSpoolF ( spoolf result ) $[
+	LOCAL @name LOCAL @num LOCAL @crdate LOCAL @jnum LOCAL @date
+	spoolf -spoolf @@spoolf -to @name -get name
+	spoolf -spoolf @@spoolf -to @num -get number
+	spoolf -spoolf @@spoolf -to @crdate -get createdate
+	spoolf -spoolf @@spoolf -to @jnum -get jobnumber
+	system -to @date ${ date +%F_%T }$
+	string -to @@result -cat @name .
+	string -to @@result -cat @@result @num
+	string -to @@result -cat @@result .created.
+	string -to @@result -cat @@result @crdate
+	string -to @@result -cat @@result .byjobnum.
+	string -to @@result -cat @@result @jnum
+	string -to @@result -cat @@result .fetched.
+	string -to @@result -cat @@result @date
+	string -to @@result -cat @@result .txt
+]$
+
+FUNC fetchAllSpoolF ( spoolflist ) $[
+	LOCAL @fname LOCAL @splf
+	FOR @splf in @@spoolflist $[
+		fileNameFromSpoolF ( @splf @fname )
+		spoolf -spoolf @splf -tofile @fname -fetch
+	]$
+]$

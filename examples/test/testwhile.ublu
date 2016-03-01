@@ -1,0 +1,29 @@
+tuple -true @continue
+put -to @index -# -3
+WHILE @continue $[
+	LOCAL @i
+	eval -to @index + @index 1 
+	put -to @i -from @index
+	lifo -push @i
+	put -s -n ${ index is }$ put -from ~
+	eval -to @exit == @index 7
+	IF @exit THEN $[ BREAK ]$
+]$
+put -n -s ${ after WHILE, the index is }$ put -from @index
+put -n -s ${ tuple stack depth is }$ lifo -depth
+
+tuple -true @continue
+lifo -push @continue
+put -to @index -# -3
+WHILE ~ $[
+	LOCAL @i
+	eval -to @index + @index 1 
+	put -to @i -from @index
+	lifo -push @i
+	put -s -n ${ index is }$ put -from ~
+	eval -to @exit == @index 7
+	IF @exit THEN $[ BREAK ]$
+]$
+put -n -s ${ after WHILE, the index is }$ put -from @index
+put -n -s ${ tuple stack depth is }$ lifo -depth
+

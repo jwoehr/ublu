@@ -1,0 +1,62 @@
+# wc.ublu
+# do word count things
+
+FUNC getLinesFromWc ( wcoutput result ) $[
+	LOCAL @word LOCAL @index LOCAL @match
+	put -to @index 0	
+	FOR @word in @@wcoutput $[
+		eval -to @match == @index 0
+		IF @match THEN $[
+			put -to @@result -from @word
+			BREAK	
+		]$
+		eval -to @index + @index 1
+	]$
+]$
+
+FUNC getWordsFromWc ( wcoutput result ) $[
+	LOCAL @word LOCAL @index LOCAL @match
+	put -to @index 0	
+	FOR @word in @@wcoutput $[
+		eval -to @match == @index 1
+		IF @match THEN $[
+			put -to @@result -from @word
+			BREAK	
+		]$
+		eval -to @index + @index 1
+	]$
+]$
+
+FUNC getCharsFromWc ( wcoutput result ) $[
+	LOCAL @word LOCAL @index LOCAL @match
+	put -to @index 0	
+	FOR @word in @@wcoutput $[
+		eval -to @match == @index 2
+		IF @match THEN $[
+			put -to @@result -from @word
+			BREAK	
+		]$
+		eval -to @index + @index 1
+	]$
+]$
+
+FUNC wc ( filename result ) $[
+	system -to @@result ${ wc @@filename }$
+]$
+
+FUNC wcLines ( filename result ) $[
+	LOCAL @wcout
+	wc ( @@filename @wcout )
+	getLinesFromWc ( @wcout @@result )
+]$
+
+FUNC wcWords ( filename result ) $[
+	LOCAL @wcout
+	wc ( @@filename @wcout )
+	getWordsFromWc ( @wcout @@result )
+]$
+FUNC wcChars ( filename result ) $[
+	LOCAL @wcout
+	wc ( @@filename @wcout )
+	getCharsFromWc ( @wcout @@result )
+]$

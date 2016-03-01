@@ -1,0 +1,20 @@
+# pigiron_host.ublu
+# build a host object for PigIron operations
+# http://www.pigiron.sourceforge.net
+# author: jack j. woehr jwoehr@softwoehr.com
+
+# hostname is host or ip addr
+# port is SMAPI port number
+# userid is authorized user
+# password is useridid's password
+# usessl is ${ true }$ if ssl connection desired; any other value is 'no'
+# hosttuple is where you want the host object
+FUNC pigiron_host ( hostname port userid password usessl hosttuple ) $[
+	LOCAL @isssl
+	string -to @isssl -eq @@usessl true
+	IF @isssl THEN $[
+		host -to @@hosttuple -port @@port -usessl @@hostname @@userid @@password
+	]$ ELSE $[
+		host -to @@hosttuple -port @@port @@hostname @@userid @@password
+	]$
+]$
