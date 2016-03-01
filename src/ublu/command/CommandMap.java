@@ -60,7 +60,6 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("ELSE", CmdElse.class);
         put("eval", CmdEval.class);
         put("exit", CmdExit.class);
-        put("fetch", CmdFetch.class);
         put("FOR", CmdFor.class);
         put("ftp", CmdFTP.class);
         put("FUN", CmdFun.class);
@@ -101,7 +100,6 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("smapi", CmdSmapi.class);
         put("spoolf", CmdSpoolF.class);
         put("spoolflist", CmdSpoolFList.class);
-        put("spoollist", CmdSpoolList.class);
         put("string", CmdString.class);
         put("subsys", CmdSubSystem.class);
         put("SWITCH", CmdSwitch.class);
