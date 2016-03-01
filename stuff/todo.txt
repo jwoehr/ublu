@@ -1,0 +1,22 @@
+2015-04-09
+CmdEval:
+    - tuplepopstring for operators
+    - cmd description update
+    - handle types other than int?
+CmdSubSystem:
+    - need to finish this done
+    - need to document it done
+CmdSystem:
+    - needs conversion to tuplepopstring
+CmdTest:
+    - needs description update
+Control Flow:
+    - anonymous tuples for push/pop?
+TN5250:
+    - update support?
+2015-04-30
+Look at programcall and savf
+2015-05-24
+CmdInterpret should take tuplepopstring probably in -from
+2015-08-17
+CmdSavf may need doc and spec cleanup
