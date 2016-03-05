@@ -24,7 +24,7 @@ To build and run:
 <ul>
 <li> Clone the Ublu Git repository https://github.com/jwoehr/ublu.git</li>
 <li> Either load the project in <a href="http://www.netbeans.org">NetBeans</a>
-     or cd to the top dir of the checkout and type <tt>ant<tt>.
+     or cd to the top dir of the checkout and type <tt>ant</tt>.
 <ul>
     <li> Of course you have <a href="http://ant.apache.org/">Apache Ant</a>
         installed, right?!</li>
