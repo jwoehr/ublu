@@ -1,6 +1,4 @@
 /dist/
 /src/ublu/Version.java
-/lib/jt400.jar
-/lib/jtopenlite.jar
-/lib/pigiron.jar
 /lib/postgresql-9.2-1003.jdbc4.jar
+/oldlib/

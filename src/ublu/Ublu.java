@@ -37,7 +37,7 @@ import ublu.util.InterpreterLogger;
  * @author jwoehr
  */
 public class Ublu {
-
+    
     private Logger LOG;
     /**
      * Singleton main interpreterF
@@ -133,12 +133,19 @@ public class Ublu {
      * Create a string enumerating the open source projects used by Interpreter.
      *
      * @return a string enumerating the open source projects used by
- Interpreter.
+     * Interpreter.
      */
     public static String openSourceList() {
         StringBuilder sb = new StringBuilder();
         return sb.append("JTOpen http://sourceforge.net/projects/jt400/\n")
-                .append("Postgresql http://www.postgresql.org\n")
+                .append("IBM Public License 1.0\n")
+                .append("Postgresql ")
+                .append(org.postgresql.Driver.getVersion()).append('\n')
+                .append("Copyright (c) 1997-2011, PostgreSQL Global Development Group\n")
+                .append("All rights reserved http://www.postgresql.org\n")
+                .append(com.softwoehr.pigiron.Version.getVersion()).append('\n')
+                .append("Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO 80403 USA\n")
+                .append("All Rights Reserved")
                 .toString();
     }
 
@@ -153,6 +160,7 @@ public class Ublu {
                 .append("Author: Jack J. Woehr.\n")
                 .append("Copyright 2014, Absolute Performance, Inc., http://www.absolute-performance.com\n")
                 .append("Copyright 2016, Jack J. Woehr, http://www.softwoehr.com\n")
+                .append("All Rights Reserved\n")
                 .append("Ublu is open source software under the BSD 2-clause license.\n")
                 .append("Ublu utilizes the following open source projects:\n")
                 .append(openSourceList())
@@ -232,10 +240,9 @@ public class Ublu {
      * <p>
      * Exits the Java virtual machine returning to the system caller the retval
      * of the last command executed, either
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.SUCCESS} (0)
-     * if the last executed or
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.FAILURE}
-     * (1).</p>
+     * {@link ublu.command.CommandInterface.COMMANDRESULT.SUCCESS} (0) if the
+     * last executed or
+     * {@link ublu.command.CommandInterface.COMMANDRESULT.FAILURE} (1).</p>
      *
      * @param args commands to program in the program's syntax
      */
@@ -246,13 +253,13 @@ public class Ublu {
     /**
      * Run a command or run the interpreter. This is a factor of the Main Class
      * main() of the system. This method does not System.exit, merely returning
-     * the retval of the last command. Useful for calling Ublu from
-     * another Java program.
+     * the retval of the last command. Useful for calling Ublu from another Java
+     * program.
      *
      * @param args commands to program in the program's syntax
      * @return retval of the last command executed, either
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.SUCCESS} (0)
-     * if the last executed normally or otherwise
+     * {@link ublu.command.CommandInterface.COMMANDRESULT.SUCCESS} (0) if the
+     * last executed normally or otherwise
      * {@link ublu.command.CommandInterface.COMMANDRESULT.FAILURE} (1).
      */
     public static int niam(String[] args) {

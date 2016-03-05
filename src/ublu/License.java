@@ -76,7 +76,8 @@ public class License {
         }
         sb.append('\n');
         sb.append("Ublu calls the following open source libraries, the licenses\n")
-                .append("for which can be found on their respective distribution websites:\n");
+                .append("for which you should have received with the Ublu distribution\n")
+                .append("and which otherwise can be found on their respective websites:\n");
         sb.append(Ublu.openSourceList());
         return sb.toString();
     }
