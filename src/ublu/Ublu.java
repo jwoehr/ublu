@@ -37,7 +37,7 @@ import ublu.util.InterpreterLogger;
  * @author jwoehr
  */
 public class Ublu {
-    
+
     private Logger LOG;
     /**
      * Singleton main interpreterF
@@ -129,6 +129,9 @@ public class Ublu {
         return Version.compileDateTime;
     }
 
+    static String EXITLINE
+            = "Type help for help. Type license for license. Type bye to exit.";
+
     /**
      * Create a string enumerating the open source projects used by Interpreter.
      *
@@ -197,7 +200,7 @@ public class Ublu {
         if (interpreter.getArgArray().isEmpty()) {
             if (interpreter.isConsole()) {
                 interpreter.outputerrln(startupMessage());
-                interpreter.outputerrln("Type help for help. Type license for license.");
+                interpreter.outputerrln(EXITLINE);
             }
             interpreter.interpret();
         } else {
