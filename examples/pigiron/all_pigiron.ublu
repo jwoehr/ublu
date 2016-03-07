@@ -86,6 +86,7 @@ include query_API_functional_level.ublu
 include query_all_DM.ublu
 include query_asynchronous_operation_DM.ublu
 include query_directory_manager_level_DM.ublu
+include response_recovery.ublu
 include shared_memory_access_add_DM.ublu
 include shared_memory_access_query_DM.ublu
 include shared_memory_access_remove_DM.ublu
