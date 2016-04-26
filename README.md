@@ -14,9 +14,12 @@ to an open source tool and that is why some stuff is mysterious.
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
 
-There will be a distribution soon. All that is missing is the documentation,
-which need to be cleaned up for public distribution. Ublu is already a stable
-and useful tool which has seen much use in the real world.
+There is preliminary documentation in userdoc/ubluref.html ... That which the
+documentation lacks can generally be gleaned from the examples.
+
+Ublu is already a stable and useful tool which has seen much use in the real
+world. We hope to make a formal release soon, but the system is fully useable
+as-is.
 
 For now, here's the quick start instructions:
 

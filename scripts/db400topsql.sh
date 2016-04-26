@@ -90,5 +90,5 @@ put \${ Closing source database ... }$
 rs -closedb @_src_AutoReplicate
 put \${ Replication complete. }$
 ENDENDENDENDEND
-exit $? # return the exit status of AbsPerfOS400
+exit $? # return the exit status of Ublu
 #End
