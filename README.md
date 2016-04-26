@@ -1,14 +1,15 @@
 # ublu
 Ublu Midrange and Mainframe Life Cycle Extension Language<br>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com<br>
-Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com<br>
+Copyright (c) 2016, Jack J. Woehr http://www.softwoehr.com<br>
 All rights reserved.<br>
 See file LICENSE for license information.
 
 Ublu is an interpretive language for remote systems programming of midrange or
-mainframe host from a Java platform such as OpenBSD, Linux or Windows. It is
-already at version 1.0 and is being released as Open Source Software now under
-the BSD-2 license.
+mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows.
+
+Ublu is already at version 1.0 and is being released as Open Source Software now
+under the BSD-2 license.
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -35,4 +36,4 @@ To build and run:
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
  
-- Jack Woehr jwoehr@softwoehr.com 2016-04-26
+- Jack Woehr 2016-04-26
