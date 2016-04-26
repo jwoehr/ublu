@@ -1,8 +1,8 @@
 # ublu
-Ublu Midrange and Mainframe Life Cycle Extension Language
-Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
-Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
-All rights reserved.
+Ublu Midrange and Mainframe Life Cycle Extension Language<br>
+Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com<br>
+Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com<br>
+All rights reserved.<br>
 See file LICENSE for license information.
 
 Ublu is an interpretive language for remote systems programming of midrange or
