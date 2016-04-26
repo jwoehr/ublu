@@ -8,8 +8,7 @@ See file LICENSE for license information.
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe host from a Java platform such as OpenBSD, Linux or Windows. It is
 already at version 1.0 and is being released as Open Source Software now under
-the BSD-2 license. However, the tree has to be reworked from an in-house tool
-to an open source tool and that is why some stuff is mysterious.
+the BSD-2 license.
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -21,7 +20,7 @@ Ublu is already a stable and useful tool which has seen much use in the real
 world. We hope to make a formal release soon, but the system is fully useable
 as-is.
 
-For now, here's the quick start instructions:
+Quick start instructions:
 
 To build and run:
 <ul>
@@ -35,6 +34,5 @@ To build and run:
 <li> ./dist/ublu.jar and its necessary ./dist/lib directory are the runtime system.
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
-Documentation and examples are being tidied up! Real Soon Now!
  
-- Jack Woehr jwoehr@softwoehr.com 2016-02-21 
+- Jack Woehr jwoehr@softwoehr.com 2016-04-26
