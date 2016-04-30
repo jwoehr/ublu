@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
 <head>
   <meta name="generator" content=
@@ -7,6 +8,9 @@
   "HTML Tidy for Java (vers. 2009-12-01), see jtidy.sourceforge.net">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
+  <meta http-equiv="Last-Modified" content=
+  "Sat, 30 Apr 2016 21:45:14 UTC">
+
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
   <meta content="Jack J. Woehr" name="author">
@@ -18,7 +22,9 @@
 </head>
 
 <body>
-  <h1 align="center">Ublu<br>
+  <h1 align="center"><small><small>The concise reference
+  to</small></small><br>
+  Ublu<br>
   Midrange and Mainframe<br>
   Life Cycle Extension Language</h1>
 
@@ -30,7 +36,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-04-26<br></p>
+  Last edit: 2016-04-29<br></p>
   <pre>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
 Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
@@ -281,6 +287,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <li><tt><a href="#savf">savf</a><br></tt></li>
 
             <li><tt><a href="#server">server</a></tt></li>
+
+            <li><tt><a href="#smapi">smapi</a></tt></li>
 
             <li><a href="#spoolf"><tt>spoolf</tt></a></li>
 
@@ -5566,6 +5574,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </tr>
     </tbody>
   </table><br>
+
+  <h4><a name="smapi" id="smapi"></a><tt>smapi</tt></h4>
+
+  <blockquote>
+    <tt>/2? [-to @var] ~@host ~@{funcname} [~@{parm} [~{@parm} ..]]
+    : make a smapi call to a host</tt><br>
+    <br>
+    The <tt>smapi</tt> command uses the provided <a href=
+    "http://pigiron.sourceforge.net/">PigIron</a> library to
+    execute a <a href=
+    "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm">
+    z/VM &reg; SMAPI</a> function on the <a href="#host">host</a>
+    designated by <tt>~@host</tt> .<br>
+    <br>
+    The easiest way to make SMAPI calls is to use the functions
+    mapped one-to-one to the supported PigIron SMAPI calls in the
+    <tt>.ublu</tt> files found in the directory
+    <tt>examples/pigiron</tt> and included <i>en masse</i> by the
+    file <tt>all_pigiron.ublu</tt> found in that directory. These
+    functions instance a PigIron output parameter array in the
+    final argument <tt>@paramarray</tt> with the returns from
+    SMAPI.<br>
+    <br>
+    Examples of testing are found in
+    <tt>examples/pigiron/test/</tt> ... Copy test.defaults.samp to
+    a filename of your choice (say, <tt>my.test.defaults</tt>),
+    edit the values for your target system, and execute the shell
+    script test_pigiron.sh -f my.test.defaults to see how this all
+    works.
+  </blockquote>
 
   <h4><a name="spoolf" id="spoolf"></a><tt>spoolf</tt></h4>
 
