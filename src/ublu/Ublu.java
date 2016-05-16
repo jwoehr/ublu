@@ -162,7 +162,7 @@ public class Ublu {
         StringBuilder sb = new StringBuilder("Ublu version 1.0+");
         return sb.append(" build of ").append(version()).append("\n")
                 .append("Author: Jack J. Woehr.\n")
-                .append("Copyright 2014, Absolute Performance, Inc., http://www.absolute-performance.com\n")
+                .append("Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com\n")
                 .append("Copyright 2016, Jack J. Woehr, http://www.softwoehr.com\n")
                 .append("All Rights Reserved\n")
                 .append("Ublu is open source software under the BSD 2-clause license.\n")
