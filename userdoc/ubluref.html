@@ -68,7 +68,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h2>Table of Contents</h2>
 
   <ul>
-    <li><a href="#Overview">Overview</a></li>
+    <li>
+      <a href="#Overview">Overview</a>
+
+      <ul>
+        <li><a href=
+        "#Object-disoriented">Object-disoriented</a><br></li>
+      </ul>
+    </li>
 
     <li><a href="#Installation">Installation</a></li>
 
@@ -405,7 +412,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   named Ublu intended for interaction with OS400 (IBM i Series OS
   &reg;) and IBM z/VM &reg; SMAPI operations programming. The
   language is multithreaded and offers a client-server mode. It
-  also possesses a built-in single-step debugger .<br></p>
+  also possesses a built-in single-step debugger.<br></p>
+
+  <ul>
+    <li>Access to the i Series OS server is implemented via the
+    <a href="http://jt400.sourceforge.net/">JTOpen
+    library</a>.</li>
+
+    <li>Access to z/VM SMAPI is provided via the <a href=
+    "http://pigiron.sourceforge.net/">PigIron</a> library.</li>
+
+    <li>The ability to interoperate between the i Series database
+    and <a href="http://www.postgresql.org/">Postgresql</a> open
+    source database is provided.<br></li>
+  </ul>
+
+  <p>"<a name="Object-disoriented" id=
+  "Object-disoriented"></a><b>Object-disoriented</b>" means that
+  Ublu is a functional language implemented on top of
+  object-oriented Java libraries. Ublu manipulates objects
+  constructed in the underlying environment without forcing you to
+  know very much about the object architecture. By way of analogy,
+  consider how resources in a hierarchical network environment are
+  flattened out for ease of use by <a href=
+  "https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">
+  LDAP</a>. In a similar fashion, Ublu conceals many details while
+  still providing complete access should a program require it,
+  e.g., via the <a href="#calljava"><tt>calljava</tt></a>
+  command.<br></p>
 
   <p><b>Ublu</b> operates in four (4) modes:</p>
 
