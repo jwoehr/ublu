@@ -58,7 +58,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4 [-dbconnected @dbconnected] -db (@)type [-charsetname (@)charsetname] [-catalog | -columntypes (@)tablename | -connect | -csv (@)tablename [-separator ${ separator}$ ] | -disconnect | -metadata | -primarykeys | -query ${ SQL string }$ | -replicate (@)tableName (@)destDbName (@)destDbType (@)destDatabaseName (@)destUser (@)destPassword | -star (@)tablename] [-pklist ${ space separated primary keys }$] [-port (@)portnum] [-property k v [-property k v] ..] (@)system (@)database (@)userid (@)password : perform various operations on databases");
+                "/4 [--,-dbconnected @dbconnected] -db (@)type [-charsetname (@)charsetname] [-catalog | -columntypes (@)tablename | -connect | -csv (@)tablename [-separator ${ separator}$ ] | -disconnect | -metadata | -primarykeys | -query ${ SQL string }$ | -replicate (@)tableName (@)destDbName (@)destDbType (@)destDatabaseName (@)destUser (@)destPassword | -star (@)tablename] [-pklist ${ space separated primary keys }$] [-port (@)portnum] [-property k v [-property k v] ..] (@)system (@)database (@)userid (@)password : perform various operations on databases");
     }
 
     /**
@@ -292,6 +292,7 @@ public class CmdDb extends Command {
                         }
                     }
                     break;
+                case "--":
                 case "-dbconnected":
                     setDb(Db.class.cast(getTuple(argArray.next()).getValue()));
                     break;
