@@ -1063,7 +1063,7 @@ public class Interpreter {
                     break;
                 } catch (java.lang.RuntimeException ex) {
                     /* java.net.UnknownHostException lands here, as well as  */
- /* com.ibm.as400.access.ExtendedIllegalArgumentException */
+                    /* com.ibm.as400.access.ExtendedIllegalArgumentException */
                     getLogger().log(Level.SEVERE, "Command \"" + commandName + "\" threw exception", ex);
                     lastCommandResult = COMMANDRESULT.FAILURE;
                     break;
@@ -1132,62 +1132,6 @@ public class Interpreter {
         return commandResult;
     }
 
-//    /**
-//     * Read in a text file and execute as commands
-//     *
-//     * @param filepath the file of commands
-//     * @return last command result
-//     * @throws FileNotFoundException
-//     * @throws IOException
-//     */
-//    public COMMANDRESULT include(String filepath) throws FileNotFoundException, IOException {
-//        pushFrame();
-//        setIncluding(true);
-//        COMMANDRESULT commandResult = COMMANDRESULT.SUCCESS;
-//        FileReader fileReader = new FileReader(new File(filepath));
-//        setIncludeFileBufferedReader(new BufferedReader(fileReader));
-//        while (getIncludeFileBufferedReader().ready()) {
-//            String input = getIncludeFileBufferedReader().readLine();
-//            if (isEchoInclude()) {
-//                System.out.println(":: " + input);
-//            }
-//            if (!input.isEmpty()) {
-//                ArgArray aa = new Parser(this, input).parseAnArgArray();
-//                setArgArray(aa);
-//                commandResult = loop();
-//                if (commandResult == COMMANDRESULT.FAILURE) {
-//                    break;
-//                }
-//            }
-//        }
-//        getIncludeFileBufferedReader().close();
-//        setIncludeFileBufferedReader(null);
-//        setIncluding(false);
-//        popFrame();
-//        return commandResult;
-//    }
-//    /**
-//     * Read in a text file and execute as commands searching for the file in a
-//     * list of include paths and then undecorated
-//     *
-//     * @param filepath the file of commands
-//     * @param includepaths ordered list of include paths
-//     * @return last command result
-//     * @throws FileNotFoundException
-//     * @throws IOException
-//     */
-//    public COMMANDRESULT include(String filepath, StringArrayList includepaths) throws FileNotFoundException, IOException {
-//        String[] paths = includepaths.toStringArray();
-//        File f;
-//        for (String path : paths) {
-//            f = new File(path + "/" + filepath);
-//            if (f.exists() && f.isFile()) {
-//                filepath = f.getAbsolutePath();
-//                break;
-//            }
-//        }
-//        return include(filepath);
-//    }
     /**
      * Read in a text file and execute as commands
      *
@@ -1264,16 +1208,6 @@ public class Interpreter {
             } catch (IOException ex) {
                 getLogger().log(Level.SEVERE, "Error reading interpreter input from input stream", ex);
             }
-            /*byte[] b = new byte[INTERPRET_BUFFER_SIZE];
-                 * int numread = 0;
-                 * try {
-                 * numread = getInputStream().read(b);
-                 * } catch (IOException ex) {
-                 * getLogger().log(Level.SEVERE, null, ex);
-                 * }
-                 * if (numread > 0) {
-                 * input = new String(b, 0, numread);
-                 * }*/
         }
         if (input != null) {
             input = input.trim();
