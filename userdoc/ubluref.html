@@ -1227,36 +1227,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   the following:<br></p>
 
   <blockquote>
-    <p><tt>fetchxls -file ./MYXLS.20130711/</tt><tt>ZZ2964.25.xls
-    -headlines 4 -skips 7 4 3 3 3 3 3 3 -fields 7 21 37 9 10 5 11
-    12 mysys QSECOFR ******* ZZ2964 25 PROCESS THISONE
-    170351<br></tt></p>
+    <p><tt>job -job @j -get subsystem -to
+    @subsys</tt><tt><br></tt></p>
   </blockquote>
 
   <ul>
-    <li><tt>fetchxls</tt> is the command<tt>.<br></tt></li>
+    <li><tt>job</tt> is the command<tt>.<br></tt></li>
 
-    <li><tt>-file</tt>
-    <tt>./MYXLS.20130711/</tt><tt>ZZ2964.25.xls</tt> is a
-    dash-command with single argument<tt>.<br></tt></li>
+    <li><tt>-job @j</tt> is the <tt>job</tt> command's dash-command
+    for providing the command with an already instanced tuple
+    variable representing the server job the command is to operate
+    upon.<br></li>
 
-    <li><tt>-headlines 4</tt> is a dash-command with single
-    argument.</li>
+    <li><tt>-get subsystem</tt> is the <tt>job</tt> command's
+    dash-command with single plainword argument indicating what
+    aspect of the job represented by <tt>@j</tt> we wish to
+    examine.<br></li>
 
-    <li><tt>-skips 7 4 3 3 3 3 3 3</tt> is a dash-command with
-    multiple arguments<tt>.<br></tt></li>
-
-    <li><tt>-fields 7 21 37 9 10 5 11 12</tt> is another
-    dash-command with multiple arguments.</li>
-
-    <li><tt>mysys QSECOFR ******* ZZ2964 25 PROCESS THISONE
-    170351</tt> are the arguments. (The ***** represents a password
-    here.)</li>
+    <li><tt>-to @subsys</tt> is the <tt>job</tt> command's
+    dash-command indicating the <a href="#Datasinks">data sink</a>
+    (in this case, a tuple) to which the output of the <tt>job</tt>
+    command is to go. Most commands know the <tt>-to</tt>
+    <i>datasink</i> dash-command<br></li>
   </ul>
-
-  <p><i><b>Note</b>: the specific command in the example above is
-  from an early version of the language and does not actually exist
-  in the language any longer!</i><br></p>
 
   <h4><a name="Datasinks" id="Datasinks"></a>Datasinks</h4>Command
   descriptions reference <i>datasinks</i>. A datasink is a data
@@ -5049,18 +5042,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table border="1" cellspacing="2" cellpadding="2" width=
-      "75%">
+      <table cellpadding="2" border="1" width="75%" cellspacing=
+      "2">
         <tbody>
           <tr>
-            <th valign="top" align="center">interpreter
+            <th align="center" valign="top">interpreter
             property<br></th>
 
-            <th valign="top" align="center">description<br></th>
+            <th align="center" valign="top">description<br></th>
 
-            <th valign="top" align="center">default value<br></th>
+            <th align="center" valign="top">default value<br></th>
 
-            <th valign="top" align="center">alternative
+            <th align="center" valign="top">alternative
             value(s)<br></th>
           </tr>
 
@@ -5602,13 +5595,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table border="1" cellspacing="2" cellpadding="2" width="100%">
+  <table cellpadding="2" border="1" width="100%" cellspacing="2">
     <tbody>
       <tr>
-        <th valign="top" align="center">Ublu main interpretive
+        <th align="center" valign="top">Ublu main interpretive
         session<br></th>
 
-        <th valign="top" align="center">Another shell
+        <th align="center" valign="top">Another shell
         window<br></th>
       </tr>
 
@@ -5682,11 +5675,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     SMAPI.<br>
     <br>
     Examples of testing are found in
-    <tt>examples/pigiron/test/</tt> ... Copy test.defaults.samp to
-    a filename of your choice (say, <tt>my.test.defaults</tt>),
-    edit the values for your target system, and execute the shell
-    script test_pigiron.sh -f my.test.defaults to see how this all
-    works.
+    <tt>examples/pigiron/test/</tt> ... Copy
+    <tt>test.defaults.samp</tt> to a filename of your choice (say,
+    <tt>my.test.defaults</tt>), edit the values for your target
+    system, and execute the shell script <tt>test_pigiron.sh -f
+    my.test.defaults</tt> to see how this all works.
   </blockquote>
 
   <h4><a name="spoolf" id="spoolf"></a><tt>spoolf</tt></h4>

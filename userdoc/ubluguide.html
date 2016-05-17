@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 <html>
 <head>
@@ -15,20 +15,20 @@
 </head>
 
 <body>
-  <table height="456" border="0" cellspacing="0" cellpadding="2"
-  width="983">
+  <table cellpadding="2" border="0" height="456" width="983"
+  cellspacing="0">
     <tbody>
       <tr>
-        <td valign="middle" align="center" bgcolor="#000000">
+        <td align="center" valign="middle" bgcolor="#000000">
           <h1><font color="#66FFFF">Ublu Guide<br></font></h1>
         </td>
 
-        <th valign="middle" align="center" bgcolor="#000000">
+        <th align="center" valign="middle" bgcolor="#000000">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"><br></th>
 
-        <td valign="middle" align="center" bgcolor="#000000">
+        <td align="center" valign="middle" bgcolor="#000000">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -48,22 +48,26 @@
   downloaded and built Ublu, read enough of the <a href=
   "ubluref.html">Ublu Reference</a> to know how to launch <a href=
   "https://github.com/jwoehr/ublu">Ublu</a>, and now want an
-  introduction to using Ublu.
+  introduction to using Ublu.<br>
+  <br>
+  The Guide is meant to be easy to read, and extra stuff you may
+  not want to bother with is written <small><i>like this in small
+  italics</i><big>.</big></small><br>
 
   <h2>Why Ublu?</h2>I wrote Ublu because I wanted a language to run
-  on OpenBSD/Mac/Linux/Windows that could do systems programming
-  on IBM i Series OS &#174;. It is convenient to
-  operate legacy systems from modern environments. This empowers
-  help desk folks who know how to feed arguments to scripts and
-  answer interactive prompts but are challenged by the green
-  screen. Intermediate programmers take to Ublu as well as an easy
-  entry point to legacy systems programming.<br>
+  on OpenBSD/Mac/Linux/Windows that could do systems programming on
+  IBM i Series OS &#174;. It is convenient to operate legacy
+  systems from modern environments. This empowers help desk folks
+  who know how to feed arguments to scripts and answer interactive
+  prompts but are challenged by the green screen. Intermediate
+  programmers take to Ublu as well as an easy entry point to legacy
+  systems programming.<br>
   <br>
   I supported business clients by writing individual programs using
   <a href="http://jt400.sourceforge.net/">JTOpen</a> which I have
   used since the 1990's to control the AS/400 and decided to
-  consolidate. I also had previously written a bridge in Java
-  to IBM z/VM &#174; System Management API <a href=
+  consolidate. I also had previously written a bridge in Java to
+  IBM z/VM &#174; System Management API <a href=
   "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">
   (SMAPI)</a> called <a href=
   "http://pigiron.sourceforge.net/">PigIron</a> and wanted to hook
@@ -89,7 +93,7 @@
   <br>
   I hope you find Ublu useful!<br>
 
-  <h2>How does Ublu work?</h2>Ublu is an interpreter with full
+  <h2>What does Ublu do?</h2>Ublu is an interpreter with full
   language features such as flow control (<tt>IF ELSE DO WHILE</tt>
   etc.) and even a multitasker and debugger.<br>
   <br>
@@ -99,10 +103,10 @@
   manipulate the remote server and its databases, tape drives,
   whatever. You can also do <a href=
   "http://www.postgresql.org/">Postgresql</a> databasing (and
-  pretty much anything else) on your local computer, allowing
-  you to interoperate databases with the remote server. You can do
-  this interactively or load a program from text files which can,
-  in turn, <tt>include</tt> other text files.<br>
+  pretty much anything else) on your local computer, allowing you
+  to interoperate databases with the remote server. You can do this
+  interactively or load a program from text files which can, in
+  turn, <tt>include</tt> other text files.<br>
   <br>
   When you've got a complete application written in Ublu, there's
   an Ublu command <tt>gensh</tt> which autogenerates and writes out
@@ -115,8 +119,167 @@
   to install and run Ublu and lists the Open Source project
   dependencies as well as documenting every command and facility
   built into Ublu.<br>
+
+  <h2>Quick Tour of the Ublu Language</h2>The heart of the Ublu
+  language is a text interpreter loop. There can be multiple nested
+  or branching interpreter instances with different variable spaces
+  in one Ublu session, but basically they're all doing the same
+  sort of thing, an outer engine loop running an inner <a href=
+  "#ublu.util.Interpreter.loop">loop</a> to interpret a line of
+  text.<br>
   <br>
-  <i>This guide is a work in progress ... continued ...</i><br>
+  <small><i>There are actually several different but very similar
+  loops, e.g., the debugger interpreter loop is different from the
+  normal runtime intepreter loop.</i></small><br>
+  <br>
+  <br>
+
+  <h2>Notes</h2>
+
+  <h3><a name=
+  "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1038 </font></span>    <font color="#6600CC">/**</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1039 </font></span><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC">*</font><font color="#6600CC"> </font><font color="#6600CC">The</font><font color="#6600CC"> </font><font color="#6600CC">processing</font><font color="#6600CC"> </font><font color="#6600CC">loop</font><font color="#6600CC">,</font><font color="#6600CC"> </font><font color="#6600CC">processes</font><font color="#6600CC"> </font><font color="#6600CC">all</font><font color="#6600CC"> </font><font color="#6600CC">the</font><font color="#6600CC"> </font><font color="#6600CC">input</font><font color="#6600CC"> </font><font color="#6600CC">for</font><font color="#6600CC"> </font><font color="#6600CC">a</font><font color="#6600CC"> </font><font color="#6600CC">line</font><font color="#6600CC"> </font><font color="#6600CC">until</font><font color="#6600CC"> </font><font color="#6600CC">exhausted</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1040 </font></span><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC">*</font><font color="#6600CC"> </font><font color="#6600CC">or</font><font color="#6600CC"> </font><font color="#6600CC">until</font><font color="#6600CC"> </font><font color="#6600CC">a</font><font color="#6600CC"> </font><font color="#6600CC">command</font><font color="#6600CC"> </font><font color="#6600CC">returns</font><font color="#6600CC"> </font><font color="#6600CC">a</font><font color="#6600CC"> </font><font color="#6600CC">command</font><font color="#6600CC"> </font><font color="#6600CC">result</font><font color="#6600CC"> </font><font color="#6600CC">indicating</font><font color="#6600CC"> </font><font color="#6600CC">failure</font><font color="#6600CC">.</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1041 </font></span><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC">*</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1042 </font></span><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC">*</font><font color="#6600CC"> </font><font color="#02B902">@return</font><font color="#6600CC"> </font><font color="#6600CC">the</font><font color="#6600CC"> </font><font color="#6600CC">last</font><font color="#6600CC"> </font><font color="#6600CC">command</font><font color="#6600CC"> </font><font color="#6600CC">result</font><font color="#6600CC"> </font><font color="#6600CC">indicating</font><font color="#6600CC"> </font><font color="#6600CC">success</font><font color="#6600CC"> </font><font color="#6600CC">or</font><font color="#6600CC"> </font><font color="#6600CC">failure</font><font color="#6600CC">.</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1043 </font></span><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC"> </font><font color="#6600CC">*/</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1044 </font></span>    <font color="#009966"><strong>public</strong></font> COMMANDRESULT <font color="#9966FF">loop</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1045 </font></span>        COMMANDRESULT lastCommandResult <font color="#000000"><strong>=</strong></font> COMMANDRESULT.SUCCESS;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1046 </font></span>        String initialCommandLine <font color="#000000"><strong>=</strong></font> <font color="#9966FF">getArgArray</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">toHistoryLine</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1047 </font></span>        <font color="#006699"><strong>while</strong></font> <font color="#000000"><strong>(</strong></font><font color="#000000"><strong>!</strong></font><font color="#9966FF">getArgArray</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">isEmpty</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&amp;</strong></font><font color="#000000"><strong>&amp;</strong></font> <font color="#000000"><strong>!</strong></font>good_bye <font color="#000000"><strong>&amp;</strong></font><font color="#000000"><strong>&amp;</strong></font> <font color="#000000"><strong>!</strong></font><font color="#9966FF">isBreakIssued</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1048 </font></span>            String commandName <font color="#000000"><strong>=</strong></font> <font color="#9966FF">getArgArray</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">next</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">trim</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1049 </font></span>            <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>commandName.<font color="#9966FF">equals</font><font color="#000000"><strong>(</strong></font><font color="#FF00CC">"</font><font color="#FF00CC">"</font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1050 </font></span>                <font color="#006699"><strong>continue</strong></font>; <font color="#FF8400">//</font><font color="#FF8400"> </font><font color="#FF8400">cr</font><font color="#FF8400"> </font><font color="#FF8400">or</font><font color="#FF8400"> </font><font color="#FF8400">some</font><font color="#FF8400"> </font><font color="#FF8400">sort</font><font color="#FF8400"> </font><font color="#FF8400">of</font><font color="#FF8400"> </font><font color="#FF8400">whitespace</font><font color="#FF8400"> </font><font color="#FF8400">got</font><font color="#FF8400"> </font><font color="#FF8400">parsed,</font><font color="#FF8400"> </font><font color="#FF8400">skip</font><font color="#FF8400"> </font><font color="#FF8400">to</font><font color="#FF8400"> </font><font color="#FF8400">next</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1051 </font></span>            <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1052 </font></span>            <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font><font color="#9966FF">getCmdMap</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">containsKey</font><font color="#000000"><strong>(</strong></font>commandName<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1053 </font></span>                CommandInterface command <font color="#000000"><strong>=</strong></font> <font color="#9966FF">getCmd</font><font color="#000000"><strong>(</strong></font><font color="#CC00CC">this</font>, commandName<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1054 </font></span>                <font color="#006699"><strong>try</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1055 </font></span>                    <font color="#9966FF">setArgArray</font><font color="#000000"><strong>(</strong></font>command.<font color="#9966FF">cmd</font><font color="#000000"><strong>(</strong></font><font color="#9966FF">getArgArray</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1056 </font></span>                    lastCommandResult <font color="#000000"><strong>=</strong></font> command.<font color="#9966FF">getResult</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1057 </font></span>                    <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>lastCommandResult <font color="#000000"><strong>=</strong></font><font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1058 </font></span>                        <font color="#006699"><strong>break</strong></font>; <font color="#FF8400">//</font><font color="#FF8400"> </font><font color="#FF8400">we</font><font color="#FF8400"> </font><font color="#FF8400">exit</font><font color="#FF8400"> </font><font color="#FF8400">the</font><font color="#FF8400"> </font><font color="#FF8400">loop</font><font color="#FF8400"> </font><font color="#FF8400">on</font><font color="#FF8400"> </font><font color="#FF8400">error</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1059 </font></span>                    <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1060 </font></span>                <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>catch</strong></font> <font color="#000000"><strong>(</strong></font>IllegalArgumentException ex<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1061 </font></span>                    <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.SEVERE, <font color="#FF00CC">"</font><font color="#FF00CC">Command</font><font color="#FF00CC"> </font><font color="#6600CC">\"</font><font color="#FF00CC">"</font> <font color="#000000"><strong>+</strong></font> commandName <font color="#000000"><strong>+</strong></font> <font color="#FF00CC">"</font><font color="#6600CC">\"</font><font color="#FF00CC"> </font><font color="#FF00CC">threw</font><font color="#FF00CC"> </font><font color="#FF00CC">exception</font><font color="#FF00CC">"</font>, ex<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1062 </font></span>                    lastCommandResult <font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1063 </font></span>                    <font color="#006699"><strong>break</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1064 </font></span>                <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>catch</strong></font> <font color="#000000"><strong>(</strong></font>java.lang.RuntimeException ex<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1065 </font></span>                    <font color="#CC0000">/*</font><font color="#CC0000"> </font><font color="#CC0000">java.net.UnknownHostException</font><font color="#CC0000"> </font><font color="#CC0000">lands</font><font color="#CC0000"> </font><font color="#CC0000">here,</font><font color="#CC0000"> </font><font color="#CC0000">as</font><font color="#CC0000"> </font><font color="#CC0000">well</font><font color="#CC0000"> </font><font color="#CC0000">as</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">*/</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1066 </font></span> <font color="#CC0000">/*</font><font color="#CC0000"> </font><font color="#CC0000">com.ibm.as400.access.ExtendedIllegalArgumentException</font><font color="#CC0000"> </font><font color="#CC0000">*/</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1067 </font></span>                    <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.SEVERE, <font color="#FF00CC">"</font><font color="#FF00CC">Command</font><font color="#FF00CC"> </font><font color="#6600CC">\"</font><font color="#FF00CC">"</font> <font color="#000000"><strong>+</strong></font> commandName <font color="#000000"><strong>+</strong></font> <font color="#FF00CC">"</font><font color="#6600CC">\"</font><font color="#FF00CC"> </font><font color="#FF00CC">threw</font><font color="#FF00CC"> </font><font color="#FF00CC">exception</font><font color="#FF00CC">"</font>, ex<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1068 </font></span>                    lastCommandResult <font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1069 </font></span>                    <font color="#006699"><strong>break</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1070 </font></span>                <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1071 </font></span>            <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>else</strong></font> <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font><font color="#9966FF">getFunctorMap</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">containsKey</font><font color="#000000"><strong>(</strong></font>commandName<font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1072 </font></span>                <font color="#006699"><strong>try</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1073 </font></span>                    TupleNameList tnl <font color="#000000"><strong>=</strong></font> <font color="#9966FF">parseTupleNameList</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1074 </font></span>                    <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>tnl <font color="#000000"><strong>!</strong></font><font color="#000000"><strong>=</strong></font> <font color="#CC00CC">null</font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1075 </font></span>                        lastCommandResult <font color="#000000"><strong>=</strong></font> <font color="#9966FF">executeFunctor</font><font color="#000000"><strong>(</strong></font><font color="#9966FF">getFunctor</font><font color="#000000"><strong>(</strong></font>commandName<font color="#000000"><strong>)</strong></font>, tnl<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1076 </font></span>                        <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font>lastCommandResult <font color="#000000"><strong>=</strong></font><font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1077 </font></span>                            <font color="#006699"><strong>break</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1078 </font></span>                        <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1079 </font></span>                    <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>else</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1080 </font></span>                        <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.SEVERE, <font color="#FF00CC">"</font><font color="#FF00CC">Found</font><font color="#FF00CC"> </font><font color="#FF00CC">function</font><font color="#FF00CC"> </font><font color="#FF00CC">{</font><font color="#FF00CC">0</font><font color="#FF00CC">}</font><font color="#FF00CC"> </font><font color="#FF00CC">but</font><font color="#FF00CC"> </font><font color="#FF00CC">could</font><font color="#FF00CC"> </font><font color="#FF00CC">not</font><font color="#FF00CC"> </font><font color="#FF00CC">execute</font><font color="#FF00CC"> </font><font color="#FF00CC">it</font><font color="#FF00CC">"</font>, commandName<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1081 </font></span>                        lastCommandResult <font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1082 </font></span>                        <font color="#006699"><strong>break</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1083 </font></span>                    <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1084 </font></span>                <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>catch</strong></font> <font color="#000000"><strong>(</strong></font>java.lang.RuntimeException ex<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1085 </font></span>                    <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.SEVERE, <font color="#FF00CC">"</font><font color="#FF00CC">Function</font><font color="#FF00CC"> </font><font color="#6600CC">\"</font><font color="#FF00CC">"</font> <font color="#000000"><strong>+</strong></font> commandName <font color="#000000"><strong>+</strong></font> <font color="#FF00CC">"</font><font color="#6600CC">\"</font><font color="#FF00CC"> </font><font color="#FF00CC">threw</font><font color="#FF00CC"> </font><font color="#FF00CC">exception</font><font color="#FF00CC">"</font>, ex<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1086 </font></span>                    lastCommandResult <font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1087 </font></span>                    <font color="#006699"><strong>break</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1088 </font></span>                <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1089 </font></span>            <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>else</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1090 </font></span>                <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.SEVERE, <font color="#FF00CC">"</font><font color="#FF00CC">Command</font><font color="#FF00CC"> </font><font color="#6600CC">\"</font><font color="#FF00CC">{</font><font color="#FF00CC">0</font><font color="#FF00CC">}</font><font color="#6600CC">\"</font><font color="#FF00CC"> </font><font color="#FF00CC">not</font><font color="#FF00CC"> </font><font color="#FF00CC">found</font><font color="#FF00CC">.</font><font color="#FF00CC">"</font>, commandName<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1091 </font></span>                lastCommandResult <font color="#000000"><strong>=</strong></font> COMMANDRESULT.FAILURE;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1092 </font></span>                <font color="#006699"><strong>break</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1093 </font></span>            <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1094 </font></span>        <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1095 </font></span>        <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font><font color="#000000"><strong>!</strong></font><font color="#9966FF">isIncluding</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>&amp;</strong></font><font color="#000000"><strong>&amp;</strong></font> <font color="#000000"><strong>!</strong></font>initialCommandLine.<font color="#9966FF">isEmpty</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1096 </font></span>            <font color="#006699"><strong>if</strong></font> <font color="#000000"><strong>(</strong></font><font color="#9966FF">getHistory</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>!</strong></font><font color="#000000"><strong>=</strong></font> <font color="#CC00CC">null</font><font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1097 </font></span>                <font color="#006699"><strong>try</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1098 </font></span>                    <font color="#9966FF">getHistory</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">writeLine</font><font color="#000000"><strong>(</strong></font>initialCommandLine<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1099 </font></span>                <font color="#000000"><strong>}</strong></font> <font color="#006699"><strong>catch</strong></font> <font color="#000000"><strong>(</strong></font>IOException ex<font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>{</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1100 </font></span>                    <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.WARNING, <font color="#FF00CC">"</font><font color="#FF00CC">Couldn</font><font color="#FF00CC">'</font><font color="#FF00CC">t</font><font color="#FF00CC"> </font><font color="#FF00CC">write</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">history</font><font color="#FF00CC"> </font><font color="#FF00CC">file</font><font color="#FF00CC"> </font><font color="#FF00CC">"</font> <font color="#000000"><strong>+</strong></font> <font color="#9966FF">getHistory</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">getHistoryFileName</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>, ex<font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1101 </font></span>                <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1102 </font></span>            <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1103 </font></span>        <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1104 </font></span>        <font color="#9966FF">setGlobal_ret_val</font><font color="#000000"><strong>(</strong></font>lastCommandResult.<font color="#9966FF">ordinal</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font><font color="#000000"><strong>)</strong></font>;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1105 </font></span>        <font color="#006699"><strong>return</strong></font> lastCommandResult;
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1106 </font></span>    <font color="#000000"><strong>}</strong></font>
+</font>
+</pre><i>This guide is a work in progress ... continued ...</i><br>
+
   <br>
   <br>
 </body>
