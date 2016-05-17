@@ -34,8 +34,8 @@ To build and run:
     <li> Of course you have <a href="http://ant.apache.org/">Apache Ant</a>
         installed, right?!</li>
 </ul></li>
-<li> ./dist/ublu.jar and its necessary ./dist/lib directory are the runtime system.
+<li> ./dist/ublu.jar and its necessary ./dist/lib directory are the runtime system.</li>
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
  
-- Jack Woehr 2016-05-16
+Jack Woehr 2016-05-16
