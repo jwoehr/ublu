@@ -1,74 +1,123 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Guide to Ublu</title>
-    <meta content="Jack J. Woehr" name="author">
-    <meta content="Guide to Ublu Language" name="description">
-    <meta http-equiv="Last-Modified" content="Mon, 16 May 2016 18:02:48
-      UTC">
-  </head>
-  <body>
-    <table height="456" border="0" cellspacing="0" cellpadding="2"
-      width="983">
-      <tbody>
-        <tr>
-          <td valign="middle" align="center" bgcolor="#000000">
-            <h1><font color="#66ffff">Ublu Guide<br>
-              </font> </h1>
-          </td>
-          <th valign="middle" align="center" bgcolor="#000000"><img
-              alt="NASA JPL Candle in Space" title="NASA JPL Candle in
-              Space" src="images/Candlespace.jpg" height="444"
-              width="400"><br>
-          </th>
-          <td valign="middle" align="center" bgcolor="#000000"><font
-              color="#33ffff">Copyright © 2016 Jack. J. Woehr<br>
-              All Rights Reserved<br>
-              jwoehr@softwoehr.com</font></td>
-        </tr>
-      </tbody>
-    </table>
-    <h2>Who is this Guide for? </h2>
-    It's for people who have downloaded and built Ublu, read enough of
-    the <a href="ubluref.html">Ublu Reference</a> to know how to launch
-    Ublu, and now want an introduction to using Ublu.
-    <h2>Why Ublu?</h2>
-    I wrote <a href="https://github.com/jwoehr/ublu">Ublu</a> because I
-    wanted a language to run on OpenBSD/Mac/Linux/Windows that could do
-    systems programming on&nbsp; IBM i Series OS ®.<br>
-    <br>
-    I was supporting clients by writing individual programs using <a
-      href="http://jt400.sourceforge.net/">JTOpen</a> which I have used
-    since the 1990's to control the AS/400 and decided to consolidate.<br>
-    <br>
-    I also had written a bridge in Java to IBM z/VM ® System Management
-    API <a
-href="https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">(SMAPI)</a>
-    called <a href="http://pigiron.sourceforge.net/">PigIron</a> and
-    now provide support in Ublu for SMAPI via PigIron.<br>
-    <h2>How does Ublu work?</h2>
-    I made up a language and coded it in Java on top of other open
-    source libraries. It sort of makes sense. I could have used extant
-    language frameworks but I didn't want to spend my time understanding
-    someone else's framework.<br>
-    <br>
-    Ublu is easy to use, handsome but not beautiful, easy to understand
-    and read quickly. It looks like a scripting language but has some
-    advanced language features such as tasking, debugging and a TCP/IP
-    port server mode.<br>
-    <br>
-    For a formal summary of everything, see the <a href="ubluref.html">Ublu
+<head>
+  <meta name="generator" content=
+  "tidyp for OpenBSD (v1.04), see www.w3.org">
+  <meta http-equiv="content-type" content=
+  "text/html; charset=us-ascii">
 
+  <title>Guide to Ublu</title>
+  <meta content="Jack J. Woehr" name="author">
+  <meta content="Guide to Ublu Language" name="description">
+  <meta http-equiv="Last-Modified" content=
+  "Mon, 16 May 2016 18:02:48 UTC">
+</head>
 
+<body>
+  <table height="456" border="0" cellspacing="0" cellpadding="2"
+  width="983">
+    <tbody>
+      <tr>
+        <td valign="middle" align="center" bgcolor="#000000">
+          <h1><font color="#66FFFF">Ublu Guide<br></font></h1>
+        </td>
 
+        <th valign="middle" align="center" bgcolor="#000000">
+        <img alt="NASA JPL Candle in Space" title=
+        "NASA JPL Candle in Space" src="images/Candlespace.jpg"
+        height="444" width="400"><br></th>
 
+        <td valign="middle" align="center" bgcolor="#000000">
+        <font color="#33FFFF">Copyright &#194;&#169; 2016 Jack. J.
+        Woehr</font><br>
+        <font color="#33FFFF"><font color=
+        "#33FFFF">jwoehr@softwoehr.com<br></font> &nbsp;All Rights
+        Reserved<br>
+        <br>
+        SoftWoehr LLC<br>
+        http://www.softwoehr.com<br>
+        PO Box 51<br>
+        Golden, CO 80402-0051<br>
+        USA</font></td>
+      </tr>
+    </tbody>
+  </table>
 
+  <h2>Who is this Guide for?</h2>It's for people who have
+  downloaded and built Ublu, read enough of the <a href=
+  "ubluref.html">Ublu Reference</a> to know how to launch <a href=
+  "https://github.com/jwoehr/ublu">Ublu</a>, and now want an
+  introduction to using Ublu.
 
-      Reference</a>. That Reference tells you how to install and run
-    Ublu and lists the Open Source project dependencies along with every
-    command built into Ublu.<br>
-    <br>
-    <br>
-  </body>
+  <h2>Why Ublu?</h2>I wrote Ublu because I wanted a language to run
+  on OpenBSD/Mac/Linux/Windows that could do systems programming
+  on&nbsp; IBM i Series OS &#194;&#174;. It is convenient to
+  operate legacy systems from modern environments. This empowers
+  help desk folks who know how to feed arguments to scripts and
+  answer interactive prompts but are challenged by the green
+  screen. Intermediate programmers take to Ublu as well as a cheap
+  entr&#195;&#169;e to legacy systems programming.<br>
+  <br>
+  I supported business clients by writing individual programs using
+  <a href="http://jt400.sourceforge.net/">JTOpen</a> which I have
+  used since the 1990's to control the AS/400 and decided to
+  consolidate.&nbsp; I also had previously written a bridge in Java
+  to IBM z/VM &#194;&#174; System Management API <a href=
+  "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">
+  (SMAPI)</a> called <a href=
+  "http://pigiron.sourceforge.net/">PigIron</a> and wanted to hook
+  that in somehow.<br>
+  <br>
+  I considered using my <a href="http://fiji.sourceforge.net/">FIJI
+  ForthIsh Java Interpreter</a> which works very well but is quite
+  arcane for others to use.<br>
+  <br>
+  <a href="http://www.oorexx.org/">ObjectRexx</a> is a wonderful
+  language but it doesn't run on as many platforms as Java.<br>
+  <br>
+  Other extant language frameworks exist but each has its own
+  issues.<br>
+  <br>
+  So I made up a new language and coded it in Java on top of other
+  open source libraries.<br>
+  <br>
+  Ublu is easy to build, install, and use. It is handsome but not
+  beautiful. It's easy to read. It works as an interactive shell
+  scripting language but also has some advanced language features
+  such as tasking, debugging and a TCP/IP port server mode.<br>
+  <br>
+  I hope you find Ublu useful!<br>
+
+  <h2>How does Ublu work?</h2>Ublu is an interpreter with full
+  language features such as flow control (<tt>IF ELSE DO WHILE</tt>
+  etc.) and even a multitasker and debugger.<br>
+  <br>
+  Ublu has commands that manipulate Java objects representing
+  objects, services and various facilities on the remote server. In
+  Ublu you can define functions to create complex programs to
+  manipulate the remote server and its databases, tape drives,
+  whatever. You can also do <a href=
+  "http://www.postgresql.org/">Postgresql</a> databasing (and
+  pretty much anything&nbsp; else) on your local computer, allowing
+  you to interoperate databases with the remote server. You can do
+  this interactively or load a program from text files which can,
+  in turn, <tt>include</tt> other text files.<br>
+  <br>
+  When you've got a complete application written in Ublu, there's
+  an Ublu command <tt>gensh</tt> which autogenerates and writes out
+  a shell script which works under either bash or ksh to take
+  arguments via command-line switches and pass them to your
+  program's top-level function.<br>
+  <br>
+  For a formal summary of everything, see the <a href=
+  "ubluref.html">Ublu Reference</a>. That Reference tells you how
+  to install and run Ublu and lists the Open Source project
+  dependencies as well as documenting every command and facility
+  built into Ublu.<br>
+  <br>
+  <i>This guide is a work in progress ... continued ...</i><br>
+  <br>
+  <br>
+</body>
 </html>

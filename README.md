@@ -14,12 +14,14 @@ under the BSD-2 license.
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
 
-There is preliminary documentation in userdoc/ubluref.html ... That which the
-documentation lacks can generally be gleaned from the examples.
+The full reference is userdoc/ubluref.html
+
+The user's guide is a work in progress (just started it): userdoc/ubluguide.html
 
 Ublu is already a stable and useful tool which has seen much use in the real
-world. We hope to make a formal release soon, but the system is fully useable
-as-is.
+world. It is neither complete nor perfect, but what is in this world?
+
+We hope to make a formal release soon, but the system is fully useable as-is.
 
 Quick start instructions:
 
@@ -36,4 +38,4 @@ To build and run:
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
  
-- Jack Woehr 2016-04-26
+- Jack Woehr 2016-05-16
