@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<!-- Edit mode for JEdit for Ublu Midrange and Mainframe Life Cycle Extension language -->
+<!-- Add to ~/.jedit/modes/catalog as follows:  -->
+<!-- <MODE NAME="ublu" FILE="ublu.xml" FILE_NAME_GLOB="*.ublu" /> -->
+<!-- Jack J. Woehr jwoehr@softwoehr.com updated 20160518 -->
+<MODE>
+<PROPS>
+    <PROPERTY NAME="lineComment" VALUE="#" />
+    <PROPERTY NAME="lineComment" VALUE="#!" />
+    <PROPERTY NAME="indentOpenBrackets" VALUE="$[" />
+    <PROPERTY NAME="indentCloseBrackets" VALUE="]$" />
+    <PROPERTY NAME="unalignedOpenBrackets" VALUE="(" />
+    <PROPERTY NAME="unalignedCloseBrackets" VALUE=")" />
+    <PROPERTY NAME="doubleBracketIndent" VALUE="false" />
+    <PROPERTY NAME="lineUpClosingBracket" VALUE="true" />
+</PROPS>
+<RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+    <KEYWORDS>
+        <KEYWORD2>as400</KEYWORD2>
+        <KEYWORD2>ask</KEYWORD2>
+        <KEYWORD1>BREAK</KEYWORD1>
+        <KEYWORD2>bye</KEYWORD2>
+        <KEYWORD1>CALL</KEYWORD1>
+        <KEYWORD2>calljava</KEYWORD2>
+        <KEYWORD2>collection</KEYWORD2>
+        <KEYWORD2>commandcall</KEYWORD2>
+        <KEYWORD2>db</KEYWORD2>
+        <KEYWORD2>dbug</KEYWORD2>
+        <KEYWORD2>defun</KEYWORD2>
+        <KEYWORD2>dict</KEYWORD2>
+        <KEYWORD1>DO</KEYWORD1>
+        <KEYWORD2>dpoint</KEYWORD2>
+        <KEYWORD2>dq</KEYWORD2>
+        <KEYWORD1>ELSE</KEYWORD1>
+        <KEYWORD2>eval</KEYWORD2>
+        <KEYWORD2>exit</KEYWORD2>
+        <KEYWORD1>FOR</KEYWORD1>
+        <KEYWORD2>ftp</KEYWORD2>
+        <KEYWORD1>FUN</KEYWORD1>
+        <KEYWORD1>FUNC</KEYWORD1>
+        <KEYWORD2>gensh</KEYWORD2>
+        <KEYWORD2>help</KEYWORD2>
+        <KEYWORD2>usage</KEYWORD2>
+        <KEYWORD2>histlog</KEYWORD2>
+        <KEYWORD2>history</KEYWORD2>
+        <KEYWORD2>h</KEYWORD2>
+        <KEYWORD2>host</KEYWORD2>
+        <KEYWORD1>IF</KEYWORD1>
+        <KEYWORD2>ifs</KEYWORD2>
+        <KEYWORD2>include</KEYWORD2>
+        <KEYWORD2>interpret</KEYWORD2>
+        <KEYWORD2>jmx</KEYWORD2>
+        <KEYWORD2>job</KEYWORD2>
+        <KEYWORD2>joblist</KEYWORD2>
+        <KEYWORD2>jrnl</KEYWORD2>
+        <KEYWORD2>jvm</KEYWORD2>
+        <KEYWORD1>LOCAL</KEYWORD1>
+        <KEYWORD2>license</KEYWORD2>
+        <KEYWORD2>lifo</KEYWORD2>
+        <KEYWORD2>list</KEYWORD2>
+        <KEYWORD2>monitor</KEYWORD2>
+        <KEYWORD2>msg</KEYWORD2>
+        <KEYWORD2>msgq</KEYWORD2>
+        <KEYWORD2>num</KEYWORD2>
+        <KEYWORD2>objlist</KEYWORD2>
+        <KEYWORD2>objdesc</KEYWORD2>
+        <KEYWORD2>outq</KEYWORD2>
+        <KEYWORD2>printer</KEYWORD2>
+        <KEYWORD2>programcall</KEYWORD2>
+        <KEYWORD2>props</KEYWORD2>
+        <KEYWORD2>put</KEYWORD2>
+        <KEYWORD2>rs</KEYWORD2>
+        <KEYWORD2>server</KEYWORD2>
+        <KEYWORD2>savf</KEYWORD2>
+        <KEYWORD2>smapi</KEYWORD2>
+        <KEYWORD2>spoolf</KEYWORD2>
+        <KEYWORD2>spoolflist</KEYWORD2>
+        <KEYWORD2>string</KEYWORD2>
+        <KEYWORD2>subsys</KEYWORD2>
+        <KEYWORD1>SWITCH</KEYWORD1>
+        <KEYWORD2>system</KEYWORD2>
+        <KEYWORD2>sysval</KEYWORD2>
+        <KEYWORD1>TASK</KEYWORD1>
+        <KEYWORD2>test</KEYWORD2>
+        <KEYWORD2>thread</KEYWORD2>
+        <KEYWORD1>THEN</KEYWORD1>
+        <KEYWORD1>THROW</KEYWORD1>
+        <KEYWORD1>TRY</KEYWORD1>
+        <KEYWORD2>tuple</KEYWORD2>
+        <KEYWORD2>user</KEYWORD2>
+        <KEYWORD2>userlist</KEYWORD2>
+        <KEYWORD1>WHILE</KEYWORD1>
+    </KEYWORDS>
+</RULES>
+</MODE>
