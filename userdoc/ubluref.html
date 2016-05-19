@@ -403,6 +403,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         specific jobs</a><br></li>
       </ul>
     </li>
+
+    <li><a href="#Syntax_coloring_edit_modes">Syntax coloring edit
+    modes</a></li>
   </ul>
 
   <h2><a name="Overview" id="Overview"></a>Overview</h2>
@@ -999,7 +1002,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     in a local extension to the tuple map and references to the
     argument are rewritten with the name of the temporary in the
     function's execution block.</li>
-  </ul>
+  </ul>It is perfectly acceptable to name function parameters with
+  the same names as command or functions. But this practice can
+  detract from the readability of the code, especially if using the
+  provided syntax coloring edit modes.<br>
 
   <h3><a name="Function_Dictionary" id=
   "Function_Dictionary"></a>Function Dictionary</h3>
@@ -5042,18 +5048,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellpadding="2" border="1" width="75%" cellspacing=
-      "2">
+      <table width="75%" cellpadding="2" cellspacing="2" border=
+      "1">
         <tbody>
           <tr>
-            <th align="center" valign="top">interpreter
+            <th valign="top" align="center">interpreter
             property<br></th>
 
-            <th align="center" valign="top">description<br></th>
+            <th valign="top" align="center">description<br></th>
 
-            <th align="center" valign="top">default value<br></th>
+            <th valign="top" align="center">default value<br></th>
 
-            <th align="center" valign="top">alternative
+            <th valign="top" align="center">alternative
             value(s)<br></th>
           </tr>
 
@@ -5595,13 +5601,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellpadding="2" border="1" width="100%" cellspacing="2">
+  <table width="100%" cellpadding="2" cellspacing="2" border="1">
     <tbody>
       <tr>
-        <th align="center" valign="top">Ublu main interpretive
+        <th valign="top" align="center">Ublu main interpretive
         session<br></th>
 
-        <th align="center" valign="top">Another shell
+        <th valign="top" align="center">Another shell
         window<br></th>
       </tr>
 
@@ -7142,8 +7148,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   ]$</tt><tt><br></tt>
   <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  ]$</tt><tt><br></tt> <tt>]$</tt><br>
-  <br>
-  <i>End of document</i>
+  ]$</tt><tt><br></tt> <tt>]$</tt>
+
+  <h2><a name="Syntax_coloring_edit_modes" id=
+  "Syntax_coloring_edit_modes"></a>Syntax coloring edit modes</h2>
+
+  <p>There are two syntax coloring edit modes provided with
+  Ublu:<br></p>
+
+  <ul>
+    <li><tt>stuff/.vim</tt></li>
+
+    <li><tt>stuff/jEdit</tt></li>
+  </ul>
+
+  <p>which should be self-explanatory to users of the <a href=
+  "http://www.vim.org/">Vim</a> and/or <a href=
+  "http://www.jedit.org/">jEdit</a> editors.<br></p><i>End of
+  document</i>
 </body>
 </html>

@@ -15,20 +15,20 @@
 </head>
 
 <body>
-  <table cellpadding="2" border="0" height="456" width="983"
-  cellspacing="0">
+  <table width="983" cellpadding="2" cellspacing="0" height="456"
+  border="0">
     <tbody>
       <tr>
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td valign="middle" align="center" bgcolor="#000000">
           <h1><font color="#66FFFF">Ublu Guide<br></font></h1>
         </td>
 
-        <th align="center" valign="middle" bgcolor="#000000">
+        <th valign="middle" align="center" bgcolor="#000000">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        height="444" width="400"><br></th>
+        width="400" height="444"><br></th>
 
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td valign="middle" align="center" bgcolor="#000000">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -179,23 +179,97 @@
   each if s/he would like to reply, and parsing the reply if one is
   given.<br>
   <br>
-  <i><small>The program is shown as a snapshot of a Vim session
-  with syntax highlighting for Ublu.<br>
-  The Vim language files for Ublu are in</small></i>
+  <i><small>The Ublu codes samples are shown in this document with
+  syntax coloring from a <a href="http://www.jedit.org/">jEdit</a>
+  mode</small></i> <small><tt>ublu.xml</tt></small><i><small>.<br>
+  The jEdit mode is in</small></i> <small><tt>stuff/jEdit</tt>
+  <i>with instructions how to install it at the head of the mode
+  file.</i><br></small> <i><small>Ther is also a <a href=
+  "http://www.vim.org/">Vim</a> mode for Ublu in</small></i>
   <small><tt>stuff/.vim</tt></small> <i><small>... just copy the
   dir structure to your</small></i> <small><tt>$HOME/.vim</tt>
   <i>directory</i></small><i><small>.</small></i><br>
 
-  <h3><tt>examples/autoreply.ublu</tt></h3><img alt=
-  "autoreply.ublu highlighted in Vim" title=
-  "autoreply.ublu highlighted in Vim" src=
-  "images/autoreply.ublu.jpg" height="482" width="607"><br>
-  <br>
+  <h3><tt>examples/autoreply.ublu</tt></h3>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jack</font><font color="#CC0000"> </font><font color="#CC0000">j.</font><font color="#CC0000"> </font><font color="#CC0000">woehr</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-10</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">instance</font><font color="#CC0000"> </font><font color="#CC0000">message</font><font color="#CC0000"> </font><font color="#CC0000">queue</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@as400</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span> <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span> <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#CC00CC">@as400</font> <font color="#0099FF"><strong>-instance</strong></font> <font color="#6600CC">@@ifspath</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 10 </font></span>]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 11 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">needing</font><font color="#CC0000"> </font><font color="#CC0000">reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 13 </font></span><font color="#006699"><strong>FUNC</strong></font> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>msgq</strong></font> replylist <font color="#000000"><strong>)</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 14 </font></span> <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-query</strong></font> <font color="#0099FF"><strong>-reply</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@replylist</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 15 </font></span>]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 16 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 17 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">messages,</font><font color="#CC0000"> </font><font color="#CC0000">walk</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">offer</font><font color="#CC0000"> </font><font color="#CC0000">user</font><font color="#CC0000"> </font><font color="#CC0000">chance</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">each</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 18 </font></span><font color="#006699"><strong>FUNC</strong></font> autoreply <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#000000"><strong>)</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 19 </font></span> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@msgq</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@replylist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@key</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 20 </font></span> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@answer</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@tf</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 21 </font></span> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font> <font color="#6600CC">@@ifspath</font> <font color="#CC00CC">@msgq</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 22 </font></span> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#CC00CC">@msgq</font> <font color="#CC00CC">@replylist</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 23 </font></span> <font color="#006699"><strong>FOR</strong></font> <font color="#CC00CC">@msg</font> in <font color="#CC00CC">@replylist</font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 24 </font></span> <font color="#009966"><strong>msg</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#CC00CC">@msg</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@key</font> <font color="#0099FF"><strong>-key</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 25 </font></span> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#CC00CC">@msg</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 26 </font></span> <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@answer</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Do</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">wish</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">message?</font><font color="#FF00CC"> </font><font color="#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 27 </font></span> <font color="#009966"><strong>test</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@tf</font> <font color="#0099FF"><strong>-eq</strong></font> <font color="#CC00CC">@answer</font> y
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 28 </font></span> <font color="#006699"><strong>IF</strong></font> <font color="#CC00CC">@tf</font> <font color="#006699"><strong>THEN</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 29 </font></span> <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@reply</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Please</font><font color="#FF00CC"> </font><font color="#FF00CC">enter</font><font color="#FF00CC"> </font><font color="#FF00CC">your</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 30 </font></span> <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#CC00CC">@msgq</font> <font color="#0099FF"><strong>-sendreplybinkey</strong></font> <font color="#CC00CC">@key</font> <font color="#CC00CC">@reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 31 </font></span> <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Reply</font><font color="#FF00CC"> </font><font color="#FF00CC">sent.</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 32 </font></span> ]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 33 </font></span> ]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 34 </font></span>]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 35 </font></span>
+</font>
+</pre><br>
   This program would still require understanding of Ublu to load
   and execute, but our help desk operator doesn't have to deal with
-  that. As noted above, the Ublu <tt>gensh</tt> command can
-  generate a shell script so that autoreply can become for the help
-  desk operator effectively a shell command that takes options to
+  that. As noted above, the Ublu <a href=
+  "ubluref.html#gensh"><tt>gensh</tt></a> command can generate a
+  shell script so that autoreply can become for the help desk
+  operator effectively a shell command that takes options to
   identify system and queue.
 
   <h3><tt>examples/autoreply.sh</tt></h3>
@@ -377,7 +451,7 @@
 <span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">  88 </font></span>
 </font>
-</pre><br>
+</pre>
 
   <h2>Notes</h2>
 
