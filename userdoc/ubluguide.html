@@ -146,10 +146,10 @@
   language is a text interpreter loop. There can be multiple nested
   or branching interpreter instances with different variable spaces
   in one Ublu session, but basically they're all doing the same
-  sort of thing, an outer input loop getting input and running an
-  inner line interpretive <a href=
-  "#ublu.util.Interpreter.loop">loop</a> to interpret a line of
-  text.<br>
+  sort of thing: an outer input loop is getting input and running
+  an inner interpretive <a href=
+  "#ublu.util.Interpreter.loop">loop</a> to interpret a single line
+  of text.<br>
   <br>
   <small><i>There are actually several different but very similar
   loops, e.g., the debugger interpreter loop is different from the
@@ -163,18 +163,22 @@
   <br>
   The text interpreter loop parses the next whitespace-delimited
   element (a lex) and tries to locate it as an Ublu command or as a
-  defined function. If it fails, the loop falls out to the outer
-  input loop with an error. The outer loop then waits for more
-  input to pass to the inner interpretive loop.<br>
+  defined function. Matching is case-sensitive.<br>
+  <br>
+  If no match is found, the loop falls out to the outer input loop
+  with an error. The outer loop then waits for more input to pass
+  to the inner interpretive loop.<br>
   <br>
   If the interpretive loop succeeds in finding the next lex in the
   input as a command or function, it passes the rest of the line to
   the command or to the function interpreter. Both do their work
   then pass back the remnant of the input line that wasn't consumed
-  in their work. Thus, line processing is a relay: the loop hands
-  off to the command/function, which then hands back to loop, and
-  on to next command/function ... until the line is consumed or an
-  error is encountered.<br>
+  in their work.<br>
+  <br>
+  Thus, line processing is a relay: the loop hands off to the
+  command/function, which then hands back to loop, and on to next
+  command/function ... until the line is consumed or an error is
+  encountered.<br>
   <br>
   If an error is encountered, the rest of the input is discarded.
   Typically the interpretive loop will fall out to the outer
@@ -660,17 +664,112 @@ message queue instance."<br>
   <ul>
     <li>What are the data types in Ublu?</li>
 
-    <li>What is a <tt>put</tt> ?</li>
+    <li>What are those dash thingies after Ublu commands?</li>
 
-    <li>What are those dash thingies after Ublu commands?<br></li>
+    <li>What is a <tt>put</tt> ?</li>
   </ul>
 
   <p>We'll answer those questions next.<br></p>
 
+  <h2>What are the data types in Ublu?</h2>
+
+  <p>Ublu can be described as an "object-disoriented
+  language".<br></p>
+
+  <p>Ublu is a form of interpretive Java that hides as much as
+  possible about object usage.<br></p>There are basically three
+  data types in Ublu:<br>
+
+  <ol>
+    <li>plainword</li>
+
+    <li>object</li>
+
+    <li>variable</li>
+  </ol>
+
+  <p>A plainword is a single whitespace-delimited lex<br></p>
+
+  <ul>
+    <li>arthur</li>
+
+    <li>99999</li>
+
+    <li>supercalifra$gilist$ticexpialifoobar..**(())</li>
+  </ul>
+
+  <p>An object represents something or other, often a
+  something-or-other on a remote server but it's pretty opaque and
+  you just have to know which&nbsp; objects you have in hand go
+  with which Ublu commands. It's mostly simple to do because the
+  same commands that use the objects typically provide the objects
+  in the first place.<br>
+  &nbsp;<br>
+  Objects are passed around in variables ("tuple variables" or
+  "tuples") marked with the <tt>@</tt> sign. Variables come into
+  existence by being mentioned. If they're in an execution block
+  between <tt>$[</tt> and <tt>]$</tt> they can be marked
+  <tt>LOCAL</tt> and disappear at the end of the block. Otherwise,
+  they persist until expressly deleted or until the interpreter in
+  whose context they reside exits.</p>
+
+  <h2>What are those dash thingies after Ublu commands?</h2>The
+  dash-commands after Ublu commands pass arguments to the command,
+  often objects being kept in variables.
+
+  <blockquote>
+    <p><tt>as400 -to @myServer somehostname.com someuserid
+    somepassword</tt><tt><br></tt><tt>joblist -as400
+    @myServer</tt><br></p>
+  </blockquote>would retrieve a joblist from
+  <tt>somehostname.com</tt> provided <tt>someuserid</tt> had
+  authorization to request it.<br>
+  <br>
+  One special dash-command is double-dash <tt>--</tt> the
+  "eponymous dash-command" which represents an object identified in
+  the command description with same name as the command itself. For
+  example, the <tt>as400</tt> command instances and operates on
+  objects representing a connection to a remote i Series OS server.
+  Once you have instanced such an object and stored it <tt>-to
+  @someServer</tt> you can use it and then later test if it is
+  still connected by passing the same variable back to the
+  <tt>as400</tt> command like this:<br>
+
+  <blockquote>
+    <tt>as400 -as400 @someServer -connected</tt><br>
+  </blockquote>which will <tt>put</tt> either <tt>true</tt> or
+  <tt>false</tt>. But you could also have simply used the eponymous
+  dash-command:<br>
+
+  <blockquote>
+    <tt>as400 -- @someServer -connected</tt><br>
+  </blockquote>since, for the as400 command, <tt>--</tt> represents
+  <tt>-as400</tt>.<br>
+  <br>
+
+  <h2>What is a <tt>put</tt> ?</h2>&nbsp;The <tt>as400</tt> command
+  stored <tt>-to @myServer</tt> which variable was then passed to
+  joblist command as <tt>-as400 @myServer<br></tt>
+
+  <p><tt>-to</tt> is a dash-command to almost every Ublu command.
+  It says where the <tt>put</tt> is to go.<br></p>
+
+  <p>Most Ublu commands <tt>put</tt> a result. That result could be
+  text or an object. If no <tt>-to</tt> destination is specified,
+  then the <tt>put</tt> goes to standard out. If the result is an
+  object and the <tt>put</tt> is to standard out,&nbsp; the object
+  is rendered in text. Ublu knows how to render objects in text in
+  a useful fashion.<br></p>
+
+  <p>The full discussion of <tt>put</tt> requires an understanding
+  of <a href="ubluref.html#Datasinks">Data Sinks</a> discussed in
+  the Ublu Reference.<br></p>
+
   <h2>Notes</h2>
 
   <h3><a name=
-  "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>
+  "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>Here
+  is the Java code for the interpretive loop.
   <pre>
 <font color="#000000"><span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1038 </font></span>    <font color="#6600CC">/**</font>
@@ -729,7 +828,7 @@ message queue instance."<br>
 <span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1065 </font></span>                    <font color="#CC0000">/*</font><font color="#CC0000"> </font><font color="#CC0000">java.net.UnknownHostException</font><font color="#CC0000"> </font><font color="#CC0000">lands</font><font color="#CC0000"> </font><font color="#CC0000">here,</font><font color="#CC0000"> </font><font color="#CC0000">as</font><font color="#CC0000"> </font><font color="#CC0000">well</font><font color="#CC0000"> </font><font color="#CC0000">as</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">*/</font>
 <span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1066 </font></span> <font color="#CC0000">/*</font><font color="#CC0000"> </font><font color="#CC0000">com.ibm.as400.access.ExtendedIllegalArgumentException</font><font color="#CC0000"> </font><font color="#CC0000">*/</font>
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1066 </font></span>                    <font color="#CC0000">/*</font><font color="#CC0000"> </font><font color="#CC0000">com.ibm.as400.access.ExtendedIllegalArgumentException</font><font color="#CC0000"> </font><font color="#CC0000">*/</font>
 <span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1067 </font></span>                    <font color="#9966FF">getLogger</font><font color="#000000"><strong>(</strong></font><font color="#000000"><strong>)</strong></font>.<font color="#9966FF">log</font><font color="#000000"><strong>(</strong></font>Level.SEVERE, <font color="#FF00CC">"</font><font color="#FF00CC">Command</font><font color="#FF00CC"> </font><font color="#6600CC">\"</font><font color="#FF00CC">"</font> <font color="#000000"><strong>+</strong></font> commandName <font color="#000000"><strong>+</strong></font> <font color="#FF00CC">"</font><font color="#6600CC">\"</font><font color="#FF00CC"> </font><font color="#FF00CC">threw</font><font color="#FF00CC"> </font><font color="#FF00CC">exception</font><font color="#FF00CC">"</font>, ex<font color="#000000"><strong>)</strong></font>;
 <span style=
@@ -810,6 +909,8 @@ message queue instance."<br>
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">1105 </font></span>        <font color="#006699"><strong>return</strong></font> lastCommandResult;
 <span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1106 </font></span>    <font color="#000000"><strong>}</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">1107 </font></span>
 </font>
 </pre><i>This guide is a work in progress ... continued ...</i><br>
 
