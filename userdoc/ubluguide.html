@@ -9,26 +9,31 @@
 
   <title>Guide to Ublu</title>
   <meta content="Jack J. Woehr" name="author">
-  <meta content="Guide to Ublu Language" name="description">
+  <meta content=
+  "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
+  name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 17 May 2016 19:39:15 UTC">
+  "Fri, 20 May 2016 18:46:36 UTC">
 </head>
 
 <body>
-  <table width="983" cellpadding="2" cellspacing="0" height="456"
-  border="0">
+  <table border="0" width="983" cellpadding="2" cellspacing="0"
+  height="456">
     <tbody>
       <tr>
-        <td valign="middle" align="center" bgcolor="#000000">
-          <h1><font color="#66FFFF">Ublu Guide<br></font></h1>
-        </td>
+        <td align="center" bgcolor="#000000" valign="middle">
+        <font color="#66FFFF"><big><big>Guide</big></big><br>
+        to the<br>
+        <b><big><big><big>Ublu</big></big></big></b><br>
+        Midrange and Mainframe<br>
+        Life Cycle Extension Language<br></font></td>
 
-        <th valign="middle" align="center" bgcolor="#000000">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         width="400" height="444"><br></th>
 
-        <td valign="middle" align="center" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -56,26 +61,30 @@
 
   <h2>Why Ublu?</h2>I wrote Ublu because I wanted a language to run
   on OpenBSD/Mac/Linux/Windows that could do systems programming on
-  IBM i Series OS &#174;. It is convenient to operate legacy
-  systems from modern environments. This empowers help desk folks
-  who know how to feed arguments to scripts and answer interactive
-  prompts but are challenged by the green screen. Intermediate
-  programmers take to Ublu as well as an easy entry point to legacy
-  systems programming.<br>
+  IBM i Series OS &#174;. I was supporting my consulting clients by
+  writing individual utility programs using <a href=
+  "http://jt400.sourceforge.net/">JTOpen</a> which I have used
+  since 1998 to control the AS/400. I decided to consolidate the
+  programs in a language, and the result is Ublu.<br>
   <br>
-  I supported business clients by writing individual programs using
-  <a href="http://jt400.sourceforge.net/">JTOpen</a> which I have
-  used since the 1990's to control the AS/400 and decided to
-  consolidate. I also had previously written a bridge in Java to
-  IBM z/VM &#174; System Management API <a href=
+  It is convenient to operate legacy systems from modern
+  environments. This empowers help-desk folks who know how to feed
+  arguments to scripts and answer interactive prompts but are
+  challenged by the green screen. Intermediate programmers take to
+  Ublu as well as an easy entry point to legacy systems
+  programming.<br>
+  <br>
+  I also had previously written a bridge in Java to IBM z/VM &#174;
+  System Management API <a href=
   "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">
   (SMAPI)</a> called <a href=
   "http://pigiron.sourceforge.net/">PigIron</a> and wanted to hook
   that in somehow.<br>
   <br>
   I considered using my <a href="http://fiji.sourceforge.net/">FIJI
-  ForthIsh Java Interpreter</a> which works very well but is quite
-  arcane for others to use.<br>
+  ForthIsh Java Interpreter</a> which works very well but is arcane
+  and difficult for anyone other than a serious programmer to
+  use.<br>
   <br>
   <a href="http://www.oorexx.org/">ObjectRexx</a> is a wonderful
   language but it doesn't run on as many platforms as Java.<br>
@@ -83,36 +92,49 @@
   Other extant language frameworks exist but each has its own
   issues.<br>
   <br>
-  So I made up a new language and coded it in Java on top of other
-  open source libraries.<br>
+  So I made up a new language and coded it quick and easy in Java
+  on top of other open source libraries. The "quick and easy"
+  approach derives from a work environment in which folks just
+  wanted results and didn't care that a new language was making the
+  getting of results easier.<br>
   <br>
-  Ublu is easy to build, install, and use. It is handsome but not
-  beautiful. It's easy to read. It works as an interactive shell
-  scripting language but also has some advanced language features
-  such as tasking, debugging and a TCP/IP port server mode.<br>
+  Ublu is easy to build, install, read, and use. It is handsome but
+  not beautiful. Ublue works like an interactive shell scripting
+  language but also has some advanced language features such as
+  tasking, debugging and a TCP/IP port server mode.<br>
   <br>
-  I hope you find Ublu useful!<br>
+  I hope you find Ublu useful.<br>
 
-  <h2>What does Ublu do?</h2>Ublu is an interpreter with full
-  language features such as flow control (<tt>IF ELSE DO WHILE</tt>
-  etc.) and even a multitasker and debugger.<br>
-  <br>
-  Ublu has commands that manipulate Java objects representing
-  objects, services and various facilities on the remote server. In
-  Ublu you can define functions to create complex programs to
-  manipulate the remote server and its databases, tape drives,
-  whatever. You can also do <a href=
-  "http://www.postgresql.org/">Postgresql</a> databasing (and
-  pretty much anything else) on your local computer, allowing you
-  to interoperate databases with the remote server. You can do this
-  interactively or load a program from text files which can, in
-  turn, <tt>include</tt> other text files.<br>
-  <br>
-  When you've got a complete application written in Ublu, there's
-  an Ublu command <tt>gensh</tt> which autogenerates and writes out
-  a shell script which works under either bash or ksh to take
-  arguments via command-line switches and pass them to your
-  program's top-level function.<br>
+  <h2>What does Ublu do?</h2>
+
+  <ul>
+    <li>Ublu is an interpreter with full language features such as
+    flow control (<tt>IF ELSE DO WHILE</tt> etc.), exception
+    handling, and even a multitasker and debugger.</li>
+
+    <li>Ublu has commands that manipulate Java objects representing
+    objects, services and various facilities on the remote
+    server.</li>
+
+    <li>In Ublu you can define functions to create complex programs
+    to manipulate the remote server and its databases, tape drives,
+    whatever.</li>
+
+    <li>You can also do <a href=
+    "http://www.postgresql.org/">Postgresql</a> databasing (and
+    pretty much anything else) on your local computer, allowing you
+    to interoperate your local database with the database on the
+    remote server.</li>
+
+    <li>You can do this interactively or load a program from text
+    files which can, in turn, <tt>include</tt> other text
+    files.<br></li>
+  </ul>When you've got your complete application written in Ublu,
+  there's an Ublu command <tt>gensh</tt> which autogenerates a
+  shell script to work under either <tt>bash</tt> or <tt>ksh</tt>.
+  The script takes arguments via command-line switches and pass
+  them to your program's top-level function. <small><i>The script
+  effects a closure on your top-level function.</i></small><br>
   <br>
   For a formal summary of everything, see the <a href=
   "ubluref.html">Ublu Reference</a>. That Reference tells you how
@@ -124,7 +146,8 @@
   language is a text interpreter loop. There can be multiple nested
   or branching interpreter instances with different variable spaces
   in one Ublu session, but basically they're all doing the same
-  sort of thing, an outer engine loop running an inner <a href=
+  sort of thing, an outer input loop getting input and running an
+  inner line interpretive <a href=
   "#ublu.util.Interpreter.loop">loop</a> to interpret a line of
   text.<br>
   <br>
@@ -139,21 +162,29 @@
   lex.<br>
   <br>
   The text interpreter loop parses the next whitespace-delimited
-  element and tries to locate it as an Ublu command or as a defined
-  function. If it fails, the loop falls out to the outer
-  input-and-process loop with an error. The outer loop then waits
-  for more input to pass to the text interpreter loop.<br>
+  element (a lex) and tries to locate it as an Ublu command or as a
+  defined function. If it fails, the loop falls out to the outer
+  input loop with an error. The outer loop then waits for more
+  input to pass to the inner interpretive loop.<br>
   <br>
-  If the text interpreter loop succeeds in finding the next element
-  as a command or function, it passes the rest of the line to the
-  command or to the function interpreter. Both do their work then
-  pass back the remnant of the input line that wasn't consumed in
-  their work. Thus, line processing is a relay: loop to
-  command/function, back to loop, to next command/function ...
-  until the line is consumed.<br>
+  If the interpretive loop succeeds in finding the next lex in the
+  input as a command or function, it passes the rest of the line to
+  the command or to the function interpreter. Both do their work
+  then pass back the remnant of the input line that wasn't consumed
+  in their work. Thus, line processing is a relay: the loop hands
+  off to the command/function, which then hands back to loop, and
+  on to next command/function ... until the line is consumed or an
+  error is encountered.<br>
   <br>
-  Certain constructs can span lines, particularly a delimited
-  string or an execution block. Strings are delimited<br>
+  If an error is encountered, the rest of the input is discarded.
+  Typically the interpretive loop will fall out to the outer
+  parsing loop. However, there is a <tt>TRY CATCH THROW</tt>
+  exception facility in Ublu allowing the program to catch errors
+  without losing its place in the executing program.<br>
+  <br>
+  While the interpretive loop is line-oriented, certain constructs
+  can span lines, particularly a delimited string or an execution
+  block. Strings are delimited<br>
 
   <blockquote>
     <tt>${ like this }$</tt><br>
@@ -166,7 +197,7 @@
   hasn't been found yet.<br>
   <br>
   Language control flow constructs are just a form of command.
-  Typically they parse execution blocks:<br>
+  Typically they consume execution blocks from the input:<br>
 
   <blockquote>
     <tt>IF @truefalse THEN $[ command arg arg command arg arg
@@ -177,14 +208,18 @@
   Here is a full Ublu program. It checks a message queue on an i
   Series OS server and lists the messages, asking the operator on
   each if s/he would like to reply, and parsing the reply if one is
-  given.<br>
+  given.&nbsp; Take a look at the program (and its associate shell
+  script given here) and then we will discuss the program
+  line-by-line below.<br>
   <br>
   <i><small>The Ublu codes samples are shown in this document with
   syntax coloring from a <a href="http://www.jedit.org/">jEdit</a>
-  mode</small></i> <small><tt>ublu.xml</tt></small><i><small>.<br>
+  mode</small></i> <small><tt>ublu.xml</tt></small>
+  <i><small>reproduced here via <a href=
+  "https://www.palfrader.org/code/code2html/">Code2HTML.</a><br>
   The jEdit mode is in</small></i> <small><tt>stuff/jEdit</tt>
   <i>with instructions how to install it at the head of the mode
-  file.</i><br></small> <i><small>Ther is also a <a href=
+  file.</i><br></small> <i><small>There is also a <a href=
   "http://www.vim.org/">Vim</a> mode for Ublu in</small></i>
   <small><tt>stuff/.vim</tt></small> <i><small>... just copy the
   dir structure to your</small></i> <small><tt>$HOME/.vim</tt>
@@ -263,14 +298,15 @@
 <span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 35 </font></span>
 </font>
-</pre><br>
-  This program would still require understanding of Ublu to load
-  and execute, but our help desk operator doesn't have to deal with
-  that. As noted above, the Ublu <a href=
-  "ubluref.html#gensh"><tt>gensh</tt></a> command can generate a
-  shell script so that autoreply can become for the help desk
-  operator effectively a shell command that takes options to
-  identify system and queue.
+</pre>This program would still require understanding of Ublu to
+load and execute, but our help desk operator doesn't have to deal
+with that. As noted above, the Ublu <a href=
+"ubluref.html#gensh"><tt>gensh</tt></a> command can generate a
+shell script so that autoreply can become for the help desk
+operator effectively a shell command that takes options to identify
+system and queue.Here is the <tt>gensh</tt>-generated&nbsp; shell
+script to run the top-level function <tt>autoreply</tt> from the
+program <tt>autoreply.ublu</tt><br>
 
   <h3><tt>examples/autoreply.sh</tt></h3>
   <pre>
@@ -449,9 +485,187 @@
 <span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">  87 </font></span>exit <font color="#009966"><strong>$?</strong></font>
 <span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">  88 </font></span>
-</font>
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">  88 </font></span></font><br>
 </pre>
+
+  <h3>Understanding <tt>examples/autoreply.ublu</tt></h3>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jack</font><font color="#CC0000"> </font><font color="#CC0000">j.</font><font color="#CC0000"> </font><font color="#CC0000">woehr</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-10</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span></font>
+</pre>These lines are, of course, comments. Comments go to the end
+of the line.<br>
+  <br>
+  As we discussed above, execution blocks (e.g., the body of a
+  function) delimited by <tt>$[</tt> and <tt>]$</tt> can span
+  lines. The way the interpretive loop does this is that it keeps
+  calling for input from the outer parsing loop until it finds the
+  closing delimiter. Effectively, the entire execution block is one
+  line. So comments should not be placed inside function bodies or
+  they will comment out the entire function body!<br>
+  <br>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@as400</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span> <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span> <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#CC00CC">@as400</font> <font color="#0099FF"><strong>-instance</strong></font> <font color="#6600CC">@@ifspath</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 10 </font></span>]$</font>
+</pre>Here the function <tt>getMsgQ</tt> is defined. The argument
+list is not typed in any way. These are merely token names for
+whatever will appear in that position inside the parentheses when
+the function is invoked. Inside the body of the function these
+arguments will be referenced by prefixing them with <tt>@@</tt>
+e.g., <tt>@@password</tt>.<br>
+  <br>
+  <b>Note</b> that the parentheses are separated from both the
+  function name and from the argument list!!<br>
+  <br>
+  <small><i>In the example, I happened to use the bad style of
+  naming arguments the same name as Ublu commands
+  (</i><i><tt>system</tt></i> <i><tt>user</tt></i> <i>and
+  <tt>msgq</tt>) which, of course, the editor then syntax-colored,
+  mistaking them for keywords. This is entirely legal in Ublu but,
+  again, it's bad style.<br></i></small><br>
+  The function body is the execution block between <tt>$[</tt> and
+  <tt>]$</tt><br>
+  <br>
+  On line 7, a local variable is declared. All variables ("tuple
+  variables" as they are called, or just "tuples") are identified
+  by the <tt>@</tt> prefix, whether they are <tt>LOCAL</tt> or
+  global (or interpreter-level-local).<br>
+  <br>
+  Tuple variables come into existence just by being mentioned.
+  Arguments to a function may be tuples or plain words, Ublu
+  commands typically know what to do with either when passed them
+  as arguments. The LOCAL declaration <tt>LOCAL @as400</tt> serves
+  to says that there will be a local tuple variable which will hide
+  any other variables of the same name in the program while in this
+  execution block and then disappear at the end of the execution
+  block, i.e., at the end of function execution. Equally, the
+  variable name <tt>@as400</tt> could have been used without
+  declaration, but then it would persist beyond the end of the
+  function, and further, if there happened to already exist such a
+  variable in the program, it would be referencing that same
+  variable, possibly unintentionally.<br>
+  <br>
+  Lines 8 and 9 are Ublu commands.<br>
+  <br>
+  Line 8 says, "Create a remote server instance for the system
+  function argument using the user and password function arguments.
+  Store that instance in the declared local variable
+  <tt>@as400</tt>".<br>
+  <br>
+  Line 9 says, "Create an object referencing the message queue on
+  the server represented by <tt>@as400</tt> and identified by the
+  IFS path represented by the function argument <tt>ifspath</tt>
+  and store that object to the function argument <tt>msgq</tt> ,
+  presumably a variable, with an error resulting if a variable was
+  not provided in that position in the function argument list."<br>
+  <br>
+  The variable named which is provided in the function argument
+  list in that position does not have to be named anything like the
+  declaring argument list named it. It could be called
+  <tt>@fred</tt> for instance. It does not even have to have been
+  previously declared. It comes into global existence by being
+  named. It can later be deleted via the <tt><a href=
+  "ubluref.html#tuple">tuple</a> -delete @fred</tt> command, if so
+  desired. Or, it might be a LOCAL variable from a calling
+  function.<br>
+  <br>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#006699"><strong>FUNC</strong></font> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>msgq</strong></font> replylist <font color="#000000"><strong>)</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 14 </font></span> <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-query</strong></font> <font color="#0099FF"><strong>-reply</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@replylist</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 15 </font></span>]$</font>
+</pre>These lines declare another function which says, "Given a
+message queue instance and a variable name in which to store the
+result of this function, create a list of messages needing reply
+waiting on the remoted i Series OS message queue represented by the
+message queue instance."<br>
+  <br>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 18 </font></span><font color="#006699"><strong>FUNC</strong></font> autoreply <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#000000"><strong>)</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 19 </font></span> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@msgq</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@replylist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@key</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 20 </font></span> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@answer</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@tf</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#CC00CC">@reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 21 </font></span> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font> <font color="#6600CC">@@ifspath</font> <font color="#CC00CC">@msgq</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 22 </font></span> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#CC00CC">@msgq</font> <font color="#CC00CC">@replylist</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 23 </font></span> <font color="#006699"><strong>FOR</strong></font> <font color="#CC00CC">@msg</font> in <font color="#CC00CC">@replylist</font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 24 </font></span> <font color="#009966"><strong>msg</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#CC00CC">@msg</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@key</font> <font color="#0099FF"><strong>-key</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 25 </font></span> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#CC00CC">@msg</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 26 </font></span> <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@answer</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Do</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">wish</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">message?</font><font color="#FF00CC"> </font><font color="#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 27 </font></span> <font color="#009966"><strong>test</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@tf</font> <font color="#0099FF"><strong>-eq</strong></font> <font color="#CC00CC">@answer</font> y
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 28 </font></span> <font color="#006699"><strong>IF</strong></font> <font color="#CC00CC">@tf</font> <font color="#006699"><strong>THEN</strong></font> $[
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 29 </font></span> <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#CC00CC">@reply</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Please</font><font color="#FF00CC"> </font><font color="#FF00CC">enter</font><font color="#FF00CC"> </font><font color="#FF00CC">your</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 30 </font></span> <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#CC00CC">@msgq</font> <font color="#0099FF"><strong>-sendreplybinkey</strong></font> <font color="#CC00CC">@key</font> <font color="#CC00CC">@reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 31 </font></span> <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Reply</font><font color="#FF00CC"> </font><font color="#FF00CC">sent.</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 32 </font></span> ]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 33 </font></span> ]$
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 34 </font></span>]$</font>
+</pre><br>
+  These lines declare <tt>autoreply</tt> which is the top-level
+  function in the file. Note that we declared these functions from
+  low-level to top level. This is not necessary, since the
+  functions are not interpreted until called, but it's easier to
+  understand this way.<br>
+  <br>
+  <tt>autoreply</tt> takes as its arguments a system name, user id,
+  password and IFS path.<br>
+  <br>
+  It calls the function <tt>getMsgQ</tt> to get the message queue
+  instance.<br>
+  <br>
+  It then calls <tt>getReplyMsgs</tt> to get a list messages
+  awaiting a reply.<br>
+  <br>
+  It then loops in a <tt>FOR</tt> loop through the list and uses
+  <tt>ask</tt> command to ask the user if the user wishes to reply
+  each individual message. It does <tt>test</tt> on the response
+  against the character <tt>y</tt> and <tt>IF</tt> the result of
+  that test is true, gets a reply via <tt>ask</tt> and replies to
+  the message queue, informing the user via <tt>put</tt> that the
+  reply was sent.<br>
+  <br>
+  If you were paying attention, the above explanation raises
+  several questions.<br>
+
+  <ul>
+    <li>What are the data types in Ublu?</li>
+
+    <li>What is a <tt>put</tt> ?</li>
+
+    <li>What are those dash thingies after Ublu commands?<br></li>
+  </ul>
+
+  <p>We'll answer those questions next.<br></p>
 
   <h2>Notes</h2>
 
