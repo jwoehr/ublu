@@ -57,7 +57,7 @@ public class History implements Closeable {
      */
     protected BufferedWriter writer;
     
-    private Interpreter myInterpreter;
+    private final Interpreter myInterpreter;
 
     /**
      * Get the writer of lines
@@ -98,6 +98,7 @@ public class History implements Closeable {
     /**
      * Instance with the default history file name
      *
+     * @param interpreter associated Interpreter instance
      * @throws IOException
      */
     public History(Interpreter interpreter) throws IOException {
@@ -109,6 +110,7 @@ public class History implements Closeable {
     /**
      * Instance with a filename
      *
+     * @param interpreter associated Interpreter instance
      * @param filename name of history file
      * @throws IOException
      */
@@ -179,11 +181,11 @@ public class History implements Closeable {
      */
     protected StringArrayList readHistory() throws IOException {
         StringArrayList sal = new StringArrayList();
-        BufferedReader br = Files.newBufferedReader(FileSystems.getDefault().getPath(historyFileName), StandardCharsets.US_ASCII);
-        while (br.ready()) {
-            sal.add(br.readLine());
+        try (BufferedReader br = Files.newBufferedReader(FileSystems.getDefault().getPath(historyFileName), StandardCharsets.US_ASCII)) {
+            while (br.ready()) {
+                sal.add(br.readLine());
+            }
         }
-        br.close();
         return sal;
     }
 
