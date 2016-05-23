@@ -47,7 +47,7 @@ public class History implements Closeable {
     /**
      * default History File Name
      */
-    public static final String DEFAULT_HISTORY_FILENAME = "ublu.history.os4";
+    public static final String DEFAULT_HISTORY_FILENAME = "history.ublu";
     /**
      * current history File Name
      */
