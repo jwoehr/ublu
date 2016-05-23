@@ -48,7 +48,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-instance | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -60,6 +60,14 @@ public class CmdAS400 extends Command {
          * Create instance
          */
         INSTANCE,
+        /**
+         * Are any connections alive?
+         */
+        ALIVE,
+        /**
+         * Is the connection to the specified service alive?
+         */
+        ALIVESVC,
         /**
          * Connect to service
          */
@@ -129,6 +137,13 @@ public class CmdAS400 extends Command {
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
                     break;
+                case "-alive":
+                    operation = OPERATIONS.ALIVE;
+                    break;
+                case "-alivesvc":
+                    operation = OPERATIONS.CONNECTEDSVC;
+                    serviceName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-connectsvc":
                     operation = OPERATIONS.CONNECTSVC;
                     serviceName = argArray.nextMaybeQuotationTuplePopString();
@@ -195,6 +210,39 @@ public class CmdAS400 extends Command {
                                     "Encountered an exception putting the AS400 object " + getAs400() + " to the destination datasink in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
+                    }
+                    break;
+                case ALIVE:
+                    if (getAs400() != null) {
+                        try {
+                            put(getAs400().isConnectionAlive());
+                        } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception putting the connection alive state of AS400 object " + getAs400() + " to the destination datasink in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case ALIVESVC:
+                    serviceInteger = AS400Factory.serviceNameToInteger(serviceName);
+                    if (serviceInteger != null) {
+                        if (getAs400() != null) {
+                            try {
+                                put(getAs400().isConnectionAlive(serviceInteger));
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Exception querying connection to service " + serviceName + " in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No AS400 object provided to query live connection to service in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to  query live connection to service in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case CONNECTSVC:
