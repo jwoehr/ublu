@@ -13,27 +13,27 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 20 May 2016 18:46:36 UTC">
+  "Mon, 23 May 2016 18:03:36 UTC">
 </head>
 
 <body>
-  <table border="0" width="983" cellpadding="2" cellspacing="0"
-  height="456">
+  <table cellspacing="0" border="0" height="456" cellpadding="2"
+  width="100%">
     <tbody>
       <tr>
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" align="center" valign="middle">
         <font color="#66FFFF"><big><big>Guide</big></big><br>
         to the<br>
         <b><big><big><big>Ublu</big></big></big></b><br>
         Midrange and Mainframe<br>
         Life Cycle Extension Language<br></font></td>
 
-        <th align="center" bgcolor="#000000" valign="middle">
+        <th bgcolor="#000000" align="center" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        width="400" height="444"><br></th>
+        height="444" width="400"><br></th>
 
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" align="center" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -213,8 +213,9 @@
   Series OS server and lists the messages, asking the operator on
   each if s/he would like to reply, and parsing the reply if one is
   given.&nbsp; Take a look at the program (and its associate shell
-  script given here) and then we will discuss the program
-  line-by-line below.<br>
+  script given here) and then we will <a href=
+  "#Understanding_examplesautoreply.ublu">discuss the program
+  line-by-line</a> below.<br>
   <br>
   <i><small>The Ublu codes samples are shown in this document with
   syntax coloring from a <a href="http://www.jedit.org/">jEdit</a>
@@ -492,7 +493,9 @@ program <tt>autoreply.ublu</tt><br>
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">  88 </font></span></font><br>
 </pre>
 
-  <h3>Understanding <tt>examples/autoreply.ublu</tt></h3>
+  <h3><a name=
+  "Understanding_examplesautoreply.ublu"></a>Understanding
+  <tt>examples/autoreply.ublu</tt></h3>
   <pre>
 <font color="#000000"><span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
@@ -678,7 +681,7 @@ message queue instance."<br>
 
   <p>Ublu is a form of interpretive Java that hides as much as
   possible about object usage.<br></p>There are basically three
-  data types in Ublu:<br>
+  data types in the Ublu language:<br>
 
   <ol>
     <li>plainword</li>
@@ -686,32 +689,53 @@ message queue instance."<br>
     <li>object</li>
 
     <li>variable</li>
+
+    <li>string</li>
+
+    <li>execution block<br></li>
   </ol>
 
-  <p>A plainword is a single whitespace-delimited lex<br></p>
+  <p>A <b>plainword</b> is a single whitespace-delimited
+  lex<br></p>
 
   <ul>
-    <li>arthur</li>
+    <li><tt>arthur</tt></li>
 
-    <li>99999</li>
+    <li><tt>99999</tt></li>
 
-    <li>supercalifra$gilist$ticexpialifoobar..**(())</li>
-  </ul>
-
-  <p>An object represents something or other, often a
+    <li><tt>supercalifra$gilist$ticexpialifoobar..**(())</tt></li>
+  </ul>An <b>object</b> represents something or other, often a
   something-or-other on a remote server but it's pretty opaque and
   you just have to know which&nbsp; objects you have in hand go
   with which Ublu commands. It's mostly simple to do because the
   same commands that use the objects typically provide the objects
   in the first place.<br>
-  &nbsp;<br>
-  Objects are passed around in variables ("tuple variables" or
-  "tuples") marked with the <tt>@</tt> sign. Variables come into
+  <br>
+  Objects are passed around in <b>variables</b> ("tuple variables"
+  or "tuples") marked with the <tt>@</tt> sign. Variables come into
   existence by being mentioned. If they're in an execution block
   between <tt>$[</tt> and <tt>]$</tt> they can be marked
   <tt>LOCAL</tt> and disappear at the end of the block. Otherwise,
   they persist until expressly deleted or until the interpreter in
-  whose context they reside exits.</p>
+  whose context they reside exits.<br>
+  <br>
+  A string in Ublu is parsed from a sequence of plainwords wrapped
+  by&nbsp; <tt>${</tt> and <tt>}$</tt> e.g. <tt>${ hi there }$</tt>
+  Many commands in Ublu will take either a string, a plainword, or
+  a variable as an argument. This is symbolized in the command
+  descriptions in the Ublu Reference by <tt>~@{something}</tt>.
+  <small><i>The ~ means also that the argument to the dash-command
+  can be popped from Ublu's LIFO stack.<br></i></small><br>
+  An execution block is a body of Ublu program text wrapped in
+  <tt>$[</tt> and <tt>]$</tt> . Execution blocks are used as the
+  body of control constructs, such as <tt>IF</tt> ... <tt>THEN</tt>
+  ... <tt>ELSE</tt> , function definitions and <tt>TRY</tt> ...
+  <tt>CATCH</tt> , e.g.<br>
+
+  <blockquote>
+    <tt>IF @trueorfalse THEN $[ joblist -as400 @myserver -to @jl
+    ]$</tt><br>
+  </blockquote>
 
   <h2>What are those dash thingies after Ublu commands?</h2>The
   dash-commands after Ublu commands pass arguments to the command,
@@ -745,7 +769,6 @@ message queue instance."<br>
     <tt>as400 -- @someServer -connected</tt><br>
   </blockquote>since, for the as400 command, <tt>--</tt> represents
   <tt>-as400</tt>.<br>
-  <br>
 
   <h2>What is a <tt>put</tt> ?</h2>&nbsp;The <tt>as400</tt> command
   stored <tt>-to @myServer</tt> which variable was then passed to
