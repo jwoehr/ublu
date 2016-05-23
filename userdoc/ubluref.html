@@ -1405,8 +1405,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         "#tuple">tuple</a></tt><tt><br></tt> <tt><a href=
         "#WHILE">WHILE</a></tt><tt><br></tt> <tt><a href=
         "#bang">!</a></tt><tt><br></tt> <tt><a href=
-        "#_-_or_-_">#</a></tt> <a href="#_-_or_-_">or</a>
-        <tt><a href="#_-_or_-_">#!</a></tt></td>
+        "#comment_introducer">#</a></tt> <a href=
+        "#comment_introducer">or</a> <tt><a href=
+        "#comment_introducer">#!</a></tt></td>
 
         <td valign="top"><tt><a href=
         "#as400">as400</a></tt><tt><br></tt> <tt><a href=
@@ -1537,8 +1538,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="as400" id="as400"></a><tt>as400</tt><br></h4>
 
   <blockquote>
-    <tt>3? [-to @var] [--,-as400,-from @var] [-instance |
-    -connectsvc
+    <tt>/3? [-to @var] [--,-as400,-from @var] [-instance | -alive |
+    -alivesvc
+    ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
+    | -connectsvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -connectedsvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
@@ -1550,8 +1553,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} |
     -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to,
-    query connection, or disconnect from an as400
-    system&nbsp;&nbsp;&nbsp;</tt><br>
+    query connection, or disconnect from an as400 system</tt><br>
     <br>
     Creates an object instance representing an AS400 system and
     manipulates that object. The instance is intended to be stored
@@ -1583,6 +1585,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <ul>
       <li><tt>-instance</tt> instances and puts the <tt>as400</tt>
       instance.</li>
+
+      <li>
+        <tt>-alive</tt> puts <tt>true</tt> if the as400 instance
+        passed to the <tt>-as400</tt> <i>@var</i> dash-command is
+        connected to <b>any</b> service and that connection is
+        alive, <tt>false</tt> otherwise.
+
+        <ul>
+          <li><b>Note:</b> on i Series OS prior to 7.1
+          <tt>alive</tt> behaves the same as
+          <tt>-connected</tt>.</li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-alivesvc</tt> puts <tt>true</tt> if the <tt>as400</tt>
+        instance is connected (<tt>false</tt> otherwise) to the
+        specified service, one of
+        <tt>CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON</tt>
+        and that connection is alive.
+
+        <ul>
+          <li><b>Note:</b> on i Series OS prior to 7.1
+          <tt>-alivesvc</tt> behaves the same as
+          <tt>-connectedsvc</tt>.</li>
+        </ul>
+      </li>
 
       <li>
         <tt>-connectsvc</tt> connects the <tt>as400</tt> instance
@@ -2441,10 +2470,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     manipulate monitoring datapoints</tt><br>
     <br>
     The <tt>dpoint</tt> command <tt>put</tt>s a correctly formed
-    SystemShepherd datapoint. The datapoint can be partially or
-    fully created and subsquently modified (when an extant
-    datapoint is referenced via the <tt>-dpoint</tt> <a href=
-    "#Dash_Command">dash-command</a>.<br>
+    <a href=
+    "http://www.absolute-performance.com/application-performance-management/system-shepherd-performance-monitoring/">
+    SystemShepherd &reg;</a> datapoint. The datapoint can be
+    partially or fully created and subsquently modified (when an
+    extant datapoint is referenced via the <tt>-dpoint</tt>
+    <a href="#Dash_Command">dash-command</a>.<br>
     <br>
     The dash-commands that define the datapoint are as follows:<br>
 
@@ -6898,7 +6929,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     }$ lifo -depth</tt><br>
   </blockquote>
 
-  <h4><a name="_-_or_-_"></a><tt><a name="comment_introducer" id=
+  <h4><tt><a name="comment_introducer" id=
   "comment_introducer">#</a></tt>&nbsp;<i>-&nbsp;or&nbsp;-</i>&nbsp;<tt>#!</tt></h4>
 
   <blockquote>
