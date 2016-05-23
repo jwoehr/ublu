@@ -22,11 +22,15 @@
     <tbody>
       <tr>
         <td bgcolor="#000000" align="center" valign="middle">
-        <font color="#66FFFF"><big><big>Guide</big></big><br>
-        to the<br>
-        <b><big><big><big>Ublu</big></big></big></b><br>
-        Midrange and Mainframe<br>
-        Life Cycle Extension Language<br></font></td>
+          <font color="#66FFFF"><big><big>Guide</big></big><br>
+          to the<br></font>
+
+          <h1><a class="mozTocH1" name=
+          "mozTocId88081"></a><font color=
+          "#66FFFF">Ublu</font></h1><font color="#66FFFF">Midrange
+          and Mainframe<br>
+          Life Cycle Extension Language<br></font>
+        </td>
 
         <th bgcolor="#000000" align="center" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
@@ -49,9 +53,65 @@
     </tbody>
   </table>
 
-  <h2>Who is this Guide for?</h2>It's for people who have
-  downloaded and built Ublu, read enough of the <a href=
-  "ubluref.html">Ublu Reference</a> to know how to launch <a href=
+  <h1><a class="mozTocH1" name="mozTocId986452"></a> Table of
+  Contents</h1>
+
+  <ul id="mozToc">
+    <!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6-->
+
+    <li><a href="#mozTocId88081">Ublu</a></li>
+
+    <li>
+      <a href="#mozTocId986452">Table of Contents</a>
+
+      <ul>
+        <li><a href="#mozTocId754622">Who is this Guide
+        for?</a></li>
+
+        <li><a href="#mozTocId185961">Why Ublu?</a></li>
+
+        <li><a href="#mozTocId809903">What does Ublu do?</a></li>
+
+        <li>
+          <a href="#mozTocId723509">Quick Tour of the Ublu
+          Language</a>
+
+          <ul>
+            <li><a href=
+            "#mozTocId152770">examples/autoreply.ublu</a></li>
+
+            <li><a href=
+            "#mozTocId850587">examples/autoreply.sh</a></li>
+
+            <li><a href="#mozTocId987283">Understanding
+            examples/autoreply.ublu</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#mozTocId772969">What are the data types in
+        Ublu?</a></li>
+
+        <li><a href="#mozTocId379708">What are those dash thingies
+        after Ublu commands?</a></li>
+
+        <li><a href="#mozTocId58628">What is a put ?</a></li>
+
+        <li>
+          <a href="#mozTocId722916">Notes</a>
+
+          <ul>
+            <li><a href=
+            "#mozTocId810320">ublu.util.Interpreter.loop()</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2><a class="mozTocH2" name="mozTocId754622"></a>Who is this
+  Guide for?</h2>It's for people who have downloaded and built
+  Ublu, read enough of the <a href="ubluref.html">Ublu
+  Reference</a> to know how to launch <a href=
   "https://github.com/jwoehr/ublu">Ublu</a>, and now want an
   introduction to using Ublu.<br>
   <br>
@@ -59,8 +119,9 @@
   not want to bother with is written <small><i>like this in small
   italics</i><big>.</big></small><br>
 
-  <h2>Why Ublu?</h2>I wrote Ublu because I wanted a language to run
-  on OpenBSD/Mac/Linux/Windows that could do systems programming on
+  <h2><a class="mozTocH2" name="mozTocId185961"></a>Why Ublu?</h2>I
+  wrote Ublu because I wanted a language to run on
+  OpenBSD/Mac/Linux/Windows that could do systems programming on
   IBM i Series OS &#174;. I was supporting my consulting clients by
   writing individual utility programs using <a href=
   "http://jt400.sourceforge.net/">JTOpen</a> which I have used
@@ -105,7 +166,8 @@
   <br>
   I hope you find Ublu useful.<br>
 
-  <h2>What does Ublu do?</h2>
+  <h2><a class="mozTocH2" name="mozTocId809903"></a>What does Ublu
+  do?</h2>
 
   <ul>
     <li>Ublu is an interpreter with full language features such as
@@ -142,14 +204,14 @@
   dependencies as well as documenting every command and facility
   built into Ublu.<br>
 
-  <h2>Quick Tour of the Ublu Language</h2>The heart of the Ublu
-  language is a text interpreter loop. There can be multiple nested
-  or branching interpreter instances with different variable spaces
-  in one Ublu session, but basically they're all doing the same
-  sort of thing: an outer input loop is getting input and running
-  an inner interpretive <a href=
-  "#ublu.util.Interpreter.loop">loop</a> to interpret a single line
-  of text.<br>
+  <h2><a class="mozTocH2" name="mozTocId723509"></a>Quick Tour of
+  the Ublu Language</h2>The heart of the Ublu language is a text
+  interpreter loop. There can be multiple nested or branching
+  interpreter instances with different variable spaces in one Ublu
+  session, but basically they're all doing the same sort of thing:
+  an outer input loop is getting input and running an inner
+  interpretive <a href="#ublu.util.Interpreter.loop">loop</a> to
+  interpret a single line of text.<br>
   <br>
   <small><i>There are actually several different but very similar
   loops, e.g., the debugger interpreter loop is different from the
@@ -230,7 +292,8 @@
   dir structure to your</small></i> <small><tt>$HOME/.vim</tt>
   <i>directory</i></small><i><small>.</small></i><br>
 
-  <h3><tt>examples/autoreply.ublu</tt></h3>
+  <h3><a class="mozTocH3" name=
+  "mozTocId152770"></a><tt>examples/autoreply.ublu</tt></h3>
   <pre>
 <font color="#000000"><span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
@@ -313,7 +376,8 @@ system and queue.Here is the <tt>gensh</tt>-generated&nbsp; shell
 script to run the top-level function <tt>autoreply</tt> from the
 program <tt>autoreply.ublu</tt><br>
 
-  <h3><tt>examples/autoreply.sh</tt></h3>
+  <h3><a class="mozTocH3" name=
+  "mozTocId850587"></a><tt>examples/autoreply.sh</tt></h3>
   <pre>
 <font color="#000000"><span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">   1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.sh</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font><font color="#CC0000"> </font>
@@ -493,7 +557,7 @@ program <tt>autoreply.ublu</tt><br>
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">  88 </font></span></font><br>
 </pre>
 
-  <h3><a name=
+  <h3><a class="mozTocH3" name="mozTocId987283"></a><a name=
   "Understanding_examplesautoreply.ublu"></a>Understanding
   <tt>examples/autoreply.ublu</tt></h3>
   <pre>
@@ -674,7 +738,8 @@ message queue instance."<br>
 
   <p>We'll answer those questions next.<br></p>
 
-  <h2>What are the data types in Ublu?</h2>
+  <h2><a class="mozTocH2" name="mozTocId772969"></a>What are the
+  data types in Ublu?</h2>
 
   <p>Ublu can be described as an "object-disoriented
   language".<br></p>
@@ -737,9 +802,10 @@ message queue instance."<br>
     ]$</tt><br>
   </blockquote>
 
-  <h2>What are those dash thingies after Ublu commands?</h2>The
-  dash-commands after Ublu commands pass arguments to the command,
-  often objects being kept in variables.
+  <h2><a class="mozTocH2" name="mozTocId379708"></a>What are those
+  dash thingies after Ublu commands?</h2>The dash-commands after
+  Ublu commands pass arguments to the command, often objects being
+  kept in variables.
 
   <blockquote>
     <p><tt>as400 -to @myServer somehostname.com someuserid
@@ -770,9 +836,10 @@ message queue instance."<br>
   </blockquote>since, for the as400 command, <tt>--</tt> represents
   <tt>-as400</tt>.<br>
 
-  <h2>What is a <tt>put</tt> ?</h2>&nbsp;The <tt>as400</tt> command
-  stored <tt>-to @myServer</tt> which variable was then passed to
-  joblist command as <tt>-as400 @myServer<br></tt>
+  <h2><a class="mozTocH2" name="mozTocId58628"></a>What is a
+  <tt>put</tt> ?</h2>&nbsp;The <tt>as400</tt> command stored
+  <tt>-to @myServer</tt> which variable was then passed to joblist
+  command as <tt>-as400 @myServer<br></tt>
 
   <p><tt>-to</tt> is a dash-command to almost every Ublu command.
   It says where the <tt>put</tt> is to go.<br></p>
@@ -788,9 +855,9 @@ message queue instance."<br>
   of <a href="ubluref.html#Datasinks">Data Sinks</a> discussed in
   the Ublu Reference.<br></p>
 
-  <h2>Notes</h2>
+  <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
-  <h3><a name=
+  <h3><a class="mozTocH3" name="mozTocId810320"></a><a name=
   "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>Here
   is the Java code for the interpretive loop.
   <pre>
