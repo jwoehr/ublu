@@ -22,17 +22,41 @@
 </head>
 
 <body>
-  <h1 align="center"><small><small>The concise reference
-  to</small></small><br>
-  Ublu<br>
-  Midrange and Mainframe<br>
-  Life Cycle Extension Language</h1>
+  <table cellspacing="0" border="0" height="456" cellpadding="2"
+  width="100%">
+    <tbody>
+      <tr>
+        <td bgcolor="#000000" align="center" valign="middle">
+          <h1 align="center"><font color=
+          "#33FFFF"><small><small>The concise reference to
+          the</small></small><br>
+          <big>Ublu</big><br>
+          <small>Midrange and Mainframe<br>
+          Life Cycle Extension
+          Language</small></font></h1><font color="#66FFFF">An
+          extensible object-disoriented interpretive language for
+          midrange and mainframe remote system programming</font>
+        </td>
 
-  <h1 align="center"><tt class="western">ublu.Ublu</tt></h1>
+        <th bgcolor="#000000" align="center" valign="middle">
+        <img alt="NASA JPL Candle in Space" title=
+        "NASA JPL Candle in Space" src="images/Candlespace.jpg"
+        height="444" width="400"></th>
 
-  <p align="center"><font style="font-size: 18pt" size="5"><i><b>An
-  extensible object-disoriented interpretive language for midrange
-  and mainframe remote system programming</b></i></font></p>
+        <td bgcolor="#000000" align="center" valign="middle">
+        <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
+        Woehr</font><br>
+        <font color="#33FFFF">jwoehr@softwoehr.com<br>
+        All Rights Reserved<br>
+        <br>
+        SoftWoehr LLC<br>
+        http://www.softwoehr.com<br>
+        PO Box 51<br>
+        Golden, CO 80402-0051<br>
+        USA</font></td>
+      </tr>
+    </tbody>
+  </table>
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
@@ -416,7 +440,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <p>The Java command line <tt>java ublu.Ublu</tt> [args ...]
   invokes an extensible object-disoriented interpretive language
   named Ublu intended for interaction with OS400 (IBM i Series OS
-  &reg;) and IBM z/VM &reg; SMAPI operations programming. The
+  &#174;) and IBM z/VM &#174; SMAPI operations programming. The
   language is multithreaded and offers a client-server mode. It
   also possesses a built-in single-step debugger.<br></p>
 
@@ -2472,7 +2496,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     The <tt>dpoint</tt> command <tt>put</tt>s a correctly formed
     <a href=
     "http://www.absolute-performance.com/application-performance-management/system-shepherd-performance-monitoring/">
-    SystemShepherd &reg;</a> datapoint. The datapoint can be
+    SystemShepherd &#174;</a> datapoint. The datapoint can be
     partially or fully created and subsquently modified (when an
     extant datapoint is referenced via the <tt>-dpoint</tt>
     <a href="#Dash_Command">dash-command</a>.<br>
@@ -3098,15 +3122,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ) }$ : generate launcher shell script</tt><br>
     <br>
     The <tt>gensh</tt> command generates a shell script to launch
-    Ublu with specified arguments. In the generated script,
-    arguments are translated from arguments of user-specified shell
-    script options to <a href="#Tuple_Variables">tuples</a> on the
-    command line of the invocation. The specified file of Ublu
-    functions is <a href="#include">include</a>d and the specified
-    <a href="#Functions">function</a> is invoked with arguments
-    bound to the translated tuple definitions. The resultant script
-    is then put to the destination <a href=
-    "#Datasinks">datasink</a>.<br>
+    Ublu and call your top-level application program function with
+    specified arguments provided via command-line switches as is
+    customary with shell scripts.<br>
+    <br>
+    In the generated script, arguments are translated from
+    arguments of user-specified shell script options to <a href=
+    "#Tuple_Variables">tuples</a> on the command line of the
+    invocation. The specified file of Ublu functions is <a href=
+    "#include">include</a>d and the specified <a href=
+    "#Functions">function</a> is invoked with arguments bound to
+    the translated tuple definitions.<br>
+    <br>
+    The script composed by <tt>gensh</tt> is put to the destination
+    <a href="#Datasinks">datasink</a>. Typically you will write to
+    a file via the <tt>-to</tt> <i>filename</i> <a href=
+    "#Dash_Command">dash-command</a>.<br>
+    <br>
+    The arguments to <tt>gensh</tt> which you use to create your
+    script are preserved in a comment line at the head of the
+    script to aid in the recreation of the script or in the
+    composition of similar scripts.<br>
     <br>
     The dash-commands are as follows:<br>
 
@@ -3546,9 +3582,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <h4><tt>/3</tt> <tt>[-to @var] [-instance] [-port ~@{portnum}]
     [-ssl @null|false_or_usessl] [-usessl] ~@{hostname} ~@{user}
     ~@{password} : instance a smapi host, default port
-    44444</tt><br></h4>The host command creates and instance of a
-    TCP/IP SMAPI host which can then be used as an argument to the
-    <tt>smapi</tt> command.<br>
+    44444</tt><br></h4>The <tt>host</tt> command creates and
+    instance of a TCP/IP reference to a z/VM SMAPI host which can
+    then be used as an argument to the <a href=
+    "#smapi"><tt>smapi</tt></a> command. This is analogous to the
+    use of an <a href="#as400"><tt>as400</tt></a> object to access
+    an i Series OS server.<br>
     <br>
     The <a href="#Dash_Command">dash-commands</a> are as
     follows:<br>
@@ -4502,22 +4541,55 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     Declaring a <tt>LOCAL</tt> outside a block generates an
     error.<br>
     <br>
-    <i>Example (include this file</i><i>)</i><br>
-    <tt><br></tt> <tt>#testlocal.ublu<br>
-    FUNC woof ( a b ) $[ tuple -map<br>
-    &nbsp;&nbsp;&nbsp;&nbsp; LOCAL @i FOR @i in @@a $[ tuple
-    -map<br>
-    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; LOCAL
-    @q put -n -s -to @q ${ @q will disappear }$ put -n -s -from @q
-    put -n -s ${ with a woof upon }$ put -n -s -from @i put -from
-    @@b<br>
-    &nbsp;&nbsp;&nbsp;&nbsp; ]$<br>
-    &nbsp;&nbsp;&nbsp;&nbsp; put -from @q<br>
-    &nbsp;&nbsp;&nbsp;&nbsp; tuple -map<br>
-    ]$<br>
-    put -to @z ${ 1 2 3 }$ put -to @x ${ doggie }$<br>
-    woof ( @z @x )<br>
-    tuple -map</tt><br>
+    <i>Example (include this file from
+    examples/test</i><i>)</i><br>
+    <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testlocal.ublu</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">LOCAL</font><font color="#CC0000"> </font><font color="#CC0000">variable</font><font color="#CC0000"> </font><font color="#CC0000">operation</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#006699"><strong>FUNC</strong></font> woof <font color="#000000"><strong>(</strong></font> a b <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>    <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@i</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@i</font> in <font color="#6600CC">@@a</font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>        <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>        <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@q</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@q</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">@q</font><font color="#FF00CC"> </font><font color="#FF00CC">will</font><font color="#FF00CC"> </font><font color="#FF00CC">disappear</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">with</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">woof</font><font color="#FF00CC"> </font><font color="#FF00CC">upon</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@i</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@b</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>      <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font> 
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@z</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">1</font><font color="#FF00CC"> </font><font color="#FF00CC">2</font><font color="#FF00CC"> </font><font color="#FF00CC">3</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@x</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">doggie</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> 
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>woof <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@z</font> <font color="#0000FF">@x</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>
+</font>
+</pre>
   </blockquote>
 
   <h4><a name="monitor" id="monitor"></a><tt>monitor</tt></h4>
@@ -4702,55 +4774,77 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p>Here is a more sophisticated example which retrieves all
     messages requiring a reply and offers the user a chance to
     reply each.<br></p>
-
-    <p><tt># autoreply.ublu ... find and reply to *INQ &amp;
-    *NOTIFY messages in a give MSGQ<br>
-    # jack j. woehr jwoehr@absolute-peformance.com
-    jwoehr@softwoehr.com<br>
-    # 2015-03-10<br>
-    <br>
-    # instance message queue<br>
-    FUNC getMsgQ ( system user password ifspath msgq ) $[<br>
-    &nbsp;&nbsp;&nbsp; LOCAL @as400<br>
-    &nbsp;&nbsp;&nbsp; as400 -to @as400 @@system @@user
-    @@password<br>
-    &nbsp;&nbsp;&nbsp; msgq -to @@msgq -as400 @as400 -instance
-    @@ifspath<br>
-    ]$<br>
-    <br>
-    # get list of messages needing reply<br>
-    FUNC getReplyMsgs ( msgq replylist ) $[<br>
-    &nbsp;&nbsp;&nbsp; msgq -- @@msgq -query -reply -to
-    @@replylist<br>
-    ]$<br>
-    <br>
-    # get messages, walk list and offer user chance to reply to
-    each<br>
-    FUNC autoreply ( system user password ifspath ) $[<br>
-    &nbsp;&nbsp;&nbsp; LOCAL @msgq LOCAL @replylist<br>
-    &nbsp;&nbsp;&nbsp; LOCAL @msg LOCAL @key<br>
-    &nbsp;&nbsp;&nbsp; LOCAL @answer LOCAL @tf LOCAL @reply<br>
-    &nbsp;&nbsp;&nbsp; getMsgQ ( @@system @@user @@password
-    @@ifspath @msgq )<br>
-    &nbsp;&nbsp;&nbsp; getReplyMsgs ( @msgq @replylist )<br>
-    &nbsp;&nbsp;&nbsp; FOR @msg in @replylist $[<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; msg -- @msg -to @key
-    -key<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; put -from @msg<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ask -to @answer -say ${
-    Do you wish to reply to this message? (y/n) }$<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; test -to @tf -eq @answer
-    y<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; IF @tf THEN $[<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ask
-    -to @reply -say ${ Please enter your reply }$<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; msgq
-    -- @msgq -sendreplybinkey @key @reply<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; put ${
-    Reply sent. }$<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ]$<br>
-    &nbsp;&nbsp;&nbsp; ]$<br>
-    ]$</tt><br></p>
+    <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jack</font><font color="#CC0000"> </font><font color="#CC0000">j.</font><font color="#CC0000"> </font><font color="#CC0000">woehr</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-10</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">instance</font><font color="#CC0000"> </font><font color="#CC0000">message</font><font color="#CC0000"> </font><font color="#CC0000">queue</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-instance</strong></font> <font color="#6600CC">@@ifspath</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">needing</font><font color="#CC0000"> </font><font color="#CC0000">reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#006699"><strong>FUNC</strong></font> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>msgq</strong></font> replylist <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-query</strong></font> <font color="#0099FF"><strong>-reply</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@replylist</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">messages,</font><font color="#CC0000"> </font><font color="#CC0000">walk</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">offer</font><font color="#CC0000"> </font><font color="#CC0000">user</font><font color="#CC0000"> </font><font color="#CC0000">chance</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">each</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#006699"><strong>FUNC</strong></font> autoreply <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@msgq</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@replylist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@key</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@answer</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@tf</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span>    getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font> <font color="#6600CC">@@ifspath</font> <font color="#0000FF">@msgq</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>    getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@msgq</font> <font color="#0000FF">@replylist</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@msg</font> in <font color="#0000FF">@replylist</font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span>        <font color="#009966"><strong>msg</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#0000FF">@msg</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@key</font> <font color="#0099FF"><strong>-key</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@msg</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span>        <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@answer</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Do</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">wish</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">message?</font><font color="#FF00CC"> </font><font color="#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span>        <font color="#009966"><strong>test</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@tf</font> <font color="#0099FF"><strong>-eq</strong></font> <font color="#0000FF">@answer</font> y
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span>        <font color="#006699"><strong>IF</strong></font> <font color="#0000FF">@tf</font> <font color="#006699"><strong>THEN</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">29 </font></span>            <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@reply</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Please</font><font color="#FF00CC"> </font><font color="#FF00CC">enter</font><font color="#FF00CC"> </font><font color="#FF00CC">your</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">30 </font></span>            <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#0000FF">@msgq</font> <font color="#0099FF"><strong>-sendreplybinkey</strong></font> <font color="#0000FF">@key</font> <font color="#0000FF">@reply</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">31 </font></span>            <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Reply</font><font color="#FF00CC"> </font><font color="#FF00CC">sent.</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">32 </font></span>        <font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">33 </font></span>    <font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">34 </font></span><font color="#000000"><strong>]$</strong></font>
+</font>
+</pre>
   </blockquote>
 
   <h4><a name="num" id="num"></a> <tt>num</tt></h4>
@@ -4961,24 +5055,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </ul>
 
     <p><i>Example</i><br></p>
-
-    <p><tt># listobjs.ublu ... list objects</tt><tt><br></tt> <tt>#
-    jwoehr@absolute-performance.com
-    jwoehr@softwoehr.com</tt><tt><br></tt> <tt>#
-    2015-03-12</tt><tt><br></tt> <tt># example:</tt><tt><br></tt>
-    <tt># listObjs ( mybox qsecofr xyz1234 *ALL FRED *ALL</tt>
-    <tt>)<br></tt> <tt><br></tt> <tt># list specified objects on
-    specified system</tt><tt><br></tt> <tt>FUNC listObjs ( system
-    user password lib name type ) $[</tt><tt><br></tt>
-    <tt>&nbsp;&nbsp;&nbsp; LOCAL @as400 LOCAL @objlist LOCAL
-    @txtlist</tt><tt><br></tt> <tt>&nbsp;&nbsp;&nbsp; as400 -to
-    @as400 @@system @@user @@password</tt><tt><br></tt>
-    <tt>&nbsp;&nbsp;&nbsp; objlist -to @objlist -as400 @as400 -lib
-    @@lib -name @@name -type @@type</tt><tt><br></tt>
-    <tt>&nbsp;&nbsp;&nbsp; objlist -to @txtlist -- @objlist
-    -list</tt><tt><br></tt> <tt>&nbsp;&nbsp;&nbsp; FOR @obj in
-    @txtlist $[ put -from @obj ]$</tt><tt><br></tt>
-    <tt>]$</tt><tt><br></tt> <tt># end</tt><br></p>
+    <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listobjs.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">objects</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-12</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">example:</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listObjs</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">s0mesys</font><font color="#CC0000"> </font><font color="#CC0000">qsecofr</font><font color="#CC0000"> </font><font color="#CC0000">xyz1234</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">FRED</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">objects</font><font color="#CC0000"> </font><font color="#CC0000">on</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">system</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> listObjs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password lib name type <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@objlist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@txtlist</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@objlist</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-lib</strong></font> <font color="#6600CC">@@lib</font> <font color="#0099FF"><strong>-name</strong></font> <font color="#6600CC">@@name</font> <font color="#0099FF"><strong>-type</strong></font> <font color="#6600CC">@@type</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@txtlist</font> <font color="#0099FF"><strong>--</strong></font> <font color="#0000FF">@objlist</font> <font color="#0099FF"><strong>-list</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@obj</font> in <font color="#0000FF">@txtlist</font> <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@obj</font> <font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">end</font>
+</font>
+</pre>
   </blockquote>
 
   <h4><a name="outq" id="outq"></a><tt>outq</tt></h4>
@@ -5807,7 +5916,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     "http://pigiron.sourceforge.net/">PigIron</a> library to
     execute a <a href=
     "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm">
-    z/VM &reg; SMAPI</a> function on the <a href="#host">host</a>
+    z/VM &#174; SMAPI</a> function on the <a href="#host">host</a>
     designated by <tt>~@host</tt> .<br>
     <br>
     The easiest way to make SMAPI calls is to use the functions
