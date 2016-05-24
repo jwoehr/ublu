@@ -59,27 +59,23 @@ public class CmdDo extends Command {
         if (block == null) {
             getLogger().log(Level.SEVERE, "DO found without a $[ block ]$");
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (startTuple == null) {
+            getLogger().log(Level.SEVERE, "Iterated tuple does not exist in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (limitTuple == null) {
+            getLogger().log(Level.SEVERE, "Limit tuple does not exist in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (startTuple == null) {
-                getLogger().log(Level.SEVERE, "Iterated tuple does not exist in {0}", getNameAndDescription());
-                setCommandResult(COMMANDRESULT.FAILURE);
+            Parser p = new Parser(getInterpreter(), block);
+            ArgArray aa = p.parseAnArgArray();
+            getInterpreter().pushFrame();
+            getInterpreter().setForBlock(true);
+            walkDo(startTuple, limitTuple, aa);
+            if (getInterpreter().isBreakIssued()) {
+                // If a BREAK then the frame was already popped
+                getInterpreter().setBreakIssued(false);
             } else {
-                if (limitTuple == null) {
-                    getLogger().log(Level.SEVERE, "Limit tuple does not exist in {0}", getNameAndDescription());
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                } else {
-                    Parser p = new Parser(getInterpreter(), block);
-                    ArgArray aa = p.parseAnArgArray();
-                    getInterpreter().pushFrame();
-                    getInterpreter().setForBlock(true);
-                    walkDo(startTuple, limitTuple, aa);
-                    if (getInterpreter().isBreakIssued()) {
-                        // If a BREAK then the frame was already popped
-                        getInterpreter().setBreakIssued(false);
-                    } else {
-                        getInterpreter().popFrame();
-                    }
-                }
+                getInterpreter().popFrame();
             }
         }
         return argArray;
@@ -90,7 +86,7 @@ public class CmdDo extends Command {
         int itStart = Integer.parseInt(startTuple.getValue().toString());
         int itLimit = Integer.parseInt(limitTuple.getValue().toString());
         for (; itStart < itLimit; itStart++) {
-            setTuple(startTuple.getKey(), itStart);
+            startTuple.setValue(itStart);
             copy = new ArgArray(getInterpreter(), argArray);
             getInterpreter().setArgArray(copy);
             setCommandResult(getInterpreter().loop());
