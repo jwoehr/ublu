@@ -1,20 +1,20 @@
 # Functions for data queue access
 
 FUNC showDq ( fqhfspath sys user pwd ) $[
-     LOCAL @as400 LOCAL @dq
-     as400 -to @as400 @@sys @@user @@pwd
-     dq -as400 @as400 -to @dq -instance @@fqhfspath
-     showDqObj ( @dq )
+    LOCAL @as400 LOCAL @dq
+    as400 -to @as400 @@sys @@user @@pwd
+    dq -as400 @as400 -to @dq -instance @@fqhfspath
+    showDqObj ( @dq )
 ]$ 
 
-FUNC showDqObj ( dq ) $[ 
-     put -from @@dq 
-     dq -dq @@dq -query system 
-     dq -dq @@dq -query name 
-     dq -dq @@dq -query maxentrylength 
-     dq -dq @@dq -query fifo
-     dq -dq @@dq -query path 
-     dq -dq @@dq -query description 
-     dq -dq @@dq -peek 
-     put .
+FUNC showDqObj ( dq ) $[
+    put -from @@dq 
+    dq -dq @@dq -query system 
+    dq -dq @@dq -query name 
+    dq -dq @@dq -query maxentrylength 
+    dq -dq @@dq -query fifo
+    dq -dq @@dq -query path 
+    dq -dq @@dq -query description 
+    dq -dq @@dq -peek 
+    put .
 ]$

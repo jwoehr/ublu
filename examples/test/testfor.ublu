@@ -1,3 +1,6 @@
+# testfor.ublu
+# Test the FOR command
+
 put -to @list ${ a b c d e f g }$
 lifo -push @list
 lifo -dup

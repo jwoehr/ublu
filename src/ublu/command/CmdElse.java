@@ -54,14 +54,9 @@ public class CmdElse extends Command {
     public ArgArray doElse(ArgArray argArray) {
         String block = argArray.nextUnlessNotBlock();
         if (block == null) {
-            getLogger().log(Level.SEVERE, "ELSE found withFout a $[ block ]$");
+            getLogger().log(Level.SEVERE, "ELSE found without a $[ block ]$");
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-//            getInterpreter().pushFrame();
-//            Parser p = new Parser(getInterpreter(), block);
-//            getInterpreter().setArgArray(p.parseAnArgArray());
-//            setCommandResult(getInterpreter().loop());
-//            getInterpreter().popFrame();
             setCommandResult(getInterpreter().executeBlock(block));
         }
         return argArray;
