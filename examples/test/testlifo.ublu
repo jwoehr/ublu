@@ -11,3 +11,10 @@ lifo -pick 2
 lifo -show
 lifo -rot
 lifo -show
+put -from ~
+lifo -show
+put -to @atuple ${ this tuple will get put to the stack }$
+put -from @atuple -to ~
+lifo -show
+put -from ~
+lifo -show

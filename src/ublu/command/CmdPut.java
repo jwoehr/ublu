@@ -92,7 +92,7 @@ public class CmdPut extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDest(newDestDataSink(argArray));
                     break;
                 case "-tofile":
                     setDataDest(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
@@ -104,7 +104,7 @@ public class CmdPut extends Command {
                     setDataSrc(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
                     break;
                 case "-#":
-                    number = new Integer(argArray.nextInt());
+                    number = argArray.nextInt();
                     break;
                 case "-append":
                     append = true;
@@ -127,66 +127,73 @@ public class CmdPut extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (number != null) {
+            try {
+                put(number);
+            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                getLogger().log(Level.SEVERE, "Could not put number " + number + " in " + getNameAndDescription(), ex);
+            }
         } else {
-            if (number != null) {
-                try {
-                    put(number.intValue());
-                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                    getLogger().log(Level.SEVERE, "Could not put number " + number + " in " + getNameAndDescription(), ex);
-                }
-            } else {
-                switch (getDataSrc().getType()) {
-                    case FILE:
-                        try {
-                            StringBuilder sb;
-                            try (FileInputStream fis = new FileInputStream(new File(getDataSrc().getName()))) {
-                                sb = new StringBuilder();
-                                byte[] buf = new byte[32767];
-                                while (fis.available() > 0) {
-                                    int numread = fis.read(buf);
-                                    sb.append(new String(buf, 0, numread));
-                                }
+            switch (getDataSrc().getType()) {
+                case FILE:
+                    try {
+                        StringBuilder sb;
+                        try (FileInputStream fis = new FileInputStream(new File(getDataSrc().getName()))) {
+                            sb = new StringBuilder();
+                            byte[] buf = new byte[32767];
+                            while (fis.available() > 0) {
+                                int numread = fis.read(buf);
+                                sb.append(new String(buf, 0, numread));
                             }
-                            put(sb.toString(), append, space, newline);
-                        } catch (FileNotFoundException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception in command put", ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (IOException | SQLException ex) {
-                            getLogger().log(Level.SEVERE, "Exception in command put", ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Exception in command put", ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case TUPLE:
-                        // /* debug */ System.err.println("in case TUPLE in CmdPut");
-                        Tuple tuple = getInterpreter().getTuple(getDataSrc().getName());
-                        if (tuple != null) {
+                        put(sb.toString(), append, space, newline);
+                    } catch (FileNotFoundException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception in command put", ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (IOException | SQLException ex) {
+                        getLogger().log(Level.SEVERE, "Exception in command put", ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        getLogger().log(Level.SEVERE, "Exception in command put", ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case TUPLE:
+                    // /* debug */ System.err.println("in case TUPLE in CmdPut");
+                    Tuple tuple = getInterpreter().getTuple(getDataSrc().getName());
+                    if (tuple != null) {
+                        if (getDataDest().getType().equals(DataSink.SINKTYPE.LIFO)) {
                             try {
-                                new Putter(tuple.getValue(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
+                                new Putter(tuple, getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                             } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                                 getLogger().log(Level.SEVERE, "Exception in command put", ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
                             try {
-                                new Putter(null, getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
+                                new Putter(tuple.getValue(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                             } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                                 getLogger().log(Level.SEVERE, "Exception in command put", ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
-                        break;
-                    case STD:
+                    } else {
                         try {
-                            new Putter(argArray.nextMaybeQuotation(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
+                            new Putter(null, getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                         } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Exception in command put", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                }
+                    }
+                    break;
+                case STD:
+                    try {
+                        new Putter(argArray.nextMaybeQuotation(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
+                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        getLogger().log(Level.SEVERE, "Exception in command put", ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
             }
         }
         return argArray;

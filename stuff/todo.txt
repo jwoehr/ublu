@@ -20,3 +20,5 @@ Look at programcall and savf
 CmdInterpret should take tuplepopstring probably in -from
 2015-08-17
 CmdSavf may need doc and spec cleanup
+2016-05-24
+Putting / Data Sink etc. needs more work w/r/t LIFO stack

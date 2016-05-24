@@ -560,6 +560,20 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * Analyze next lex and return a new data sink. 
+     * This method became necessary when we started putting to ~ the LIFO.
+     * The original method newDataSink assumed all references to ~ are pops.
+     * This needs to be fixed globally.
+     *
+     * @param argArray the interpreter arg array
+     * @return a new data sink based on what was parsed
+     */
+    public DataSink newDestDataSink(ArgArray argArray) {
+        String sinkName = argArray.next();
+        return DataSink.fromSinkName(sinkName);
+    }
+
+    /**
      * Don't allow null strings coming from non-existent tuples. Set command
      * failure if non-existent tuple provided.
      *

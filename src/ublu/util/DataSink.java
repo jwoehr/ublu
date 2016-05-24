@@ -36,7 +36,8 @@ public class DataSink {
     /**
      * The type of the data source or destination used by a
      * {@link ublu.command.Command} extender.
-     * <p> The types of data sink are:
+     * <p>
+     * The types of data sink are:
      * <ul>
      * <li>file - a text file </li>
      * <li>url - a hyperlink (not currently used)</li>
@@ -66,7 +67,11 @@ public class DataSink {
         /**
          * null device i.e., nowhere
          */
-        NUL
+        NUL,
+        /**
+         * Tuple stack
+         */
+        LIFO
     }
     private SINKTYPE type;
     private String name;
@@ -86,6 +91,8 @@ public class DataSink {
             sinkType = SINKTYPE.NUL;
         } else if (name.equals("STD:")) {
             sinkType = SINKTYPE.STD;
+        } else if (name.equals("~")) {
+            sinkType = SINKTYPE.LIFO;
         } else {
             sinkType = SINKTYPE.FILE;
         }

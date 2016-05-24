@@ -34,10 +34,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 /**
  * Puts objects to a {@link DataSink}.
- * <p>A Putter can put Objects (including strings) to an output sink. Sometimes
+ * <p>
+ * A Putter can put Objects (including strings) to an output sink. Sometimes
  * that sink is standard out, sometimes it is a file, sometimes it is a tuple
  * var. This allows us to treat a {@code String} the same as a
  * {@code ResultSet}.</p>
@@ -124,7 +126,7 @@ public class Putter {
 
     /**
      * Create instance to put an object via an the Interpreter we are servicing
- with a specified charset
+     * with a specified charset
      *
      * @param object object to put
      * @param interpreter Interpreter instance we are servicing
@@ -167,29 +169,6 @@ public class Putter {
      */
     public void put(DataSink destDataSink, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
         put(destDataSink, false, newline);
-        //        String stringdata;
-//        switch (destDataSink.getType()) {
-//            case FILE:
-//                stringdata = new Renderer(getObject(), getCharsetName()).asString();
-//                try (FileOutputStream fileOut = new FileOutputStream(destDataSink.getName())) {
-//                    fileOut.write(stringdata.getBytes());
-//                } catch (IOException ex) {
-//                    getInterpreter().getLogger().log(Level.SEVERE, "Error writing file", ex);
-//                }
-//                break;
-//            case TUPLE:
-//                getInterpreter().setTuple(destDataSink.getName(), getObject());
-//                break;
-//            case STD:
-//            default:
-//                stringdata = new Renderer(getObject(), getCharsetName()).asString();
-//                if (newline) {
-//                    getInterpreter().getOutputStream().println(stringdata);
-//                } else {
-//                    getInterpreter().getOutputStream().print(stringdata);
-//                }
-//                break;
-//        }
     }
 
     /**
@@ -270,6 +249,14 @@ public class Putter {
                     getInterpreter().getOutputStream().println(stringdata);
                 } else {
                     getInterpreter().getOutputStream().print(stringdata);
+                }
+                break;
+            case LIFO:
+                if (getObject().getClass().equals(ublu.util.Tuple.class)) {
+                    getInterpreter().getTupleStack().push(ublu.util.Tuple.class.cast(getObject()));
+                }
+                else {
+                    getInterpreter().getLogger().log(Level.SEVERE, "Attempt to put non-tuple to Tuple Stack");
                 }
                 break;
             case NUL:
