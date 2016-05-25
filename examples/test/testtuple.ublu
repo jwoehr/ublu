@@ -1,4 +1,7 @@
 # test tuples and param sub tuples
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
 
 FUNC tupleDelete ( tup ) $[ tuple -delete @@tup ]$
 FUNC tupleExists ( tup ) $[ tuple -exists @@tup ]$
