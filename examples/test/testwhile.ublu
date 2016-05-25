@@ -1,3 +1,8 @@
+# Test WHILE control flow
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
 tuple -true @continue
 put -to @index -# -3
 WHILE @continue $[
