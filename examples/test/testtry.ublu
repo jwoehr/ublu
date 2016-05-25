@@ -1,13 +1,17 @@
 # testtry.ublu ... test TRY CATCH THROW
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
 
 FUNC testTry ( ) $[
 	TRY $[
 		put ${ outer try block }$
 		TRY $[
 			put ${ inner TRY block }$
-			THROW oops
+			put -to @myerr oops
+			THROW @myerr
 		]$ CATCH $[
-			put ${ caught the oops }$
+			put -n ${ caught the }$ put -from @myerr
 		]$
 		put ${ continuing outer TRY }$
 	]$ CATCH $[
