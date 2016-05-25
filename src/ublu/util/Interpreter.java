@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -769,6 +771,17 @@ public class Interpreter {
     }
 
     /**
+     * Copy ctor New instance spawned from another instance with args passed in
+     *
+     * @param i Instance to spawn from
+     * @param args the args
+     */
+    public Interpreter(Interpreter i, String args) {
+        this(i);
+        setArgArray(new Parser(this, args).parseAnArgArray());
+    }
+
+    /**
      * Initialize internals such as tuple map to store variables.
      */
     protected Interpreter() {
@@ -1063,7 +1076,7 @@ public class Interpreter {
                     break;
                 } catch (java.lang.RuntimeException ex) {
                     /* java.net.UnknownHostException lands here, as well as  */
-                    /* com.ibm.as400.access.ExtendedIllegalArgumentException */
+ /* com.ibm.as400.access.ExtendedIllegalArgumentException */
                     getLogger().log(Level.SEVERE, "Command \"" + commandName + "\" threw exception", ex);
                     lastCommandResult = COMMANDRESULT.FAILURE;
                     break;

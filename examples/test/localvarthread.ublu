@@ -1,20 +1,39 @@
-# Test background threading with local vars
-# runIt ( 99 ) should work
+# Test background threading with local vars and global vars.
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
 
+# A simple function to run in a thread
 FUNC localVarThread ( var ) $[
-    LOCAL @myvar LOCAL @start LOCAL @end 
-    put @@var eval -to @myvar + 1 @@var
-    put -to @start 1 put -to @end 9 
-    DO @start @end $[ eval -to @myvar + @myvar 1 put -from @myvar  system ${ sleep 10 }$ ]$
+    LOCAL @myvar 
+    LOCAL @start 
+    LOCAL @end 
+    put -from @@var 
+    eval -to @myvar + 1 @@var
+    put -to @start 1
+    put -to @end 9 
+    DO @start @end $[
+        eval -to @myvar + @myvar 1 put -from @myvar  system ${ sleep 10 }$
+    ]$
     put done!
 ]$
 
+# Doesn't work with locals.
+# Locals in the calling function don't exist in the context of the created thread.
+FUNC runItLocal ( number ) $[    
+    LOCAL @x
+    put -to @x 100000
+    eval -to @x + @@number 7
+    put -to @p ${ localVarThread ( @x ) }$
+    thread -to @t -from @p
+    thread -thread @t -start
+]$
+
+# This works, uses a global variable  
 FUNC runIt ( number ) $[
 	put -to @x 100000
-	LOCAL @x
 	eval -to @x + @@number 7
 	put -to @p ${ localVarThread ( @x ) }$
 	thread -to @t -from @p
 	thread -thread @t -start
 ]$
-

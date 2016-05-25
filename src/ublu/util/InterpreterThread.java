@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,8 +38,7 @@ import java.util.logging.Logger;
  * @author jwoehr
  */
 public class InterpreterThread extends Thread {
-    
-    private Ublu ublu;
+
     private Interpreter interpreter;
 
     /**
@@ -59,30 +60,12 @@ public class InterpreterThread extends Thread {
     }
 
     /**
-     * Associated Ublu instance
-     *
-     * @return Associated Ublu instance
-     */
-    protected final Ublu getUblu() {
-        return ublu;
-    }
-
-    /**
-     * Associated Ublu instance
-     *
-     * @param ublu Associated Ublu instance
-     */
-    protected final void setUblu(Ublu ublu) {
-        this.ublu = ublu;
-    }
-
-    /**
      * Associated logger
      *
      * @return Associated logger
      */
     protected Logger getLogger() {
-        return getUblu().getLogger();
+        return getInterpreter().getMyUblu().getLogger();
     }
 
     /**
@@ -93,37 +76,6 @@ public class InterpreterThread extends Thread {
     }
 
     /**
-     *
-     * @param ublu
-     */
-    protected InterpreterThread(Ublu ublu) {
-        this();
-        setUblu(ublu);
-    }
-
-    /**
-     * Ctor sets associated Ublu and string array of args
-     *
-     * @param ublu the program instance
-     * @param args the string array of args
-     */
-    protected InterpreterThread(Ublu ublu, String[] args) {
-        this(ublu);
-        setInterpreter(new Interpreter(args, ublu));
-    }
-
-    /**
-     * Ctor sets associated Ublu and string of args
-     *
-     * @param ublu the program instance
-     * @param args the string args
-     */
-    protected InterpreterThread(Ublu ublu, String args) {
-        this(ublu);
-        setInterpreter(new Interpreter(args, ublu));
-    }
-
-    /**
      * ctor/2 from source interpreter which launched this one plus args. Copies
      * in deep the tuple map from the source.
      *
@@ -131,8 +83,8 @@ public class InterpreterThread extends Thread {
      * @param args program for the thread to interpret
      */
     public InterpreterThread(Interpreter srcInterpreter, String args) {
-        this(srcInterpreter.getMyUblu(), args);
-        getInterpreter().getTupleMap().copyDeep(srcInterpreter.getTupleMap());
+        this();
+        setInterpreter(new Interpreter(srcInterpreter, args));
     }
 
     /**
@@ -143,7 +95,7 @@ public class InterpreterThread extends Thread {
     protected void threadedInterpret() throws IOException {
         getInterpreter().loop();
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -158,7 +110,7 @@ public class InterpreterThread extends Thread {
         sb.append("Interrupted: ").append(this.isInterrupted()).append(" ||");
         return sb.toString();
     }
-    
+
     @Override
     public void run() {
         try {
