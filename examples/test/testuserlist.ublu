@@ -1,4 +1,8 @@
 # testuserlist.ublu ... get all the user names on a system from a userlist command
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
 FUNC testUserList ( as400 ) $[
 	LOCAL @users
 	userlist -to @users -as400 @@as400
