@@ -1,18 +1,25 @@
 # run TASK from various datasources
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+
 # to make it stop at the end : tuple -false @whiletrue
 
-put -to @p ${ include localvarthread.os4 localVarThread ( 99 ) }$ 
+put -to @y 77
+put -to @p ${ include localvarthread.ublu localVarThread ( @y ) }$ 
 TASK -from @p -start
-put -from @p -to foo.pgm 
-put -from foo.pgm 
+put -to @x 88 
+put -to foo.pgm ${ localVarThread ( @x ) }$
 TASK -from foo.pgm -start
-put -to @x 99 
-TASK -start $[ put -from @x ]$
+put -to @z 99
+TASK -start $[ put -from @z ]$
 tuple -true @whiletrue 
-TASK -to @task $[ WHILE @whiletrue $[ put -from @x system ${ sleep 5 }$ ]$ ]$ 
+put -to @q 44
+TASK -to @task $[ WHILE @whiletrue $[ put -from @q system ${ sleep 5 }$ ]$ ]$ 
 put -from @task
 thread -- @task -start
-put -to @x 88
+put -to @x 812345
 put ${ you can change the var with put -to @x WOOF or something like that }$
 put ${ to stop the background task use : tuple -false @whiletrue }$
 
