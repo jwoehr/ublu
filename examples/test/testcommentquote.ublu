@@ -1,0 +1,19 @@
+# test comment quote
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+FUNC cq ( param ) $[
+  \\ -to @foo zog  
+  put -from @@param
+  \\ -to @bar ${ this is an extended comment }$
+  put -from @@param
+  \\ ${ this is also an extended comment }$
+  put -from @@param
+  put ${ done function }$
+]$
+put -to @myparam ${ a test param }$
+cq ( @myparam )
+put -from @foo
+put -from @bar
+# done

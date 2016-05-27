@@ -119,6 +119,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("!", CmdBang.class);
         put("#", CmdComment.class);
         put("#!", CmdComment.class);
+        put("\\\\",CmdCommentQuote.class);
     }
 
     /**
