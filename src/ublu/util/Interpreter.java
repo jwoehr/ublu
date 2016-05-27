@@ -30,7 +30,6 @@ package ublu.util;
 import ublu.Ublu;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import ublu.command.CommandInterface;
 import ublu.command.CommandInterface.COMMANDRESULT;
 import ublu.command.CommandMap;
