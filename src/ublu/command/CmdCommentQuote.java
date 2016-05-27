@@ -43,8 +43,8 @@ import java.util.logging.Level;
 public class CmdCommentQuote extends Command {
 
     {
-        setNameAndDescription("\\",
-                "/1 [-to datasink] ${ some text, usually a comment }  : redirect a quotation to a datasink or simply make a line comment");
+        setNameAndDescription("\\\\",
+                "/1 [-to datasink] ${ some text, usually a comment }  : redirect a quotation to a datasink or simply make an enclosed comment");
     }
 
     /**

@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 23 May 2016 18:03:36 UTC">
+  "Fri, 27 May 2016 23:21:45 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table cellspacing="0" border="0" height="456" cellpadding="2"
-  width="100%">
+  <table width="100%" border="0" height="456" cellpadding="2"
+  cellspacing="0">
     <tbody>
       <tr>
-        <td bgcolor="#000000" align="center" valign="middle">
+        <td align="center" bgcolor="#000000" valign="middle">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th bgcolor="#000000" align="center" valign="middle">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        height="444" width="400"></th>
+        width="400" height="444"></th>
 
-        <td bgcolor="#000000" align="center" valign="middle">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -367,7 +367,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             or -</i>&nbsp;</a><tt><a href=
             "#comment_introducer">#!</a></tt></li>
 
-            <li><tt><a href="#bang">!</a><br></tt></li>
+            <li><tt><a href="#bang">!</a></tt></li>
+
+            <li><a href="#comment_quote"><tt>\\</tt></a></li>
           </ul>
         </li>
       </ul>
@@ -1373,7 +1375,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table cellspacing="2" border="1" cellpadding="2" width="100%">
+  <table width="100%" border="1" cellpadding="2" cellspacing="2">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -5296,8 +5298,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellspacing="2" border="1" cellpadding="2" width=
-      "75%">
+      <table width="75%" border="1" cellpadding="2" cellspacing=
+      "2">
         <tbody>
           <tr>
             <th align="center" valign="top">interpreter
@@ -5849,7 +5851,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellspacing="2" border="1" cellpadding="2" width="100%">
+  <table width="100%" border="1" cellpadding="2" cellspacing="2">
     <tbody>
       <tr>
         <th align="center" valign="top">Ublu main interpretive
@@ -7113,8 +7115,72 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <b>Note</b> that if the above <tt>! !</tt> abbreviation appears
     embedded in a recalled history line to be executed by <tt>!
     !</tt> , the command line fails and issues an error message for
-    recursive usage.<br>
+    recursive usage.
   </blockquote>
+
+  <h3><a name="comment_quote"><tt>\\</tt></a></h3>
+
+  <blockquote>
+    <tt>/1 [-to datasink] ${ some text, usually a comment }&nbsp; :
+    redirect a quotation to a datasink or simply make an enclosed
+    comment</tt><br>
+  </blockquote>The <tt>\\</tt> ("comment-quote") command allows you
+  to use a <tt>${ <a href="#Quoted_strings">quoted string</a>
+  }$</tt> or single <a href="#Plainwords">plainword</a> for an
+  enclosed comment. This is useful in defining functions (e.g.,
+  with <a href="#FUNC"><tt>FUNC</tt></a>) because the line comment
+  command <a href="#comment_introducer"><tt>#</tt></a> can't be
+  used in a function definition's <a href=
+  "#Execution_blocks">execution block</a> since it has the effect
+  of consuming the entire remainder of the block.<br>
+  <br>
+  The string can actually be redirected to a <a href=
+  "#Datasinks">datasink</a> by the <tt>-to</tt> <a href=
+  "#Dash_Command">dash-command</a>, if desired. The default
+  datasink for <tt>\\</tt> is set to <tt>NULL:</tt><br>
+  <br>
+  <i>Example</i>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">quote</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> cq <font color="#000000"><strong>(</strong></font> param <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>  \\ <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@foo</font> zog  
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>  \\ <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@bar</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">an</font><font color="#FF00CC"> </font><font color="#FF00CC">extended</font><font color="#FF00CC"> </font><font color="#FF00CC">comment</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>  \\ <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">also</font><font color="#FF00CC"> </font><font color="#FF00CC">an</font><font color="#FF00CC"> </font><font color="#FF00CC">extended</font><font color="#FF00CC"> </font><font color="#FF00CC">comment</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">done</font><font color="#FF00CC"> </font><font color="#FF00CC">function</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@myparam</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">test</font><font color="#FF00CC"> </font><font color="#FF00CC">param</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>cq <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@myparam</font> <font color="#000000"><strong>)</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@foo</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@bar</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">done</font>
+</font>
+</pre>
 
   <h2><a name="Tips_and_Tricks" id="Tips_and_Tricks"></a> Tips and
   Tricks<br></h2>
