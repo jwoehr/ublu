@@ -17,11 +17,11 @@
 </head>
 
 <body>
-  <table cellpadding="2" border="0" height="456" cellspacing="0"
+  <table height="456" cellspacing="0" cellpadding="2" border="0"
   width="100%">
     <tbody>
       <tr>
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
 
@@ -32,12 +32,12 @@
           Life Cycle Extension Language<br></font>
         </td>
 
-        <th align="center" bgcolor="#000000" valign="middle">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"><br></th>
 
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -577,9 +577,11 @@ of the line.<br>
   lines. The way the interpretive loop does this is that it keeps
   calling for input from the outer parsing loop until it finds the
   closing delimiter. Effectively, the entire execution block is one
-  line. So comments should not be placed inside function bodies or
-  they will comment out the entire function body!<br>
-  <br>
+  line. So line comments (those commented by the <a href=
+  "ubluref.html#comment_introducer"><tt>#</tt></a> command) should
+  not be placed inside function bodies or they will comment out the
+  entire function body! Instead, inside functions use the <a href=
+  "ubluref.html#comment_quote"><tt>\\</tt></a> command.<br>
   <pre>
 <font color="#000000"><span style=
 "background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> $[

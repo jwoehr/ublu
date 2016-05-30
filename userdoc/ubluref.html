@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table width="100%" border="0" height="456" cellpadding="2"
-  cellspacing="0">
+  <table height="456" cellspacing="0" cellpadding="2" border="0"
+  width="100%">
     <tbody>
       <tr>
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th align="center" bgcolor="#000000" valign="middle">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        width="400" height="444"></th>
+        height="444" width="400"></th>
 
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -1375,7 +1375,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table width="100%" border="1" cellpadding="2" cellspacing="2">
+  <table cellspacing="2" cellpadding="2" border="1" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -5298,18 +5298,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table width="75%" border="1" cellpadding="2" cellspacing=
-      "2">
+      <table cellspacing="2" cellpadding="2" border="1" width=
+      "75%">
         <tbody>
           <tr>
-            <th align="center" valign="top">interpreter
+            <th valign="top" align="center">interpreter
             property<br></th>
 
-            <th align="center" valign="top">description<br></th>
+            <th valign="top" align="center">description<br></th>
 
-            <th align="center" valign="top">default value<br></th>
+            <th valign="top" align="center">default value<br></th>
 
-            <th align="center" valign="top">alternative
+            <th valign="top" align="center">alternative
             value(s)<br></th>
           </tr>
 
@@ -5851,13 +5851,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table width="100%" border="1" cellpadding="2" cellspacing="2">
+  <table cellspacing="2" cellpadding="2" border="1" width="100%">
     <tbody>
       <tr>
-        <th align="center" valign="top">Ublu main interpretive
+        <th valign="top" align="center">Ublu main interpretive
         session<br></th>
 
-        <th align="center" valign="top">Another shell
+        <th valign="top" align="center">Another shell
         window<br></th>
       </tr>
 
@@ -7050,10 +7050,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     commands, it must be separated by at least one space from any
     following non-whitespace in order to be recognized.<br>
     <br>
-    <b>Note</b> that comments should not be used inside an <a href=
-    "#Execution_blocks">execution block</a>, which is treated as a
-    single line so the comment character devours everything to the
-    end of the block.<br>
+    <b>Note</b> that line comments introduced by <tt>#</tt> should
+    not be used inside an <a href="#Execution_blocks">execution
+    block</a>, which is treated as a single line so the comment
+    character devours everything to the end of the block. Inside of
+    functions, use the <tt><a href="#comment_quote">\\</a></tt>
+    command instead.<br>
 
     <p>The form <tt>#!</tt> is used as the first line of an
     executable shell script. The interpreter in such a shell script
