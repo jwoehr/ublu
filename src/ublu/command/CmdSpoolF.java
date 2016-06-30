@@ -40,10 +40,17 @@ import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.OutputQueue;
 import com.ibm.as400.access.PrintObject;
 import com.ibm.as400.access.PrintParameterList;
+import com.ibm.as400.access.PrinterFile;
 import com.ibm.as400.access.RequestNotSupportedException;
 import com.ibm.as400.access.SpooledFile;
+import com.ibm.as400.access.SpooledFileOutputStream;
 import java.beans.PropertyVetoException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
@@ -57,7 +64,7 @@ public class CmdSpoolF extends Command {
 
     {
         setNameAndDescription("spoolf",
-                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@${ some text }$] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-delete] | -fetch | [-get createdate|createtime|jobname|jobnumber|jobsysname|jobuser|message|name|number] | [-hold [-immed|-pageend]] | [-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@${outq_on_same_system}$] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top]] system user password name number jobname jobuser jobnumber  : operate on an individual spooled file");
+                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@${ some text }$] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate|createtime|jobname|jobnumber|jobsysname|jobuser|message|name|number] | [-hold [-immed|-pageend]] | [-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@${outq_on_same_system}$] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] system user password name number jobname jobuser jobnumber  : operate on an individual spooled file");
     }
 
     /**
@@ -86,6 +93,10 @@ public class CmdSpoolF extends Command {
         /**
          * Deletes from queue
          */
+        CREATE,
+        /**
+         * Create a spooled file from data
+         */
         DELETE,
         /**
          * Fetch transformed like CmdFetch
@@ -104,11 +115,11 @@ public class CmdSpoolF extends Command {
          */
         INSTANCE,
         /**
-         * Mpves to another position in queue
+         * Moves to another position in queue
          */
         MOVE,
         /**
-         * Mpves to another queue
+         * Moves to another queue
          */
         MOVEQ,
         /**
@@ -142,11 +153,23 @@ public class CmdSpoolF extends Command {
         String answerMessage = null;
         String holdType = "*IMMED";
         String infoToGet = null;
+        /* These for creation of a spool file */
+        PrinterFile creationPrinterFile = null;
+        Tuple creationPrinterFileTuple = null;
+        PrintParameterList creationPPL = null;
+        Tuple creationPPLTuple = null;
+        OutputQueue creationOutQ = null;
+        Tuple creationOutQTuple = null;
+        /* ***** */
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
                     setAs400(getAS400Tuple(argArray.next()));
+                    break;
+                case "-from":
+                    String srcName = argArray.next();
+                    setDataSrc(DataSink.fromSinkName(srcName));
                     break;
                 case "-to":
                     String destName = argArray.next();
@@ -174,6 +197,9 @@ public class CmdSpoolF extends Command {
                 case "-copyq":
                     operation = OPERATIONS.COPYQ;
                     otherQueueTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-create":
+                    operation = OPERATIONS.CREATE;
                     break;
                 case "-delete":
                     operation = OPERATIONS.DELETE;
@@ -205,6 +231,15 @@ public class CmdSpoolF extends Command {
                 case "-pageend":
                     holdType = "*PAGEEND";
                     break;
+                case "-printerfile":
+                    creationPrinterFileTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-ppl":
+                    creationPPLTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-outq":
+                    creationOutQTuple = argArray.nextTupleOrPop();
+                    break;
                 case "-release":
                     operation = OPERATIONS.RELEASE;
                     break;
@@ -232,10 +267,10 @@ public class CmdSpoolF extends Command {
                     getLogger().log(Level.SEVERE, "Tuple was not instance of SpooledFile in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
-            } else {
+            } else if (operation != OPERATIONS.CREATE) {
                 mySpooledFile = getSpooledFileFromArgs(argArray);
             }
-            if (mySpooledFile == null) {
+            if (operation != OPERATIONS.CREATE && mySpooledFile == null) {
                 getLogger().log(Level.SEVERE, "Unable to instance spooled file in {0}", getNameAndDescription());
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
@@ -275,7 +310,7 @@ public class CmdSpoolF extends Command {
                         break;
                     case COPYTO:
                         SpooledFile remoteCopy = null;
-                        AS400 remoteAS400 = null;
+                        AS400 remoteAS400;
                         if (remoteAS400Tuple == null) {
                             getLogger().log(Level.SEVERE, "No AS400 tuple provided to -copyto in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -335,6 +370,57 @@ public class CmdSpoolF extends Command {
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                                 getLogger().log(Level.SEVERE, "Unable to put copy of spooled file in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case CREATE:
+                        if (getAs400() == null) {
+                            getLogger().log(Level.SEVERE, "No as400 instance to create SpooledFileOutputStream in -create operation for {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            SpooledFileOutputStream sfos;
+                            if (creationPPLTuple != null) {
+                                o = creationPPLTuple.getValue();
+                                if (o instanceof PrintParameterList) {
+                                    creationPPL = PrintParameterList.class.cast(o);
+                                } else {
+                                    getLogger().log(Level.SEVERE, "-ppl in -create operation for {0} doesn't represent a PrintParameterList", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                            if (getCommandResult() != COMMANDRESULT.FAILURE && creationPrinterFileTuple != null) {
+                                o = creationPrinterFileTuple.getValue();
+                                if (o instanceof PrinterFile) {
+                                    creationPrinterFile = PrinterFile.class.cast(o);
+                                } else {
+                                    getLogger().log(Level.SEVERE, "-printerfile in -create operation for {0} doesn't represent a PrinterFile", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                            if (getCommandResult() != COMMANDRESULT.FAILURE && creationOutQTuple != null) {
+                                o = creationOutQTuple.getValue();
+                                if (o instanceof OutputQueue) {
+                                    creationOutQ = OutputQueue.class.cast(o);
+                                } else {
+                                    getLogger().log(Level.SEVERE, "-outq in -create operation for {0} doesn't represent an OutputQueueF", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                            if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                                try {
+                                    sfos = new SpooledFileOutputStream(getAs400(), creationPPL, creationPrinterFile, creationOutQ);
+                                    sfos.write(dataFromDataSource());
+                                    sfos.flush();
+                                    SpooledFile justCreated = sfos.getSpooledFile();
+                                    sfos.close();
+                                    put(justCreated);
+                                } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException ex) {
+                                    getLogger().log(Level.SEVERE, "Exception creating SpooledFileOutputStream in -create operation for " + getNameAndDescription(), ex);
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                } catch (SQLException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                    getLogger().log(Level.SEVERE, "Exception putting SpooledFileOutputStream in -create operation for " + getNameAndDescription(), ex);
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
                             }
                         }
                         break;
@@ -404,21 +490,19 @@ public class CmdSpoolF extends Command {
                         if (o == null) {
                             getLogger().log(Level.SEVERE, "Spooled file to move after is null in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (!(o instanceof SpooledFile)) {
+                            getLogger().log(Level.SEVERE, "Spooled file to move after tuple did not reference a spooled file in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            if (!(o instanceof SpooledFile)) {
-                                getLogger().log(Level.SEVERE, "Spooled file to move after tuple did not reference a spooled file in {0}", getNameAndDescription());
+                            SpooledFile spooledFileToMoveMeAfter = SpooledFile.class.cast(o);
+                            try {
+                                mySpooledFile.move(spooledFileToMoveMeAfter);
+                            } catch (AS400Exception ex) {
+                                getLogger().log(Level.SEVERE, "Unable to move spooled file after another in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
-                            } else {
-                                SpooledFile spooledFileToMoveMeAfter = SpooledFile.class.cast(o);
-                                try {
-                                    mySpooledFile.move(spooledFileToMoveMeAfter);
-                                } catch (AS400Exception ex) {
-                                    getLogger().log(Level.SEVERE, "Unable to move spooled file after another in " + getNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
-                                    getLogger().log(Level.SEVERE, "Unable to move spooled file after another in " + getNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                }
+                            } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
+                                getLogger().log(Level.SEVERE, "Unable to move spooled file after another in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
                         break;
@@ -555,8 +639,52 @@ public class CmdSpoolF extends Command {
         return result;
     }
 
+    private byte[] dataFromDataSource() {
+        byte[] data = null;
+        String filepathspec;
+        Path filepath = null;
+        switch (getDataSrc().getType()) {
+            case FILE:
+                filepathspec = getDataSrc().getName();
+                filepath = FileSystems.getDefault().getPath(filepathspec);
+                File file = filepath.normalize().toFile();
+                try (FileReader fileReader = new FileReader(file);
+                        BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+                    StringBuilder sb = new StringBuilder();
+                    while (bufferedReader.ready()) {
+                        sb.append(bufferedReader.readLine());
+                    }
+                    data = sb.toString().getBytes();
+                } catch (IOException ex) {
+                    getLogger().log(Level.SEVERE, "Exception opening file data source " + filepathspec + " in " + getNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
+                break;
+            case STD:
+                getLogger().log(Level.SEVERE, "STD not implemented in " + getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
+                break;
+            case TUPLE:
+                Tuple documentTuple = getInterpreter().getTuple(getDataSrc().getName());
+                if (documentTuple == null) {
+                    getLogger().log(Level.SEVERE, "Tuple " + getDataSrc().getName() + " does not exist in ", getNameAndDescription());
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    data = documentTuple.getValue().toString().getBytes();
+                }
+                break;
+            case URL:
+                getLogger().log(Level.SEVERE, "URL not implemented in " + getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
+                break;
+        }
+
+        return data;
+    }
+
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return spoolF(args);
     }
