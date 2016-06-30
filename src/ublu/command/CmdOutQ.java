@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
  * All rights reserved.
  *
@@ -54,7 +54,7 @@ public class CmdOutQ extends Command {
 
     {
         setNameAndDescription("outq",
-                "/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
+                "/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
     }
 
     /**
@@ -100,7 +100,7 @@ public class CmdOutQ extends Command {
      * @return what's left of arguments
      */
     public ArgArray outqueue(ArgArray argArray) {
-        FUNCTIONS function = FUNCTIONS.INFO;
+        FUNCTIONS function = FUNCTIONS.INSTANCE;
         String clearOptName = "";
         String clearOptValue = "";
         Tuple outQTuple = null;
