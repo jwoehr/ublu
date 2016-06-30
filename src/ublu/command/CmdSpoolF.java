@@ -64,7 +64,7 @@ public class CmdSpoolF extends Command {
 
     {
         setNameAndDescription("spoolf",
-                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@${ some text }$] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate|createtime|jobname|jobnumber|jobsysname|jobuser|message|name|number] | [-hold [-immed|-pageend]] | [-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@${outq_on_same_system}$] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] system user password name number jobname jobuser jobnumber  : operate on an individual spooled file");
+                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@{ some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate | createtime | jobname | jobnumber | jobsysname | jobuser | message | name | number] | [-hold [-immed|-pageend]] | [-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] system user password name number jobname jobuser jobnumber  : operate on an individual spooled file");
     }
 
     /**
