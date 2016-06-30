@@ -90,6 +90,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("objlist", CmdObjList.class);
         put("objdesc", CmdObjDesc.class);
         put("outq", CmdOutQ.class);
+        put("ppl", CmdPpl.class);
         put("printer", CmdPrinter.class);
         put("programcall", CmdProgramCall.class);
         put("props", CmdProps.class);
@@ -119,7 +120,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("!", CmdBang.class);
         put("#", CmdComment.class);
         put("#!", CmdComment.class);
-        put("\\\\",CmdCommentQuote.class);
+        put("\\\\", CmdCommentQuote.class);
     }
 
     /**
