@@ -29,6 +29,7 @@ package ublu.util;
 
 import org.tn5250j.My5250;
 import org.tn5250j.framework.common.SessionManager;
+import org.tn5250j.tools.LangTool;
 import ublu.util.Generics.Session5250ArrayList;
 import ublu.util.Generics.StringArrayList;
 
@@ -132,7 +133,8 @@ public class TN5250Helper extends Thread {
         String sel="Ublu";
         my5250 = new My5250();
         /* Debug */ System.out.println("args to tn5250 : " + args);
-        my5250.newSession(sel, sal.toStringArray());
+        LangTool.init();
+        my5250.startNewUbluSession(sal.toStringArray());
     }
 
     /**
