@@ -185,7 +185,7 @@ public class CmdTN5250 extends Command {
 
     private TN5250Helper instanceTN5250HelperFromArgArray(ArgArray argArray) {
         TN5250Helper tnh;
-        String system = argArray.nextMaybeTupleString();
+        String system = argArray.nextMaybeQuotationTuplePopString();
         tnh = new TN5250Helper(system);
         return tnh;
     }
