@@ -1,6 +1,7 @@
 <#if licenseFirst??>
 ${licenseFirst}
 </#if>
+${licensePrefix}Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
 ${licensePrefix}Copyright (c) ${date?date?string("yyyy")}, Jack J. Woehr jwoehr@softwoehr.com 
 ${licensePrefix}SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
 ${licensePrefix}All rights reserved.

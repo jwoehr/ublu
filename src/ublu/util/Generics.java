@@ -57,6 +57,7 @@ import java.util.Stack;
 import java.util.Vector;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
+import org.tn5250j.Session5250;
 
 /**
  * Typedefs of collection generics
@@ -1115,4 +1116,19 @@ public class Generics {
      */
     public static class VSMParmList extends ArrayList<VSMParm> {
     }
+
+    /**
+     * Typedef for handling lists of tn5250 sessions from tn5250j itself
+     */
+    public static class Session5250ArrayList extends ArrayList<Session5250> {
+
+        /**
+         *
+         * @param c
+         */
+        public Session5250ArrayList(Collection<? extends Session5250> c) {
+            super(c);
+        }
+    }
+
 }

@@ -1,0 +1,31 @@
+diff --git a/src/org/tn5250j/My5250.java b/src/org/tn5250j/My5250.java
+index 3d5eb61..1d96099 100644
+--- a/src/org/tn5250j/My5250.java
++++ b/src/org/tn5250j/My5250.java
+@@ -76,7 +76,7 @@ public class My5250 implements BootListener, SessionListener, EmulatorActionList
+
+        private TN5250jLogger log = TN5250jLogFactory.getLogger(this.getClass());
+
+-       My5250 () {
++       public My5250 () {
+
+                splash = new TN5250jSplashScreen("tn5250jSplash.jpg");
+                splash.setSteps(5);
+@@ -106,6 +106,9 @@ public class My5250 implements BootListener, SessionListener, EmulatorActionList
+                Tn5250jController.getCurrent();
+        }
+
++        public SessionManager getSessionManager() {
++            return manager;
++        }
+
+        /**
+         * we only want to try and load the Nimbus look and feel if it is not
+@@ -523,7 +526,7 @@ public class My5250 implements BootListener, SessionListener, EmulatorActionList
+                return sc.getConnectKey();
+        }
+
+-       private synchronized void newSession(String sel,String[] args) {
++       public synchronized void newSession(String sel,String[] args) {
+
+                Properties sesProps = new Properties();

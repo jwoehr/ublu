@@ -146,6 +146,8 @@ public class Ublu {
                 .append(org.postgresql.Driver.getVersion()).append('\n')
                 .append("Copyright (c) 1997-2011, PostgreSQL Global Development Group\n")
                 .append("All rights reserved http://www.postgresql.org\n")
+                .append("tn5250j http://tn5250j.sourceforge.net/\n")
+                .append("NO WARRANTY (GPL) see the file tn5250_LICENSE\n")
                 .append(com.softwoehr.pigiron.Version.getVersion())
                 .append(" http://pigiron.sourceforge.net\n")
                 .append("Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO 80403 USA\n")

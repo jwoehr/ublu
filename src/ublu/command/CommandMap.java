@@ -97,6 +97,8 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("put", CmdPut.class);
         put("rs", CmdRs.class);
         put("server", CmdServer.class);
+        put("sess", CmdSession.class);        
+        put("session", CmdSession.class);
         put("savf", CmdSavF.class);
         put("smapi", CmdSmapi.class);
         put("spoolf", CmdSpoolF.class);
@@ -111,6 +113,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("thread", CmdThread.class);
         put("THEN", CmdThen.class);
         put("THROW", CmdThrow.class);
+        put("tn5250", CmdTN5250.class);
         put("TRY", CmdTry.class);
         put("tuple", CmdTuple.class);
         put("usage", CmdUsage.class);

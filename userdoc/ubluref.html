@@ -328,6 +328,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#server">server</a></tt></li>
 
+            <li><a href="#session"><tt>session</tt> -or-
+            <tt>sess</tt></a><br></li>
+
             <li><tt><a href="#smapi">smapi</a></tt></li>
 
             <li><a href="#spoolf"><tt>spoolf</tt></a></li>
@@ -351,7 +354,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#thread">thread</a></tt></li>
 
-            <li><tt><a href="#THROW">THROW</a><br></tt></li>
+            <li><tt><a href="#THROW">THROW</a></tt></li>
+
+            <li><tt><a href="#tn5250">tn5250</a><br></tt></li>
 
             <li><tt><a href="#TRY">TRY</a><br></tt></li>
 
@@ -5940,7 +5945,90 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <td valign="top"><br></td>
       </tr>
     </tbody>
-  </table><br>
+  </table>
+
+  <h4><a name="session" id="session"></a> <tt>session</tt>
+  <small><i>or</i></small> <tt>sess<br></tt></h4>
+
+  <blockquote>
+    <tt>/0 --,-sess @sess [-to datasink] [-from datasink] [-nt]
+    [[-? ~@${question}$] | [-close] | [-disconnect] | [-dump] |
+    [-getcursor] | [-setcursor x y] | [-send (@)${ send string
+    including [tab] metakeys etc. }$ ]&nbsp; : interact with a
+    tn5250 session</tt><br>
+    <br>
+    The session command manipulates a tn5250 session object
+    provided by the <a href="#tn5250"><tt>tn5250</tt></a> command.
+    The <tt>-sess @sess</tt> <a href=
+    "#Dash_Command">dash-command</a> must always be present.<br>
+    <br>
+    The operations are as follows:<br>
+
+    <ul>
+      <li>
+        <tt>-? ~@${question}$</tt> queries the session with
+        <i>question</i> and puts the answer to the destination
+        <a href="#Datasinks">datasink</a> .
+
+        <ul>
+          <li>The following questions are supported:
+
+            <ul>
+              <li><tt>connected</tt> returns true .iff. the session
+              is connected.<br></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li><tt>-close</tt> closes the session, which, if last
+      session, resultantly closes tn5250j which calls
+      System.exit()<br></li>
+
+      <li><tt>-disconnect</tt> disconnects the session, leaving it
+      open.</li>
+
+      <li><tt>-getcursor</tt> puts the current cursor position as a
+      <tt>java.awt.Point</tt> to the destination datasink.</li>
+
+      <li><tt>-setcursor</tt> sets the cursor position to <i>x
+      y</i><br></li>
+
+      <li><tt>-dump</tt> puts a character screen dump (e.g., for
+      screen scraping) to the destination datasink.</li>
+
+      <li>
+        <tt>-send</tt> transmits to the session a string including
+        string representations for metakeys such as [tab] [enter]
+        etc.
+
+        <ul>
+          <li>If the <tt>-from</tt> dash-command is provided, the
+          source datasink is the source for the string.
+
+            <ul>
+              <li>If the source datasink is a file, the first line
+              of the file is the source for the string.<br></li>
+            </ul>
+          </li>
+
+          <li>Otherwise, the <a href="#tuple">tuple</a> , <a href=
+          "#Tuple_stack">popped tuple</a> , <a href=
+          "#Quoted_strings">quoted string</a> or <a href=
+          "#Plain_words">plain word</a> following the
+          <tt>-send</tt> is the source.</li>
+
+          <li>If the <tt>-from</tt> dash-command is provided, no
+          symbol or string should follow <tt>-send</tt> though
+          other dash-commands and commands can follow.<br></li>
+        </ul>
+      </li>
+
+      <li><tt>-nt</tt> prevents the system from trimming blank
+      space at the head and tail of any <tt>-send</tt>
+      string.<br></li>
+    </ul>
+  </blockquote>
 
   <h4><a name="smapi" id="smapi"></a><tt>smapi</tt></h4>
 
@@ -6782,6 +6870,73 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i><tt>Ublu:1:UbluInterpreter.Thread[main,5,main]:SEVERE:ublu.command.CmdThrow.doThrow():oops</tt></i><i><tt><br>
     </tt></i> <i><tt>caught the oops</tt></i> <i><tt><br></tt></i>
     <i><tt>continuing outer TRY</tt></i><br>
+  </blockquote>
+
+  <h4><a name="tn5250" id="tn5250"></a> <tt>tn5250</tt></h4>
+
+  <blockquote>
+    <tt>/0 [-tn5250 @tn5250] [-to datasink] [[-instance] |
+    [-my5250] | [-run] | [-session] | [-sessionlist]]&nbsp; [-args
+    ~@${ arg string }$] ~@system : instance a programmable or
+    interactive tn5250j</tt><br>
+    &nbsp;&nbsp;&nbsp;<br>
+    <a href="http://tn5250j.sourceforge.net/">tn5250j</a> is an
+    open source terminal emulator coded in Java for 5250 display
+    terminal emulator over TCP/IP. This command creates and
+    manipulates instances of tn5250j.<br>
+    <br>
+    If the <tt>-tn5250 @tn5250</tt> <a href=
+    "#Dash_Command">dash-command</a> is provided, the
+    <tt>~@system</tt> <a href="#Argument">argument</a> must be
+    omitted. Some operations require the <tt>-tn5250 @tn5250</tt>
+    dash-command.<br>
+    <br>
+    <b>Note</b> that at present, when a running tn5250j instance
+    exits, it calls System.exit() shutting down AbsPerfOS400.<br>
+    <br>
+    The operations are as follows:<br>
+
+    <ul>
+      <li><tt>-instance</tt> puts a tn5250j instance to the
+      destination <a href="#Datasinks">datasink</a> .</li>
+
+      <li><tt>-my5250</tt> runs an instance of tn5250j in a thread
+      without preserving the instanced object for
+      manipulation.<br></li>
+
+      <li><tt>-run</tt> runs the tn5250j instance referenced by the
+      <tt>-tn5250 @tn5250</tt> dash-command</li>
+
+      <li>
+        <tt>-session</tt> puts the initial tn5250 session instance
+        to the destination datasink, usually a tuple so that it can
+        be manipulated via the <a href="#session">session</a>
+        command.
+
+        <ul>
+          <li>A tn5250j instance can have multiple sessions. At
+          present this command only supports the initial
+          session.</li>
+
+          <li>This command presumes the <tt>-tn5250 @tn5250</tt>
+          dash-command</li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-sessionlist</tt> returns a list of sessions in the
+        tn5250j instance
+
+        <ul>
+          <li>A tn5250j instance can have multiple sessions. At
+          present this command only supports the initial
+          session.</li>
+
+          <li>This command presumes the <tt>-tn5250 @tn5250</tt>
+          dash-command&nbsp;&nbsp;<br></li>
+        </ul>
+      </li>
+    </ul>
   </blockquote>
 
   <h4><a name="TRY" id="TRY"></a> <tt>TRY</tt></h4>
