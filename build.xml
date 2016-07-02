@@ -84,7 +84,7 @@
         <tstamp>
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
-        <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu.${ZIP_DATE_TIME}.zip" excludes="**">
+        <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.zip" excludes="**">
             <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**"/>
             <zipfileset dir="." includes="examples/**,userdoc/**"/>
         </zip>        
@@ -92,11 +92,13 @@
 
     <!-- Make zip archive of distribution -->
     <target name="zipprojup" description="Make zip archive of project with all sources and libs">
+        <property file="nbproject/project.properties"/>
         <tstamp>
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
-        <zip basedir="${basedir}" compress="yes" destfile="dist/ublu_PROJ.${ZIP_DATE_TIME}.zip" excludes="**">
-            <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**"/>
+        <zip basedir="${basedir}" compress="yes" destfile="dist/ublu_${ublu.version}.all.${ZIP_DATE_TIME}.zip" excludes="**">
+            <zipfileset dir="${dist.dir}" includes="ublu.jar"/>
+            <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**,oldlib/**"/>
         </zip>        
     </target>
     
