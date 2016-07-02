@@ -4558,6 +4558,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     Declaring a <tt>LOCAL</tt> outside a block generates an
     error.<br>
     <br>
+    <tt>LOCAL</tt> variables can be used as arguments to functions
+    called from within the <tt>LOCAL</tt>-declaring block, but they
+    cannot be used as arguments passed to other threads (see
+    <a href="#thread">thread</a> and <a href="#TASK">TASK</a>). The
+    <tt>LOCAL</tt> variable does not exist in the context of the
+    new thread.<br>
+    <br>
     <i>Example (include this file from
     examples/test</i><i>)</i><br>
     <pre>
