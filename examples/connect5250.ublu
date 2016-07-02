@@ -1,0 +1,37 @@
+# connect5250.ublu
+# Connect to server with programmable greenscreen scraping functionality.
+# author Jack J. Woehr jwoehr@softwoehr.com
+# Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# 2016-07-01
+
+# Connect to server on the default tn5250 port (23) and sign in.
+# Session object stored in the user-provided sesstuple, e.g., @mysess
+FUNC connect5250 ( iserver userid password sesstuple ) $[
+     LOCAL @tn5250
+     tn5250 -to @tn5250 -instance @@iserver
+     tn5250 -tn5250 @tn5250 -run
+     put ${ Sleeping for 15 seconds to allow the connect }$
+     iserver ${ sleep 15 }$
+     tn5250 -tn5250 @tn5250 -to @@sesstuple -session
+     sess -sess @@sesstuple -send @@userid
+     sess -sess @@sesstuple -send ${ [tab] }$
+     sess -sess @@sesstuple -send @@password
+     sess -sess @@sesstuple -send ${ [enter] }$
+]$
+
+# Connect to the server on specified tn5250 port and sign in.
+# Session object stored in the user-provided sesstuple, e.g., @mysess
+FUNC connect5250p ( iserver userid password portnum sesstuple ) $[
+     LOCAL @tn5250
+     tn5250 -to @tn5250 -args ${ -p @@portnum }$ -instance @@iserver
+     tn5250 -tn5250 @tn5250 -run
+     put ${ Sleeping for 15 seconds to allow the connect }$
+     system ${ sleep 15 }$
+     tn5250 -tn5250 @tn5250 -to @@session -session
+     sess -sess @@sesstuple -send @@userid
+     sess -sess @@sesstuple -send ${ [tab] }$
+     sess -sess @@sesstuple -send @@password
+     sess -sess @@sesstuple -send ${ [enter] }$
+]$
+# End

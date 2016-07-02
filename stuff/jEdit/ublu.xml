@@ -20,8 +20,9 @@
 
 <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
 
-	<EOL_SPAN TYPE="COMMENT2">#!</EOL_SPAN>
+	<EOL_SPAN TYPE="COMMENT1">#!</EOL_SPAN>
 	<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+	<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}\$\{\p{Space}.*\}\$</SEQ_REGEXP>
 	
 	<MARK_PREVIOUS TYPE="FUNCTION" MATCH_TYPE="OPERATOR">(</MARK_PREVIOUS>
 	
@@ -92,13 +93,16 @@
         <KEYWORD2>objlist</KEYWORD2>
         <KEYWORD2>objdesc</KEYWORD2>
         <KEYWORD2>outq</KEYWORD2>
+        <KEYWORD2>ppl</KEYWORD2>
         <KEYWORD2>printer</KEYWORD2>
         <KEYWORD2>programcall</KEYWORD2>
         <KEYWORD2>props</KEYWORD2>
         <KEYWORD2>put</KEYWORD2>
         <KEYWORD2>rs</KEYWORD2>
+        <KEYWORD2>savf</KEYWORD2>        
         <KEYWORD2>server</KEYWORD2>
-        <KEYWORD2>savf</KEYWORD2>
+        <KEYWORD2>sess</KEYWORD2>
+        <KEYWORD2>session</KEYWORD2>
         <KEYWORD2>smapi</KEYWORD2>
         <KEYWORD2>spoolf</KEYWORD2>
         <KEYWORD2>spoolflist</KEYWORD2>
@@ -111,6 +115,7 @@
         <KEYWORD2>test</KEYWORD2>
         <KEYWORD2>thread</KEYWORD2>
         <KEYWORD1>THEN</KEYWORD1>
+        <KEYWORD2>tn5250</KEYWORD2>
         <KEYWORD1>THROW</KEYWORD1>
         <KEYWORD1>TRY</KEYWORD1>
         <KEYWORD2>tuple</KEYWORD2>
