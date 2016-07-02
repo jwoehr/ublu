@@ -1,8 +1,10 @@
 # connect5250.ublu
-# Connect to server with programmable greenscreen scraping functionality.
-# author Jack J. Woehr jwoehr@softwoehr.com
-# Ublu Midrange and Mainframe Life Cycle Extension language
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+# Connect to server with programmable greenscreen scraping functionality.
+# Ublu Midrange and Mainframe Life Cycle Extension language
 # 2016-07-01
 
 # Connect to server on the default tn5250 port (23) and sign in.
