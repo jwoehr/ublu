@@ -22,7 +22,8 @@
 
 	<EOL_SPAN TYPE="COMMENT1">#!</EOL_SPAN>
 	<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
-	<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}.*\$\{\p{Space}.*\}\$</SEQ_REGEXP>
+	<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}+\$\{\p{Space}.*\}\$</SEQ_REGEXP>
+	<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}+-to\p{Space}+\S+\p{Space}+\$\{\p{Space}.*\}\$</SEQ_REGEXP>
 	
 	<MARK_PREVIOUS TYPE="FUNCTION" MATCH_TYPE="OPERATOR">(</MARK_PREVIOUS>
 	
