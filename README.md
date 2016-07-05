@@ -15,18 +15,18 @@ The current version of Ublu is 1.1.0
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
 
-The full reference is userdoc/ubluref.html
+The full reference is [userdoc/ubluref.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluref.html)
 
-The user's guide is a work in progress (just started it): userdoc/ubluguide.html
+The user's guide is a work in progress [userdoc/ubluguide.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html)
 
 Ublu is already a stable and useful tool which has seen much use in the real
 world. It is neither complete nor perfect, but what is in this world?
 
-We hope to make a formal release soon, but the system is fully useable as-is.
-
 Quick start instructions:
 
-To build and run:
+Download the release and <code>java -jar ublu.jar<code> to run Ublu.
+
+Or clone, build and run:
 <ul>
 <li> Clone the Ublu Git repository https://github.com/jwoehr/ublu.git</li>
 <li> Either load the project in <a href="http://www.netbeans.org">NetBeans</a>
