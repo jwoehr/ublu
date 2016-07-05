@@ -8,16 +8,22 @@ See file LICENSE for license information.
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows.
 
+I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows that
+could do systems programming on IBM i Series OS ®. I was supporting my consulting
+clients by writing individual utility programs using JTOpen which I have used
+since 1998 to control the AS/400. I decided to consolidate the programs in a
+language, and the result is Ublu.
+
 Ublu is Open Source Software under the BSD-2 license.
+
+The user's guide is [userdoc/ubluguide.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html)
+
+The full reference is [userdoc/ubluref.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluref.html)
 
 The current version of Ublu is 1.1.0
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
-
-The full reference is [userdoc/ubluref.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluref.html)
-
-The user's guide is a work in progress [userdoc/ubluguide.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html)
 
 Ublu is already a stable and useful tool which has seen much use in the real
 world. It is neither complete nor perfect, but what is in this world?
