@@ -22,6 +22,8 @@ The full reference is [userdoc/ubluref.html] (http://www.softwoehr.com/softwoehr
 
 Here's an [example of Ublu code] (http://www.softwoehr.com/softwoehr/oss/ubludoc/jobstuff-example.html)
 
+The example is syntax-colored using a [jEdit] (http://jedit.org) edit mode provided with Ublu.
+
 The current version of Ublu is 1.1.0
 
 Ublu is distributed with the open source libraries it needs and their license
