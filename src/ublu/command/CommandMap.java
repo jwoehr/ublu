@@ -96,10 +96,11 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("props", CmdProps.class);
         put("put", CmdPut.class);
         put("rs", CmdRs.class);
-        put("server", CmdServer.class);
-        put("sess", CmdSession.class);        
-        put("session", CmdSession.class);
         put("savf", CmdSavF.class);
+        put("server", CmdServer.class);
+        put("sess", CmdSession.class);
+        put("session", CmdSession.class);
+        put("sleep", CmdSleep.class);
         put("smapi", CmdSmapi.class);
         put("spoolf", CmdSpoolF.class);
         put("spoolflist", CmdSpoolFList.class);
