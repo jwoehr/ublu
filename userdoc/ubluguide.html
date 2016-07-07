@@ -72,8 +72,23 @@
 
         <li><a href="#mozTocId809903">What does Ublu do?</a></li>
 
-        <li><a href="#mozTocId723509">Quick Tour of the Ublu
-        Language</a></li>
+        <li>
+          <a href="#mozTocId723509">Quick Tour of the Ublu
+          Language</a>
+
+          <ul>
+            <li>
+              <a href="#mozTocId190571">Overview</a>
+
+              <ul>
+                <li><a href="#mozTocId994066">Commands</a></li>
+
+                <li><a href="#mozTocId117788">Language
+                Interpreter</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
 
         <li>
           <a href="#mozTocId185354">A Full Ublu Program</a>
@@ -126,7 +141,7 @@
 
                       <ul>
                         <li><a href=
-                        "#mozTocId196669">examples/localvarthread</a></li>
+                        "#mozTocId334710">examples/localvarthread</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -261,7 +276,61 @@
   built into Ublu.<br>
 
   <h2><a class="mozTocH2" name="mozTocId723509"></a>Quick Tour of
-  the Ublu Language</h2>The heart of the Ublu language is a text
+  the Ublu Language</h2>
+
+  <h3><a class="mozTocH3" name="mozTocId190571"></a>Overview</h3>
+
+  <p>Ublu is mostly composed of commands and a language
+  interpreter.<br></p>
+
+  <h4><a class="mozTocH4" name="mozTocId994066"></a>Commands</h4>
+
+  <p>Ublu commands are like individual application programs which
+  are invoked with their arguments under the language interpreter.
+  Command arguments are often references to objects which have been
+  created by other commands. You usually don't have to know much
+  about objects passed from command to command other than what
+  they're supposed to represent.<br></p>
+
+  <p>Most arguments are passed to the <a href=
+  "ubluref.html#Dash_Command">dash-commands</a> associated with the
+  command, e.g.<br></p>
+
+  <blockquote>
+    <pre>
+<font color="#000000"><font color=
+"#009966"><strong>ask</strong></font> <font color=
+"#0099FF"><strong>-to</strong></font> <font color=
+"#CC00CC">@answer</font> <font color=
+"#0099FF"><strong>-say</strong></font> <font color=
+"#FF00CC">${</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">Do</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">you</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">wish</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">to</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">reply</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">to</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">this</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">message?</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color=
+"#FF00CC">}$</font></font>
+</pre>
+  </blockquote>
+
+  <p>The <tt>ask</tt> command here has two dash-commands,
+  <tt>-to</tt> and <tt>-say</tt>. <tt>-to</tt> has an argument
+  which says to which <a href=
+  "ubluref.html#Tuple_Variables">variable</a> to put the answer to
+  the question about to be asked the user, and <tt>-say</tt> takes
+  a <a href="ubluref.html#Quoted_strings">quoted string</a> which
+  is the prompt to the user.</p>
+
+  <p>Here is a link to the Ublu Reference's list of <a href=
+  "ubluref.html#Commands_by_Category">commands by
+  category</a>.<br></p>
+
+  <h4><a class="mozTocH4" name="mozTocId117788"></a>Language
+  Interpreter<br></h4>The heart of the Ublu language is a text
   interpreter loop. There can be multiple nested or branching
   interpreter instances with different variable spaces in one Ublu
   session, but basically they're all doing the same sort of thing:
@@ -277,7 +346,7 @@
   moves on, <a href=
   "https://www.google.com/search?q=nor+can+all+your+piety+and+wit"><i>
   nor can all your piety and wit</i></a> make it go back one
-  lex.<br>
+  <i>lex</i> (unit of parsing).<br>
   <br>
   The text interpreter loop parses the next whitespace-delimited
   element (a lex) and tries to locate it as an Ublu command or as a
@@ -575,6 +644,11 @@ message queue instance."<br>
   functions are not interpreted until called, but it's easier to
   understand this way.<br>
   <br>
+  <small><i>Ublu function definitions offer almost no compiler
+  security. They are simply parsed and stored as execution blocks
+  associated with a call specification and no validation of their
+  runtime action is performed.</i></small><br>
+  <br>
   <tt>autoreply</tt> takes as its arguments a system name, user id,
   password and IFS path. Arguments to the function, whether they
   are plainwords or variables are referenced inside the function by
@@ -588,11 +662,10 @@ message queue instance."<br>
 
   <blockquote>
     <tt>FUNC foo ( bar ) $[ put -from @@bar ]$</tt><br>
-  </blockquote><br>
-  <tt>autoreply</tt>&nbsp; also declares a few local variables that
-  will hide global and more outer local variables of the same name
-  and then disappear at the end of the execution block in which
-  they are declared.<br>
+  </blockquote><tt>autoreply</tt>&nbsp; also declares a few local
+  variables that will hide global and more outer local variables of
+  the same name and then disappear at the end of the execution
+  block in which they are declared.<br>
   <br>
   <tt>autoreply</tt>&nbsp; calls the function <tt>getMsgQ</tt> to
   get the message queue instance.<br>
@@ -976,7 +1049,8 @@ message queue instance."<br>
   scope, there exist cases where it appears you can pass a local to
   a function but you really cannot. Here's an instance of that:</p>
 
-  <h6><big><big><big><a class="mozTocH3" name=
+  <h6><a class="mozTocH6" name=
+  "mozTocId334710"></a><big><big><big><a class="mozTocH3" name=
   "mozTocId196669"></a><tt>examples/localvarthread</tt></big></big></big></h6>
   <pre>
 <font color="#000000"><span style=
