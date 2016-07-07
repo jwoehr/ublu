@@ -13,15 +13,15 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sat, 2 Jul 2016 17:32:37 UTC">
+  "Thu, 7 Jul 2016 15:38:40 UTC">
 </head>
 
 <body>
-  <table height="456" width="100%" cellpadding="2" cellspacing="0"
-  border="0">
+  <table border="0" cellpadding="2" cellspacing="0" height="456"
+  width="100%">
     <tbody>
       <tr>
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
 
@@ -32,12 +32,12 @@
           Life Cycle Extension Language<br></font>
         </td>
 
-        <th align="center" valign="middle" bgcolor="#000000">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"><br></th>
 
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -158,11 +158,11 @@
   </ul>
 
   <h2><a class="mozTocH2" name="mozTocId754622"></a>Who is this
-  Guide for?</h2>It's for people who have downloaded and built
-  Ublu, read enough of the <a href="ubluref.html">Ublu
-  Reference</a> to know how to launch <a href=
-  "https://github.com/jwoehr/ublu">Ublu</a>, and now want an
-  introduction to using Ublu.<br>
+  Guide for?</h2>It's for people who just want an introduction to
+  using Ublu, or who have downloaded and built Ublu, read enough of
+  the <a href="ubluref.html">Ublu Reference</a> to know how to
+  launch <a href="https://github.com/jwoehr/ublu">Ublu</a>, and now
+  want more help understanding Ublu.<br>
   <br>
   The Guide is meant to be easy to read, and extra stuff you may
   not want to bother with is written <small><i>like this in small
@@ -170,50 +170,54 @@
 
   <h2><a class="mozTocH2" name="mozTocId185961"></a>Why Ublu?</h2>I
   wrote Ublu because I wanted a language to run on
-  OpenBSD/Mac/Linux/Windows that could do systems programming on
-  IBM i Series OS &#174;. I was supporting my consulting clients by
-  writing individual utility programs using <a href=
-  "http://jt400.sourceforge.net/">JTOpen</a> which I have used
-  since 1998 to control the AS/400. I decided to consolidate the
-  programs in a language, and the result is Ublu.<br>
+  OpenBSD/Mac/Linux/Windows that could do remote systems
+  programming on IBM i Series OS &#174; via TCP/IP. I was
+  supporting clients by writing individual utility programs using
+  <a href="http://jt400.sourceforge.net/">JTOpen</a> (which I have
+  used since 1998 to remotely operate the AS/400). I decided to
+  consolidate the programs in a language, and the result is
+  Ublu.<br>
   <br>
-  It is convenient to operate legacy systems from modern
-  environments. This empowers help-desk folks who know how to feed
-  arguments to scripts and answer interactive prompts but are
-  challenged by the green screen. Intermediate programmers take to
-  Ublu as well as an easy entry point to legacy systems
-  programming.<br>
-  <br>
-  I also had previously written a bridge in Java to IBM z/VM &#174;
-  System Management API <a href=
+  It is convenient to operate legacy systems remotely from modern
+  environments:<br>
+
+  <ul>
+    <li>Use Ublu to empower help-desk folks who know how to feed
+    arguments to scripts and answer interactive prompts but are
+    challenged by the green screen.</li>
+
+    <li>Intermediate programmers take to Ublu as well as an easy
+    entry point to legacy systems programming.<br></li>
+
+    <li>Teams working to design add-ons or extensions to legacy
+    applications can use Ublu.</li>
+
+    <li>Teams designing follow-on systems who need to explore the
+    legacy environment can use Ublu.</li>
+  </ul><br>
+  I also previously wrote <a href=
+  "http://pigiron.sourceforge.net/">PigIron</a>, a Java bridge to
+  IBM z/VM &#174; System Management API <a href=
   "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">
-  (SMAPI)</a> called <a href=
-  "http://pigiron.sourceforge.net/">PigIron</a> and wanted to hook
-  that in somehow.<br>
+  (SMAPI)</a>. I provide PigIron support in Ublu. I had been using
+  my <a href="http://fiji.sourceforge.net/">FIJI ForthIsh Java
+  Interpreter</a> to drive PigIron, which works very well but is
+  arcane, and also <a href="http://www.oorexx.org/">ObjectRexx</a>,
+  which is a wonderful language which doesn't run on as many
+  platforms as Java.<br>
   <br>
-  I considered using my <a href="http://fiji.sourceforge.net/">FIJI
-  ForthIsh Java Interpreter</a> which works very well but is arcane
-  and difficult for anyone other than a serious programmer to
-  use.<br>
-  <br>
-  <a href="http://www.oorexx.org/">ObjectRexx</a> is a wonderful
-  language but it doesn't run on as many platforms as Java.<br>
-  <br>
-  Other extant language frameworks exist but each has its own
-  issues.<br>
-  <br>
-  So I made up a new language and coded it quick and easy in Java
-  on top of other open source libraries. The "quick and easy"
-  approach derives from a work environment in which folks just
-  wanted results and didn't care that a new language was making the
-  getting of results easier.<br>
+  Ublu is a new language which was coded quick and easy in Java on
+  top of other open source libraries. The "quick and easy" approach
+  derives from a work environment in which folks just wanted
+  results and had no particular interest in the language
+  itself.<br>
   <br>
   Ublu is easy to build, install, read, and use. It is handsome but
   not beautiful. Ublu works like an interactive shell scripting
   language but also has some advanced language features such as
-  tasking, debugging and a TCP/IP port server mode.<br>
+  compiling, tasking, debugging and a TCP/IP port server mode.<br>
   <br>
-  I hope you find Ublu useful.<br>
+  If you find Ublu useful, please let me know!<br>
 
   <h2><a class="mozTocH2" name="mozTocId809903"></a>What does Ublu
   do?</h2>
