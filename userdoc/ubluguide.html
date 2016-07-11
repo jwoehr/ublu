@@ -13,15 +13,15 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 7 Jul 2016 15:38:40 UTC">
+  "Mon, 11 Jul 2016 22:04:19 UTC">
 </head>
 
 <body>
-  <table border="0" cellpadding="2" cellspacing="0" height="456"
-  width="100%">
+  <table border="0" cellpadding="2" width="100%" cellspacing="0"
+  height="456">
     <tbody>
       <tr>
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td align="center" valign="middle" bgcolor="#000000">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
 
@@ -32,12 +32,12 @@
           Life Cycle Extension Language<br></font>
         </td>
 
-        <th align="center" bgcolor="#000000" valign="middle">
+        <th align="center" valign="middle" bgcolor="#000000">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        height="444" width="400"><br></th>
+        width="400" height="444"><br></th>
 
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td align="center" valign="middle" bgcolor="#000000">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -201,8 +201,8 @@
     arguments to scripts and answer interactive prompts but are
     challenged by the green screen.</li>
 
-    <li>Intermediate programmers take to Ublu as well as an easy
-    entry point to legacy systems programming.<br></li>
+    <li>Intermediate programmers use Ublu as an easy entry point to
+    legacy systems programming.<br></li>
 
     <li>Teams working to design add-ons or extensions to legacy
     applications can use Ublu.</li>
@@ -232,7 +232,12 @@
   language but also has some advanced language features such as
   compiling, tasking, debugging and a TCP/IP port server mode.<br>
   <br>
-  If you find Ublu useful, please let me know!<br>
+  If you find Ublu useful, please <a href=
+  "http://www.softwoehr.com/">let me know</a>!<br>
+  <br>
+  If you find a bug, or wish to issue a feature request, you can
+  <a href="https://github.com/jwoehr/ublu/issues/new">create an
+  issue in the issue tracker</a>.<br>
 
   <h2><a class="mozTocH2" name="mozTocId809903"></a>What does Ublu
   do?</h2>
@@ -257,7 +262,8 @@
     remote server.</li>
 
     <li>You can do this interactively or load a program from text
-    files which can, in turn, <tt>include</tt> other text
+    files which can, in turn, <a href=
+    "./ubluref.html#include"><tt>include</tt></a> other text
     files.</li>
 
     <li>You can automate a telnet 5250 terminal emulator
@@ -558,16 +564,18 @@ e.g., <tt>@@password</tt>.<br>
   Tuple variables come into existence just by being mentioned.
   Arguments to a function may be tuples or plain words, Ublu
   commands typically know what to do with either when passed them
-  as arguments. The LOCAL declaration <tt>LOCAL @as400</tt> serves
-  to says that there will be a local tuple variable which will hide
-  any other variables of the same name in the program while in this
-  execution block and then disappear at the end of the execution
-  block, i.e., at the end of function execution. Equally, the
-  variable name <tt>@as400</tt> could have been used without
-  declaration, but then it would persist beyond the end of the
-  function, and further, if there happened to already exist such a
-  variable in the program, it would be referencing that same
-  variable, possibly unintentionally.<br>
+  as arguments.<br>
+  <br>
+  The LOCAL declaration <tt>LOCAL @as400</tt> serves to says that
+  there will be a local tuple variable which will hide any other
+  variables of the same name in the program while in this execution
+  block and then disappear at the end of the execution block, i.e.,
+  at the end of function execution. Equally, the variable name
+  <tt>@as400</tt> could have been used without declaration, but
+  then it would persist beyond the end of the function, and
+  further, if there happened to already exist such a variable in
+  the program, it would be referencing that same variable, possibly
+  unintentionally.<br>
   <br>
   Lines 8 and 9 are Ublu commands.<br>
   <br>
