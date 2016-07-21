@@ -49,7 +49,7 @@ public class CmdPrinter extends Command {
 
     {
         setNameAndDescription("printer",
-                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@attribute] | [[-instance] | [-set ~@attribute value]] ~@printername ~@system ~@user ~@password : instance as400 printer");
+                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute} ~~@{value}]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
     }
 
     private enum OPERATIONS {
@@ -80,7 +80,8 @@ public class CmdPrinter extends Command {
      */
     public ArgArray printer(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE;
-        String attribute = "";
+        String attributeName = "";
+        Integer attributeInt = null;
         Tuple printerTuple = null;
         PrintParameterList ppl = new PrintParameterList();
         while (argArray.hasDashCommand()) {
@@ -92,32 +93,36 @@ public class CmdPrinter extends Command {
                     break;
                 case "-get":
                     operation = OPERATIONS.GET;
-                    attribute = argArray.nextMaybeQuotationTuplePopString();
+                    attributeName = argArray.nextMaybeQuotationTuplePopString();
+                    attributeInt = attribToInt(attributeName);
+                    break;
+                case "-instance":
+                    operation = OPERATIONS.INSTANCE;
                     break;
                 case "-set":
                     operation = OPERATIONS.SET;
-                    attribute = argArray.nextMaybeQuotationTuplePopString();
-                    switch (attribute) {
+                    attributeName = argArray.nextMaybeQuotationTuplePopString();
+                    switch (attributeName) {
                         case "CHANGES":
-                            ppl.setParameter(attribToInt(attribute), argArray.next());
+                            ppl.setParameter(attribToInt(attributeName), argArray.nextMaybeQuotationTuplePopString());
                             break;
                         case "DRWRSEP":
-                            ppl.setParameter(attribToInt(attribute), argArray.nextInt());
+                            ppl.setParameter(attribToInt(attributeName), argArray.nextIntMaybeQuotationTuplePopString());
                             break;
                         case "FILESEP":
-                            ppl.setParameter(attribToInt(attribute), argArray.nextInt());
+                            ppl.setParameter(attribToInt(attributeName), argArray.nextIntMaybeQuotationTuplePopString());
                             break;
                         case "FORMTYPE":
-                            ppl.setParameter(attribToInt(attribute), argArray.next());
+                            ppl.setParameter(attribToInt(attributeName), argArray.nextMaybeQuotationTuplePopString());
                             break;
                         case "OUTPUT_QUEUE":
-                            ppl.setParameter(attribToInt(attribute), argArray.next());
+                            ppl.setParameter(attribToInt(attributeName), argArray.nextMaybeQuotationTuplePopString());
                             break;
                         case "DESCRIPTION":
-                            ppl.setParameter(attribToInt(attribute), argArray.next());
+                            ppl.setParameter(attribToInt(attributeName), argArray.nextMaybeQuotationTuplePopString());
                             break;
                         default:
-                            getLogger().log(Level.SEVERE, "Unknown attribute {0} in {1}", new Object[]{attribute, getNameAndDescription()});
+                            getLogger().log(Level.SEVERE, "Unknown attribute {0} in {1}", new Object[]{attributeName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -145,13 +150,11 @@ public class CmdPrinter extends Command {
                     getLogger().log(Level.SEVERE, "Tuple value is not a Printer object in  {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
+            } else if (argArray.size() < 1) {
+                logArgArrayTooShortError(argArray);
+                setCommandResult(COMMANDRESULT.FAILURE);
             } else {
-                if (argArray.size() < 1) {
-                    logArgArrayTooShortError(argArray);
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                } else {
-                    printerName = argArray.nextMaybeQuotationTuplePopString();
-                }
+                printerName = argArray.nextMaybeQuotationTuplePopString();
             }
             if (printer == null && getAs400() == null) {
                 try {
@@ -182,7 +185,7 @@ public class CmdPrinter extends Command {
                         break;
                     case GET:
                         try {
-                            put(printer.getStringAttribute(Integer.parseInt(attribute)));
+                            put(printer.getStringAttribute(attributeInt));
                         } catch (AS400SecurityException | SQLException | ObjectDoesNotExistException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                             getLogger().log(Level.SEVERE, null, ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -208,22 +211,22 @@ public class CmdPrinter extends Command {
         Integer intval = null;
         switch (attrib) {
             case "CHANGES":
-                intval = new Integer(PrintObject.ATTR_CHANGES);
+                intval = PrintObject.ATTR_CHANGES;
                 break;
             case "DRWRSEP":
-                intval = new Integer(PrintObject.ATTR_DRWRSEP);
+                intval = PrintObject.ATTR_DRWRSEP;
                 break;
             case "FILESEP":
-                intval = new Integer(PrintObject.ATTR_FILESEP);
+                intval = PrintObject.ATTR_FILESEP;
                 break;
             case "FORMTYPE":
-                intval = new Integer(PrintObject.ATTR_FORMTYPE);
+                intval = PrintObject.ATTR_FORMTYPE;
                 break;
             case "OUTPUT_QUEUE":
-                intval = new Integer(PrintObject.ATTR_OUTPUT_QUEUE);
+                intval = PrintObject.ATTR_OUTPUT_QUEUE;
                 break;
             case "DESCRIPTION":
-                intval = new Integer(PrintObject.ATTR_DESCRIPTION);
+                intval = PrintObject.ATTR_DESCRIPTION;
                 break;
             default:
                 getLogger().log(Level.SEVERE, "Unknown attribute {0} in {1}", new Object[]{attrib, getNameAndDescription()});
