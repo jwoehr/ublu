@@ -56,4 +56,46 @@ public class Utils {
         }
         return sb.toString();
     }
+
+    /**
+     * Split lines for readability Modified from an example:
+     * http://stackoverflow.com/questions/7528045/large-string-split-into-lines-with-maximum-length-in-java
+     *
+     * @param input the string to split
+     * @param maxLineLength max length of a line
+     * @param tabsin new line indent tabs
+     * @param spacesin spaces to add after tab indent
+     * @return the newlined string
+     */
+    public static String breakLines(String input, int maxLineLength, int tabsin, int spacesin) {
+        final char NEWLINE = '\n';
+        final String SPACE_SEPARATOR = " ";
+        final String SPLIT_REGEXP = "\\s+";
+        String[] tokens = input.split(SPLIT_REGEXP);
+        StringBuilder output = new StringBuilder(input.length());
+        int lineLen = 0;
+        for (int i = 0; i < tokens.length; i++) {
+            String word = tokens[i];
+
+            if (lineLen + (SPACE_SEPARATOR + word).length() > maxLineLength) {
+                if (i > 0) {
+                    output.append(NEWLINE);
+                    for (int x = 0; x < tabsin; x++) {
+                        output.append('\t');
+                    }
+                    for (int x = 0; x < spacesin; x++) {
+                        output.append(' ');
+                    }
+                }
+                lineLen = 0;
+            }
+            if (i < tokens.length - 1 && (lineLen + (word + SPACE_SEPARATOR).length() + tokens[i + 1].length()
+                    <= maxLineLength)) {
+                word += SPACE_SEPARATOR;
+            }
+            output.append(word);
+            lineLen += word.length();
+        }
+        return output.toString();
+    }
 }

@@ -30,7 +30,7 @@ import ublu.util.ArgArray;
 import ublu.util.Functor;
 import ublu.util.Generics;
 import java.util.Set;
-import utilities.AboutToolbox;
+import ublu.util.Utils;
 
 /**
  * Class to deliver the usage message
@@ -44,7 +44,7 @@ public class CmdUsage extends Command {
         "\tIf no command is present, interprets input until EOF or the 'bye' command is encountered."};
 
     {
-        setNameAndDescription("help or usage", "/0 [[-cmd commandname] | [-all] | [-version]] : display usage and help message");
+        setNameAndDescription("help or usage", "/0 [[-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
     }
 
     /**
@@ -52,6 +52,7 @@ public class CmdUsage extends Command {
      */
     public CmdUsage() {
     }
+    int linelength = 80;
 
     /**
      * Create a string describing usage of the program.
@@ -62,16 +63,16 @@ public class CmdUsage extends Command {
      */
     public String usageMessage(CommandMap cm, boolean longmsg) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < USAGE_MSG.length; i++) {
-            sb.append(USAGE_MSG[i]).append("\n");
+        for (String USAGE_MSG1 : USAGE_MSG) {
+            sb.append(USAGE_MSG1).append("\n");
         }
         sb.append("\nCommands:\n");
         Generics.CommandLexicon cl = new Generics.CommandLexicon(getInterpreter(), cm);
         Set<String> keys = cl.keySet();
         for (String key : keys) {
-            sb.append("\t").append(key);
+            sb.append("\t").append(key).append("\t\t");
             if (longmsg) {
-                sb.append(' ').append(cl.get(key));
+                sb.append(' ').append(Utils.breakLines(cl.get(key), linelength, 3, 2));
             }
             sb.append("\n");
         }
@@ -92,10 +93,13 @@ public class CmdUsage extends Command {
                     longmsg = true;
                     break;
                 case "-cmd":
-                    cmdName = args.next();
+                    cmdName = args.nextMaybeQuotationTuplePopString();
                     break;
                 case "-version":
                     cmdName = "version";
+                    break;
+                case "-linelen":
+                    linelength = args.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -103,35 +107,34 @@ public class CmdUsage extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (cmdName == null) {
+            getInterpreter().outputerrln(usageMessage(getInterpreter().getCmdMap(), longmsg));
+        } else if (cmdName.equals("version")) {
+            getInterpreter().outputerrln(getInterpreter().getMyUblu().startupMessage());
         } else {
-            if (cmdName == null) {
-                getInterpreter().outputerrln(getInterpreter().getMyUblu().startupMessage());
-                getInterpreter().outputerrln("");
-                getInterpreter().outputerrln(usageMessage(getInterpreter().getCmdMap(), longmsg));
+            CommandInterface c = getInterpreter().getCmd(getInterpreter(), cmdName);
+            if (c != null) {
+                if (c instanceof Command) {
+                    Command command = Command.class.cast(c);
+                    getInterpreter().outputerrln(formatSingleCommand(command));
+                }
             } else {
-                if (cmdName.equals("version")) {
-                    getInterpreter().outputerrln(getInterpreter().getMyUblu().startupMessage());
-                    getInterpreter().outputerrln(AboutToolbox.getVersionDescription().trim());
-                    // getInterpreter().outputerrln("Postgresql version: " + org.postgresql.Driver.getVersion());                    
+                Functor f = getInterpreter().getFunctor(cmdName);
+                if (f != null) {
+                    getInterpreter().outputerrln(Utils.breakLines(cmdName + " " + f.toString(), linelength, 0, 0));
                 } else {
-                    CommandInterface c = getInterpreter().getCmd(getInterpreter(), cmdName);
-                    if (c != null) {
-                        if (c instanceof Command) {
-                            Command command = Command.class.cast(c);
-                            getInterpreter().outputerrln(command.getNameAndDescription());
-                        }
-                    } else {
-                        Functor f = getInterpreter().getFunctor(cmdName);
-                        if (f != null) {
-                            getInterpreter().outputerrln(cmdName + " " + f.toString());
-                        } else {
-                            getInterpreter().outputerrln("No such command or functor: " + cmdName);
-                        }
-                    }
+                    getInterpreter().outputerrln("No such command or functor: " + cmdName);
                 }
             }
         }
         return args;
+    }
+
+    private String formatSingleCommand(Command cmd) {
+        StringBuffer sb = new StringBuffer(cmd.getCommandName());
+        sb.append('\t')
+                .append(Utils.breakLines(cmd.getCommandDescription(), linelength, 1, 0));
+        return sb.toString();
     }
 
     @Override
