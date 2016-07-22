@@ -140,14 +140,16 @@ public class Ublu {
      */
     public static String openSourceList() {
         StringBuilder sb = new StringBuilder();
-        return sb.append("JTOpen http://sourceforge.net/projects/jt400/\n")
-                .append("IBM Public License 1.0\n")
+        return sb.append(utilities.AboutToolbox.getVersionDescription())
+                .append("\n---\n")
                 .append("Postgresql ")
-                .append(org.postgresql.Driver.getVersion()).append('\n')
+                .append(org.postgresql.Driver.getVersion())
                 .append("Copyright (c) 1997-2011, PostgreSQL Global Development Group\n")
-                .append("All rights reserved http://www.postgresql.org\n")
+                .append("All rights reserved http://www.postgresql.org")
+                .append("\n---\n")
                 .append("tn5250j http://tn5250j.sourceforge.net/\n")
-                .append("NO WARRANTY (GPL) see the file tn5250_LICENSE\n")
+                .append("NO WARRANTY (GPL) see the file tn5250_LICENSE")
+                .append("\n---\n")
                 .append(com.softwoehr.pigiron.Version.getVersion())
                 .append(" http://pigiron.sourceforge.net\n")
                 .append("Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO 80403 USA\n")
@@ -167,9 +169,11 @@ public class Ublu {
                 .append("Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com\n")
                 .append("Copyright 2016, Jack J. Woehr, http://www.softwoehr.com\n")
                 .append("All Rights Reserved\n")
-                .append("Ublu is open source software under the BSD 2-clause license.\n")
-                .append("Ublu utilizes the following open source projects:\n")
+                .append("Ublu is Open Source Software under the BSD 2-clause license.\n")
+                .append("***\n")
+                .append("Ublu utilizes the following open source projects ")
                 .append(openSourceList())
+                .append("\n***")
                 .toString();
     }
 
