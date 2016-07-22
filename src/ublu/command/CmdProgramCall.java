@@ -59,7 +59,8 @@ public class CmdProgramCall extends Command {
     /**
      * Execute a program on the host.
      *
-     * <p>Execute parameterized program on the specified server on behalf of the
+     * <p>
+     * Execute parameterized program on the specified server on behalf of the
      * specified uid/passwd.</p>
      *
      * @param argArray the passed in arguments
@@ -105,48 +106,46 @@ public class CmdProgramCall extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (getAs400() == null && argArray.size() < 3) { // if no passed-in AS400 instance and not enough args to generate one
+            logArgArrayTooShortError(argArray);
+            setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (getAs400() == null && argArray.size() < 3) { // if no passed-in AS400 instance and not enough args to generate one
-                logArgArrayTooShortError(argArray);
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                if (getAs400() == null) {
-                    try {
-                        setAs400FromArgs(argArray);
-                    } catch (PropertyVetoException ex) {
-                        getLogger().log(Level.SEVERE, "Could not create an AS400 instance in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
+            if (getAs400() == null) {
+                try {
+                    setAs400FromArgs(argArray);
+                } catch (PropertyVetoException ex) {
+                    getLogger().log(Level.SEVERE, "Could not create an AS400 instance in " + getNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
                 }
-                if (getAs400() != null) {
-                    // /* Debug */ getLogger().log(Level.INFO, "Command string is: {0}", commandString);
-                    if (programFQP == null) {
-                        getLogger().log(Level.SEVERE, "Cannot execute null program fully qualified path in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } else {
-                        // /* DEBUG */ getLogger().log(Level.INFO, "Command string is: " + commandString);
-                        StringBuilder sb = new StringBuilder();
-                        ProgramCall programCall;
-                        try {
-                            programCall = new ProgramCall(getAs400());
-                            programCall.setProgram(programFQP);
-                            ProgramCallHelper pch = new ProgramCallHelper(programCall, mppl);
-                            pch.addInputParameters();
-                            if (pch.runProgramCall()) {
-                                pch.processOutputParameters();
-                            } else {
-                                getLogger().log(Level.SEVERE, "Program call failed for program {0} in {1}", new Object[]{programFQP, getNameAndDescription()});
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                            // Show the messages (returned whether or not there was an error.)
-                            put(pch.getMessageList());
-                        } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Program " + programFQP + " failed in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (SQLException ex) {
-                            getLogger().log(Level.SEVERE, null, ex);
+            }
+            if (getAs400() != null) {
+                // /* Debug */ getLogger().log(Level.INFO, "Command string is: {0}", commandString);
+                if (programFQP == null) {
+                    getLogger().log(Level.SEVERE, "Cannot execute null program fully qualified path in {0}", getNameAndDescription());
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    // /* DEBUG */ getLogger().log(Level.INFO, "Command string is: " + commandString);
+                    StringBuilder sb = new StringBuilder();
+                    ProgramCall programCall;
+                    try {
+                        programCall = new ProgramCall(getAs400());
+                        programCall.setProgram(programFQP);
+                        ProgramCallHelper pch = new ProgramCallHelper(programCall, mppl);
+                        pch.addInputParameters();
+                        if (pch.runProgramCall()) {
+                            pch.processOutputParameters();
+                        } else {
+                            getLogger().log(Level.SEVERE, "Program call failed for program {0} in {1}", new Object[]{programFQP, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
+                        // Show the messages (returned whether or not there was an error.)
+                        put(pch.getMessageList());
+                    } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | PropertyVetoException ex) {
+                        getLogger().log(Level.SEVERE, "Program " + programFQP + " failed in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (SQLException ex) {
+                        getLogger().log(Level.SEVERE, null, ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                 }
             }
