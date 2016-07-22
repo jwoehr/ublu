@@ -49,7 +49,7 @@ public class CmdPrinter extends Command {
 
     {
         setNameAndDescription("printer",
-                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute} ~~@{value}]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
+                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute} ~@{value}]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
     }
 
     private enum OPERATIONS {
