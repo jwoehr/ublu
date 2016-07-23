@@ -25,6 +25,7 @@
  */
 package ublu;
 
+import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.SecureAS400;
 
 /**
@@ -48,6 +49,22 @@ public class SecureAS400Extender extends SecureAS400 {
      */
     public String getCachedPassword() {
         return cachedPassword;
+    }
+
+    /**
+     * Return the cached password if it's an extender instance, null otherwise
+     *
+     * @param as400 an instance maybe of AS400Extender or SecureAS400Extender
+     * @return the cached password
+     */
+    public static String getCachedPassword(AS400 as400) {
+        String result = null;
+        if (as400 instanceof AS400Extender) {
+            result = AS400Extender.class.cast(as400).getCachedPassword();
+        } else if (as400 instanceof SecureAS400Extender) {
+            result = SecureAS400Extender.class.cast(as400).getCachedPassword();
+        }
+        return result;
     }
 
     /**

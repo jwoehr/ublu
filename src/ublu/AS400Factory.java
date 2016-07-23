@@ -136,7 +136,7 @@ public class AS400Factory {
     protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type, SIGNON_HANDLER_TYPE signon_handler_type, String systemName, String userId, String password) {
         AS400 as400 =
                 signon_security_type == SIGNON_SECURITY_TYPE.NONE
-                ? new UbluExtender(systemName, userId, password)
+                ? new AS400Extender(systemName, userId, password)
                 : new SecureAS400Extender(systemName, userId, password);
         switch (signon_handler_type) {
             case CUSTOM:
@@ -223,14 +223,14 @@ public class AS400Factory {
      * Retrieve the original password supplied by user for use with JTOpenLite
      *
      * @param as400 the instance which ostensibly is actually an instance of
- either UbluExtender or SecureAS400Extender
+ either AS400Extender or SecureAS400Extender
      * @return the original password supplied by user for use with JTOpenLite
      * classes
      */
     public static String retrievePassword(AS400 as400) {
         String password = null;
-        if (as400 instanceof UbluExtender) {
-            password = UbluExtender.class.cast(as400).getCachedPassword();
+        if (as400 instanceof AS400Extender) {
+            password = AS400Extender.class.cast(as400).getCachedPassword();
         } else if (as400 instanceof SecureAS400Extender) {
             password = SecureAS400Extender.class.cast(as400).getCachedPassword();
         }

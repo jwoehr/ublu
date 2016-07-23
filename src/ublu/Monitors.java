@@ -31,6 +31,7 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.SystemStatus;
+import com.ibm.jtopenlite.SignonConnection;
 import com.ibm.jtopenlite.command.CommandConnection;
 import com.ibm.jtopenlite.components.ListDiskStatuses;
 import com.ibm.jtopenlite.components.DiskStatus;
@@ -83,6 +84,15 @@ public class Monitors {
     }
 
     /**
+     * Instance identify system and user
+     *
+     * @param as400 the associated system
+     */
+    public Monitors(AS400 as400) {
+        setAs400(as400);
+    }
+
+    /**
      * Get major version of OS400
      *
      * @return major version of OS400
@@ -120,7 +130,7 @@ public class Monitors {
             status = SysShepHelper.STATUS.WARNING;
             message = (ex.getLocalizedMessage());
         }
-        return SysShepHelper.format(metricName, vrm, status, message.toString());
+        return SysShepHelper.format(metricName, vrm, status, message);
 
     }
 
@@ -133,8 +143,9 @@ public class Monitors {
     public String diskStatus() throws IOException {
         StringBuilder result = new StringBuilder();
         ListDiskStatuses lds = new ListDiskStatuses();
-        CommandConnection cc = CommandConnection.getConnection(getAs400().getSystemName(), getAs400().getUserId(), password);
-        DDMConnection ddmc = DDMConnection.getConnection(getAs400().getSystemName(), getAs400().getUserId(), password);
+        SignonConnection sc = SignonConnection.getConnection(getAs400() instanceof SecureAS400Extender, getAs400().getSystemName(), getAs400().getUserId(), AS400Extender.getCachedPassword(getAs400()), getAs400().getServicePort(AS400.SIGNON));
+        CommandConnection cc = CommandConnection.getConnection(sc.getInfo(), getAs400().getUserId(), AS400Extender.getCachedPassword(getAs400()), getAs400().getServicePort(AS400.COMMAND), false);
+        DDMConnection ddmc = DDMConnection.getConnection(sc.getInfo(), getAs400().getUserId(), AS400Extender.getCachedPassword(getAs400()),getAs400().getServicePort(AS400.DATAQUEUE));
         DiskStatus[] statusList = (lds.getDiskStatuses(cc, ddmc, "APITESTXYZ"));
         for (DiskStatus ds : statusList) {
             // System.out.print(ds);

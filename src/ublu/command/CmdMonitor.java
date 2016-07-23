@@ -25,6 +25,7 @@
  */
 package ublu.command;
 
+import com.ibm.as400.access.AS400;
 import ublu.Monitors;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
@@ -36,6 +37,8 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.AS400Extender;
+import ublu.util.Tuple;
 
 /**
  * Command to run System Shepherd-style monitoring.
@@ -45,7 +48,7 @@ import java.util.logging.Level;
 public class CmdMonitor extends Command {
 
     {
-        setNameAndDescription("monitor", "/3 [-none|-diskstatus|-status|-version|-all] system userid passwd : System Shepherd monitor a system");
+        setNameAndDescription("monitor", "/3 [-as400 ~@as400] [-none|-diskstatus|-status|-version|-all] system userid passwd : System Shepherd monitor a system");
     }
 
     /**
@@ -81,12 +84,16 @@ public class CmdMonitor extends Command {
      * @return what's left of arguments
      */
     public ArgArray monitor(ArgArray argArray) {
+        Tuple myAs400Tuple = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
+                    break;
+                case "-as400":
+                    myAs400Tuple = argArray.nextTupleOrPop();
                     break;
                 case "-all":
                     setMonPoint(MONPOINTS.ALL);
@@ -110,41 +117,57 @@ public class CmdMonitor extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (argArray.size() < 3) {
-                logArgArrayTooShortError(argArray);
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                String system = argArray.next();
-                String userid = argArray.next();
-                String passwd = argArray.next();
-                try {
-                    Monitors oS400Monitors = new Monitors(system, userid, passwd);
-                    StringBuilder sb = new StringBuilder();
-                    switch (getMonPoint()) {
-                        case NONE:
-                            break;
-                        case ALL:
-                            sb.append(oS400Monitors.osVersionVRM());
-                            sb.append('\n');
-                            sb.append(oS400Monitors.systemStatus());
-                            sb.append('\n');
-                            sb.append(oS400Monitors.diskStatus());
-                            break;
-                        case DISKSTATUS:
-                            sb.append(oS400Monitors.diskStatus());
-                            break;
-                        case STATUS:
-                            sb.append(oS400Monitors.systemStatus());
-                            break;
-                        case VERSION:
-                            sb.append(oS400Monitors.osVersionVRM());
-                            break;
-                    }
-                    oS400Monitors.getAs400().disconnectAllServices();
-                    put(sb);
-                } catch (PropertyVetoException | RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                    getLogger().log(Level.SEVERE, "Exception in monitor command", ex);
+            AS400 myAs400 = null;
+            if (myAs400Tuple != null) {
+                Object o = myAs400Tuple.getValue();
+                if (o instanceof AS400) {
+                    myAs400 = AS400.class.cast(o);
+                } else {
+                    getLogger().log(Level.SEVERE, "Tuple provided to {0} does not represent an AS400 object.", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
+                }
+            }
+            if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                if (myAs400 == null) {
+                    if (argArray.size() < 3) {
+                        logArgArrayTooShortError(argArray);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        String system = argArray.next();
+                        String userid = argArray.next();
+                        String passwd = argArray.next();
+                        myAs400 = new AS400Extender(system, userid, passwd);
+                    }
+                }
+                if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                    try {
+                        Monitors oS400Monitors = new Monitors(myAs400);
+                        StringBuilder sb = new StringBuilder();
+                        switch (getMonPoint()) {
+                            case NONE:
+                                break;
+                            case ALL:
+                                sb.append(oS400Monitors.osVersionVRM());
+                                sb.append('\n');
+                                sb.append(oS400Monitors.systemStatus());
+                                sb.append('\n');
+                                sb.append(oS400Monitors.diskStatus());
+                                break;
+                            case DISKSTATUS:
+                                sb.append(oS400Monitors.diskStatus());
+                                break;
+                            case STATUS:
+                                sb.append(oS400Monitors.systemStatus());
+                                break;
+                            case VERSION:
+                                sb.append(oS400Monitors.osVersionVRM());
+                                break;
+                        }
+                        put(sb);
+                    } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                 }
             }
         }

@@ -32,7 +32,7 @@ import com.ibm.as400.access.AS400;
  *
  * @author jwoehr
  */
-public class UbluExtender extends AS400 {
+public class AS400Extender extends AS400 {
 
     private String cachedPassword = "";
 
@@ -51,13 +51,29 @@ public class UbluExtender extends AS400 {
     }
 
     /**
+     * Return the cached password if it's an extender instance, null otherwise
+     *
+     * @param as400 an instance maybe of AS400Extender or SecureAS400Extender
+     * @return the cached password
+     */
+    public static String getCachedPassword(AS400 as400) {
+        String result = null;
+        if (as400 instanceof AS400Extender) {
+            result = AS400Extender.class.cast(as400).getCachedPassword();
+        } else if (as400 instanceof SecureAS400Extender) {
+            result = SecureAS400Extender.class.cast(as400).getCachedPassword();
+        }
+        return result;
+    }
+
+    /**
      * Instance
      *
      * @param systemName systemName
      * @param userId userId
      * @param password password
      */
-    public UbluExtender(String systemName, String userId, String password) {
+    public AS400Extender(String systemName, String userId, String password) {
         super(systemName, userId, password);
         setCachedPassword(password);
     }
