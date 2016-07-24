@@ -33,7 +33,6 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
-import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -48,7 +47,7 @@ import ublu.util.Tuple;
 public class CmdMonitor extends Command {
 
     {
-        setNameAndDescription("monitor", "/3 [-as400 ~@as400] [-none|-diskstatus|-status|-version|-all] system userid passwd : System Shepherd monitor a system");
+        setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-none|-diskstatus|-status|-version|-all] system userid passwd : System Shepherd monitor a system");
     }
 
     /**

@@ -48,7 +48,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -92,6 +92,10 @@ public class CmdAS400 extends Command {
          * Ping server or services
          */
         PING,
+        /**
+         * Query service port
+         */
+        QSVCPORT,
         /**
          * Indicate server port for service
          */
@@ -179,6 +183,10 @@ public class CmdAS400 extends Command {
                     operation = OPERATIONS.PROXY;
                     proxyServer = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-qsvcport":
+                    operation = OPERATIONS.QSVCPORT;
+                    serviceName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-vrm":
                     operation = OPERATIONS.VRM;
                     break;
@@ -204,6 +212,11 @@ public class CmdAS400 extends Command {
                     } else {
                         try {
                             setAs400(instanceAS400(argArray));
+                            // set to defaults because they aren't set by JTOpen
+                            // which apparently sets them when services are invoked
+                            // whereas we sometimes look at them in jtopenlite code
+                            // so as to feed redirected ports to CmdMonitor.
+                            getAs400().setServicePortsToDefault();
                             put(getAs400());
                         } catch (PropertyVetoException | RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
@@ -335,6 +348,24 @@ public class CmdAS400 extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "Unknown service name provided to ping service in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case QSVCPORT:
+                    serviceInteger = AS400Factory.serviceNameToInteger(serviceName);
+                    if (serviceInteger != null) {
+                        if (getAs400() != null) {
+                            try {
+                                put(getAs400().getServicePort(serviceInteger));
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Exception putting service port number", ex);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No instance of AS400 object to set service port in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to service port in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
