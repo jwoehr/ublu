@@ -143,7 +143,7 @@ public class Ublu {
         return sb.append(utilities.AboutToolbox.getVersionDescription())
                 .append("\n---\n")
                 .append("Postgresql ")
-                .append(org.postgresql.Driver.getVersion())
+                .append(org.postgresql.Driver.getVersion()).append('\n')
                 .append("Copyright (c) 1997-2011, PostgreSQL Global Development Group\n")
                 .append("All rights reserved http://www.postgresql.org")
                 .append("\n---\n")
