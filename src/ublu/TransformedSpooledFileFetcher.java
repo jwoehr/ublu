@@ -48,7 +48,7 @@ import java.util.logging.Logger;
  */
 public class TransformedSpooledFileFetcher {
 
-    private SpooledFile mySpooledFile;
+    private final SpooledFile mySpooledFile;
     private static final Logger LOG = Logger.getLogger(TransformedSpooledFileFetcher.class.getName());
 
     /**
@@ -101,9 +101,10 @@ public class TransformedSpooledFileFetcher {
     /**
      * Fetch the spool file transformed to our printer specification.
      *
-     * <p>We're using IBM 4019 as the simplest ASCII printer model with the
-     * least formatting to plow through and remove. If we find a pure ASCII
-     * printer model we'll use that instead.</p>
+     * <p>
+     * We're using IBM 4019 as the simplest ASCII printer model with the least
+     * formatting to plow through and remove. If we find a pure ASCII printer
+     * model we'll use that instead.</p>
      *
      * @return the entire transformed spooled file
      * @throws AS400Exception

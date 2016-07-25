@@ -43,7 +43,7 @@ import java.util.logging.Logger;
  */
 public class SpooledFileFetcher {
 
-    private SpooledFile mySpooledFile;
+    private final SpooledFile mySpooledFile;
     private static final Logger LOG = Logger.getLogger(SpooledFileFetcher.class.getName());
 
     /**
@@ -113,8 +113,7 @@ public class SpooledFileFetcher {
 
     /**
      *
-     * @return 
-     * @throws AS400Exception
+     * @return @throws AS400Exception
      * @throws AS400SecurityException
      * @throws ErrorCompletingRequestException
      * @throws IOException
@@ -131,17 +130,17 @@ public class SpooledFileFetcher {
         try (PrintObjectInputStream printObjectInputStream = mySpooledFile.getInputStream()) {
             int available = printObjectInputStream.available();
             while (available > 0) {
-                LOG.log(Level.INFO, "available: " + available);
+                LOG.log(Level.INFO, "available: {0}", available);
                 byte[] bytes = new byte[available];
-                LOG.log(Level.INFO, "bytes.length: " + bytes.length);
+                LOG.log(Level.INFO, "bytes.length: {0}", bytes.length);
                 int bytesRead = printObjectInputStream.read(bytes);
-                LOG.log(Level.INFO, "bytesRead: " + bytesRead);
+                LOG.log(Level.INFO, "bytesRead: {0}", bytesRead);
                 if (bytesRead > 0) {
                     String s = new String(bytes, "IBM037");
                     sb.append(s);
                 }
                 available = printObjectInputStream.available();
-                LOG.log(Level.INFO, "available: " + available);
+                LOG.log(Level.INFO, "available: {0}", available);
 
             }
         }
