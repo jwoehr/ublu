@@ -94,7 +94,6 @@ public class Host {
     public boolean isUse_ssl() {
         return use_ssl;
     }
-    
 
     @Override
     public String toString() {
@@ -109,5 +108,4 @@ public class Host {
                 .append(isUse_ssl());
         return sb.toString();
     }
-
 }
