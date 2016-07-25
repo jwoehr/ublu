@@ -50,7 +50,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -110,6 +110,10 @@ public class CmdAS400 extends Command {
          * Indicate JTOpen Proxy server
          */
         PROXY,
+        /**
+         * Validate login
+         */
+        VALIDATE,
         /**
          * Get version/revision/mod of server
          */
@@ -188,6 +192,9 @@ public class CmdAS400 extends Command {
                 case "-qsvcport":
                     operation = OPERATIONS.QSVCPORT;
                     serviceName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-validate":
+                    operation = OPERATIONS.VALIDATE;
                     break;
                 case "-vrm":
                     operation = OPERATIONS.VRM;
@@ -398,14 +405,26 @@ public class CmdAS400 extends Command {
                         try {
                             getAs400().setProxyServer(proxyServer);
                         } catch (PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't set proxy server " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Couldn't set proxy server in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No AS400 object provided to proxy in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-
+                    break;
+                case VALIDATE:
+                    if (getAs400() != null) {
+                        try {
+                            put(getAs400().validateSignon());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Couldn't validate login in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No AS400 object provided to validate login in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 case VRM:
                     if (getAs400() != null) {
