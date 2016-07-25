@@ -143,9 +143,24 @@ public class Monitors {
     public String diskStatus() throws IOException {
         StringBuilder result = new StringBuilder();
         ListDiskStatuses lds = new ListDiskStatuses();
-        SignonConnection sc = SignonConnection.getConnection(getAs400() instanceof SecureAS400Extender, getAs400().getSystemName(), getAs400().getUserId(), AS400Extender.getCachedPassword(getAs400()), getAs400().getServicePort(AS400.SIGNON));
-        CommandConnection cc = CommandConnection.getConnection(sc.getInfo(), getAs400().getUserId(), AS400Extender.getCachedPassword(getAs400()), getAs400().getServicePort(AS400.COMMAND), false);
-        DDMConnection ddmc = DDMConnection.getConnection(sc.getInfo(), getAs400().getUserId(), AS400Extender.getCachedPassword(getAs400()),getAs400().getServicePort(AS400.DATAQUEUE));
+        SignonConnection sc = SignonConnection.getConnection(
+                getAs400() instanceof SecureAS400Extender,
+                getAs400().getSystemName(),
+                getAs400().getUserId(),
+                AS400Extender.getCachedPassword(getAs400()),
+                getAs400().getServicePort(AS400.SIGNON));
+        CommandConnection cc = CommandConnection.getConnection(
+                getAs400() instanceof SecureAS400Extender,
+                sc.getInfo(),
+                getAs400().getUserId(),
+                AS400Extender.getCachedPassword(getAs400()),
+                getAs400().getServicePort(AS400.COMMAND),
+                false);
+        DDMConnection ddmc = DDMConnection.getConnection(
+                getAs400() instanceof SecureAS400Extender,
+                sc.getInfo(), getAs400().getUserId(),
+                AS400Extender.getCachedPassword(getAs400()),
+                getAs400().getServicePort(AS400.RECORDACCESS));
         DiskStatus[] statusList = (lds.getDiskStatuses(cc, ddmc, "APITESTXYZ"));
         for (DiskStatus ds : statusList) {
             // System.out.print(ds);
