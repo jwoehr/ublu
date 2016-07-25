@@ -851,7 +851,7 @@ public class Interpreter {
      * @param defaultValue
      * @return
      */
-    public String getProperty(String key, String defaultValue) {
+    public final String getProperty(String key, String defaultValue) {
         return props.get(key, defaultValue);
     }
 

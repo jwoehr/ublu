@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -126,30 +128,28 @@ public class DBugInterpreter extends Interpreter {
                     lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
                     break;
                 }
-            } else {
-                if (getFunctorMap().containsKey(commandName)) {
-                    try {
-                        Generics.TupleNameList tnl = parseTupleNameList();
-                        if (tnl != null) {
-                            lastCommandResult = executeFunctor(getFunctor(commandName), tnl);
-                            if (lastCommandResult == CommandInterface.COMMANDRESULT.FAILURE) {
-                                break;
-                            }
-                        } else {
-                            getLogger().log(Level.SEVERE, "Found function {0} but could not execute it", commandName);
-                            lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+            } else if (getFunctorMap().containsKey(commandName)) {
+                try {
+                    Generics.TupleNameList tnl = parseTupleNameList();
+                    if (tnl != null) {
+                        lastCommandResult = executeFunctor(getFunctor(commandName), tnl);
+                        if (lastCommandResult == CommandInterface.COMMANDRESULT.FAILURE) {
                             break;
                         }
-                    } catch (java.lang.RuntimeException ex) {
-                        getLogger().log(Level.SEVERE, "Function \"" + commandName + "\" threw exception", ex);
+                    } else {
+                        getLogger().log(Level.SEVERE, "Found function {0} but could not execute it", commandName);
                         lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
                         break;
                     }
-                } else {
-                    getLogger().log(Level.SEVERE, "Command \"{0}\" not found.", commandName);
+                } catch (java.lang.RuntimeException ex) {
+                    getLogger().log(Level.SEVERE, "Function \"" + commandName + "\" threw exception", ex);
                     lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
                     break;
                 }
+            } else {
+                getLogger().log(Level.SEVERE, "Command \"{0}\" not found.", commandName);
+                lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+                break;
             }
         }
         if (!initialCommandLine.isEmpty()) {

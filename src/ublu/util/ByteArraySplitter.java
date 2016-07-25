@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +40,7 @@ import ublu.util.Generics.ByteArrayListArrayList;
  */
 public class ByteArraySplitter {
 
-    private ByteArrayList srcByteArrayList;
+    private final ByteArrayList srcByteArrayList;
 
     /**
      * Construct from an array of byte.

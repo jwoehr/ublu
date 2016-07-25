@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -146,7 +148,7 @@ public class ArgArray extends ArrayList<String> {
         if (s != null) {
             s = s.trim();
             if (Tuple.isTupleName(s)) {
-                result = getInterpreter().getTuple(s) == null ? true : false;
+                result = getInterpreter().getTuple(s) == null;
             }
         }
         return result;
