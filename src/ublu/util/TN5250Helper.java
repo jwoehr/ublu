@@ -89,22 +89,9 @@ public class TN5250Helper extends Thread {
      * Instance with an empty array of args
      */
     public TN5250Helper() {
-//        my5250 = new My5250();
         args = new Generics.StringArrayList();
     }
 
-//    /**
-//     *
-//     * @param system
-//     * @param user
-//     * @param password
-//     */
-//    public TN5250Helper(String system, String user, String password) {
-//        this();
-//        this.system = system;
-//        this.user = user;
-//        this.password = password;
-//    }
     /**
      * Instance with a system name and an array of args
      *
@@ -130,7 +117,7 @@ public class TN5250Helper extends Thread {
     public void run() {
         StringArrayList sal = new StringArrayList(system);
         sal.addAll(args);
-        String sel="Ublu";
+        String sel = "Ublu";
         my5250 = new My5250();
         /* Debug */ System.out.println("args to tn5250 : " + args);
         LangTool.init();
