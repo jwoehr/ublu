@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 22 Jul 2016 17:00:23 UTC">
+  "Mon, 25 Jul 2016 01:07:36 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table cellspacing="0" cellpadding="2" border="0" height="456"
+  <table cellspacing="0" border="0" cellpadding="2" height="456"
   width="100%">
     <tbody>
       <tr>
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td valign="middle" align="center" bgcolor="#000000">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th bgcolor="#000000" valign="middle" align="center">
+        <th valign="middle" align="center" bgcolor="#000000">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td valign="middle" align="center" bgcolor="#000000">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-07-22</p>
+  Last edit: 2016-07-24</p>
   <pre>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
 Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
@@ -1389,7 +1389,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table cellspacing="2" cellpadding="2" border="1" width="100%">
+  <table cellspacing="2" border="1" cellpadding="2" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -1593,12 +1593,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -ping sysname
     ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
+    | -qsvcport
+    ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -svcport
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} |
     -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to,
-    query connection, or disconnect from an as400 system</tt><br>
-    <br>
+    query connection, or disconnect from an as400 system<br>
+    &nbsp;&nbsp;&nbsp;</tt><br>
     Creates an object instance representing an AS400 system and
     manipulates that object. The instance is intended to be stored
     in a <a href="#Tuple_Variables">tuple variable</a> for later
@@ -1712,7 +1714,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <li><tt>-proxy ~@{server[:portnum]}</tt> assigns the JTOpen
       proxy server (a running instance of
       <tt>com.ibm.as400.access.ProxyServer</tt>) if one is being
-      used.<br></li>
+      used.</li>
+
+      <li><tt>-qsvcport
+      ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}</tt>
+      puts the port on which the <tt>as400</tt> object is currently
+      set contact the named service.<br></li>
 
       <li>
         <tt>-vrm</tt> puts the Version/Release/Modification of the
@@ -4636,12 +4643,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="monitor" id="monitor"></a><tt>monitor</tt></h4>
 
   <blockquote>
-    <p><tt>/3? [-none|-diskstatus|-status|-version|-all] system
-    userid password</tt><br>
-    performs one pass of System Shepherd monitoring on
-    <i>system</i> on behalf of <i>userid</i> with <i>password</i>.
-    System Shepherd datapoints are returned to standard out,
-    either<br></p>
+    <p><tt>/3? [-as400 ~@as400] [-worklib ~@{libname}]
+    [-none|-diskstatus|-status|-version|-all] system userid passwd
+    : fetch system monitor data and create System Shepherd [TM API]
+    datapoints<br>
+    &nbsp;&nbsp;&nbsp;</tt><br>
+    performs one pass of gathering monitoring data on <i>system</i>
+    on behalf of <i>userid</i> with <i>password</i> and
+    <tt>put</tt>ting the data as System Shepherd [TM Absolute
+    Performance, Inc.] datapoints.<br></p>
 
     <ul>
       <li><tt>-none</tt> (we mean none!)</li>
@@ -4652,7 +4662,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
       <li><tt>-version</tt> the OS version maj/min</li>
 
-      <li><tt>-all</tt> version + diskstatus + status<br></li>
+      <li><tt>-all</tt> version + diskstatus + status</li>
+
+      <li><tt>-worklib</tt> <tt>~@{libname}</tt> identifies a
+      temporary library the <tt>monitor</tt> command will use when
+      generating disk status information. If the library does not
+      exist, it is created on the target server as a PROD library.
+      If this argument is omitted, the library name used is
+      <tt>APITESTXYZ</tt>. An output queue named DSKSTS is created
+      in the library. Neither the library nor the output queue are
+      deleted when the command exits.<br></li>
     </ul>
 
     <p>The default is <tt>-none</tt>.</p>
@@ -5373,7 +5392,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellspacing="2" cellpadding="2" border="1" width=
+      <table cellspacing="2" border="1" cellpadding="2" width=
       "75%">
         <tbody>
           <tr>
@@ -5926,7 +5945,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellspacing="2" cellpadding="2" border="1" width="100%">
+  <table cellspacing="2" border="1" cellpadding="2" width="100%">
     <tbody>
       <tr>
         <th valign="top" align="center">Ublu main interpretive

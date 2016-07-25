@@ -45,9 +45,9 @@ import ublu.util.Tuple;
  * @author jwoehr
  */
 public class CmdMonitor extends Command {
-
+    
     {
-        setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-none|-diskstatus|-status|-version|-all] system userid passwd : System Shepherd monitor a system");
+        setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-worklib ~@{libname}] [-none|-diskstatus|-status|-version|-all] system userid passwd : fetch system monitor data and create System Shepherd [TM API] datapoints");
     }
 
     /**
@@ -55,21 +55,21 @@ public class CmdMonitor extends Command {
      */
     public CmdMonitor() {
     }
-
+    
     private enum MONPOINTS {
-
+        
         NONE, VERSION, DISKSTATUS, STATUS, ALL
     }
     private MONPOINTS monPoint;
-
+    
     private void setMonPoint(MONPOINTS monPoint) {
         this.monPoint = monPoint;
     }
-
+    
     private MONPOINTS getMonPoint() {
         return monPoint;
     }
-
+    
     @Override
     protected void reinit() {
         super.reinit();
@@ -84,6 +84,7 @@ public class CmdMonitor extends Command {
      */
     public ArgArray monitor(ArgArray argArray) {
         Tuple myAs400Tuple = null;
+        String worklibName = "APITESTXYZ";
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -105,6 +106,9 @@ public class CmdMonitor extends Command {
                     break;
                 case "-status":
                     setMonPoint(MONPOINTS.STATUS);
+                    break;
+                case "-worklib":
+                    worklibName = argArray.nextMaybeQuotationTuplePopString().toUpperCase();
                     break;
                 case "-version":
                     setMonPoint(MONPOINTS.VERSION);
@@ -150,10 +154,10 @@ public class CmdMonitor extends Command {
                                 sb.append('\n');
                                 sb.append(oS400Monitors.systemStatus());
                                 sb.append('\n');
-                                sb.append(oS400Monitors.diskStatus());
+                                sb.append(oS400Monitors.diskStatus(worklibName));
                                 break;
                             case DISKSTATUS:
-                                sb.append(oS400Monitors.diskStatus());
+                                sb.append(oS400Monitors.diskStatus(worklibName));
                                 break;
                             case STATUS:
                                 sb.append(oS400Monitors.systemStatus());
@@ -172,13 +176,13 @@ public class CmdMonitor extends Command {
         }
         return argArray;
     }
-
+    
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return monitor(args);
     }
-
+    
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();

@@ -137,10 +137,12 @@ public class Monitors {
     /**
      * Get disk status as SysShep datapoints
      *
+     * @param workLibName a temp library space for the command to work. Must
+     * have permissions to same.
      * @return String representing disk status as SysShep datapoints
      * @throws IOException
      */
-    public String diskStatus() throws IOException {
+    public String diskStatus(String workLibName) throws IOException {
         StringBuilder result = new StringBuilder();
         ListDiskStatuses lds = new ListDiskStatuses();
         SignonConnection sc = SignonConnection.getConnection(
@@ -161,13 +163,23 @@ public class Monitors {
                 sc.getInfo(), getAs400().getUserId(),
                 AS400Extender.getCachedPassword(getAs400()),
                 getAs400().getServicePort(AS400.RECORDACCESS));
-        DiskStatus[] statusList = (lds.getDiskStatuses(cc, ddmc, "APITESTXYZ"));
+        DiskStatus[] statusList = (lds.getDiskStatuses(cc, ddmc, workLibName));
         for (DiskStatus ds : statusList) {
             // System.out.print(ds);
             result.append(diskStatusToDatapoints(ds)).append('\n');
         }
         cc.close();
         return result.toString();
+    }
+
+    /**
+     * Get disk status as SysShep datapoints
+     *
+     * @return String representing disk status as SysShep datapoints
+     * @throws IOException
+     */
+    public String diskStatus() throws IOException {
+        return diskStatus("APITESTXYZ");
     }
 
     /**
