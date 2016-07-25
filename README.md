@@ -34,7 +34,7 @@ world. It is neither complete nor perfect, but what is in this world?
 
 Quick start instructions:
 
-Download the release and <code>java -jar ublu.jar<code> to run Ublu.
+Download the release and <code>java -jar ublu.jar</code> to run Ublu.
 
 Or clone, build and run:
 <ul>
@@ -49,4 +49,4 @@ Or clone, build and run:
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
  
-Jack Woehr 2016-07-02
+Jack Woehr 2016-07-26
