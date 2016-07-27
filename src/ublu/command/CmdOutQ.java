@@ -1,5 +1,7 @@
-    /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+/*
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -286,16 +288,7 @@ public class CmdOutQ extends Command {
                         } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Exception putting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (NoSuchFieldException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (SecurityException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (IllegalArgumentException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (IllegalAccessException ex) {
+                        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
                             getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }

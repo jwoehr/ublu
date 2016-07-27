@@ -53,6 +53,7 @@ public class CmdSmapi extends Command {
 
     /**
      * Do the SMAPI call
+     *
      * @param argArray arguments in interpreter buffer
      * @return what's left of arguments
      */

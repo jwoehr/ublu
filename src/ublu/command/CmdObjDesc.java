@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,9 +60,6 @@ public class CmdObjDesc extends Command {
      */
     protected enum OPS {
 
-        /**
-         * Create the Object Description
-         */
         /**
          * Create the Object Description
          */
@@ -144,28 +143,26 @@ public class CmdObjDesc extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            ObjectDescription objDesc = null;
+            ObjectDescription objDesc;
             switch (op) {
                 case INSTANCE:
                     if (getAs400() == null) {
                         getLogger().log(Level.WARNING, "No as400 instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
-                    } else {
-                        if (ifspath != null) {
-                            objDesc = new ObjectDescription(getAs400(), new QSYSObjectPathName(ifspath));
-                            try {
-                                put(objDesc);
-                            } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.INFO, "Exception putting ObjectDescription in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            } catch (SQLException ex) {
-                                getLogger().log(Level.SEVERE, "SQL Exception putting ObjectDescription in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                        } else {
-                            getLogger().log(Level.WARNING, "No ifspath provided to instance object description in {0}", getNameAndDescription());
+                    } else if (ifspath != null) {
+                        objDesc = new ObjectDescription(getAs400(), new QSYSObjectPathName(ifspath));
+                        try {
+                            put(objDesc);
+                        } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.INFO, "Exception putting ObjectDescription in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "SQL Exception putting ObjectDescription in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
+                    } else {
+                        getLogger().log(Level.WARNING, "No ifspath provided to instance object description in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case LOCKLIST:

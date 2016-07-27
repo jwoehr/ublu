@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -283,10 +285,7 @@ public class CmdSpoolF extends Command {
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Unable to answer message for spooled file in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Unable to answer message for spooled file in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (ErrorCompletingRequestException ex) {
+                        } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                             getLogger().log(Level.SEVERE, "Unable to answer message for spooled file in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
