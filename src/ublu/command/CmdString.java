@@ -44,12 +44,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [[-len ~@${string}$] | [-bl ~@${ string }$] | [-bls ~@${ string }$ n] | [-cat ~@${ string1 }$ ~@${ string2 }$] | [-eq ~@${ string1 }$ ~@${ string2 }$] | [-repl ~@${string}$ ~@${target}$ ~@${replacement}$] | [-repl1 ~@${string}$ ~@${target}$ ~@${replacement}$] | [-replregx ~@${string}$ ~@${regex}$ ~@${replacement}$] | [-startswith ~@${string}$ ~@${substr}$] | [-substr ~@${string}$ ~@intoffset ~@intlen] | [-trim]  : string operations");
+                "/0 [-to datasink] [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]  : string operations");
     }
 
     enum OPERATIONS {
 
-        BL, BLS, CAT, EQ, LEN, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
+        BL, BLS, CAT, EQ, LEN, NL, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
     }
 
     /**
@@ -97,6 +97,10 @@ public class CmdString extends Command {
                     break;
                 case "-len":
                     operation = OPERATIONS.LEN;
+                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-nl":
+                    operation = OPERATIONS.NL;
                     lopr = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-repl":
@@ -161,6 +165,9 @@ public class CmdString extends Command {
                     break;
                 case LEN:
                     opresult = lopr.length();
+                    break;
+                case NL:
+                    opresult = lopr + '\n';
                     break;
                 case STARTSWITH:
                     opresult = lopr.startsWith(ropr);
