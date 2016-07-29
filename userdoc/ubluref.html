@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table cellpadding="2" cellspacing="0" border="0" height="456"
+  <table cellspacing="0" cellpadding="2" border="0" height="456"
   width="100%">
     <tbody>
       <tr>
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th align="center" bgcolor="#000000" valign="middle">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -1389,7 +1389,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="100%">
+  <table cellspacing="2" cellpadding="2" border="1" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -5404,18 +5404,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellpadding="2" cellspacing="2" border="1" width=
+      <table cellspacing="2" cellpadding="2" border="1" width=
       "75%">
         <tbody>
           <tr>
-            <th align="center" valign="top">interpreter
+            <th valign="top" align="center">interpreter
             property<br></th>
 
-            <th align="center" valign="top">description<br></th>
+            <th valign="top" align="center">description<br></th>
 
-            <th align="center" valign="top">default value<br></th>
+            <th valign="top" align="center">default value<br></th>
 
-            <th align="center" valign="top">alternative
+            <th valign="top" align="center">alternative
             value(s)<br></th>
           </tr>
 
@@ -5580,7 +5580,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     filename to set the source datasink.<br>
     <br>
     If the data is from the command line, it can be a <a href=
-    "#Quoted_strings">quoted string</a> or a single lex ( a single
+    "#Quoted_strings">quoted string</a> , an object in a tuple
+    either named inline (<tt>@sometuple</tt>) or residing on the
+    tuple stack&nbsp; ( <tt>~</tt> ), or a single lex ( a single
     word).<br>
 
     <ul>
@@ -5968,13 +5970,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="100%">
+  <table cellspacing="2" cellpadding="2" border="1" width="100%">
     <tbody>
       <tr>
-        <th align="center" valign="top">Ublu main interpretive
+        <th valign="top" align="center">Ublu main interpretive
         session<br></th>
 
-        <th align="center" valign="top">Another shell
+        <th valign="top" align="center">Another shell
         window<br></th>
       </tr>
 
@@ -6377,14 +6379,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="string" id="string"></a> <tt>string</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to datasink] [-bl ~@{string}] | [-bls ~@{string} n] |
-    [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}]
-    | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string}
-    ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target}
-    ~@{replacement}] | [-replregx ~@{string} ~@{regex}
-    ~@{replacement}] | [-startswith ~@{string} ~@{substr}] |
-    [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]&nbsp; :
-    string operations<br>
+    <tt>/0 [-to datasink] [-uchar ~@{hexval}] | [-bl ~@{string}] |
+    [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq
+    ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl
+    ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] |
+    [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx
+    ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string}
+    ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] |
+    [-trim]&nbsp; : string operations<br>
     &nbsp;</tt><br>
     <br>
     The <tt>string</tt> command performs string operations and
@@ -6452,9 +6454,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       zero-base <i>intoffset</i><i>.</i></li>
 
       <li><tt>-trim</tt> <tt>~@{string}</tt> puts <i>string</i>
-      with the leading and trailing whitespace
-      removed.<tt><br></tt></li>
+      with the leading and trailing whitespace removed.</li>
+
+      <li><tt>-uchar ~@{hexval}</tt> puts a string consisting of
+      the unicode character for the hex value provided</li>
     </ul>
+
+    <p><i>Example<br>
+    <br></i> <tt>&gt; string -uchar 0x09 -to @tab</tt><tt><br></tt>
+    <tt>&gt; put -to @a ${ a string and some tabs
+    }$</tt><tt><br></tt> <tt>&gt; string -to @z -cat @a
+    @tab</tt><tt><br></tt> <tt>&gt; string -to @z -cat @z
+    @tab</tt><tt><br></tt> <tt>&gt; string -to @z -cat @z
+    arf_arf</tt><tt><br></tt> <tt>&gt; put @z</tt><tt><br></tt>
+    <i><tt>a string and some
+    tabs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    arf_arf</tt></i><br></p>
   </blockquote>
 
   <h4><a name="subsys" id="subsys"></a> <tt>subsys</tt></h4>
