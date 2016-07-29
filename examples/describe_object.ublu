@@ -1,0 +1,94 @@
+# describe_object.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Use objdesc command to dump an object description
+FUNC describeObject ( as400sys ifspath dest ) $[
+    LOCAL @obj LOCAL @tmpstr LOCAL @attrib_list
+    
+    \\ ${ Instance the object description }$
+    objdesc -to @obj -as400 @@as400sys -path @@ifspath -instance 
+
+    \\ ${ Create a header }$
+    put -n -s -to @@dest ${ Object is: }$ put -to @@dest -from @@ifspath
+    string -to @@dest -nl @@dest
+
+    \\ ${ List the attributes we'll check }$
+    put -to @attrib_list
+    ${ ALLOW_CHANGE_BY_PROGRAM
+    AUDITING
+    CHANGE_DATE
+    CHANGED_BY_PROGRAM
+    COMPILER
+    COMPRESSION
+    CREATION_DATE
+    CREATOR_SYSTEM
+    CREATOR_USER_PROFILE
+    DAYS_USED
+    DIGITALLY_SIGNED
+    DIGITALLY_SIGNED_MULTIPLE
+    DIGITALLY_SIGNED_TRUSTED
+    DOMAIN
+    EXTENDED_ATTRIBUTE
+    JOURNAL
+    JOURNAL_IMAGES
+    JOURNAL_OMITTED_ENTRIES
+    JOURNAL_START_DATE
+    JOURNAL_STATUS
+    LAST_USED_DATE
+    LIBRARY
+    LIBRARY_ASP_DEVICE_NAME
+    LIBRARY_ASP_NUMBER
+    LICENSED_PROGRAM
+    NAME
+    OBJECT_ASP_DEVICE_NAME
+    OBJECT_ASP_NUMBER
+    OBJECT_LEVEL
+    OBJECT_SIZE
+    ORDER_IN_LIBRARY_LIST
+    OVERFLOWED_ASP
+    OWNER
+    PRIMARY_GROUP
+    PTF
+    RESET_DATE
+    RESTORE_DATE
+    SAVE_ACTIVE_DATE
+    SAVE_COMMAND
+    SAVE_DATE
+    SAVE_DEVICE
+    SAVE_FILE
+    SAVE_LABEL
+    SAVE_SEQUENCE_NUMBER
+    SAVE_SIZE
+    SAVE_VOLUME_ID
+    SOURCE_FILE
+    SOURCE_FILE_UPDATED_DATE
+    STORAGE_STATUS
+    SYSTEM_LEVEL
+    TEXT_DESCRIPTION
+    TYPE
+    USAGE_INFO_UPDATED
+    USER_CHANGED
+    USER_DEFINED_ATTRIBUTE }$
+
+    \\ ${ Now iterate appending to the output }$
+    FOR @i in @attrib_list $[
+        TRY $[ \\ ${ since not all attributes supported by all objects }$            
+            string -to @@dest -cat @@dest ${ attribute: }$
+            string -to @@dest -bl @@dest
+            string -to @@dest -cat @@dest @i
+            string -to @@dest -bl @@dest
+            string -to @@dest -cat @@dest ${ value: }$
+            string -to @@dest -bl @@dest
+            objdesc -to @tmpstr -- @obj -valuestring @i           
+            string -to @@dest -cat @@dest @tmpstr
+            string -to @@dest -nl @@dest
+        ]$
+        CATCH $[
+            put -n -s ${ apparently nonexistent attribute }$ put @i
+        ]$          
+    ]$      
+]$
+# end
