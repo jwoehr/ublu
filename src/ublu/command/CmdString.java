@@ -44,12 +44,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]  : string operations");
+                "/0 [-to datasink] [-uchar ~@{hexval}] | [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]  : string operations");
     }
 
     enum OPERATIONS {
 
-        BL, BLS, CAT, EQ, LEN, NL, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
+        UCHAR, BL, BLS, CAT, EQ, LEN, NL, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
     }
 
     /**
@@ -73,6 +73,10 @@ public class CmdString extends Command {
             switch (dashCommand) {
                 case "-to":
                     setDataDest(DataSink.fromSinkName(argArray.next()));
+                    break;
+                case "-uchar":
+                    operation = OPERATIONS.UCHAR;
+                    lopr = Character.toString((char)argArray.nextIntMaybeQuotationTuplePopString());
                     break;
                 case "-bl":
                     operation = OPERATIONS.BL;
@@ -144,6 +148,9 @@ public class CmdString extends Command {
             Object opresult = null;
             StringBuilder sb;
             switch (operation) {
+                case UCHAR:
+                    opresult = lopr;
+                    break;
                 case BL:
                     opresult = lopr + ' ';
                     break;
