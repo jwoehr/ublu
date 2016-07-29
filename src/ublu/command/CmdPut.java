@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +51,7 @@ import java.util.logging.Level;
 public class CmdPut extends Command {
 
     {
-        setNameAndDescription("put", "/.. [-to filename|@filename] [-tofile ~@tuplename] [-from filename|@tuplename ] -fromfile ~@filename] [-append] [ -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# number | ${ a quoted string }$  | a single lex ] : put data from datasink to datasink, optionally translating charset if -toascii or -charset are set");
+        setNameAndDescription("put", "/1? [-to filename|@filename] [-tofile ~@tuplename] [-from filename|@tuplename ] -fromfile ~@filename] [-append] [ -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# number | ~@{object or a string}  | a single lex ] : put data from datasink to datasink, optionally translating charset if -toascii or -charset are set");
     }
 
     /**
@@ -188,7 +190,7 @@ public class CmdPut extends Command {
                     break;
                 case STD:
                     try {
-                        new Putter(argArray.nextMaybeQuotation(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
+                        new Putter(argArray.nextMaybeQuotationTuplePopString(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                     } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                         getLogger().log(Level.SEVERE, "Exception in command put", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
