@@ -224,10 +224,12 @@ public class CmdObjDesc extends Command {
                                 converted = false;
                             }
                             String stringValueOfAttribute = null;
+                            // /* Debug */ getInterpreter().outputerrln("converted is " + converted);
                             if (converted) {
                                 stringValueOfAttribute = objDesc.getValueAsString(attributeInt);
                             } else {
                                 attributeInt = getAttributeInt(attributeName);
+                                // /* Debug */ getInterpreter().outputerrln("attributeInt is " + attributeInt);
                                 if (getCommandResult() != COMMANDRESULT.FAILURE) {
                                     stringValueOfAttribute = objDesc.getValueAsString(attributeInt);
                                 }
@@ -268,7 +270,7 @@ public class CmdObjDesc extends Command {
             case "ALLOW_CHANGE_BY_PROGRAM":
                 attributeInt = ObjectDescription.ALLOW_CHANGE_BY_PROGRAM;
                 break;
-            case "AUDITING ":
+            case "AUDITING":
                 attributeInt = ObjectDescription.AUDITING;
                 break;
             case "CHANGE_DATE":
