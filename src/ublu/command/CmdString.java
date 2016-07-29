@@ -65,8 +65,6 @@ public class CmdString extends Command {
         String regex = "";
         String target = "";
         String replacement = "";
-        // int offset = 0;
-        // int length = 0;
         int beginindex = 0;
         int endindex = 0;
         int fillcount = 0;
