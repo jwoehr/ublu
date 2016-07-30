@@ -17,11 +17,11 @@
 </head>
 
 <body>
-  <table cellspacing="0" cellpadding="2" border="0" height="456"
+  <table cellspacing="0" cellpadding="2" height="456" border="0"
   width="100%">
     <tbody>
       <tr>
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td align="center" bgcolor="#000000" valign="middle">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
 
@@ -32,12 +32,12 @@
           Life Cycle Extension Language<br></font>
         </td>
 
-        <th bgcolor="#000000" valign="middle" align="center">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"><br></th>
 
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -1169,16 +1169,20 @@ block, so a local variable cannot be passed to the thread.<br>
 
   <h2><a class="mozTocH2" name=
   "mozTocId163217"></a>Object-disoriented</h2>A few words about
-  "object-disoriented".<br>
+  "object-disoriented". Object languages associate methods with
+  specific data structures and define these relationships in
+  classes. Ublu began as a collection of single-purpose utilities
+  designed procedurally and then grew into a language when it
+  became necessary to pass objects from utility to utility in order
+  to get more useful work done.<br>
   <br>
-  Now you have seen how Ublu works, and <a href=
-  "#mozTocId58628">read about the <tt>put</tt> command</a>. The
-  <tt>put</tt> command was the beginning of Ublu
-  "object-disorientation". As noted above, Ublu emerged from the
-  need to pass objects rather than string values from one utility
-  to the next. The <tt>put</tt> command was a quick result of that
-  change to an interpretive language. I needed to see quickly what
-  was going on.<br>
+  You have seen how Ublu works and <a href="#mozTocId58628">read
+  about the <tt>put</tt> command</a>. The <tt>put</tt> command was
+  the beginning of Ublu "object-disorientation". When Ublu emerged
+  from the need to pass objects rather than string values from one
+  utility to the next, the <tt>put</tt> command was an immediate
+  result of that change to an interpretive language. I needed to
+  see quickly what was going on.<br>
   <br>
   A lot of effort went into <tt>put</tt> so it would give useful
   insight into anything passed around from command to command in
@@ -1196,7 +1200,15 @@ block, so a local variable cannot be passed to the thread.<br>
     <li>dash-commands are effectively <i>methods</i></li>
 
     <li>the object values passed in tuple vars to the commands are
-    the <i>object instances</i> of the <i>classes</i>.</li>
+    the <i>object instances</i> multiply inheriting from the
+    <i>classes</i>.
+
+      <ul>
+        <li>Multiple inheritance because the <i>object
+        instances</i> respond to the <i>methods</i> of many
+        <i>classes</i><br></li>
+      </ul>
+    </li>
   </ul>
 
   <p>E.g, in the example ...<br></p>
