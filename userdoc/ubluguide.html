@@ -13,15 +13,15 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 11 Jul 2016 22:04:19 UTC">
+  "Sat, 30 Jul 2016 00:19:02 UTC">
 </head>
 
 <body>
-  <table border="0" cellpadding="2" width="100%" cellspacing="0"
-  height="456">
+  <table cellspacing="0" cellpadding="2" border="0" height="456"
+  width="100%">
     <tbody>
       <tr>
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td bgcolor="#000000" valign="middle" align="center">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
 
@@ -32,12 +32,12 @@
           Life Cycle Extension Language<br></font>
         </td>
 
-        <th align="center" valign="middle" bgcolor="#000000">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        width="400" height="444"><br></th>
+        height="444" width="400"><br></th>
 
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -189,9 +189,10 @@
   programming on IBM i Series OS &#174; via TCP/IP. I was
   supporting clients by writing individual utility programs using
   <a href="http://jt400.sourceforge.net/">JTOpen</a> (which I have
-  used since 1998 to remotely operate the AS/400). I decided to
-  consolidate the programs in a language, and the result is
-  Ublu.<br>
+  used since 1998 to remotely operate the AS/400). Finding the need
+  to pass objects rather than string values from one utility to the
+  next, I consolidated the utility programs as commands in a new
+  language called Ublu.<br>
   <br>
   It is convenient to operate legacy systems remotely from modern
   environments:<br>
@@ -1166,6 +1167,53 @@ block, so a local variable cannot be passed to the thread.<br>
   directory</h3>Under the <tt>examples</tt> directory is the
   <tt>test</tt> directory which are fairly crude regression code
   used to test the basic functionality of Ublu commands.<br>
+
+  <h2>Object-disoriented</h2>A few words about
+  "object-disoriented".<br>
+  <br>
+  Now you have seen how Ublu works, and <a href=
+  "#mozTocId58628">read about the <tt>put</tt> command</a>. The
+  <tt>put</tt> command was the beginning of Ublu
+  "object-disorientation". As noted above, Ublu emerged from the
+  need to pass objects rather than string values from one utility
+  to the next. The <tt>put</tt> command was a quick result of that
+  change to an interpretive language. I needed to see quickly what
+  was going on.<br>
+  <br>
+  A lot of effort went into <tt>put</tt> so it would give useful
+  insight into anything passed around from command to command in
+  Ublu without demanding that the programmer remember what was
+  where. It is always safe to simply <tt>put @foo</tt> because a
+  useful string representation is returned. And <tt>put -to @bar
+  @foo</tt> put whatever is in <tt>@foo</tt> also into
+  <tt>@bar</tt> without worrying about object class.<br>
+  <br>
+  What Ublu's language structure comes down to is that:<br>
+
+  <ul>
+    <li>commands are effectively <i>classes</i></li>
+
+    <li>dash-commands are effectively <i>methods</i></li>
+
+    <li>the object values passed in tuple vars to the commands are
+    the <i>object instances</i> of the <i>classes</i>.</li>
+  </ul>
+
+  <p>E.g, in the example ...<br></p>
+
+  <blockquote>
+    <tt>as400 -to @sys mysys myuid mypwd</tt><tt><br></tt><tt>as400
+    -- @sys -alivesvc
+    CENTRAL</tt><tt><br></tt><i><tt>true</tt><br></i>
+  </blockquote>... effectively, an Ublu <tt>as400</tt> <i>class</i>
+  creates an <i>object instance</i> stored in <tt>@sys</tt>. That
+  object has a method <i>alivesvc(CENTRAL)</i> invoked on it.<br>
+  <br>
+  Ublu's "object-disoriented" syntax is wordier than a true object
+  language, in that the class is named each time (the "command"),
+  but it tends to be easy to use interpretively. It's clunky, yet
+  it is reminiscent of traditional "big iron"-style command syntax
+  and is pretty easy to remember.<br>
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
