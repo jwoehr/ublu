@@ -37,7 +37,7 @@ import java.util.logging.Level;
 public class CmdIf extends Command {
 
     {
-        setNameAndDescription("IF", "/0 @var : IF tests @var and executes THEN $[ cmd cmd .. ]$ if true, ELSE  $[ cmd cmd .. ]$ if false");
+        setNameAndDescription("IF", "/1 [-!] @var : IF tests boolean @var (inverted by -!) and executes THEN $[ cmd cmd .. ]$ if true, ELSE  $[ cmd cmd .. ]$ if false");
     }
 
     /**
@@ -47,31 +47,45 @@ public class CmdIf extends Command {
      * @return what's left of the arg array
      */
     public ArgArray doCmdIf(ArgArray argArray) {
-//        if (argArray.size() < 5) { // tuple THEN $[ something ]$
-//            logArgArrayTooShortError(argArray);
-//            setCommandResult(COMMANDRESULT.FAILURE);
-//        } else {
-        Tuple t = getTuple(argArray.next());
-        // Tuple t = argArray.nextTupleOrPop(); // this should be more correct
-        // but have not tested it yet. 20140516
-        if (t == null) {
-            getLogger().log(Level.SEVERE, "Argument to IF is not a Tuple variable");
-            setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
-            Object o = t.getValue();
-            if (o == null) { // null is an error and will throw if tested with Object.equals()
-                badIfArg(o);
-            } else if (o.equals(false)) { // if false procede to ELSE
-                boolean safelyRemoved = removeThen(argArray);
-                if (!safelyRemoved) {
-                    getLogger().log(Level.SEVERE, "THEN found without a $[ block ]$");
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                }
-            } else if (!o.equals(true)) { // Wasn't false, it BETTAH be a true or error
-                badIfArg(o);
+        boolean invert = false;
+        while (argArray.hasDashCommand()) {
+            String dashCommand = argArray.parseDashCommand();
+            switch (dashCommand) {
+                case "-!":
+                    invert = true;
+                    break;
+                default:
+                    unknownDashCommand(dashCommand);
             }
         }
-//        }
+        if (havingUnknownDashCommand()) {
+            setCommandResult(COMMANDRESULT.FAILURE);
+        } else {
+            Tuple t = getTuple(argArray.next());
+            // Tuple t = argArray.nextTupleOrPop(); // this should be more correct
+            // but have not tested it yet. 20140516
+            if (t == null) {
+                getLogger().log(Level.SEVERE, "Argument to IF is not a Tuple variable");
+                setCommandResult(COMMANDRESULT.FAILURE);
+            } else {
+                Object o = t.getValue();
+                if (!o.equals(true) && !o.equals(false)) { // null is an error and will throw if tested with Object.equals()
+                    badIfArg(o);
+                } else {
+                    boolean tf = Boolean.class.cast(o);
+                    if (invert) {
+                        tf = !tf;
+                    }
+                    if (!tf) { // if false procede to ELSE
+                        boolean safelyRemoved = removeThen(argArray);
+                        if (!safelyRemoved) {
+                            getLogger().log(Level.SEVERE, "THEN found without a $[ block ]$");
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                }
+            }
+        }
         return argArray;
     }
 
