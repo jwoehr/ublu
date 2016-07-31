@@ -75,13 +75,13 @@ public class CmdFor extends Command {
                 argArray.next(); // discard "in"
             }
             Tuple iteratedTuple = argArray.nextTupleOrPop();
-            String block = argArray.nextUnlessNotBlock();
-            if (block == null) {
-                getLogger().log(Level.SEVERE, "FOR found without a $[ block ]$");
+            if (iteratedTuple == null) {
+                getLogger().log(Level.SEVERE, "Iterated tuple does not exist in {0}", getNameAndDescription());
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
-                if (iteratedTuple == null) {
-                    getLogger().log(Level.SEVERE, "Iterated tuple does not exist in {0}", getNameAndDescription());
+                String block = argArray.nextUnlessNotBlock();
+                if (block == null) {
+                    getLogger().log(Level.SEVERE, "FOR found without a $[ block ]$");
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
                     Parser p = new Parser(getInterpreter(), block);
