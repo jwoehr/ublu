@@ -6,3 +6,21 @@ All rights reserved.
     - Code cleanup
     - More documentation
     - Vim and jEdit editor modes
+
+1.1.1
+Bug fix and feature add revision. Many bugs fixed and much code cleaned up.
+Documentation improved.
+	
+Changes to commands:
+	- DO now has -undo to allow decremental looping
+	- IF now has -! to invert the sense of the logical test
+	- monitor
+		- now takes an as400 instance instead of credentials
+		- now takes worklib ~@{libname} for it working library on the server		
+	- RETURN command (new) leaves a FUNC or defun
+	- tn5250 and session commands (new) allow a screen-scraping telnet 5250
+	- tuple now takes -istuplename to test for validity of tuple name
+	
+New examples:
+	- connect5250.ublu
+	- describe_object.ublu
