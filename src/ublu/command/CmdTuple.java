@@ -45,7 +45,7 @@ import java.util.logging.Level;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -Value | -sub ~@${subname}$ @tuple | -typename @tuplename | -map] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -Value | -sub ~@${subname}$ @tuple | -typename @tuplename | -map] : operations on tuple variables");
     }
 
     /**
@@ -63,6 +63,10 @@ public class CmdTuple extends Command {
          * set null
          */
         NULL,
+        /**
+         * is the argument a valid tuple name
+         */
+        ISTUPLENAME,
         /**
          * delete a tuple
          */
@@ -159,6 +163,10 @@ public class CmdTuple extends Command {
                     setFunction(FUNCTIONS.EXISTS);
                     someName = argArray.next();
                     break;
+                case "-istuplename":
+                    setFunction(FUNCTIONS.ISTUPLENAME);
+                    someName = argArray.next();
+                    break;
                 case "-map":
                     setFunction(FUNCTIONS.MAP);
                     break;
@@ -230,6 +238,14 @@ public class CmdTuple extends Command {
                         put(result);
                     } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                         getLogger().log(Level.SEVERE, "Exception encountered in putting tuple existence", ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case ISTUPLENAME:
+                    try {
+                        put(Tuple.isTupleName(someName));
+                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        getLogger().log(Level.SEVERE, "Exception encountered in putting tuple name validity", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
