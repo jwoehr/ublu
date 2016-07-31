@@ -39,7 +39,7 @@ import java.util.logging.Level;
 public class CmdDo extends Command {
 
     {
-        setNameAndDescription("DO", "/5 [-undo] @iterator [to|TO] @limit $[ cmd .. ]$ : DO iterative from @iterator to @limit - 1 inclusive incrementing @iteratorvar");
+        setNameAndDescription("DO", "/5 [-undo] @iterator [to|TO] @limit $[ cmd .. ]$ : DO iterative from @iterator to @limit - 1 inclusive incrementing/decrementing @iteratorvar");
     }
 
     /**
