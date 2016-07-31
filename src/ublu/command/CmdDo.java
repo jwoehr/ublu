@@ -39,7 +39,7 @@ import java.util.logging.Level;
 public class CmdDo extends Command {
 
     {
-        setNameAndDescription("DO", "/5 @iterator [to|TO] @limit $[ cmd .. ]$ : DO iterative from @iterator to @limit - 1 inclusive incrementing @iteratorvar");
+        setNameAndDescription("DO", "/5 [-undo] @iterator [to|TO] @limit $[ cmd .. ]$ : DO iterative from @iterator to @limit - 1 inclusive incrementing @iteratorvar");
     }
 
     /**
@@ -49,33 +49,52 @@ public class CmdDo extends Command {
      * @return what's left of the args
      */
     public ArgArray doCmdDo(ArgArray argArray) {
-        Tuple startTuple = getTuple(argArray.next());
-        String limitTupleName = argArray.next();
-        if (limitTupleName.equalsIgnoreCase("to")) {
-            limitTupleName = argArray.next();
+        boolean undo = false;
+        while (argArray.hasDashCommand()) {
+            String dashCommand = argArray.parseDashCommand();
+            switch (dashCommand) {
+                case "-undo":
+                    undo = true;
+                    break;
+                default:
+                    unknownDashCommand(dashCommand);
+            }
         }
-        Tuple limitTuple = getTuple(limitTupleName);
-        String block = argArray.nextUnlessNotBlock();
-        if (block == null) {
-            getLogger().log(Level.SEVERE, "DO found without a $[ block ]$");
-            setCommandResult(COMMANDRESULT.FAILURE);
-        } else if (startTuple == null) {
-            getLogger().log(Level.SEVERE, "Iterated tuple does not exist in {0}", getNameAndDescription());
-            setCommandResult(COMMANDRESULT.FAILURE);
-        } else if (limitTuple == null) {
-            getLogger().log(Level.SEVERE, "Limit tuple does not exist in {0}", getNameAndDescription());
+        if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Parser p = new Parser(getInterpreter(), block);
-            ArgArray aa = p.parseAnArgArray();
-            getInterpreter().pushFrame();
-            getInterpreter().setForBlock(true);
-            walkDo(startTuple, limitTuple, aa);
-            if (getInterpreter().isBreakIssued()) {
-                // If a BREAK then the frame was already popped
-                getInterpreter().setBreakIssued(false);
+            Tuple startTuple = getTuple(argArray.next());
+            String limitTupleName = argArray.next();
+            if (limitTupleName.equalsIgnoreCase("to")) {
+                limitTupleName = argArray.next();
+            }
+            Tuple limitTuple = getTuple(limitTupleName);
+            String block = argArray.nextUnlessNotBlock();
+            if (block == null) {
+                getLogger().log(Level.SEVERE, "DO found without a $[ block ]$");
+                setCommandResult(COMMANDRESULT.FAILURE);
+            } else if (startTuple == null) {
+                getLogger().log(Level.SEVERE, "Iterated tuple does not exist in {0}", getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
+            } else if (limitTuple == null) {
+                getLogger().log(Level.SEVERE, "Limit tuple does not exist in {0}", getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
             } else {
-                getInterpreter().popFrame();
+                Parser p = new Parser(getInterpreter(), block);
+                ArgArray aa = p.parseAnArgArray();
+                getInterpreter().pushFrame();
+                getInterpreter().setForBlock(true);
+                if (undo) {
+                    walkUnDo(startTuple, limitTuple, aa);
+                } else {
+                    walkDo(startTuple, limitTuple, aa);
+                }
+                if (getInterpreter().isBreakIssued()) {
+                    // If a BREAK then the frame was already popped
+                    getInterpreter().setBreakIssued(false);
+                } else {
+                    getInterpreter().popFrame();
+                }
             }
         }
         return argArray;
@@ -86,6 +105,21 @@ public class CmdDo extends Command {
         int itStart = Integer.parseInt(startTuple.getValue().toString());
         int itLimit = Integer.parseInt(limitTuple.getValue().toString());
         for (; itStart < itLimit; itStart++) {
+            startTuple.setValue(itStart);
+            copy = new ArgArray(getInterpreter(), argArray);
+            getInterpreter().setArgArray(copy);
+            setCommandResult(getInterpreter().loop());
+            if (getCommandResult() == COMMANDRESULT.FAILURE || getInterpreter().isBreakIssued()) {
+                break;
+            }
+        }
+    }
+
+    private void walkUnDo(Tuple startTuple, Tuple limitTuple, ArgArray argArray) {
+        ArgArray copy;
+        int itStart = Integer.parseInt(startTuple.getValue().toString());
+        int itLimit = Integer.parseInt(limitTuple.getValue().toString());
+        for (; itStart > itLimit; itStart--) {
             startTuple.setValue(itStart);
             copy = new ArgArray(getInterpreter(), argArray);
             getInterpreter().setArgArray(copy);
