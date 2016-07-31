@@ -464,6 +464,8 @@ public class ArgArray extends ArrayList<String> {
             t = getInterpreter().getTupleStack().pop();
         } else if (isNextTupleName()) {
             t = getInterpreter().getTuple(next());
+        } else {
+            next(); // discard non-tuple
         }
         return t;
     }
