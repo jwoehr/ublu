@@ -93,13 +93,14 @@ FUNC describeObject ( as400sys ifspath dest ) $[
 
     \\ ${ Now iterate appending to the output }$
     FOR @i in @attrib_list $[
+        LOCAL @tab string -to @tab -uchar 0x09
         TRY $[ 
             \\ ${ I thought not all attributes are supported by all objects }$
             \\ ${ so put in TRY CATCH while debugging. Not needed but okay. }$
             string -to @@dest -cat @@dest ${ attribute: }$
             string -to @@dest -bl @@dest
             string -to @@dest -cat @@dest @i
-            string -to @@dest -bl @@dest
+            string -to @@dest -cat @@dest @tab
             string -to @@dest -cat @@dest ${ value: }$
             string -to @@dest -bl @@dest
             objdesc -to @tmpstr -- @obj -valuestring @i           
@@ -107,7 +108,7 @@ FUNC describeObject ( as400sys ifspath dest ) $[
             string -to @@dest -nl @@dest
         ]$
         CATCH $[
-            put -n -s ${ apparently nonexistent attribute }$ put @i
+            put -n -s ${ problem fetching attribute }$ put @i
         ]$          
     ]$      
 ]$
