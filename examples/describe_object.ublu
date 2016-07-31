@@ -7,7 +7,25 @@
 # Use objdesc command to dump an object description
 FUNC describeObject ( as400sys ifspath dest ) $[
     LOCAL @obj LOCAL @tmpstr LOCAL @attrib_list
+    LOCAL @tf
     
+    \\ ${ Make sure we have all tuples }$
+    tuple -istuplename @@as400sys -to @tf
+    IF -! @tf THEN $[
+        put -n -s @@as400sys put ${ is not a tuple. }$
+        THROW ${ This argument must be a tuple. }$
+    ]$
+    tuple -istuplename @@ifspath -to @tf  
+    IF -! @tf THEN $[
+        put -n -s @@ifspath put ${ is not a tuple. }$
+        THROW ${ This argument must be a tuple. }$
+    ]$
+    tuple -istuplename @@dest -to @tf  
+    IF -! @tf THEN $[
+        put -n -s @@dest put ${ is not a tuple. }$
+        THROW ${ This argument must be a tuple. }$
+    ]$
+
     \\ ${ Instance the object description }$
     objdesc -to @obj -as400 @@as400sys -path @@ifspath -instance 
 
@@ -75,7 +93,9 @@ FUNC describeObject ( as400sys ifspath dest ) $[
 
     \\ ${ Now iterate appending to the output }$
     FOR @i in @attrib_list $[
-        TRY $[ \\ ${ since not all attributes supported by all objects }$            
+        TRY $[ 
+            \\ ${ I thought not all attributes are supported by all objects }$
+            \\ ${ so put in TRY CATCH while debugging. Not needed but okay. }$
             string -to @@dest -cat @@dest ${ attribute: }$
             string -to @@dest -bl @@dest
             string -to @@dest -cat @@dest @i
