@@ -19,7 +19,7 @@
 </PROPS>
 
 <RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE"
-DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8}[lL])?|0[0-7]{1,11}([0-7]{0,11}[lL])?|([0-9]+\.[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?[fFdD]?|[0-9]+([eE][+-]?[0-9]+[fFdD]?|([eE][+-]?[0-9]+)?[fFdD]))">>
+DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8}[lL])?|0[0-7]{1,11}([0-7]{0,11}[lL])?|([0-9]+\.[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?[fFdD]?|[0-9]+([eE][+-]?[0-9]+[fFdD]?|([eE][+-]?[0-9]+)?[fFdD]))">
 
 	<EOL_SPAN TYPE="COMMENT1">#!</EOL_SPAN>
 	<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
@@ -32,9 +32,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
 		<BEGIN>${</BEGIN>
 		<END>}$</END>
 	</SPAN>
-	
-	<SEQ_REGEXP TYPE="DIGIT" HASH_CHAR="-">\-\d+\s</SEQ_REGEXP>
-	<SEQ_REGEXP TYPE="DIGIT" HASH_CHAR="0">0x\S+\s</SEQ_REGEXP>
+
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\S+\b</SEQ_REGEXP> 
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\-\s</SEQ_REGEXP>
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\#</SEQ_REGEXP>
