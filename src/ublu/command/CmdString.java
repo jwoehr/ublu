@@ -34,6 +34,7 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.Generics.StringArrayList;
 
 /**
  * Command for string operations
@@ -44,7 +45,7 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [-uchar ~@{hexval}] | [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]  : string operations");
+                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...}] | [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]  : string operations");
     }
 
     enum OPERATIONS {
@@ -76,7 +77,7 @@ public class CmdString extends Command {
                     break;
                 case "-uchar":
                     operation = OPERATIONS.UCHAR;
-                    lopr = Character.toString((char)argArray.nextIntMaybeQuotationTuplePopString());
+                    lopr = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-bl":
                     operation = OPERATIONS.BL;
@@ -149,7 +150,12 @@ public class CmdString extends Command {
             StringBuilder sb;
             switch (operation) {
                 case UCHAR:
-                    opresult = lopr;
+                    StringArrayList sal = new StringArrayList(lopr);
+                    sb = new StringBuilder();
+                    for (String s : sal) {
+                        sb.append(Character.toString((char) Integer.decode(s).intValue()));
+                    }
+                    opresult = sb.toString();
                     break;
                 case BL:
                     opresult = lopr + ' ';
