@@ -18,7 +18,8 @@
     <PROPERTY NAME="noTabs" VALUE="true" />
 </PROPS>
 
-<RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+<RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE"
+DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8}[lL])?|0[0-7]{1,11}([0-7]{0,11}[lL])?|([0-9]+\.[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?[fFdD]?|[0-9]+([eE][+-]?[0-9]+[fFdD]?|([eE][+-]?[0-9]+)?[fFdD]))">>
 
 	<EOL_SPAN TYPE="COMMENT1">#!</EOL_SPAN>
 	<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
@@ -101,6 +102,7 @@
         <KEYWORD2>programcall</KEYWORD2>
         <KEYWORD2>props</KEYWORD2>
         <KEYWORD2>put</KEYWORD2>
+        <KEYWORD2>RETURN</KEYWORD2>
         <KEYWORD2>rs</KEYWORD2>
         <KEYWORD2>savf</KEYWORD2>        
         <KEYWORD2>server</KEYWORD2>
