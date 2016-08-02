@@ -161,8 +161,25 @@ public class JVMHelper {
             sb.append("Daemon Thread Count:\t").append(mxBean.getDaemonThreadCount()).append('\n');
             sb.append("Total Started Thread Count:\t").append(mxBean.getTotalStartedThreadCount()).append('\n');
             sb.append("Peak Thread Count:\t").append(mxBean.getPeakThreadCount()).append('\n');
-            sb.append("Current Thread Cpu Time:\t").append(mxBean.getCurrentThreadCpuTime()).append('\n');
-            sb.append("Current Thread User Time:\t").append(mxBean.getCurrentThreadUserTime()).append('\n');
+            sb.append("Current Thread Cpu Time:\t");
+            try {
+                sb.append(mxBean.getCurrentThreadCpuTime()).append('\n');
+            } catch (UnsupportedOperationException ex) {
+                sb.append("Operation not supported")
+                        .append('\t')
+                        .append(ex)
+                        .append('\n');
+            }
+            sb.append("Current Thread User Time:\t");
+            try {
+                sb.append(mxBean.getCurrentThreadUserTime()).append('\n');
+
+            } catch (UnsupportedOperationException ex) {
+                sb.append("Operation not supported")
+                        .append('\t')
+                        .append(ex)
+                        .append('\n');
+            }
             sb.append("Thread IDs:\t");
             for (long i : mxBean.getAllThreadIds()) {
                 sb.append(i).append(' ');
