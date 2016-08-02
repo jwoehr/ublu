@@ -33,5 +33,6 @@ Miscellaneous:
 	- Ublu JEdit mode (ublu.xml)
 		- Fixed digits problem
 		- Added RETURN as keyword
+		- More and better documentation
 		
 	
