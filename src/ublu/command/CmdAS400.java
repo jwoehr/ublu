@@ -40,6 +40,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.Generics.StringArrayList;
 
 /**
  * Command to create an AS400 instance to be kept in a Tuple.
@@ -50,7 +51,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -99,6 +100,10 @@ public class CmdAS400 extends Command {
          */
         QSVCPORT,
         /**
+         * Set ASP Group
+         */
+        SETASPGRP,
+        /**
          * Indicate server port for service
          */
         SVCPORT,
@@ -133,6 +138,9 @@ public class CmdAS400 extends Command {
         String serviceName = "";
         String proxyServer = "";
         int servicePort = -1;
+        String aspGroup = "";
+        String curLib = "";
+        String libList = "";
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -176,6 +184,12 @@ public class CmdAS400 extends Command {
                     operation = OPERATIONS.PING;
                     systemName = argArray.nextMaybeQuotationTuplePopString();
                     serviceName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-setaspgrp":
+                    operation = OPERATIONS.SETASPGRP;
+                    aspGroup = argArray.nextMaybeQuotationTuplePopString();
+                    curLib = argArray.nextMaybeQuotationTuplePopString();
+                    libList = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-svcport":
                     operation = OPERATIONS.SVCPORT;
@@ -375,6 +389,20 @@ public class CmdAS400 extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "Unknown service name provided to service port in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case SETASPGRP:
+                    if (getAs400() != null) {
+                        StringArrayList libListArray = new StringArrayList(libList);
+                        try {
+                            getAs400().setIASPGroup(aspGroup, curLib, libListArray.toStringArray());
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | PropertyVetoException ex) {
+                            getLogger().log(Level.SEVERE, "Error setting ASP group / current library / library list in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object to set ASP group / current library / library list in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
