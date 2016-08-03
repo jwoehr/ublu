@@ -1641,9 +1641,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -svcport
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
-    ~@portnum | -svcportdefault | -proxy ~@{server[:portnum]} |
-    -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to,
-    query connection, or disconnect from an as400 system<br>
+    ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} |
+    -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ]
+    ~@{system} ~@{user} ~@{password} : instance, connect to, query
+    connection, or disconnect from an as400 system<br>
     &nbsp;&nbsp;&nbsp;</tt><br>
     Creates an object instance representing an AS400 system and
     manipulates that object. The instance is intended to be stored
@@ -1738,6 +1739,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       service for when the port used is not the default port. A
       value of <tt>-1</tt> for the port number means to use the
       TCP/IP <tt>portmapper</tt> service to find the port.</li>
+
+      <li><tt>-setaspgrp</tt> resets the ASP group, the current
+      library and the library list.<br></li>
 
       <li><tt>-svcportdefault</tt> resets all service ports to
       their default values.<br></li>
@@ -1835,8 +1839,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     now fetched from mysystem on behalf of
     myuserid.</tt><tt><br></tt> <tt>joblist -as400 mysystem
     myuserid mypasswd # fetches the joblist in the same fashion as
-    the previous command</tt><tt><br></tt> <tt>as400 -from @myas400
-    -disconnect</tt><tt><br></tt>
+    the previous command</tt><br>
+    <tt>as400 -- @myas400 -setaspgrp *CURUSR *SYSVAL *CURUSR # sets
+    to defaults, could be new values, liblist could be long
+    string</tt><br>
+    <tt>as400 -- @myas400 -disconnect</tt><tt><br></tt>
   </blockquote>
 
   <h4><a name="ask" id="ask"></a><tt>ask</tt></h4>
@@ -4175,8 +4182,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="job" id="job"></a> <tt>job</tt></h4>
 
   <blockquote>
-    <tt>6? [-as400 @as400] [--,-job @job] [-refresh] [-end
-    (@)delaytime (-1 for \"controlled\") | -get
+    <tt>6? [-as400 @as400] [--,-job @job] [-to datasink] [-refresh]
+    [-end (@)delaytime (-1 for \"controlled\") | -get
     ~@property[name|number|system|user|description|type] | -getsys
     | -info | -instance | -noop | -query
     ~@property[user|curlibname|number|subsystem|status|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit]
@@ -6450,7 +6457,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   "spoolflist"></a></i></font><tt>spoolflist</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 ~@as400] [-to datasrc] ~@system ~@userid
+    <tt>/4? [-as400 ~@as400] [-to datasink] ~@system ~@userid
     ~@passwd ~@spoolfileowner : fetch a list of the given user's
     spooled files as objects</tt><br>
     <br>
