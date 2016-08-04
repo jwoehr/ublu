@@ -31,7 +31,7 @@ import java.util.logging.Level;
 
 /**
  * Defines a dictionary of commands for the interpreter in
- * {@link ublu.Interpreter}.
+ * {@link ublu.util.Interpreter}.
  *
  * @author jwoehr
  */
