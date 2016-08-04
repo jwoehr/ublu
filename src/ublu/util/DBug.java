@@ -121,8 +121,9 @@ public class DBug {
     }
 
     /**
+     * Are we single-stepping?
      *
-     * @return
+     * @return true .iff. single-stepping
      */
     protected boolean isStepping() {
         return stepping;
@@ -137,8 +138,9 @@ public class DBug {
     }
 
     /**
+     * True if break
      *
-     * @return
+     * @return True if break
      */
     protected boolean isOnBrk() {
         return onBrk;
@@ -184,7 +186,7 @@ public class DBug {
     /**
      *
      * @param name
-     * @return
+     * @return true if name is breakpoint
      */
     protected boolean isBreakpoint(String name) {
         boolean result = false;
@@ -209,9 +211,10 @@ public class DBug {
     }
 
     /**
+     * Remove a breakpoint
      *
      * @param name
-     * @return
+     * @return true if this list contained the specified element
      */
     public boolean clearBreakpoint(String name) {
         boolean result = false;
@@ -255,7 +258,7 @@ public class DBug {
 
     /**
      * Refer output of s string with a newline to the attached regular
- Interpreter instance
+     * Interpreter instance
      *
      * @param s
      */
