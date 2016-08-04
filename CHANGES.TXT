@@ -28,6 +28,9 @@ New examples:
 1.1.2
 Changes to commands:
 	- string -uchar now can take a string of hexvals instead of only one
+	- trace command added
+	- programcall works better
+	- added as400 -setaspgrp
 
 Miscellaneous:
 	- Ublu JEdit mode (ublu.xml)
