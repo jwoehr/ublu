@@ -188,8 +188,7 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
-     * Return (removing) the next <i>n</i> lexes as an array of ints, as in
-     * {@link ublu.command.CmdFetchXLS}.
+     * Return (removing) the next <i>n</i> lexes as an array of ints.
      *
      * <p>
      * Some dash-commands are followed by an int count of the following ints and
@@ -410,7 +409,8 @@ public class ArgArray extends ArrayList<String> {
      * Return true iff next in this arg array is a tuple name or the
      * "pop-the-tuple-stack" symbol
      *
-     * @return
+     * @return true iff next in this arg array is a tuple name or the
+     * "pop-the-tuple-stack" symbol
      */
     public boolean isNextTupleNameOrPop() {
         return isNextTupleName() || isNextPopTuple();
