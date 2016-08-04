@@ -95,7 +95,7 @@ public class CmdPpl extends Command {
      */
     public ArgArray job(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
-        String pplTupleName = null;
+        String pplTupleName;
         Tuple pplTuple = null;
         PrintParameterList instancePPL = null;
         int attributeId;
