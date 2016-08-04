@@ -66,9 +66,10 @@ public class CmdDict extends Command {
     }
 
     /**
-     *
+     * do Dict operations
+     * 
      * @param argArray
-     * @return
+     * @return remnant of argArray
      */
     public ArgArray dict(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.LIST; // the default
