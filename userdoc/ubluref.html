@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table height="456" cellspacing="0" cellpadding="2" width="100%"
-  border="0">
+  <table cellpadding="2" cellspacing="0" height="456" border="0"
+  width="100%">
     <tbody>
       <tr>
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th align="center" valign="middle" bgcolor="#000000">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -358,7 +358,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#THROW">THROW</a></tt></li>
 
-            <li><tt><a href="#tn5250">tn5250</a><br></tt></li>
+            <li><tt><a href="#tn5250">tn5250</a></tt></li>
+
+            <li><tt><a href="#trace">trace</a><br></tt></li>
 
             <li><tt><a href="#TRY">TRY</a><br></tt></li>
 
@@ -1432,7 +1434,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table cellspacing="2" cellpadding="2" width="100%" border="1">
+  <table cellpadding="2" cellspacing="2" border="1" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -1441,7 +1443,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         <th valign="top">Utilities<br></th>
 
-        <th valign="top">Java<br></th>
+        <th valign="top">Java / JTOpen<br></th>
       </tr>
 
       <tr>
@@ -1534,7 +1536,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         "#calljava">calljava</a></tt><tt><br></tt> <tt><a href=
         "#jmx">jmx</a></tt><tt><br></tt> <tt><a href=
         "#jvm">jvm</a></tt><tt><br></tt> <tt><a href=
-        "#num">num</a></tt><tt><br></tt></td>
+        "#num">num</a></tt><tt><br>
+        <a href="#trace">trace</a><br></tt></td>
       </tr>
     </tbody>
   </table><br>
@@ -5497,8 +5500,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellspacing="2" cellpadding="2" width="75%" border=
-      "1">
+      <table cellpadding="2" cellspacing="2" border="1" width=
+      "75%">
         <tbody>
           <tr>
             <th align="center" valign="top">interpreter
@@ -6076,7 +6079,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellspacing="2" cellpadding="2" width="100%" border="1">
+  <table cellpadding="2" cellspacing="2" border="1" width="100%">
     <tbody>
       <tr>
         <th align="center" valign="top">Ublu main interpretive
@@ -7193,6 +7196,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </ul>
       </li>
     </ul>
+  </blockquote>
+
+  <h4><a name="trace"></a><tt>trace</tt></h4>
+
+  <blockquote>
+    <p><tt>/0&nbsp;&nbsp; [-tofile ~@{filename}] [-on] [-off] [-set
+    ~@{all|conversion|datastream|diagnostic|error|info|jdbc|pcml|proxy|thread|warning}
+    ~@{on|off}]: set JTOpen tracing<br></tt></p>
+
+    <p>The <tt>trace</tt> command controls JTOpen tracing.
+    Diagnostic info is streamed to standard out or to a file, as
+    controlled by various means including JTOpen properties files.
+    A full discussion of the configuration and usage of JTOpen
+    tracing is beyond the scope of this document. Consult the
+    JTOpen javadocs for com.ibm.as400.access.Trace ... currently
+    com.ibm.jtopenlite.Trace is not supported by Ublu.</p>
+
+    <ul>
+      <li><tt>-on</tt> activates tracing if any category of tracing
+      has been abled either through JTOpen properties or via the
+      <tt>trace -set</tt> command.</li>
+
+      <li><tt>-off</tt> deactivates tracing.</li>
+
+      <li><tt>-tofile ~@{filename}</tt> sends trace data to the
+      specified <i>filename</i>.</li>
+
+      <li><tt>-set
+      ~@{all|conversion|datastream|diagnostic|error|info|jdbc|pcml|proxy|thread|warning}
+      ~@{on|off}</tt> adds to the tracing stream or removes the
+      specificed category of tracing data.</li>
+    </ul>
+
+    <p>The category settings persist until explicitly changed by
+    the <tt>trace</tt> command even when tracing is deactivated by
+    <tt>-off</tt>.<br></p>
+
+    <p><i>Example<br>
+    <br></i> <tt># activate all categories of tracing and turn
+    tracing on</tt><tt><br></tt> <tt>trace -set all on
+    -on</tt><tt><br></tt> <tt># deactivate tracing without changing
+    categories for the next run</tt><tt><br></tt> <tt>trace
+    -off</tt><br></p>
   </blockquote>
 
   <h4><a name="TRY" id="TRY"></a> <tt>TRY</tt></h4>
