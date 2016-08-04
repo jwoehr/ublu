@@ -25,6 +25,7 @@
  */
 package ublu.util;
 
+import com.ibm.as400.access.AS400Message;
 import ublu.util.Generics.AS400MessageList;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.AS400Text;
@@ -32,6 +33,7 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.ProgramCall;
 import com.ibm.as400.access.ProgramParameter;
+import com.ibm.as400.access.Trace;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,7 +88,9 @@ public class ProgramCallHelper {
      * @throws ObjectDoesNotExistException
      */
     public boolean runProgramCall() throws AS400SecurityException, ErrorCompletingRequestException, IOException, InterruptedException, ObjectDoesNotExistException {
-        return programCall.run();
+        // /* DEBUG */ programCall.setMessageOption(AS400Message.MESSAGE_OPTION_NONE);
+        boolean result = programCall.run();
+        return result;
     }
 
     /**

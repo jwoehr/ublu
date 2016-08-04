@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class CmdProgramCall extends Command {
 
     {
-        setNameAndDescription("programcall", "/3? [-as400 @as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@vartypename ..] [-inout ~@tuple sizeout ~@vartypename ..] [-out ~@tuple sizeout ~@vartypename ..] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
+        setNameAndDescription("programcall", "/3? [-as400 @as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple sizeout ~@{vartypename} [-inout] ..] [-out ~@tuple sizeout ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
     }
 
     /**
@@ -87,15 +87,15 @@ public class CmdProgramCall extends Command {
 //                    break;
                 case "-in":
                     t = argArray.nextTupleOrPop();
-                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInParam(t, argArray.nextMaybeQuotationTuplePopString()));
+                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInParam(t, argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
                     break;
                 case "-inout":
                     t = argArray.nextTupleOrPop();
-                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInOutParam(t, argArray.nextInt(), argArray.nextMaybeQuotationTuplePopString()));
+                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInOutParam(t, argArray.nextInt(), argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
                     break;
                 case "-out":
                     t = argArray.nextTupleOrPop();
-                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newOutParam(t, argArray.nextInt(), argArray.nextMaybeQuotationTuplePopString()));
+                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newOutParam(t, argArray.nextInt(), argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
                     break;
                 case "-program":
                     programFQP = argArray.nextMaybeQuotationTuplePopString();
@@ -124,8 +124,7 @@ public class CmdProgramCall extends Command {
                     getLogger().log(Level.SEVERE, "Cannot execute null program fully qualified path in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
-                    // /* DEBUG */ getLogger().log(Level.INFO, "Command string is: " + commandString);
-                    StringBuilder sb = new StringBuilder();
+                    // /* DEBUG */ getLogger().log(Level.INFO, "Prog path: " + programFQP);
                     ProgramCall programCall;
                     try {
                         programCall = new ProgramCall(getAs400());

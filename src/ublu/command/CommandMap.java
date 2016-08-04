@@ -116,6 +116,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("THEN", CmdThen.class);
         put("THROW", CmdThrow.class);
         put("tn5250", CmdTN5250.class);
+        put("trace", CmdTrace.class);
         put("TRY", CmdTry.class);
         put("tuple", CmdTuple.class);
         put("usage", CmdUsage.class);
