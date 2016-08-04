@@ -72,8 +72,8 @@ public class Generics {
     /**
      * typedef
      *
-     * @see DbHelper
-     * @see ResultSetHelper
+     * @see ublu.db.DbHelper
+     * @see ublu.db.ResultSetHelper
      */
     public static class ByteArrayList extends ArrayList<Byte> {
 
@@ -132,7 +132,7 @@ public class Generics {
      * typedef
      *
      * @see ByteArraySplitter
-     * @see ResultSetHelper
+     * @see ublu.db.ResultSetHelper
      */
     public static class ByteArrayListArrayList extends ArrayList<ByteArrayList> {
     }
@@ -140,7 +140,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see DbHelper
+     * @see ublu.db.DbHelper
      */
     public static class ColumnNameList extends StringArrayList {
     }
@@ -440,7 +440,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see Db
+     * @see ublu.db.Db
      */
     public static class ConnectionProperties extends Properties {
     }
@@ -448,7 +448,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see ResultSetHelper
+     * @see ublu.db.ResultSetHelper
      */
     public static class IndexList extends ArrayList<Integer> {
 
@@ -464,9 +464,10 @@ public class Generics {
         }
 
         /**
+         * Add indices
          *
          * @param indices
-         * @return
+         * @return true if added
          */
         public boolean addAll(int[] indices) {
             for (int i : indices) {
@@ -489,7 +490,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see CmdMsgQueue
+     * @see ublu.command.CmdMsgQ
      * @see Renderer
      */
     public static class QueuedMessageList extends ArrayList<QueuedMessage> {
@@ -498,9 +499,9 @@ public class Generics {
     /**
      * typedef
      *
-     * @see Csv
-     * @see DbHelper
-     * @see ResultSetFormatter
+     * @see ublu.db.Csv
+     * @see ublu.db.DbHelper
+     * @see ublu.db.ResultSetFormatter
      *
      */
     public static class StringArrayList extends ArrayList<String> {
@@ -621,7 +622,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see TableReplicator
+     * @see ublu.db.TableReplicator
      */
     public static class PrimaryKeyList extends StringArrayList {
     }
@@ -629,7 +630,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see DbHelper
+     * @see ublu.db.DbHelper
      */
     public static class ColumnTypeNameList extends StringArrayList {
     }
@@ -637,7 +638,7 @@ public class Generics {
     /**
      * typedef
      *
-     * @see DbHelper
+     * @see ublu.db.DbHelper
      */
     public static class TableNameList extends StringArrayList {
     }

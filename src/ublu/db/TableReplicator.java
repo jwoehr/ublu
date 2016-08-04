@@ -192,8 +192,10 @@ public class TableReplicator extends DbHelper {
 
     /**
      * Set up a table replicator from the minimum.
-     * <p> Generates its own result set and metadata </p>
-     * <p> Will either fetch the primary key from the source or generate an
+     * <p>
+     * Generates its own result set and metadata </p>
+     * <p>
+     * Will either fetch the primary key from the source or generate an
      * arbitrary primary key.</p>
      *
      * @param tableName target table
@@ -213,7 +215,8 @@ public class TableReplicator extends DbHelper {
     /**
      * Get a TableNameList of the tables
      *
-     * <p>Assumes {@link fetchTablesResultSet} was already executed.</p>
+     * <p>
+     * Assumes {@link fetchTablesResultSet} was already executed.</p>
      *
      * @throws SQLException
      */
@@ -269,8 +272,8 @@ public class TableReplicator extends DbHelper {
 
     /**
      * Generate the columns portion of the table creation SQL.
-     * <p>Assumes {@link generateSrcColumnTypeList} has already been
-     * executed.</p>
+     * <p>
+     * Assumes {@link #fetchSrcColumnTypeList() } has already been executed.</p>
      *
      * @return the columns portion of the table creation SQL.
      * @throws SQLException

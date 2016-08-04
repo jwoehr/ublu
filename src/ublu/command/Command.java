@@ -51,7 +51,7 @@ import java.util.logging.Logger;
 /**
  * Superclass of all commands the interpreter understands.
  *
- * @see ublu
+ * @see ublu.Ublu
  * @author jwoehr
  */
 public abstract class Command implements CommandInterface {
@@ -560,10 +560,9 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
-     * Analyze next lex and return a new data sink. 
-     * This method became necessary when we started putting to ~ the LIFO.
-     * The original method newDataSink assumed all references to ~ are pops.
-     * This needs to be fixed globally.
+     * Analyze next lex and return a new data sink. This method became necessary
+     * when we started putting to ~ the LIFO. The original method newDataSink
+     * assumed all references to ~ are pops. This needs to be fixed globally.
      *
      * @param argArray the interpreter arg array
      * @return a new data sink based on what was parsed

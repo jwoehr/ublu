@@ -40,16 +40,16 @@ public class CmdBye extends Command {
     }
 
     /**
-     *
+     * /0 ctor
      */
     public CmdBye() {
     }
 
     /**
-     * Exit the {@link Interpreter.loop}
+     * Exit the {@link ublu.util.Interpreter#loop()}
      *
-     * @param args the remainder of the command stream
-     * @return the new remainder of the command stream
+     * @param args the command stream
+     * @return the remainder of the command stream
      */
     public ArgArray bye(ArgArray args) {
         getInterpreter().setGoodBye(true);

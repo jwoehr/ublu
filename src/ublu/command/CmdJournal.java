@@ -70,7 +70,7 @@ public class CmdJournal extends Command {
      * Fetcher of journal entries
      *
      * @param argArray
-     * @return
+     * @return remnant of argArray
      */
     public ArgArray jrnl(ArgArray argArray) {
         String library = "";

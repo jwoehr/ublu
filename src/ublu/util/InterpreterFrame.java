@@ -67,7 +67,7 @@ public class InterpreterFrame {
      * @param includeFileBufferedReader
      * @param inputStreamBufferedReader
      * @param argArray
-     * @param includePath  
+     * @param includePath
      */
     public InterpreterFrame(InputStream inputStream, PrintStream outputStream, PrintStream erroutStream, boolean parsingString, int parsingBlock, boolean including, BufferedReader includeFileBufferedReader, BufferedReader inputStreamBufferedReader, ArgArray argArray, Path includePath) {
         this.inputStream = inputStream;
@@ -119,7 +119,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return outputStream
      */
     public PrintStream getOutputStream() {
         return outputStream;
@@ -135,7 +135,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return erroutStream
      */
     public PrintStream getErroutStream() {
         return erroutStream;
@@ -151,7 +151,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return true if parsing String
      */
     public boolean isParsingString() {
         return parsingString;
@@ -198,7 +198,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return true if including
      */
     public boolean isIncluding() {
         return including;
@@ -215,7 +215,7 @@ public class InterpreterFrame {
     /**
      * Get marker that this is a FOR block
      *
-     * @return
+     * @return true if FOR block
      */
     public boolean isForBlock() {
         return forBlock;
@@ -232,7 +232,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return includeFileBufferedReader
      */
     public BufferedReader getIncludeFileBufferedReader() {
         return includeFileBufferedReader;
@@ -248,7 +248,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return inputStreamBufferedReader
      */
     public BufferedReader getInputStreamBufferedReader() {
         return inputStreamBufferedReader;
@@ -264,7 +264,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return argArray
      */
     public ArgArray getArgArray() {
         return argArray;
@@ -280,7 +280,7 @@ public class InterpreterFrame {
 
     /**
      *
-     * @return
+     * @return includePath
      */
     public Path getIncludePath() {
         return includePath;

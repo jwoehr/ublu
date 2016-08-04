@@ -77,9 +77,10 @@ public class DataSink {
     private String name;
 
     /**
+     * Recognize sink type from form of lex
      *
      * @param name
-     * @return
+     * @return sink type
      */
     public static SINKTYPE sinkNameType(String name) {
         SINKTYPE sinkType;
