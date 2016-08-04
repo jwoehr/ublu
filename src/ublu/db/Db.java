@@ -242,7 +242,7 @@ public abstract class Db {
      * @param port jdbc port for database instance
      * @param database the name of the database to access
      * @param connectionProperties any connection properties desired
-     * @return
+     * @return formulated URL
      */
     public String buildURL(String system, String port, String database, ConnectionProperties connectionProperties) {
         StringBuilder sb = new StringBuilder("jdbc:");
@@ -334,7 +334,8 @@ public abstract class Db {
     /**
      * Compose a query as a CallableStatement
      *
-     * <p>CallableStatements are optimized for calling stored procedures.
+     * <p>
+     * CallableStatements are optimized for calling stored procedures.
      *
      * @param sqlQuery the query text
      * @param resultSetType scroll-sensitive | scroll-insensitive
@@ -352,7 +353,9 @@ public abstract class Db {
 
     /**
      * Compose a query as a PreparedStatement
-     * <p>PreparedStatements<p> are general purpose queries
+     * <p>
+     * PreparedStatements<p>
+     * are general purpose queries
      *
      * @param sqlQuery the query text
      * @param resultSetType scroll sensitive or no
@@ -370,8 +373,10 @@ public abstract class Db {
 
     /**
      * Create a Statement for use with a query via Statement.execute(String
-     * sqlQuery). <p>The statement is instanced with the scroll sensitivy and
-     * updatability desired.</p>
+     * sqlQuery).
+     * <p>
+     * The statement is instanced with the scroll sensitivy and updatability
+     * desired.</p>
      *
      * @param resultSetType scroll sensitivity per {@link java.sql.ResultSet}
      * @param resultSetConcurrency updatability per {@link java.sql.ResultSet}
@@ -384,9 +389,11 @@ public abstract class Db {
 
     /**
      * Create a Statement for use with a query via Statement.execute(String
-     * sqlQuery). <p>The statement is instanced with scroll insensitivy and no
-     * updatability. This is the simplest, for read-only-once ResultSets or no
-     * result sets.</p>
+     * sqlQuery).
+     * <p>
+     * The statement is instanced with scroll insensitivy and no updatability.
+     * This is the simplest, for read-only-once ResultSets or no result
+     * sets.</p>
      *
      * @return the Statement
      * @throws SQLException
@@ -397,7 +404,8 @@ public abstract class Db {
 
     /**
      * Create a scroll-sensitive, updateable Statement for use with a query.
-     * <p>The statement can only open one result set at a time.</p>
+     * <p>
+     * The statement can only open one result set at a time.</p>
      *
      * @return the Statement
      * @throws SQLException
