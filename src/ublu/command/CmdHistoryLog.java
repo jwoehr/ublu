@@ -87,7 +87,7 @@ public class CmdHistoryLog extends Command {
      * The histlog command
      *
      * @param argArray
-     * @return
+     * @return remnant of argArray
      */
     public ArgArray histLog(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE;
@@ -349,7 +349,6 @@ public class CmdHistoryLog extends Command {
     private Job[] jobsTalTupleToJobArray(Tuple t) {
         Job[] jobs = null;
 
-
         if (t != null) {
             ThingArrayList list = ThingArrayList.class
                     .cast(t.getValue());
@@ -366,7 +365,6 @@ public class CmdHistoryLog extends Command {
 
     private String[] talTupleToStringArray(Tuple t) {
         String[] strings = null;
-
 
         if (t != null) {
             ThingArrayList list = ThingArrayList.class
