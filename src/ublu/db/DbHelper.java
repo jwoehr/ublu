@@ -161,7 +161,8 @@ public class DbHelper {
      * Get the tables info, if instanced, else null
      *
      * @return the tables info, if instanced, else null
-     * @see fetchTablesResultSet
+     * @see #fetchTablesResultSet(java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String[])
      */
     public ResultSet getTablesResultSet() {
         return tablesResultSet;
@@ -189,7 +190,8 @@ public class DbHelper {
      * Set the list of column type names.
      *
      * @param columnTypeNameList list of column type names.
-     * @see fetchColumnTypeNameListf
+     * @see #fetchColumnTypeNameList(java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String)
      */
     protected void setColumnTypeNameList(ColumnTypeNameList columnTypeNameList) {
         this.columnTypeNameList = columnTypeNameList;
@@ -243,7 +245,7 @@ public class DbHelper {
      * @param tableNamePattern
      * @param types
      * @throws SQLException
-     * @see getTablesResultSet
+     * @see #getTablesResultSet()
      */
     public void fetchTablesResultSet(String catalog,
             String schemaPattern,
@@ -287,7 +289,7 @@ public class DbHelper {
 
     /**
      * Fetch the list of column type names from the database meta data and
-     * instance the member returned by {@link getColumnTypeNameList}.
+     * instance the member returned by {@link #getColumnTypeNameList()}.
      *
      * @param catalog
      * @param schemaPattern
@@ -319,7 +321,8 @@ public class DbHelper {
      * @return column type name or null if the column type name list was not
      * instanced.
      * @throws SQLException
-     * @see fetchColumnTypeNameList
+     * @see #fetchColumnTypeNameList(java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String)
      */
     public String getColumnTypeName(int index) throws SQLException {
         String result = null;
@@ -532,10 +535,11 @@ public class DbHelper {
     /**
      * Select * from a table on arbitrary db.
      *
-     * <p> Making the return a ResultSetClosure is for use with a
-     * {@link Putter}.</p>
+     * <p>
+     * Making the return a ResultSetClosure is for use with a
+     * {@link ublu.util.Putter}.</p>
      *
-     * @see CmdDb
+     * @see ublu.command.CmdDb
      * @param db
      * @param tablename
      * @return result set
