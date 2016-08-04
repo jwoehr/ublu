@@ -48,7 +48,7 @@ public class Listener extends Thread {
 
     /**
      * Get the timeout before we recycle our accept().
-     * <p>We wait for a timeout to exit {@link listen()} and then close the
+     * <p>We wait for a timeout to exit {@link #listen()} and then close the
      * socket.</p>
      *
      * @return the timeout before we recycle our accept()
@@ -59,7 +59,7 @@ public class Listener extends Thread {
 
     /**
      * Set the timeout before we recycle our accept()
-     * <p>We wait for a timeout to exit {@link listen()} and then close the
+     * <p>We wait for a timeout to exit {@link #listen()} and then close the
      * socket.</p>
      *
      * @param acceptTimeoutMS the timeout before we recycle our accept()
