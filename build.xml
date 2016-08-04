@@ -97,7 +97,7 @@
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
         <zip basedir="${basedir}" compress="yes" destfile="dist/ublu_${ublu.version}.all.${ZIP_DATE_TIME}.zip" excludes="**">
-            <zipfileset dir="${dist.dir}" includes="ublu.jar"/>
+            <zipfileset dir="${dist.dir}" includes="ublu.jar,javadoc/**"/>
             <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**,oldlib/**"/>
         </zip>        
     </target>
