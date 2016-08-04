@@ -34,7 +34,7 @@ import java.util.Iterator;
 
 /**
  * The command line space-delimited args lexed into string array elements to be
- * passed into {@link ublu.Interpreter#loop}
+ * passed into {@link ublu.util.Interpreter#loop()}
  *
  * @author jwoehr
  */
