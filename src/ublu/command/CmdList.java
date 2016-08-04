@@ -90,7 +90,7 @@ public class CmdList extends Command {
      * The list command
      *
      * @param argArray
-     * @return
+     * @return remnant of argArray
      */
     public ArgArray doCmdList(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE;
