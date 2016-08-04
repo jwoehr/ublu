@@ -104,24 +104,6 @@ public class Ublu {
         return LOG;
     }
 
-//    /**
-//     * preset arbitrary credentials not to be repeated in command line
-//     *
-//     * @param key
-//     * @param value
-//     */
-//    public void setACredential(String key, String value) {
-//        getCredentials().put(key, value);
-//    }
-//    /**
-//     * preset arbitrary credentials not to be repeated in command line
-//     *
-//     * @param key
-//     * @return
-//     */
-//    public String getACredential(String key) {
-//        return String.class.cast(getCredentials().get(key));
-//    }
     /**
      * Get the build version
      *
@@ -180,8 +162,8 @@ public class Ublu {
     }
 
     /**
-     * Instance with args ready for the {@link #interpret} to start its first
-     * {@link #loop}.
+     * Instance with args ready for {@link ublu.util.Interpreter} to start its
+     * first {@link ublu.util.Interpreter#loop()}.
      *
      * @param args arguments at invocation, effectively just another command
      * line
@@ -252,9 +234,9 @@ public class Ublu {
      * <p>
      * Exits the Java virtual machine returning to the system caller the retval
      * of the last command executed, either
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.SUCCESS} (0) if the
+     * {@link ublu.command.CommandInterface.COMMANDRESULT#SUCCESS} (0) if the
      * last executed or
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.FAILURE} (1).</p>
+     * {@link ublu.command.CommandInterface.COMMANDRESULT#FAILURE} (1).</p>
      *
      * @param args commands to program in the program's syntax
      */
@@ -270,9 +252,9 @@ public class Ublu {
      *
      * @param args commands to program in the program's syntax
      * @return retval of the last command executed, either
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.SUCCESS} (0) if the
+     * {@link ublu.command.CommandInterface.COMMANDRESULT#SUCCESS} (0) if the
      * last executed normally or otherwise
-     * {@link ublu.command.CommandInterface.COMMANDRESULT.FAILURE} (1).
+     * {@link ublu.command.CommandInterface.COMMANDRESULT#FAILURE} (1).
      */
     public static int niam(String[] args) {
         Ublu api = new Ublu(args);
