@@ -33,6 +33,7 @@ Changes to commands:
 	- added as400 -setaspgrp
 
 Miscellaneous:
+	- Javadoc cleaned up
 	- Ublu JEdit mode (ublu.xml)
 		- Fixed digits problem
 		- Added RETURN as keyword
