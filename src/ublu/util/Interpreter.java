@@ -342,7 +342,7 @@ public class Interpreter {
     /**
      * Is the current block a FOR block or not?
      *
-     * @return
+     * @return true iff the current block a FOR block
      */
     public final boolean isForBlock() {
         return interpreterFrame.isForBlock();
@@ -352,7 +352,7 @@ public class Interpreter {
      * Set the current block a FOR block or not.
      *
      * @param forBlock true if a FOR block
-     * @return
+     * @return this
      */
     public final Interpreter setForBlock(boolean forBlock) {
         interpreterFrame.setForBlock(forBlock);
@@ -452,7 +452,7 @@ public class Interpreter {
 
     /**
      * Close any old history file and open a new one with the name we have set
-     * via {@link setHistoryFileName}.
+     * via {@link #setHistoryFileName(String)}.
      *
      */
     public final void instanceHistory() {
@@ -837,36 +837,40 @@ public class Interpreter {
     }
 
     /**
+     * get a property
      *
      * @param key
-     * @return
+     * @return the property
      */
     public String getProperty(String key) {
         return props.get(key);
     }
 
     /**
+     * get Property return a default value if non
      *
-     * @param key
-     * @param defaultValue
-     * @return
+     * @param key sought
+     * @param defaultValue default
+     * @return value
      */
     public final String getProperty(String key, String defaultValue) {
         return props.get(key, defaultValue);
     }
 
     /**
+     * Set key to value
      *
-     * @param key
-     * @param value
+     * @param key key
+     * @param value value
      */
     public void setProperty(String key, String value) {
         props.set(key, value);
     }
 
     /**
+     * Get set of keys
      *
-     * @return
+     * @return set of keys
      */
     public Set propertyKeys() {
         return props.keySet();
