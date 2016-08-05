@@ -52,7 +52,7 @@ public class CmdJournal extends Command {
     }
 
     /**
-     *
+     * Our operations
      */
     protected enum OPS {
 
