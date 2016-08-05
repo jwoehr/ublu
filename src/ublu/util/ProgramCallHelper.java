@@ -25,6 +25,7 @@
  */
 package ublu.util;
 
+import com.ibm.as400.access.AS400Message;
 import ublu.util.Generics.AS400MessageList;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.AS400Text;
@@ -72,6 +73,30 @@ public class ProgramCallHelper {
             ManagedProgramParameter mpp = it.next();
             programCall.addParameter(mpp.getProgramParameter());
         }
+    }
+
+    /**
+     * Set return message options
+     *
+     * @param msgOpt
+     * @return true if success
+     */
+    public boolean setMessageOptions(String msgOpt) {
+        boolean result = true;
+        switch (msgOpt.toLowerCase()) {
+            case "all":
+                programCall.setMessageOption(AS400Message.MESSAGE_OPTION_ALL);
+                break;
+            case "none":
+                programCall.setMessageOption(AS400Message.MESSAGE_OPTION_NONE);
+                break;
+            case "10":
+                programCall.setMessageOption(AS400Message.MESSAGE_OPTION_UP_TO_10);
+                break;
+            default:
+                result = false; // Unknown option
+        }
+        return result;
     }
 
     /**
@@ -153,33 +178,37 @@ public class ProgramCallHelper {
         private VARTYPE vartype;
 
         /**
+         * return the program var type
          *
-         * @return
+         * @return the program var type
          */
         public VARTYPE getVartype() {
             return vartype;
         }
 
         /**
+         * set the program var type
          *
-         * @param vartype
+         * @param vartype vartype
          */
         public final void setVarType(VARTYPE vartype) {
             this.vartype = vartype;
         }
 
         /**
+         * set the program var type from string
          *
-         * @param s
+         * @param s string representing typeF
          */
         public final void setVarType(String s) {
             this.vartype = VARTYPE.valueOf(s);
         }
 
         /**
+         * Create new in-param
          *
-         * @param t
-         * @return
+         * @param t tuple with param value
+         * @return the param
          */
         public static ManagedProgramParameter newInParam(Tuple t) {
             ProgramParameter pp;
@@ -195,10 +224,11 @@ public class ProgramCallHelper {
         }
 
         /**
+         * Create new in-param
          *
-         * @param t
-         * @param vartype
-         * @return
+         * @param t tuple with param value
+         * @param vartype string describing type
+         * @return the param
          */
         public static ManagedProgramParameter newInParam(Tuple t, String vartype) {
             ProgramParameter pp;
@@ -214,31 +244,34 @@ public class ProgramCallHelper {
         }
 
         /**
+         * Create new out-param
          *
-         * @param t
-         * @param length
-         * @return
+         * @param t tuple naming param
+         * @param length length
+         * @return param
          */
         public static ManagedProgramParameter newOutParam(Tuple t, int length) {
             return new ManagedProgramParameter(new ProgramParameter(length), t);
         }
 
         /**
+         * Create new out-param
          *
-         * @param t
-         * @param length
-         * @param vartype
-         * @return
+         * @param t tuple naming param
+         * @param length length
+         * @param vartype string describing type
+         * @return param
          */
         public static ManagedProgramParameter newOutParam(Tuple t, int length, String vartype) {
             return new ManagedProgramParameter(new ProgramParameter(length), t, vartype);
         }
 
         /**
+         * Create new inout-param
          *
-         * @param t
-         * @param length
-         * @return
+         * @param t tuple naming param
+         * @param length length
+         * @return param
          */
         public static ManagedProgramParameter newInOutParam(Tuple t, int length) {
             ProgramParameter pp;
@@ -254,11 +287,12 @@ public class ProgramCallHelper {
         }
 
         /**
+         * Create new inout-param
          *
-         * @param t
-         * @param length
-         * @param vartype
-         * @return
+         * @param t tuple naming param
+         * @param length length
+         * @param vartype string describing type
+         * @return param
          */
         public static ManagedProgramParameter newInOutParam(Tuple t, int length, String vartype) {
             ProgramParameter pp;
@@ -274,9 +308,10 @@ public class ProgramCallHelper {
         }
 
         /**
+         * Create managed param from param
          *
-         * @param programParameter
-         * @param tuple
+         * @param programParameter extant
+         * @param tuple holds param
          */
         public ManagedProgramParameter(ProgramParameter programParameter, Tuple tuple) {
             this.programParameter = programParameter;
@@ -284,10 +319,11 @@ public class ProgramCallHelper {
         }
 
         /**
+         * Create managed param from param
          *
-         * @param programParameter
-         * @param tuple
-         * @param vartype
+         * @param programParameter extant
+         * @param tuple holds param
+         * @param vartype type enum
          */
         public ManagedProgramParameter(ProgramParameter programParameter, Tuple tuple, VARTYPE vartype) {
             this(programParameter, tuple);
@@ -295,10 +331,11 @@ public class ProgramCallHelper {
         }
 
         /**
+         * Create managed param from param
          *
-         * @param programParameter
-         * @param tuple
-         * @param vartype
+         * @param programParameter extant
+         * @param tuple holds param
+         * @param vartype string name of type enum
          */
         public ManagedProgramParameter(ProgramParameter programParameter, Tuple tuple, String vartype) {
             this(programParameter, tuple);
@@ -306,7 +343,7 @@ public class ProgramCallHelper {
         }
 
         /**
-         *
+         * decode output into tuple
          */
         public void instanceOutput() {
             byte[] output = this.programParameter.getOutputData();
@@ -332,32 +369,36 @@ public class ProgramCallHelper {
         }
 
         /**
+         * return true if has output
          *
-         * @return
+         * @return true if has output
          */
         public boolean isOutput() {
             return this.programParameter.getOutputDataLength() != 0;
         }
 
         /**
+         * return true if has input
          *
-         * @return
+         * @return true if has input
          */
         public boolean isInput() {
             return this.programParameter.getInputData() != null;
         }
 
         /**
+         * return tuple holding results
          *
-         * @return
+         * @return tuple holding results
          */
         public Tuple getTuple() {
             return this.tuple;
         }
 
         /**
+         * get raw parameter
          *
-         * @return
+         * @return raw parameter
          */
         public ProgramParameter getProgramParameter() {
             return programParameter;
