@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class CmdProgramCall extends Command {
 
     {
-        setNameAndDescription("programcall", "/3? [-as400 @as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple sizeout ~@{vartypename} [-inout] ..] [-out ~@tuple sizeout ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
+        setNameAndDescription("programcall", "/3? [-as400 @as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple sizeout ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple sizeout ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
     }
 
     /**
@@ -68,6 +68,7 @@ public class CmdProgramCall extends Command {
      */
     public ArgArray programcall(ArgArray argArray) {
         String programFQP = null;
+        String msgOpt = null;
         ProgramCallHelper.ManagedProgramParameterList mppl = new ProgramCallHelper.ManagedProgramParameterList();
         Tuple t;
         while (argArray.hasDashCommand()) {
@@ -100,6 +101,9 @@ public class CmdProgramCall extends Command {
                 case "-program":
                     programFQP = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-msgopt":
+                    msgOpt = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -131,14 +135,19 @@ public class CmdProgramCall extends Command {
                         programCall.setProgram(programFQP);
                         ProgramCallHelper pch = new ProgramCallHelper(programCall, mppl);
                         pch.addInputParameters();
-                        if (pch.runProgramCall()) {
-                            pch.processOutputParameters();
+                        if ((msgOpt == null) ? true : pch.setMessageOptions(msgOpt)) {
+                            if (pch.runProgramCall()) {
+                                pch.processOutputParameters();
+                            } else {
+                                getLogger().log(Level.SEVERE, "Program call failed for program {0} in {1}", new Object[]{programFQP, getNameAndDescription()});
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                            // Show the messages (returned whether or not there was an error.)
+                            put(pch.getMessageList());
                         } else {
-                            getLogger().log(Level.SEVERE, "Program call failed for program {0} in {1}", new Object[]{programFQP, getNameAndDescription()});
+                            getLogger().log(Level.SEVERE, "Invalid message option in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        // Show the messages (returned whether or not there was an error.)
-                        put(pch.getMessageList());
                     } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | PropertyVetoException ex) {
                         getLogger().log(Level.SEVERE, "Program " + programFQP + " failed in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
