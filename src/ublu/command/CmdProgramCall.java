@@ -92,11 +92,11 @@ public class CmdProgramCall extends Command {
                     break;
                 case "-inout":
                     t = argArray.nextTupleOrPop();
-                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInOutParam(t, argArray.nextInt(), argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
+                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInOutParam(t, argArray.nextIntMaybeQuotationTuplePopString(), argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
                     break;
                 case "-out":
                     t = argArray.nextTupleOrPop();
-                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newOutParam(t, argArray.nextInt(), argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
+                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newOutParam(t, argArray.nextIntMaybeQuotationTuplePopString(), argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
                     break;
                 case "-program":
                     programFQP = argArray.nextMaybeQuotationTuplePopString();
