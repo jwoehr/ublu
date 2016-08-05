@@ -34,6 +34,7 @@ Changes to commands:
 
 Miscellaneous:
 	- Javadoc cleaned up
+	- SmapiHelper javadoc cleanup
 	- Ublu JEdit mode (ublu.xml)
 		- Fixed digits problem
 		- Added RETURN as keyword

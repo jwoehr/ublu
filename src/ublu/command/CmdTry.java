@@ -41,6 +41,12 @@ public class CmdTry extends Command {
         setNameAndDescription("TRY", "/3 $[ try block ]$ CATCH $[ catch block ]$ : TRY and CATCH on error or THROW");
     }
 
+    /**
+     * Perform a try
+     *
+     * @param argArray arguments in interpreter buffer
+     * @return what's left of arguments
+     */
     public ArgArray doTry(ArgArray argArray) {
         String tryBlock;
         String catchBlock;

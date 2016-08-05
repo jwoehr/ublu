@@ -39,6 +39,12 @@ public class CmdThrow extends Command {
         setNameAndDescription("THROW", "/1  ~@{log string} : THROW from a TRY block");
     }
 
+    /**
+     * Perform a throw
+     *
+     * @param argArray arguments in interpreter buffer
+     * @return what's left of arguments
+     */
     public ArgArray doThrow(ArgArray argArray) {
         Level level = Level.SEVERE;
         String message = argArray.nextMaybeQuotationTuplePopString();
