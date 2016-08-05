@@ -42,7 +42,7 @@ public class Ublu {
 
     private Logger LOG;
     /**
-     * Singleton main interpreterF
+     * Singleton main interpreter
      */
     private static Interpreter mainInterpreter;
     /**
