@@ -48,7 +48,7 @@ public class CmdTest extends Command {
     }
 
     /**
-     *
+     * Our ops
      */
     protected enum FUNCTIONS {
 
