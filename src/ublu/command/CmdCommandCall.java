@@ -27,7 +27,7 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
-import ublu.util.Tuple;
+//import ublu.util.Tuple;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400Message;
 import com.ibm.as400.access.AS400SecurityException;
@@ -36,9 +36,9 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.beans.PropertyVetoException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -51,7 +51,7 @@ import java.util.logging.Level;
 public class CmdCommandCall extends Command {
 
     {
-        setNameAndDescription("commandcall", "/6+? [-as400 @as400] [-to datasink] [-from datasink] (@)system (@)userid (@)passwd commandstring : execute a CL command");
+        setNameAndDescription("commandcall", "/4? [-as400 @as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{commandstring} : execute a CL command");
     }
 
     /**
@@ -63,7 +63,8 @@ public class CmdCommandCall extends Command {
     /**
      * Execute a command on the host.
      *
-     * <p>Looks for its {@code ${ quoted string }$} argument and executes on the
+     * <p>
+     * Looks for its {@code ${ quoted string }$} argument and executes on the
      * specified server on behalf of the specified uid/passwd.</p>
      *
      * @param argArray the passed in arguments
@@ -81,60 +82,58 @@ public class CmdCommandCall extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
-                case "-from":
-                    String srcName = argArray.next();
-                    setDataSrc(DataSink.fromSinkName(srcName));
-                    break;
+//                case "-from":
+//                    String srcName = argArray.next();
+//                    setDataSrc(DataSink.fromSinkName(srcName));
+//                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (getAs400() == null && argArray.size() < 3) { // if no passed-in AS400 instance and not enough args to generate one
+            logArgArrayTooShortError(argArray);
+            setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (getAs400() == null && argArray.size() < 3) { // if no passed-in AS400 instance and not enough args to generate one
-                logArgArrayTooShortError(argArray);
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                if (getAs400() == null) {
-                    try {
-                        setAs400FromArgs(argArray);
-                    } catch (PropertyVetoException ex) {
-                        getLogger().log(Level.SEVERE, "commandcall/6+? could not create an AS400 instance", ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
+            if (getAs400() == null) {
+                try {
+                    setAs400FromArgs(argArray);
+                } catch (PropertyVetoException ex) {
+                    getLogger().log(Level.SEVERE, "commandcall/6+? could not create an AS400 instance", ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
                 }
-                if (getAs400() != null) {
-                    String commandString = getCommandString(argArray);
-                    // /* Debug */ getLogger().log(Level.INFO, "Command string is: {0}", commandString);
-                    if (commandString == null) {
-                        getLogger().log(Level.SEVERE, "Cannot execute null command string in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } else {
-                        // /* DEBUG */ getLogger().log(Level.INFO, "Command string is: " + commandString);
-                        StringBuilder sb = new StringBuilder();
-                        CommandCall command;
-                        try {
-                            command = new CommandCall(getAs400());
-                            // /* Debug */ getLogger().log(Level.INFO, "Command string is: {0}", commandString);
-                            if (command.run(commandString) != true) {
-                                getLogger().log(Level.WARNING, "commandcall failed");
-                            }
-                            // Show the messages (returned whether or not there was an error.)
-                            AS400Message[] messagelist = command.getMessageList();
-                            for (AS400Message message : messagelist) {
-                                sb.append(message.getText());
-                                put(sb.toString());
-                            }
-                        } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Command " + commandString + " failed in commandcall", ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (SQLException ex) {
-                            getLogger().log(Level.SEVERE, null, ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } finally {
-                            getAs400().disconnectService(AS400.COMMAND);
+            }
+            if (getAs400() != null) {
+                String commandString = argArray.nextMaybeQuotationTuplePopString();
+                // /* Debug */ getLogger().log(Level.INFO, "Command string is: {0}", commandString);
+                if (commandString == null) {
+                    getLogger().log(Level.SEVERE, "Cannot execute null command string in {0}", getNameAndDescription());
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    // /* DEBUG */ getLogger().log(Level.INFO, "Command string is: " + commandString);
+                    StringBuilder sb = new StringBuilder();
+                    CommandCall command;
+                    try {
+                        command = new CommandCall(getAs400());
+                        // /* Debug */ getLogger().log(Level.INFO, "Command string is: {0}", commandString);
+                        if (command.run(commandString) != true) {
+                            getLogger().log(Level.WARNING, "commandcall failed");
                         }
+                        // Show the messages (returned whether or not there was an error.)
+                        AS400Message[] messagelist = command.getMessageList();
+                        for (AS400Message message : messagelist) {
+                            sb.append(message.getText());
+                            put(sb.toString());
+                        }
+                    } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | PropertyVetoException ex) {
+                        getLogger().log(Level.SEVERE, "Command " + commandString + " failed in commandcall", ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (SQLException ex) {
+                        getLogger().log(Level.SEVERE, null, ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } finally {
+                        getAs400().disconnectService(AS400.COMMAND);
                     }
                 }
             }
@@ -142,49 +141,48 @@ public class CmdCommandCall extends Command {
         return argArray;
     }
 
-    private String getCommandString(ArgArray argArray) {
-        String commandString = null;
-        DataSink ds = getDataSrc();
-        switch (ds.getType()) {
-            case TUPLE:
-                Tuple t = getTuple(ds.getName());
-                if (!(t == null)) {
-                    Object o = t.getValue();
-                    if (o instanceof String) {
-                        commandString = String.class.cast(o);
-                    }
-                }
-                break;
-            case FILE:
-                try (FileInputStream fis = new FileInputStream(new File(getDataSrc().getName()))) {
-                    StringBuilder sb = new StringBuilder();
-                    byte[] buf = new byte[32767];
-                    while (fis.available() > 0) {
-                        int numread = fis.read(buf);
-                        sb.append(new String(buf, 0, numread));
-                    }
-                    commandString = sb.toString();
-                } catch (FileNotFoundException ex) {
-                    getLogger().log(Level.SEVERE, "Couldn't find file specified as data source in " + getNameAndDescription(), ex);
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                } catch (IOException ex) {
-                    getLogger().log(Level.SEVERE, "Couldn't input file specified as data source in " + getNameAndDescription(), ex);
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                }
-                break;
-            case STD:
-                if (!argArray.isOpenQuoteNext()) {
-                    getLogger().log(Level.SEVERE, "commandcall/6+? (system userid passwd ${ commandstring }$ must contain a ${ quoted string }$)");
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                } else {
-                    argArray.assimilateFullQuotation();
-                    commandString = argArray.next();
-                }
-                break;
-        }
-        return commandString;
-    }
-
+//    private String getCommandString(ArgArray argArray) {
+//        String commandString = null;
+//        DataSink ds = getDataSrc();
+//        switch (ds.getType()) {
+//            case TUPLE:
+//                Tuple t = getTuple(ds.getName());
+//                if (!(t == null)) {
+//                    Object o = t.getValue();
+//                    if (o instanceof String) {
+//                        commandString = String.class.cast(o);
+//                    }
+//                }
+//                break;
+//            case FILE:
+//                try (FileInputStream fis = new FileInputStream(new File(getDataSrc().getName()))) {
+//                    StringBuilder sb = new StringBuilder();
+//                    byte[] buf = new byte[32767];
+//                    while (fis.available() > 0) {
+//                        int numread = fis.read(buf);
+//                        sb.append(new String(buf, 0, numread));
+//                    }
+//                    commandString = sb.toString();
+//                } catch (FileNotFoundException ex) {
+//                    getLogger().log(Level.SEVERE, "Couldn't find file specified as data source in " + getNameAndDescription(), ex);
+//                    setCommandResult(COMMANDRESULT.FAILURE);
+//                } catch (IOException ex) {
+//                    getLogger().log(Level.SEVERE, "Couldn't input file specified as data source in " + getNameAndDescription(), ex);
+//                    setCommandResult(COMMANDRESULT.FAILURE);
+//                }
+//                break;
+//            case STD:
+//                if (!argArray.isOpenQuoteNext()) {
+//                    getLogger().log(Level.SEVERE, "commandcall/6+? (system userid passwd ${ commandstring }$ must contain a ${ quoted string }$)");
+//                    setCommandResult(COMMANDRESULT.FAILURE);
+//                } else {
+//                    argArray.assimilateFullQuotation();
+//                    commandString = argArray.next();
+//                }
+//                break;
+//        }
+//        return commandString;
+//    }
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
