@@ -126,7 +126,7 @@ public class ProgramCallHelper {
     }
 
     /**
-     *
+     * Operate on parameter list and decode output parameters into their tuples.
      */
     public void processOutputParameters() {
         Iterator<ManagedProgramParameter> it = managedProgramParameterList.iterator();
