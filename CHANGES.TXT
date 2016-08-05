@@ -29,6 +29,7 @@ New examples:
 Changes to commands:
 	- string -uchar now can take a string of hexvals instead of only one
 	- trace command added
+	- removed -from from commandcall and parse arguments better
 	- programcall works better
 	- added as400 -setaspgrp
 
