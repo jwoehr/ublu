@@ -2092,17 +2092,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   "commandcall"></a></i><tt>commandcall</tt><br></h4>
 
   <blockquote>
-    <p><tt>/4? [-as400 @as400] [-to datasink] [-from datasink]
-    system userid password commandstring</tt><br>
-    executes a CL command represented by <i>commandstring</i> on
-    OS/400 system <i>system</i> on behalf of <i>userid</i> with
+    <p><tt>/4? [-as400 @as400] [-to datasink] ~@{system} ~@{userid}
+    ~@{passwd} ~@{commandstring} : execute a CL command</tt><br>
+    executes a CL command represented by <i>commandstring</i>
+    on IBM i system <i>system</i> on behalf of <i>userid</i> with
     <i>password</i>. The <i>commandstring</i> is a quoted string
     representing the entire CL command and its arguments. If the
     <a href="#System_Userid"><tt>-as400</tt></a> <a href=
     "#Dash_Command">dash-command</a> is provided, then the
     arguments <tt>system userid</tt> and <tt>password</tt> must be
-    omitted. If the <tt>-from</tt> <i>datasink</i> dash-command is
-    provided, then the <i>commandstring</i> argument must be
     omitted.</p>
 
     <p>Note that CL display and menu commands do not work! Also,
