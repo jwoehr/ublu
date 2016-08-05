@@ -52,7 +52,7 @@ public class AS400Factory {
     }
 
     /**
-     *
+     * SSL or no?
      */
     public enum SIGNON_SECURITY_TYPE {
 
@@ -134,10 +134,10 @@ public class AS400Factory {
      * @return the new AS400 object
      */
     protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type, SIGNON_HANDLER_TYPE signon_handler_type, String systemName, String userId, String password) {
-        AS400 as400 =
-                signon_security_type == SIGNON_SECURITY_TYPE.NONE
-                ? new AS400Extender(systemName, userId, password)
-                : new SecureAS400Extender(systemName, userId, password);
+        AS400 as400
+                = signon_security_type == SIGNON_SECURITY_TYPE.NONE
+                        ? new AS400Extender(systemName, userId, password)
+                        : new SecureAS400Extender(systemName, userId, password);
         switch (signon_handler_type) {
             case CUSTOM:
                 as400.setSignonHandler(new SignonHandler());
@@ -223,7 +223,7 @@ public class AS400Factory {
      * Retrieve the original password supplied by user for use with JTOpenLite
      *
      * @param as400 the instance which ostensibly is actually an instance of
- either AS400Extender or SecureAS400Extender
+     * either AS400Extender or SecureAS400Extender
      * @return the original password supplied by user for use with JTOpenLite
      * classes
      */
