@@ -74,6 +74,15 @@ public class Interpreter {
     private int instanceDepth = 0;
 
     /**
+     * Get nested interpreter depth
+     *
+     * @return nested interpreter depth
+     */
+    public int getInstanceDepth() {
+        return instanceDepth;
+    }
+
+    /**
      * Get properties
      *
      * @return properties

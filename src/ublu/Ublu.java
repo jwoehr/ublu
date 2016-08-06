@@ -177,7 +177,7 @@ public class Ublu {
     /**
      * Not really used
      */
-    private Ublu() {
+    protected Ublu() {
     }
 
     /**
