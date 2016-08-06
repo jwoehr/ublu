@@ -40,7 +40,7 @@ import ublu.util.InterpreterLogger;
  */
 public class Ublu {
 
-    private Logger LOG;
+    protected Logger LOG;
     /**
      * Singleton main interpreter
      */
@@ -64,7 +64,7 @@ public class Ublu {
      *
      * @param interpreter main interpreter instance
      */
-    private static void setMainInterpreter(Interpreter interpreter) {
+    protected static void setMainInterpreter(Interpreter interpreter) {
         mainInterpreter = interpreter;
     }
 
