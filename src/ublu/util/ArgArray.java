@@ -417,6 +417,16 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
+     * Flag if next lex is of form of a constant name, i.e. *name.
+     *
+     * @return true .iff. next lex is of form of a constant name, i.e. *name
+     * @see ublu.util.Const
+     */
+    public boolean isNextConstName() {
+        return Const.isConstName(peekNext());
+    }
+
+    /**
      * True iff a block is next in this arg array
      *
      * @return True iff a block is next in this arg array
@@ -524,7 +534,9 @@ public class ArgArray extends ArrayList<String> {
      */
     public String nextMaybeQuotationTuplePopString() {
         String result = null;
-        if (isNextTupleNameOrPop()) {
+        if (isNextConstName() && getInterpreter().getConst(peekNext()) != null) {
+            result = getInterpreter().getConst(next());
+        } else if (isNextTupleNameOrPop()) {
             Tuple t;
             if (isNextPopTuple()) {
                 t = getInterpreter().getTupleStack().pop();

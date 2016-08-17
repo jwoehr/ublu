@@ -48,6 +48,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Set;
+import ublu.util.Const.ConstMap;
 
 /**
  * command interface object
@@ -60,6 +61,7 @@ public class Interpreter {
     private DBug myDBug;
     private History history;
     private String historyFileName;
+    private ConstMap constMap = new ConstMap();
     private TupleMap tupleMap;
     private CommandMap cmdMap;
     private FunctorMap functorMap;
@@ -72,6 +74,37 @@ public class Interpreter {
     private Props props;
     private long paramSubIndex = 0;
     private int instanceDepth = 0;
+
+    /**
+     * Get constant value from the map. Return null if not found.
+     *
+     * @param name name of const
+     * @return the value of const
+     */
+    public String getConst(String name) {
+        String result = null;
+        Const theConst = constMap.get(name);
+        if (theConst != null) {
+            result = theConst.getValue();
+        }
+        return result;
+    }
+
+    /**
+     * Set constant value in the map. Won't set a null value.
+     *
+     * @param name name of const
+     * @param value value of const
+     * @return
+     */
+    public boolean setConst(String name, String value) {
+        boolean result = false;
+        if (Const.isConstName(name) && value != null) {
+            constMap.put(name, new Const(name, value));
+            result = true;
+        }
+        return result;
+    }
 
     /**
      * Get nested interpreter depth

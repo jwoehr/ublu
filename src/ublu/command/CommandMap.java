@@ -50,6 +50,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("calljava", CmdCallJava.class);
         put("collection", CmdCollection.class);
         put("commandcall", CmdCommandCall.class);
+        put("const", CmdConst.class);
         put("db", CmdDb.class);
         put("dbug", CmdDbug.class);
         put("defun", CmdDefun.class);
