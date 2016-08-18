@@ -27,8 +27,9 @@ package ublu.util;
 
 /**
  * Tuple variable implementation.
- * <p>The Ublu interpreter keeps associative memory in the form of these
- * Tuples of string value / object pairs.</p>
+ * <p>
+ * The Ublu interpreter keeps associative memory in the form of these Tuples of
+ * string value / object pairs.</p>
  *
  * @author jwoehr
  */
@@ -128,10 +129,12 @@ public class Tuple {
 
     /**
      * Get the key proposed for a possibly nonexistent tuple If it's a
-     * paramsubtuple it will return the notional key If it's a "real" tuple it
-     * will return its own key.
+     * ParamSubTuple it will return the notional key via overload, while if it's
+     * a "real" tuple it will return its own key.
      *
-     * @return
+     * @return If it's a ParamSubTuple it will return the notional key via
+     * overload, while if it's a "real" tuple it will return its own key.
+     * @see ublu.util.ParamSubTuple
      */
     public String getProposedKey() {
         return getKey();
@@ -166,8 +169,8 @@ public class Tuple {
     public static boolean isParamSubTupleName(String name) {
         return name.startsWith(PARAMSUBTUPLECHARS);
     }
-    
-    public String toString () {
+
+    public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append(" key=\"").append(getKey()).append("\" value=\"").append(getValue()).append("\"");
         return sb.toString();
