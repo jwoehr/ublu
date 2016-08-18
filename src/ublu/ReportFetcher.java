@@ -37,10 +37,10 @@ import java.util.logging.Logger;
 
 /**
  * A class to fetch spooled files as text. ReportFetcher uses
- * {@link ublu.TransformedSpooledFileFetcher} to fetch the EBCDIC
- * spooled file and formats it in ASCII for the simplest printer format we have
- * found (IBM4019). ReportFetcher then strips the print formatting (hack hack
- * hack) and delivers plain ASCII text.
+ * {@link ublu.TransformedSpooledFileFetcher} to fetch the EBCDIC spooled file
+ * and formats it in ASCII for the simplest printer format we have found
+ * (IBM4019). ReportFetcher then strips the print formatting (hack hack hack)
+ * and delivers plain ASCII text.
  *
  * @author jwoehr
  */
@@ -80,7 +80,7 @@ public class ReportFetcher {
      * general knowledge of that header format.
      *
      * @param report The messy ASCII contents of the report
-     * @return
+     * @return the report minus print header
      */
     public static String peelHeaderHack(String report) {
         String result = report;
@@ -161,7 +161,7 @@ public class ReportFetcher {
      * @param jobName
      * @param jobUser
      * @param jobNumber
-     * @return
+     * @return tidied report
      * @throws AS400Exception
      * @throws AS400SecurityException
      * @throws ErrorCompletingRequestException
@@ -184,7 +184,7 @@ public class ReportFetcher {
      *
      * @param tsff The instance of TransformedSpooledFileFetcher with its
      * SpooledFile object.
-     * @return
+     * @return tidied report
      * @throws AS400Exception
      * @throws AS400SecurityException
      * @throws ErrorCompletingRequestException
