@@ -334,17 +334,17 @@ public class DbHelper {
     }
 
     /**
-     * Get the data in one column of a row and convert to a string.
+     * Get the data in one column of a row and convert to a string. Bug: This
+     * method is not using separator char for fields it inserts.
      *
-     * @param db
-     * @param rs
+     * @param db database object
+     * @param rs result set object
      * @param index column index, one's-based
      * @param type jdbc int value for the data type
      * @return data in one column of a row and converted to a string
      * @throws UnsupportedEncodingException
      * @throws SQLException
      * @throws IOException
-     * @bug not using separator char for fields it inserts
      */
     public static String getColumnDataAsString(Db db, ResultSet rs, int index, int type) throws UnsupportedEncodingException, SQLException, IOException {
         String result = null;
