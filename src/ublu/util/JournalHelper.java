@@ -70,8 +70,9 @@ public class JournalHelper implements RetrieveJournalEntriesListener {
     }
 
     /**
+     * Fetch the StringBuilder full of the journal text last retrieved
      *
-     * @return
+     * @return the journal text last retrieved
      */
     public StringBuilder getLastRetrieval() {
         return lastRetrieval;
@@ -86,8 +87,9 @@ public class JournalHelper implements RetrieveJournalEntriesListener {
     }
 
     /**
+     * Return result of last retrieval
      *
-     * @return
+     * @return result of last retrieval
      */
     public CommandResult getLastCommandResult() {
         return lastCommandResult;
@@ -98,14 +100,16 @@ public class JournalHelper implements RetrieveJournalEntriesListener {
     }
 
     /**
+     * Get associated AS400 instance
      *
-     * @return
+     * @return associated AS400 instance
      */
     public AS400 getMyAs400() {
         return myAs400;
     }
 
     /**
+     * Set associated AS400 instance
      *
      * @param myAs400
      */
@@ -117,8 +121,9 @@ public class JournalHelper implements RetrieveJournalEntriesListener {
     }
 
     /**
+     * Ctor/1 on associated AS400 instance
      *
-     * @param as400
+     * @param as400 associated AS400 instance
      */
     public JournalHelper(AS400 as400) {
         this();
@@ -126,6 +131,7 @@ public class JournalHelper implements RetrieveJournalEntriesListener {
     }
 
     /**
+     * Not implemented
      *
      * @param numberOfEntriesRetrieved
      * @param continuationHandle
@@ -189,13 +195,13 @@ public class JournalHelper implements RetrieveJournalEntriesListener {
      * @throws IOException
      */
     public String fetchJournalEntries(Interpreter interpreter, String libraryName, String journalName, int numEntries, int averageEntrySize) throws IOException {
-        CommandConnection connection = null;
+        CommandConnection connection;
         connection = CommandConnection.getConnection(getSystemName(), getUserId(), getPassword());
         RetrieveJournalEntriesListener listener = this;
         String format = RetrieveJournalEntries.FORMAT_RJNE0100;
         resetLastRetrieval();
-        RetrieveJournalEntries retrieveJournalEntries =
-                new RetrieveJournalEntries(numEntries * averageEntrySize, journalName, libraryName, format, listener);
+        RetrieveJournalEntries retrieveJournalEntries
+                = new RetrieveJournalEntries(numEntries * averageEntrySize, journalName, libraryName, format, listener);
         RetrieveJournalEntriesSelection selection = new RetrieveJournalEntriesSelection();
         selection.addEntry(RetrieveJournalEntries.KEY_NUMBER_OF_ENTRIES, numEntries);
         retrieveJournalEntries.setSelectionListener(selection);
