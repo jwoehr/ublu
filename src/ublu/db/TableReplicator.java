@@ -100,8 +100,9 @@ public class TableReplicator extends DbHelper {
     }
 
     /**
+     * Get the PrimaryKeyList
      *
-     * @return
+     * @return the PrimaryKeyList
      */
     protected PrimaryKeyList getPrimaryKeyList() {
         return primaryKeyList;
