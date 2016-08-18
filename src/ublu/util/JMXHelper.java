@@ -136,7 +136,7 @@ public class JMXHelper {
 
     /**
      *
-     * @return
+     * @return host
      */
     public Integer getPort() {
         return port;
@@ -155,7 +155,7 @@ public class JMXHelper {
      * Here it means "the final portion of the URL after the host and portname",
      * typically <code>/jmxrmi</code>
      *
-     * @return
+     * @return the final portion of the URL after the host and portname
      */
     public String getUrlPath() {
         return urlPath;
@@ -290,7 +290,7 @@ public class JMXHelper {
     /**
      * Get the MBean Server instance
      *
-     * @return
+     * @return MBean Server instance
      * @throws IOException
      */
     public MBeanServerConnection getMBeanServerConnection() throws IOException {
@@ -302,7 +302,7 @@ public class JMXHelper {
      *
      * @param name
      * @param query
-     * @return
+     * @return names of MBeans served
      * @throws IOException
      */
     public ObjectNameHashSet queryNames(ObjectName name,
@@ -315,7 +315,7 @@ public class JMXHelper {
      *
      * @param name
      * @param query
-     * @return
+     * @return MBean instances served by this MBeanServer instance
      * @throws IOException
      */
     public ObjectInstanceHashSet queryMBeans(ObjectName name,
@@ -328,7 +328,7 @@ public class JMXHelper {
      * Get a specific MBean instance by ObjectName
      *
      * @param name
-     * @return
+     * @return specific MBean instance for name
      * @throws MalformedObjectNameException
      * @throws InstanceNotFoundException
      * @throws IOException
@@ -343,7 +343,7 @@ public class JMXHelper {
      * Get a list of MBeans by Object Instance class name
      *
      * @param classname
-     * @return
+     * @return list of MBeans
      * @throws IOException
      */
     public ObjectInstanceHashSet queryMbeansByClass(String classname) throws IOException {
@@ -365,7 +365,7 @@ public class JMXHelper {
      * @param protocol
      * @param params
      * @param signature
-     * @return
+     * @return operation result object
      * @throws InstanceNotFoundException
      * @throws MBeanException
      * @throws ReflectionException
@@ -381,7 +381,7 @@ public class JMXHelper {
      *
      * @param objectName
      * @param attribute
-     * @return
+     * @return value of attribute
      * @throws MBeanException
      * @throws AttributeNotFoundException
      * @throws InstanceNotFoundException
@@ -397,7 +397,7 @@ public class JMXHelper {
      *
      * @param objectName
      * @param attributes
-     * @return
+     * @return attribute list
      * @throws InstanceNotFoundException
      * @throws ReflectionException
      * @throws IOException
@@ -410,7 +410,7 @@ public class JMXHelper {
      * Get info on an instance identified by object name
      *
      * @param objectName
-     * @return
+     * @return info on instance
      * @throws InstanceNotFoundException
      * @throws IntrospectionException
      * @throws ReflectionException
@@ -425,7 +425,7 @@ public class JMXHelper {
      *
      * @param objectName
      * @param attribute
-     * @return
+     * @return composite data instance
      * @throws MBeanException
      * @throws AttributeNotFoundException
      * @throws InstanceNotFoundException
@@ -446,7 +446,7 @@ public class JMXHelper {
      *
      * @param objectInstance
      * @param attribute
-     * @return
+     * @return composite data instance
      * @throws MBeanException
      * @throws AttributeNotFoundException
      * @throws InstanceNotFoundException
@@ -464,7 +464,7 @@ public class JMXHelper {
      * @param objectName
      * @param attribute
      * @param key
-     * @return
+     * @return composite data object
      * @throws MBeanException
      * @throws AttributeNotFoundException
      * @throws InstanceNotFoundException
@@ -485,7 +485,7 @@ public class JMXHelper {
      * @param oi
      * @param attribute
      * @param key
-     * @return
+     * @return composite data
      * @throws MBeanException
      * @throws AttributeNotFoundException
      * @throws InstanceNotFoundException
