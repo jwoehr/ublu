@@ -8138,14 +8138,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       command:<br>
 
       <blockquote>
-        <tt>db -db as 400 -query ${ select * from SYSTABLES }$
-        myhost&nbsp; QSYS2 qsecofr ********</tt><br>
+        <tt>db -db as400 -query ${ select * from SYSTABLES }$
+        myhost QSYS2 qsecofr ********</tt><br>
       </blockquote>
     </div>To obtain a result set listing all the tables in a
     library SOMELIB the command can be modified to:<br>
 
     <blockquote>
-      &nbsp;<tt>db -db as400 -query ${ select * from SYSTABLES
+      <tt>db -db as400 -query ${ select * from SYSTABLES
       where SYSTEM_TABLE_SCHEMA = 'SOMELIB' }$ myhost QSYS2 qsecofr
       *********</tt><br>
     </blockquote>
@@ -8153,7 +8153,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   SOMELIB the command can be modified to:<br>
 
   <blockquote>
-    &nbsp;<tt>db -db as400 -query ${ select TABLE_NAME from
+    <tt>db -db as400 -query ${ select TABLE_NAME from
     SYSTABLES where SYSTEM_TABLE_SCHEMA = 'SOMELIB' order by 1 }$
     myhost QSYS2 qsecofr xx</tt><br>
   </blockquote>
