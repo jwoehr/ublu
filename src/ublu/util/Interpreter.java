@@ -61,7 +61,7 @@ public class Interpreter {
     private DBug myDBug;
     private History history;
     private String historyFileName;
-    private ConstMap constMap = new ConstMap();
+    private ConstMap constMap;
     private TupleMap tupleMap;
     private CommandMap cmdMap;
     private FunctorMap functorMap;
@@ -809,6 +809,7 @@ public class Interpreter {
         setHistoryFileName(i.getHistoryFileName());
         setMyUblu(i.getMyUblu());
         setProps(i.getProps());
+        constMap = new ConstMap(i.constMap);
     }
 
     /**
@@ -846,6 +847,7 @@ public class Interpreter {
         setGoodBye(false);
         props = new Props();
         myDBug = new DBug(this);
+        constMap = new ConstMap();
     }
 
     /**

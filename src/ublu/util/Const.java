@@ -86,5 +86,13 @@ public class Const {
      * A map of Consts
      */
     public static class ConstMap extends LinkedHashMap<String, Const> {
+
+        public ConstMap() {
+            super();
+        }
+
+        public ConstMap(ConstMap cm) {
+            super(cm);
+        }
     }
 }
