@@ -36,6 +36,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\S+\b</SEQ_REGEXP> 
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\-\s</SEQ_REGEXP>
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\#</SEQ_REGEXP>
+	<SEQ_REGEXP TYPE="LITERAL2" HASH_CHAR="*">\*\S+\b</SEQ_REGEXP> 
 	<SEQ_REGEXP TYPE="LITERAL4" HASH_CHAR="@">@@\S+\b</SEQ_REGEXP> 
 	<SEQ_REGEXP TYPE="MARKUP" HASH_CHAR="@">@\S+\b</SEQ_REGEXP>
 	
@@ -54,6 +55,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD1>CATCH</KEYWORD1>
         <KEYWORD2>collection</KEYWORD2>
         <KEYWORD2>commandcall</KEYWORD2>
+        <KEYWORD2>const</KEYWORD2>
         <KEYWORD2>db</KEYWORD2>
         <KEYWORD2>dbug</KEYWORD2>
         <KEYWORD2>defun</KEYWORD2>
