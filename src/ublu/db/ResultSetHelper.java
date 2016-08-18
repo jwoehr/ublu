@@ -213,9 +213,8 @@ public class ResultSetHelper {
     /**
      * Is the current source column the subject of char conversion?
      *
-     * @param index true if current source column is the subject of char
-     * conversion
-     * @return
+     * @param index index of source column
+     * @return true if current source column is the subject of char conversion
      */
     public boolean isConverting(int index) {
         boolean result = false;
@@ -489,14 +488,13 @@ public class ResultSetHelper {
                     } else {
                         getDestResultSet().updateBytes(index, srcBytes);
                     }
-                } else { // Data was SQL NULL
-                    if (splitting) {
-                        for (int i : splitWidths) {
-                            getDestResultSet().updateBytes(destIndex++, null);
-                        }
-                    } else {
-                        getDestResultSet().updateBytes(index, srcBytes);
+                } else // Data was SQL NULL
+                if (splitting) {
+                    for (int i : splitWidths) {
+                        getDestResultSet().updateBytes(destIndex++, null);
                     }
+                } else {
+                    getDestResultSet().updateBytes(index, srcBytes);
                 }
                 break;
             case java.sql.Types.BIT:
@@ -528,14 +526,12 @@ public class ResultSetHelper {
                     } else {
                         getDestResultSet().updateString(index, new String(srcBytes));
                     }
-                } else {
-                    if (splitting) {
-                        for (int i : splitWidths) {
-                            getDestResultSet().updateString(destIndex++, null);
-                        }
-                    } else {
-                        getDestResultSet().updateString(index, null);
+                } else if (splitting) {
+                    for (int i : splitWidths) {
+                        getDestResultSet().updateString(destIndex++, null);
                     }
+                } else {
+                    getDestResultSet().updateString(index, null);
                 }
                 break;
             case java.sql.Types.CLOB:
@@ -667,14 +663,12 @@ public class ResultSetHelper {
                     } else {
                         getDestResultSet().updateString(index, new String(srcBytes));
                     }
-                } else {
-                    if (splitting) {
-                        for (int i : splitWidths) {
-                            getDestResultSet().updateString(destIndex++, null);
-                        }
-                    } else {
-                        getDestResultSet().updateString(index, null);
+                } else if (splitting) {
+                    for (int i : splitWidths) {
+                        getDestResultSet().updateString(destIndex++, null);
                     }
+                } else {
+                    getDestResultSet().updateString(index, null);
                 }
                 break;
         }
