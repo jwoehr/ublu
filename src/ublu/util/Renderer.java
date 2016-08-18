@@ -742,8 +742,8 @@ public class Renderer {
     /**
      * Make an output string from a string array
      *
-     * @param sa
-     * @return
+     * @param sa string array
+     * @return output string
      */
     public String stringFrom(String[] sa) {
         StringBuilder sb = new StringBuilder("[");
@@ -757,8 +757,8 @@ public class Renderer {
     /**
      * Make an output string from a history log
      *
-     * @param hl
-     * @return
+     * @param hl history log
+     * @return output string
      * @throws AS400SecurityException
      * @throws ErrorCompletingRequestException
      * @throws InterruptedException
@@ -780,8 +780,8 @@ public class Renderer {
     /**
      * Make an output string from a Subsystem
      *
-     * @param ss
-     * @return
+     * @param ss Subsystem
+     * @return output string
      */
     public String stringFrom(Subsystem ss) {
         StringBuilder sb = new StringBuilder();
@@ -794,10 +794,10 @@ public class Renderer {
     }
 
     /**
-     * Make an output string from a Subsystem
+     * Make an output string from a SubsystemArrayList
      *
-     * @param sal
-     * @return
+     * @param sal SubsystemArrayList
+     * @return output string
      */
     public String stringFrom(SubsystemArrayList sal) {
         StringBuilder sb = new StringBuilder();
@@ -810,7 +810,7 @@ public class Renderer {
     /**
      * Make an output string from a PigIron ParameterArray
      *
-     * @param pa
+     * @param pa PigIron ParameterArray
      * @return string representation
      */
     public String stringFrom(ParameterArray pa) {
@@ -820,7 +820,7 @@ public class Renderer {
     /**
      * Make an output string from an output queue
      *
-     * @param outq
+     * @param outq output queue
      * @return String representation thereof
      * @throws AS400Exception
      * @throws AS400SecurityException
