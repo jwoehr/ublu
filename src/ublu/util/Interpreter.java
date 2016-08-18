@@ -91,11 +91,17 @@ public class Interpreter {
     }
 
     /**
-     * Set constant value in the map. Won't set a null value.
+     * Set constant value in the map. Won't set a Const with a null value. Does
+     * not prevent a Const in the map from being overwritten, CmdConst checks
+     * first to make sure no Const of that name exists.
      *
      * @param name name of const
      * @param value value of const
-     * @return
+     * @return true if const was created and stored to the ConstMap, false if a
+     * null value was passed in and no Const was created nor stored to the
+     * ConstMap.
+     * @see ublu.util.Const
+     * @see ublu.command.CmdConst
      */
     public boolean setConst(String name, String value) {
         boolean result = false;
