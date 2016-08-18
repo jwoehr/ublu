@@ -9,5 +9,8 @@ put *foo
 const *arf 111
 num -to @n -long *arf
 put @n
-
+interpret -block $[ put *arf ]$
+put -to @i 1
+put -to @limit 10
+DO @i to @limit $[ put -n -s *arf put @i ]$
 # end
