@@ -110,13 +110,13 @@ public class Server extends Thread {
     /**
      * Read one command line for the interpreter
      *
-     * @return
+     * @return a command line
      * @throws IOException
      */
     protected String readCommandLine() throws IOException {
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(
-                getSocket().getInputStream()));
+                        getSocket().getInputStream()));
         return br.readLine();
     }
 
