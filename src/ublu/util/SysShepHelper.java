@@ -178,7 +178,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @return
+     * @return value of metric
      */
     public final Number getValue() {
         return value;
@@ -186,7 +186,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @param value
+     * @param value value of metric
      */
     public final void setValue(Number value) {
         this.value = value;
@@ -194,7 +194,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @return
+     * @return message for datapoint
      */
     public final String getMessage() {
         return message;
@@ -202,7 +202,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @param message
+     * @param message message for datapoint
      */
     public final void setMessage(String message) {
         this.message = message;
@@ -210,7 +210,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @return
+     * @return alert level
      */
     public final Number getAlertlevel() {
         return alertlevel;
@@ -218,7 +218,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @param alertlevel
+     * @param alertlevel alert level
      */
     public final void setAlertlevel(Number alertlevel) {
         this.alertlevel = alertlevel;
@@ -226,7 +226,7 @@ public class SysShepHelper {
 
     /**
      *
-     * @return
+     * @return the comparison value against datapoint value for an alert
      */
     public final ALERTCOMPARATOR getAlertcomparator() {
         return alertcomparator;
@@ -234,7 +234,8 @@ public class SysShepHelper {
 
     /**
      *
-     * @param alertcomparator
+     * @param alertcomparator the comparison value against datapoint value for
+     * an alert
      */
     public final void setAlertcomparator(ALERTCOMPARATOR alertcomparator) {
         this.alertcomparator = alertcomparator;
@@ -249,7 +250,9 @@ public class SysShepHelper {
 
     /**
      *
-     * @param ssh
+     * Copy ctor
+     *
+     * @param ssh copied instance
      */
     public SysShepHelper(SysShepHelper ssh) {
         this(ssh.getMetric(), ssh.getValue(), ssh.getMessage(), ssh.getAlertlevel(), ssh.getAlertcomparator());
@@ -273,8 +276,8 @@ public class SysShepHelper {
 
     /**
      *
-     * @param ssh
-     * @return
+     * @param ssh instance to copy
+     * @return copied instance
      */
     public SysShepHelper copyFrom(SysShepHelper ssh) {
         setMetric(ssh.getMetric());
