@@ -61,6 +61,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("ELSE", CmdElse.class);
         put("eval", CmdEval.class);
         put("exit", CmdExit.class);
+        put("file", CmdFile.class);
         put("FOR", CmdFor.class);
         put("ftp", CmdFTP.class);
         put("FUN", CmdFun.class);
