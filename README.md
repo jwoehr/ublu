@@ -24,7 +24,9 @@ Here's an [example of Ublu code] (http://www.softwoehr.com/softwoehr/oss/ubludoc
 
 The example is syntax-colored using a [jEdit] (http://jedit.org) edit mode provided with Ublu.
 
-The current version of Ublu is 1.1.0
+The latest release version of Ublu is 1.1.0
+
+The tip of the master branch calls itself 1.1.0+ as we head for 1.1.1
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
