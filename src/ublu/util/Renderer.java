@@ -44,6 +44,8 @@ import com.ibm.as400.access.DataQueueEntry;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.HistoryLog;
 import com.ibm.as400.access.JobList;
+import com.ibm.as400.access.MemberDescription;
+import com.ibm.as400.access.MemberList;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.OutputQueue;
 import com.ibm.as400.access.QueuedMessage;
@@ -202,6 +204,8 @@ public class Renderer {
             s = stringFrom(Subsystem.class.cast(theObject));
         } else if (theObject instanceof SubsystemArrayList) {
             s = stringFrom(SubsystemArrayList.class.cast(theObject));
+        } else if (theObject instanceof MemberList) {
+            s = stringFrom(MemberList.class.cast(theObject));
         } else if (theObject instanceof byte[]) {
             s = stringFrom(byte[].class.cast(theObject));
         } else if (theObject instanceof Byte[]) {
@@ -665,6 +669,62 @@ public class Renderer {
         }
 
         return sb.substring(0, sb.length() - 1); // remove last '\n'
+    }
+
+    public String stringFrom(MemberList ml) throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, IOException, InterruptedException, ObjectDoesNotExistException {
+        StringBuilder sb = new StringBuilder();
+        for (MemberDescription md : ml.getMemberDescriptions()) {
+            sb.append(stringFrom(md)).append('\n');
+        }
+        return sb.toString();
+    }
+
+    public String stringFrom(MemberDescription md) throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, IOException, InterruptedException, ObjectDoesNotExistException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ACCESS_PATH_MAINTENANCE:\t").append(md.getValue(MemberDescription.ACCESS_PATH_MAINTENANCE)).append('\n');
+        sb.append("ACCESS_PATH_SIZE:\t").append(md.getValue(MemberDescription.ACCESS_PATH_SIZE)).append('\n');
+        sb.append("ACCESS_PATH_SIZE_MULTIPLIER:\t").append(md.getValue(MemberDescription.ACCESS_PATH_SIZE_MULTIPLIER)).append('\n');
+        sb.append("ALLOW_DELETE_OPERATION:\t").append(md.getValue(MemberDescription.ALLOW_DELETE_OPERATION)).append('\n');
+        sb.append("ALLOW_READ_OPERATION:\t").append(md.getValue(MemberDescription.ALLOW_READ_OPERATION)).append('\n');
+        sb.append("ALLOW_UPDATE_OPERATION:\t").append(md.getValue(MemberDescription.ALLOW_UPDATE_OPERATION)).append('\n');
+        sb.append("ALLOW_WRITE_OPERATION:\t").append(md.getValue(MemberDescription.ALLOW_WRITE_OPERATION)).append('\n');
+        sb.append("CHANGE_DATE_AND_TIME:\t").append(md.getValue(MemberDescription.CHANGE_DATE_AND_TIME)).append('\n');
+        sb.append("CREATION_DATE_TIME:\t").append(md.getValue(MemberDescription.CREATION_DATE_TIME)).append('\n');
+        sb.append("CURRENT_NUMBER_OF_INCREMENTS:\t").append(md.getValue(MemberDescription.CURRENT_NUMBER_OF_INCREMENTS)).append('\n');
+        sb.append("CURRENT_NUMBER_OF_RECORDS:\t").append(md.getValue(MemberDescription.CURRENT_NUMBER_OF_RECORDS)).append('\n');
+        sb.append("DATA_SPACE_SIZE:\t").append(md.getValue(MemberDescription.DATA_SPACE_SIZE)).append('\n');
+        sb.append("DATA_SPACE_SIZE_MULTIPLIER:\t").append(md.getValue(MemberDescription.DATA_SPACE_SIZE_MULTIPLIER)).append('\n');
+        sb.append("DATE_LAST_USED:\t").append(md.getValue(MemberDescription.DATE_LAST_USED)).append('\n');
+        sb.append("EXPIRATION_DATE:\t").append(md.getValue(MemberDescription.EXPIRATION_DATE)).append('\n');
+        sb.append("FILE_ATTRIBUTE:\t").append(md.getValue(MemberDescription.FILE_ATTRIBUTE)).append('\n');
+        sb.append("FILE_NAME:\t").append(md.getValue(MemberDescription.FILE_NAME)).append('\n');
+        sb.append("INCREMENT_NUMBER_OF_RECORDS:\t").append(md.getValue(MemberDescription.INCREMENT_NUMBER_OF_RECORDS)).append('\n');
+        sb.append("INITIAL_NUMBER_OF_RECORDS:\t").append(md.getValue(MemberDescription.INITIAL_NUMBER_OF_RECORDS)).append('\n');
+        sb.append("JOIN_MEMBER:\t").append(md.getValue(MemberDescription.JOIN_MEMBER)).append('\n');
+        sb.append("LAST_SOURCE_CHANGE_DATE:\t").append(md.getValue(MemberDescription.LAST_SOURCE_CHANGE_DATE)).append('\n');
+        sb.append("LIBRARY_NAME:\t").append(md.getValue(MemberDescription.LIBRARY_NAME)).append('\n');
+        sb.append("LOGICAL_FILE:\t").append(md.getValue(MemberDescription.LOGICAL_FILE)).append('\n');
+        sb.append("MAXIMUM_NUMBER_OF_INCREMENTS:\t").append(md.getValue(MemberDescription.MAXIMUM_NUMBER_OF_INCREMENTS)).append('\n');
+        sb.append("MAXIMUM_PERCENT_DELETED_RECORDS_ALLOWED:\t").append(md.getValue(MemberDescription.MAXIMUM_PERCENT_DELETED_RECORDS_ALLOWED)).append('\n');
+        sb.append("MEMBER_NAME:\t").append(md.getValue(MemberDescription.MEMBER_NAME)).append('\n');
+        sb.append("MEMBER_TEXT_DESCRIPTION:\t").append(md.getValue(MemberDescription.MEMBER_TEXT_DESCRIPTION)).append('\n');
+        sb.append("MEMBER_TEXT_DESCRIPTION_CCSID:\t").append(md.getValue(MemberDescription.MEMBER_TEXT_DESCRIPTION_CCSID)).append('\n');
+        sb.append("NUMBER_OF_BASED_ON_PHYICAL_FILE_MEMBERS:\t").append(md.getValue(MemberDescription.NUMBER_OF_BASED_ON_PHYICAL_FILE_MEMBERS)).append('\n');
+        sb.append("NUMBER_OF_DAYS_USED:\t").append(md.getValue(MemberDescription.NUMBER_OF_DAYS_USED)).append('\n');
+        sb.append("NUMBER_OF_DELETED_RECORDS:\t").append(md.getValue(MemberDescription.NUMBER_OF_DELETED_RECORDS)).append('\n');
+        sb.append("ODP_SHARING:\t").append(md.getValue(MemberDescription.ODP_SHARING)).append('\n');
+        sb.append("RECORD_CAPACITY:\t").append(md.getValue(MemberDescription.RECORD_CAPACITY)).append('\n');
+        sb.append("RECORD_FORMAT_SELECTOR_LIBRARY_NAME:\t").append(md.getValue(MemberDescription.RECORD_FORMAT_SELECTOR_LIBRARY_NAME)).append('\n');
+        sb.append("RECORD_FORMAT_SELECTOR_PROGRAM_NAME:\t").append(md.getValue(MemberDescription.RECORD_FORMAT_SELECTOR_PROGRAM_NAME)).append('\n');
+        sb.append("RECORDS_TO_FORCE_A_WRITE:\t").append(md.getValue(MemberDescription.RECORDS_TO_FORCE_A_WRITE)).append('\n');
+        sb.append("REMOTE_FILE:\t").append(md.getValue(MemberDescription.REMOTE_FILE)).append('\n');
+        sb.append("RESTORE_DATE_AND_TIME:\t").append(md.getValue(MemberDescription.RESTORE_DATE_AND_TIME)).append('\n');
+        sb.append("SAVE_DATE_AND_TIME:\t").append(md.getValue(MemberDescription.SAVE_DATE_AND_TIME)).append('\n');
+        sb.append("SOURCE_FILE:\t").append(md.getValue(MemberDescription.SOURCE_FILE)).append('\n');
+        sb.append("SOURCE_TYPE:\t").append(md.getValue(MemberDescription.SOURCE_TYPE)).append('\n');
+        sb.append("SQL_FILE_TYPE:\t").append(md.getValue(MemberDescription.SQL_FILE_TYPE)).append('\n');
+        sb.append("USE_RESET_DATE:\t").append(md.getValue(MemberDescription.USE_RESET_DATE));
+        return sb.toString();
     }
 
 // Not used anymore as CmdUserList returns a UserArrayList now.
