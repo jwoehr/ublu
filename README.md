@@ -58,6 +58,11 @@ Or clone, build and run:
 </ul>
 
 <a name="discussion">Discussion of Ublu</a>
+
+Report bugs or make feature requests in the [Issue Tracker] (https://github.com/jwoehr/ublu/issues)
+
+There is some more information in the [Ublu Wiki] (https://github.com/jwoehr/ublu/wiki)
+
 Ublu was noted August 17, 2016 in the IT Jungle article
 [Ublu: A Modern Band-Aid for Legacy i Ills] (http://www.itjungle.com/tfh/tfh081716-story01.html)
 
