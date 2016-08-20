@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table border="0" height="456" cellspacing="0" width="100%"
-  cellpadding="2">
+  <table width="100%" cellspacing="0" border="0" cellpadding="2"
+  height="456">
     <tbody>
       <tr>
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td bgcolor="#000000" align="center" valign="middle">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th bgcolor="#000000" valign="middle" align="center">
+        <th bgcolor="#000000" align="center" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
-        height="444" width="400"></th>
+        width="400" height="444"></th>
 
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td bgcolor="#000000" align="center" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -1493,7 +1493,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table border="1" cellspacing="2" width="100%" cellpadding="2">
+  <table width="100%" cellspacing="2" border="1" cellpadding="2">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -5705,18 +5705,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table border="1" cellspacing="2" width="75%" cellpadding=
+      <table width="75%" cellspacing="2" border="1" cellpadding=
       "2">
         <tbody>
           <tr>
-            <th valign="top" align="center">interpreter
+            <th align="center" valign="top">interpreter
             property<br></th>
 
-            <th valign="top" align="center">description<br></th>
+            <th align="center" valign="top">description<br></th>
 
-            <th valign="top" align="center">default value<br></th>
+            <th align="center" valign="top">default value<br></th>
 
-            <th valign="top" align="center">alternative
+            <th align="center" valign="top">alternative
             value(s)<br></th>
           </tr>
 
@@ -5858,38 +5858,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     datasink to datasink, optionally translating charset if
     -toascii or -charset are set<br>
     &nbsp;&nbsp;<br>
-    <br></tt> The <tt>put</tt> command puts data from the <a href=
-    "#Datasinks">datasink</a> (standard input (called
+    <br></tt> The <tt>put</tt> command puts data from the source
+    <a href="#Datasinks">datasink</a> (Standard Input (called
     <tt>STD:</tt>), filename, <a href=
     "#Tuple_Variables"><i>@variable</i></a> or <tt>NULL:</tt>)
     specified by the <tt>-from</tt> <a href=
-    "#Dash_Command">dash-command</a> to the datasink (standard
-    output (called <tt>STD:</tt>), filename,&nbsp; <i><a href=
-    "#Tuple_Variables">@variable</a></i> or <tt>NULL:</tt>)
-    specified by the <tt>-to</tt> dash-command, optionally
-    translating charset if <tt>-toascii</tt> or <tt>-charset</tt>
-    are set. In the absence of <tt>-to</tt> and/or <tt>-from</tt>
-    (or -<tt>tofile</tt> and/or <tt>-fromfile</tt>), the respective
-    datasinks are by default standard in/out.<br>
+    "#Dash_Command">dash-command</a> to the destination datasink
+    (Standard Output (called <tt>STD:</tt>), filename,&nbsp;
+    <i><a href="#Tuple_Variables">@variable</a></i> or
+    <tt>NULL:</tt>) specified by the <tt>-to</tt> dash-command,
+    optionally translating charset if <tt>-toascii</tt> or
+    <tt>-charset</tt> are set.<br>
+    <br>
+    In the absence of <tt>-to</tt> and/or <tt>-from</tt> (or
+    -<tt>tofile</tt> and/or <tt>-fromfile</tt>) the respective
+    datasinks are by default Standard Input and Standard
+    Output.<br>
     <br>
     The <tt>-tofile</tt> dash-command takes a <a href=
     "#Tuple_Variables">tuple</a> name or a tuple from the <a href=
     "#Tuple_stack">tuple stack</a> and uses its string value as a
     filename to set the destination datasink.<br>
+    <br>
     The <tt>-fromfile</tt> dash-command takes a tuple name or a
     tuple from the tuple stack and uses its string value as a
     filename to set the source datasink.<br>
     <br>
-    If the data is from the command line, it can be a <a href=
-    "#Quoted_strings">quoted string</a> , an object in a tuple
-    either named inline (<tt>@sometuple</tt>) or residing on the
-    tuple stack&nbsp; ( <tt>~</tt> ), or a single lex ( a single
-    word).<br>
+    If the data is from the command line (STD:), it can be a
+    <a href="#Quoted_strings">quoted string</a> , an object in a
+    tuple either named inline (<tt>@sometuple</tt>) or residing on
+    the tuple stack&nbsp; ( <tt>~</tt> ), or a single lex ( a
+    single word). In this case its most simple string value is what
+    is put to the destination datasink.<br>
 
     <ul>
+      <li>If the -from dash-command is present and the source
+      datasink is a tuple (e.g., <tt>-from @myobj</tt>),
+      <tt>put</tt> renders the object in a helpful matter rather
+      than merely printing its most simple string value.<br></li>
+
       <li>If neither the <tt>-from</tt> nor the <tt>-fromfile</tt>
-      dash-command is present, standard in is the source datasink
-      and put expects one of the following:
+      dash-command is present, Standard Input is the source
+      datasink and put emits the string value of one of the
+      following:
 
         <ul>
           <li>a single lex (a plain word)</li>
@@ -5926,11 +5937,80 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
       <li>If the <tt>-s</tt> dash-command is present, a string put
       to standard output is followed by a blank space.<br></li>
-    </ul><i>Example</i><br>
+    </ul><i>Example<br>
+    <br></i> The following example uses the <tt>file</tt> command
+    to fetch info about the members of a file into a tuple @ml then
+    first does a <tt>put @ml</tt> then a <tt>put -from @ml</tt>
+    illustrating the difference between the two semantics of
+    <tt>put</tt>.<br>
     <br>
-    <tt>msgq -to @tapeMessages mysystem
-    /QSYS.LIB/QGPL.LIB/BACKUPMQ.MSGQ qsecofr ********<br>
-    put -from @tapeMessages</tt><br>
+    <tt>&gt; file -to @f -as400 @s -keyed
+    /QSYS.LIB/MYSRC.LIB/QCLSRC.FILE<br>
+    &gt; file -- @f -to @ml -list<br>
+    &gt; put @ml<br>
+    <i>com.ibm.as400.access.MemberList@47c72280</i><br>
+    &gt; put -from @ml<br>
+    <i>ACCESS_PATH_MAINTENANCE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    0</i><i><br></i>
+    <i>ACCESS_PATH_SIZE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    0</i><i><br></i>
+    <i>ACCESS_PATH_SIZE_MULTIPLIER:&nbsp;&nbsp;&nbsp;
+    1</i><i><br></i> <i>ALLOW_DELETE_OPERATION:
+    false</i><i><br></i> <i>ALLOW_READ_OPERATION:&nbsp;&nbsp;
+    false</i><i><br></i> <i>ALLOW_UPDATE_OPERATION:
+    false</i><i><br></i> <i>ALLOW_WRITE_OPERATION:&nbsp;
+    false</i><i><br></i> <i>CHANGE_DATE_AND_TIME:&nbsp;&nbsp; Fri
+    Aug 05 00:22:12 MDT 2016</i><i><br></i>
+    <i>CREATION_DATE_TIME:&nbsp;&nbsp;&nbsp;&nbsp; Wed Aug 03
+    12:28:44 MDT 2016</i><i><br></i>
+    <i>CURRENT_NUMBER_OF_INCREMENTS:&nbsp;&nbsp; 0</i><i><br></i>
+    <i>CURRENT_NUMBER_OF_RECORDS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    6</i><i><br></i>
+    <i>DATA_SPACE_SIZE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    8192</i><i><br></i>
+    <i>DATA_SPACE_SIZE_MULTIPLIER:&nbsp;&nbsp;&nbsp;&nbsp;
+    1</i><i><br></i> <i>DATE_LAST_USED: Fri Aug 05 00:00:00 MDT
+    2016</i><i><br></i>
+    <i>EXPIRATION_DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    null</i><i><br></i> <i>FILE_ATTRIBUTE: PF</i><i><br></i>
+    <i>FILE_NAME:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    QCLSRC</i><i><br></i>
+    <i>INCREMENT_NUMBER_OF_RECORDS:&nbsp;&nbsp;&nbsp;
+    1000</i><i><br></i>
+    <i>INITIAL_NUMBER_OF_RECORDS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    10000</i><i><br></i> <i>JOIN_MEMBER:&nbsp;&nbsp;&nbsp;
+    false</i><i><br></i>
+    <i>LAST_SOURCE_CHANGE_DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Fri Aug 05 00:22:12 MDT 2016</i><i><br></i>
+    <i>LIBRARY_NAME:&nbsp;&nbsp; ABSPERFTST</i><i><br></i>
+    <i>LOGICAL_FILE:&nbsp;&nbsp; false</i><i><br></i>
+    <i>MAXIMUM_NUMBER_OF_INCREMENTS:&nbsp;&nbsp; 499</i><i><br></i>
+    <i>MAXIMUM_PERCENT_DELETED_RECORDS_ALLOWED:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    0</i><i><br></i> <i>MEMBER_NAME:&nbsp;&nbsp;&nbsp;
+    TELL</i><i><br></i>
+    <i>MEMBER_TEXT_DESCRIPTION:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    send a message to user</i><i><br></i>
+    <i>MEMBER_TEXT_DESCRIPTION_CCSID:&nbsp; 37</i><i><br></i>
+    <i>NUMBER_OF_BASED_ON_PHYICAL_FILE_MEMBERS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    0</i><i><br></i> <i>NUMBER_OF_DAYS_USED:&nbsp;&nbsp;&nbsp;
+    2</i><i><br></i>
+    <i>NUMBER_OF_DELETED_RECORDS:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    0</i><i><br></i> <i>ODP_SHARING:&nbsp;&nbsp;&nbsp;
+    false</i><i><br></i>
+    <i>RECORD_CAPACITY:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    509000</i><i><br></i>
+    <i>RECORD_FORMAT_SELECTOR_LIBRARY_NAME:</i><i><br></i>
+    <i>RECORD_FORMAT_SELECTOR_PROGRAM_NAME:</i><i><br></i>
+    <i>RECORDS_TO_FORCE_A_WRITE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    0</i><i><br></i> <i>REMOTE_FILE:&nbsp;&nbsp;&nbsp;
+    false</i><i><br></i> <i>RESTORE_DATE_AND_TIME:&nbsp;
+    null</i><i><br></i>
+    <i>SAVE_DATE_AND_TIME:&nbsp;&nbsp;&nbsp;&nbsp; Sat Aug 20
+    00:11:40 MDT 2016</i><i><br></i>
+    <i>SOURCE_FILE:&nbsp;&nbsp;&nbsp; true</i><i><br></i>
+    <i>SOURCE_TYPE:&nbsp;&nbsp;&nbsp; CLP</i><i><br></i>
+    <i>SQL_FILE_TYPE:</i><i><br></i> <i>USE_RESET_DATE:
+    null</i><br></tt>
   </blockquote>
 
   <h3><a name="RETURN"></a> <tt>RETURN</tt></h3>
@@ -6284,13 +6364,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table border="1" cellspacing="2" width="100%" cellpadding="2">
+  <table width="100%" cellspacing="2" border="1" cellpadding="2">
     <tbody>
       <tr>
-        <th valign="top" align="center">Ublu main interpretive
+        <th align="center" valign="top">Ublu main interpretive
         session<br></th>
 
-        <th valign="top" align="center">Another shell
+        <th align="center" valign="top">Another shell
         window<br></th>
       </tr>
 
@@ -8145,17 +8225,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     library SOMELIB the command can be modified to:<br>
 
     <blockquote>
-      <tt>db -db as400 -query ${ select * from SYSTABLES
-      where SYSTEM_TABLE_SCHEMA = 'SOMELIB' }$ myhost QSYS2 qsecofr
+      <tt>db -db as400 -query ${ select * from SYSTABLES where
+      SYSTEM_TABLE_SCHEMA = 'SOMELIB' }$ myhost QSYS2 qsecofr
       *********</tt><br>
     </blockquote>
   </div>To obtain an ordered list of the tables in a library
   SOMELIB the command can be modified to:<br>
 
   <blockquote>
-    <tt>db -db as400 -query ${ select TABLE_NAME from
-    SYSTABLES where SYSTEM_TABLE_SCHEMA = 'SOMELIB' order by 1 }$
-    myhost QSYS2 qsecofr xx</tt><br>
+    <tt>db -db as400 -query ${ select TABLE_NAME from SYSTABLES
+    where SYSTEM_TABLE_SCHEMA = 'SOMELIB' order by 1 }$ myhost
+    QSYS2 qsecofr xx</tt><br>
   </blockquote>
 
   <h3><a name="Get_a_list_of_active_interactive_jobs" id=
