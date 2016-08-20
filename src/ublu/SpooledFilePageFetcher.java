@@ -37,7 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @deprecated Use TransformedSpoolFileFetcher instead
+ * @deprecated Use {@link TransformedSpooledFileFetcher} instead
  * @author jwoehr
  */
 public class SpooledFilePageFetcher {
