@@ -38,7 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @deprecated Use OS400TransformedSpoolFileFetcher instead
+ * @deprecated Use {@link ublu.TransformedSpooledFileFetcher} instead
  * @author Administrator
  */
 public class SpooledFileFetcher {
