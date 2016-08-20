@@ -9,7 +9,8 @@ See file LICENSE for license information.
 * <a href="#quickstart">Quickstart instructions</a>
 * <a href="#discussion">Discussion of Ublu</a>
 
-<a name="general">General information</a>
+<a name="general">
+## General information</a>
 
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows.
@@ -40,7 +41,8 @@ files which permit such distribution.
 Ublu is already a stable and useful tool which has seen much use in the real
 world. It is neither complete nor perfect, but what is in this world?
 
-<a name="quickstart">Quick start instructions</a>
+<a name="quickstart">
+## Quick start instructions</a>
 
 Download the release and <code>java -jar ublu.jar</code> to run Ublu.
 
@@ -57,7 +59,8 @@ Or clone, build and run:
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
 
-<a name="discussion">Discussion of Ublu</a>
+<a name="discussion">
+## Discussion of Ublu</a>
 
 Report bugs or make feature requests in the [Issue Tracker] (https://github.com/jwoehr/ublu/issues)
 
