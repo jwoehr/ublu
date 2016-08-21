@@ -32,14 +32,12 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.KeyedFile;
 import com.ibm.as400.access.MemberList;
 import com.ibm.as400.access.ObjectDoesNotExistException;
-import com.ibm.as400.access.Record;
 import com.ibm.as400.access.RequestNotSupportedException;
 import com.ibm.as400.access.SequentialFile;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Tuple;
@@ -53,7 +51,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-instance | -create | -del | -delmemb | -delrec | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmt# ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write [{ string }]] [-to datasink] [-from datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-instance | -create | -del | -delmemb | -delrec | -getfmt | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmt# ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write [{ string }]] [-to datasink] [-from datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -80,6 +78,10 @@ public class CmdFile extends Command {
          * Delete a member
          */
         DELMEMBER,
+        /**
+         * Get the record format
+         */
+        GETFORMAT,
         /**
          * Open a Physical file
          */
@@ -129,11 +131,11 @@ public class CmdFile extends Command {
     public ArgArray doFile(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
         Boolean keyedNotSequential = null;
-        Tuple fileTuple = null;
+        Tuple fileTuple;
         AS400File aS400File = null;
         String writeableString = null;
         String readCommand = "";
-        String openTypeString = "";
+        String openTypeString;
         int openType = AS400File.READ_ONLY;
         int blockingFactor = 0;
         int commitLockLevel = AS400File.COMMIT_LOCK_LEVEL_NONE;
@@ -178,6 +180,9 @@ public class CmdFile extends Command {
                     break;
                 case "-delmemb":
                     function = FUNCTIONS.DELMEMBER;
+                    break;
+                case "-getfmt":
+                    function = FUNCTIONS.GETFORMAT;
                     break;
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
@@ -349,6 +354,20 @@ public class CmdFile extends Command {
                             } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
                                 getLogger().log(Level.SEVERE,
                                         "Encountered an exception closing AS400File " + aS400File + " in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case GETFORMAT:
+                        if (aS400File == null) {
+                            getLogger().log(Level.SEVERE, "No AS400File instance provided to get format in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            try {
+                                put(aS400File.getRecordFormat());
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception loading or putting RecordFormat for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
