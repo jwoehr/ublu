@@ -42,6 +42,7 @@ import com.ibm.as400.access.AS400Message;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.DataQueueEntry;
 import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.FieldDescription;
 import com.ibm.as400.access.HistoryLog;
 import com.ibm.as400.access.JobList;
 import com.ibm.as400.access.MemberDescription;
@@ -49,6 +50,7 @@ import com.ibm.as400.access.MemberList;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.OutputQueue;
 import com.ibm.as400.access.QueuedMessage;
+import com.ibm.as400.access.RecordFormat;
 import com.ibm.as400.access.RequestNotSupportedException;
 import com.ibm.as400.access.SaveFileEntry;
 import com.ibm.as400.access.SpooledFile;
@@ -206,6 +208,10 @@ public class Renderer {
             s = stringFrom(SubsystemArrayList.class.cast(theObject));
         } else if (theObject instanceof MemberList) {
             s = stringFrom(MemberList.class.cast(theObject));
+        } else if (theObject instanceof RecordFormat) {
+            s = stringFrom(RecordFormat.class.cast(theObject));
+        } else if (theObject instanceof FieldDescription) {
+            s = stringFrom(FieldDescription.class.cast(theObject));
         } else if (theObject instanceof byte[]) {
             s = stringFrom(byte[].class.cast(theObject));
         } else if (theObject instanceof Byte[]) {
@@ -671,6 +677,18 @@ public class Renderer {
         return sb.substring(0, sb.length() - 1); // remove last '\n'
     }
 
+    /**
+     * Make an output string from MemberList
+     *
+     * @param ml MemberList from file command
+     * @return String representation thereof
+     * @throws AS400SecurityException
+     * @throws ErrorCompletingRequestException
+     * @throws AS400Exception
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ObjectDoesNotExistException
+     */
     public String stringFrom(MemberList ml) throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, IOException, InterruptedException, ObjectDoesNotExistException {
         StringBuilder sb = new StringBuilder();
         for (MemberDescription md : ml.getMemberDescriptions()) {
@@ -679,6 +697,57 @@ public class Renderer {
         return sb.toString();
     }
 
+    /**
+     * Make an output string from RecordFormat
+     *
+     * @param rf RecordFormat from file command
+     * @return String representation thereof
+     */
+    public String stringFrom(RecordFormat rf) {
+        StringBuilder sb = new StringBuilder();
+        String[] fieldNames = rf.getFieldNames();
+        for (String fieldName : fieldNames) {
+            sb.append(rf.getIndexOfFieldName(fieldName))
+                    .append('\t')
+                    .append(fieldName)
+                    .append('\t')
+                    .append(stringFrom(rf.getFieldDescription(fieldName)))
+                    .append('\n');
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Make an output string from FieldDescription
+     *
+     * @param fd FieldDescription
+     * @return String representation thereof
+     */
+    public String stringFrom(FieldDescription fd) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ALWNULL: ").append(fd.getALWNULL()).append(";");
+        sb.append("COLHDG: ").append(fd.getCOLHDG()).append(";");
+        sb.append("DDSName: ").append(fd.getDDSName()).append(";");
+        sb.append("DFT: ").append(fd.getDFT()).append(";");
+        sb.append("DataType: ").append(fd.getDataType()).append(";");
+        sb.append("KeyFieldFunctions: ").append(fd.getKeyFieldFunctions()).append(";");
+        sb.append("Length: ").append(fd.getLength()).append(";");
+        sb.append("TEXT: ").append(fd.getTEXT()).append(";");
+        return sb.toString();
+    }
+
+    /**
+     * Make an output string from MemberDescription
+     *
+     * @param md MemberDescription
+     * @return String representation thereof
+     * @throws AS400SecurityException
+     * @throws ErrorCompletingRequestException
+     * @throws AS400Exception
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ObjectDoesNotExistException
+     */
     public String stringFrom(MemberDescription md) throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, IOException, InterruptedException, ObjectDoesNotExistException {
         StringBuilder sb = new StringBuilder();
         sb.append("ACCESS_PATH_MAINTENANCE:\t").append(md.getValue(MemberDescription.ACCESS_PATH_MAINTENANCE)).append('\n');
