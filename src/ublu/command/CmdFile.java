@@ -25,18 +25,21 @@
  */
 package ublu.command;
 
+import com.ibm.as400.access.AS400Exception;
 import com.ibm.as400.access.AS400File;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.KeyedFile;
 import com.ibm.as400.access.MemberList;
 import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.Record;
 import com.ibm.as400.access.RequestNotSupportedException;
 import com.ibm.as400.access.SequentialFile;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Tuple;
@@ -50,7 +53,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-instance | -create | -del | -delmemb | -delrec | -open | -close | -list | -read ~@${offset}$ ~@${chars}$ | -write [${ string }$]] [-to datasink] [-from datasink] ~@${/fully/qualified/ifspathname}$ ~@${system}$ ~@${user}$ ~@${password}$ : integrated file system access");
+                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-instance | -create | -del | -delmemb | -delrec | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmt# ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write [${ string }$]] [-to datasink] [-from datasink] ~@${/fully/qualified/ifspathname}$ ~@${system}$ ~@${user}$ ~@${password}$ : integrated file system access");
     }
 
     /**
@@ -94,6 +97,10 @@ public class CmdFile extends Command {
          */
         NOOP,
         /**
+         * Position cursor
+         */
+        POS,
+        /**
          * Get state of physical file
          */
         QUERY,
@@ -125,6 +132,13 @@ public class CmdFile extends Command {
         Tuple fileTuple = null;
         AS400File aS400File = null;
         String writeableString = null;
+        String readCommand = "";
+        String openTypeString = "";
+        int openType = AS400File.READ_ONLY;
+        int blockingFactor = 0;
+        int commitLockLevel = AS400File.COMMIT_LOCK_LEVEL_NONE;
+        String positionString = "";
+        int recordFormatNumber = 0;
         int offset = 0;
         int numToRead = 0;
         while (argArray.hasDashCommand()) {
@@ -170,6 +184,24 @@ public class CmdFile extends Command {
                     break;
                 case "-open":
                     function = FUNCTIONS.OPEN;
+                    openTypeString = argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
+                    switch (openTypeString) {
+                        case "R":
+                            openType = AS400File.READ_ONLY;
+                            break;
+                        case "W":
+                            openType = AS400File.WRITE_ONLY;
+                            break;
+                        case "RW":
+                            openType = AS400File.READ_WRITE;
+                            break;
+                        default:
+                            getLogger().log(Level.SEVERE, "Unknown open type {0} in {1}", new Object[]{openTypeString, getNameAndDescription()});
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case "-recfmt#":
+                    recordFormatNumber = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-close":
                     function = FUNCTIONS.CLOSE;
@@ -177,12 +209,15 @@ public class CmdFile extends Command {
                 case "-list":
                     function = FUNCTIONS.LIST;
                     break;
+                case "-pos":
+                    function = FUNCTIONS.POS;
+                    positionString = argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
+                    break;
                 case "-noop":
                     break;
                 case "-read":
                     function = FUNCTIONS.READ;
-                    offset = argArray.nextIntMaybeQuotationTuplePopString();
-                    numToRead = argArray.nextIntMaybeQuotationTuplePopString();
+                    readCommand = argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
                     break;
                 case "-write":
                     function = FUNCTIONS.WRITE;
@@ -198,8 +233,8 @@ public class CmdFile extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else if (getCommandResult() != COMMANDRESULT.FAILURE) {
             String ifsfqp = null;
-            if (fileTuple == null) {
-                // we need either a file tuple or a fully qualified IFS path
+            if (aS400File == null) {
+                // we need either a file object or a fully qualified IFS path
                 // and an as400 to proceed
                 ifsfqp = argArray.nextMaybeQuotationTuplePopString(); // ifspath
                 if (getAs400() == null) {
@@ -218,12 +253,12 @@ public class CmdFile extends Command {
                         if (keyedNotSequential == null) {
                             getLogger().log(Level.SEVERE, "Either -keyed or -sequential must be set in {0} Fto create a file.", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } else if (keyedNotSequential) {
-                            aS400File = new KeyedFile(getAs400(), ifsfqp);
                         } else {
-                            aS400File = new SequentialFile(getAs400(), ifsfqp);
-                        }
-                         {
+                            if (keyedNotSequential) {
+                                aS400File = new KeyedFile(getAs400(), ifsfqp);
+                            } else {
+                                aS400File = new SequentialFile(getAs400(), ifsfqp);
+                            }
                             try {
                                 put(aS400File);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -234,20 +269,89 @@ public class CmdFile extends Command {
                         }
                         break;
                     case CREATE:
-                        //ifsCreate(argArray);
+                        if (aS400File != null) {
+                            try {
+                                put("Not Implemented Yet");
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception creating an AS400File in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No AS400File object in {0} to create.", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                     case DELETE:
-                        //ifsDelete(argArray);
+                        if (aS400File != null) {
+                            try {
+                                aS400File.delete();
+                            } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception deleting AS400File in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No AS400File object in {0} to delete.", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                     case DELMEMBER:
+                        if (aS400File != null) {
+                            try {
+                                aS400File.deleteMember();
+                            } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception deleting AS400File in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No AS400File object in {0} to delete.", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                     case DELRECORD:
+                        if (aS400File != null) {
+                            try {
+                                aS400File.deleteCurrentRecord();
+                            } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception deleting AS400File in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No AS400File object in {0} to delete.", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                     case OPEN:
-                        //ifsExists(argArray);
+                        if (aS400File == null) {
+                            getLogger().log(Level.SEVERE, "No AS400File instance provided to open in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            try {
+                                aS400File.setRecordFormat(recordFormatNumber);
+                                aS400File.open(openType, blockingFactor, commitLockLevel);
+                            } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException | PropertyVetoException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception opening AS400File " + aS400File + " in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
                         break;
                     case CLOSE:
-                        //ifsFile(argArray);
+                        if (aS400File == null) {
+                            getLogger().log(Level.SEVERE, "No AS400File instance provided to open in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            try {
+                                aS400File.close();
+                            } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception closing AS400File " + aS400File + " in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
                         break;
                     case LIST:
                         if (aS400File == null) {
@@ -260,7 +364,7 @@ public class CmdFile extends Command {
                                 put(m);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                                 getLogger().log(Level.SEVERE,
-                                        "Encountered an exception loading or putting MemberList for AS400File in " + getNameAndDescription(), ex);
+                                        "Encountered an exception loading or putting MemberList for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
@@ -268,11 +372,84 @@ public class CmdFile extends Command {
                     case NOOP:
                         //ifsNoop();
                         break;
+                    case POS:
+                        if (aS400File == null) {
+                            getLogger().log(Level.SEVERE, "No AS400File instance provided to list members in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            try {
+                                switch (positionString) {
+                                    case "BF":
+                                        aS400File.positionCursorBeforeFirst();
+                                        break;
+                                    case "F":
+                                        aS400File.positionCursorToFirst();
+                                        break;
+                                    case "P":
+                                        aS400File.positionCursorToPrevious();
+                                        break;
+                                    case "N":
+                                        aS400File.positionCursorToNext();
+                                        break;
+                                    case "L":
+                                        aS400File.positionCursorToLast();
+                                        break;
+                                    case "A":
+                                        aS400File.positionCursorAfterLast();
+                                        break;
+                                    default:
+                                        getLogger().log(Level.SEVERE, "Unknown cursor position command {0} in {1}", new Object[]{positionString, getNameAndDescription()});
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception loading or putting MemberList for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case QUERY:
+                        break;
                     case READ:
-                        //ifsRead(argArray, offset, numToRead);
+                        if (aS400File == null) {
+                            getLogger().log(Level.SEVERE, "No AS400File instance provided to read in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (aS400File.isOpen()) {
+                            try {
+                                switch (readCommand) {
+                                    case "CURR":
+                                        put(aS400File.readFirst());
+                                        break;
+                                    case "PREV":
+                                        put(aS400File.readPrevious());
+                                        break;
+                                    case "FIRST":
+                                        put(aS400File.readFirst());
+                                        break;
+                                    case "LAST":
+                                        put(aS400File.readLast());
+                                        break;
+                                    case "NEXT":
+                                        put(aS400File.readNext());
+                                        break;
+                                    case "ALL":
+                                        put(aS400File.readAll());
+                                        break;
+                                    default:
+                                        getLogger().log(Level.SEVERE, "Unknown read command {0} in {1}", new Object[]{readCommand, getNameAndDescription()});
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception reading or putting records for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "AS400File instance provided to read in {0} is not open", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                     case WRITE:
-                        //ifsWrite(argArray, writeableString);
                         break;
                 }
             }
@@ -280,212 +457,6 @@ public class CmdFile extends Command {
         return argArray;
     }
 
-//    private IFSFile getIFSFileFromDataSink(DataSink datasink) {
-//        IFSFile ifsFile = null;
-//        if (datasink.getType() == DataSink.SINKTYPE.TUPLE) {
-//            Tuple t = getTuple(datasink.getName());
-//            Object o = t.getValue();
-//            ifsFile = o instanceof IFSFile ? IFSFile.class.cast(o) : null;
-//        }
-//        return ifsFile;
-//    }
-//
-//    private IFSFile getIFSFileFromDataSource() {
-//        return getIFSFileFromDataSink(getDataSrc());
-//    }
-//
-//    private IFSFile getIFSFileFromDataDest() {
-//        return getIFSFileFromDataSink(getDataDest());
-//    }
-//
-//    private IFSFile getIFSFileFromArgArray(ArgArray argArray) {
-//        IFSFile ifsFile = null;
-//        if (getAs400() == null && argArray.size() < 3) { // if no passed-in AS400 instance and not enough args to generate one
-//            logArgArrayTooShortError(argArray);
-//            setCommandResult(COMMANDRESULT.FAILURE);
-//        } else {
-//            String fqpn = argArray.nextMaybeQuotationTuplePopString();
-//            if (getAs400() == null) {
-//                try {
-//                    setAs400FromArgs(argArray);
-//                } catch (PropertyVetoException ex) {
-//                    getLogger().log(Level.SEVERE,
-//                            "The ifs commmand encountered an exception getting a Physical file from the supplied command arguments.", ex);
-//                    setCommandResult(COMMANDRESULT.FAILURE);
-//                }
-//            }
-//            if (getAs400() != null) {
-//                ifsFile = new IFSFile(getAs400(), fqpn);
-//            }
-//        }
-//        return ifsFile;
-//    }
-//
-//    private String getTextToWrite(AS400 as400, String writeableString) throws FileNotFoundException, IOException {
-//        String text = null;
-//        DataSink dsrc = getDataSrc();
-//        switch (dsrc.getType()) {
-//            case STD:
-//                text = writeableString;
-//                break;
-//            case FILE:
-//                File f = new File(dsrc.getName());
-//                FileReader fr = new FileReader(f);
-//                int length = new Long(f.length()).intValue();
-//                char[] in = new char[length];
-//                fr.read(in);
-//                text = new String(in);
-//                break;
-//            case TUPLE:
-//                text = getTuple(dsrc.getName()).getValue().toString();
-//                break;
-//        }
-//        return text;
-//    }
-//
-//    private void ifsCreate(ArgArray argArray) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                put(ifsFile.createNewFile());
-//            } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | InterruptedException | ObjectDoesNotExistException | ErrorCompletingRequestException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception in the -create operation", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
-//
-//    private void ifsDelete(ArgArray argArray) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                put(ifsFile.delete());
-//            } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception in the -create operation", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
-//
-//    private void ifsExists(ArgArray argArray) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                put(ifsFile.exists());
-//            } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception putting the result to the destination datasink.", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
-//
-//    private void ifsFile(ArgArray argArray) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        try {
-//            put(ifsFile);
-//        } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//            getLogger().log(Level.SEVERE,
-//                    "The ifs commmand encountered an exception in the -file operation.", ex);
-//            setCommandResult(COMMANDRESULT.FAILURE);
-//        }
-//    }
-//
-//    private void ifsList(ArgArray argArray) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                StringArrayList sal = new StringArrayList(ifsFile.list());
-//                put(sal);
-//            } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception in the -list operation.", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
-//
-//    private void ifsMkdirs(ArgArray argArray) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                put(ifsFile.mkdirs());
-//            } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception in the -mkdirs operation.", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
-//
-//    private void ifsNoop() {
-//        try {
-//            put(FUNCTIONS.NOOP.name());
-//        } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//            getLogger().log(Level.SEVERE, "The ifs commmand encountered an exception in the -noop operation.", ex);
-//            setCommandResult(COMMANDRESULT.FAILURE);
-//        }
-//    }
-//
-//    private void ifsRead(ArgArray argArray, int offset, int length) {
-//        IFSFile ifsFile = getIFSFileFromDataSource();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                IFSFileInputStream ifsIn = new IFSFileInputStream(ifsFile);
-//                byte[] data = new byte[length];
-//                int numRead = ifsIn.read(data, offset, length);
-//                String s = new String(data, 0, numRead);
-//                put(s);
-//            } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception in putting from the -read operation.", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
-//
-//    private void ifsWrite(ArgArray argArray, String writeableString) {
-//        IFSFile ifsFile = getIFSFileFromDataDest();
-//        if (ifsFile == null) {
-//            ifsFile = getIFSFileFromArgArray(argArray);
-//        }
-//        if (ifsFile != null) {
-//            try {
-//                String text = getTextToWrite(ifsFile.getSystem(), writeableString);
-//                try (PrintWriter writer = new PrintWriter(new BufferedWriter(new IFSFileWriter(ifsFile)))) {
-//                    // writer.print(aS400Text);
-//                    writer.print(text);
-//                }
-//            } catch (AS400SecurityException | IOException ex) {
-//                getLogger().log(Level.SEVERE,
-//                        "The ifs commmand encountered an exception in the -write operation.", ex);
-//                setCommandResult(COMMANDRESULT.FAILURE);
-//            }
-//        }
-//    }
     @Override
     public ArgArray cmd(ArgArray args
     ) {
