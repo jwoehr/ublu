@@ -53,7 +53,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-instance | -create | -del | -delmemb | -delrec | -getfmt | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmt# ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write [{ string }]] [-to datasink] [-from datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-instance | -create | -del | -delmemb | -delrec | -getfmt | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmt# ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
