@@ -34,6 +34,7 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.KeyedFile;
 import com.ibm.as400.access.MemberList;
 import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.Record;
 import com.ibm.as400.access.RequestNotSupportedException;
 import com.ibm.as400.access.SequentialFile;
 import java.beans.PropertyVetoException;
@@ -145,6 +146,7 @@ public class CmdFile extends Command {
         int recordFormatNumber = 0;
         int offset = 0;
         int numToRead = 0;
+        Tuple recordTuple = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -228,9 +230,7 @@ public class CmdFile extends Command {
                     break;
                 case "-write":
                     function = FUNCTIONS.WRITE;
-                    if (getDataSrc().getType() == DataSink.SINKTYPE.STD) {
-                        writeableString = argArray.nextUnlessNotQuotation();
-                    }
+                    recordTuple = argArray.nextTupleOrPop();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -255,6 +255,7 @@ public class CmdFile extends Command {
                 }
             }
             if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                Object o;
                 switch (function) {
                     case INSTANCE:
                         if (keyedNotSequential == null) {
@@ -471,6 +472,33 @@ public class CmdFile extends Command {
                         }
                         break;
                     case WRITE:
+                        if (aS400File == null) {
+                            getLogger().log(Level.SEVERE, "No AS400File instance provided to write in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (aS400File.isOpen()) {
+                            Record record = null;
+                            if (recordTuple != null) {
+                                o = recordTuple.getValue();
+                                if (o instanceof Record) {
+                                    record = Record.class.cast(o);
+                                }
+                            }
+                            if (record != null) {
+                                try {
+                                    aS400File.write(record);
+                                } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                                    getLogger().log(Level.SEVERE,
+                                            "Encountered an exception writing record for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            } else {
+                                getLogger().log(Level.SEVERE, "No Record provided to write in {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "AS400File instance provided to write in {0} is not open", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                 }
             }
