@@ -42,7 +42,6 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Tuple;

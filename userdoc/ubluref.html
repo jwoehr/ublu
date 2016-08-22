@@ -3018,8 +3018,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <blockquote>
     <tt>/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed |
     -sequential] [-instance | -create | -del | -delmemb | -delrec |
-    -getfmt | -open ~@{R|W|RW} | -close | -list | -pos
-    ~@{BF|F|P|N|L|A} | -recfmt# ~@{int} | -read
+    -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list
+    | -pos ~@{BF|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to
     datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user}
     ~@{password} : record file access</tt><br>
@@ -3149,6 +3149,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <li><tt>write ~@record</tt> writes the record (typically
       created via the <a href="#record"><tt>record</tt></a>
       command) to the current cursor position.</li>
+
+      <li><tt>-setfmt ~@format</tt> sets the format of the file
+      object to the specified RecordFormat (usually obtained via
+      <tt>file -getfmt</tt> or <tt><a href="#record">record</a>
+      -getfmt</tt>)<br></li>
     </ul><i>Example</i><br>
     <br>
     <tt>as400 -to @s mysys myid mypasswd</tt><tt><br></tt> <tt>file
