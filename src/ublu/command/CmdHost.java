@@ -38,6 +38,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
+ * Command to create an instance of a z/VM SMAPI host.
  *
  * @author jax
  */
