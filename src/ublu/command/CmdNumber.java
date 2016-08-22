@@ -34,6 +34,7 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
@@ -46,7 +47,7 @@ public class CmdNumber extends Command {
 
     {
         setNameAndDescription("num",
-                "/1 [-to (@)datasink] [-int] [-short] [-double] [-long] [-float] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
+                "/1 [-to (@)datasink] [-int] [-short] [-double] [-long] [-float] [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
     }
 
     /**
@@ -73,7 +74,12 @@ public class CmdNumber extends Command {
         /**
          * D'oh
          */
-        FLOAT
+        FLOAT,
+        /**
+         * D'oh
+         */
+        BIGDEC
+
     }
 
     /**
@@ -106,6 +112,9 @@ public class CmdNumber extends Command {
                     break;
                 case "-float":
                     conversion = CONVERSION.FLOAT;
+                    break;
+                case "-bigdec":
+                    conversion = CONVERSION.BIGDEC;
                     break;
                 case "-radix":
                     radix = argArray.nextIntMaybeQuotationTuplePopString();
@@ -156,6 +165,14 @@ public class CmdNumber extends Command {
                 case FLOAT:
                     try {
                         put(Float.parseFloat(theNumber));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case BIGDEC:
+                    try {
+                        put(new BigDecimal(theNumber));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
