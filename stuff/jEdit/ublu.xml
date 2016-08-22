@@ -66,6 +66,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD1>ELSE</KEYWORD1>
         <KEYWORD2>eval</KEYWORD2>
         <KEYWORD2>exit</KEYWORD2>
+        <KEYWORD2>file</KEYWORD2> 
         <KEYWORD1>FOR</KEYWORD1>
         <KEYWORD2>ftp</KEYWORD2>
         <KEYWORD1>FUN</KEYWORD1>
@@ -102,7 +103,8 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>programcall</KEYWORD2>
         <KEYWORD2>props</KEYWORD2>
         <KEYWORD2>put</KEYWORD2>
-        <KEYWORD2>RETURN</KEYWORD2>
+        <KEYWORD2>record</KEYWORD2>
+        <KEYWORD1>RETURN</KEYWORD1>
         <KEYWORD2>rs</KEYWORD2>
         <KEYWORD2>savf</KEYWORD2>        
         <KEYWORD2>server</KEYWORD2>
