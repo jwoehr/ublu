@@ -33,9 +33,11 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
+import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.AS400Extender;
 import ublu.util.Tuple;
 
@@ -45,7 +47,7 @@ import ublu.util.Tuple;
  * @author jwoehr
  */
 public class CmdMonitor extends Command {
-    
+
     {
         setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-worklib ~@{libname}] [-none|-diskstatus|-status|-version|-all] system userid passwd : fetch system monitor data and create System Shepherd [TM API] datapoints");
     }
@@ -55,21 +57,21 @@ public class CmdMonitor extends Command {
      */
     public CmdMonitor() {
     }
-    
+
     private enum MONPOINTS {
-        
+
         NONE, VERSION, DISKSTATUS, STATUS, ALL
     }
     private MONPOINTS monPoint;
-    
+
     private void setMonPoint(MONPOINTS monPoint) {
         this.monPoint = monPoint;
     }
-    
+
     private MONPOINTS getMonPoint() {
         return monPoint;
     }
-    
+
     @Override
     protected void reinit() {
         super.reinit();
@@ -93,7 +95,7 @@ public class CmdMonitor extends Command {
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
                 case "-as400":
-                    myAs400Tuple = argArray.nextTupleOrPop();
+                    setAs400(getAS400Tuple(argArray.next()));
                     break;
                 case "-all":
                     setMonPoint(MONPOINTS.ALL);
@@ -120,69 +122,60 @@ public class CmdMonitor extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            AS400 myAs400 = null;
-            if (myAs400Tuple != null) {
-                Object o = myAs400Tuple.getValue();
-                if (o instanceof AS400) {
-                    myAs400 = AS400.class.cast(o);
-                } else {
-                    getLogger().log(Level.SEVERE, "Tuple provided to {0} does not represent an AS400 object.", getNameAndDescription());
+            if (getAs400() == null) {
+                if (argArray.size() < 3) {
+                    logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    try {
+                        setAs400FromArgs(argArray);
+                    } catch (PropertyVetoException ex) {
+                        getLogger().log(Level.SEVERE,
+                                "Encountered an exception getting an AS400 instance from the supplied command arguments in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                 }
             }
             if (getCommandResult() != COMMANDRESULT.FAILURE) {
-                if (myAs400 == null) {
-                    if (argArray.size() < 3) {
-                        logArgArrayTooShortError(argArray);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } else {
-                        String system = argArray.next();
-                        String userid = argArray.next();
-                        String passwd = argArray.next();
-                        myAs400 = new AS400Extender(system, userid, passwd);
+                try {
+                    Monitors oS400Monitors = new Monitors(getAs400());
+                    StringBuilder sb = new StringBuilder();
+                    switch (getMonPoint()) {
+                        case NONE:
+                            break;
+                        case ALL:
+                            sb.append(oS400Monitors.osVersionVRM());
+                            sb.append('\n');
+                            sb.append(oS400Monitors.systemStatus());
+                            sb.append('\n');
+                            sb.append(oS400Monitors.diskStatus(worklibName));
+                            break;
+                        case DISKSTATUS:
+                            sb.append(oS400Monitors.diskStatus(worklibName));
+                            break;
+                        case STATUS:
+                            sb.append(oS400Monitors.systemStatus());
+                            break;
+                        case VERSION:
+                            sb.append(oS400Monitors.osVersionVRM());
+                            break;
                     }
-                }
-                if (getCommandResult() != COMMANDRESULT.FAILURE) {
-                    try {
-                        Monitors oS400Monitors = new Monitors(myAs400);
-                        StringBuilder sb = new StringBuilder();
-                        switch (getMonPoint()) {
-                            case NONE:
-                                break;
-                            case ALL:
-                                sb.append(oS400Monitors.osVersionVRM());
-                                sb.append('\n');
-                                sb.append(oS400Monitors.systemStatus());
-                                sb.append('\n');
-                                sb.append(oS400Monitors.diskStatus(worklibName));
-                                break;
-                            case DISKSTATUS:
-                                sb.append(oS400Monitors.diskStatus(worklibName));
-                                break;
-                            case STATUS:
-                                sb.append(oS400Monitors.systemStatus());
-                                break;
-                            case VERSION:
-                                sb.append(oS400Monitors.osVersionVRM());
-                                break;
-                        }
-                        put(sb);
-                    } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
+                    put(sb);
+                } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                    getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
                 }
             }
         }
         return argArray;
     }
-    
+
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return monitor(args);
     }
-    
+
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
