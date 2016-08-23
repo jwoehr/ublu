@@ -38,6 +38,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.logging.Level;
+import ublu.util.Generics.StringArrayList;
 
 /**
  * Create and manage lists
@@ -48,7 +49,7 @@ public class CmdList extends Command {
 
     {
         setNameAndDescription("list",
-                "/0 [-to datasink] [-source ~@enumeration|~@collection] [--,-list @list] [-add (@)object ] [-addstr ~@${ some string }$] [-clear] [-get (@)intindex] [-instance] [-remove (@)object] : create and manage lists of objects");
+                "/0 [-to datasink] [--,-list @list] [[-instance] | [-source ~@enumeration|~@collection|~@string] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-remove ~@object] | [-removeat ~@{index}] | [-size]]: create and manage lists of objects");
     }
 
     /**
@@ -77,13 +78,21 @@ public class CmdList extends Command {
          */
         REMOVE,
         /**
+         * Remove object at index from list
+         */
+        REMOVEAT,
+        /**
          * Create list
          */
         INSTANCE,
         /**
          * Source enum or collection
          */
-        SOURCE
+        SOURCE,
+        /**
+         * Size of list
+         */
+        SIZE
     }
 
     /**
@@ -101,6 +110,7 @@ public class CmdList extends Command {
         Integer toGet = null;
         String stringToAdd = null;
         Tuple sourceTuple = null;
+        int removeIndex = 0;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -108,13 +118,16 @@ public class CmdList extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
-                case "-source":
-                    operation = OPERATIONS.SOURCE;
-                    sourceTuple = argArray.nextTupleOrPop();
-                    break;
                 case "--":
                 case "-list":
                     talTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-instance":
+                    operation = OPERATIONS.INSTANCE;
+                    break;
+                case "-source":
+                    operation = OPERATIONS.SOURCE;
+                    sourceTuple = argArray.nextTupleOrPop();
                     break;
                 case "-add":
                     toAdd = argArray.nextTupleOrPop();
@@ -129,14 +142,18 @@ public class CmdList extends Command {
                     break;
                 case "-get":
                     operation = OPERATIONS.GET;
-                    toGet = argArray.nextIntMaybeTupleString();
-                    break;
-                case "-instance":
-                    operation = OPERATIONS.INSTANCE;
+                    toGet = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-remove":
                     toRemove = argArray.nextTupleOrPop();
                     operation = OPERATIONS.REMOVE;
+                    break;
+                case "-removeat":
+                    removeIndex = argArray.nextIntMaybeQuotationTuplePopString();
+                    operation = OPERATIONS.REMOVEAT;
+                    break;
+                case "-size":
+                    operation = OPERATIONS.SIZE;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -145,23 +162,17 @@ public class CmdList extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (talTuple == null) {
-                myThingArrayList = new ThingArrayList();
-            } else {
+            if (talTuple != null) {
                 Object maybeList = talTuple.getValue();
                 if (maybeList instanceof ThingArrayList) {
                     myThingArrayList = ThingArrayList.class.cast(maybeList);
-                } else {
-                    getLogger().log(Level.SEVERE, "Tuple provided to -list does not contain a List in {0}", getNameAndDescription());
-                    setCommandResult(COMMANDRESULT.FAILURE);
                 }
             }
-            if (myThingArrayList == null) {
-                getLogger().log(Level.SEVERE, "Could not instance or dereference List in {0}", getNameAndDescription());
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                switch (operation) {
-                    case ADD:
+            switch (operation) {
+                case ADD:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
                         if (toAdd == null) {
                             myThingArrayList.add(null);
                         } else {
@@ -173,8 +184,12 @@ public class CmdList extends Command {
                             getLogger().log(Level.SEVERE, "Error putting List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case ADDSTR:
+                    }
+                    break;
+                case ADDSTR:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
                         myThingArrayList.add(stringToAdd);
                         try {
                             put(myThingArrayList);
@@ -182,11 +197,19 @@ public class CmdList extends Command {
                             getLogger().log(Level.SEVERE, "Error putting List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case CLEAR:
+                    }
+                    break;
+                case CLEAR:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
                         myThingArrayList.clear();
-                        break;
-                    case GET:
+                    }
+                    break;
+                case GET:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
                         Object o = myThingArrayList.get(toGet);
                         try {
                             put(o);
@@ -194,65 +217,96 @@ public class CmdList extends Command {
                             getLogger().log(Level.SEVERE, "Error putting Object in get from List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case INSTANCE:
+                    }
+                    break;
+                case INSTANCE:
+                    try {
+                        put(new ThingArrayList());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting List instance in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case REMOVE:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else if (toRemove == null) {
+                        getLogger().log(Level.SEVERE, "Null tuple to remove from List in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myThingArrayList.remove(toRemove.getValue()));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting removed " + toAdd.getValue() + " from List in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case REMOVEAT:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
+                        try {
+                            put(myThingArrayList.remove(removeIndex));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting removed " + toAdd.getValue() + " from List in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case SOURCE:
+                    if (sourceTuple == null) {
+                        getLogger().log(Level.SEVERE, "Null tuple for List source in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        Object sourceObj = sourceTuple.getValue();
+                        myThingArrayList = listFromSource(sourceObj);
                         try {
                             put(myThingArrayList);
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting List instance in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case REMOVE:
-                        if (toRemove == null) {
-                            getLogger().log(Level.SEVERE, "Null tuple to remove from List in {0}", getNameAndDescription());
+                    }
+                    break;
+                case SIZE:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
+                        try {
+                            put(myThingArrayList.size());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting List size in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } else {
-                            try {
-                                put(myThingArrayList.remove(toRemove.getValue()));
-                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting removed " + toAdd.getValue() + " from List in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
                         }
-                        break;
-                    case SOURCE:
-                        if (sourceTuple == null) {
-                            getLogger().log(Level.SEVERE, "Null tuple for List source in {0}", getNameAndDescription());
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } else {
-                            Object sourceObj = sourceTuple.getValue();
-                            if (sourceObj instanceof Enumeration || sourceObj instanceof Collection) {
-                                myThingArrayList = listFromSource(sourceObj);
-                            }
-                            if (myThingArrayList == null) {
-                                getLogger().log(Level.SEVERE, "No List can be created from source in {0}", getNameAndDescription());
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            } else {
-                                try {
-                                    put(myThingArrayList);
-                                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                    getLogger().log(Level.SEVERE, "Error putting List instance in " + getNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                }
-                            }
-                            break;
-                        }
-                    default:
-                        getLogger().log(Level.SEVERE, "Unknown operation unhandled in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                }
+                    }
+                    break;
+                default:
+                    getLogger().log(Level.SEVERE, "Unknown operation unhandled in {0}", getNameAndDescription());
+                    setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return argArray;
     }
 
+    private void noListError() {
+        getLogger().log(Level.SEVERE, "No List in {0}", getNameAndDescription());
+        setCommandResult(COMMANDRESULT.FAILURE);
+    }
+
     private ThingArrayList listFromSource(Object o) {
         ThingArrayList tal = null;
         if (o instanceof Collection) {
-            tal = new ThingArrayList(Collection.class.cast(o));
+            tal = new ThingArrayList(Collection.class
+                    .cast(o));
         } else if (o instanceof Enumeration) {
-            tal = new ThingArrayList(Enumeration.class.cast(o));
+            tal = new ThingArrayList(Enumeration.class
+                    .cast(o));
+        } else if (o instanceof String) {
+            tal = new ThingArrayList(new StringArrayList(String.class.cast(o)));
+        } else {
+            getLogger().log(Level.SEVERE, "Cannot create List from {0} in {1}", new Object[]{o, getNameAndDescription()});
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
         return tal;
     }
