@@ -40,6 +40,10 @@ import ublu.util.InterpreterLogger;
  */
 public class Ublu {
 
+    /**
+     * Our special logging instance that no, does NOT conform to Java design
+     * recommendations.
+     */
     protected Logger LOG;
     /**
      * Singleton main interpreter

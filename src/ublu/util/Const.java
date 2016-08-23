@@ -83,14 +83,22 @@ public class Const {
     }
 
     /**
-     * A map of Consts
+     * A map to hold the Consts the user defines.
      */
     public static class ConstMap extends LinkedHashMap<String, Const> {
 
+        /**
+         * ctor/0
+         */
         public ConstMap() {
             super();
         }
 
+        /**
+         * Copy ctor
+         *
+         * @param cm the map to copy
+         */
         public ConstMap(ConstMap cm) {
             super(cm);
         }

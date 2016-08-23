@@ -1138,6 +1138,9 @@ public class Generics {
      */
     public static class RecordArrayList extends ArrayList<Record> {
 
+        /**
+         * ctor/0
+         */
         public RecordArrayList() {
             super();
         }
