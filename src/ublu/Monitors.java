@@ -47,7 +47,6 @@ import java.io.IOException;
 public class Monitors {
 
     private AS400 as400;
-    private String password;
 
     /**
      * Get the host instance
@@ -80,7 +79,6 @@ public class Monitors {
      */
     public Monitors(String system, String userid, String password) throws PropertyVetoException {
         setAs400(AS400Factory.newAS400(system, userid, password));
-        this.password = password;
     }
 
     /**
