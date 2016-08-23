@@ -13,15 +13,15 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sat, 30 Jul 2016 00:19:02 UTC">
+  "Tue, 23 Aug 2016 15:35:41 UTC">
 </head>
 
 <body>
-  <table cellspacing="0" cellpadding="2" height="456" border="0"
-  width="100%">
+  <table cellspacing="0" height="456" cellpadding="2" width="100%"
+  border="0">
     <tbody>
       <tr>
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
 
@@ -32,12 +32,12 @@
           Life Cycle Extension Language<br></font>
         </td>
 
-        <th align="center" bgcolor="#000000" valign="middle">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"><br></th>
 
-        <td align="center" bgcolor="#000000" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF"><font color=
@@ -68,7 +68,13 @@
         <li><a href="#mozTocId754622">Who is this Guide
         for?</a></li>
 
-        <li><a href="#mozTocId185961">Why Ublu?</a></li>
+        <li>
+          <a href="#mozTocId185961">Why Ublu?</a>
+
+          <ul>
+            <li><a href="#mozTocId190420">Work in Progress</a></li>
+          </ul>
+        </li>
 
         <li><a href="#mozTocId809903">What does Ublu do?</a></li>
 
@@ -156,8 +162,7 @@
           </ul>
         </li>
 
-        <li><a href=
-        "#mozTocId163217">Object-disoriented<br></a></li>
+        <li><a href="#mozTocId163217">Object-disoriented</a></li>
 
         <li>
           <a href="#mozTocId722916">Notes</a>
@@ -231,6 +236,19 @@
   not beautiful. Ublu works like an interactive shell scripting
   language but also has some advanced language features such as
   compiling, tasking, debugging and a TCP/IP port server mode.<br>
+
+  <h3><a class="mozTocH3" name="mozTocId190420"></a>Work in
+  Progress</h3>Ublu is a work in progress and, like all "living"
+  software, likely remain so. Everything that's in Ublu is there
+  because I/We needed it <em>right then</em>. The <code>db</code>
+  command was almost the first thing added, which is effectively an
+  interpretive shell around JDBC. On the other hand, we never
+  needed classic record file access because everyone on staff was
+  SQL-oriented and knew little about physical file access. Only
+  recently have I added the <a href=
+  "ubluref.html#file"><code>file</code></a> and <tt><a href=
+  "ubluref.html#record">record</a></tt> commands for classic record
+  file access.<br>
   <br>
   If you find Ublu useful, please <a href=
   "http://www.softwoehr.com/">let me know</a>!<br>
