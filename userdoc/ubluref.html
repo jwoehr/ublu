@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 22 Aug 2016 16:58:07 UTC">
+  "Tue, 23 Aug 2016 02:23:52 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table cellpadding="2" height="456" cellspacing="0" width="100%"
-  border="0">
+  <table cellpadding="2" cellspacing="0" height="456" border="0"
+  width="100%">
     <tbody>
       <tr>
-        <td valign="middle" bgcolor="#000000" align="center">
+        <td bgcolor="#000000" valign="middle" align="center">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th valign="middle" bgcolor="#000000" align="center">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td valign="middle" bgcolor="#000000" align="center">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -1497,7 +1497,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table cellpadding="2" cellspacing="2" width="100%" border="1">
+  <table cellpadding="2" cellspacing="2" border="1" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -4914,10 +4914,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="list" id="list"></a><tt>list</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to datasink] [--,-list @list] [-add (@)object ]
-    [-addstr ~@${ some string }$] [-clear] [-get (@)intindex]
-    [-instance] [-remove (@)object] : create and manage lists of
-    objects</tt><br>
+    <tt>/0 [-to datasink] [--,-list @list] [[-instance] | [-source
+    ~@enumeration|~@collection|~@string] | [-add ~@object ] |
+    [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] |
+    [-remove ~@object] | [-removeat ~@{index}] | [-size]]: create
+    and manage lists of objects</tt><br>
     <br>
     The <tt>list</tt> command creates and manages lists of objects,
     any objects which you add with the <tt>-add</tt> <a href=
@@ -4930,13 +4931,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     The operations are as follows:<br>
 
     <ul>
-      <li><tt>-add (@)object</tt> postpends <i>(@)object</i> to the
+      <li><tt>-instance</tt> creates an empty list (the default
+      operation)</li>
+
+      <li><tt>-source
+      ~@enumeration|~@collection</tt><tt>|~@string</tt> creates a
+      new list containing the members of the enumeration or
+      collection or space-separated items from a string (no blank
+      space being preserved).<br></li>
+
+      <li><tt>-add ~@object</tt> postpends <i>object</i> to the
       list.</li>
 
       <li><tt>-addstr ~@${ some string }$</tt> postpends <i>some
-      string,</i> either from a <a href="#Quoted_strings">quoted
-      string</a> or from a tuple variable or popped from the
-      <a href="#lifo">LIFO stack</a>, to the list.<br></li>
+      string</i> to the list.<br></li>
 
       <li><tt>-clear</tt> empties the list.</li>
 
@@ -4944,13 +4952,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <i>(@)intindex</i> in the list; the list is
       unchanged.<br></li>
 
-      <li><tt>-instance</tt> creates the list (the default
-      operation); any <tt>-add</tt> operation without an extant
-      list passed in via <tt>-list @list</tt> will have the same
-      effect.<br></li>
+      <li><tt>-size put</tt>s the number of items of the
+      list<br></li>
 
       <li><tt>-remove (@)object</tt> removes the identical
-      <i>object</i> from the list.<br></li>
+      <i>object</i> from the list and <tt>put</tt>s it.</li>
+
+      <li><tt>-removeat ~@{index}</tt> removes the item at
+      <i>index</i> and <tt>put</tt>s it.<br></li>
     </ul>
   </blockquote>
 
@@ -5900,8 +5909,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellpadding="2" cellspacing="2" width="75%" border=
-      "1">
+      <table cellpadding="2" cellspacing="2" border="1" width=
+      "75%">
         <tbody>
           <tr>
             <th valign="top" align="center">interpreter
@@ -6568,7 +6577,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellpadding="2" cellspacing="2" width="100%" border="1">
+  <table cellpadding="2" cellspacing="2" border="1" width="100%">
     <tbody>
       <tr>
         <th valign="top" align="center">Ublu main interpretive
