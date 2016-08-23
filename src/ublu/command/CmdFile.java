@@ -44,6 +44,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
+import ublu.util.Generics.RecordArrayList;
 import ublu.util.Tuple;
 
 /**
@@ -467,7 +468,7 @@ public class CmdFile extends Command {
                                     if (aS400File.getRecordFormat() == null) {
                                         aS400File.setRecordFormat(recordFormatNumber);
                                     }
-                                    put(aS400File.readAll());
+                                    put(new RecordArrayList(aS400File.readAll()));
                                     break;
                                 default:
                                     getLogger().log(Level.SEVERE, "Unknown read command {0} in {1}", new Object[]{readCommand, getNameAndDescription()});
