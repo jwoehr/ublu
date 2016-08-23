@@ -33,6 +33,7 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.ObjectLockListEntry;
 import com.ibm.as400.access.QueuedMessage;
+import com.ibm.as400.access.Record;
 import com.ibm.as400.access.RequestNotSupportedException;
 import com.ibm.as400.access.SpooledFile;
 import com.ibm.as400.access.Subsystem;
@@ -1132,4 +1133,23 @@ public class Generics {
         }
     }
 
+    /**
+     * Wrapper
+     */
+    public static class RecordArrayList extends ArrayList<Record> {
+
+        public RecordArrayList() {
+            super();
+        }
+
+        /**
+         * ctor/1 construct on an array of Record
+         *
+         * @param ra the source record array
+         */
+        public RecordArrayList(Record[] ra) {
+            this();
+            addAll(Arrays.asList(ra));
+        }
+    }
 }
