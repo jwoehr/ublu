@@ -1,0 +1,31 @@
+# testlist.ublu ... quick test of the list command
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+list -to @mylist 
+put @mylist 
+list -- @mylist -addstr ${ this is a string }$
+put @mylist
+as400 -to @mysys mysys me abcd1234 
+list -- @mylist -add @mysys
+put @mylist 
+list -- @mylist -set 0 @mysys 
+put -from @mylist
+list -- @mylist -remove @mysys
+put @mylist
+list -- @mylist -addstr ${ this is another string }$
+put @mylist
+list -- @mylist -addstr ${ pardon me asking what's new }$
+put @mylist
+list -- @mylist -size
+list -- @mylist -removeat 2
+put @mylist
+list -- @mylist -size
+list -- @mylist -get 0
+list -- @mylist -get 1
+put @mylist
+list -- @mylist -size
+list -- @mylist -clear
+put @mylist
+list -- @mylist -size

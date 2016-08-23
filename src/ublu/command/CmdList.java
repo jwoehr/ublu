@@ -49,7 +49,7 @@ public class CmdList extends Command {
 
     {
         setNameAndDescription("list",
-                "/0 [-to datasink] [--,-list @list] [[-instance] | [-source ~@enumeration|~@collection|~@string] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-remove ~@object] | [-removeat ~@{index}] | [-size]]: create and manage lists of objects");
+                "/0 [-to datasink] [--,-list @list] [[-instance] | [-source ~@enumeration|~@collection|~@string] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size]]: create and manage lists of objects");
     }
 
     /**
@@ -73,6 +73,10 @@ public class CmdList extends Command {
          * Get object from list
          */
         GET,
+        /**
+         * Set object to list at index
+         */
+        SET,
         /**
          * Remove object from list
          */
@@ -105,9 +109,8 @@ public class CmdList extends Command {
         OPERATIONS operation = OPERATIONS.INSTANCE;
         ThingArrayList myThingArrayList = null;
         Tuple talTuple = null;
-        Tuple toAdd = null;
-        Tuple toRemove = null;
-        Integer toGet = null;
+        Tuple toAddRemove = null;
+        Integer toGetSet = null;
         String stringToAdd = null;
         Tuple sourceTuple = null;
         int removeIndex = 0;
@@ -130,7 +133,7 @@ public class CmdList extends Command {
                     sourceTuple = argArray.nextTupleOrPop();
                     break;
                 case "-add":
-                    toAdd = argArray.nextTupleOrPop();
+                    toAddRemove = argArray.nextTupleOrPop();
                     operation = OPERATIONS.ADD;
                     break;
                 case "-addstr":
@@ -142,10 +145,15 @@ public class CmdList extends Command {
                     break;
                 case "-get":
                     operation = OPERATIONS.GET;
-                    toGet = argArray.nextIntMaybeQuotationTuplePopString();
+                    toGetSet = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-set":
+                    toGetSet = argArray.nextIntMaybeQuotationTuplePopString();
+                    toAddRemove = argArray.nextTupleOrPop();
+                    operation = OPERATIONS.SET;
                     break;
                 case "-remove":
-                    toRemove = argArray.nextTupleOrPop();
+                    toAddRemove = argArray.nextTupleOrPop();
                     operation = OPERATIONS.REMOVE;
                     break;
                 case "-removeat":
@@ -173,16 +181,10 @@ public class CmdList extends Command {
                     if (myThingArrayList == null) {
                         noListError();
                     } else {
-                        if (toAdd == null) {
+                        if (toAddRemove == null) {
                             myThingArrayList.add(null);
                         } else {
-                            myThingArrayList.add(toAdd.getValue());
-                        }
-                        try {
-                            put(myThingArrayList);
-                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting List in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
+                            myThingArrayList.add(toAddRemove.getValue());
                         }
                     }
                     break;
@@ -191,12 +193,6 @@ public class CmdList extends Command {
                         noListError();
                     } else {
                         myThingArrayList.add(stringToAdd);
-                        try {
-                            put(myThingArrayList);
-                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting List in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
                     }
                     break;
                 case CLEAR:
@@ -210,11 +206,24 @@ public class CmdList extends Command {
                     if (myThingArrayList == null) {
                         noListError();
                     } else {
-                        Object o = myThingArrayList.get(toGet);
+                        Object o = myThingArrayList.get(toGetSet);
                         try {
                             put(o);
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting Object in get from List in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case SET:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
+                        Object o = myThingArrayList.set(toGetSet, toAddRemove);
+                        try {
+                            put(o);
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting Object in set from List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -230,14 +239,14 @@ public class CmdList extends Command {
                 case REMOVE:
                     if (myThingArrayList == null) {
                         noListError();
-                    } else if (toRemove == null) {
+                    } else if (toAddRemove == null) {
                         getLogger().log(Level.SEVERE, "Null tuple to remove from List in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
-                            put(myThingArrayList.remove(toRemove.getValue()));
+                            put(myThingArrayList.remove(toAddRemove.getValue()));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting removed " + toAdd.getValue() + " from List in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error putting removed " + toAddRemove.getValue() + " from List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -249,7 +258,7 @@ public class CmdList extends Command {
                         try {
                             put(myThingArrayList.remove(removeIndex));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting removed " + toAdd.getValue() + " from List in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error putting removed " + toAddRemove.getValue() + " from List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
