@@ -3154,7 +3154,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       object to the specified RecordFormat (usually obtained via
       <tt>file -getfmt</tt> or <tt><a href="#record">record</a>
       -getfmt</tt>)<br></li>
-    </ul><i>Example</i><br>
+    </ul><i>Examples</i><br>
     <br>
     <tt>as400 -to @s mysys myid mypasswd</tt><tt><br></tt> <tt>file
     -as400 @s -to @f -keyed
@@ -3170,6 +3170,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     @i</tt><tt><br></tt> <tt>file -- @f -pos A</tt><tt><br></tt>
     <tt>file -- @f -write @newrec</tt><tt><br></tt> <tt>file -- @f
     -close</tt><br>
+    <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listsrc.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">type</font><font color="#CC0000"> </font><font color="#CC0000">out</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">program</font><font color="#CC0000"> </font><font color="#CC0000">source</font><font color="#CC0000"> </font><font color="#CC0000">member</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">record</font><font color="#CC0000"> </font><font color="#CC0000">file</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Given</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">server</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">fully</font><font color="#CC0000"> </font><font color="#CC0000">qualified</font><font color="#CC0000"> </font><font color="#CC0000">IFS</font><font color="#CC0000"> </font><font color="#CC0000">path</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">source</font><font color="#CC0000"> </font><font color="#CC0000">member</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">type</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">contents</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">file</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">standard</font><font color="#CC0000"> </font><font color="#CC0000">out,</font><font color="#CC0000"> </font><font color="#CC0000">e.g.,</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">listsrc</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@mysys</font><font color="#CC0000"> </font><font color="#CC0000">/QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">where</font><font color="#CC0000"> </font><font color="#CC0000">@mysys</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">as400</font><font color="#CC0000"> </font><font color="#CC0000">object.</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#006699"><strong>FUNC</strong></font> listsrc <font color="#000000"><strong>(</strong></font> sys fqp <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@f</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@lines</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@recordarray</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#6600CC">@@sys</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@f</font> <font color="#0099FF"><strong>-keyed</strong></font> <font color="#6600CC">@@fqp</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-open</strong></font>  R
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-close</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@recordarray</font> <font color="#0099FF"><strong>-read</strong></font> ALL
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@i</font> in <font color="#0000FF">@recordarray</font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0000FF">@i</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>    <font color="#000000"><strong>]$</strong></font>    
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>
+</font>
+</pre>
   </blockquote>
 
   <h4><a name="FOR" id="FOR"></a><tt>FOR</tt></h4>
