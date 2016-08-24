@@ -10,9 +10,9 @@ If you want MSSQL support:
 	1. Download the MSSQL JDBC driver from Microsoft Developer Network. As of
 	this writing, the url is:
 	https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=11774
-	
+
 	2. Copy the jdbc driver jar, e.g., sqljdbc42.jar to Ublu's lib directory.
-	
+
 	3. Use NetBeans project properties to add the the jar to the libraries sourced
 	by the build. Alternatively, you can add it to nbproject/project.properties
 	at the end of the classpath property:
@@ -22,17 +22,21 @@ If you want MSSQL support:
 		${file.reference.jtopenlite.jar}:\
 		${file.reference.pigiron.jar}:\
 		${file.reference.tn5250j.jar}:\
-		${file.reference.sqljdbc42.jar}
+		${file.reference.sqljdbc42.jar} # <<<
 		
 	** NOTE that if you choose to download and use Microsoft's MSSQL JDBC driver
 	in Ublu, then any and all licensing requirements are Your Responsiblity. **
-	
+
 	4. Copy the file DbMSSQL.java from this directory to src/ublu/db
-	5. Copy the file CmdDb.java from this directory to src/ublu/command
+
+	5. Edit src/ublu/command/CmdDb.java and uncomment the lines between each
+	   "/* Uncomment the following if you are adding MSSQL support */" and
+	   "/* End Uncomment */"
+
 	6. Build and run.
 
 As usual, there is NO WARRANTY nor GUARANTEE of correctness nor fitness etc.
 a la Open Source always!!
 
 Jack Woehr
-2016-08-01
+2016-08-24
