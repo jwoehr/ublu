@@ -49,7 +49,7 @@ public class CmdList extends Command {
 
     {
         setNameAndDescription("list",
-                "/0 [-to datasink] [--,-list @list] [[-instance] | [-source ~@enumeration|~@collection|~@string] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size]]: create and manage lists of objects");
+                "/0 [-to datasink] [--,-list @list] [[-instance] | [-source ~@enumeration|~@collection|~@string|-@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and manage lists of objects");
     }
 
     /**
@@ -96,7 +96,11 @@ public class CmdList extends Command {
         /**
          * Size of list
          */
-        SIZE
+        SIZE,
+        /**
+         * Convert to Object[]
+         */
+        TOARRAY
     }
 
     /**
@@ -163,6 +167,9 @@ public class CmdList extends Command {
                 case "-size":
                     operation = OPERATIONS.SIZE;
                     break;
+                case "-toarray":
+                    operation = OPERATIONS.TOARRAY;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -180,12 +187,10 @@ public class CmdList extends Command {
                 case ADD:
                     if (myThingArrayList == null) {
                         noListError();
+                    } else if (toAddRemove == null) {
+                        myThingArrayList.add(null);
                     } else {
-                        if (toAddRemove == null) {
-                            myThingArrayList.add(null);
-                        } else {
-                            myThingArrayList.add(toAddRemove.getValue());
-                        }
+                        myThingArrayList.add(toAddRemove.getValue());
                     }
                     break;
                 case ADDSTR:
@@ -290,6 +295,18 @@ public class CmdList extends Command {
                         }
                     }
                     break;
+                case TOARRAY:
+                    if (myThingArrayList == null) {
+                        noListError();
+                    } else {
+                        try {
+                            put(myThingArrayList.toArray());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting List as an Object Array in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 default:
                     getLogger().log(Level.SEVERE, "Unknown operation unhandled in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
@@ -303,6 +320,9 @@ public class CmdList extends Command {
         setCommandResult(COMMANDRESULT.FAILURE);
     }
 
+    private static final Object MODELARRAY[] = new Object[0];
+    private static final Class ARRAYCLASS = MODELARRAY.getClass();
+
     private ThingArrayList listFromSource(Object o) {
         ThingArrayList tal = null;
         if (o instanceof Collection) {
@@ -313,6 +333,8 @@ public class CmdList extends Command {
                     .cast(o));
         } else if (o instanceof String) {
             tal = new ThingArrayList(new StringArrayList(String.class.cast(o)));
+        } else if (o.getClass().equals(ARRAYCLASS)) {
+            tal = new ThingArrayList((Object [])o);
         } else {
             getLogger().log(Level.SEVERE, "Cannot create List from {0} in {1}", new Object[]{o, getNameAndDescription()});
             setCommandResult(COMMANDRESULT.FAILURE);
