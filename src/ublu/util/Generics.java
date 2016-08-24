@@ -1007,6 +1007,16 @@ public class Generics {
         }
 
         /**
+         * ctor/1 Create from Object array
+         *
+         * @param oa source Object array
+         */
+        public ThingArrayList(Object[] oa) {
+            this();
+            addAll(Arrays.asList(oa));
+        }
+
+        /**
          * ctor/1 Create with capacity
          *
          * @param initialCapacity
