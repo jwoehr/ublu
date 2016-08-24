@@ -49,6 +49,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 
+/* Uncomment the following if you are adding MSSQL support */
+// import ublu.db.DbMSSQL;
+/* End Uncomment */
+
 /**
  * Command to perform certain database operations.
  *
@@ -289,6 +293,11 @@ public class CmdDb extends Command {
                             case "postgres":
                                 setDb(new DbPostgres());
                                 break;
+                            /* Uncomment the following if you are adding MSSQL support */
+//                            case "mssql":
+//                                setDb(new DbMSSQL());
+//                                break;
+                            /* End Uncomment */
                         }
                     }
                     break;
@@ -408,6 +417,11 @@ public class CmdDb extends Command {
                         getLogger().log(Level.SEVERE, "-db dbtype and a choice of function required for {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
+                        /* Uncomment the following if you are adding MSSQL support */
+//                        if (getDb().getDbType() == Db.DBTYPE.MSSQL && getPort() == null) {
+//                            setPort(DbMSSQL.MSSQL_DEFAULT_PORT); // MSSQL connect needs a specific port number
+//                        }
+                        /* End Uncomment */
                         try {
                             getDb().connect(system, getPort(), database, getConnectionProperties(), userid, password);
                         } catch (ClassNotFoundException | SQLException ex) {
