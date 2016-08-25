@@ -47,7 +47,7 @@ public class CmdNumber extends Command {
 
     {
         setNameAndDescription("num",
-                "/1 [-to (@)datasink] [-int] [-short] [-double] [-long] [-float] [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
+                "/1 [-to (@)datasink] [[-byte] | [-int] | [-short] | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
     }
 
     /**
@@ -78,7 +78,11 @@ public class CmdNumber extends Command {
         /**
          * D'oh
          */
-        BIGDEC
+        BIGDEC,
+        /**
+         * D'oh
+         */
+        BYTE
 
     }
 
@@ -115,6 +119,9 @@ public class CmdNumber extends Command {
                     break;
                 case "-bigdec":
                     conversion = CONVERSION.BIGDEC;
+                    break;
+                case "-byte":
+                    conversion = CONVERSION.BYTE;
                     break;
                 case "-radix":
                     radix = argArray.nextIntMaybeQuotationTuplePopString();
@@ -173,6 +180,14 @@ public class CmdNumber extends Command {
                 case BIGDEC:
                     try {
                         put(new BigDecimal(theNumber));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case BYTE:
+                    try {
+                        put(Byte.parseByte(theNumber, radix));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
