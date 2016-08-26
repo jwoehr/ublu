@@ -914,11 +914,11 @@ public class Renderer {
      */
     public String stringFrom(Subsystem ss) {
         StringBuilder sb = new StringBuilder();
-        sb.append(ss.toString()).append(": ")
-                .append(ss.getSystem()).append('/')
-                .append(ss.getName()).append(' ')
-                .append(ss.getPath()).append(" \"")
-                .append(ss.getDescriptionText());
+        sb.append(ss).append(":")
+                .append(ss.getSystem().getSystemName()).append('/')
+                .append(ss.getName()).append(':')
+                .append(ss.getPath()).append(":\"")
+                .append(ss.getDescriptionText()).append("\"");
         return sb.toString();
     }
 
