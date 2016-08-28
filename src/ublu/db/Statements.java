@@ -124,4 +124,120 @@ public class Statements {
         }
         return success;
     }
+
+    public static boolean registerOut(CallableStatement cs, int index, String typeDescription, Integer scale) throws SQLException {
+        boolean success = false;
+
+        switch (typeDescription.toUpperCase()) {
+            case "ARRAY":
+                cs.registerOutParameter(index, java.sql.Types.ARRAY);
+                break;
+            case "BIGINT":
+                cs.registerOutParameter(index, java.sql.Types.BIGINT);
+                break;
+            case "BINARY":
+                cs.registerOutParameter(index, java.sql.Types.BINARY);
+                break;
+            case "BIT":
+                cs.registerOutParameter(index, java.sql.Types.BIT);
+                break;
+            case "BLOB":
+                cs.registerOutParameter(index, java.sql.Types.BLOB);
+                break;
+            case "BOOLEAN":
+                cs.registerOutParameter(index, java.sql.Types.BOOLEAN);
+                break;
+            case "CHAR":
+                cs.registerOutParameter(index, java.sql.Types.CHAR);
+                break;
+            case "CLOB":
+                cs.registerOutParameter(index, java.sql.Types.CLOB);
+                break;
+            case "DATALINK":
+                cs.registerOutParameter(index, java.sql.Types.DATALINK);
+                break;
+            case "DATE":
+                cs.registerOutParameter(index, java.sql.Types.DATE);
+                break;
+            case "DECIMAL":
+                cs.registerOutParameter(index, java.sql.Types.DECIMAL, scale);
+                break;
+            case "DISTINCT":
+                cs.registerOutParameter(index, java.sql.Types.DISTINCT);
+                break;
+            case "DOUBLE":
+                cs.registerOutParameter(index, java.sql.Types.DOUBLE);
+                break;
+            case "FLOAT":
+                cs.registerOutParameter(index, java.sql.Types.FLOAT);
+                break;
+            case "INTEGER":
+                cs.registerOutParameter(index, java.sql.Types.INTEGER);
+                break;
+            case "JAVA_OBJECT":
+                cs.registerOutParameter(index, java.sql.Types.JAVA_OBJECT);
+                break;
+            case "LONGNVARCHAR":
+                cs.registerOutParameter(index, java.sql.Types.LONGNVARCHAR);
+                break;
+            case "LONGVARBINARY":
+                cs.registerOutParameter(index, java.sql.Types.LONGVARBINARY);
+                break;
+            case "LONGVARCHAR":
+                cs.registerOutParameter(index, java.sql.Types.LONGVARCHAR);
+                break;
+            case "NCHAR":
+                cs.registerOutParameter(index, java.sql.Types.NCHAR);
+                break;
+            case "NCLOB":
+                cs.registerOutParameter(index, java.sql.Types.NCLOB);
+                break;
+            case "NULL":
+                cs.registerOutParameter(index, java.sql.Types.NULL);
+                break;
+            case "NUMERIC":
+                cs.registerOutParameter(index, java.sql.Types.NUMERIC, scale);
+                break;
+            case "NVARCHAR":
+                cs.registerOutParameter(index, java.sql.Types.NVARCHAR);
+                break;
+            case "OTHER":
+                cs.registerOutParameter(index, java.sql.Types.OTHER);
+                break;
+            case "REAL":
+                cs.registerOutParameter(index, java.sql.Types.REAL);
+                break;
+            case "REF":
+                cs.registerOutParameter(index, java.sql.Types.REF);
+                break;
+            case "ROWID":
+                cs.registerOutParameter(index, java.sql.Types.ROWID);
+                break;
+            case "SMALLINT":
+                cs.registerOutParameter(index, java.sql.Types.SMALLINT);
+                break;
+            case "SQLXML":
+                cs.registerOutParameter(index, java.sql.Types.SQLXML);
+                break;
+            case "STRUCT":
+                cs.registerOutParameter(index, java.sql.Types.STRUCT);
+                break;
+            case "TIME":
+                cs.registerOutParameter(index, java.sql.Types.TIME);
+                break;
+            case "TIMESTAMP":
+                cs.registerOutParameter(index, java.sql.Types.TIMESTAMP);
+                break;
+            case "TINYINT":
+                cs.registerOutParameter(index, java.sql.Types.TINYINT);
+                break;
+            case "VARBINARY":
+                cs.registerOutParameter(index, java.sql.Types.VARBINARY);
+                break;
+            case "VARCHAR":
+                cs.registerOutParameter(index, java.sql.Types.VARCHAR);
+                break;
+        }
+        return success;
+    }
 }
