@@ -35,7 +35,9 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.db.Db;
+import ublu.db.ResultSetHelper;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Tuple;
@@ -49,7 +51,7 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [-call] [-sq1 ~@{ SQL code ... }] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] [-inarray ~@{index} ~@array ~@{type_description}] [-innull ~@{index} ~@{type_description}] [-out ~@{index} ~@{type_description} ~@{scale}] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -64,6 +66,10 @@ public class CmdCs extends Command {
          * Call callable statement
          */
         CALL,
+        /**
+         * Do nothing
+         */
+        NOOP
     }
 
     /**
@@ -83,10 +89,14 @@ public class CmdCs extends Command {
         Object o; // used for unloading tuples
         Tuple csTuple;
         CallableStatement cs = null;
-        Tuple dbTuple = null;
+        Tuple dbTuple;
         Db db = null;
         String sql = null;
-        while (argArray.hasDashCommand()) {
+        Integer index;
+        String typeDescription;
+        Object inParameter;
+        Integer scale;
+        while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
@@ -113,11 +123,37 @@ public class CmdCs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case "-instance":
+                    function = FUNCTIONS.INSTANCE;
+                    break;
+                case "-in":
+                    function = FUNCTIONS.NOOP;
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    inParameter = argArray.nextTupleOrPop().getValue();
+                    break;
+                case "-inarray":
+                    function = FUNCTIONS.NOOP;
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    inParameter = argArray.nextTupleOrPop().getValue();
+                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-innull":
+                    function = FUNCTIONS.NOOP;
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-out":
+                    function = FUNCTIONS.NOOP;
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    scale = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
                 case "-sql":
                     sql = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
+                    setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         if (havingUnknownDashCommand()) {
@@ -146,15 +182,42 @@ public class CmdCs extends Command {
                             }
                         }
                     }
-
                     break;
-
                 case CALL:
-
+                    if (cs != null) {
+                        try {
+                            cs.execute();
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Encountered an exception calling Callable Statement in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case NOOP:
                     break;
             }
         }
         return argArray;
+    }
+
+    private boolean setIn(int index, Object inParameter) {
+        boolean success = false;
+        return success;
+    }
+
+    private boolean setInArray(int index, Object inParameter, String typeDescription) {
+        boolean success = false;
+        return success;
+    }
+
+    private boolean setInNull(int index, String typeDescription) {
+        boolean success = false;
+        return success;
+    }
+
+    private boolean setOut() {
+        boolean success = false;
+        return success;
     }
 
     @Override
