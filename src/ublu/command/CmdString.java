@@ -45,12 +45,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...}] | [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim]  : string operations");
+                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...}] | [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-new] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim ~@{string}] : string operations");
     }
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, EQ, LEN, NL, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
+        UCHAR, BL, BLS, CAT, EQ, LEN, NEW, NL, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
     }
 
     /**
@@ -101,6 +101,9 @@ public class CmdString extends Command {
                 case "-len":
                     operation = OPERATIONS.LEN;
                     lopr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-new":
+                    operation = OPERATIONS.NEW;
                     break;
                 case "-nl":
                     operation = OPERATIONS.NL;
@@ -176,6 +179,9 @@ public class CmdString extends Command {
                     break;
                 case LEN:
                     opresult = lopr.length();
+                    break;
+                case NEW:
+                    opresult = "";
                     break;
                 case NL:
                     opresult = lopr + '\n';
