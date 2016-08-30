@@ -4,12 +4,26 @@
 # example:
 # listObjs ( s0mesys qsecofr xyz1234 *ALL FRED *ALL )
 
-# list specified objects on specified system
-FUNC listObjs ( system user password lib name type ) $[
-	LOCAL @as400 LOCAL @objlist LOCAL @txtlist
-	as400 -to @as400 @@system @@user @@password
-	objlist -to @objlist -as400 @as400 -lib @@lib -name @@name -type @@type
+# list specified objects on specified system to a datasink
+# example:
+# listObjs ( @sys *ALL FRED *ALL @mylist)
+FUNC listObjsTo ( sys lib name type sink ) $[
+	objlist -to @objlist -as400 @@sys -lib @@lib -name @@name -type @@type
 	objlist -to @txtlist -- @objlist -list
-	FOR @obj in @txtlist $[ put -from @obj ]$
+	string -to @stringbuff -new
+	FOR @obj in @txtlist $[
+	    string -to @stringbuff -cat @stringbuff @obj
+	    string -to @stringbuff -nl @stringbuff
+	]$
+	put -from @stringbuff -to @@sink  
+]$
+  
+# list specified objects on specified system
+# example:
+# listObjs ( s0mesys qsecofr xyz1234 *ALL FRED *ALL )
+FUNC listObjs ( system user password lib name type ) $[
+	LOCAL @sys LOCAL @objlist LOCAL @txtlist
+	as400 -to @sys @@system @@user @@password
+	listObjsTo ( @sys @@list @@name @@type STD: )
 ]$
 # end
