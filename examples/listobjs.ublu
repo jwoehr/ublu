@@ -24,6 +24,6 @@ FUNC listObjsTo ( sys lib name type sink ) $[
 FUNC listObjs ( system user password lib name type ) $[
 	LOCAL @sys LOCAL @objlist LOCAL @txtlist
 	as400 -to @sys @@system @@user @@password
-	listObjsTo ( @sys @@list @@name @@type STD: )
+	listObjsTo ( @sys @@lib @@name @@type STD: )
 ]$
 # end
