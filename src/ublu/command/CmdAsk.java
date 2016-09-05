@@ -93,6 +93,7 @@ public class CmdAsk extends Command {
                 }
             }
             if (getInterpreter().isConsole()) {
+                /* debug */ // getInterpreter().outputerrln("Is console.");
                 if (prompt != null) {
                     s = System.console().readLine("%s : ", prompt.trim());
                 } else {
@@ -104,9 +105,16 @@ public class CmdAsk extends Command {
                     getLogger().log(Level.SEVERE, "Could not put response \"" + s + "\" in " + getNameAndDescription(), ex);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
-            } else {
-                getLogger().log(Level.SEVERE, "Input is not from console in {0}", getNameAndDescription());
-                setCommandResult(COMMANDRESULT.FAILURE);
+            } else { // Not console
+                if (prompt != null) {
+                    getInterpreter().output(prompt.trim() + " : ");
+                }
+                try {
+                    put(getInterpreter().getInputStreamBufferedReader().readLine());
+                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                    getLogger().log(Level.SEVERE, "Could not either get or put response with prompt " + prompt + " in " + getNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
             }
         }
         return argArray;
