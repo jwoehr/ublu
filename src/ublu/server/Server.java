@@ -40,8 +40,27 @@ import java.util.logging.Logger;
  */
 public class Server extends Thread {
 
+    private String executionBlock;
     private Socket socket;
     private Ublu ublu;
+
+    /**
+     * Get the block we'll execute
+     *
+     * @return the block we'll execute
+     */
+    public String getExecutionBlock() {
+        return executionBlock;
+    }
+
+    /**
+     * Set the block we'll execute
+     *
+     * @param executionBlock the block we'll execute
+     */
+    public final void setExecutionBlock(String executionBlock) {
+        this.executionBlock = executionBlock;
+    }
 
     /**
      * Get the socket the thread is hooked to
@@ -96,15 +115,29 @@ public class Server extends Thread {
     }
 
     /**
-     * Ctor sets associated Ublu and socket
+     * Ctor/2 sets associated Ublu and socket
      *
-     * @param ublu
-     * @param socket
+     * @param ublu application controller
+     * @param socket the socket
      */
     public Server(Ublu ublu, Socket socket) {
         this();
         setUblu(ublu);
         setSocket(socket);
+    }
+
+    /**
+     * Ctor/3 sets associated Ublu and socket and an execution block.
+     *
+     * @param ublu application controller
+     * @param socket the socket
+     * @param executionBlock block to execute
+     */
+    public Server(Ublu ublu, Socket socket, String executionBlock) {
+        this();
+        setUblu(ublu);
+        setSocket(socket);
+        setExecutionBlock(executionBlock);
     }
 
     /**
@@ -137,10 +170,30 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * interactive loop over a block
+     *
+     * @param block
+     * @throws IOException
+     */
+    protected void serverInterpret(String block) throws IOException {
+        Interpreter i = new Interpreter(getUblu());
+        i.setOutputStream(new PrintStream(getSocket().getOutputStream()));
+        if (block != null) {
+            readCommandLine(); // toss away one line
+            i.setArgArray(new Parser(i, block).parseAnArgArray());
+            i.loop();
+        }
+    }
+
     @Override
     public void run() {
         try {
-            serverInterpret();
+            if (getExecutionBlock() != null) {
+                serverInterpret(getExecutionBlock());
+            } else {
+                serverInterpret();
+            }
             if (!getSocket().isClosed() && !getSocket().isInputShutdown()) {
                 getSocket().getInputStream().close();
             }

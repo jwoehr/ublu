@@ -221,6 +221,20 @@ public class Ublu {
     }
 
     /**
+     * Start the singleton tcpip listener
+     *
+     * @param portnum port to listen
+     * @param executionBlock block to execute
+     */
+    public void newListener(int portnum, String executionBlock) {
+        Listener l = getSingletonListener();
+        if (l != null) {
+            l.setListening(false);
+        }
+        setSingletonListener(new Listener(this, portnum, executionBlock));
+    }
+
+    /**
      * Stop the singleton tcpip listener
      */
     public static void stopListener() {

@@ -48,7 +48,8 @@ public class Listener extends Thread {
 
     /**
      * Get the timeout before we recycle our accept().
-     * <p>We wait for a timeout to exit {@link #listen()} and then close the
+     * <p>
+     * We wait for a timeout to exit {@link #listen()} and then close the
      * socket.</p>
      *
      * @return the timeout before we recycle our accept()
@@ -59,7 +60,8 @@ public class Listener extends Thread {
 
     /**
      * Set the timeout before we recycle our accept()
-     * <p>We wait for a timeout to exit {@link #listen()} and then close the
+     * <p>
+     * We wait for a timeout to exit {@link #listen()} and then close the
      * socket.</p>
      *
      * @param acceptTimeoutMS the timeout before we recycle our accept()
@@ -114,6 +116,26 @@ public class Listener extends Thread {
     private int portnum;
     private ServerSocket serverSocket;
     private boolean listening;
+
+    private String executionBlock;
+
+    /**
+     * Get the value of executionBlock
+     *
+     * @return the value of executionBlock
+     */
+    public String getExecutionBlock() {
+        return executionBlock;
+    }
+
+    /**
+     * Set the value of executionBlock
+     *
+     * @param executionBlock new value of executionBlock
+     */
+    public final void setExecutionBlock(String executionBlock) {
+        this.executionBlock = executionBlock;
+    }
 
     /**
      * Get associated instance.
@@ -195,16 +217,31 @@ public class Listener extends Thread {
     }
 
     /**
-     * Create new instance with associated Ublu instance and choice of portnumber
-     * recorded.
+     * Create new instance with associated Ublu instance and choice of
+     * portnumber recorded.
      *
-     * @param ublu
-     * @param portnum
+     * @param ublu application controller
+     * @param portnum port to listen on
      */
     public Listener(Ublu ublu, int portnum) {
         this();
         this.ublu = ublu;
         this.portnum = portnum;
+    }
+
+    /**
+     * Create new instance with associated Ublu instance and choice of
+     * portnumber recorded.
+     *
+     * @param ublu application controller
+     * @param portnum port to listen on
+     * @param executionBlock block for server thread to execute
+     */
+    public Listener(Ublu ublu, int portnum, String executionBlock) {
+        this();
+        this.ublu = ublu;
+        this.portnum = portnum;
+        this.executionBlock = executionBlock;
     }
 
     /**
@@ -228,7 +265,13 @@ public class Listener extends Thread {
             try {
                 while (listening) {
                     try {
-                        new Server(getUblu(), getServerSocket().accept()).start();
+                        Server s;
+                        if (getExecutionBlock() != null) {
+                            s = new Server(getUblu(), getServerSocket().accept(), getExecutionBlock());
+                        } else {
+                            s = new Server(getUblu(), getServerSocket().accept());
+                        }
+                        s.start();
                         incSpawns(); // If we get here without timeout exception there has been a spawn
                     } catch (SocketTimeoutException ex) {
                         // we don't care

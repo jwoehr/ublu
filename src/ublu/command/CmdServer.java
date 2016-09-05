@@ -39,8 +39,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  -start | -status | -stop [-port portnum] : start, stop or monitor status of a thread server that accepts command lines");
-    }
+                "/0  [ -block $[execution block]$ ] -start | -status | -stop [-port portnum] : start, stop or monitor status of a thread server that accepts command lines");    }
 
     /**
      * Functions the server command knows
@@ -90,9 +89,13 @@ public class CmdServer extends Command {
     public ArgArray server(ArgArray args) {
         int port = DEFAULT_SERVER_PORT;
         int timeoutMs = Listener.DEFAULT_ACCEPT_TIMEOUT_MS;
+        String executionBlock = null;
         while (args.hasDashCommand()) {
             String dashCommand = args.parseDashCommand();
             switch (dashCommand) {
+                case "-block":
+                    executionBlock = args.nextUnlessNotBlock();
+                    break;
                 case "-start":
                     setFunction(FUNCTIONS.START);
                     break;
@@ -121,7 +124,11 @@ public class CmdServer extends Command {
                     if (l != null) {
                         getLogger().log(Level.WARNING, "Server is already running");
                     } else {
-                        getUblu().newListener(port);
+                        if (executionBlock != null) {
+                            getUblu().newListener(port, executionBlock);
+                        } else {
+                            getUblu().newListener(port);
+                        }
                         Ublu.getSingletonListener().setAcceptTimeoutMS(timeoutMs);
                         Ublu.getSingletonListener().start();
                     }
@@ -135,7 +142,6 @@ public class CmdServer extends Command {
             }
         }
         return args;
-
     }
 
     @Override
