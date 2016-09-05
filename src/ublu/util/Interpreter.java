@@ -758,7 +758,7 @@ public class Interpreter {
      * @return true if console active
      */
     public boolean isConsole() {
-        return System.console() != null;
+        return System.console() != null && getInputStream() == System.in;
     }
 
     /**
