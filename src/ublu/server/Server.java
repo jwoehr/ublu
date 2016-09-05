@@ -141,19 +141,6 @@ public class Server extends Thread {
     }
 
     /**
-     * Read one command line for the interpreter
-     *
-     * @return a command line
-     * @throws IOException
-     */
-    protected String readCommandLine() throws IOException {
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        getSocket().getInputStream()));
-        return br.readLine();
-    }
-
-    /**
      * interactive loop until bye
      *
      * @throws IOException
@@ -161,8 +148,10 @@ public class Server extends Thread {
     protected void serverInterpret() throws IOException {
         Interpreter i = new Interpreter(getUblu());
         i.setOutputStream(new PrintStream(getSocket().getOutputStream()));
+        i.setInputStream(getSocket().getInputStream());
+        i.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(i.getInputStream())));
         while (!i.isGoodBye()) {
-            String s = readCommandLine();
+            String s = i.getInputStreamBufferedReader().readLine();
             if (s != null) {
                 i.setArgArray(new Parser(i, s).parseAnArgArray());
                 i.loop();
@@ -179,8 +168,9 @@ public class Server extends Thread {
     protected void serverInterpret(String block) throws IOException {
         Interpreter i = new Interpreter(getUblu());
         i.setOutputStream(new PrintStream(getSocket().getOutputStream()));
+        i.setInputStream(getSocket().getInputStream());
+        i.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(i.getInputStream())));
         if (block != null) {
-            readCommandLine(); // toss away one line
             i.setArgArray(new Parser(i, block).parseAnArgArray());
             i.loop();
         }
