@@ -46,6 +46,3 @@ Miscellaneous:
 		- Added RETURN as keyword
 		- More and better documentation
 	- Made it simpler to add MSSQL support in if user desires it.
-	
-		
-	
