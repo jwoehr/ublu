@@ -44,8 +44,8 @@
         height="444" width="400"></th>
 
         <td bgcolor="#000000" valign="middle" align="center">
-        <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
-        Woehr</font><br>
+        <font color="#33FFFF">Copyright &#169; 2016<br>
+        Jack. J. Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
         All Rights Reserved<br>
         <br>
@@ -217,8 +217,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><a href="#Datasinks">Datasinks</a></li>
 
-            <li><a href="#System_Userid">System, Userid, Password
-            and <tt>-as400</tt></a></li>
+            <li>
+              <a href="#System_Userid">System, Userid, Password and
+              <tt>-as400</tt></a>
+
+              <ul>
+                <li><a href="#Deprecation_of_providing">Deprecation
+                of providing system/userid/password as arguments to
+                most commands</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
 
@@ -1500,6 +1508,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   Of course, the execution of commands that require extended
   ownership, access control or privilege level on the target system
   can only be executed via an account with such privileges.<br>
+
+  <h5><a name="Deprecation_of_providing"></a>Deprecation of
+  providing system/userid/password as arguments to most
+  commands<br></h5><b>Note:</b> Many of the oldest Ublu commands
+  allow system/userid/password to be supplied as main command
+  arguments (as well as allowing the user to provide an as400
+  object via the -as400 dash-command. The older sty le of command
+  is <b>deprecated</b> and <b>all code should use the -as400 style
+  of providing an object created by the <a href=
+  "#as400"><tt>as400</tt></a> command</b> rather than providing
+  credentials as arguments to most commands.<br>
 
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
