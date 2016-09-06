@@ -31,6 +31,8 @@ Changes to commands:
 	- file command added
 	- record command added
 	- trace command added
+	- server command now allows execution of a "canned" program rather
+	  than simple direct access to the Ublu interpreter.
 	- string -uchar now can take a string of hexvals instead of only one
 	- removed -from from commandcall and parse arguments better
 	- programcall works better
