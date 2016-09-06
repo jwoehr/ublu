@@ -41,6 +41,8 @@ Changes to commands:
 	- list command supports object arrays and -toarray
 
 Miscellaneous:
+	- Deprecate providing system/userid/password as arguments to most
+	  commands (use as400 object created by as400 command instead)
 	- Javadoc cleaned up
 	- SmapiHelper javadoc cleanup
 	- Ublu JEdit mode (ublu.xml)
