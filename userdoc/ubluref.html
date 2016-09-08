@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 5 Sep 2016 18:59:03 UTC">
+  "Thu, 8 Sep 2016 17:05:50 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -26,7 +26,7 @@
   width="100%">
     <tbody>
       <tr>
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td bgcolor="#000000" align="center" valign="middle">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th bgcolor="#000000" valign="middle" align="center">
+        <th bgcolor="#000000" align="center" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td bgcolor="#000000" align="center" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016<br>
         Jack. J. Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-09-05</p>
+  Last edit: 2016-09-08</p>
   <pre>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
 Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
@@ -1513,10 +1513,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   providing system/userid/password as arguments to most
   commands<br></h5><b>Note:</b> Many of the oldest Ublu commands
   allow system/userid/password to be supplied as main command
-  arguments as well as allowing the user to provide an as400
-  object via the -as400 dash-command. The older style of command
-  is <b>deprecated</b> and <b>all code should use the -as400 style
-  of providing an object created by the <a href=
+  arguments as well as allowing the user to provide an as400 object
+  via the -as400 dash-command. The older style of command is
+  <b>deprecated</b> and <b>all code should use the -as400 style of
+  providing an object created by the <a href=
   "#as400"><tt>as400</tt></a> command</b> rather than providing
   credentials as arguments to most commands.<br>
 
@@ -6061,14 +6061,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       "75%">
         <tbody>
           <tr>
-            <th valign="top" align="center">interpreter
+            <th align="center" valign="top">interpreter
             property<br></th>
 
-            <th valign="top" align="center">description<br></th>
+            <th align="center" valign="top">description<br></th>
 
-            <th valign="top" align="center">default value<br></th>
+            <th align="center" valign="top">default value<br></th>
 
-            <th valign="top" align="center">alternative
+            <th align="center" valign="top">alternative
             value(s)<br></th>
           </tr>
 
@@ -6756,10 +6756,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <table border="1" cellspacing="2" cellpadding="2" width="100%">
     <tbody>
       <tr>
-        <th valign="top" align="center">Ublu main interpretive
+        <th align="center" valign="top">Ublu main interpretive
         session<br></th>
 
-        <th valign="top" align="center">Another shell
+        <th align="center" valign="top">Another shell
         window<br></th>
       </tr>
 
@@ -7572,9 +7572,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <blockquote>
     <tt>/0 [-as400 @as400] [-to datasink] [--,-sysval ~@sysval]
     [[-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] |
-    [haskey ~@${ key }$] | [-value ~@${ key }$] | -set ~@${ key }$
-    ~@value] | [</tt><tt>-systemvalue] | [-list] | [-map]] :
-    retrieve a system value list</tt><br>
+    [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key }
+    ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a
+    system value list</tt><br>
     <br>
     The sysval command gets and sets system values. When
     instancing, an <a href="#as400"><tt>as400</tt></a> instance
@@ -7597,14 +7597,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </ul>
       </li>
 
-      <li><tt>-haskey ~@${ key }$</tt> puts <tt>true</tt> .IFF.
-      there exists in the list a system value represented by
-      <i>key</i>, otherwise <tt>false</tt>.<br></li>
+      <li><tt>-haskey ~@{ key }</tt> puts <tt>true</tt> .IFF. there
+      exists in the list a system value represented by <i>key</i>,
+      otherwise <tt>false</tt>.<br></li>
 
-      <li><tt>-value</tt> <tt>~@${ key }$</tt> puts the object for
+      <li><tt>-value</tt> <tt>~@{ key }</tt> puts the object for
       the system value represented by <i>key</i>.</li>
 
-      <li><tt>-set ~@${ key }$ ~@value</tt> sets the system value
+      <li><tt>-set ~@{ key } ~@value</tt> sets the system value
       represented by <i>key</i> to the object <i>value</i>.</li>
 
       <li><tt>-systemvalue</tt> puts the SystemValueList object
