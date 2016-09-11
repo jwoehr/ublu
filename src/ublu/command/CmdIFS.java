@@ -124,7 +124,7 @@ public class CmdIFS extends Command {
      * @return rest of arg array
      */
     public ArgArray ifs(ArgArray argArray) {
-        FUNCTIONS function = FUNCTIONS.NOOP;
+        FUNCTIONS function = FUNCTIONS.FILE;
         String writeableString = null;
         int offset = 0;
         int numToRead = 0;
