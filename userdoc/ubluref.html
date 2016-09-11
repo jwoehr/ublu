@@ -4142,14 +4142,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="ifs" id="ifs"></a> <tt>ifs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-create | -delete |
-    -exists | -file | -list | -mkdirs | -read ~@{offset} ~@{chars}
-    | -write [~@{string }] | -writebin ] [-to datasink] [-from
-    datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user}
-    ~@{password} : integrated file system access<br>
-    <br></tt> The <tt>ifs</tt> command performs operations on the
-    OS/400 integrated file system, operating on files and
-    directories equally. Use the <tt>-file</tt> <a href=
+    <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}]
+    [-offset ~@{offset}]&nbsp; [-create | -delete | -exists | -file
+    | -list | -mkdirs | -read ~@{offset} ~@{chars} | -write
+    [~@{string }] | -writebin ] [-to datasink] [-from datasink]
+    ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password}
+    : integrated file system access</tt><br>
+    <br>
+    The <tt>ifs</tt> command performs operations on the OS/400
+    integrated file system, operating on files and directories
+    equally. Use the <tt>-file</tt> <a href=
     "#Dash_Command">dash-command</a> to create a reference to the
     IFS object which can be stored in a <a href=
     "#Tuple_Variables">tuple variable</a> for subsequent use with
@@ -4179,9 +4181,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <tt>-file</tt> is the default operation.
 
     <ul>
-      <li><tt>-create</tt> creates the IFS object specified by
-      either by <tt>/fully/qualified/pathname</tt> or by the tuple
-      variable referenced by the <tt>-from</tt> or a
+      <li><tt>-create</tt> creates on the server the IFS file
+      specified by either by <tt>/fully/qualified/pathname</tt> or
+      by the tuple variable referenced by the <tt>-from</tt> or a
       <tt>-ifsfile</tt> or <tt>--</tt> dash-command
       dash-command.</li>
 
@@ -4198,7 +4200,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <li><tt>-file</tt> creates a reference to the IFS object
       suitable for storage to a tuple variable via the <tt>-to</tt>
       <i>datasink</i> dash-command. This is the default
-      operation.<br></li>
+      operation.</li>
+
+      <li>
+        <tt>-length</tt> sets the length for a -writebin operation.
+
+        <ul>
+          <li>defaults to the length of the data source<br></li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-offset</tt> sets the offset for a -writebin operation.
+
+        <ul>
+          <li>defaults to 0<br></li>
+        </ul>
+      </li>
 
       <li><tt>-list</tt> returns a listing of files in the IFS
       directory specifed by <i>/fully/qualified/pathname</i> or by
@@ -4212,12 +4230,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       referenced by the <tt>-from</tt> dash-command, including all
       parent directories if necessary.</li>
 
-      <li><tt>-read</tt> reads <i>chars</i> characters of data
-      starting at <i>offset</i> from
-      <i>/fully/qualified/pathname.</i></li>
+      <li><tt>-read</tt> reads a maximum <i>chars</i> characters of
+      text data starting at <i>offset</i> from
+      <i>/fully/qualified/pathname</i>. The file must already
+      exist; perform a <tt>-create</tt> first if the file does not
+      exist.<br></li>
 
       <li>
-        <tt>-write</tt> writes <i>${ string}</i> to
+        <tt>-write</tt> writes textual data from the data source to
         <i>/fully/qualified/pathname</i> (or to the IFSFile
         instance specified by the tuple variable referenced by a
         <tt>-to</tt> dash-command or a <tt>-ifsfile</tt> or
@@ -4239,12 +4259,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </ul>
       </li>
 
-      <li><tt>-writebin</tt> writes binary data from the source
-      datasink to the IFSFile on the remote system specifed by
-      <i>/fully/qualified/pathname</i> or by a <tt>-ifsfile</tt> or
-      <tt>--</tt> dash-command. Only file and tuple datasources are
-      suppored, and a tuple datasource must contain a byte
-      array.<br></li>
+      <li>
+        <tt>-writebin</tt> writes binary data from the source
+        datasink to the IFSFile on the remote system specifed by
+        <i>/fully/qualified/pathname</i> or by a <tt>-ifsfile</tt>
+        or <tt>--</tt> dash-command.
+
+        <ul>
+          <li>Only file and tuple datasources are suppored, and a
+          tuple datasource must contain a byte array.<br></li>
+
+          <li>The length and offset in the target file can be set
+          with the <tt>-length</tt> and <tt>-offset</tt>
+          dash-commands. Both have defaults if not set.<br></li>
+
+          <li>The file will be created if it does not already
+          exist.<br></li>
+        </ul>
+      </li>
     </ul>
   </blockquote>
 
