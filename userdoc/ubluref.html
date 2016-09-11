@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 8 Sep 2016 17:05:50 UTC">
+  "Sun, 11 Sep 2016 19:54:55 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table border="0" cellspacing="0" cellpadding="2" height="456"
+  <table border="0" cellpadding="2" cellspacing="0" height="456"
   width="100%">
     <tbody>
       <tr>
-        <td bgcolor="#000000" align="center" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th bgcolor="#000000" align="center" valign="middle">
+        <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td bgcolor="#000000" align="center" valign="middle">
+        <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016<br>
         Jack. J. Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-09-08</p>
+  Last edit: 2016-09-11</p>
   <pre>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
 Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
@@ -1523,7 +1523,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table border="1" cellspacing="2" cellpadding="2" width="100%">
+  <table border="1" cellpadding="2" cellspacing="2" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -4142,11 +4142,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="ifs" id="ifs"></a> <tt>ifs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 @as400] [-create | -delete | -exists | -file |
-    -list | -mkdirs | -read ~@${offset}$ ~@${chars}$ | -write [${
-    string }$]] [-to datasink] [-from datasink]
-    ~@${/fully/qualified/pathname}$ ~@${system}$ ~@${user}$
-    ~@${password}$ : integrated file system access<br>
+    <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-create | -delete |
+    -exists | -file | -list | -mkdirs | -read ~@{offset} ~@{chars}
+    | -write [~@{string }] | -writebin ] [-to datasink] [-from
+    datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user}
+    ~@{password} : integrated file system access<br>
     <br></tt> The <tt>ifs</tt> command performs operations on the
     OS/400 integrated file system, operating on files and
     directories equally. Use the <tt>-file</tt> <a href=
@@ -4158,6 +4158,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     dash-command is provided, then the arguments <tt>system
     userid</tt> and <tt>password</tt> must be omitted.<br>
     <br>
+    <b>Note:</b> The recommended way to pass an IFS file object
+    already created to the <tt>ifs</tt> command is via the
+    eponymous dash-command <tt>-ifs @ifsfile</tt> or <tt>--
+    @ifsfile</tt> ; the use of <tt>-from</tt> and <tt>-to</tt> to
+    denote the IFSFile object in the syntax noted below is largely
+    historical and now deprecated.<br>
+    <br>
     <b>Note</b> that if the <tt>-from datasink</tt> dash-command is
     used with the <tt>-write</tt> dash-command, the <tt>-from</tt>
     dash-command must appear in the command invocation
@@ -4167,11 +4174,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     text to write unless it has already been established that the
     text to write will come from another <a href=
     "#Datasinks">datasink</a>.<br>
+    <br>
+    The operations specified by the dash-comands are as follows.
+    <tt>-file</tt> is the default operation.
 
     <ul>
       <li><tt>-create</tt> creates the IFS object specified by
       either by <tt>/fully/qualified/pathname</tt> or by the tuple
-      variable referenced by the <tt>-from</tt> dash-command.</li>
+      variable referenced by the <tt>-from</tt> or a
+      <tt>-ifsfile</tt> or <tt>--</tt> dash-command
+      dash-command.</li>
 
       <li><tt>-delete</tt> deletes the IFS object specified by
       <tt>/fully/qualified/pathname</tt> or by the tuple variable
@@ -4180,15 +4192,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <li><tt>-exists</tt> returns the string <tt>true</tt> if the
       IFS object specified by <tt>/fully/qualified/pathname</tt> or
       by the tuple variable referenced by the <tt>-from</tt>
+      dash-command or a <tt>-ifsfile</tt> or <tt>--</tt>
       dash-command exists, <tt>false</tt> otherwise.</li>
 
       <li><tt>-file</tt> creates a reference to the IFS object
       suitable for storage to a tuple variable via the <tt>-to</tt>
-      <i>datasink</i> dash-command.</li>
+      <i>datasink</i> dash-command. This is the default
+      operation.<br></li>
 
       <li><tt>-list</tt> returns a listing of files in the IFS
       directory specifed by <i>/fully/qualified/pathname</i> or by
       the tuple variable referenced by the <tt>-from</tt>
+      dash-command or a <tt>-ifsfile</tt> or <tt>--</tt>
       dash-command assuming that <i>pathname</i> refers to a
       directory.</li>
 
@@ -4203,9 +4218,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
       <li>
         <tt>-write</tt> writes <i>${ string}</i> to
-        <i>/fully/qualified/pathname</i> (or to the file specified
-        by the tuple variable referenced by a <tt>-to</tt>
-        dash-command has been provided). If the <tt>-from</tt>
+        <i>/fully/qualified/pathname</i> (or to the IFSFile
+        instance specified by the tuple variable referenced by a
+        <tt>-to</tt> dash-command or a <tt>-ifsfile</tt> or
+        <tt>--</tt> dash-command). If the <tt>-from</tt>
         dash-command has been provided, the text to write comes
         from that source <a href="#Datasinks">datasink</a>.
 
@@ -4222,6 +4238,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           "#Datasinks">datasink</a>.</li>
         </ul>
       </li>
+
+      <li><tt>-writebin</tt> writes binary data from the source
+      datasink to the IFSFile on the remote system specifed by
+      <i>/fully/qualified/pathname</i> or by a <tt>-ifsfile</tt> or
+      <tt>--</tt> dash-command. Only file and tuple datasources are
+      suppored, and a tuple datasource must contain a byte
+      array.<br></li>
     </ul>
   </blockquote>
 
@@ -6057,18 +6080,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table border="1" cellspacing="2" cellpadding="2" width=
+      <table border="1" cellpadding="2" cellspacing="2" width=
       "75%">
         <tbody>
           <tr>
-            <th align="center" valign="top">interpreter
+            <th valign="top" align="center">interpreter
             property<br></th>
 
-            <th align="center" valign="top">description<br></th>
+            <th valign="top" align="center">description<br></th>
 
-            <th align="center" valign="top">default value<br></th>
+            <th valign="top" align="center">default value<br></th>
 
-            <th align="center" valign="top">alternative
+            <th valign="top" align="center">alternative
             value(s)<br></th>
           </tr>
 
@@ -6753,13 +6776,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table border="1" cellspacing="2" cellpadding="2" width="100%">
+  <table border="1" cellpadding="2" cellspacing="2" width="100%">
     <tbody>
       <tr>
-        <th align="center" valign="top">Ublu main interpretive
+        <th valign="top" align="center">Ublu main interpretive
         session<br></th>
 
-        <th align="center" valign="top">Another shell
+        <th valign="top" align="center">Another shell
         window<br></th>
       </tr>
 
