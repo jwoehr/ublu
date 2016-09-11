@@ -60,7 +60,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@{offset} ~@{chars} | -write [~@{string }] | -writebin ] [-to datasink] [-from datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}] [-offset ~@{offset}]  [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@{offset} ~@{chars} | -write [~@{string }] | -writebin ] [-to datasink] [-from datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -117,6 +117,8 @@ public class CmdIFS extends Command {
     }
 
     private Tuple ifsFileTuple = null;
+    private Integer binOffset = null;
+    private Integer binLength = null;
 
     /**
      * Parse arguments and perform IFS operations
@@ -179,6 +181,12 @@ public class CmdIFS extends Command {
                     break;
                 case "-writebin":
                     function = FUNCTIONS.WRITEBIN;
+                    break;
+                case "-offset":
+                    binOffset = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-length":
+                    binLength = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -296,7 +304,7 @@ public class CmdIFS extends Command {
                 int length = new Long(f.length()).intValue();
                 char[] in = new char[length];
                 fr.read(in);
-                text = new String(in);                
+                text = new String(in);
                 break;
             case TUPLE:
                 text = getTuple(dsrc.getName()).getValue().toString();
@@ -438,7 +446,6 @@ public class CmdIFS extends Command {
             try {
                 String text = getTextToWrite(ifsFile.getSystem(), writeableString);
                 try (PrintWriter writer = new PrintWriter(new BufferedWriter(new IFSFileWriter(ifsFile)))) {
-                    // writer.print(aS400Text);
                     writer.print(text);
                 }
             } catch (AS400SecurityException | IOException ex) {
@@ -499,8 +506,7 @@ public class CmdIFS extends Command {
             }
             if (bytes != null) {
                 try (IFSFileOutputStream ifsout = new IFSFileOutputStream(ifsFile)) {
-                    // writer.print(aS400Text);
-                    ifsout.write(bytes);
+                    ifsout.write(bytes, binOffset == null ? 0 : binOffset, binLength == null ? bytes.length : binLength);
                 } catch (AS400SecurityException | IOException ex) {
                     getLogger().log(Level.SEVERE,
                             "Exception encountered in the -writebin operation of " + getNameAndDescription(), ex);
