@@ -59,7 +59,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@${offset}$ ~@${chars}$ | -write [${ string }$] | -writebin ] [-to datasink] [-from datasink] ~@${/fully/qualified/pathname}$ ~@${system}$ ~@${user}$ ~@${password}$ : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@{offset} ~@{chars} | -write [~@{string }] | -writebin ] [-to datasink] [-from datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -173,7 +173,7 @@ public class CmdIFS extends Command {
                 case "-write":
                     function = FUNCTIONS.WRITE;
                     if (getDataSrc().getType() == DataSink.SINKTYPE.STD) {
-                        writeableString = argArray.nextUnlessNotQuotation();
+                        writeableString = argArray.nextMaybeQuotationTuplePopString();
                     }
                     break;
                 case "-writebin":
@@ -232,12 +232,31 @@ public class CmdIFS extends Command {
         return ifsFile;
     }
 
+    private IFSFile getIFSFileFromEponymous() {
+        IFSFile ifsFile = null;
+        if (ifsFileTuple != null) {
+            Object o = ifsFileTuple.getValue();
+            ifsFile = o instanceof IFSFile ? IFSFile.class.cast(o) : null;
+        }
+        return ifsFile;
+    }
+
     private IFSFile getIFSFileFromDataSource() {
-        return getIFSFileFromDataSink(getDataSrc());
+        IFSFile ifsFile = null;
+        ifsFile = getIFSFileFromEponymous();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromDataSink(getDataSrc());
+        }
+        return ifsFile;
     }
 
     private IFSFile getIFSFileFromDataDest() {
-        return getIFSFileFromDataSink(getDataDest());
+        IFSFile ifsFile = null;
+        ifsFile = getIFSFileFromEponymous();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromDataSink(getDataDest());
+        }
+        return ifsFile;
     }
 
     private IFSFile getIFSFileFromArgArray(ArgArray argArray) {
@@ -464,19 +483,9 @@ public class CmdIFS extends Command {
 
     private void ifsWriteBin(ArgArray argArray) {
         IFSFile ifsFile = null;
-        if (ifsFileTuple == null) {
-            ifsFile = getIFSFileFromDataDest();
-            if (ifsFile == null) {
-                ifsFile = getIFSFileFromArgArray(argArray);
-            }
-        } else {
-            Object o = ifsFileTuple.getValue();
-            if (o instanceof IFSFile) {
-                ifsFile = IFSFile.class.cast(o);
-            } else {
-                getLogger().log(Level.SEVERE, "Tuple provided to -writebin operation of {0} is not an IFSFile in ", getNameAndDescription());
-                setCommandResult(COMMANDRESULT.FAILURE);
-            }
+        ifsFile = getIFSFileFromDataDest();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromArgArray(argArray);
         }
         if (ifsFile != null) {
             byte[] bytes = null;
