@@ -34,18 +34,23 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.IFSFile;
 import com.ibm.as400.access.IFSFileInputStream;
+import com.ibm.as400.access.IFSFileOutputStream;
 import com.ibm.as400.access.IFSFileWriter;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.beans.PropertyVetoException;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import ublu.util.Generics;
+import ublu.util.Generics.ByteArrayList;
 
 /**
  * Command to access Integrated File System stream files
@@ -56,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-as400 @as400] [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@${offset}$ ~@${chars}$ | -write [${ string }$]] [-to datasink] [-from datasink] ~@${/fully/qualified/pathname}$ ~@${system}$ ~@${user}$ ~@${password}$ : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@${offset}$ ~@${chars}$ | -write [${ string }$] | -writebin ] [-to datasink] [-from datasink] ~@${/fully/qualified/pathname}$ ~@${system}$ ~@${user}$ ~@${password}$ : integrated file system access");
     }
 
     /**
@@ -97,9 +102,13 @@ public class CmdIFS extends Command {
          */
         READ,
         /**
-         * Write an IFS file
+         * Write an IFS text file
          */
-        WRITE
+        WRITE,
+        /**
+         * Write an IFS binary file
+         */
+        WRITEBIN
     }
 
     /**
@@ -107,6 +116,8 @@ public class CmdIFS extends Command {
      */
     public CmdIFS() {
     }
+
+    private Tuple ifsFileTuple = null;
 
     /**
      * Parse arguments and perform IFS operations
@@ -119,9 +130,14 @@ public class CmdIFS extends Command {
         String writeableString = null;
         int offset = 0;
         int numToRead = 0;
+
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
+                case "-ifs":
+                case "--":
+                    ifsFileTuple = argArray.nextTupleOrPop();
+                    break;
                 case "-as400":
                     setAs400(getAS400Tuple(argArray.next()));
                     break;
@@ -162,6 +178,9 @@ public class CmdIFS extends Command {
                         writeableString = argArray.nextUnlessNotQuotation();
                     }
                     break;
+                case "-writebin":
+                    function = FUNCTIONS.WRITEBIN;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -196,6 +215,9 @@ public class CmdIFS extends Command {
                     break;
                 case WRITE:
                     ifsWrite(argArray, writeableString);
+                    break;
+                case WRITEBIN:
+                    ifsWriteBin(argArray);
                     break;
             }
         }
@@ -409,8 +431,86 @@ public class CmdIFS extends Command {
         }
     }
 
+    private byte[] getBytesToWrite() throws FileNotFoundException, IOException {
+        byte[] result = null;
+        DataSink ds = getDataSrc();
+        switch (ds.getType()) {
+            case STD:
+                getLogger().log(Level.SEVERE, "Cannot write a binary file from STD: in {0}", getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
+                break;
+            case FILE:
+                File f = new File(ds.getName());
+                Long length = f.length();
+                result = new byte[length.intValue()];
+                FileInputStream fis = new FileInputStream(ds.getName());
+                int numread = fis.read(result);
+                if (numread != length) {
+                    getLogger().log(Level.WARNING, "File is {0} bytes long but {1} bytes were read in {2}", new Object[]{length, numread, getNameAndDescription()});
+                }
+                break;
+            case TUPLE:
+                Object o = getTuple(getDataSrc().getName()).getValue();
+                if (o instanceof ByteArrayList) {
+                    result = ByteArrayList.class.cast(o).byteArray();
+                } else if (o instanceof byte[]) {
+                    result = (byte[]) o;
+                } else {
+                    getLogger().log(Level.SEVERE, "Tuple {0} is not a byte array in {1}", new Object[]{getDataSrc().getName(), getNameAndDescription()});
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
+                break;
+        }
+        return result;
+    }
+
+    private void ifsWriteBin(ArgArray argArray) {
+        IFSFile ifsFile = null;
+        if (ifsFileTuple == null) {
+            ifsFile = getIFSFileFromDataDest();
+            if (ifsFile == null) {
+                ifsFile = getIFSFileFromArgArray(argArray);
+            }
+        } else {
+            Object o = ifsFileTuple.getValue();
+            if (o instanceof IFSFile) {
+                ifsFile = IFSFile.class.cast(o);
+            } else {
+                getLogger().log(Level.SEVERE, "Tuple provided to -writebin operation of {0} is not an IFSFile in ", getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+        }
+        if (ifsFile != null) {
+            byte[] bytes = null;
+            try {
+                bytes = getBytesToWrite();
+            } catch (IOException ex) {
+                getLogger().log(Level.SEVERE, "Exception reading file in -writebin in " + getNameAndDescription(), ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+
+            }
+            if (bytes != null) {
+                try (IFSFileOutputStream ifsout = new IFSFileOutputStream(ifsFile)) {
+                    // writer.print(aS400Text);
+                    ifsout.write(bytes);
+                } catch (AS400SecurityException | IOException ex) {
+                    getLogger().log(Level.SEVERE,
+                            "Exception encountered in the -writebin operation of " + getNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
+            } else {
+                getLogger().log(Level.SEVERE, "No bytes provided in the -write operation of {0}", getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -writebin operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+    }
+
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return ifs(args);
     }
