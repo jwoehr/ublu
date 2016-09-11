@@ -31,6 +31,7 @@ import ublu.util.Generics.StringArrayList;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.AS400Text;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.IFSFile;
 import com.ibm.as400.access.IFSFileInputStream;
@@ -242,7 +243,7 @@ public class CmdIFS extends Command {
     }
 
     private IFSFile getIFSFileFromDataSource() {
-        IFSFile ifsFile = null;
+        IFSFile ifsFile;
         ifsFile = getIFSFileFromEponymous();
         if (ifsFile == null) {
             ifsFile = getIFSFileFromDataSink(getDataSrc());
@@ -251,7 +252,7 @@ public class CmdIFS extends Command {
     }
 
     private IFSFile getIFSFileFromDataDest() {
-        IFSFile ifsFile = null;
+        IFSFile ifsFile;
         ifsFile = getIFSFileFromEponymous();
         if (ifsFile == null) {
             ifsFile = getIFSFileFromDataSink(getDataDest());
@@ -295,7 +296,7 @@ public class CmdIFS extends Command {
                 int length = new Long(f.length()).intValue();
                 char[] in = new char[length];
                 fr.read(in);
-                text = new String(in);
+                text = new String(in);                
                 break;
             case TUPLE:
                 text = getTuple(dsrc.getName()).getValue().toString();
@@ -418,7 +419,7 @@ public class CmdIFS extends Command {
                 IFSFileInputStream ifsIn = new IFSFileInputStream(ifsFile);
                 byte[] data = new byte[length];
                 int numRead = ifsIn.read(data, offset, length);
-                String s = new String(data, 0, numRead);
+                String s = new AS400Text(numRead, ifsFile.getSystem()).toObject(data).toString();
                 put(s);
             } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                 getLogger().log(Level.SEVERE,
@@ -482,7 +483,7 @@ public class CmdIFS extends Command {
     }
 
     private void ifsWriteBin(ArgArray argArray) {
-        IFSFile ifsFile = null;
+        IFSFile ifsFile;
         ifsFile = getIFSFileFromDataDest();
         if (ifsFile == null) {
             ifsFile = getIFSFileFromArgArray(argArray);
