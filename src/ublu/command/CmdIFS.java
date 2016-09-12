@@ -44,6 +44,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}] [-offset ~@{offset}]  [-create | -delete | -exists | -file | -list | -mkdirs | -read ~@{offset} ~@{chars} | -write [~@{string }] | -writebin ] [-to datasink] [-from datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}] [-offset ~@{offset}] [-b] [-create | -delete | -exists | -file | -list | -mkdirs | -read | -size | -write [~@{string }] | -writebin ] [-to datasink] [-from datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -107,7 +108,12 @@ public class CmdIFS extends Command {
         /**
          * Write an IFS binary file
          */
-        WRITEBIN
+        WRITEBIN,
+        /**
+         * Get length of IFS file
+         *
+         */
+        SIZE
     }
 
     /**
@@ -119,6 +125,7 @@ public class CmdIFS extends Command {
     private Tuple ifsFileTuple = null;
     private Integer binOffset = null;
     private Integer binLength = null;
+    boolean binary = false;
 
     /**
      * Parse arguments and perform IFS operations
@@ -170,8 +177,6 @@ public class CmdIFS extends Command {
                     break;
                 case "-read":
                     function = FUNCTIONS.READ;
-                    offset = argArray.nextIntMaybeQuotationTuplePopString();
-                    numToRead = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-write":
                     function = FUNCTIONS.WRITE;
@@ -187,6 +192,12 @@ public class CmdIFS extends Command {
                     break;
                 case "-length":
                     binLength = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-size":
+                    function = FUNCTIONS.SIZE;
+                    break;
+                case "-b":
+                    binary = true;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -218,7 +229,10 @@ public class CmdIFS extends Command {
                     ifsNoop();
                     break;
                 case READ:
-                    ifsRead(argArray, offset, numToRead);
+                    ifsRead(argArray);
+                    break;
+                case SIZE:
+                    ifsSize(argArray);
                     break;
                 case WRITE:
                     ifsWrite(argArray, writeableString);
@@ -326,6 +340,9 @@ public class CmdIFS extends Command {
                         "The ifs commmand encountered an exception in the -create operation", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -create operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -342,6 +359,9 @@ public class CmdIFS extends Command {
                         "The ifs commmand encountered an exception in the -create operation", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -delete operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -358,6 +378,9 @@ public class CmdIFS extends Command {
                         "The ifs commmand encountered an exception putting the result to the destination datasink.", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -exists operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -389,6 +412,9 @@ public class CmdIFS extends Command {
                         "The ifs commmand encountered an exception in the -list operation.", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -list operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -405,6 +431,9 @@ public class CmdIFS extends Command {
                         "The ifs commmand encountered an exception in the -mkdirs operation.", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -mkdirs operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -417,7 +446,7 @@ public class CmdIFS extends Command {
         }
     }
 
-    private void ifsRead(ArgArray argArray, int offset, int length) {
+    private void ifsRead(ArgArray argArray) {
         IFSFile ifsFile = getIFSFileFromDataSource();
         if (ifsFile == null) {
             ifsFile = getIFSFileFromArgArray(argArray);
@@ -425,15 +454,38 @@ public class CmdIFS extends Command {
         if (ifsFile != null) {
             try {
                 IFSFileInputStream ifsIn = new IFSFileInputStream(ifsFile);
-                byte[] data = new byte[length];
-                int numRead = ifsIn.read(data, offset, length);
-                String s = new AS400Text(numRead, ifsFile.getSystem()).toObject(data).toString();
-                put(s);
+                int readLength = binLength == null ? new Long(ifsFile.length()).intValue() : binLength;
+                byte[] data = new byte[readLength];
+                int numRead = ifsIn.read(data,
+                        binOffset == null ? 0 : binOffset,
+                        readLength
+                );
+                if (!binary) {
+                   String s = new String(data);
+                   put(s);
+                } else {
+                    switch (getDataDest().getType()) {
+                        case FILE:
+                            FileOutputStream fos = new FileOutputStream(getDataDest().getName());
+                            fos.write(data);
+                            break;
+                        case TUPLE:
+                            put(data);
+                            break;
+                        case STD:
+                            put(data);
+                            break;
+                        default:                            
+                    }                    
+                }
             } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                 getLogger().log(Level.SEVERE,
                         "The ifs commmand encountered an exception in putting from the -read operation.", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -read operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -453,6 +505,9 @@ public class CmdIFS extends Command {
                         "The ifs commmand encountered an exception in the -write operation.", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -write operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
 
@@ -522,9 +577,28 @@ public class CmdIFS extends Command {
         }
     }
 
+    private void ifsSize(ArgArray argArray) {
+        IFSFile ifsFile;
+        ifsFile = getIFSFileFromDataDest();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromArgArray(argArray);
+        }
+        if (ifsFile != null) {
+            try {
+                put(ifsFile.length());
+            } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | InterruptedException | ObjectDoesNotExistException | ErrorCompletingRequestException ex) {
+                getLogger().log(Level.SEVERE,
+                        "The ifs commmand encountered an exception in the -size operation", ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -size operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+    }
+
     @Override
-    public ArgArray cmd(ArgArray args
-    ) {
+    public ArgArray cmd(ArgArray args) {
         reinit();
         return ifs(args);
     }
