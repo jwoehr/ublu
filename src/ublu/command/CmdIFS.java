@@ -49,7 +49,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import ublu.util.Generics.ByteArrayList;
 
@@ -62,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -set ~@{[ccsid]} ~@{value} | -read | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -read | -rename ~@{/fully/qualified/path/name}$ | -set ~@{[ccsid]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -107,6 +106,10 @@ public class CmdIFS extends Command {
          */
         READ,
         /**
+         * Rename file
+         */
+        RENAME,
+        /**
          * Set attrib
          */
         SET,
@@ -146,10 +149,9 @@ public class CmdIFS extends Command {
     public ArgArray ifs(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.FILE;
         String writeableString = null;
-        int offset = 0;
-        int numToRead = 0;
         String attribName = null;
         String attribValue = null;
+        String newFQPname = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -192,6 +194,10 @@ public class CmdIFS extends Command {
                     break;
                 case "-read":
                     function = FUNCTIONS.READ;
+                    break;
+                case "-rename":
+                    function = FUNCTIONS.RENAME;
+                    newFQPname = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-set":
                     function = FUNCTIONS.SET;
@@ -256,6 +262,15 @@ public class CmdIFS extends Command {
                     break;
                 case READ:
                     ifsRead(argArray);
+                    break;
+                case RENAME:
+                    try {
+                        put(ifsRename(argArray, newFQPname));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE,
+                                "Encountered an exception putting IFS file result from rename in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 case SET:
                     ifsSet(argArray, attribName, attribValue);
@@ -718,6 +733,24 @@ public class CmdIFS extends Command {
             getLogger().log(Level.SEVERE, "No ifs file object provided to the -query operation in {0}", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         }
+    }
+
+    private IFSFile ifsRename(ArgArray argArray, String newFQPname) {
+        IFSFile result = null;
+        IFSFile ifsFile = getIFSFileFromDataSource();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromArgArray(argArray);
+        }
+        if (ifsFile != null && newFQPname != null) {
+            result = new IFSFile(ifsFile.getSystem(), newFQPname);
+            try {
+                ifsFile.renameTo(result);
+            } catch (IOException | PropertyVetoException ex) {
+                getLogger().log(Level.SEVERE, "Exception renaming " + ifsFile.getAbsolutePath() + " in " + getNameAndDescription(), ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+        }
+        return result;
     }
 
     @Override
