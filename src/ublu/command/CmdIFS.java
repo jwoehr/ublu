@@ -49,6 +49,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import ublu.util.Generics.ByteArrayList;
 
@@ -61,7 +62,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -read | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -set ~@{[ccsid]} ~@{value} | -read | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -98,13 +99,17 @@ public class CmdIFS extends Command {
          */
         NOOP,
         /**
-         * Get info
+         * Get attrib
          */
         QUERY,
         /**
          * Read an IFS file
          */
         READ,
+        /**
+         * Set attrib
+         */
+        SET,
         /**
          * Write an IFS text file
          */
@@ -143,7 +148,8 @@ public class CmdIFS extends Command {
         String writeableString = null;
         int offset = 0;
         int numToRead = 0;
-        String queryString = null;
+        String attribName = null;
+        String attribValue = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -182,10 +188,15 @@ public class CmdIFS extends Command {
                     break;
                 case "-query":
                     function = FUNCTIONS.QUERY;
-                    queryString = argArray.nextMaybeQuotationTuplePopString();
+                    attribName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-read":
                     function = FUNCTIONS.READ;
+                    break;
+                case "-set":
+                    function = FUNCTIONS.SET;
+                    attribName = argArray.nextMaybeQuotationTuplePopString();
+                    attribValue = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-write":
                     function = FUNCTIONS.WRITE;
@@ -241,10 +252,13 @@ public class CmdIFS extends Command {
                     ifsNoop();
                     break;
                 case QUERY:
-                    ifsQuery(argArray, queryString);
+                    ifsQuery(argArray, attribName);
                     break;
                 case READ:
                     ifsRead(argArray);
+                    break;
+                case SET:
+                    ifsSet(argArray, attribName, attribValue);
                     break;
                 case SIZE:
                     ifsSize(argArray);
@@ -517,8 +531,19 @@ public class CmdIFS extends Command {
         if (ifsFile != null) {
             try {
                 String text = getTextToWrite(ifsFile.getSystem(), writeableString);
-                try (PrintWriter writer = new PrintWriter(new BufferedWriter(new IFSFileWriter(ifsFile)))) {
-                    writer.print(text);
+                if (translate) {
+                    byte[] bytes = new AS400Text(text.length(), ifsFile.getCCSID(), ifsFile.getSystem()).toBytes(text);
+                    try (IFSFileOutputStream ifsout = new IFSFileOutputStream(ifsFile)) {
+                        ifsout.write(bytes, binOffset == null ? 0 : binOffset, binLength == null ? bytes.length : binLength);
+                    } catch (AS400SecurityException | IOException ex) {
+                        getLogger().log(Level.SEVERE,
+                                "Exception encountered in the -write operation of " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                } else {
+                    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new IFSFileWriter(ifsFile)))) {
+                        writer.print(text);
+                    }
                 }
             } catch (AS400SecurityException | IOException ex) {
                 getLogger().log(Level.SEVERE,
@@ -647,6 +672,45 @@ public class CmdIFS extends Command {
             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                 getLogger().log(Level.SEVERE,
                         "The ifs commmand encountered an exception in the -query operation", ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -query operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+    }
+
+    private void ifsSet(ArgArray argArray, String setString, String value) {
+        IFSFile ifsFile = getIFSFileFromDataSource();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromArgArray(argArray);
+        }
+        if (ifsFile != null) {
+            try {
+                switch (setString.toLowerCase()) {
+                    case "ccsid":
+                        ifsFile.setCCSID(Integer.parseInt(value));
+                        break;
+//                    case "name":
+//                        put(ifsFile.getName());
+//                        break;
+//                    case "ownername":
+//                        put(ifsFile.getOwnerName());
+//                        break;
+//                    case "owneruid":
+//                        put(ifsFile.getOwnerUID());
+//                        break;
+//                    case "path":
+//                        put(ifsFile.getAbsolutePath());
+//                        break;
+                    default:
+                        getLogger().log(Level.SEVERE, "Unknown set string {0} in {1}", new Object[]{setString, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                }
+            } catch (IOException ex) {
+                getLogger().log(Level.SEVERE,
+                        "The ifs commmand encountered an exception in the -set operation", ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
 
