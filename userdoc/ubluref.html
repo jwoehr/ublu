@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table border="0" cellpadding="2" cellspacing="0" height="456"
+  <table border="0" cellspacing="0" cellpadding="2" height="456"
   width="100%">
     <tbody>
       <tr>
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td align="center" bgcolor="#000000" valign="middle">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th bgcolor="#000000" valign="middle" align="center">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td bgcolor="#000000" valign="middle" align="center">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016<br>
         Jack. J. Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -1523,7 +1523,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table border="1" cellpadding="2" cellspacing="2" width="100%">
+  <table border="1" cellspacing="2" cellpadding="2" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -4142,12 +4142,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="ifs" id="ifs"></a> <tt>ifs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}]
-    [-offset ~@{offset}] [-b] [-create | -delete | -exists | -file
-    | -list | -mkdirs | -read | -size | -write [~@{string }] |
-    -writebin ] [-to datasink] [-from datasink]
-    ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password}
-    : integrated file system access</tt><br>
+    <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink]
+    [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b]
+    [-t] [-create | -delete | -exists | -file | -list | -mkdirs |
+    -query ~@{[ccsid|name|ownername|owneruid|path]} | -set
+    ~@{[ccsid]} ~@{value} | -read | -size | -write [~@{string }] |
+    -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user}
+    ~@{password} : integrated file system access<br>
+    &nbsp;&nbsp;&nbsp;</tt><br>
     <br>
     The <tt>ifs</tt> command performs operations on the OS/400
     integrated file system, operating on files and directories
@@ -4221,8 +4223,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </ul>
       </li>
 
-      <li><tt>-b</tt> indicates a binary file for read
-      operation.<br></li>
+      <li><tt>-b</tt> indicates a binary file for read operation.
+      For&nbsp; binary writes, use <tt>-writebin</tt>.<br></li>
+
+      <li><tt>-t</tt> indicates CCSID&nbsp; translation should take
+      place on a text file read or write.&nbsp; The&nbsp; CCSID is
+      fetched from the file object.<br></li>
 
       <li><tt>-list</tt> returns a listing of files in the IFS
       directory specifed by <i>/fully/qualified/pathname</i> or by
@@ -4235,6 +4241,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <i>/fully/qualified/pathname</i> or by the tuple variable
       referenced by the <tt>-from</tt> dash-command, including all
       parent directories if necessary.</li>
+
+      <li><tt>-query ~@{[ccsid|name|ownername|owneruid|path]}</tt>
+      queries and puts the file attribute specified.</li>
+
+      <li><tt>-set ~@{[ccsid]} ~@{value}</tt> sets the file
+      attribute specified to the value specified. The file must
+      already exist.</li>
 
       <li>
         <tt>-read</tt> reads a maximum of <i>length</i> bytes data
@@ -6135,18 +6148,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table border="1" cellpadding="2" cellspacing="2" width=
+      <table border="1" cellspacing="2" cellpadding="2" width=
       "75%">
         <tbody>
           <tr>
-            <th valign="top" align="center">interpreter
+            <th align="center" valign="top">interpreter
             property<br></th>
 
-            <th valign="top" align="center">description<br></th>
+            <th align="center" valign="top">description<br></th>
 
-            <th valign="top" align="center">default value<br></th>
+            <th align="center" valign="top">default value<br></th>
 
-            <th valign="top" align="center">alternative
+            <th align="center" valign="top">alternative
             value(s)<br></th>
           </tr>
 
@@ -6831,13 +6844,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table border="1" cellpadding="2" cellspacing="2" width="100%">
+  <table border="1" cellspacing="2" cellpadding="2" width="100%">
     <tbody>
       <tr>
-        <th valign="top" align="center">Ublu main interpretive
+        <th align="center" valign="top">Ublu main interpretive
         session<br></th>
 
-        <th valign="top" align="center">Another shell
+        <th align="center" valign="top">Another shell
         window<br></th>
       </tr>
 
