@@ -61,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -703,22 +703,20 @@ public class CmdIFS extends Command {
         }
         if (ifsFile != null) {
             try {
+                value = value.trim();
                 switch (setString.toLowerCase()) {
                     case "ccsid":
                         ifsFile.setCCSID(Integer.parseInt(value));
                         break;
-//                    case "name":
-//                        put(ifsFile.getName());
-//                        break;
-//                    case "ownername":
-//                        put(ifsFile.getOwnerName());
-//                        break;
-//                    case "owneruid":
-//                        put(ifsFile.getOwnerUID());
-//                        break;
-//                    case "path":
-//                        put(ifsFile.getAbsolutePath());
-//                        break;
+                    case "readonly":
+                        try {
+                            put(ifsFile.setReadOnly(value.toLowerCase().equals("true")));
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "The ifs commmand encountered an exception in the -set operation", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
                     default:
                         getLogger().log(Level.SEVERE, "Unknown set string {0} in {1}", new Object[]{setString, getNameAndDescription()});
                         setCommandResult(COMMANDRESULT.FAILURE);
