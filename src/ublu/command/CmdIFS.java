@@ -31,6 +31,7 @@ import ublu.util.Generics.StringArrayList;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.AS400Text;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.IFSFile;
 import com.ibm.as400.access.IFSFileInputStream;
@@ -60,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}] [-offset ~@{offset}] [-b] [-create | -delete | -exists | -file | -list | -mkdirs | -read | -size | -write [~@{string }] | -writebin ] [-to datasink] [-from datasink] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -read | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -97,6 +98,10 @@ public class CmdIFS extends Command {
          */
         NOOP,
         /**
+         * Get info
+         */
+        QUERY,
+        /**
          * Read an IFS file
          */
         READ,
@@ -124,6 +129,7 @@ public class CmdIFS extends Command {
     private Tuple ifsFileTuple = null;
     private Integer binOffset = null;
     private Integer binLength = null;
+    boolean translate = false;
     boolean binary = false;
 
     /**
@@ -137,7 +143,7 @@ public class CmdIFS extends Command {
         String writeableString = null;
         int offset = 0;
         int numToRead = 0;
-
+        String queryString = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -174,6 +180,10 @@ public class CmdIFS extends Command {
                     break;
                 case "-noop":
                     break;
+                case "-query":
+                    function = FUNCTIONS.QUERY;
+                    queryString = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-read":
                     function = FUNCTIONS.READ;
                     break;
@@ -197,6 +207,9 @@ public class CmdIFS extends Command {
                     break;
                 case "-b":
                     binary = true;
+                    break;
+                case "-t":
+                    translate = true;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -226,6 +239,9 @@ public class CmdIFS extends Command {
                     break;
                 case NOOP:
                     ifsNoop();
+                    break;
+                case QUERY:
+                    ifsQuery(argArray, queryString);
                     break;
                 case READ:
                     ifsRead(argArray);
@@ -460,8 +476,13 @@ public class CmdIFS extends Command {
                         readLength
                 );
                 if (!binary) {
-                   String s = new String(data);
-                   put(s);
+                    String s;
+                    if (translate) {
+                        s = new AS400Text(data.length, ifsFile.getCCSID(), ifsFile.getSystem()).toObject(data).toString();
+                    } else {
+                        s = new String(data);
+                    }
+                    put(s);
                 } else {
                     switch (getDataDest().getType()) {
                         case FILE:
@@ -474,8 +495,8 @@ public class CmdIFS extends Command {
                         case STD:
                             put(data);
                             break;
-                        default:                            
-                    }                    
+                        default:
+                    }
                 }
             } catch (IOException | RequestNotSupportedException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                 getLogger().log(Level.SEVERE,
@@ -578,7 +599,7 @@ public class CmdIFS extends Command {
 
     private void ifsSize(ArgArray argArray) {
         IFSFile ifsFile;
-        ifsFile = getIFSFileFromDataDest();
+        ifsFile = getIFSFileFromDataSource();
         if (ifsFile == null) {
             ifsFile = getIFSFileFromArgArray(argArray);
         }
@@ -592,6 +613,45 @@ public class CmdIFS extends Command {
             }
         } else {
             getLogger().log(Level.SEVERE, "No ifs file object provided to the -size operation in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+    }
+
+    private void ifsQuery(ArgArray argArray, String query) {
+        IFSFile ifsFile = getIFSFileFromDataSource();
+        if (ifsFile == null) {
+            ifsFile = getIFSFileFromArgArray(argArray);
+        }
+        if (ifsFile != null) {
+            try {
+                switch (query.toLowerCase()) {
+                    case "ccsid":
+                        put(ifsFile.getCCSID());
+                        break;
+                    case "name":
+                        put(ifsFile.getName());
+                        break;
+                    case "ownername":
+                        put(ifsFile.getOwnerName());
+                        break;
+                    case "owneruid":
+                        put(ifsFile.getOwnerUID());
+                        break;
+                    case "path":
+                        put(ifsFile.getAbsolutePath());
+                        break;
+                    default:
+                        getLogger().log(Level.SEVERE, "Unknown query string {0} in {1}", new Object[]{query, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                }
+            } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                getLogger().log(Level.SEVERE,
+                        "The ifs commmand encountered an exception in the -query operation", ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+
+        } else {
+            getLogger().log(Level.SEVERE, "No ifs file object provided to the -query operation in {0}", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         }
     }
