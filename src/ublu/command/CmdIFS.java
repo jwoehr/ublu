@@ -31,7 +31,6 @@ import ublu.util.Generics.StringArrayList;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400SecurityException;
-import com.ibm.as400.access.AS400Text;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.IFSFile;
 import com.ibm.as400.access.IFSFileInputStream;
