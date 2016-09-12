@@ -4146,10 +4146,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b]
     [-t] [-create | -delete | -exists | -file | -list | -mkdirs |
     -query ~@{[ccsid|name|ownername|owneruid|path]} | -read |
-    -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid]}
-    ~@{value} | -size | -write [~@{string }] | -writebin ]
-    ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password}
-    : integrated file system access<br>
+    -rename ~@{/fully/qualified/path/name} | -set
+    ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] |
+    -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user}
+    ~@{password} : integrated file system access<br>
     &nbsp;&nbsp;&nbsp;</tt><br>
     <br>
     The <tt>ifs</tt> command performs operations on the OS/400
@@ -4251,9 +4251,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       provided and <tt>put</tt>s an IFSFile object representing the
       new path.<br></li>
 
-      <li><tt>-set ~@{[ccsid]} ~@{value}</tt> sets the file
-      attribute specified to the value specified. The file must
-      already exist.</li>
+      <li>
+        <tt>-set ~@{[ccsid|readonly]} ~@{value}</tt> sets the file
+        attribute specified to the value specified. The file must
+        already exist.
+
+        <ul>
+          <li><tt>ccsid</tt> takes an codepage number</li>
+
+          <li><tt>readonly</tt> takes the string <tt>true</tt>, all
+          other values set the file writeable.<br></li>
+        </ul>
+      </li>
 
       <li>
         <tt>-read</tt> reads a maximum of <i>length</i> bytes data
