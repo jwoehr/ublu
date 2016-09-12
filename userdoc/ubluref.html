@@ -4143,9 +4143,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <blockquote>
     <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-length ~@{length}]
-    [-offset ~@{offset}]&nbsp; [-create | -delete | -exists | -file
-    | -list | -mkdirs | -read ~@{offset} ~@{chars} | -write
-    [~@{string }] | -writebin ] [-to datasink] [-from datasink]
+    [-offset ~@{offset}] [-b] [-create | -delete | -exists | -file
+    | -list | -mkdirs | -read | -size | -write [~@{string }] |
+    -writebin ] [-to datasink] [-from datasink]
     ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password}
     : integrated file system access</tt><br>
     <br>
@@ -4203,20 +4203,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       operation.</li>
 
       <li>
-        <tt>-length</tt> sets the length for a -writebin operation.
+        <tt>-length</tt> sets the length for a <tt>-read</tt> or
+        <tt>-writebin</tt> operation.
 
         <ul>
-          <li>defaults to the length of the data source<br></li>
+          <li>defaults to the length of the file for a read and the
+          length of the data source for a write<br></li>
         </ul>
       </li>
 
       <li>
-        <tt>-offset</tt> sets the offset for a -writebin operation.
+        <tt>-offset</tt> sets the offset for a <tt>-read</tt> or a
+        <tt>-writebin</tt> operation.
 
         <ul>
           <li>defaults to 0<br></li>
         </ul>
       </li>
+
+      <li><tt>-b</tt> indicates a binary file for read
+      operation.<br></li>
 
       <li><tt>-list</tt> returns a listing of files in the IFS
       directory specifed by <i>/fully/qualified/pathname</i> or by
@@ -4230,11 +4236,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       referenced by the <tt>-from</tt> dash-command, including all
       parent directories if necessary.</li>
 
-      <li><tt>-read</tt> reads a maximum <i>chars</i> characters of
-      text data starting at <i>offset</i> from
-      <i>/fully/qualified/pathname</i>. The file must already
-      exist; perform a <tt>-create</tt> first if the file does not
-      exist.<br></li>
+      <li>
+        <tt>-read</tt> reads a maximum of <i>length</i> bytes data
+        starting at <i>offset</i> from
+        <i>/fully/qualified/pathname</i>.
+
+        <ul>
+          <li>The length and offset in the target file can be set
+          with the <tt>-length</tt> and <tt>-offset</tt>
+          dash-commands. Both have defaults if not set.</li>
+
+          <li>Use <tt>-b</tt> for binary files.
+
+            <ul>
+              <li>The default is to treat a file as a text
+              file.<br></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li>The file must already exist; perform a <tt>-create</tt>
+      first if the file does not exist.<br></li>
 
       <li>
         <tt>-write</tt> writes textual data from the data source to
