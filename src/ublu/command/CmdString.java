@@ -34,7 +34,9 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.StringArrayList;
+import ublu.util.Tuple;
 
 /**
  * Command for string operations
@@ -50,7 +52,7 @@ public class CmdString extends Command {
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, EQ, LEN, NEW, NL, REPL, REPL1, REPLREGX, TRIM, STARTSWITH, SUBSTR, NOOP
+        UCHAR, BL, BLS, CAT, EQ, FROMBYTES, LEN, NEW, NL, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP
     }
 
     /**
@@ -69,6 +71,7 @@ public class CmdString extends Command {
         int beginindex = 0;
         int endindex = 0;
         int fillcount = 0;
+        Tuple fromBytesTuple = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -97,6 +100,10 @@ public class CmdString extends Command {
                     operation = OPERATIONS.EQ;
                     lopr = argArray.nextMaybeQuotationTuplePopString();
                     ropr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-frombytes":
+                    operation = OPERATIONS.FROMBYTES;
+                    fromBytesTuple = argArray.nextTupleOrPop();
                     break;
                 case "-len":
                     operation = OPERATIONS.LEN;
@@ -138,6 +145,10 @@ public class CmdString extends Command {
                     beginindex = argArray.nextInt();
                     endindex = argArray.nextInt();
                     break;
+                case "-tobytes":
+                    operation = OPERATIONS.TOBYTES;
+                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-trim":
                     operation = OPERATIONS.TRIM;
                     lopr = argArray.nextMaybeQuotationTuplePopString();
@@ -177,6 +188,16 @@ public class CmdString extends Command {
                 case EQ:
                     opresult = lopr.equals(ropr);
                     break;
+                case FROMBYTES:
+                    if (fromBytesTuple != null) {
+                        Object o = fromBytesTuple.getValue();
+                        if (o instanceof ByteArrayList) {
+                            opresult = new String(ByteArrayList.class.cast(o).byteArray());
+                        } else if (o instanceof byte[]) {
+                            opresult = new String((byte[]) o);
+                        }
+                    }
+                    break;
                 case LEN:
                     opresult = lopr.length();
                     break;
@@ -200,6 +221,9 @@ public class CmdString extends Command {
                     break;
                 case REPLREGX:
                     opresult = lopr.replaceAll(regex, replacement);
+                    break;
+                case TOBYTES:
+                    opresult = lopr.getBytes();
                     break;
                 case TRIM:
                     opresult = lopr.trim();
