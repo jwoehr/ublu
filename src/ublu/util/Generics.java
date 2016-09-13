@@ -116,6 +116,22 @@ public class Generics {
         }
 
         /**
+         * Instance a certain number from array of byte
+         *
+         * @param src array of byte to assimilate
+         * @param count count to read in from byte array
+         */
+        public ByteArrayList(byte[] src, int count) {
+            this();
+            for (byte b : src) {
+                if (count-- < 1) {
+                    break;
+                }
+                add(b);
+            }
+        }
+
+        /**
          * Return the contents as a simple byte array.
          *
          * @return the contents as a simple byte array
