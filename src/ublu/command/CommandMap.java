@@ -106,6 +106,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("session", CmdSession.class);
         put("sleep", CmdSleep.class);
         put("smapi", CmdSmapi.class);
+        put("sock", CmdSocket.class);
         put("spoolf", CmdSpoolF.class);
         put("spoolflist", CmdSpoolFList.class);
         put("string", CmdString.class);
