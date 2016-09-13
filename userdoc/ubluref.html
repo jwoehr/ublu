@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 12 Sep 2016 18:13:19 UTC">
+  "Tue, 13 Sep 2016 17:16:31 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -22,11 +22,11 @@
 </head>
 
 <body>
-  <table cellpadding="2" cellspacing="0" border="0" height="456"
+  <table border="0" cellspacing="0" cellpadding="2" height="456"
   width="100%">
     <tbody>
       <tr>
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
           <h1 align="center"><font color=
           "#33FFFF"><small><small>The concise reference to
           the</small></small><br>
@@ -38,12 +38,12 @@
           midrange and mainframe remote system programming</font>
         </td>
 
-        <th align="center" valign="middle" bgcolor="#000000">
+        <th align="center" bgcolor="#000000" valign="middle">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"></th>
 
-        <td align="center" valign="middle" bgcolor="#000000">
+        <td align="center" bgcolor="#000000" valign="middle">
         <font color="#33FFFF">Copyright &#169; 2016<br>
         Jack. J. Woehr</font><br>
         <font color="#33FFFF">jwoehr@softwoehr.com<br>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-09-12</p>
+  Last edit: 2016-09-14</p>
   <pre>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
 Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
@@ -357,6 +357,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#smapi">smapi</a></tt></li>
 
+            <li><tt><a href="#sock">sock</a><br></tt></li>
+
             <li><a href="#spoolf"><tt>spoolf</tt></a></li>
 
             <li><tt><a href=
@@ -523,7 +525,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <li>as a text file program executor via the <tt><a href=
     "#include">include</a></tt> command</li>
 
-    <li>As a TCP/IP port listening server<br></li>
+    <li>As a TCP/IP port listening server</li>
   </ol>
 
   <p>In any mode, Ublu reads a line and then consumes one or more
@@ -652,8 +654,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     Type help for help. Type license for license. Type bye to
     exit.</tt>
   </blockquote>To exit the system, type <tt><a href=
-  "#bye">bye</a></tt> . Some minimal cleanup, e.g., closing any
-  <a href="#Server_mode">server</a>, will be performed.<br>
+  "#bye">bye</a></tt> . Some minimal cleanup will be performed.<br>
   <br>
   <tt>[Ctrl-D]</tt> is effectively the same as <tt>bye</tt> .<br>
   <br>
@@ -723,8 +724,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <h3><a name="Server_mode" id="Server_mode"></a>Server mode</h3>
 
-  <p>Ublu can launch a TCP/IP port server that accepts connections
-  and binds them to individual <a href=
+  <p>Ublu can launch multiple TCP/IP port servers that accept
+  connections and bind them to individual <a href=
   "#Interpreter">interpreter</a> sessions. This allows remote
   applications such as web applications to execute Ublu commands
   and receive their output. The default listener port is 43860. See
@@ -1523,7 +1524,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h3><a name="Commands_by_Category" id=
   "Commands_by_Category"></a>Commands by Category</h3>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="100%">
+  <table border="1" cellspacing="2" cellpadding="2" width="100%">
     <tbody>
       <tr>
         <th valign="top">Ublu Language<br></th>
@@ -1610,7 +1611,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         "#rs">rs</a></tt><tt><br></tt> <tt><a href=
         "#savf">savf</a></tt><tt><br>
         <a href="#session">session</a><br></tt> <tt><a href=
-        "#smapi">smapi</a></tt><tt><br></tt> <tt><a href=
+        "#smapi">smapi</a></tt><tt><br>
+        <a href="#sock">sock</a><br></tt> <tt><a href=
         "#spoolf">spoolf</a></tt><tt><br></tt> <tt><a href=
         "#spoolflist">spoolflist</a></tt><tt><br></tt> <tt><a href=
         "#subsys">subsys</a></tt><tt><br></tt> <tt><a href=
@@ -6163,7 +6165,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     recognizes is as follow:<br>
 
     <blockquote>
-      <table cellpadding="2" cellspacing="2" border="1" width=
+      <table border="1" cellspacing="2" cellpadding="2" width=
       "75%">
         <tbody>
           <tr>
@@ -6818,14 +6820,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="server" id="server"></a><tt>server</tt></h4>
 
   <blockquote>
-    <tt>/0 [ -block $[execution block]$ ] -start | -status | -stop
-    [-port portnum] : start, stop or monitor status of a thread
-    server that accepts command lines</tt><br>
+    <tt>/0&nbsp; [-to datasink] [-listener,-- @listener] [ -block
+    ~@{executionBlock} | $[execution block]$ ] -getport | -start |
+    -status | -stop [-port portnum] : start, stop or monitor status
+    of a thread server<br>
+    &nbsp;&nbsp;&nbsp;</tt><br>
     <br>
-    Starts, stops, or displays status of a singleton TCP/IP
-    listener over <i>portnum</i> (defaulting to port 43860) which
-    spawns server threads. The server threads spawned by the
-    listener either will:<br>
+    Starts, stops, or displays status of a TCP/IP listener over
+    <i>portnum</i> (defaulting to port 43860) which spawns server
+    threads. The server threads spawned by the listener either
+    will:<br>
 
     <ul>
       <li>serve up an Ublu interpreter that accepts input and
@@ -6836,17 +6840,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       the command and exits when than block is complete.</li>
     </ul>
 
-    <p>Whichever is chosen, all server threads spawned do the same
-    thing.<br></p>When executed without any <a href=
-    "#Dash_Command">dashcommand</a>, the default action is
+    <p>Whichever is chosen, all server threads spawned by one
+    instance do the same thing.<br></p>When executed without any
+    <a href="#Dash_Command">dashcommand</a>, the default action is
     <tt>-status</tt>.<br>
+    <br>
+    The <tt>-getport</tt> dash-command returns the port number the
+    instance provided via the <tt>-- @instance</tt> dash-command is
+    running on.<br>
     <br>
     The <tt>server</tt> command is currently limited to one server
     instance.<br>
-    <br>
-    The unique <tt>server</tt> instance can service some number of
-    threads repeatedly via the typical TCP/IP listen-spawn socket
-    pattern.<br>
     <br>
     <b>There is currently no security paradigm. Using the server
     grants any caller without authentication the full rights of the
@@ -6859,7 +6863,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>Example:</i><br>
   </blockquote>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="100%">
+  <table border="1" cellspacing="2" cellpadding="2" width="100%">
     <tbody>
       <tr>
         <th align="center" valign="top">Ublu main interpretive
@@ -7053,6 +7057,72 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <tt>my.test.defaults</tt>), edit the values for your target
     system, and execute the shell script <tt>test_pigiron.sh -f
     my.test.defaults</tt> to see how this all works.
+  </blockquote>
+
+  <h4><a name="sock"></a> <tt>sock</tt></h4>
+
+  <blockquote>
+    <tt>/0 [-to datasink] [--,-sock ~@sock] [-host
+    ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr
+    ~@{local_addr}] [-locport ~@{local_portnum}]&nbsp; [-instance |
+    -close | -avail | -read ~@{count} | -write ~@bytes] : create
+    and manipulate sockets</tt><br>
+    <br>
+    The <tt>sock</tt> command creates and manipulate TCP/IP
+    sockets. Instancing the socket connects it. You can then read,
+    write, examine, and close the socket. Operations are as
+    follows:<br>
+    <br>
+
+    <ul>
+      <li><tt>-host ~@{host_or_ip_addr}</tt> sets the target host
+      when instancing</li>
+
+      <li><tt>-port ~@{portnum}</tt> sets the target port when
+      instancing</li>
+
+      <li><tt>-locaddr ~@{local_addr}</tt> optionally sets the
+      local address to use (multihomed systems)</li>
+
+      <li><tt>-locport ~@{local_portnum}</tt> optionally sets the
+      outgoing port to use</li>
+
+      <li><tt>-instance</tt> creates and connects the socket. This
+      is the default operation<br></li>
+
+      <li><tt>-close</tt> closes the socked provided via
+      <tt>--,-sock ~@sock</tt></li>
+
+      <li><tt>-avail</tt> puts the number of bytes estimate
+      available for a read operation<br></li>
+
+      <li><tt>-read ~@{count}</tt> reads a byte array of up to
+      <tt>count</tt> bytes<br></li>
+
+      <li><tt>-write ~@bytes</tt> writes the bytes in the byte
+      array <tt>bytes</tt><br></li>
+    </ul><i>Example</i><br>
+    <br>
+    <tt>&gt; put -to @msg HELO</tt><tt><br></tt> <tt>&gt; string
+    -to @msg -nl @msg</tt><tt><br></tt> <tt>&gt; sock -to @s -host
+    www.well.com -port 80</tt><tt><br></tt> <tt>&gt; sock -- @s
+    -write @msg</tt><tt><br></tt> <tt>&gt; sock -- @s
+    -avail</tt><tt><br></tt> <tt>330</tt><tt><br></tt> <tt>&gt;
+    sock -- @s -to @resp -read 330</tt><tt><br></tt> <tt>&gt;
+    string -frombytes @resp</tt><tt><br></tt> <tt>&lt;!DOCTYPE HTML
+    PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;</tt><tt><br></tt>
+    <tt>&lt;html&gt;&lt;head&gt;</tt><tt><br></tt>
+    <tt>&lt;title&gt;301 Moved
+    Permanently&lt;/title&gt;</tt><tt><br></tt>
+    <tt>&lt;/head&gt;&lt;body&gt;</tt><tt><br></tt>
+    <tt>&lt;h1&gt;Moved Permanently&lt;/h1&gt;</tt><tt><br></tt>
+    <tt>&lt;p&gt;The document has moved &lt;a
+    href="http://www.well.com/"&gt;here&lt;/a&gt;.&lt;/p&gt;</tt><tt><br>
+    </tt> <tt>&lt;hr&gt;</tt><tt><br></tt>
+    <tt>&lt;address&gt;Apache Server at &lt;a
+    href="mailto:webmaster@well.com"&gt;www.well.com&lt;/a&gt; Port
+    80&lt;/address&gt;</tt><tt><br></tt>
+    <tt>&lt;/body&gt;&lt;/html&gt;</tt><br>
   </blockquote>
 
   <h4><a name="spoolf" id="spoolf"></a><tt>spoolf</tt></h4>
@@ -7282,16 +7352,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="string" id="string"></a> <tt>string</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to datasink] [-uchar ~@{ 0x????&nbsp; 0x???? ...}] |
-    [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1}
-    ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string}
-    ] | [-new] | [-nl ~@{string}] [-repl ~@{string} ~@{target}
-    ~@{replacement}] | [-repl1 ~@{string} ~@{target}
-    ~@{replacement}] | [-replregx ~@{string} ~@{regex}
-    ~@{replacement}] | [-startswith ~@{string} ~@{substr}] |
-    [-substr ~@{string} ~@intoffset ~@intlen] | [-trim ~@{string}]
-    : string operations<br>
-    &nbsp;</tt><br>
+    <tt>/0 [-to datasink] [-uchar ~@{ 0x????&nbsp; 0x???? ...} |
+    -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1}
+    ~@{string2} | -eq ~@{string1} ~@{string2} | -frombytes
+    ~@byte_array | -len ~@{string}&nbsp; | -new | -nl ~@{string}
+    -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string}
+    ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex}
+    ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr
+    ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -trim
+    ~@{string}] : string operations</tt><br>
     <br>
     The <tt>string</tt> command performs string operations and
     <a href="#put">put</a>s the result to the destination <a href=
@@ -7327,7 +7396,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <li><tt>-cat ~@{string1} ~@{string2}</tt> concatenates
       <i>string1</i> with <i>string2</i> and puts the result. No
       space is inserted between the two strings by this
-      command.<br></li>
+      command.</li>
+
+      <li><tt>-eq ~@{string1} ~@{string2}</tt> puts <tt>true</tt>
+      if <i>string1</i> equals <i>string2</i>, <tt>false</tt>
+      otherwise.<br></li>
+
+      <li><tt>-frombytes ~@byte_array</tt> puts a string built from
+      the char values of the bytes in
+      <i>byte_array</i><tt>.</tt><br></li>
 
       <li><tt>-len ~@{string}</tt> puts the length of <i>string</i>
       to the destination datasink.</li>
@@ -7359,6 +7436,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <li><tt>-substr ~@{string} ~@intoffset ~@intlen</tt> puts an
       <i>intlen</i> substring of <i>string</i> starting from the
       zero-base <i>intoffset</i><i>.</i></li>
+
+      <li><tt>-tobytes ~@{string}</tt> puts a byte array of the
+      bytes from <i>string</i>.<br></li>
 
       <li><tt>-trim</tt> <tt>~@{string}</tt> puts <i>string</i>
       with the leading and trailing whitespace removed.</li>
