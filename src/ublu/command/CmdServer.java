@@ -25,10 +25,17 @@
  */
 package ublu.command;
 
-import ublu.Ublu;
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.IOException;
+import java.sql.SQLException;
 import ublu.server.Listener;
 import ublu.util.ArgArray;
 import java.util.logging.Level;
+import ublu.util.DataSink;
+import ublu.util.Tuple;
 
 /**
  * Command to manage a thread server that interprets over tcpip
@@ -39,7 +46,8 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [ -block $[execution block]$ ] -start | -status | -stop [-port portnum] : start, stop or monitor status of a thread server that accepts command lines");    }
+                "/0  [-to datasink] [-listener,-- @listener] [ -block ~@{executionBlock} | $[execution block]$ ] -getport | -start | -status | -stop [-port portnum] : start, stop or monitor status of a thread server");
+    }
 
     /**
      * Functions the server command knows
@@ -57,8 +65,13 @@ public class CmdServer extends Command {
         /**
          * Report status
          */
-        STATUS
+        STATUS,
+        /**
+         * get port the listener is on
+         */
+        GETPORT
     }
+
     private FUNCTIONS function;
 
     private FUNCTIONS getFunction() {
@@ -79,22 +92,39 @@ public class CmdServer extends Command {
     public CmdServer() {
     }
 
+    private Tuple listenerTuple = null;
+
     /**
      * Carry out the server command to launch or stop or manage the tcpip thread
      * server
      *
-     * @param args passed-in args
+     * @param argArray passed-in args
      * @return what's left of args
      */
-    public ArgArray server(ArgArray args) {
+    public ArgArray server(ArgArray argArray) {
         int port = DEFAULT_SERVER_PORT;
         int timeoutMs = Listener.DEFAULT_ACCEPT_TIMEOUT_MS;
         String executionBlock = null;
-        while (args.hasDashCommand()) {
-            String dashCommand = args.parseDashCommand();
+        while (argArray.hasDashCommand()) {
+            String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
+                case "-to":
+                    String destName = argArray.next();
+                    setDataDest(DataSink.fromSinkName(destName));
+                    break;
+                case "-listener":
+                case "--":
+                    listenerTuple = argArray.nextTupleOrPop();
+                    break;
                 case "-block":
-                    executionBlock = args.nextUnlessNotBlock();
+                    if (argArray.isNextTupleNameOrPop() || argArray.isNextQuotation()) {
+                        executionBlock = argArray.nextMaybeQuotationTuplePopString();
+                    } else {
+                        executionBlock = argArray.nextUnlessNotBlock();
+                    }
+                    break;
+                case "-getport":
+                    setFunction(FUNCTIONS.GETPORT);
                     break;
                 case "-start":
                     setFunction(FUNCTIONS.START);
@@ -106,10 +136,10 @@ public class CmdServer extends Command {
                     setFunction(FUNCTIONS.STATUS);
                     break;
                 case "-port":
-                    port = args.nextInt();
+                    port = argArray.nextInt();
                     break;
                 case "-timeout":
-                    timeoutMs = args.nextInt();
+                    timeoutMs = argArray.nextInt();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -118,30 +148,61 @@ public class CmdServer extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Listener l = Ublu.getSingletonListener();
+            Listener l = listenerFromListenerTuple();
             switch (getFunction()) {
-                case START:
+                case GETPORT:
                     if (l != null) {
-                        getLogger().log(Level.WARNING, "Server is already running");
-                    } else {
-                        if (executionBlock != null) {
-                            getUblu().newListener(port, executionBlock);
-                        } else {
-                            getUblu().newListener(port);
+                        try {
+                            put(l.getPortnum());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception putting Listener portnum in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        Ublu.getSingletonListener().setAcceptTimeoutMS(timeoutMs);
-                        Ublu.getSingletonListener().start();
+                    } else {
+                        getLogger().log(Level.SEVERE, "No listener provided to getport in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case START:
+                    if (executionBlock != null) {
+                        l = new Listener(getUblu(), port, executionBlock);
+                    } else {
+                        l = new Listener(getUblu(), port);
+                    }
+                    l.setAcceptTimeoutMS(timeoutMs);
+                    l.start();
+                    try {
+                        put(l);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting Listener in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case STATUS:
-                    getInterpreter().output((l == null ? "No server is active." : l.status()) + "\n");
+                    getInterpreter().output((l == null ? "No listener provided." : l.status()) + "\n");
                     break;
                 case STOP:
-                    Ublu.stopListener();
+                    if (l != null) {
+                        l.setListening(false);
+                    } else {
+                        getLogger().log(Level.SEVERE, "No listener provided to stop in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
             }
         }
-        return args;
+        return argArray;
+    }
+
+    private Listener listenerFromListenerTuple() {
+        Listener result = null;
+        if (listenerTuple != null) {
+            Object o = listenerTuple.getValue();
+            if (o instanceof Listener) {
+                result = Listener.class.cast(o);
+            }
+        }
+        return result;
     }
 
     @Override
