@@ -49,10 +49,6 @@ public class Ublu {
      * Singleton main interpreter
      */
     private static Interpreter mainInterpreter;
-    /**
-     * Singleton tcp listener
-     */
-    private static Listener singletonListener;
 
     /**
      * Get main interpreter instance
@@ -70,24 +66,6 @@ public class Ublu {
      */
     protected static void setMainInterpreter(Interpreter interpreter) {
         mainInterpreter = interpreter;
-    }
-
-    /**
-     * Get the singleton tcpip listener
-     *
-     * @return the singleton tcpip listener
-     */
-    public static Listener getSingletonListener() {
-        return singletonListener;
-    }
-
-    /**
-     * Set the singleton tcpip listener
-     *
-     * @param singletonListener the singleton tcpip listener
-     */
-    private static void setSingletonListener(Listener singletonListener) {
-        Ublu.singletonListener = singletonListener;
     }
 
     /**
@@ -203,46 +181,7 @@ public class Ublu {
         interpreter.closeHistory();
         interpreter.getErroutStream().flush();
         interpreter.getOutputStream().flush();
-        stopListener();
         return interpreter.getGlobal_ret_val();
-    }
-
-    /**
-     * Start the singleton tcpip listener
-     *
-     * @param portnum port to listen
-     */
-    public void newListener(int portnum) {
-        Listener l = getSingletonListener();
-        if (l != null) {
-            l.setListening(false);
-        }
-        setSingletonListener(new Listener(this, portnum));
-    }
-
-    /**
-     * Start the singleton tcpip listener
-     *
-     * @param portnum port to listen
-     * @param executionBlock block to execute
-     */
-    public void newListener(int portnum, String executionBlock) {
-        Listener l = getSingletonListener();
-        if (l != null) {
-            l.setListening(false);
-        }
-        setSingletonListener(new Listener(this, portnum, executionBlock));
-    }
-
-    /**
-     * Stop the singleton tcpip listener
-     */
-    public static void stopListener() {
-        Listener l = getSingletonListener();
-        if (l != null) {
-            l.setListening(false);
-            setSingletonListener(null);
-        }
     }
 
     /**
