@@ -46,7 +46,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [-to datasink] [-listener,-- @listener] [ -block ~@{executionBlock} | $[execution block]$ ] -getport | -start | -status | -stop [-port portnum] : start, stop or monitor status of a thread server");
+                "/0  [-to datasink] [-- @listener] [ -block ~@{executionBlock} | $[execution block]$ ] -getport | -start | -status | -stop [-port ~@{portnum}] : start, stop or monitor status of a thread server");
     }
 
     /**
@@ -112,7 +112,6 @@ public class CmdServer extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
-                case "-listener":
                 case "--":
                     listenerTuple = argArray.nextTupleOrPop();
                     break;
@@ -136,7 +135,7 @@ public class CmdServer extends Command {
                     setFunction(FUNCTIONS.STATUS);
                     break;
                 case "-port":
-                    port = argArray.nextInt();
+                    port = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-timeout":
                     timeoutMs = argArray.nextInt();
