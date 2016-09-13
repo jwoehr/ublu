@@ -6820,10 +6820,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="server" id="server"></a><tt>server</tt></h4>
 
   <blockquote>
-    <tt>/0&nbsp; [-to datasink] [-listener,-- @listener] [ -block
+    <tt>/0&nbsp; [-to datasink] [-- @listener] [ -block
     ~@{executionBlock} | $[execution block]$ ] -getport | -start |
-    -status | -stop [-port portnum] : start, stop or monitor status
-    of a thread server<br>
+    -status | -stop [-port ~@{portnum}] : start, stop or monitor
+    status of a thread server<br>
     &nbsp;&nbsp;&nbsp;</tt><br>
     <br>
     Starts, stops, or displays status of a TCP/IP listener over
@@ -6833,28 +6833,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <ul>
       <li>serve up an Ublu interpreter that accepts input and
-      executes commands.</li>
+      executes commands, or<br></li>
 
-      <li>serve up an Ublu interpreter&nbsp; interpreting an
-      <a href="#Execution_blocks">execution block</a> provided to
-      the command and exits when than block is complete.</li>
+      <li>serve up an Ublu interpreter interpreting an <a href=
+      "#Execution_blocks">execution block</a> provided to the
+      command and exits when than block is complete.</li>
     </ul>
 
     <p>Whichever is chosen, all server threads spawned by one
     instance do the same thing.<br></p>When executed without any
     <a href="#Dash_Command">dashcommand</a>, the default action is
     <tt>-status</tt>.<br>
-    <br>
-    The <tt>-getport</tt> dash-command returns the port number the
-    instance provided via the <tt>-- @instance</tt> dash-command is
-    running on.<br>
-    <br>
-    The <tt>server</tt> command is currently limited to one server
-    instance.<br>
-    <br>
-    <b>There is currently no security paradigm. Using the server
-    grants any caller without authentication the full rights of the
-    user who launched Ublu.<br>
+
+    <ul>
+      <li><tt>-port ~@{portnum}</tt> sets the port on which the
+      <tt>-start</tt> operation will start the listener.</li>
+
+      <li><tt>-block ~@{executionBlock} | $[execution block]$</tt>
+      specifies the Ublu code for the server spawned by the
+      listener to execute when a connection is made.<br></li>
+
+      <li><tt>-start</tt>; creates and starts and instance of the
+      listener and puts the listener to the destination <a href=
+      "#Datasinks">datasink</a> for use later in referencing this
+      server instance.</li>
+
+      <li><tt>-stop</tt> sets a flag for the listener to end at the
+      next listen timeout. The instance of the listener is provided
+      via the <tt>-- @listener</tt> dash-command.</li>
+
+      <li><tt>-getport</tt> returns the port number the instance
+      provided via the <tt>--</tt> <tt>@listener</tt> dash-command
+      is running on.</li>
+
+      <li><tt>-status</tt> displays a brief message on the status
+      of the instance provided via the <tt>--</tt>
+      <tt>@listener</tt> dash-command.<br></li>
+    </ul><b>There is currently no security paradigm. Using the
+    server grants any caller without authentication the full rights
+    of the user who launched Ublu.<br>
     <br></b> The safe(st) way (available) to use the server is to
     write a <a href="#FUNC"><tt>FUNC</tt></a> to service the user
     and call that <tt>FUNC</tt> in a block provided with the
