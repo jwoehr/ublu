@@ -47,7 +47,7 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...}] | [-bl ~@{string}] | [-bls ~@{string} n] | [-cat ~@{string1} ~@{string2}] | [-eq ~@{string1} ~@{string2}] | [-len ~@{string} ] | [-new] | [-nl ~@{string}] [-repl ~@{string} ~@{target} ~@{replacement}] | [-repl1 ~@{string} ~@{target} ~@{replacement}] | [-replregx ~@{string} ~@{regex} ~@{replacement}] | [-startswith ~@{string} ~@{substr}] | [-substr ~@{string} ~@intoffset ~@intlen] | [-trim ~@{string}] : string operations");
+                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -trim ~@{string}] : string operations");
     }
 
     enum OPERATIONS {
