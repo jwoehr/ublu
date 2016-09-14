@@ -264,7 +264,7 @@ public class ResultSetHelper {
                 getDestResultSet().updateArray(index, getSrcResultSet().getArray(index));
                 break;
             case java.sql.Types.BIGINT:
-                getDestResultSet().updateDouble(index, new Double(getSrcResultSet().getDouble(index)));
+                getDestResultSet().updateDouble(index, getSrcResultSet().getDouble(index));
                 break;
             case java.sql.Types.BINARY: // need NULL protection
                 srcBytes = getSrcResultSet().getBytes(index);
@@ -471,7 +471,7 @@ public class ResultSetHelper {
                 getDestResultSet().updateArray(index, getSrcResultSet().getArray(index));
                 break;
             case java.sql.Types.BIGINT:
-                getDestResultSet().updateDouble(index, new Double(getSrcResultSet().getDouble(index)));
+                getDestResultSet().updateDouble(index, getSrcResultSet().getDouble(index));
                 break;
             case java.sql.Types.BINARY:
                 srcBytes = getSrcResultSet().getBytes(index);
@@ -489,13 +489,13 @@ public class ResultSetHelper {
                         getDestResultSet().updateBytes(index, srcBytes);
                     }
                 } else // Data was SQL NULL
-                if (splitting) {
-                    for (int i : splitWidths) {
-                        getDestResultSet().updateBytes(destIndex++, null);
+                 if (splitting) {
+                        for (int i : splitWidths) {
+                            getDestResultSet().updateBytes(destIndex++, null);
+                        }
+                    } else {
+                        getDestResultSet().updateBytes(index, srcBytes);
                     }
-                } else {
-                    getDestResultSet().updateBytes(index, srcBytes);
-                }
                 break;
             case java.sql.Types.BIT:
                 getDestResultSet()
