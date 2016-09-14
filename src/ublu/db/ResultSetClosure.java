@@ -25,6 +25,7 @@
  */
 package ublu.db;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,26 +38,16 @@ import java.sql.Statement;
  */
 public class ResultSetClosure implements AutoCloseable {
 
-    private Db db;
+    private Connection connection;
     private ResultSet resultSet;
     private Statement statement;
 
-    /**
-     * Get the Db which originated the ResultSet
-     *
-     * @return the Db which originated the ResultSet
-     */
-    public Db getDb() {
-        return db;
+    public Connection getConnection() {
+        return connection;
     }
 
-    /**
-     * Set the Db which originated the ResultSet
-     *
-     * @param db the Db which originated the ResultSet
-     */
-    public final void setDb(Db db) {
-        this.db = db;
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
     /**
@@ -104,7 +95,21 @@ public class ResultSetClosure implements AutoCloseable {
      * @param statement
      */
     public ResultSetClosure(Db db, ResultSet resultSet, Statement statement) {
-        this.db = db;
+        this.connection = db.getConnection();
+        this.resultSet = resultSet;
+        this.statement = statement;
+    }
+
+    /**
+     * Create a ResultSetClosure encapsulating the ResultSet, the Connection and
+     * Statement it came from.
+     *
+     * @param connection
+     * @param resultSet
+     * @param statement
+     */
+    public ResultSetClosure(Connection connection, ResultSet resultSet, Statement statement) {
+        this.connection = connection;
         this.resultSet = resultSet;
         this.statement = statement;
     }
@@ -116,7 +121,7 @@ public class ResultSetClosure implements AutoCloseable {
      * @throws SQLException
      */
     public void setAutoCommit(boolean autoCommitValue) throws SQLException {
-        getDb().getConnection().setAutoCommit(autoCommitValue);
+        getConnection().setAutoCommit(autoCommitValue);
     }
 
     /**
@@ -125,7 +130,7 @@ public class ResultSetClosure implements AutoCloseable {
      * @throws SQLException
      */
     public void commit() throws SQLException {
-        getDb().getConnection().commit();
+        getConnection().commit();
     }
 
     /**
@@ -175,10 +180,9 @@ public class ResultSetClosure implements AutoCloseable {
      * @throws SQLException
      */
     public ResultSetClosure disconnectDb() throws SQLException {
-        Db dB = getDb();
-        if (dB != null) {
-            dB.disconnect();
-            setDb(null);
+        if (connection != null) {
+            connection.close();
+            setConnection(null);
         }
         return this;
     }
@@ -199,9 +203,6 @@ public class ResultSetClosure implements AutoCloseable {
         if (s != null) {
             s.close();
         }
-        Db dB = getDb();
-        if (dB != null) {
-            dB.disconnect();
-        }
+        disconnectDb();
     }
 }
