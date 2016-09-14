@@ -125,6 +125,16 @@ public class Statements {
         return success;
     }
 
+    /**
+     * Register an output parameter
+     *
+     * @param cs the statement
+     * @param index param index
+     * @param typeDescription the type of the data
+     * @param scale scale of numerical
+     * @return true on success
+     * @throws SQLException
+     */
     public static boolean registerOut(CallableStatement cs, int index, String typeDescription, Integer scale) throws SQLException {
         boolean success = false;
 
