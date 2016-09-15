@@ -161,7 +161,6 @@ public class CmdTest extends Command {
                         getLogger().log(Level.SEVERE, "Null in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-
                     break;
                 case NE:
                     if (a instanceof String) {
@@ -181,7 +180,6 @@ public class CmdTest extends Command {
                         getLogger().log(Level.SEVERE, "Error putting result in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-
                     break;
                 case NULL:
                     try {
@@ -190,6 +188,7 @@ public class CmdTest extends Command {
                         getLogger().log(Level.SEVERE, "Error putting result in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
+                    break;
                 case NNULL:
                     try {
                         put(a != null);
@@ -197,6 +196,7 @@ public class CmdTest extends Command {
                         getLogger().log(Level.SEVERE, "Error putting result in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
+                    break;
                 case NOOP:
                     break;
             }
