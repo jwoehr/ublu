@@ -1,0 +1,44 @@
+# ifsstuff.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+#
+# Send and receive text (translated and not) and binary files to/from i host
+
+# Create text file with optional CCSID 
+FUNC isfc ( sys fqp ccsid ) $[
+    LOCAL @_f LOCAL @_rc LOCAL @_tf
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -to @_rc -create
+    IF @rc THEN $[
+        put -n -s @@fqp put created.
+        test -to @_tf -nnull @@ccsid
+        IF @_tf THEN $[
+            ifs -- @_f -set ccsid @@ccsid
+        ]$
+    ]$ ELSE $[
+        put -n -s @@fqp put ${ not created.}$
+    ]$    
+]$
+  
+# Send text with translation 
+FUNC isfst ( sys fqp localfp ) $[
+    LOCAL @_f
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -t -from @@localfp -write
+]$
+  
+# Send text with no translation 
+FUNC isfsta ( sys fqp localfp ) $[
+    LOCAL @_f
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -from @@localfp -write
+]$
+
+# Send binary
+FUNC isfsb ( sys fqp localfp ) $[
+    LOCAL @_f
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -from @@localfp -writebin
+]$
