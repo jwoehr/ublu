@@ -46,7 +46,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [-to datasink] [-- @listener] [ -block ~@{executionBlock} | $[execution block]$ ] -getport | -start | -status | -stop [-port ~@{portnum}] : start, stop or monitor status of a thread server");
+                "/0  [-to datasink] [-- @listener]  [-port ~@{portnum}] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
     }
 
     /**
