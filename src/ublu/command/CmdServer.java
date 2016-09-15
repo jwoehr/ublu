@@ -164,9 +164,9 @@ public class CmdServer extends Command {
                     break;
                 case START:
                     if (executionBlock != null) {
-                        l = new Listener(getUblu(), port, executionBlock);
+                        l = new Listener(getUblu(), port, executionBlock, getInterpreter());
                     } else {
-                        l = new Listener(getUblu(), port);
+                        l = new Listener(getUblu(), port, getInterpreter());
                     }
                     l.setAcceptTimeoutMS(timeoutMs);
                     l.start();

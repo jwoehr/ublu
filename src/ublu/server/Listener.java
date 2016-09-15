@@ -31,6 +31,7 @@ import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ublu.util.Interpreter;
 
 /**
  * Socket listener to serve up connections to new interpreter instance
@@ -45,6 +46,7 @@ public class Listener extends Thread {
     public static int DEFAULT_ACCEPT_TIMEOUT_MS = 4000;
     private int acceptTimeoutMS = DEFAULT_ACCEPT_TIMEOUT_MS;
     private int spawns = 0;
+    private Interpreter parentInterpreter;
 
     /**
      * Get the timeout before we recycle our accept().
@@ -231,6 +233,21 @@ public class Listener extends Thread {
 
     /**
      * Create new instance with associated Ublu instance and choice of
+     * portnumber recorded and Interpreter to spawn server's interpreter from
+     *
+     * @param ublu application controller
+     * @param portnum port to listen on
+     * @param parentInterpreter Interpreter to spawn server's interpreter from
+     */
+    public Listener(Ublu ublu, int portnum, Interpreter parentInterpreter) {
+        this();
+        this.ublu = ublu;
+        this.portnum = portnum;
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
+     * Create new instance with associated Ublu instance and choice of
      * portnumber recorded.
      *
      * @param ublu application controller
@@ -242,6 +259,23 @@ public class Listener extends Thread {
         this.ublu = ublu;
         this.portnum = portnum;
         this.executionBlock = executionBlock;
+    }
+
+    /**
+     * Create new instance with associated Ublu instance and choice of
+     * portnumber recorded and Interpreter to spawn server's interpreter from
+     *
+     * @param ublu application controller
+     * @param portnum port to listen on
+     * @param executionBlock block for server thread to execute
+     * @param parentInterpreter Interpreter to spawn server's interpreter from
+     */
+    public Listener(Ublu ublu, int portnum, String executionBlock, Interpreter parentInterpreter) {
+        this();
+        this.ublu = ublu;
+        this.portnum = portnum;
+        this.executionBlock = executionBlock;
+        this.parentInterpreter = parentInterpreter;
     }
 
     /**
@@ -267,9 +301,9 @@ public class Listener extends Thread {
                     try {
                         Server s;
                         if (getExecutionBlock() != null) {
-                            s = new Server(getUblu(), getServerSocket().accept(), getExecutionBlock());
+                            s = new Server(getUblu(), getServerSocket().accept(), getExecutionBlock(), parentInterpreter);
                         } else {
-                            s = new Server(getUblu(), getServerSocket().accept());
+                            s = new Server(getUblu(), getServerSocket().accept(), parentInterpreter);
                         }
                         s.start();
                         incSpawns(); // If we get here without timeout exception there has been a spawn

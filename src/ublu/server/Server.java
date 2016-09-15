@@ -43,6 +43,7 @@ public class Server extends Thread {
     private String executionBlock;
     private Socket socket;
     private Ublu ublu;
+    private Interpreter parentInterpreter;
 
     /**
      * Get the block we'll execute
@@ -127,6 +128,20 @@ public class Server extends Thread {
     }
 
     /**
+     * Ctor/3 sets associated Ublu and socket and parent interpreter
+     *
+     * @param ublu application controller
+     * @param socket the socket
+     * @param parentInterpreter Interpreter to spawn this interpreter from
+     */
+    public Server(Ublu ublu, Socket socket, Interpreter parentInterpreter) {
+        this();
+        setUblu(ublu);
+        setSocket(socket);
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
      * Ctor/3 sets associated Ublu and socket and an execution block.
      *
      * @param ublu application controller
@@ -141,12 +156,34 @@ public class Server extends Thread {
     }
 
     /**
+     * Ctor/4 sets associated Ublu and socket and an execution block and parent
+     * interpreter
+     *
+     * @param ublu application controller
+     * @param socket the socket
+     * @param executionBlock block to execute
+     * @param parentInterpreter Interpreter to spawn this interpreter from
+     */
+    public Server(Ublu ublu, Socket socket, String executionBlock, Interpreter parentInterpreter) {
+        this();
+        setUblu(ublu);
+        setSocket(socket);
+        setExecutionBlock(executionBlock);
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
      * interactive loop until bye
      *
      * @throws IOException
      */
     protected void serverInterpret() throws IOException {
-        Interpreter i = new Interpreter(getUblu());
+        Interpreter i;
+        if (parentInterpreter == null) {
+            i = new Interpreter(getUblu());
+        } else {
+            i = new Interpreter(parentInterpreter);
+        }
         i.setOutputStream(new PrintStream(getSocket().getOutputStream()));
         i.setInputStream(getSocket().getInputStream());
         i.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(i.getInputStream())));
@@ -166,7 +203,12 @@ public class Server extends Thread {
      * @throws IOException
      */
     protected void serverInterpret(String block) throws IOException {
-        Interpreter i = new Interpreter(getUblu());
+        Interpreter i;
+        if (parentInterpreter == null) {
+            i = new Interpreter(getUblu());
+        } else {
+            i = new Interpreter(parentInterpreter);
+        }
         i.setOutputStream(new PrintStream(getSocket().getOutputStream()));
         i.setInputStream(getSocket().getInputStream());
         i.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(i.getInputStream())));
