@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import ublu.db.Db;
 import ublu.db.ResultSetClosure;
 import ublu.util.ArgArray;
@@ -51,7 +50,7 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] [-inarray ~@{index} ~@array ~@{type_description}] [-innull ~@{index} ~@{type_description}] [-out ~@{index} ~@{type_description} ~@{scale}] [-rs] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] [-inarray ~@{index} ~@array ~@{type_description}] [-innull ~@{index} ~@{type_description}] [-out ~@{index} ~@{type_description} ~@{scale}] [-rs] [-uc] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -70,6 +69,10 @@ public class CmdCs extends Command {
          * Get the result set
          */
         RS,
+        /**
+         * Get the update count
+         */
+        UC,
         /**
          * Do nothing
          */
@@ -158,6 +161,9 @@ public class CmdCs extends Command {
                 case "-sql":
                     sql = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-uc":
+                    function = FUNCTIONS.UC;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
                     setCommandResult(COMMANDRESULT.FAILURE);
@@ -213,6 +219,19 @@ public class CmdCs extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No Callable Statement proved to -rs in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case UC:
+                    if (cs != null) {
+                        try {
+                            put(cs.getUpdateCount());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Encountered an exception putting result set in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No Callable Statement proved to -uc in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
