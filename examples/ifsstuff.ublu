@@ -42,3 +42,31 @@ FUNC ifssb ( sys fqp localfp ) $[
     ifs -as400 @@sys -to @_f -file @@fqp
     ifs -- @_f -from @@localfp -writebin
 ]$
+
+# Receive text with translation 
+FUNC ifsrt ( sys fqp localdest ) $[
+    LOCAL @_f LOCAL @_size
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -to @_size -size
+    ifs -- @_f -t -to @@localdest -offset 0 -length @_size -read 
+]$
+  
+# Receive text with no translation
+FUNC ifsrta ( sys fqp localdest ) $[
+    LOCAL @_f @_bytes
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -to @_size -size
+    ifs -- @_f -to @_bytes -offset 0 -length @_size -read
+    string -to @@localdest -frombytes @_bytes
+]$
+  
+# Receive binary
+FUNC ifsrb ( sys fqp localdest ) $[
+    LOCAL @_f
+    ifs -as400 @@sys -to @_f -file @@fqp
+    ifs -- @_f -to @_size -size
+    ifs -- @_f -to @@localdest -b -offset 0 -length @_size -read
+]$
+  
+
+# end
