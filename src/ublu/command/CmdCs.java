@@ -50,7 +50,7 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] [-inarray ~@{index} ~@array ~@{type_description}] [-innull ~@{index} ~@{type_description}] [-out ~@{index} ~@{type_description} ~@{scale}] [-rs] [-uc] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] [-inarray ~@{index} ~@array ~@{type_description}] [-innull ~@{index} ~@{type_description}] [-out ~@{index} ~@{type_description} ~@{scale}] [-rs] [-nextrs] [-uc] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -69,6 +69,10 @@ public class CmdCs extends Command {
          * Get the result set
          */
         RS,
+        /**
+         * Get next of multiple result sets
+         */
+        NEXTRS,
         /**
          * Get the update count
          */
@@ -149,6 +153,9 @@ public class CmdCs extends Command {
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     typeDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-nextrs":
+                    function = FUNCTIONS.NEXTRS;
+                    break;
                 case "-out":
                     function = FUNCTIONS.NOOP;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
@@ -219,6 +226,23 @@ public class CmdCs extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No Callable Statement proved to -rs in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case NEXTRS:
+                    if (cs != null) {
+                        try {
+                            if (cs.getMoreResults()) {
+                                put(new ResultSetClosure(cs.getConnection(), cs.getResultSet(), cs));
+                            } else {
+                                put(null);
+                            }
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Encountered an exception putting result set in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No Callable Statement proved to -nextrs in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
