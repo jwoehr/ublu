@@ -61,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -139,6 +139,7 @@ public class CmdIFS extends Command {
     private Integer binLength = null;
     boolean translate = false;
     boolean binary = false;
+    String pattern = null;
 
     /**
      * Parse arguments and perform IFS operations
@@ -187,6 +188,9 @@ public class CmdIFS extends Command {
                     function = FUNCTIONS.MKDIRS;
                     break;
                 case "-noop":
+                    break;
+                case "-pattern":
+                    pattern = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-query":
                     function = FUNCTIONS.QUERY;
@@ -449,7 +453,12 @@ public class CmdIFS extends Command {
         }
         if (ifsFile != null) {
             try {
-                StringArrayList sal = new StringArrayList(ifsFile.list());
+                StringArrayList sal;
+                if (pattern == null) {
+                    sal = new StringArrayList(ifsFile.list());
+                } else {
+                    sal = new StringArrayList(ifsFile.list(pattern));
+                }
                 put(sal);
             } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                 getLogger().log(Level.SEVERE,
