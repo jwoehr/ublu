@@ -61,7 +61,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path]} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -679,6 +679,15 @@ public class CmdIFS extends Command {
                         break;
                     case "path":
                         put(ifsFile.getAbsolutePath());
+                        break;
+                    case "r":
+                        put(ifsFile.canRead());
+                        break;
+                    case "w":
+                        put(ifsFile.canWrite());
+                        break;
+                    case "x":
+                        put(ifsFile.canExecute());
                         break;
                     default:
                         getLogger().log(Level.SEVERE, "Unknown query string {0} in {1}", new Object[]{query, getNameAndDescription()});
