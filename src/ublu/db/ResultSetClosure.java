@@ -42,10 +42,20 @@ public class ResultSetClosure implements AutoCloseable {
     private ResultSet resultSet;
     private Statement statement;
 
+    /**
+     * Get the jdbc connection
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         return connection;
     }
 
+    /**
+     * Set the jdbc connection
+     *
+     * @param connection
+     */
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
