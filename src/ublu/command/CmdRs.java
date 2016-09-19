@@ -111,7 +111,7 @@ public class CmdRs extends Command {
         AUTOCOMMIT,
         /**
          * Set fetchsize for result sets and/or report the fetchsize (only
-         * report if size <= 0).
+         * report if size &lt;&equals; 0).
          */
         FETCHSIZE,
         /**
