@@ -78,6 +78,10 @@ public class CmdCs extends Command {
          */
         UC,
         /**
+         * register outparam
+         */
+        OUT,
+        /**
          * Do nothing
          */
         NOOP
@@ -103,10 +107,11 @@ public class CmdCs extends Command {
         Tuple dbTuple;
         Db db = null;
         String sql = null;
-        Integer index;
-        String typeDescription;
+        Integer index = null;
+        String sqlTypeName = null;
+        String typeDescription = null;
         Object inParameter;
-        Integer scale;
+        Integer scale = null;
         while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -146,21 +151,26 @@ public class CmdCs extends Command {
                     function = FUNCTIONS.NOOP;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     inParameter = argArray.nextTupleOrPop().getValue();
-                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-innull":
                     function = FUNCTIONS.NOOP;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
-                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-nextrs":
                     function = FUNCTIONS.NEXTRS;
                     break;
                 case "-out":
-                    function = FUNCTIONS.NOOP;
+                    function = FUNCTIONS.OUT;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
-                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-scale":
                     scale = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-typename":
+                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-rs":
                     function = FUNCTIONS.RS;
@@ -259,6 +269,19 @@ public class CmdCs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case OUT:
+                    if (cs != null) {
+                        try {
+                            setOut(cs, index, sqlTypeName, typeDescription, scale);
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Encountered an exception registering out param in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No Callable Statement proved to -out in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case NOOP:
                     break;
             }
@@ -281,9 +304,26 @@ public class CmdCs extends Command {
         return success;
     }
 
-    private boolean setOut() {
-        boolean success = false;
-        return success;
+    private void setOut(CallableStatement cs, int index, String typename, String typeDescription, Integer scale) throws SQLException {
+        int sqlType = typenameToSQLType(typename);
+        if (typeDescription != null) {
+            cs.registerOutParameter(index, sqlType, typeDescription);
+        } else if (scale != null) {
+            cs.registerOutParameter(index, sqlType, scale);
+        } else {
+            cs.registerOutParameter(index, sqlType);
+        }
+    }
+
+    private Integer typenameToSQLType(String typename) {
+        Integer sqlType = null;
+        // java.sql.JDBCType.ordinal(typename); // java 1.8 !!
+        switch (typename.toUpperCase()) {
+            case "ARRAY":
+                sqlType = java.sql.Types.ARRAY;
+                break;
+        }
+        return sqlType;
     }
 
     @Override
