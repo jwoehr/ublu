@@ -86,7 +86,7 @@ public class InterpreterLogger extends Logger {
                 if (params[i] != null) {
                     String s = params[i].toString();
                     if (!s.isEmpty()) {
-                        while (message.indexOf("{" + i + "}") > -1) {
+                        while (message.contains("{" + i + "}")) {
                             message = message.replace("{" + i + "}", s);
                         }
                     }

@@ -29,7 +29,6 @@ package ublu;
 
 import java.util.logging.Logger;
 
-import ublu.server.Listener;
 import ublu.util.Interpreter;
 import ublu.util.InterpreterLogger;
 
