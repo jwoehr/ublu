@@ -31,9 +31,9 @@ Here's an [example of Ublu code] (http://www.softwoehr.com/softwoehr/oss/ubludoc
 
 The example is syntax-colored using a [jEdit] (http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is 1.1.0
+The latest release version of Ublu is 1.1.1
 
-The tip of the master branch calls itself 1.1.0+ as we head for 1.1.1
+The tip of the master branch calls itself 1.1.1+ as we head for 1.1.2
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -69,7 +69,6 @@ There is some more information in the [Ublu Wiki] (https://github.com/jwoehr/ubl
 Ublu was noted August 17, 2016 in the IT Jungle article
 [Ublu: A Modern Band-Aid for Legacy i Ills] (http://www.itjungle.com/tfh/tfh081716-story01.html)
 
-Recently (August, 2016) I've been discussing Ublu in the
-[IBMiOSS group on Ryver] (https://ibmioss.ryver.com)
+Discuss Ublu in the [IBMiOSS Ublu form on Ryver] (https://ibmioss.ryver.com/index.html#forums/1057363)
 
-Jack Woehr 2016-07-26
+Jack Woehr 2016-09-19
