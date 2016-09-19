@@ -166,9 +166,9 @@ public class InterpreterFrame {
     }
 
     /**
-     * Return true if parsing block depth > 0
+     * Return true if parsing block depth &gt; 0
      *
-     * @return true if parsing block depth > 0
+     * @return true if parsing block depth &gt; 0
      */
     public boolean isParsingBlock() {
         return parsingBlock > 0;
