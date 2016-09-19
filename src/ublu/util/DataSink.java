@@ -44,7 +44,6 @@ public class DataSink {
      * <li>tuple - an object variable - see {@link ublu.util.Tuple}</li>
      * <li>stdio</li>
      * </ul>
-     * </p>
      */
     public static enum SINKTYPE {
 
@@ -110,7 +109,6 @@ public class DataSink {
      * <li>{@code name} is a file name</li>
      * <li>{@code http://name} is a URL</li>
      * </ul>
-     * </p>
      *
      * @param name name of the sink, i.e., file name, tuple name, url
      * @return the new DataSink
