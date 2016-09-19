@@ -43,7 +43,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
- * Command to create & manage tn5250 instances and data streams.
+ * Command to create and manage tn5250 instances and data streams.
  *
  * @author jwoehr
  */
@@ -60,7 +60,7 @@ public class CmdTN5250 extends Command {
     }
 
     /**
-     * Create & manage tn5250 instances and data streams.
+     * Create and manage tn5250 instances and data streams.
      *
      * @param argArray arguments in interpreter buffer
      * @return what's left of arguments
