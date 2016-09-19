@@ -50,7 +50,7 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] [-inarray ~@{index} ~@array ~@{type_description}] [-innull ~@{index} ~@{type_description}] [-out ~@{index} ~@{type_description} ~@{scale}] [-rs] [-nextrs] [-uc] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] | [-inarray ~@{index} ~@array ~@{type_description}] | [-innull ~@{index} ~@{type_description}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typename ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
