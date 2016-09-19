@@ -69,7 +69,7 @@ There is some more information in the [Ublu Wiki] (https://github.com/jwoehr/ubl
 Ublu was noted August 17, 2016 in the IT Jungle article
 [Ublu: A Modern Band-Aid for Legacy i Ills] (http://www.itjungle.com/tfh/tfh081716-story01.html)
 
-Discuss Ublu in the [IBMiOSS Ublu form on Ryver] (https://ibmioss.ryver.com/index.html#forums/1057363).
+Discuss Ublu in the [IBMiOSS Ublu forum on Ryver] (https://ibmioss.ryver.com/index.html#forums/1057363).
 
 Here is the [signup page for the free Open Source Software on IBM i (IBMiOSS) organization on Ryver] (https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
