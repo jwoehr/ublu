@@ -322,13 +322,127 @@ public class CmdCs extends Command {
             case "ARRAY":
                 sqlType = java.sql.Types.ARRAY;
                 break;
+            case "BIGINT":
+                sqlType = java.sql.Types.BIGINT;
+                break;
+            case "BINARY":
+                sqlType = java.sql.Types.BINARY;
+                break;
+            case "BIT":
+                sqlType = java.sql.Types.BIT;
+                break;
+            case "BLOB":
+                sqlType = java.sql.Types.BLOB;
+                break;
+            case "BOOLEAN":
+                sqlType = java.sql.Types.BOOLEAN;
+                break;
+            case "CHAR":
+                sqlType = java.sql.Types.CHAR;
+                break;
+            case "CLOB":
+                sqlType = java.sql.Types.CLOB;
+                break;
+            case "DATALINK":
+                sqlType = java.sql.Types.DATALINK;
+                break;
+            case "DATE":
+                sqlType = java.sql.Types.DATE;
+                break;
+            case "DECIMAL":
+                sqlType = java.sql.Types.DECIMAL;
+                break;
+            case "DISTINCT":
+                sqlType = java.sql.Types.DISTINCT;
+                break;
+            case "DOUBLE":
+                sqlType = java.sql.Types.DOUBLE;
+                break;
+            case "FLOAT":
+                sqlType = java.sql.Types.FLOAT;
+                break;
+            case "INTEGER":
+                sqlType = java.sql.Types.INTEGER;
+                break;
+            case "JAVA_OBJECT":
+                sqlType = java.sql.Types.JAVA_OBJECT;
+                break;
+            case "LONGNVARCHAR":
+                sqlType = java.sql.Types.LONGNVARCHAR;
+                break;
+            case "LONGVARBINARY":
+                sqlType = java.sql.Types.LONGVARBINARY;
+                break;
+            case "LONGVARCHAR":
+                sqlType = java.sql.Types.LONGVARCHAR;
+                break;
+            case "NCHAR":
+                sqlType = java.sql.Types.NCHAR;
+                break;
+            case "NCLOB":
+                sqlType = java.sql.Types.NCLOB;
+                break;
+            case "NULL":
+                sqlType = java.sql.Types.NULL;
+                break;
+            case "NUMERIC":
+                sqlType = java.sql.Types.NUMERIC;
+                break;
+            case "NVARCHAR":
+                sqlType = java.sql.Types.NVARCHAR;
+                break;
+            case "OTHER":
+                sqlType = java.sql.Types.OTHER;
+                break;
+            case "REAL":
+                sqlType = java.sql.Types.REAL;
+                break;
+            case "REF":
+                sqlType = java.sql.Types.REF;
+                break;
+//            case "REF_CURSOR": // 1.8
+//                sqlType = java.sql.Types.REF_CURSOR;
+//                break;
+            case "ROWID":
+                sqlType = java.sql.Types.ROWID;
+                break;
+            case "SMALLINT":
+                sqlType = java.sql.Types.SMALLINT;
+                break;
+            case "SQLXML":
+                sqlType = java.sql.Types.SQLXML;
+                break;
+            case "STRUCT":
+                sqlType = java.sql.Types.STRUCT;
+                break;
+            case "TIME":
+                sqlType = java.sql.Types.TIME;
+                break;
+//            case "TIME_WITH_TIMEZONE": // 1.8
+//                sqlType = java.sql.Types.TIME_WITH_TIMEZONE;
+//                break;
+            case "TIMESTAMP":
+                sqlType = java.sql.Types.TIMESTAMP;
+                break;
+//            case "TIMESTAMP_WITH_TIMEZONE": // 1.8
+//                sqlType = java.sql.Types.TIMESTAMP_WITH_TIMEZONE;
+//                break;
+            case "TINYINT":
+                sqlType = java.sql.Types.TINYINT;
+                break;
+            case "VARBINARY":
+                sqlType = java.sql.Types.VARBINARY;
+                break;
+            case "VARCHAR":
+                sqlType = java.sql.Types.VARCHAR;
+                break;
+
         }
         return sqlType;
     }
 
     @Override
-    public ArgArray cmd(ArgArray args
-    ) {
+    public ArgArray cmd(ArgArray args) {
         reinit();
         return doCs(args);
     }
