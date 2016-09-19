@@ -41,7 +41,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
- * Command to create & manage sess5250 sessions and data streams.
+ * Command to create and manage sess5250 sessions and data streams.
  *
  * @author jwoehr
  */
@@ -58,7 +58,7 @@ public class CmdSession extends Command {
     }
 
     /**
-     * Create & manage sess5250 instances and data streams.
+     * Create and manage sess5250 instances and data streams.
      *
      * @param argArray arguments in interpreter buffer
      * @return what's left of arguments
