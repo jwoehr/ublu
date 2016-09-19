@@ -87,18 +87,18 @@ public class Sess5250 {
     }
 
     /**
-     * Get the Session->SessionPanel
+     * Get the Session's SessionPanel
      *
-     * @return Session->SessionPanel
+     * @return Session's SessionPanel
      */
     public SessionPanel getSessionGui() {
         return sess.getGUI();
     }
 
     /**
-     * Get Session->SessionPanel->Screen
+     * Get Session's SessionPanel's Screen
      *
-     * @return Session->SessionPanel->Screen
+     * @return Session's SessionPanel's Screen
      */
     public Screen5250 getScreen() {
         return getSessionGui().getScreen();
