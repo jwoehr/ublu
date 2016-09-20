@@ -376,14 +376,18 @@ public class CmdCs extends Command {
         return success;
     }
 
-    private boolean setInArray(int index, Object inParameter, String typeDescription) {
-        boolean success = false;
-        return success;
-    }
+//    private void setInArray(CallableStatement cs, int index, Array inParameter) throws SQLException {
+//        cs.setArray(index, inParameter);
+//    }
 
-    private boolean setInNull(int index, String typeDescription) {
-        boolean success = false;
-        return success;
+    private void setInNull(CallableStatement cs, int index, String typename, String typeDescription) throws SQLException {
+        int sqlType = typenameToSQLType(typename);
+        if (typeDescription == null) {
+            cs.setNull(index, sqlType);
+        } else {
+            cs.setNull(index, sqlType, typeDescription);
+        }
+
     }
 
     private void setOut(CallableStatement cs, int index, String typename, String typeDescription, Integer scale) throws SQLException {
