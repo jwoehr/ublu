@@ -495,7 +495,7 @@ public class CmdAS400 extends Command {
         } else {
             as400 = useSSL
                     ? as400FromArgs(args, AS400Factory.SIGNON_SECURITY_TYPE.SSL)
-                    : as400FromArgs(args, AS400Factory.SIGNON_SECURITY_TYPE.NONE);
+                    : as400FromArgs(args);
         }
         return as400;
     }
