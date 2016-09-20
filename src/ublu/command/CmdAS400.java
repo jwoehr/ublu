@@ -483,6 +483,7 @@ public class CmdAS400 extends Command {
      * Create the AS400 instance after checking that we have enough args.
      *
      * @param args the argument array
+     * @param useSSL true if SSL should be used
      * @return the AS400 instance or null
      * @throws PropertyVetoException
      */
@@ -492,7 +493,6 @@ public class CmdAS400 extends Command {
             logArgArrayTooShortError(args);
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-
             as400 = useSSL
                     ? as400FromArgs(args, AS400Factory.SIGNON_SECURITY_TYPE.SSL)
                     : as400FromArgs(args, AS400Factory.SIGNON_SECURITY_TYPE.NONE);
