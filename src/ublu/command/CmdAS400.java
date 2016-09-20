@@ -51,7 +51,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -141,6 +141,7 @@ public class CmdAS400 extends Command {
         String aspGroup = "";
         String curLib = "";
         String libList = "";
+        boolean useSSL = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -207,6 +208,12 @@ public class CmdAS400 extends Command {
                     operation = OPERATIONS.QSVCPORT;
                     serviceName = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-ssl":
+                    useSSL = argArray.nextTupleOrPop().getValue().equals(true);
+                    break;
+                case "-usessl":
+                    useSSL = true;
+                    break;
                 case "-validate":
                     operation = OPERATIONS.VALIDATE;
                     break;
@@ -234,7 +241,7 @@ public class CmdAS400 extends Command {
                         }
                     } else {
                         try {
-                            setAs400(instanceAS400(argArray));
+                            setAs400(instanceAS400(argArray, useSSL));
                             // set to defaults because they aren't set by JTOpen
                             // which apparently sets them when services are invoked
                             // whereas we sometimes look at them in jtopenlite code
@@ -479,13 +486,16 @@ public class CmdAS400 extends Command {
      * @return the AS400 instance or null
      * @throws PropertyVetoException
      */
-    public AS400 instanceAS400(ArgArray args) throws PropertyVetoException {
+    public AS400 instanceAS400(ArgArray args, boolean useSSL) throws PropertyVetoException {
         AS400 as400 = null;
         if (args.size() < 3) {
             logArgArrayTooShortError(args);
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            as400 = as400FromArgs(args);
+
+            as400 = useSSL
+                    ? as400FromArgs(args, AS400Factory.SIGNON_SECURITY_TYPE.SSL)
+                    : as400FromArgs(args, AS400Factory.SIGNON_SECURITY_TYPE.NONE);
         }
         return as400;
     }
