@@ -5,8 +5,6 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1735,14 +1733,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -ping sysname
     ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
-    | -validate | -qsvcport
+    | -local | -validate | -qsvcport
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -svcport
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} |
-    -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ]
-    ~@{system} ~@{user} ~@{password} : instance, connect to, query
-    connection, or disconnect from an as400 system</tt><br>
+    -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf |
+    -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to,
+    query connection, or disconnect from an as400 system</tt><br>
     Creates an object instance representing an AS400 system and
     manipulates that object. The instance is intended to be stored
     in a <a href="#Tuple_Variables">tuple variable</a> for later
@@ -1864,6 +1862,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </ul>
       </li>
 
+      <li><tt>-local</tt> puts <tt>true</tt> if Ublu is running
+      locally on an IBM i server.</li>
+
       <li><tt>-proxy ~@{server[:portnum]}</tt> assigns the JTOpen
       proxy server (a running instance of
       <tt>com.ibm.as400.access.ProxyServer</tt>) if one is being
@@ -1873,6 +1874,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}</tt>
       puts the port on which the <tt>as400</tt> object is currently
       set contact the named service.</li>
+
+      <li><tt>-sockets ~@tf</tt> if <i>~@tf</i> is <tt>true</tt>
+      requires the as400 object to use socket connections instead
+      of APIs when running locally on an IBM i server.</li>
 
       <li><tt>-validate</tt> validates the signon for the
       system+user+password combination represented by the
