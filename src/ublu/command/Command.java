@@ -478,6 +478,25 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * Parse the arg array for system username password in that order (each and
+     * any tuples or plain words) and come back with an AS400 object that has
+     * not yet attempted to log in.
+     *
+     * @param argArray the arg array to the command where the next three
+     * elements (either tuple references or plain words) represent system userid
+     * password
+     * @param signon_security_type if set to SIGNON_SECURITY_TYPE.SSL use ssl
+     * @return the AS400 object or null
+     * @throws PropertyVetoException
+     */
+    public AS400 as400FromArgs(ArgArray argArray, AS400Factory.SIGNON_SECURITY_TYPE signon_security_type) throws PropertyVetoException {
+        String system = argArray.nextMaybeQuotationTuplePopString();
+        String username = argArray.nextMaybeQuotationTuplePopString();
+        String password = argArray.nextMaybeQuotationTuplePopString();
+        return AS400Factory.newAS400(getInterpreter(), system, username, password, signon_security_type);
+    }
+
+    /**
      * Set our AS400 instance from instance created by parsing the arg array.
      *
      * @param argArray the arg array to the command where the next three strings
