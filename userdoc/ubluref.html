@@ -6,6 +6,7 @@
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1923,9 +1924,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p>The default is <tt>CUSTOM</tt> ... users will be prompted in
     text mode in case of a signon failure.<br></p>
 
-    <p><tt>as400</tt> can create SSL (Secure Socket Layer) secure
-    instances if the correct property is set via the <a href=
-    "#props">props</a> command prior to instancing.<br></p>
+    <p>In the absence of the explicit switches <tt>-usessl</tt> and
+    <tt>-ssl</tt>, the <tt>as400</tt> command will create SSL
+    (Secure Socket Layer) secure instances if the correct property
+    is set via the <a href="#props">props</a> command prior to
+    instancing.<br></p>
 
     <ul>
       <li><tt>props -set signon.security.type SSL</tt> means
@@ -4061,14 +4064,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <blockquote>
     <h4><tt>/3</tt> <tt>[-to @var] [-instance] [-port ~@{portnum}]
-    [-ssl @null|false_or_usessl] [-usessl] ~@{hostname} ~@{user}
-    ~@{password} : instance a smapi host, default port
-    44444</tt><br></h4>The <tt>host</tt> command creates and
-    instance of a TCP/IP reference to a z/VM SMAPI host which can
-    then be used as an argument to the <a href=
-    "#smapi"><tt>smapi</tt></a> command. This is analogous to the
-    use of an <a href="#as400"><tt>as400</tt></a> object to access
-    an i Series OS server.<br>
+    [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} :
+    instance a smapi host, default port 44444</tt><br></h4>The
+    <tt>host</tt> command creates and instance of a TCP/IP
+    reference to a z/VM SMAPI host which can then be used as an
+    argument to the <a href="#smapi"><tt>smapi</tt></a> command.
+    This is analogous to the use of an <a href=
+    "#as400"><tt>as400</tt></a> object to access an i Series OS
+    server.<br>
     <br>
     The <a href="#Dash_Command">dash-commands</a> are as
     follows:<br>
@@ -4086,8 +4089,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </li>
 
       <li><tt>-ssl</tt> expects a tuple variable which if
-      evaluating to anything other than null or boolean false means
-      "use the Secure Sockets Layer to connect to the host".</li>
+      evaluating to true means "use the Secure Sockets Layer to
+      connect to the host" ... otherwise, the connection does not
+      use SSL.</li>
 
       <li><tt>[-usessl]</tt> means "use the Secure Sockets Layer to
       connect to the host".</li>
@@ -6277,8 +6281,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <td valign="top">
               Controls whether <a href="#as400"><tt>as400</tt></a>
-              instances created subsequently are secured by the
-              Secure Sockets Layer (SSL). Valid values are:
+              instances created subsequently without the explicit
+              dash-commands <tt>-ssl</tt> or <tt>-usessl</tt> are
+              secured by the Secure Sockets Layer (SSL). Valid
+              values are:
 
               <ul>
                 <li><tt>SSL</tt> means SSL-secured as400 instances
