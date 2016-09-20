@@ -32,7 +32,13 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.Blob;
 import java.sql.CallableStatement;
+import java.sql.Clob;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.db.Db;
@@ -78,6 +84,10 @@ public class CmdCs extends Command {
          */
         UC,
         /**
+         * set inparam
+         */
+        IN,
+        /**
          * register outparam
          */
         OUT,
@@ -110,8 +120,9 @@ public class CmdCs extends Command {
         Integer index = null;
         String sqlTypeName = null;
         String typeDescription = null;
-        Object inParameter;
+        Tuple inParameterTuple = null;
         Integer scale = null;
+        Integer length = null;
         while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -143,14 +154,14 @@ public class CmdCs extends Command {
                     function = FUNCTIONS.INSTANCE;
                     break;
                 case "-in":
-                    function = FUNCTIONS.NOOP;
+                    function = FUNCTIONS.IN;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
-                    inParameter = argArray.nextTupleOrPop().getValue();
+                    inParameterTuple = argArray.nextTupleOrPop();
                     break;
                 case "-inarray":
                     function = FUNCTIONS.NOOP;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
-                    inParameter = argArray.nextTupleOrPop().getValue();
+                    inParameterTuple = argArray.nextTupleOrPop();
                     sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-innull":
@@ -269,6 +280,25 @@ public class CmdCs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case IN:
+                    if (cs != null) {
+                        if (inParameterTuple != null) {
+                            o = inParameterTuple.getValue();
+                            try {
+                                setIn(cs, index, o, length);
+                            } catch (SQLException ex) {
+                                getLogger().log(Level.SEVERE, "Encountered an exception registering out param in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No in parameter tuple proved to -in in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No Callable Statement proved to -in in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case OUT:
                     if (cs != null) {
                         try {
@@ -289,8 +319,60 @@ public class CmdCs extends Command {
         return argArray;
     }
 
-    private boolean setIn(int index, Object inParameter) {
+    private boolean setIn(CallableStatement cs, int parameterIndex, Object x, Integer length) throws SQLException {
         boolean success = false;
+        if (x instanceof Array) {
+            cs.setArray(parameterIndex, (Array) (x));
+        } else if (x instanceof InputStream) {
+            cs.setAsciiStream(parameterIndex, (InputStream) x);
+        } else if (x instanceof InputStream) {
+            cs.setAsciiStream(parameterIndex, (InputStream) x, length);
+        } else if (x instanceof BigDecimal) {
+            cs.setBigDecimal(parameterIndex, (BigDecimal) x);
+        } else if (x instanceof InputStream) {
+            cs.setBinaryStream(parameterIndex, (InputStream) x);
+        } else if (x instanceof InputStream) {
+            cs.setBinaryStream(parameterIndex, (InputStream) x, length);
+        } else if (x instanceof Blob) {
+            cs.setBlob(parameterIndex, (Blob) x);
+        } else if (x instanceof Clob) {
+            cs.setClob(parameterIndex, (Clob) x);
+        } else if (x instanceof Date) {
+            cs.setDate(parameterIndex, (Date) x);
+        } else if (x instanceof Object) {
+            cs.setObject(parameterIndex, x);
+        }
+
+        //cs.setClob(int parameterIndex, Reader reader)
+        //cs.setClob(int parameterIndex, Reader reader, long length)
+        // if (x instanceof InputStream) { cs.setAsciiStream(parameterIndex, InputStream x, long length); } else
+        //cs.setBlob(int parameterIndex, InputStream inputStream)
+        //cs.setBlob(int parameterIndex, InputStream inputStream, long length)
+        //if (x instanceof boolean) { cs.setBoolean(parameterIndex, (boolean) x); } else
+        //if (x instanceof byte) { cs.setByte(parameterIndex, (byte) x); } else
+        //cs.setBytes(int parameterIndex, byte[] x)
+        //cs.setCharacterStream(int parameterIndex, Reader reader)
+        //cs.setCharacterStream(int parameterIndex, Reader reader, int length)
+        //cs.setCharacterStream(int parameterIndex, Reader reader, long length)
+        // if (x instanceof InputStream) { cs.setBinaryStream(parameterIndex, InputStream x, long length); } else          
+        //if (x instanceof Date) { cs.setDate(parameterIndex, Date x, Calendar cal); } else
+        //if (x instanceof double) { cs.setDouble(parameterIndex, double x); } else
+        //if (x instanceof float) { cs.setFloat(parameterIndex, float x); } else
+        //if (x instanceof int) { cs.setInt(parameterIndex, x); } else
+        //if (x instanceof long) { cs.setLong(parameterIndex, long x); } else
+        //cs.setNCharacterStream(int parameterIndex, Reader value)
+        //cs.setNCharacterStream(int parameterIndex, Reader value, long length)
+        //cs.setNClob(int parameterIndex, NClob value)
+        //cs.setNClob(int parameterIndex, Reader reader)
+        //cs.setNClob(int parameterIndex, Reader reader, long length)
+        //cs.setNString(int parameterIndex, String value)
+        //cs.setNull(int parameterIndex, int sqlType)
+        //cs.setNull(int parameterIndex, int sqlType, String typeName)          
+//if (x instanceof Object) { cs.setObject(parameterIndex, Object x, targetSqlType); } else
+//if (x instanceof Object) { cs.setObject(parameterIndex, Object x, targetSqlType, scaleOrLength); } else
+//if (x instanceof Object) { cs.setObject(parameterIndex, Object x, SQLType targetSqlType); } else
+//if (x instanceof Object) { cs.setObject(parameterIndex, Object x, SQLType targetSqlType, scaleOrLength); } else
+//if (x instanceof Ref) { cs.setRef(parameterIndex, Ref x); }
         return success;
     }
 
