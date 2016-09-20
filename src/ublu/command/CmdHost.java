@@ -46,7 +46,7 @@ public class CmdHost extends Command {
 
     {
         setNameAndDescription("host",
-                "/3 [-to @var] [-instance] [-port ~@{portnum}] [-ssl @null|false_or_usessl] [-usessl] ~@{hostname} ~@{user} ~@{password} : instance a smapi host, default port 44444");
+                "/3 [-to @var] [-instance] [-port ~@{portnum}] [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} : instance a smapi host, default port 44444");
     }
 
     /**
@@ -88,9 +88,8 @@ public class CmdHost extends Command {
                 case "-port":
                     port = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
-                case "-ssl":
-                    Object o = argArray.nextTupleOrPop().getValue();
-                    usessl = o != null && !o.equals(Boolean.FALSE);
+                case "-ssl":                    
+                    usessl = argArray.nextTupleOrPop().getValue().equals(true);
                     break;
                 case "-usessl":
                     usessl = true;
