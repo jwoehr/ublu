@@ -51,7 +51,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -92,6 +92,10 @@ public class CmdAS400 extends Command {
          */
         DISCONNECTSVC,
         /**
+         * test if running local on an i server
+         */
+        LOCAL,
+        /**
          * Ping server or services
          */
         PING,
@@ -115,6 +119,10 @@ public class CmdAS400 extends Command {
          * Indicate JTOpen Proxy server
          */
         PROXY,
+        /**
+         * Force use of sockets when running locally
+         */
+        USESOCKETS,
         /**
          * Validate login
          */
@@ -142,6 +150,7 @@ public class CmdAS400 extends Command {
         String curLib = "";
         String libList = "";
         boolean useSSL = false;
+        boolean useSockets = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -181,6 +190,9 @@ public class CmdAS400 extends Command {
                     operation = OPERATIONS.DISCONNECTSVC;
                     serviceName = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-local":
+                    operation = OPERATIONS.LOCAL;
+                    break;
                 case "-ping":
                     operation = OPERATIONS.PING;
                     systemName = argArray.nextMaybeQuotationTuplePopString();
@@ -211,6 +223,8 @@ public class CmdAS400 extends Command {
                 case "-ssl":
                     useSSL = argArray.nextTupleOrPop().getValue().equals(true);
                     break;
+                case "-sockets":
+                    useSockets = argArray.nextTupleOrPop().getValue().equals(true);
                 case "-usessl":
                     useSSL = true;
                     break;
@@ -362,6 +376,19 @@ public class CmdAS400 extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case LOCAL:
+                    if (getAs400() != null) {
+                        try {
+                            put(getAs400().isLocal());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Couldn't put result of -local in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -local in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case PING:
                     if (serviceName.toUpperCase().equals("ALL")) {
                         serviceInteger = AS400JPing.ALL_SERVICES;
@@ -445,6 +472,14 @@ public class CmdAS400 extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No AS400 object provided to proxy in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case USESOCKETS:
+                    if (getAs400() != null) {
+                        getAs400().setMustUseSockets(useSockets);
+                    } else {
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -usesockets in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
