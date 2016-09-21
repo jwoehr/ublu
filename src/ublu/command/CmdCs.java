@@ -56,7 +56,8 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object] | [-inarray ~@{index} ~@array ~@{type_description}] | [-innull ~@{index} ~@{type_description}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typename ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                // "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-inarray ~@{index} ~@array ~@{type_description}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -87,6 +88,10 @@ public class CmdCs extends Command {
          * set inparam
          */
         IN,
+        /**
+         * set inparam null
+         */
+        INNULL,
         /**
          * register outparam
          */
@@ -157,6 +162,7 @@ public class CmdCs extends Command {
                     function = FUNCTIONS.IN;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     inParameterTuple = argArray.nextTupleOrPop();
+                    sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-inarray":
                     function = FUNCTIONS.NOOP;
@@ -165,9 +171,10 @@ public class CmdCs extends Command {
                     sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-innull":
-                    function = FUNCTIONS.NOOP;
+                    function = FUNCTIONS.INNULL;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
+                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-nextrs":
                     function = FUNCTIONS.NEXTRS;
@@ -180,7 +187,7 @@ public class CmdCs extends Command {
                 case "-scale":
                     scale = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
-                case "-typename":
+                case "-typedescription":
                     typeDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-rs":
@@ -285,13 +292,26 @@ public class CmdCs extends Command {
                         if (inParameterTuple != null) {
                             o = inParameterTuple.getValue();
                             try {
-                                setIn(cs, index, o, length);
+                                setIn(cs, index, o, sqlTypeName, length);
                             } catch (SQLException ex) {
                                 getLogger().log(Level.SEVERE, "Encountered an exception registering out param in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
                             getLogger().log(Level.SEVERE, "No in parameter tuple proved to -in in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No Callable Statement proved to -in in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case INNULL:
+                    if (cs != null) {
+                        try {
+                            setInNull(cs, index, sqlTypeName, typeDescription);
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Encountered an exception registering out param in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
@@ -319,33 +339,53 @@ public class CmdCs extends Command {
         return argArray;
     }
 
-    private boolean setIn(CallableStatement cs, int parameterIndex, Object x, Integer length) throws SQLException {
+    private boolean setIn(CallableStatement cs, int parameterIndex, Object x, String sqlTypeName, Integer length) throws SQLException {
         boolean success = false;
-        if (x instanceof Array) {
-            cs.setArray(parameterIndex, (Array) (x));
-        } else if (x instanceof InputStream) {
-            cs.setAsciiStream(parameterIndex, (InputStream) x);
-        } else if (x instanceof InputStream) {
-            cs.setAsciiStream(parameterIndex, (InputStream) x, length);
-        } else if (x instanceof BigDecimal) {
-            cs.setBigDecimal(parameterIndex, (BigDecimal) x);
-        } else if (x instanceof InputStream) {
-            cs.setBinaryStream(parameterIndex, (InputStream) x);
-        } else if (x instanceof InputStream) {
-            cs.setBinaryStream(parameterIndex, (InputStream) x, length);
-        } else if (x instanceof Blob) {
-            cs.setBlob(parameterIndex, (Blob) x);
-        } else if (x instanceof Clob) {
-            cs.setClob(parameterIndex, (Clob) x);
-        } else if (x instanceof Date) {
-            cs.setDate(parameterIndex, (Date) x);
-        } else if (x instanceof Object) {
-            cs.setObject(parameterIndex, x);
+        switch (sqlTypeName.toUpperCase()) {
+            case "ARRAY":
+                cs.setArray(parameterIndex, (Array) (x));
+                break;
+
+            case "STRING":
+                cs.setString(parameterIndex, (String) x);
+                break;
+            case "ASCIISTREAM":
+                if (length == null) {
+                    cs.setAsciiStream(parameterIndex, (InputStream) x);
+                } else {
+                    cs.setAsciiStream(parameterIndex, (InputStream) x, length);
+                }
+                break;
+            case "BIGDECIMAL":
+                cs.setBigDecimal(parameterIndex, (BigDecimal) x);
+                break;
+            case "BINARYSTREAM":
+                if (length == null) {
+                    cs.setBinaryStream(parameterIndex, (InputStream) x);
+                } else {
+                    cs.setBinaryStream(parameterIndex, (InputStream) x, length);
+                }
+                break;
+            case "BLOB":
+                cs.setBlob(parameterIndex, (Blob) x);
+                break;
+            case "CLOB":
+                cs.setClob(parameterIndex, (Clob) x);
+                break;
+            case "DATE":
+                cs.setDate(parameterIndex, (Date) x);
+                break;
+            case "OBJECT":
+                cs.setObject(parameterIndex, x);
+                break;
+            default:
+                getLogger().log(Level.SEVERE, "Unknown SQL type name: {0} in {1}", new Object[]{sqlTypeName, getNameAndDescription()});
+                setCommandResult(COMMANDRESULT.FAILURE);
         }
 
         //cs.setClob(int parameterIndex, Reader reader)
         //cs.setClob(int parameterIndex, Reader reader, long length)
-        // if (x instanceof InputStream) { cs.setAsciiStream(parameterIndex, InputStream x, long length); } else
+        // if (x instanceof InputStream": cs.setAsciiStream(parameterIndex, InputStream x, long length); } else
         //cs.setBlob(int parameterIndex, InputStream inputStream)
         //cs.setBlob(int parameterIndex, InputStream inputStream, long length)
         //if (x instanceof boolean) { cs.setBoolean(parameterIndex, (boolean) x); } else
@@ -379,15 +419,13 @@ public class CmdCs extends Command {
 //    private void setInArray(CallableStatement cs, int index, Array inParameter) throws SQLException {
 //        cs.setArray(index, inParameter);
 //    }
-
     private void setInNull(CallableStatement cs, int index, String typename, String typeDescription) throws SQLException {
         int sqlType = typenameToSQLType(typename);
-        if (typeDescription == null) {
+        if (typeDescription.trim().equals("null")) {
             cs.setNull(index, sqlType);
         } else {
             cs.setNull(index, sqlType, typeDescription);
         }
-
     }
 
     private void setOut(CallableStatement cs, int index, String typename, String typeDescription, Integer scale) throws SQLException {
