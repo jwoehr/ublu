@@ -27,7 +27,6 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
-//import ublu.util.Tuple;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400Message;
 import com.ibm.as400.access.AS400SecurityException;
@@ -36,9 +35,6 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.beans.PropertyVetoException;
-//import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
