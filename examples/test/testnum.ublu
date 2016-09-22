@@ -1,0 +1,11 @@
+# testnum.ublu ... test the num command
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+num -to @anInt -int 1234
+put -from @anInt
+tuple -typename @anInt
+num -to @aBigDec -bigdec 1234.56
+put -from @aBigDec
+tuple -typename @aBigDec
