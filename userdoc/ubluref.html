@@ -8,7 +8,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 20 Sep 2016 15:26:34 UTC">
+  "Thu, 22 Sep 2016 19:31:27 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -59,33 +59,32 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-09-20</p>
+  Last edit: 2016-09-22</p>
   <pre>
-Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
-Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
-All rights reserved.
+ Copyright (c) 2015, Absolute Performance, Inc.
+  http://www.absolute-performance.com Copyright (c) 2016, Jack J. Woehr
+  jwoehr@softwoehr.com http://www.softwoehr.com All rights reserved.
 
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
 
 * Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
+list of conditions and the following disclaimer.
 
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
+* Redistributions in binary form must reproduce the above copyright notice, this
+list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 </pre>
 
   <h2>Table of Contents</h2>
@@ -2294,21 +2293,87 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <i>*woof</i><br></tt></p>
   </blockquote>
 
+  <h4><tt><a name="cs" id="cs"></a>cs</tt></h4>
+
+  <blockquote>
+    <tt>/4? [-to @var ] [--,-cs @cs] [-dbconnected @db]
+    [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in
+    ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index}
+    ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale
+    ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] |
+    [-nextrs] | [-uc]] : instance and execute callable statements
+    which JDBC uses to execute SQL stored procedures</tt>
+
+    <p>The <tt>cs</tt> command creates and executes a JDBC
+    CallableStatement used primarily for invoking SQL stored
+    procedures. You need an instance returned by the <a href=
+    "db">db</a> command to use <tt>cs</tt>.</p>
+
+    <p>The <a href="#Dash_Command">dash-command</a>s are as
+    follows:</p>
+
+    <ul>
+      <li><code>--,-cs @cs</code> references an instance created by
+      the <code>cs</code> command for subsequent operations</li>
+
+      <li><code>-dbconnected @db</code> references the database
+      instance created by the <a href="db">db</a> command used to
+      instance the cs object</li>
+
+      <li><code>-instance</code> is the default operation and
+      instances the cs object</li>
+
+      <li><code>-sq1 ~@{ SQL code ... }</code> provides at
+      instancing time the SQL code to be executed by the cs object
+      and puts <code>true</code> if the statement returned a result
+      set and <code>false</code> if it returned nothing or an
+      update count.</li>
+
+      <li><code>-call</code> executes the statement</li>
+
+      <li><code>-in ~@{index} ~@object ~@{sqltypename}</code> adds
+      an input parameter to the already instanced cs object</li>
+
+      <li><code>-innull ~@{index} ~@{sqltypename}</code> adds a
+      null input parameter to the already instanced cs object</li>
+
+      <li><code>-out ~@{index} ~@{sql_type}</code> declares an
+      output parameter to the already instanced cs object</li>
+
+      <li><code>-scale ~@{scale}</code> is an adjunct to the
+      declaration of certain input and output parameters</li>
+
+      <li><code>-typedescription ~@{user_typename}</code> is an
+      adjunct to the declaration of certain input parameters,
+      specifically those that reference a user-declared
+      typename</li>
+
+      <li><code>-rs</code> puts the current result set</li>
+
+      <li><code>-nextrs</code> advances the result set counter and
+      puts the next result set</li>
+
+      <li><code>-uc</code> puts the updated rows count when that is
+      returned by the statement rather than a result set.</li>
+    </ul>
+  </blockquote>
+
   <h4><tt><a name="db" id="db"></a>db</tt></h4>
 
   <blockquote>
-    <p><tt>/4 [--,-dbconnected @dbconnected] -db (@)type
-    [-charsetname (@)charsetname] [-catalog | -columntypes
-    (@)tablename | -connect | -csv (@)tablename [-separator ${
-    separator}$ ] | -disconnect | -metadata | -primarykeys | -query
-    ${ SQL string }$ | -replicate (@)tableName (@)destDbName
-    (@)destDbType (@)destDatabaseName (@)destUser (@)destPassword |
-    -star (@)tablename] [-pklist ${ space separated primary keys
-    }$] [-port (@)portnum] [-property k v [-property k v] ..]
-    (@)system (@)database (@)userid (@)password : perform various
-    operations on databases<br></tt><br>
-    performs a database operation on <i>system</i>'s
-    <i>database</i> for <i>userid</i> with <i>password</i>.<br></p>
+    <tt>/4 [--,-dbconnected @dbconnected] -db (@)type [-charsetname
+    (@)charsetname] [-catalog | -columntypes (@)tablename |
+    -connect | -csv (@)tablename [-separator ${ separator}$ ] |
+    -disconnect | -metadata | -primarykeys | -query ${ SQL string
+    }$ | -replicate (@)tableName (@)destDbName (@)destDbType
+    (@)destDatabaseName (@)destUser (@)destPassword | -star
+    (@)tablename] [-pklist ${ space separated primary keys }$]
+    [-port (@)portnum] [-property k v [-property k v] ..] (@)system
+    (@)database (@)userid (@)password : perform various operations
+    on databases<br></tt><br>
+    The <tt>db</tt> command performs a database operation on
+    <i>system</i>'s <i>database</i> for <i>userid</i> with
+    <i>password</i>.<br>
 
     <p>Alternatively, a connected database object can be provided
     via the <tt>-dbconnected @dbconnected</tt> <a href=
@@ -3213,49 +3278,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     @i</tt><tt><br></tt> <tt>file -- @f -pos A</tt><tt><br></tt>
     <tt>file -- @f -write @newrec</tt><tt><br></tt> <tt>file -- @f
     -close</tt><br>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listsrc.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">type</font><font color="#CC0000"> </font><font color="#CC0000">out</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">program</font><font color="#CC0000"> </font><font color="#CC0000">source</font><font color="#CC0000"> </font><font color="#CC0000">member</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">record</font><font color="#CC0000"> </font><font color="#CC0000">file</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Given</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">server</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">fully</font><font color="#CC0000"> </font><font color="#CC0000">qualified</font><font color="#CC0000"> </font><font color="#CC0000">IFS</font><font color="#CC0000"> </font><font color="#CC0000">path</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">source</font><font color="#CC0000"> </font><font color="#CC0000">member</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">type</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">contents</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">file</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">standard</font><font color="#CC0000"> </font><font color="#CC0000">out,</font><font color="#CC0000"> </font><font color="#CC0000">e.g.,</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">listsrc</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@mysys</font><font color="#CC0000"> </font><font color="#CC0000">/QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">where</font><font color="#CC0000"> </font><font color="#CC0000">@mysys</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">as400</font><font color="#CC0000"> </font><font color="#CC0000">object.</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#006699"><strong>FUNC</strong></font> listsrc <font color="#000000"><strong>(</strong></font> sys fqp <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@f</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@lines</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@recordarray</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#6600CC">@@sys</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@f</font> <font color="#0099FF"><strong>-keyed</strong></font> <font color="#6600CC">@@fqp</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-open</strong></font>  R
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-close</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@recordarray</font> <font color="#0099FF"><strong>-read</strong></font> ALL
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@i</font> in <font color="#0000FF">@recordarray</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0000FF">@i</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>    <font color="#000000"><strong>]$</strong></font>    
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">listsrc.ublu</font><font color="#cc0000"> </font><font color="#cc0000">...</font><font color="#cc0000"> </font><font color="#cc0000">type</font><font color="#cc0000"> </font><font color="#cc0000">out</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">program</font><font color="#cc0000"> </font><font color="#cc0000">source</font><font color="#cc0000"> </font><font color="#cc0000">member</font><font color="#cc0000"> </font><font color="#cc0000">of</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">record</font><font color="#cc0000"> </font><font color="#cc0000">file</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Example</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">https://github.com/jwoehr/ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Copyright</font><font color="#cc0000"> </font><font color="#cc0000">(C)</font><font color="#cc0000"> </font><font color="#cc0000">2016</font><font color="#cc0000"> </font><font color="#cc0000">Jack</font><font color="#cc0000"> </font><font color="#cc0000">J.</font><font color="#cc0000"> </font><font color="#cc0000">Woehr</font><font color="#cc0000"> </font><font color="#cc0000">http://www.softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">See</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">license</font><font color="#cc0000"> </font><font color="#cc0000">(BSD-2</font><font color="#cc0000"> </font><font color="#cc0000">open</font><font color="#cc0000"> </font><font color="#cc0000">source)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Given</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">server</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">fully</font><font color="#cc0000"> </font><font color="#cc0000">qualified</font><font color="#cc0000"> </font><font color="#cc0000">IFS</font><font color="#cc0000"> </font><font color="#cc0000">path</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">source</font><font color="#cc0000"> </font><font color="#cc0000">member</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">type</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">contents</font><font color="#cc0000"> </font><font color="#cc0000">of</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">file</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">standard</font><font color="#cc0000"> </font><font color="#cc0000">out,</font><font color="#cc0000"> </font><font color="#cc0000">e.g.,</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">listsrc</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">@mysys</font><font color="#cc0000"> </font><font color="#cc0000">/QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR</font><font color="#cc0000"> </font><font color="#cc0000">)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">where</font><font color="#cc0000"> </font><font color="#cc0000">@mysys</font><font color="#cc0000"> </font><font color="#cc0000">is</font><font color="#cc0000"> </font><font color="#cc0000">an</font><font color="#cc0000"> </font><font color="#cc0000">as400</font><font color="#cc0000"> </font><font color="#cc0000">object.</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#006699"><strong>FUNC</strong></font> listsrc <font color="#000000"><strong>(</strong></font> sys fqp <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@f</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@lines</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@recordarray</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099ff"><strong>-as400</strong></font> <font color="#6600cc">@@sys</font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@f</font> <font color="#0099ff"><strong>-keyed</strong></font> <font color="#6600cc">@@fqp</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@f</font> <font color="#0099ff"><strong>-open</strong></font>  R
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@f</font> <font color="#0099ff"><strong>-close</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@f</font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@recordarray</font> <font color="#0099ff"><strong>-read</strong></font> ALL
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000ff">@i</font> in <font color="#0000ff">@recordarray</font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0000ff">@i</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>    <font color="#000000"><strong>]$</strong></font>    
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span><font color="#000000"><strong>]$</strong></font>
+</font></pre>
+
   </blockquote>
 
   <h4><a name="FOR" id="FOR"></a><tt>FOR</tt></h4>
@@ -5020,43 +5063,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </ul>The default operation is <tt>-instance</tt>.<br>
     <br>
     <i>Example</i><br>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">audJournal.ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">Midrange</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">Mainframe</font><font color="#CC0000"> </font><font color="#CC0000">Life</font><font color="#CC0000"> </font><font color="#CC0000">Cycle</font><font color="#CC0000"> </font><font color="#CC0000">Extension</font><font color="#CC0000"> </font><font color="#CC0000">language</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Read</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">number</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">entries</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">audit</font><font color="#CC0000"> </font><font color="#CC0000">journal</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">write</font><font color="#CC0000"> </font><font color="#CC0000">them</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">file.</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> audJournal <font color="#000000"><strong>(</strong></font> sys userid password numentries filename <font color="#000000"><strong>)</strong></font>  <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@journal</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@entries</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@sys</font> <font color="#6600CC">@@userid</font> <font color="#6600CC">@@password</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#009966"><strong>jrnl</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@journal</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>jrnl</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@journal</font> <font color="#0099FF"><strong>-lib</strong></font> QSYS <font color="#0099FF"><strong>-journal</strong></font> QAUDJRN <font color="#0099FF"><strong>-get</strong></font> <font color="#6600CC">@@numentries</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@entries</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>    <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@entries</font> <font color="#0099FF"><strong>-tofile</strong></font> <font color="#6600CC">@@filename</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-disconnect</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">audJournal.ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Example</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">Midrange</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">Mainframe</font><font color="#cc0000"> </font><font color="#cc0000">Life</font><font color="#cc0000"> </font><font color="#cc0000">Cycle</font><font color="#cc0000"> </font><font color="#cc0000">Extension</font><font color="#cc0000"> </font><font color="#cc0000">language</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">https://github.com/jwoehr/ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Copyright</font><font color="#cc0000"> </font><font color="#cc0000">(C)</font><font color="#cc0000"> </font><font color="#cc0000">2016</font><font color="#cc0000"> </font><font color="#cc0000">Jack</font><font color="#cc0000"> </font><font color="#cc0000">J.</font><font color="#cc0000"> </font><font color="#cc0000">Woehr</font><font color="#cc0000"> </font><font color="#cc0000">http://www.softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">See</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">license</font><font color="#cc0000"> </font><font color="#cc0000">(BSD-2</font><font color="#cc0000"> </font><font color="#cc0000">open</font><font color="#cc0000"> </font><font color="#cc0000">source)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Read</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">number</font><font color="#cc0000"> </font><font color="#cc0000">of</font><font color="#cc0000"> </font><font color="#cc0000">entries</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">audit</font><font color="#cc0000"> </font><font color="#cc0000">journal</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">write</font><font color="#cc0000"> </font><font color="#cc0000">them</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">file.</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> audJournal <font color="#000000"><strong>(</strong></font> sys userid password numentries filename <font color="#000000"><strong>)</strong></font>  <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@as400</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@journal</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@entries</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@as400</font> <font color="#6600cc">@@sys</font> <font color="#6600cc">@@userid</font> <font color="#6600cc">@@password</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    <font color="#009966"><strong>jrnl</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@journal</font> <font color="#0099ff"><strong>-as400</strong></font> <font color="#0000ff">@as400</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>    <font color="#009966"><strong>jrnl</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@journal</font> <font color="#0099ff"><strong>-lib</strong></font> QSYS <font color="#0099ff"><strong>-journal</strong></font> QAUDJRN <font color="#0099ff"><strong>-get</strong></font> <font color="#6600cc">@@numentries</font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@entries</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>    <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@entries</font> <font color="#0099ff"><strong>-tofile</strong></font> <font color="#6600cc">@@filename</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@as400</font> <font color="#0099ff"><strong>-disconnect</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>
+</font></pre>
+
   </blockquote>
 
   <h4><tt><a name="jvm" id="jvm"></a></tt> <tt>jvm</tt></h4>
@@ -5177,71 +5203,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <p><i>Example</i>
     (<tt>examples/test/testlist.ublu</tt>)<br></p>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testlist.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">quick</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">command</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">Midrange</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">Mainframe</font><font color="#CC0000"> </font><font color="#CC0000">Life</font><font color="#CC0000"> </font><font color="#CC0000">Cycle</font><font color="#CC0000"> </font><font color="#CC0000">Extension</font><font color="#CC0000"> </font><font color="#CC0000">language</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@mylist</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-addstr</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">string</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@mysys</font> mysys me abcd1234 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-add</strong></font> <font color="#0000FF">@mysys</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-set</strong></font> <font color="#FF0000">0</font> <font color="#0000FF">@mysys</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-remove</strong></font> <font color="#0000FF">@mysys</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-addstr</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">another</font><font color="#FF00CC"> </font><font color="#FF00CC">string</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-addstr</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">pardon</font><font color="#FF00CC"> </font><font color="#FF00CC">me</font><font color="#FF00CC"> </font><font color="#FF00CC">asking</font><font color="#FF00CC"> </font><font color="#FF00CC">what's</font><font color="#FF00CC"> </font><font color="#FF00CC">new</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-removeat</strong></font> <font color="#FF0000">2</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-get</strong></font> <font color="#FF0000">0</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-get</strong></font> <font color="#FF0000">1</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">29 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-clear</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">30 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">31 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">testlist.ublu</font><font color="#cc0000"> </font><font color="#cc0000">...</font><font color="#cc0000"> </font><font color="#cc0000">quick</font><font color="#cc0000"> </font><font color="#cc0000">test</font><font color="#cc0000"> </font><font color="#cc0000">of</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">command</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Example</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">Midrange</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">Mainframe</font><font color="#cc0000"> </font><font color="#cc0000">Life</font><font color="#cc0000"> </font><font color="#cc0000">Cycle</font><font color="#cc0000"> </font><font color="#cc0000">Extension</font><font color="#cc0000"> </font><font color="#cc0000">language</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">https://github.com/jwoehr/ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Copyright</font><font color="#cc0000"> </font><font color="#cc0000">(C)</font><font color="#cc0000"> </font><font color="#cc0000">2016</font><font color="#cc0000"> </font><font color="#cc0000">Jack</font><font color="#cc0000"> </font><font color="#cc0000">J.</font><font color="#cc0000"> </font><font color="#cc0000">Woehr</font><font color="#cc0000"> </font><font color="#cc0000">http://www.softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">See</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">license</font><font color="#cc0000"> </font><font color="#cc0000">(BSD-2</font><font color="#cc0000"> </font><font color="#cc0000">open</font><font color="#cc0000"> </font><font color="#cc0000">source)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@mylist</font> 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font> 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-addstr</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">this</font><font color="#ff00cc"> </font><font color="#ff00cc">is</font><font color="#ff00cc"> </font><font color="#ff00cc">a</font><font color="#ff00cc"> </font><font color="#ff00cc">string</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#009966"><strong>as400</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@mysys</font> mysys me abcd1234 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-add</strong></font> <font color="#0000ff">@mysys</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font> 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-set</strong></font> <font color="#ff0000">0</font> <font color="#0000ff">@mysys</font> 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-remove</strong></font> <font color="#0000ff">@mysys</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-addstr</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">this</font><font color="#ff00cc"> </font><font color="#ff00cc">is</font><font color="#ff00cc"> </font><font color="#ff00cc">another</font><font color="#ff00cc"> </font><font color="#ff00cc">string</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-addstr</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">pardon</font><font color="#ff00cc"> </font><font color="#ff00cc">me</font><font color="#ff00cc"> </font><font color="#ff00cc">asking</font><font color="#ff00cc"> </font><font color="#ff00cc">what's</font><font color="#ff00cc"> </font><font color="#ff00cc">new</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-size</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-removeat</strong></font> <font color="#ff0000">2</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-size</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-get</strong></font> <font color="#ff0000">0</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-get</strong></font> <font color="#ff0000">1</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-size</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-clear</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000ff">@mylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">31 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@mylist</font> <font color="#0099ff"><strong>-size</strong></font>
+</font></pre>
+
   </blockquote>
 
   <h4><a name="LOCAL" id="LOCAL"></a> <tt>LOCAL</tt></h4>
@@ -5273,53 +5267,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     new thread.<br>
     <br>
     <i>Example</i><br>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testlocal.ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">LOCAL</font><font color="#CC0000"> </font><font color="#CC0000">variable</font><font color="#CC0000"> </font><font color="#CC0000">operation</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#006699"><strong>FUNC</strong></font> woof <font color="#000000"><strong>(</strong></font> a b <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>    <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@i</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@i</font> in <font color="#6600CC">@@a</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>        <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>        <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@q</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">@q</font><font color="#FF00CC"> </font><font color="#FF00CC">will</font><font color="#FF00CC"> </font><font color="#FF00CC">disappear</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">with</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">woof</font><font color="#FF00CC"> </font><font color="#FF00CC">upon</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@i</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@b</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>      <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@z</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">1</font><font color="#FF00CC"> </font><font color="#FF00CC">2</font><font color="#FF00CC"> </font><font color="#FF00CC">3</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@x</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">doggie</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>woof <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@z</font> <font color="#0000FF">@x</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">testlocal.ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">test</font><font color="#cc0000"> </font><font color="#cc0000">LOCAL</font><font color="#cc0000"> </font><font color="#cc0000">variable</font><font color="#cc0000"> </font><font color="#cc0000">operation</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#006699"><strong>FUNC</strong></font> woof <font color="#000000"><strong>(</strong></font> a b <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span>    <font color="#009966"><strong>tuple</strong></font> <font color="#0099ff"><strong>-map</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@i</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000ff">@i</font> in <font color="#6600cc">@@a</font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>        <font color="#009966"><strong>tuple</strong></font> <font color="#0099ff"><strong>-map</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>        <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@q</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-n</strong></font> <font color="#0099ff"><strong>-s</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@q</font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">@q</font><font color="#ff00cc"> </font><font color="#ff00cc">will</font><font color="#ff00cc"> </font><font color="#ff00cc">disappear</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-n</strong></font> <font color="#0099ff"><strong>-s</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@q</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-n</strong></font> <font color="#0099ff"><strong>-s</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">with</font><font color="#ff00cc"> </font><font color="#ff00cc">a</font><font color="#ff00cc"> </font><font color="#ff00cc">woof</font><font color="#ff00cc"> </font><font color="#ff00cc">upon</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-n</strong></font> <font color="#0099ff"><strong>-s</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@i</font> <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#6600cc">@@b</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@q</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>      <font color="#009966"><strong>tuple</strong></font> <font color="#0099ff"><strong>-map</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@q</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font> 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@z</font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">1</font><font color="#ff00cc"> </font><font color="#ff00cc">2</font><font color="#ff00cc"> </font><font color="#ff00cc">3</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@x</font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">doggie</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font> 
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>woof <font color="#000000"><strong>(</strong></font> <font color="#0000ff">@z</font> <font color="#0000ff">@x</font> <font color="#000000"><strong>)</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099ff"><strong>-map</strong></font>
+</font></pre>
+
   </blockquote>
 
   <h4><a name="monitor" id="monitor"></a><tt>monitor</tt></h4>
@@ -5523,77 +5493,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p>Here is a more sophisticated example which retrieves all
     messages requiring a reply and offers the user a chance to
     reply each.<br></p>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jack</font><font color="#CC0000"> </font><font color="#CC0000">j.</font><font color="#CC0000"> </font><font color="#CC0000">woehr</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-10</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">instance</font><font color="#CC0000"> </font><font color="#CC0000">message</font><font color="#CC0000"> </font><font color="#CC0000">queue</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-instance</strong></font> <font color="#6600CC">@@ifspath</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">needing</font><font color="#CC0000"> </font><font color="#CC0000">reply</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#006699"><strong>FUNC</strong></font> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>msgq</strong></font> replylist <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-query</strong></font> <font color="#0099FF"><strong>-reply</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@replylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">messages,</font><font color="#CC0000"> </font><font color="#CC0000">walk</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">offer</font><font color="#CC0000"> </font><font color="#CC0000">user</font><font color="#CC0000"> </font><font color="#CC0000">chance</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">each</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#006699"><strong>FUNC</strong></font> autoreply <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@msgq</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@replylist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@key</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@answer</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@tf</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@reply</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span>    getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font> <font color="#6600CC">@@ifspath</font> <font color="#0000FF">@msgq</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>    getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@msgq</font> <font color="#0000FF">@replylist</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@msg</font> in <font color="#0000FF">@replylist</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span>        <font color="#009966"><strong>msg</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#0000FF">@msg</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@key</font> <font color="#0099FF"><strong>-key</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@msg</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span>        <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@answer</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Do</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">wish</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">message?</font><font color="#FF00CC"> </font><font color="#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span>        <font color="#009966"><strong>test</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@tf</font> <font color="#0099FF"><strong>-eq</strong></font> <font color="#0000FF">@answer</font> y
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span>        <font color="#006699"><strong>IF</strong></font> <font color="#0000FF">@tf</font> <font color="#006699"><strong>THEN</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">29 </font></span>            <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@reply</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Please</font><font color="#FF00CC"> </font><font color="#FF00CC">enter</font><font color="#FF00CC"> </font><font color="#FF00CC">your</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">30 </font></span>            <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font> <font color="#0000FF">@msgq</font> <font color="#0099FF"><strong>-sendreplybinkey</strong></font> <font color="#0000FF">@key</font> <font color="#0000FF">@reply</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">31 </font></span>            <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Reply</font><font color="#FF00CC"> </font><font color="#FF00CC">sent.</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">32 </font></span>        <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">33 </font></span>    <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">34 </font></span><font color="#000000"><strong>]$</strong></font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">autoreply.ublu</font><font color="#cc0000"> </font><font color="#cc0000">...</font><font color="#cc0000"> </font><font color="#cc0000">Find</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">reply</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">all</font><font color="#cc0000"> </font><font color="#cc0000">*INQ</font><font color="#cc0000"> </font><font color="#cc0000">&amp;</font><font color="#cc0000"> </font><font color="#cc0000">*NOTIFY</font><font color="#cc0000"> </font><font color="#cc0000">messages</font><font color="#cc0000"> </font><font color="#cc0000">in</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">given</font><font color="#cc0000"> </font><font color="#cc0000">MSGQ</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">jack</font><font color="#cc0000"> </font><font color="#cc0000">j.</font><font color="#cc0000"> </font><font color="#cc0000">woehr</font><font color="#cc0000"> </font><font color="#cc0000">jwoehr@absolute-performance.com</font><font color="#cc0000"> </font><font color="#cc0000">jwoehr@softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">2015-03-10</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">instance</font><font color="#cc0000"> </font><font color="#cc0000">message</font><font color="#cc0000"> </font><font color="#cc0000">queue</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@as400</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@as400</font> <font color="#6600cc">@@system</font> <font color="#6600cc">@@user</font> <font color="#6600cc">@@password</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#6600cc">@@msgq</font> <font color="#0099ff"><strong>-as400</strong></font> <font color="#0000ff">@as400</font> <font color="#0099ff"><strong>-instance</strong></font> <font color="#6600cc">@@ifspath</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">get</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">of</font><font color="#cc0000"> </font><font color="#cc0000">messages</font><font color="#cc0000"> </font><font color="#cc0000">needing</font><font color="#cc0000"> </font><font color="#cc0000">reply</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span><font color="#006699"><strong>FUNC</strong></font> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>msgq</strong></font> replylist <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#6600cc">@@msgq</font> <font color="#0099ff"><strong>-query</strong></font> <font color="#0099ff"><strong>-reply</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#6600cc">@@replylist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">get</font><font color="#cc0000"> </font><font color="#cc0000">messages,</font><font color="#cc0000"> </font><font color="#cc0000">walk</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">and</font><font color="#cc0000"> </font><font color="#cc0000">offer</font><font color="#cc0000"> </font><font color="#cc0000">user</font><font color="#cc0000"> </font><font color="#cc0000">chance</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">reply</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">each</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span><font color="#006699"><strong>FUNC</strong></font> autoreply <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@msgq</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@replylist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@key</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@answer</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@tf</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@reply</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>    getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#6600cc">@@system</font> <font color="#6600cc">@@user</font> <font color="#6600cc">@@password</font> <font color="#6600cc">@@ifspath</font> <font color="#0000ff">@msgq</font> <font color="#000000"><strong>)</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span>    getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#0000ff">@msgq</font> <font color="#0000ff">@replylist</font> <font color="#000000"><strong>)</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000ff">@msg</font> in <font color="#0000ff">@replylist</font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span>        <font color="#009966"><strong>msg</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@msg</font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@key</font> <font color="#0099ff"><strong>-key</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@msg</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>        <font color="#009966"><strong>ask</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@answer</font> <font color="#0099ff"><strong>-say</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">Do</font><font color="#ff00cc"> </font><font color="#ff00cc">you</font><font color="#ff00cc"> </font><font color="#ff00cc">wish</font><font color="#ff00cc"> </font><font color="#ff00cc">to</font><font color="#ff00cc"> </font><font color="#ff00cc">reply</font><font color="#ff00cc"> </font><font color="#ff00cc">to</font><font color="#ff00cc"> </font><font color="#ff00cc">this</font><font color="#ff00cc"> </font><font color="#ff00cc">message?</font><font color="#ff00cc"> </font><font color="#ff00cc">(y/n)</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>        <font color="#009966"><strong>test</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@tf</font> <font color="#0099ff"><strong>-eq</strong></font> <font color="#0000ff">@answer</font> y
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span>        <font color="#006699"><strong>IF</strong></font> <font color="#0000ff">@tf</font> <font color="#006699"><strong>THEN</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span>            <font color="#009966"><strong>ask</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@reply</font> <font color="#0099ff"><strong>-say</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">Please</font><font color="#ff00cc"> </font><font color="#ff00cc">enter</font><font color="#ff00cc"> </font><font color="#ff00cc">your</font><font color="#ff00cc"> </font><font color="#ff00cc">reply</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>            <font color="#009966"><strong>msgq</strong></font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@msgq</font> <font color="#0099ff"><strong>-sendreplybinkey</strong></font> <font color="#0000ff">@key</font> <font color="#0000ff">@reply</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">31 </font></span>            <font color="#009966"><strong>put</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">Reply</font><font color="#ff00cc"> </font><font color="#ff00cc">sent.</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">32 </font></span>        <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">33 </font></span>    <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">34 </font></span><font color="#000000"><strong>]$</strong></font>
+</font></pre>
+
   </blockquote>
 
   <h4><a name="num" id="num"></a> <tt>num</tt></h4>
@@ -5623,31 +5558,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     "#calljava"><tt>calljava</tt></a> command.<br>
     <br>
     <i>Example</i> (<tt>examples/test/testnum.ublu</tt>)<br>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testnum.ublu ... test</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">num</font><font color="#CC0000"> </font><font color="#CC0000">command</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#009966"><strong>num</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@anInt</font> <font color="#0099FF"><strong>-int</strong></font> <font color="#FF0000">1234</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@anInt</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-typename</strong></font> <font color="#0000FF">@anInt</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#009966"><strong>num</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@aBigDec</font> <font color="#0099FF"><strong>-bigdec</strong></font> <font color="#FF0000">1234</font>.<font color="#FF0000">56</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@aBigDec</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-typename</strong></font> <font color="#0000FF">@aBigDec</font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">testnum.ublu</font><font color="#cc0000"> </font><font color="#cc0000">...</font><font color="#cc0000"> </font><font color="#cc0000">test</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">num</font><font color="#cc0000"> </font><font color="#cc0000">command</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Example</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">https://github.com/jwoehr/ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Copyright</font><font color="#cc0000"> </font><font color="#cc0000">(C)</font><font color="#cc0000"> </font><font color="#cc0000">2016</font><font color="#cc0000"> </font><font color="#cc0000">Jack</font><font color="#cc0000"> </font><font color="#cc0000">J.</font><font color="#cc0000"> </font><font color="#cc0000">Woehr</font><font color="#cc0000"> </font><font color="#cc0000">http://www.softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">See</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">license</font><font color="#cc0000"> </font><font color="#cc0000">(BSD-2</font><font color="#cc0000"> </font><font color="#cc0000">open</font><font color="#cc0000"> </font><font color="#cc0000">source)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#009966"><strong>num</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@anInt</font> <font color="#0099ff"><strong>-int</strong></font> <font color="#ff0000">1234</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@anInt</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099ff"><strong>-typename</strong></font> <font color="#0000ff">@anInt</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span><font color="#009966"><strong>num</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@aBigDec</font> <font color="#0099ff"><strong>-bigdec</strong></font> <font color="#ff0000">1234</font>.<font color="#ff0000">56</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@aBigDec</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099ff"><strong>-typename</strong></font> <font color="#0000ff">@aBigDec</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>
+</font></pre>
+
   </blockquote>
 
   <h4><a name="objdesc" id="objdesc"></a> <tt>objdesc</tt></h4>
@@ -5835,39 +5759,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </ul>
 
     <p><i>Example</i><br></p>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listobjs.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">objects</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-12</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">example:</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listObjs</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">s0mesys</font><font color="#CC0000"> </font><font color="#CC0000">qsecofr</font><font color="#CC0000"> </font><font color="#CC0000">xyz1234</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">FRED</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">objects</font><font color="#CC0000"> </font><font color="#CC0000">on</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">system</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> listObjs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password lib name type <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@objlist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@txtlist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@objlist</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-lib</strong></font> <font color="#6600CC">@@lib</font> <font color="#0099FF"><strong>-name</strong></font> <font color="#6600CC">@@name</font> <font color="#0099FF"><strong>-type</strong></font> <font color="#6600CC">@@type</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@txtlist</font> <font color="#0099FF"><strong>--</strong></font> <font color="#0000FF">@objlist</font> <font color="#0099FF"><strong>-list</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@obj</font> in <font color="#0000FF">@txtlist</font> <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@obj</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">end</font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">listobjs.ublu</font><font color="#cc0000"> </font><font color="#cc0000">...</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">objects</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">jwoehr@absolute-performance.com</font><font color="#cc0000"> </font><font color="#cc0000">jwoehr@softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">2015-03-12</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">example:</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">listObjs</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">s0mesys</font><font color="#cc0000"> </font><font color="#cc0000">qsecofr</font><font color="#cc0000"> </font><font color="#cc0000">xyz1234</font><font color="#cc0000"> </font><font color="#cc0000">*ALL</font><font color="#cc0000"> </font><font color="#cc0000">FRED</font><font color="#cc0000"> </font><font color="#cc0000">*ALL</font><font color="#cc0000"> </font><font color="#cc0000">)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">specified</font><font color="#cc0000"> </font><font color="#cc0000">objects</font><font color="#cc0000"> </font><font color="#cc0000">on</font><font color="#cc0000"> </font><font color="#cc0000">specified</font><font color="#cc0000"> </font><font color="#cc0000">system</font><font color="#cc0000"> </font><font color="#cc0000">to</font><font color="#cc0000"> </font><font color="#cc0000">a</font><font color="#cc0000"> </font><font color="#cc0000">datasink</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">example:</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">listObjs</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">@sys</font><font color="#cc0000"> </font><font color="#cc0000">*ALL</font><font color="#cc0000"> </font><font color="#cc0000">FRED</font><font color="#cc0000"> </font><font color="#cc0000">*ALL</font><font color="#cc0000"> </font><font color="#cc0000">@mylist)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#006699"><strong>FUNC</strong></font> listObjsTo <font color="#000000"><strong>(</strong></font> sys lib name type sink <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@objlist</font> <font color="#0099ff"><strong>-as400</strong></font> <font color="#6600cc">@@sys</font> <font color="#0099ff"><strong>-lib</strong></font> <font color="#6600cc">@@lib</font> <font color="#0099ff"><strong>-name</strong></font> <font color="#6600cc">@@name</font> <font color="#0099ff"><strong>-type</strong></font> <font color="#6600cc">@@type</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@txtlist</font> <font color="#0099ff"><strong>--</strong></font><font color="#0099ff"><strong> </strong></font><font color="#0000ff">@objlist</font> <font color="#0099ff"><strong>-list</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>    <font color="#009966"><strong>string</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@stringbuff</font> <font color="#0099ff"><strong>-new</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000ff">@obj</font> in <font color="#0000ff">@txtlist</font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span>        <font color="#009966"><strong>string</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@stringbuff</font> <font color="#0099ff"><strong>-cat</strong></font> <font color="#0000ff">@stringbuff</font> <font color="#0000ff">@obj</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>        <font color="#009966"><strong>string</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@stringbuff</font> <font color="#0099ff"><strong>-nl</strong></font> <font color="#0000ff">@stringbuff</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>    <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>    <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@stringbuff</font> <font color="#0099ff"><strong>-to</strong></font> <font color="#6600cc">@@sink</font>  
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>  
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">list</font><font color="#cc0000"> </font><font color="#cc0000">specified</font><font color="#cc0000"> </font><font color="#cc0000">objects</font><font color="#cc0000"> </font><font color="#cc0000">on</font><font color="#cc0000"> </font><font color="#cc0000">specified</font><font color="#cc0000"> </font><font color="#cc0000">system</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">example:</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">listObjs</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">s0mesys</font><font color="#cc0000"> </font><font color="#cc0000">qsecofr</font><font color="#cc0000"> </font><font color="#cc0000">xyz1234</font><font color="#cc0000"> </font><font color="#cc0000">*ALL</font><font color="#cc0000"> </font><font color="#cc0000">FRED</font><font color="#cc0000"> </font><font color="#cc0000">*ALL</font><font color="#cc0000"> </font><font color="#cc0000">)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span><font color="#006699"><strong>FUNC</strong></font> listObjs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password lib name type <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">25 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@sys</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@objlist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000ff">@txtlist</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">26 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@sys</font> <font color="#6600cc">@@system</font> <font color="#6600cc">@@user</font> <font color="#6600cc">@@password</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">27 </font></span>    listObjsTo <font color="#000000"><strong>(</strong></font> <font color="#0000ff">@sys</font> <font color="#6600cc">@@lib</font> <font color="#6600cc">@@name</font> <font color="#6600cc">@@type</font> STD: <font color="#000000"><strong>)</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">28 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">29 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">end</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">30 </font></span>
+</font></pre>
   </blockquote>
 
   <h4><a name="outq" id="outq"></a><tt>outq</tt></h4>
@@ -7686,57 +7608,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     must appear on one line.<br>
     <br>
     <i>Example</i><br>
-    <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testswitch.ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">SWITCH</font><font color="#CC0000"> </font><font color="#CC0000">statement</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">session:</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">red</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">testSwitch</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">you</font><font color="#CC0000"> </font><font color="#CC0000">chose</font><font color="#CC0000"> </font><font color="#CC0000">red</font><font color="#CC0000"> </font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">green</font><font color="#CC0000"> </font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">testSwitch</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">you</font><font color="#CC0000"> </font><font color="#CC0000">chose</font><font color="#CC0000"> </font><font color="#CC0000">green</font><font color="#CC0000"> </font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">blue</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">testSwitch</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">What!?</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">blue</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#006699"><strong>FUNC</strong></font> testSwitch <font color="#000000"><strong>(</strong></font> selector <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#006699"><strong>SWITCH</strong></font> <font color="#6600CC">@@selector</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>        <font color="#0099FF"><strong>-case</strong></font> red
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">chose</font><font color="#FF00CC"> </font><font color="#FF00CC">red</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span>        <font color="#0099FF"><strong>-case</strong></font> green
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">chose</font><font color="#FF00CC"> </font><font color="#FF00CC">green</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span>        <font color="#0099FF"><strong>-default</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">What!?</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@selector</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">End</font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">testswitch.ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">test</font><font color="#cc0000"> </font><font color="#cc0000">SWITCH</font><font color="#cc0000"> </font><font color="#cc0000">statement</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Example</font><font color="#cc0000"> </font><font color="#cc0000">session:</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">&gt;</font><font color="#cc0000"> </font><font color="#cc0000">put</font><font color="#cc0000"> </font><font color="#cc0000">-to</font><font color="#cc0000"> </font><font color="#cc0000">@sel</font><font color="#cc0000"> </font><font color="#cc0000">red</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">&gt;</font><font color="#cc0000"> </font><font color="#cc0000">testSwitch</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">@sel</font><font color="#cc0000"> </font><font color="#cc0000">)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">you</font><font color="#cc0000"> </font><font color="#cc0000">chose</font><font color="#cc0000"> </font><font color="#cc0000">red</font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">&gt;</font><font color="#cc0000"> </font><font color="#cc0000">put</font><font color="#cc0000"> </font><font color="#cc0000">-to</font><font color="#cc0000"> </font><font color="#cc0000">@sel</font><font color="#cc0000"> </font><font color="#cc0000">green</font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">&gt;</font><font color="#cc0000"> </font><font color="#cc0000">testSwitch</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">@sel</font><font color="#cc0000"> </font><font color="#cc0000">)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">you</font><font color="#cc0000"> </font><font color="#cc0000">chose</font><font color="#cc0000"> </font><font color="#cc0000">green</font><font color="#cc0000"> </font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">&gt;</font><font color="#cc0000"> </font><font color="#cc0000">put</font><font color="#cc0000"> </font><font color="#cc0000">-to</font><font color="#cc0000"> </font><font color="#cc0000">@sel</font><font color="#cc0000"> </font><font color="#cc0000">blue</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">&gt;</font><font color="#cc0000"> </font><font color="#cc0000">testSwitch</font><font color="#cc0000"> </font><font color="#cc0000">(</font><font color="#cc0000"> </font><font color="#cc0000">@sel</font><font color="#cc0000"> </font><font color="#cc0000">)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">What!?</font><font color="#cc0000"> </font><font color="#cc0000"> </font><font color="#cc0000">blue</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span><font color="#006699"><strong>FUNC</strong></font> testSwitch <font color="#000000"><strong>(</strong></font> selector <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>    <font color="#006699"><strong>SWITCH</strong></font> <font color="#6600cc">@@selector</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span>        <font color="#0099ff"><strong>-case</strong></font> red
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">you</font><font color="#ff00cc"> </font><font color="#ff00cc">chose</font><font color="#ff00cc"> </font><font color="#ff00cc">red</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font> <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span>        <font color="#0099ff"><strong>-case</strong></font> green
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">20 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">you</font><font color="#ff00cc"> </font><font color="#ff00cc">chose</font><font color="#ff00cc"> </font><font color="#ff00cc">green</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font> <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">21 </font></span>        <font color="#0099ff"><strong>-default</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">22 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-s</strong></font> <font color="#0099ff"><strong>-n</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">What!?</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#6600cc">@@selector</font> <font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">23 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">24 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">End</font>
+</font></pre>
+
   </blockquote>
 
   <h4><a name="system" id="system"></a><tt>system</tt></h4>
@@ -8595,47 +8492,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   datasink for <tt>\\</tt> is set to <tt>NULL:</tt><br>
   <br>
   <i>Example</i>
-  <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">quote</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> cq <font color="#000000"><strong>(</strong></font> param <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>\\</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@foo</font> zog  
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>  <font color="#CC0000">\\</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@bar</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">this</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">extended</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>  <font color="#CC0000">\\</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">this</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">also</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">extended</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">done</font><font color="#FF00CC"> </font><font color="#FF00CC">function</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@myparam</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">test</font><font color="#FF00CC"> </font><font color="#FF00CC">param</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>cq <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@myparam</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@foo</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@bar</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">done</font>
-</font>
-</pre>
+<pre><font color="#000000"><span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 1 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">test</font><font color="#cc0000"> </font><font color="#cc0000">comment</font><font color="#cc0000"> </font><font color="#cc0000">quote</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 2 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Example</font><font color="#cc0000"> </font><font color="#cc0000">from</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">https://github.com/jwoehr/ublu</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 3 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">Copyright</font><font color="#cc0000"> </font><font color="#cc0000">(C)</font><font color="#cc0000"> </font><font color="#cc0000">2016</font><font color="#cc0000"> </font><font color="#cc0000">Jack</font><font color="#cc0000"> </font><font color="#cc0000">J.</font><font color="#cc0000"> </font><font color="#cc0000">Woehr</font><font color="#cc0000"> </font><font color="#cc0000">http://www.softwoehr.com</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 4 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">See</font><font color="#cc0000"> </font><font color="#cc0000">the</font><font color="#cc0000"> </font><font color="#cc0000">Ublu</font><font color="#cc0000"> </font><font color="#cc0000">license</font><font color="#cc0000"> </font><font color="#cc0000">(BSD-2</font><font color="#cc0000"> </font><font color="#cc0000">open</font><font color="#cc0000"> </font><font color="#cc0000">source)</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066"> 5 </font></span>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> cq <font color="#000000"><strong>(</strong></font> param <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>\\</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@foo</font> zog  
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 8 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#6600cc">@@param</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000"> 9 </font></span>  <font color="#cc0000">\\</font><font color="#cc0000"> </font><font color="#cc0000">-to</font><font color="#cc0000"> </font><font color="#cc0000">@bar</font><font color="#cc0000"> </font><font color="#cc0000">${</font><font color="#cc0000"> </font><font color="#cc0000">this</font><font color="#cc0000"> </font><font color="#cc0000">is</font><font color="#cc0000"> </font><font color="#cc0000">an</font><font color="#cc0000"> </font><font color="#cc0000">extended</font><font color="#cc0000"> </font><font color="#cc0000">comment</font><font color="#cc0000"> </font><font color="#cc0000">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">10 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#6600cc">@@param</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">11 </font></span>  <font color="#cc0000">\\</font><font color="#cc0000"> </font><font color="#cc0000">${</font><font color="#cc0000"> </font><font color="#cc0000">this</font><font color="#cc0000"> </font><font color="#cc0000">is</font><font color="#cc0000"> </font><font color="#cc0000">also</font><font color="#cc0000"> </font><font color="#cc0000">an</font><font color="#cc0000"> </font><font color="#cc0000">extended</font><font color="#cc0000"> </font><font color="#cc0000">comment</font><font color="#cc0000"> </font><font color="#cc0000">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">12 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#6600cc">@@param</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">13 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">done</font><font color="#ff00cc"> </font><font color="#ff00cc">function</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">14 </font></span><font color="#000000"><strong>]$</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#990066">15 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-to</strong></font> <font color="#0000ff">@myparam</font> <font color="#ff00cc">${</font><font color="#ff00cc"> </font><font color="#ff00cc">a</font><font color="#ff00cc"> </font><font color="#ff00cc">test</font><font color="#ff00cc"> </font><font color="#ff00cc">param</font><font color="#ff00cc"> </font><font color="#ff00cc">}$</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">16 </font></span>cq <font color="#000000"><strong>(</strong></font> <font color="#0000ff">@myparam</font> <font color="#000000"><strong>)</strong></font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">17 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@foo</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099ff"><strong>-from</strong></font> <font color="#0000ff">@bar</font>
+<span style="background:#dbdbdb; border-right:solid 2px black; margin-right:5px; "><font color="#000000">19 </font></span><font color="#cc0000">#</font><font color="#cc0000"> </font><font color="#cc0000">done</font>
+</font></pre>
 
   <h2><a name="Tips_and_Tricks" id="Tips_and_Tricks"></a> Tips and
   Tricks<br></h2>
