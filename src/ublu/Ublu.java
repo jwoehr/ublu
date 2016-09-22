@@ -117,7 +117,7 @@ public class Ublu {
                 .append("\n---\n")
                 .append(com.softwoehr.pigiron.Version.getVersion())
                 .append(" http://pigiron.sourceforge.net\n")
-                .append("Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO 80403 USA\n")
+                .append("Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO 80402 USA\n")
                 .append("All Rights Reserved")
                 .toString();
     }
