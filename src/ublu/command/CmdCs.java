@@ -45,6 +45,7 @@ import ublu.db.Db;
 import ublu.db.ResultSetClosure;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
+import ublu.util.Generics.ByteArrayList;
 import ublu.util.Tuple;
 
 /**
@@ -339,13 +340,25 @@ public class CmdCs extends Command {
         return argArray;
     }
 
-    private boolean setIn(CallableStatement cs, int parameterIndex, Object x, String sqlTypeName, Integer length) throws SQLException {
-        boolean success = false;
+    private void setIn(CallableStatement cs, int parameterIndex, Object x, String sqlTypeName, Integer length) throws SQLException {
         switch (sqlTypeName.toUpperCase()) {
+            case "BOOLEAN":
+                cs.setBoolean(parameterIndex, (Boolean) x);
+            case "BYTE":
+                cs.setByte(parameterIndex, (Byte) x);
+            case "BYTES":
+                cs.setBytes(parameterIndex, ((ByteArrayList) x).byteArray());
+            case "DOUBLE":
+                cs.setDouble(parameterIndex, (Double) x);
+            case "FLOAT":
+                cs.setFloat(parameterIndex, (Float) x);
+            case "INT":
+                cs.setInt(parameterIndex, (Integer) x);
+            case "LONG":
+                cs.setLong(parameterIndex, (Long) x);
             case "ARRAY":
                 cs.setArray(parameterIndex, (Array) (x));
                 break;
-
             case "STRING":
                 cs.setString(parameterIndex, (String) x);
                 break;
@@ -388,32 +401,22 @@ public class CmdCs extends Command {
         // if (x instanceof InputStream": cs.setAsciiStream(parameterIndex, InputStream x, long length); } else
         //cs.setBlob(int parameterIndex, InputStream inputStream)
         //cs.setBlob(int parameterIndex, InputStream inputStream, long length)
-        //if (x instanceof boolean) { cs.setBoolean(parameterIndex, (boolean) x); } else
-        //if (x instanceof byte) { cs.setByte(parameterIndex, (byte) x); } else
-        //cs.setBytes(int parameterIndex, byte[] x)
         //cs.setCharacterStream(int parameterIndex, Reader reader)
         //cs.setCharacterStream(int parameterIndex, Reader reader, int length)
         //cs.setCharacterStream(int parameterIndex, Reader reader, long length)
         // if (x instanceof InputStream) { cs.setBinaryStream(parameterIndex, InputStream x, long length); } else          
         //if (x instanceof Date) { cs.setDate(parameterIndex, Date x, Calendar cal); } else
-        //if (x instanceof double) { cs.setDouble(parameterIndex, double x); } else
-        //if (x instanceof float) { cs.setFloat(parameterIndex, float x); } else
-        //if (x instanceof int) { cs.setInt(parameterIndex, x); } else
-        //if (x instanceof long) { cs.setLong(parameterIndex, long x); } else
         //cs.setNCharacterStream(int parameterIndex, Reader value)
         //cs.setNCharacterStream(int parameterIndex, Reader value, long length)
         //cs.setNClob(int parameterIndex, NClob value)
         //cs.setNClob(int parameterIndex, Reader reader)
         //cs.setNClob(int parameterIndex, Reader reader, long length)
-        //cs.setNString(int parameterIndex, String value)
-        //cs.setNull(int parameterIndex, int sqlType)
-        //cs.setNull(int parameterIndex, int sqlType, String typeName)          
+        //cs.setNString(int parameterIndex, String value)     
 //if (x instanceof Object) { cs.setObject(parameterIndex, Object x, targetSqlType); } else
 //if (x instanceof Object) { cs.setObject(parameterIndex, Object x, targetSqlType, scaleOrLength); } else
 //if (x instanceof Object) { cs.setObject(parameterIndex, Object x, SQLType targetSqlType); } else
 //if (x instanceof Object) { cs.setObject(parameterIndex, Object x, SQLType targetSqlType, scaleOrLength); } else
 //if (x instanceof Ref) { cs.setRef(parameterIndex, Ref x); }
-        return success;
     }
 
 //    private void setInArray(CallableStatement cs, int index, Array inParameter) throws SQLException {
