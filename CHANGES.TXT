@@ -28,17 +28,25 @@ New examples:
 1.1.2
 Changes to commands:
 	- const command added
+	- cs command added
 	- file command added
 	- record command added
+	- sock command added
 	- trace command added
 	- server command now allows execution of a "canned" program rather
 	  than simple direct access to the Ublu interpreter.
+	- multiple server instances now allowed.  
 	- string -uchar now can take a string of hexvals instead of only one
 	- removed -from from commandcall and parse arguments better
 	- programcall works better
 	- added as400 -setaspgrp
 	- added -byte to num command
 	- list command supports object arrays and -toarray
+	- more dash-commands for as400 command
+	
+New examples:
+	- ifsstuff.ublu
+	- and some in the examples/test directory
 
 Miscellaneous:
 	- Deprecate providing system/userid/password as arguments to most
