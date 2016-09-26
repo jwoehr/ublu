@@ -61,7 +61,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4 [--,-dbconnected @dbconnected] -db (@)type [-charsetname (@)charsetname] [-catalog | -columntypes (@)tablename | -connect | -csv (@)tablename [-separator ${ separator}$ ] | -disconnect | -metadata | -primarykeys | -query ~@{ SQL string } | -query_nors ~@{ SQL string } | -replicate (@)tableName (@)destDbName (@)destDbType (@)destDatabaseName (@)destUser (@)destPassword | -star (@)tablename] [-pklist ${ space separated primary keys }$] [-port (@)portnum] [-property k v [-property k v] ..] (@)system (@)database (@)userid (@)password : perform various operations on databases");
+                "/4 [--,-dbconnected @dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
@@ -284,7 +284,7 @@ public class CmdDb extends Command {
                     break;
                 case "-db":
                     if (getDb() == null) {
-                        setDbType(argArray.nextMaybeTupleString());
+                        setDbType(argArray.nextMaybeQuotationTuplePopString());
                         switch (getDbType()) {
                             case "as400":
                                 setDb(new DbAS400());
@@ -308,18 +308,18 @@ public class CmdDb extends Command {
                     setFunction(FUNCTIONS.CATALOG);
                     break;
                 case "-charsetname":
-                    charsetName = argArray.nextMaybeTupleString();
+                    charsetName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-columntypes":
                     setFunction(FUNCTIONS.COLUMNTYPES);
-                    starTableName = argArray.nextMaybeTupleString();
+                    starTableName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-connect":
                     setFunction(FUNCTIONS.CONNECT);
                     break;
                 case "-csv":
                     setFunction(FUNCTIONS.TABLECSV);
-                    setCsvTableName(argArray.nextMaybeTupleString());
+                    setCsvTableName(argArray.nextMaybeQuotationTuplePopString());
                     break;
                 case "-disconnect":
                     setFunction(FUNCTIONS.DISCONNECT);
@@ -329,48 +329,32 @@ public class CmdDb extends Command {
                     break;
                 case "-primarykeys":
                     setFunction(FUNCTIONS.PRIMARYKEYS);
-                    starTableName = argArray.next();
+                    starTableName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-pklist":
-                    if (!argArray.isOpenQuoteNext()) {
-                        getLogger().log(Level.SEVERE, "db -pklist must have a $'{' quoted string of space separated primary keys '}'$)", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                        argArray = new ArgArray(getInterpreter()); // so we will fall out below
-                        break;
-                    } else {
-                        argArray.assimilateFullQuotation();
-                        primaryKeyList.splitIn(argArray.next(), "\\p{Space}+");
-                    }
+                    primaryKeyList.splitIn(argArray.nextMaybeQuotationTuplePopString(), "\\p{Space}+");
                     break;
                 case "-port":
-                    setPort(argArray.nextMaybeTupleString());
+                    setPort(argArray.nextMaybeQuotationTuplePopString());
                     break;
                 case "-property":
-                    getConnectionProperties().put(argArray.nextMaybeQuotation(), argArray.nextMaybeQuotation());
+                    getConnectionProperties().put(argArray.nextMaybeQuotationTuplePopString(), argArray.nextMaybeQuotationTuplePopString());
                     break;
                 case "-replicate":
                     setFunction(FUNCTIONS.REPLICATE);
-                    starTableName = argArray.nextMaybeTupleString();
-                    destDbName = argArray.nextMaybeTupleString();
-                    destDbType = argArray.nextMaybeTupleString();
-                    destDatabaseName = argArray.nextMaybeTupleString();
-                    destUser = argArray.nextMaybeTupleString();
-                    destPassword = argArray.nextMaybeTupleString();
+                    starTableName = argArray.nextMaybeQuotationTuplePopString();
+                    destDbName = argArray.nextMaybeQuotationTuplePopString();
+                    destDbType = argArray.nextMaybeQuotationTuplePopString();
+                    destDatabaseName = argArray.nextMaybeQuotationTuplePopString();
+                    destUser = argArray.nextMaybeQuotationTuplePopString();
+                    destPassword = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-separator":
-                    if (!argArray.isOpenQuoteNext()) {
-                        getLogger().log(Level.SEVERE, "{0} must have an $'{' SQL string '}'$)", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                        argArray = new ArgArray(getInterpreter());
-                        break;
-                    } else {
-                        argArray.assimilateFullQuotation();
-                        setCsvSeparator(argArray.next());
-                    }
+                    setCsvSeparator(argArray.nextMaybeQuotationTuplePopString());
                     break;
                 case "-star":
                     setFunction(FUNCTIONS.STAR);
-                    starTableName = argArray.nextMaybeTupleString();
+                    starTableName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-query":
                     setFunction(FUNCTIONS.QUERY);
@@ -392,10 +376,10 @@ public class CmdDb extends Command {
                     logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
-                    String system = argArray.nextMaybeTupleString();
-                    String database = argArray.nextMaybeTupleString();
-                    String userid = argArray.nextMaybeTupleString();
-                    String password = argArray.nextMaybeTupleString();
+                    String system = argArray.nextMaybeQuotationTuplePopString();
+                    String database = argArray.nextMaybeQuotationTuplePopString();
+                    String userid = argArray.nextMaybeQuotationTuplePopString();
+                    String password = argArray.nextMaybeQuotationTuplePopString();
                     if (getDb() == null || getFunction() == null) {
                         getLogger().log(Level.SEVERE, "-db dbtype and a choice of function required for {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
