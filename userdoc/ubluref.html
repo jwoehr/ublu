@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -933,14 +934,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   of tuple variables for programming convenience manipulated via
   the <a href="#lifo"><tt>lifo</tt></a> command.<br>
   <br>
-  Many commands and dash-commands that expect tuple arguments can
+  A command and its dash-commands that expect tuple arguments can
   also take the argument <big><big><b><tt>~</tt></b></big></big>
   ("tilde") which signifies "pop the tuple from the tuple stack".
   An error will result if the stack is empty.<br>
+  <br>
+  When a command references a source or destination <a href=
+  "#Datasinks">datasink</a> via the <tt>-to</tt> or <tt>-from</tt>
+  dash-commands, that datasink may also be
+  <big><big><b><tt>~</tt></b></big></big> ("tilde"), meaning the
+  source or destination is the tuple stack. Non-tuples, e.g,
+  strings put to a destination datasink via <tt>-to ~</tt> in this
+  fashion are automatically wrapped in an anonymous tuple. Hence
+  the following session:
+
+  <blockquote>
+    <tt>&gt; put -to ~ ${ but not a clever test }$<br>
+    &gt; put -to ~ ${ this is a test }$<br>
+    &gt; <a href="#string">string</a> -to ~ -cat ~ ~<br>
+    &gt; put ~<br>
+    <i>this is a test but not a clever test</i></tt>
+  </blockquote>
 
   <h3><a name="Numbers" id="Numbers"></a>Numbers</h3>Numbers are
   signed integers and generally can be input as decimal, hex
-  (0x00), or octal (000).<br>
+  (0x00), or octal (000). See also the <a href="#num">num</a>
+  command.<br>
 
   <h3><a name="Plainwords" id="Plainwords"></a>Plainwords</h3>Any
   whitespace-delimited sequence of non-whitespace characters
@@ -2375,7 +2394,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     separated primary keys }] [-port ~@{portnum] [-property ~@{key}
     ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system}
     ~@{database} ~@{userid} ~@{password} : perform various
-    operations on databases</tt><br><br>
+    operations on databases</tt><br>
+    <br>
     The <tt>db</tt> command performs a database operation on
     <i>system</i>'s <i>database</i> for <i>userid</i> with
     <i>password</i>.<br>
