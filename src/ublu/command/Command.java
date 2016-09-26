@@ -508,6 +508,32 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * Extract as400 from a tuple.
+     *
+     * @param as400Tuple Tuple nominally holding AS400 instance
+     * @return the AS400 object or null
+     */
+    public AS400 as400FromTuple(Tuple as400Tuple) {
+        AS400 result = null;
+        if (as400Tuple != null) {
+            Object o = as400Tuple.getValue();
+            if (o instanceof AS400) {
+                result = AS400.class.cast(o);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Set our AS400 instance from tuple.
+     *
+     * @param as400Tuple Tuple nominally holding AS400 instance
+     */
+    public void setAs400FromTuple(Tuple as400Tuple) {
+        setAs400(as400FromTuple(as400Tuple));
+    }
+
+    /**
      * Set an error flag in the default case for handling dash-commands.
      *
      * @param dashCommand the unknown dash-command
