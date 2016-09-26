@@ -28,6 +28,7 @@ package ublu.command;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.AS400Text;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
@@ -47,12 +48,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -trim ~@{string}] : string operations");
+                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} |-trim ~@{string}] : string operations");
     }
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, EQ, FROMBYTES, LEN, NEW, NL, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP
+        UCHAR, BL, BLS, CAT, EQ, FROMBYTES, LEN, NEW, NL, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400
     }
 
     /**
@@ -71,6 +72,7 @@ public class CmdString extends Command {
         int beginindex = 0;
         int endindex = 0;
         int fillcount = 0;
+        int ccsid = -1;
         Tuple fromBytesTuple = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -153,6 +155,18 @@ public class CmdString extends Command {
                     operation = OPERATIONS.TRIM;
                     lopr = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-toascii":
+                    operation = OPERATIONS.TOASCII;
+                    setAs400FromTuple(argArray.nextTupleOrPop());
+                    fromBytesTuple = argArray.nextTupleOrPop();
+                    ccsid = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-toas400":
+                    operation = OPERATIONS.TOAS400;
+                    setAs400FromTuple(argArray.nextTupleOrPop());
+                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    ccsid = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -227,6 +241,30 @@ public class CmdString extends Command {
                     break;
                 case TRIM:
                     opresult = lopr.trim();
+                    break;
+                case TOASCII:
+                    if (ccsid == -1) {
+                        ccsid = getAs400().getCcsid();
+                    }
+                    byte[] b = null;
+                    if (fromBytesTuple != null) {
+                        Object o = fromBytesTuple.getValue();
+                        if (o instanceof ByteArrayList) {
+                            b = ByteArrayList.class.cast(o).byteArray();
+                        } else if (o instanceof byte[]) {
+                            b = (byte[]) o;
+                        }
+                        if (b != null) {
+                            opresult = new AS400Text(b.length, ccsid, getAs400()).toObject(b).toString();
+                        }
+                    }
+                    break;
+                case TOAS400:
+                    if (ccsid == -1) {
+                        ccsid = getAs400().getCcsid();
+                    }
+                    opresult = new AS400Text(lopr.length(), ccsid, getAs400()).toBytes(lopr);
+                    break;
             }
             try {
                 put(opresult);
