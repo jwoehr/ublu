@@ -6440,21 +6440,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <tt>/1? [-to filename|@filename] [-tofile ~@tuplename] [-from
     filename|@tuplename ] -fromfile ~@filename] [-append] [
     -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# number |
-    ~@{object or a string}&nbsp; | a single lex ] : put data from
+    ~@{object or a string} | a single lex ] : put data from
     datasink to datasink, optionally translating charset if
     -toascii or -charset are set<br>
-    &nbsp;&nbsp;<br>
+    <br>
     <br></tt> The <tt>put</tt> command puts data from the source
     <a href="#Datasinks">datasink</a> (Standard Input (called
     <tt>STD:</tt>), filename, <a href=
     "#Tuple_Variables"><i>@variable</i></a> or <tt>NULL:</tt>)
     specified by the <tt>-from</tt> <a href=
     "#Dash_Command">dash-command</a> to the destination datasink
-    (Standard Output (called <tt>STD:</tt>), filename,&nbsp;
-    <i><a href="#Tuple_Variables">@variable</a></i> or
-    <tt>NULL:</tt>) specified by the <tt>-to</tt> dash-command,
-    optionally translating charset if <tt>-toascii</tt> or
-    <tt>-charset</tt> are set.<br>
+    (Standard Output (called <tt>STD:</tt>), filename, <i><a href=
+    "#Tuple_Variables">@variable</a></i> or <tt>NULL:</tt>)
+    specified by the <tt>-to</tt> dash-command, optionally
+    translating charset if <tt>-toascii</tt> or <tt>-charset</tt>
+    are set.<br>
     <br>
     In the absence of <tt>-to</tt> and/or <tt>-from</tt> (or
     -<tt>tofile</tt> and/or <tt>-fromfile</tt>) the respective
@@ -7581,17 +7581,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <i>intlen</i> substring of <i>string</i> starting from the
       zero-base <i>intoffset</i><i>.</i></li>
 
-      <li>-toas400 ~@as400 ~@{string} ~@{ccsid} converts
+      <li><tt>-toas400 ~@as400 ~@{string} ~@{ccsid}</tt> converts
       <i>string</i> to a byte array encoded according to
       <i>ccsid</i> fetching the conversion table from system
       <i>as400</i>. If <i>ccsid</i> is -1, the default ccsid of
       user profile associated with <i>as400</i> is used.</li>
 
-      <li>-toascii ~@as400 ~@bytes ~@{ccsid} converts a byte array
-      <i>bytes</i> encoded according to <i>ccsid</i> to a string,
-      fetching the conversion table from system <i>as400</i>. If
-      <i>ccsid</i> is -1, the default ccsid of user profile
-      associated with <i>as400</i> is used.</li>
+      <li><tt>-toascii ~@as400 ~@bytes ~@{ccsid}</tt> converts a
+      byte array <i>bytes</i> encoded according to <i>ccsid</i> to
+      a string, fetching the conversion table from system
+      <i>as400</i>. If <i>ccsid</i> is -1, the default ccsid of
+      user profile associated with <i>as400</i> is used.</li>
 
       <li><tt>-tobytes ~@{string}</tt> puts a byte array of the
       bytes from <i>string</i>.<br></li>
