@@ -598,9 +598,6 @@ public abstract class Command implements CommandInterface {
      */
     public DataSink newDataSink(ArgArray argArray) {
         String sinkName = argArray.next();
-        if (sinkName.equals(ArgArray.POPTUPLE)) {
-            sinkName = getTupleStack().pop().getKey();
-        }
         return DataSink.fromSinkName(sinkName);
     }
 

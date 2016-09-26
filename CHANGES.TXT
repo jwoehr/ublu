@@ -27,6 +27,8 @@ New examples:
 	
 1.1.2
 Changes to commands:
+	- ~ works -to and -from and with the put command correctly
+	  creating anonymous tuples as needed
 	- const command added
 	- cs command added
 	- updates to db command

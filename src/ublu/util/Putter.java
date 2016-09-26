@@ -254,9 +254,8 @@ public class Putter {
             case LIFO:
                 if (getObject().getClass().equals(ublu.util.Tuple.class)) {
                     getInterpreter().getTupleStack().push(ublu.util.Tuple.class.cast(getObject()));
-                }
-                else {
-                    getInterpreter().getLogger().log(Level.SEVERE, "Attempt to put non-tuple to Tuple Stack");
+                } else {
+                    getInterpreter().getTupleStack().push(new Tuple(null, getObject()));
                 }
                 break;
             case NUL:
