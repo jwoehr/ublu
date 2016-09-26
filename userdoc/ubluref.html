@@ -2364,16 +2364,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><tt><a name="db" id="db"></a>db</tt></h4>
 
   <blockquote>
-    <tt>/4 [--,-dbconnected @dbconnected] -db (@)type [-charsetname
-    (@)charsetname] [-catalog | -columntypes (@)tablename |
-    -connect | -csv (@)tablename [-separator ${ separator}$ ] |
-    -disconnect | -metadata | -primarykeys | -query ${ SQL string
-    }$ | -replicate (@)tableName (@)destDbName (@)destDbType
-    (@)destDatabaseName (@)destUser (@)destPassword | -star
-    (@)tablename] [-pklist ${ space separated primary keys }$]
-    [-port (@)portnum] [-property k v [-property k v] ..] (@)system
-    (@)database (@)userid (@)password : perform various operations
-    on databases<br></tt><br>
+    <tt>/4? [--,-dbconnected @dbconnected] -db ~@{type}
+    [-charsetname ~@{charsetname}] [-catalog | -columntypes
+    ~@{tablename} | -connect | -csv ~@{tablename} [-separator
+    ~@{separator} ] | -disconnect | -metadata | -primarykeys
+    ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL
+    string} | -replicate ~@{tableName} ~@{destDbName}
+    ~@{destDbType} ~@{destDatabaseName} ~@{destUser}
+    ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space
+    separated primary keys }] [-port ~@{portnum] [-property ~@{key}
+    ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system}
+    ~@{database} ~@{userid} ~@{password} : perform various
+    operations on databases</tt><br><br>
     The <tt>db</tt> command performs a database operation on
     <i>system</i>'s <i>database</i> for <i>userid</i> with
     <i>password</i>.<br>
