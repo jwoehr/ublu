@@ -52,7 +52,6 @@ import java.util.logging.Level;
 /* Uncomment the following if you are adding MSSQL support */
 // import ublu.db.DbMSSQL;
 /* End Uncomment */
-
 /**
  * Command to perform certain database operations.
  *
@@ -62,7 +61,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4 [--,-dbconnected @dbconnected] -db (@)type [-charsetname (@)charsetname] [-catalog | -columntypes (@)tablename | -connect | -csv (@)tablename [-separator ${ separator}$ ] | -disconnect | -metadata | -primarykeys | -query ${ SQL string }$ | -replicate (@)tableName (@)destDbName (@)destDbType (@)destDatabaseName (@)destUser (@)destPassword | -star (@)tablename] [-pklist ${ space separated primary keys }$] [-port (@)portnum] [-property k v [-property k v] ..] (@)system (@)database (@)userid (@)password : perform various operations on databases");
+                "/4 [--,-dbconnected @dbconnected] -db (@)type [-charsetname (@)charsetname] [-catalog | -columntypes (@)tablename | -connect | -csv (@)tablename [-separator ${ separator}$ ] | -disconnect | -metadata | -primarykeys | -query ~@{ SQL string } | -query_nors ~@{ SQL string } | -replicate (@)tableName (@)destDbName (@)destDbType (@)destDatabaseName (@)destUser (@)destPassword | -star (@)tablename] [-pklist ${ space separated primary keys }$] [-port (@)portnum] [-property k v [-property k v] ..] (@)system (@)database (@)userid (@)password : perform various operations on databases");
     }
 
     /**
@@ -374,28 +373,12 @@ public class CmdDb extends Command {
                     starTableName = argArray.nextMaybeTupleString();
                     break;
                 case "-query":
-                    if (!argArray.isOpenQuoteNext()) {
-                        getLogger().log(Level.SEVERE, "{0} must have an $'{' SQL string '}'$)", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                        argArray = new ArgArray(getInterpreter()); // so we will fall out below
-                        break;
-                    } else {
-                        setFunction(FUNCTIONS.QUERY);
-                        argArray.assimilateFullQuotation();
-                        setSqlQuery(argArray.next());
-                    }
+                    setFunction(FUNCTIONS.QUERY);
+                    setSqlQuery(argArray.nextMaybeQuotationTuplePopString());
                     break;
                 case "-query_nors":
-                    if (!argArray.isOpenQuoteNext()) {
-                        getLogger().log(Level.SEVERE, "{0} must have an $'{' SQL string '}'$)", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                        argArray = new ArgArray(getInterpreter()); // so we will fall out below
-                        break;
-                    } else {
-                        setFunction(FUNCTIONS.QUERY_NORS);
-                        argArray.assimilateFullQuotation();
-                        setSqlQuery(argArray.next());
-                    }
+                    setFunction(FUNCTIONS.QUERY_NORS);
+                    setSqlQuery(argArray.nextMaybeQuotationTuplePopString());
                     break;
                 default:
                     unknownDashCommand(dashCommand);
