@@ -1,0 +1,82 @@
+# dbexample.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# NOTE: The 'db' command is among the oldest code in Ublu and is currently
+# being updated / reworked.
+ 
+# Example session:
+# > createPersons ( @dbinst )
+# > put -to @address ${ 1313 Mockingbird Lane }$
+# > addRowToPersons ( @dbinst 1 woehr jack @address golden )
+# Query: INSERT INTO Persons VALUES ( '1','woehr','jack','1313 Mockingbird Lane ','golden')
+# > addRowToPersons ( @dbinst 2 sillyperson monty 123_skidoo_street gotham )
+# Query: INSERT INTO Persons VALUES ( '2','sillyperson','monty','123_skidoo_street','gotham')
+# > starFromPersons ( @dbinst )
+# PERSONID LASTNAME FIRSTNAME ADDRESS CITY
+# woehr jack 1313 Mockingbird Lane }  golden
+# sillyperson monty 123_skidoo_street gotham
+# > starCSVFromPersons ( @dbinst )
+# PERSONID,LASTNAME,FIRSTNAME,ADDRESS,CITY
+# INTEGER,VARCHAR,VARCHAR,VARCHAR,VARCHAR
+# jdbc type 4,jdbc type 12,jdbc type 12,jdbc type 12,jdbc type 12
+# 1,woehr,jack,1313 Mockingbird Lane ,golden
+# 2,sillyperson,monty,123_skidoo_street,gotham
+
+# Get a DB instance
+# E.g., myDb ( pub400.com as400 MYLIB1 myuserid mypassword @dbinst )
+FUNC myDb ( sys type coll uid passwd dbinst ) $[
+    db -to @@dbinst -db @@type -connect @@sys @@coll @@uid @@passwd
+]$
+
+# Create the table ... this will fail if table exists  
+FUNC createPersons ( dbinst ) $[
+    db -- @@dbinst -query_nors ${ CREATE TABLE Persons
+    (
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+    ) }$
+]$
+
+# Create as many entries as you like one at a time, e.g.,
+# put -to @addr ${ 23 Skidoo St. }$
+# addRowToPersons ( @dbinst 2 Farfel Freddy @addr Gotham )
+FUNC addRowToPersons ( dbinst id_int lastname firstname addr city ) $[
+    LOCAL @query
+    put -to @query ${ INSERT INTO Persons VALUES ( }$
+    string -to @query -cat @query '
+    string -to @query -cat @query @@id_int
+    string -to @query -cat @query ','
+    string -to @query -cat @query @@lastname
+    string -to @query -cat @query ','
+    string -to @query -cat @query @@firstname
+    string -to @query -cat @query ','
+    string -to @query -cat @query @@addr
+    string -to @query -cat @query ','
+    string -to @query -cat @query @@city
+    string -to @query -cat @query ')
+    put -n -s Query: put @query
+    db -- @@dbinst -query_nors @query
+]$
+  
+# List the table
+FUNC starFromPersons ( dbinst ) $[
+    db -- @@dbinst -star PERSONS
+]$
+
+# Get a CSV of the table
+FUNC starCSVFromPersons ( dbinst ) $[
+    db -- @@dbinst -csv PERSONS
+]$
+
+# Delete the PERSONS table
+FUNC deletePersons ( dbinst ) $[
+    db -- @@dbinst -query_nors ${ drop table PERSONS }$
+]$
+
+# End
