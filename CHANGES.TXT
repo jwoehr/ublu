@@ -29,6 +29,7 @@ New examples:
 Changes to commands:
 	- const command added
 	- cs command added
+	- updates to db command
 	- file command added
 	- record command added
 	- sock command added
@@ -45,6 +46,7 @@ Changes to commands:
 	- more dash-commands for as400 command
 	
 New examples:
+	- dbexample.ublu
 	- ifsstuff.ublu
 	- and some in the examples/test directory
 
