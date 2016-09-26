@@ -61,7 +61,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4 [--,-dbconnected @dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
+                "/4? [--,-dbconnected @dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
