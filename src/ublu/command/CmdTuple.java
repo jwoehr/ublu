@@ -45,7 +45,7 @@ import java.util.logging.Level;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -Value | -sub ~@${subname}$ @tuple | -typename @tuplename | -map] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map] : operations on tuple variables");
     }
 
     /**
