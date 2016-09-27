@@ -1,0 +1,27 @@
+# stringpush.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Execute the string command providing the op and 2 arguments
+# and push the result to the tuple LIFO stack
+# Example: $-2 ( -cat ~ ~ ) will pop the tuple stack twice,
+# concatenate the two string values and push the result back.
+FUNC $~2 ( op a b ) $[ string -to ~ @@op @@a @@b ]$
+# Here's an example session:
+# > put -to ~ ${ arf arf arf }$
+# > put -to ~ ${ foo bar woof }$
+# > $~2 ( -cat ~ ~ )
+# > put ~
+# foo bar woof arf arf arf
+# ...
+# Note that "the first shall be last".
+# ...
+# > put -to ~ ${ arf arf arf }$
+# > put -to ~ ${ arf arf arf }$
+# > $~2 ( -eq ~ ~ )
+# > put ~
+# true
+
+# end

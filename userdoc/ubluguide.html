@@ -4,6 +4,7 @@
 <head>
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -13,7 +14,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 23 Aug 2016 15:35:41 UTC">
+  "Tue, 27 Sep 2016 02:32:44 UTC">
 </head>
 
 <body>
@@ -163,6 +164,8 @@
         </li>
 
         <li><a href="#mozTocId163217">Object-disoriented</a></li>
+
+        <li><a href="#TupleStack">The Tuple Stack</a></li>
 
         <li>
           <a href="#mozTocId722916">Notes</a>
@@ -423,11 +426,13 @@
   lines.<br>
 
   <h2><a class="mozTocH2" name="mozTocId185354"></a> A Full Ublu
-  Program</h2>Here is a full Ublu program. It checks a message
-  queue on an i Series OS server and lists the messages, asking the
-  operator on each if s/he would like to reply, and parsing the
-  reply if one is given.&nbsp; Take a look at the program (and its
-  associate shell script given here) and then we will <a href=
+  Program</h2>Here is a full Ublu program. It uses <a href=
+  "./ubluref.html#FUNC">FUNC</a> to define a number of functions
+  allowing the user to checks a message queue on an i Series OS
+  server and lists the messages, asking the user on each if s/he
+  would like to reply, and parsing the reply if one is given.&nbsp;
+  Take a look at the program (and its associate shell script given
+  here) and then we will <a href=
   "#Understanding_examplesautoreply.ublu">discuss the program
   line-by-line</a> below.<br>
   <br>
@@ -1049,6 +1054,12 @@ message queue instance."<br>
   changes the function makes to that argument are changes to the
   variable itself.<br></p>
 
+  <p>Arguments in function argument lists are actually
+  <i>token-pasted</i> into the execution block which is the body of
+  the function. This allows some unusual programming techniques as
+  we'll see later, e.g., in the section on the <a href=
+  "#TupleStack">Tuple Stack</a>.</p>
+
   <h4><a class="mozTocH4" name="mozTocId154189"></a>Local variables
   as arguments</h4>
 
@@ -1244,6 +1255,82 @@ block, so a local variable cannot be passed to the thread.<br>
   but it tends to be easy to use interpretively. It's clunky, yet
   it is reminiscent of traditional "big iron"-style command syntax
   and is pretty easy to remember.<br>
+
+  <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
+  Stack</h2>The <a href=
+  "https://en.wikipedia.org/wiki/Forth_(programming_language)">Forth
+  programming language</a> taught me the use of a LIFO stack in
+  programming. The Ublu <a href="./ubluref.html#Tuple_stack">Tuple
+  stack</a> allows some interesting programming metaphors that
+  allow coding functions that get around some of the clunkiness of
+  basic Ublu syntax. Instead of stowing results in tuple variables,
+  functions can push their results to the stack to be popped as
+  arguments by the next function. Additionally, the token-pasting
+  nature of Ublu FUNC arguments allow even dash-commands to be
+  presented to an Ublu command via the argument list to a
+  function.<br>
+  <br>
+  Here is an example of this object-disoriented slackomorphic style
+  of programming:<br>
+  <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">stringpush.ublu</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">Midrange</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">Mainframe</font><font color="#CC0000"> </font><font color="#CC0000">Life</font><font color="#CC0000"> </font><font color="#CC0000">Cycle</font><font color="#CC0000"> </font><font color="#CC0000">Extension</font><font color="#CC0000"> </font><font color="#CC0000">language</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Execute</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">string</font><font color="#CC0000"> </font><font color="#CC0000">command</font><font color="#CC0000"> </font><font color="#CC0000">providing</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">op</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">2</font><font color="#CC0000"> </font><font color="#CC0000">arguments</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">push</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">result</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">tuple</font><font color="#CC0000"> </font><font color="#CC0000">LIFO</font><font color="#CC0000"> </font><font color="#CC0000">stack</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example:</font><font color="#CC0000"> </font><font color="#CC0000">$-2</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">-cat</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">)</font><font color="#CC0000"> </font><font color="#CC0000">will</font><font color="#CC0000"> </font><font color="#CC0000">pop</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">tuple</font><font color="#CC0000"> </font><font color="#CC0000">stack</font><font color="#CC0000"> </font><font color="#CC0000">twice,</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">concatenate</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">two</font><font color="#CC0000"> </font><font color="#CC0000">string</font><font color="#CC0000"> </font><font color="#CC0000">values</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">push</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">result</font><font color="#CC0000"> </font><font color="#CC0000">back.</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#006699"><strong>FUNC</strong></font> $<font color="#6600CC">~</font><font color="#FF0000">2</font> <font color="#000000"><strong>(</strong></font> op a b <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>string</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">~</font> <font color="#6600CC">@@op</font> <font color="#6600CC">@@a</font> <font color="#6600CC">@@b</font> <font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Here's</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">example</font><font color="#CC0000"> </font><font color="#CC0000">session:</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">foo</font><font color="#CC0000"> </font><font color="#CC0000">bar</font><font color="#CC0000"> </font><font color="#CC0000">woof</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">$~2</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">-cat</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">~</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">foo</font><font color="#CC0000"> </font><font color="#CC0000">bar</font><font color="#CC0000"> </font><font color="#CC0000">woof</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">...</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Note</font><font color="#CC0000"> </font><font color="#CC0000">that</font><font color="#CC0000"> </font><font color="#CC0000">"the</font><font color="#CC0000"> </font><font color="#CC0000">first</font><font color="#CC0000"> </font><font color="#CC0000">shall</font><font color="#CC0000"> </font><font color="#CC0000">be</font><font color="#CC0000"> </font><font color="#CC0000">last".</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">...</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">arf</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">$~2</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">-eq</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">~</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">~</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">true</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">end</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span>
+</font>
+</pre>
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
