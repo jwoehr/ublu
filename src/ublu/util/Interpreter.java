@@ -1064,7 +1064,7 @@ public class Interpreter {
             // rc = executeBlock(f.bind(tupleNames.delifoize(this)));
             // getTupleMap().pushLocal();
             pushFrame();
-            String block = f.bindWithSubstitutes(this, tupleNames.delifoize(this));
+            String block = f.bindWithSubstitutes(this, tupleNames/*.delifoize(this)*/);
             rc = executeBlock(block);
             // getTupleMap().popLocal();
             popFrame();
