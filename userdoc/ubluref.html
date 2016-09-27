@@ -7875,23 +7875,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="system" id="system"></a><tt>system</tt></h4>
 
   <blockquote>
-    <tt>/0|3 [-to datasink] -from datasink | ${ system command
-    }$</tt><br>
+    <tt>/1 [-to datasink] [-from datasink] | ~@{ system command } :
+    execute a system command</tt><br>
     <br>
     executes a system command<br>
     <br>
     The command string can be provided as a <a href=
-    "#Quoted_strings">quoted string</a> or can come from a tuple
-    variable or from a file as indicated by the <tt>-from</tt>
-    <a href="#Dash_Command">dash-command</a>.<br>
+    "#Quoted_strings">quoted string</a>, <a href=
+    "#Tuple_Variables">tuple variable</a>, pop from the <a href=
+    "#Tuple_stack">tuple stack</a>, or from a file if so indicated
+    by the <tt>-from</tt> <a href=
+    "#Dash_Command">dash-command</a>.<br>
     <br>
     If input is from a file, only the first line of the file is
     read.<br>
     <br>
-    The output of command plus an extra line indicating the return
-    code of the command execution is displayed or put to a <a href=
-    "#Datasinks">datasink</a> specified by the -to
-    dash-command.<br>
+    The output of the command is displayed or put to a <a href=
+    "#Datasinks">datasink</a> specified by the -to dash-command. If
+    the destination datasink is standard out (<tt>STD:</tt>), an
+    extra line is put indicating the return code of the command
+    execution<br>
     <br>
     <tt>system</tt> is only good for one-time commands, not
     interactive programs such as telnet.<br>
