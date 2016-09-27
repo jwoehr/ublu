@@ -51,7 +51,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -124,6 +124,10 @@ public class CmdAS400 extends Command {
          */
         USESOCKETS,
         /**
+         * Force use of Internet domain sockets only when running locally
+         */
+        USENETSOCKETS,
+        /**
          * Validate login
          */
         VALIDATE,
@@ -151,6 +155,7 @@ public class CmdAS400 extends Command {
         String libList = "";
         boolean useSSL = false;
         boolean useSockets = false;
+        boolean useNetSockets = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -224,7 +229,13 @@ public class CmdAS400 extends Command {
                     useSSL = argArray.nextTupleOrPop().getValue().equals(true);
                     break;
                 case "-sockets":
+                    operation = OPERATIONS.USESOCKETS;
                     useSockets = argArray.nextTupleOrPop().getValue().equals(true);
+                    break;
+                case "-netsockets":
+                    operation = OPERATIONS.USENETSOCKETS;
+                    useNetSockets = argArray.nextTupleOrPop().getValue().equals(true);
+                    break;
                 case "-usessl":
                     useSSL = true;
                     break;
@@ -479,7 +490,15 @@ public class CmdAS400 extends Command {
                     if (getAs400() != null) {
                         getAs400().setMustUseSockets(useSockets);
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -usesockets in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -sockets in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case USENETSOCKETS:
+                    if (getAs400() != null) {
+                        getAs400().setMustUseNetSockets(useNetSockets);
+                    } else {
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -netsockets in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;

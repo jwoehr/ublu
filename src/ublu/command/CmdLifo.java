@@ -44,7 +44,7 @@ import java.util.logging.Level;
 public class CmdLifo extends Command {
 
     {
-        setNameAndDescription("lifo", "/0 [-to datasink] -push @tuplevar | -pop | -popval  | -dup | -swap | -over | -pick 0index | -rot | -depth | -clear | -drop | -show : operate on the tuple stack");
+        setNameAndDescription("lifo", "/0 [-to datasink] -push @tuplevar | -pop | -popval  | -dup | -swap | -over | -pick ~@{0index} | -rot | -depth | -clear | -drop | -show : operate on the tuple stack");
     }
 
     enum OPERATIONS {
@@ -59,7 +59,7 @@ public class CmdLifo extends Command {
      * @return the remainder of the arg array
      */
     public ArgArray lifo(ArgArray argArray) {
-        OPERATIONS operation = null;
+        OPERATIONS operation = OPERATIONS.SHOW;
         String operandName = "";
         Tuple operand = null;
         int picknum = 0;
@@ -91,7 +91,7 @@ public class CmdLifo extends Command {
                     break;
                 case "-pick":
                     operation = OPERATIONS.PICK;
-                    picknum = argArray.nextInt();
+                    picknum = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-rot":
                     operation = OPERATIONS.ROT;
