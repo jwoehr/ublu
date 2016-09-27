@@ -128,7 +128,7 @@ public class Ublu {
      * @return a string introducing the program.
      */
     public final String startupMessage() {
-        StringBuilder sb = new StringBuilder("Ublu version 1.1.1+");
+        StringBuilder sb = new StringBuilder("Ublu version 1.1.2");
         return sb.append(" build of ").append(version()).append("\n")
                 .append("Author: Jack J. Woehr.\n")
                 .append("Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com\n")
