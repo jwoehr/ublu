@@ -5,10 +5,11 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 27 Sep 2016 10:42:02 UTC">
+  "Tue, 27 Sep 2016 15:35:59 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -2281,9 +2282,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
       <li>Constants cannot be used as the argument to a
       <tt>-from</tt> or <tt>-to</tt> dash-command.</li>
-
-      <li>Constants cannot be pushed to the <a href=
-      "#Tuple_stack">tuple stack</a>.</li>
 
       <li><a href="#Plainwords">Plainwords</a> resembling
       constants, i.e., starting with an asterisk * are not mistaken
@@ -5166,6 +5164,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     The system maintains a Last In, First Out tuple stack.
     <tt>lifo</tt> operates on this stack. Many of the operations
     are upon the top of stack (TOS) item.<br>
+    <br>
+    <tt>lifo</tt> can push only extant tuples to the tuple stack.
+    To automatically wrapper a non-tuple item in an anonymous tuple
+    and push that tuple to the tuple stack, use <tt><a href=
+    "#put">put</a> -to ~ <i>item</i></tt>.<br>
     <br>
     The operations are:<br>
 
@@ -8361,11 +8364,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="tuple" id="tuple"></a><tt>tuple</tt></h4>
 
   <blockquote>
-    <tt>0 [-delete @tuplename | -exists @tuplename | -istuplename
+    <tt>/0 [-delete @tuplename | -exists @tuplename | -istuplename
     @tuplename | -null @tuplename | -true @tuplename | -false
-    @tuplename | -name @tuplename | -realname @tuplename | -Value |
-    -sub ~@${subname}$ @tuple | -typename @tuplename | -map] :
-    operations on tuple variables</tt><br>
+    @tuplename | -name @tuplename | -realname @tuplename | -value
+    ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename |
+    -map] : operations on tuple variables</tt><br>
     <br>
     Operations on <a href="#Tuple_Variables">tuple
     variables</a>.<br>
@@ -8435,9 +8438,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </ul>
       </li>
 
-      <li><tt>-sub ~@${subname}$ @tuple</tt> creates a tuple</li>
+      <li><tt>-sub ~@{subname} @tuple</tt> creates a parameter
+      substitution tuple, an alias tuple used in function parameter
+      substitution. Only useful for testing Ublu itself.</li>
 
-      <li><tt>-value @tuplename</tt> puts the value object
+      <li><tt>-typename ~@tuplename</tt> puts the java class name
+      of the object which is the tuple's value.</li>
+
+      <li><tt>-value ~@tuplename</tt> puts the value object
       represented by the tuple named <i>@tuplename</i>.</li>
 
       <li><tt>-null</tt> <tt>@tuplename</tt> sets <i>@tuplename</i>
