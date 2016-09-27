@@ -2,29 +2,14 @@ CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
 Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved.
 
-1.1.0
-    - Code cleanup
-    - More documentation
-    - Vim and jEdit editor modes
+1.1.3
+Commands:
+* command descriptions cleaned up
+* some commands' argument parsing modernized
 
-1.1.1
-Bug fix and feature add revision. Many bugs fixed and much code cleaned up.
-Documentation improved.
-	
-Changes to commands:
-* DO now has -undo to allow decremental looping
-* IF now has -! to invert the sense of the logical test
-* monitor
-	* now takes an as400 instance instead of credentials
-	* now takes worklib ~@{libname} for it working library on the server		
-* RETURN command (new) leaves a FUNC or defun
-* tn5250 and session commands (new) allow a screen-scraping telnet 5250
-* tuple now takes -istuplename to test for validity of tuple name
-	
-New examples:
-* connect5250.ublu
-* describe_object.ublu
-	
+Miscellaneous:
+* Update vim mode
+
 1.1.2
 Changes to commands:
 * ~ works -to and -from and with the put command correctly
@@ -64,4 +49,26 @@ Miscellaneous:
 * More and better documentation
 * Made it simpler to add MSSQL support in if user desires it.
 
-1.1.3
+1.1.1
+Bug fix and feature add revision. Many bugs fixed and much code cleaned up.
+Documentation improved.
+	
+Changes to commands:
+* DO now has -undo to allow decremental looping
+* IF now has -! to invert the sense of the logical test
+* monitor
+	* now takes an as400 instance instead of credentials
+	* now takes worklib ~@{libname} for it working library on the server		
+* RETURN command (new) leaves a FUNC or defun
+* tn5250 and session commands (new) allow a screen-scraping telnet 5250
+* tuple now takes -istuplename to test for validity of tuple name
+	
+New examples:
+* connect5250.ublu
+* describe_object.ublu
+	
+1.1.0
+    - Code cleanup
+    - More documentation
+    - Vim and jEdit editor modes
+
