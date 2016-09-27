@@ -42,14 +42,15 @@ Changes to commands:
 	- string -uchar now can take a string of hexvals instead of only one
 	- removed -from from commandcall and parse arguments better
 	- programcall works better
-	- added as400 -setaspgrp
+	- added as400 -setaspgrp -socket -netsocket
 	- added -byte to num command
 	- list command supports object arrays and -toarray
-	- more dash-commands for as400 command
+	- put command wraps non-tuples in anonymous tuple to push to tuple stack
 	
 New examples:
 	- dbexample.ublu
 	- ifsstuff.ublu
+	- stringpush.ublu
 	- and some in the examples/test directory
 
 Miscellaneous:
@@ -59,6 +60,6 @@ Miscellaneous:
 	- SmapiHelper javadoc cleanup
 	- Ublu JEdit mode (ublu.xml)
 		- Fixed digits problem
-		- Added RETURN as keyword
-		- More and better documentation
+		- Added keywords
+	- More and better documentation
 	- Made it simpler to add MSSQL support in if user desires it.
