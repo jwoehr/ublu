@@ -49,7 +49,7 @@ import java.util.logging.Level;
 public class CmdSystem extends Command {
 
     {
-        setNameAndDescription("system", "/0|3 [-to datasink] -from datasink | ${ system command }$ : execute a system command");
+        setNameAndDescription("system", "/1 [-to datasink] -from datasink | ~@{ system command } : execute a system command");
     }
 
     /**
@@ -125,44 +125,39 @@ public class CmdSystem extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
             String command;
-            if (hasFrom) {
-                switch (dataSrc.getType()) {
-                    case TUPLE:
-                        command = getInterpreter().getTuple(getDataSrc().getName()).getValue().toString();
-                        executeCommand(command);
-                        break;
-                    case FILE:
-                        try {
-                            command = readCommandFromFile(getDataSrc().getName());
-                            executeCommand(command);
-                        } catch (IOException ex) {
-                            getLogger().log(Level.SEVERE, "Error reading command line from file", getNameAndDescription());
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    default:
-                        getLogger().log(Level.SEVERE, "Unsupported data source for system commandline", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                }
-            } else if (argArray.size() < 3) {
-                logArgArrayTooShortError(argArray);
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                if (!argArray.isOpenQuoteNext()) {
-                    getLogger().log(Level.SEVERE, "{0} must have an $'{' system command string '}'$)", getNameAndDescription());
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                } else {
-                    argArray.assimilateFullQuotation();
-                    command = argArray.next();
+            switch (dataSrc.getType()) {
+                case TUPLE:
+                    command = getInterpreter().getTuple(getDataSrc().getName()).getValue().toString();
                     executeCommand(command);
-                }
+                    break;
+                case FILE:
+                    try {
+                        command = readCommandFromFile(getDataSrc().getName());
+                        executeCommand(command);
+                    } catch (IOException ex) {
+                        getLogger().log(Level.SEVERE, "Error reading command line from file {0} in {1}", new Object[]{getDataSrc().getName(), getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case STD:
+                    command = argArray.nextMaybeQuotationTuplePopString();
+                    executeCommand(command);
+                    break;
+                case LIFO:
+                    command = getTupleStack().pop().getValue().toString();
+                    executeCommand(command);
+                    break;
+                default:
+                    getLogger().log(Level.SEVERE, "Unsupported data source {0} in {1}", new Object[]{dataSrc.getType(), getNameAndDescription()});
+                    setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return argArray;
     }
 
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return system(args);
 
