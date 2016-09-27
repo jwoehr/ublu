@@ -35,9 +35,9 @@ Here's an [example of Ublu code] (http://www.softwoehr.com/softwoehr/oss/ubludoc
 
 The example is syntax-colored using a [jEdit] (http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is 1.1.1
+The latest release version of Ublu is 1.1.2
 
-The tip of the master branch calls itself 1.1.1+ as we head for 1.1.2
+The tip of the master branch calls itself 1.1.2+ as we head for 1.1.3
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -78,4 +78,4 @@ Discuss Ublu in the [IBMiOSS Ublu forum on Ryver] (https://ibmioss.ryver.com/ind
 Here is the [signup page for the free Open Source Software on IBM i (IBMiOSS) organization on Ryver] (https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
 
-Jack Woehr 2016-09-19
+Jack Woehr 2016-09-27

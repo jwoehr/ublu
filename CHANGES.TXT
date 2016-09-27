@@ -12,54 +12,56 @@ Bug fix and feature add revision. Many bugs fixed and much code cleaned up.
 Documentation improved.
 	
 Changes to commands:
-	- DO now has -undo to allow decremental looping
-	- IF now has -! to invert the sense of the logical test
-	- monitor
-		- now takes an as400 instance instead of credentials
-		- now takes worklib ~@{libname} for it working library on the server		
-	- RETURN command (new) leaves a FUNC or defun
-	- tn5250 and session commands (new) allow a screen-scraping telnet 5250
-	- tuple now takes -istuplename to test for validity of tuple name
+* DO now has -undo to allow decremental looping
+* IF now has -! to invert the sense of the logical test
+* monitor
+	* now takes an as400 instance instead of credentials
+	* now takes worklib ~@{libname} for it working library on the server		
+* RETURN command (new) leaves a FUNC or defun
+* tn5250 and session commands (new) allow a screen-scraping telnet 5250
+* tuple now takes -istuplename to test for validity of tuple name
 	
 New examples:
-	- connect5250.ublu
-	- describe_object.ublu
+* connect5250.ublu
+* describe_object.ublu
 	
 1.1.2
 Changes to commands:
-	- ~ works -to and -from and with the put command correctly
+* ~ works -to and -from and with the put command correctly
 	  creating anonymous tuples as needed
-	- const command added
-	- cs command added
-	- updates to db command
-	- file command added
-	- record command added
-	- sock command added
-	- trace command added
-	- server command now allows execution of a "canned" program rather
+* const command added
+* cs command added
+* updates to db command
+* file command added
+* record command added
+* sock command added
+* trace command added
+* server command now allows execution of a "canned" program rather
 	  than simple direct access to the Ublu interpreter.
-	- multiple server instances now allowed.  
-	- string -uchar now can take a string of hexvals instead of only one
-	- removed -from from commandcall and parse arguments better
-	- programcall works better
-	- added as400 -setaspgrp -socket -netsocket
-	- added -byte to num command
-	- list command supports object arrays and -toarray
-	- put command wraps non-tuples in anonymous tuple to push to tuple stack
+* multiple server instances now allowed.  
+* string -uchar now can take a string of hexvals instead of only one
+* removed -from from commandcall and parse arguments better
+* programcall works better
+* added as400 -setaspgrp -socket -netsocket
+* added -byte to num command
+* list command supports object arrays and -toarray
+* put command wraps non-tuples in anonymous tuple to push to tuple stack
 	
 New examples:
-	- dbexample.ublu
-	- ifsstuff.ublu
-	- stringpush.ublu
-	- and some in the examples/test directory
+* dbexample.ublu
+* ifsstuff.ublu
+* stringpush.ublu
+* and some in the examples/test directory
 
 Miscellaneous:
-	- Deprecate providing system/userid/password as arguments to most
+* Deprecate providing system/userid/password as arguments to most
 	  commands (use as400 object created by as400 command instead)
-	- Javadoc cleaned up
-	- SmapiHelper javadoc cleanup
-	- Ublu JEdit mode (ublu.xml)
-		- Fixed digits problem
-		- Added keywords
-	- More and better documentation
-	- Made it simpler to add MSSQL support in if user desires it.
+* Javadoc cleaned up
+* SmapiHelper javadoc cleanup
+* Ublu JEdit mode (ublu.xml)
+	* Fixed digits problem
+	* Added keywords
+* More and better documentation
+* Made it simpler to add MSSQL support in if user desires it.
+
+1.1.3
