@@ -2279,8 +2279,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <ul>
       <li>Constants are not expanded within quoted strings.</li>
 
-      <li>A constant used as the argument to a <tt>-from</tt> or
-      <tt>-to</tt> dash-command will be taken for a filename.</li>
+      <li>A constant cannot be used as the argument of a
+      <tt>-from</tt> or <tt>-to</tt> dash-command where its
+      decorated name (rather than its value) will itself be taken
+      for a filename.</li>
 
       <li><a href="#Plainwords">Plainwords</a> resembling
       constants, i.e., starting with an asterisk * are not mistaken
