@@ -80,7 +80,7 @@ public class CmdPrinter extends Command {
      */
     public ArgArray printer(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE;
-        String attributeName = "";
+        String attributeName;
         Integer attributeInt = null;
         Tuple printerTuple = null;
         PrintParameterList ppl = new PrintParameterList();
