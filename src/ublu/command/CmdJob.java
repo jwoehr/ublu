@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdJob extends Command {
 
     {
-        setNameAndDescription("job", "/6? [-as400 @as400] [--,-job @job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -info | -instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
+        setNameAndDescription("job", "/6? [-as400 @as400] [--,-job @job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -hold ~@tf_holdspooledfiles | -info | -instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -release | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
     }
 
     /**
@@ -71,6 +71,10 @@ public class CmdJob extends Command {
          */
         GETSYS,
         /**
+         * hold job
+         */
+        HOLD,
+        /**
          * Create an instance to manipulate in a tuple var
          */
         INSTANCE,
@@ -86,6 +90,10 @@ public class CmdJob extends Command {
          * Reload job info from server
          */
         REFRESH,
+        /**
+         * release held job
+         */
+        RELEASE,
         /**
          * return the jobnumber/jobuser/jobname spec of the job
          */
@@ -105,6 +113,7 @@ public class CmdJob extends Command {
         Tuple jobTuple = null;
         int delay = -1;
         String propertyToGet = "";
+        boolean holdSpooledFiles = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -130,6 +139,10 @@ public class CmdJob extends Command {
                 case "-getsys":
                     function = FUNCTIONS.GETSYS;
                     break;
+                case "-hold":
+                    function = FUNCTIONS.HOLD;
+                    holdSpooledFiles = argArray.nextTupleOrPop().getValue().equals(true);
+                    break;
                 case "-info":
                     function = FUNCTIONS.INFO;
                     break;
@@ -151,6 +164,9 @@ public class CmdJob extends Command {
                 case "-refresh":
                     function = FUNCTIONS.REFRESH;
                     break;
+                case "-release":
+                    function = FUNCTIONS.RELEASE;
+                    break;
                 case "-spec":
                     function = FUNCTIONS.SPEC;
                     break;
@@ -164,8 +180,10 @@ public class CmdJob extends Command {
             Job myJob = null;
             if (jobTuple != null) {
                 Object tupleValue = jobTuple.getValue();
+
                 if (tupleValue instanceof Job) {
-                    myJob = Job.class.cast(tupleValue);
+                    myJob = Job.class
+                            .cast(tupleValue);
                 } else {
                     getLogger().log(Level.WARNING, "Valued tuple which is not a Job tuple provided to -job in {0}", getNameAndDescription());
                 }
@@ -222,6 +240,14 @@ public class CmdJob extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
+                    case HOLD:
+                        try {
+                            myJob.hold(holdSpooledFiles);
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException ex) {
+                            getLogger().log(Level.SEVERE, "Error holding job " + myJob + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
                     case INFO:
                         try {
                             put(myJob);
@@ -249,6 +275,14 @@ public class CmdJob extends Command {
                         }
                     case REFRESH:
                         myJob.loadInformation();
+                        break;
+                    case RELEASE:
+                        try {
+                            myJob.release();
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException ex) {
+                            getLogger().log(Level.SEVERE, "Error holding job " + myJob + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                         break;
                     case SPEC:
                         try {
