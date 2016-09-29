@@ -33,7 +33,7 @@ package ublu;
  */
 public class License {
 
-    private static final String[] licenseText = {
+    private static final String[] LICENSE_TEXT = {
         "/*",
         " * Ublu Midrange and Mainframe Life Cycle Extension Language",
         " * Author : Jack J. Woehr jwoehr@softwoehr.com",
@@ -71,7 +71,7 @@ public class License {
      */
     public static String show() {
         StringBuilder sb = new StringBuilder();
-        for (String s : licenseText) {
+        for (String s : LICENSE_TEXT) {
             sb.append(s).append('\n');
         }
         sb.append('\n');
