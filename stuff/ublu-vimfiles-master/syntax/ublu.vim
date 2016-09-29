@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language: Ublu scripts
 " Maintainer: https://github.com/Taywee
-" Latest Revision: 2014 August 26
+" Latest Revision: 2016-09-29
 " Revised by jwoehr@softwoehr.com 2016 September 27
 
 if exists("b:current_syntax")
@@ -60,4 +60,3 @@ hi def link bang Special
 hi def link string String
 hi def link number Number
 hi def link constants Constant
-

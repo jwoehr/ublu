@@ -1,8 +1,8 @@
-" Vim indent file
+" Vim ftdetect file
 " Language: Ublu scripts
 " Maintainer: https://github.com/Taywee
-" Latest Revision: 2016 May 17 
-"
+" Latest Revision: 2016-09-29
+
 if exists("b:did_indent")
     finish
 endif
