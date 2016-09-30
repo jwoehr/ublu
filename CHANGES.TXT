@@ -6,6 +6,8 @@ All rights reserved.
 Commands:
 * command descriptions cleaned up
 * some commands' argument parsing modernized
+* job -hold -release
+* printer -wtrjob
 
 Miscellaneous:
 * Update vim mode
