@@ -14,7 +14,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 27 Sep 2016 02:32:44 UTC">
+  "Fri, 30 Sep 2016 20:27:41 UTC">
 </head>
 
 <body>
@@ -180,29 +180,38 @@
   </ul>
 
   <h2><a class="mozTocH2" name="mozTocId754622"></a>Who is this
-  Guide for?</h2>It's for people who just want an introduction to
-  using Ublu, or who have downloaded and built Ublu, read enough of
-  the <a href="ubluref.html">Ublu Reference</a> to know how to
-  launch <a href="https://github.com/jwoehr/ublu">Ublu</a>, and now
-  want more help understanding Ublu.<br>
-  <br>
-  The Guide is meant to be easy to read, and extra stuff you may
-  not want to bother with is written <small><i>like this in small
-  italics</i><big>.</big></small><br>
+  Guide for?</h2>
 
-  <h2><a class="mozTocH2" name="mozTocId185961"></a>Why Ublu?</h2>I
-  wrote Ublu because I wanted a language to run on
+  <p>It's for people who just want an introduction to using Ublu,
+  or who have downloaded and built Ublu, read enough of the
+  <a href="ubluref.html">Ublu Reference</a> to know how to launch
+  <a href="https://github.com/jwoehr/ublu">Ublu</a>, and now want
+  more help understanding Ublu.</p>
+
+  <p>The Guide is meant to be easy to read, and extra stuff you may
+  not want to bother with is written <small><i>like this in small
+  italics</i><big>.</big></small></p>
+
+  <h2><a class="mozTocH2" name="mozTocId185961"></a>Why Ublu?</h2>
+
+  <p>Ublu came into being because I wanted a language to run on
   OpenBSD/Mac/Linux/Windows that could do remote systems
-  programming on IBM i Series OS &#174; via TCP/IP. I was
-  supporting clients by writing individual utility programs using
-  <a href="http://jt400.sourceforge.net/">JTOpen</a> (which I have
-  used since 1998 to remotely operate the AS/400). Finding the need
-  to pass objects rather than string values from one utility to the
-  next, I consolidated the utility programs as commands in a new
-  language called Ublu.<br>
-  <br>
-  It is convenient to operate legacy systems remotely from modern
-  environments:<br>
+  programming on IBM i Series OS &#174; via TCP/IP. It had to be
+  easy to understand and easy for me to maintain and extend
+  single-handed. It could not be "fancy" open source depending on a
+  lot of build magic. It needed to be easily packageable and
+  deliverable. I was not trying to design an ideal language, but an
+  eminently practical one.</p>
+
+  <p>I was supporting clients by writing individual utility
+  programs using <a href="http://jt400.sourceforge.net/">JTOpen</a>
+  which I have used since 1998 to remotely operate the AS/400.
+  Finding the need to pass objects rather than string values from
+  one utility to the next, I consolidated the utility programs as
+  commands in a new language called Ublu.</p>
+
+  <p>It is convenient to operate legacy systems remotely from
+  modern environments:</p>
 
   <ul>
     <li>Use Ublu to empower help-desk folks who know how to feed
@@ -217,8 +226,13 @@
 
     <li>Teams designing follow-on systems who need to explore the
     legacy environment can use Ublu.</li>
-  </ul><br>
-  I also previously wrote <a href=
+
+    <li>Ublu also runs locally on IBM i Series OS and is sometimes
+    used to model programs which later may be written in straight
+    Java to run locally on the server.</li>
+  </ul>
+
+  <p><small><i>I also previously wrote <a href=
   "http://pigiron.sourceforge.net/">PigIron</a>, a Java bridge to
   IBM z/VM &#174; System Management API <a href=
   "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">
@@ -227,28 +241,30 @@
   Interpreter</a> to drive PigIron, which works very well but is
   arcane, and also <a href="http://www.oorexx.org/">ObjectRexx</a>,
   which is a wonderful language which doesn't run on as many
-  platforms as Java.<br>
-  <br>
-  Ublu is a new language which was coded quick and easy in Java on
-  top of other open source libraries. The "quick and easy" approach
-  derives from a work environment in which folks just wanted
-  results and had no particular interest in the language
-  itself.<br>
-  <br>
-  Ublu is easy to build, install, read, and use. It is handsome but
-  not beautiful. Ublu works like an interactive shell scripting
+  platforms as Java. Ublu turns out to be an excellent language
+  environment for PigIron SMAPI operations.</i></small></p>
+
+  <p>Ublu is a new language which was coded quick and easy in Java
+  on top of other open source libraries. The "quick and easy"
+  approach derives from a work environment in which folks just
+  wanted results and had no particular interest in the language
+  itself.</p>
+
+  <p>Ublu is easy to build, install, read, and use. It is handsome
+  but not beautiful. Ublu works like an interactive shell scripting
   language but also has some advanced language features such as
-  compiling, tasking, debugging and a TCP/IP port server mode.<br>
+  compiling, tasking, debugging and a TCP/IP port server mode.</p>
 
   <h3><a class="mozTocH3" name="mozTocId190420"></a>Work in
   Progress</h3>Ublu is a work in progress and, like all "living"
-  software, likely remain so. Everything that's in Ublu is there
+  software, likely to remain so. There are always more aspects to
+  IBM i programming to support. Everything that's in Ublu is there
   because I/We needed it <em>right then</em>. The <code>db</code>
   command was almost the first thing added, which is effectively an
   interpretive shell around JDBC. On the other hand, we never
   needed classic record file access because everyone on staff was
-  SQL-oriented and knew little about physical file access. Only
-  recently have I added the <a href=
+  SQL-oriented and knew little about physical file access. Thus,
+  only recently have I added the <a href=
   "ubluref.html#file"><code>file</code></a> and <tt><a href=
   "ubluref.html#record">record</a></tt> commands for classic record
   file access.<br>
@@ -290,11 +306,12 @@
     <li>You can automate a telnet 5250 terminal emulator
     session.<br></li>
   </ul>When you've got your complete application written in Ublu,
-  there's an Ublu command <tt>gensh</tt> which autogenerates a
-  shell script to work under either <tt>bash</tt> or <tt>ksh</tt>.
-  The script takes arguments via command-line switches and pass
-  them to your program's top-level function. <small><i>The script
-  effects a closure on your top-level function.</i></small><br>
+  there's an Ublu command <a href=
+  "#mozTocId10736"><tt>gensh</tt></a> which autogenerates a shell
+  script to work under either <tt>bash</tt> or <tt>ksh</tt>. The
+  script takes arguments via command-line switches and pass them to
+  your program's top-level function. <small><i>The script effects a
+  closure on your top-level function.</i></small><br>
   <br>
   For a formal summary of everything, see the <a href=
   "ubluref.html">Ublu Reference</a>. That Reference tells you how
