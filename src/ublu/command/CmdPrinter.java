@@ -30,6 +30,7 @@ import ublu.util.DataSink;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.Job;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.PrintObject;
 import com.ibm.as400.access.PrintParameterList;
@@ -49,7 +50,7 @@ public class CmdPrinter extends Command {
 
     {
         setNameAndDescription("printer",
-                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute} ~@{value}]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
+                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
     }
 
     private enum OPERATIONS {
@@ -66,6 +67,10 @@ public class CmdPrinter extends Command {
          * set attrib
          */
         SET,
+        /**
+         * get the printer job
+         */
+        WTRJOB,
         /**
          * do nothing
          */
@@ -98,6 +103,9 @@ public class CmdPrinter extends Command {
                     break;
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
+                    break;
+                case "-wtrjob":
+                    operation = OPERATIONS.WTRJOB;
                     break;
                 case "-set":
                     operation = OPERATIONS.SET;
@@ -187,7 +195,7 @@ public class CmdPrinter extends Command {
                         try {
                             put(printer.getStringAttribute(attributeInt));
                         } catch (AS400SecurityException | SQLException | ObjectDoesNotExistException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
-                            getLogger().log(Level.SEVERE, null, ex);
+                            getLogger().log(Level.SEVERE, "Error getting printer attribute in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -195,8 +203,25 @@ public class CmdPrinter extends Command {
                         try {
                             printer.setAttributes(ppl);
                         } catch (AS400SecurityException | IOException | InterruptedException | ErrorCompletingRequestException ex) {
-                            getLogger().log(Level.SEVERE, null, ex);
+                            getLogger().log(Level.SEVERE, "Error setting printer attribute in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case WTRJOB:
+                        Job pJob = null;
+                        try {
+                            pJob = new Job(printer.getSystem(), printer.getStringAttribute(Printer.ATTR_WTRJOBNAME), printer.getStringAttribute(PrintObject.ATTR_WTRJOBUSER), printer.getStringAttribute(PrintObject.ATTR_WTRJOBNUM));
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting printer job in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+                                put(pJob);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting printer job in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
                     case NOOP:
