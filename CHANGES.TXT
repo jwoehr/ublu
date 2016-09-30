@@ -8,6 +8,7 @@ Commands:
 * some commands' argument parsing modernized
 * job -hold -release
 * printer -wtrjob
+* printer -get works for all attributes now 
 
 Miscellaneous:
 * Update vim mode

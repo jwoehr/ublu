@@ -6,6 +6,7 @@
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -471,6 +472,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <li><a href="#Syntax_coloring_edit_modes">Syntax coloring edit
     modes</a></li>
+
+    <li><a href="#Appendix_A">Appendix A: Printer
+    Attributes</a></li>
   </ul>
 
   <h2><a name="Overview" id="Overview"></a>Overview</h2>
@@ -6181,7 +6185,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       command (due to limitations of JTOpen).</li>
 
       <li><tt>-get ~@attribute</tt> puts the value of the named
-      attribute to the destination datasink.</li>
+      attribute to the destination datasink. <a href=
+      "#Appendix_A">Appendix A: Printer Attributes</a> lists the
+      attributes that can be queried.</li>
 
       <li>
         <tt>-set ~@attribute value</tt> sets the named attribute to
@@ -9081,14 +9087,583 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   Ublu:<br></p>
 
   <ul>
-    <li><tt>stuff/.vim</tt></li>
+    <li><tt>stuff/ublu-vimfiles-master</tt></li>
 
     <li><tt>stuff/jEdit</tt></li>
   </ul>
 
   <p>which should be self-explanatory to users of the <a href=
   "http://www.vim.org/">Vim</a> and/or <a href=
-  "http://www.jedit.org/">jEdit</a> editors.<br></p><i>End of
-  document</i>
+  "http://www.jedit.org/">jEdit</a> editors.<br></p>
+
+  <h2><a name="Appendix_A">Appendix A: Printer Attributes</a></h2>
+
+  <p>The following list of printer attributes are used with
+  <a href="#printer"><tt>printer -get</tt></a>. Not all attributes
+  will be recognized for all printers.</p>
+
+  <ul>
+    <li><tt>3812SCS</tt></li>
+
+    <li><tt>ACCOUNT_CODE</tt></li>
+
+    <li><tt>AFP</tt></li>
+
+    <li><tt>AFP_RESOURCE</tt></li>
+
+    <li><tt>AFPRESOURCE</tt></li>
+
+    <li><tt>ALIGN</tt></li>
+
+    <li><tt>ALIGNFORMS</tt></li>
+
+    <li><tt>ALWDRTPRT</tt></li>
+
+    <li><tt>ASCIITRANS</tt></li>
+
+    <li><tt>ASPDEVICE</tt></li>
+
+    <li><tt>AUTHCHCK</tt></li>
+
+    <li><tt>AUTHORITY</tt></li>
+
+    <li><tt>AUTOEND</tt></li>
+
+    <li><tt>AUX_POOL</tt></li>
+
+    <li><tt>BACK_OVERLAY</tt></li>
+
+    <li><tt>BARCODE</tt></li>
+
+    <li><tt>BKMGN_ACR</tt></li>
+
+    <li><tt>BKMGN_DWN</tt></li>
+
+    <li><tt>BKOVL_ACR</tt></li>
+
+    <li><tt>BKOVL_DWN</tt></li>
+
+    <li><tt>BTWNCPYSTS</tt></li>
+
+    <li><tt>BTWNFILESTS</tt></li>
+
+    <li><tt>CHANGES</tt></li>
+
+    <li><tt>CHAR_ID</tt></li>
+
+    <li><tt>CHARID</tt></li>
+
+    <li><tt>CHR_RTT_CMDS</tt></li>
+
+    <li><tt>CHRSET</tt></li>
+
+    <li><tt>CHRSET_LIB</tt></li>
+
+    <li><tt>CHRSET_SIZE</tt></li>
+
+    <li><tt>CODEDFNT</tt></li>
+
+    <li><tt>CODEDFNTLIB</tt></li>
+
+    <li><tt>CODEDFONT_SIZE</tt></li>
+
+    <li><tt>CODEPAGE</tt></li>
+
+    <li><tt>CODEPAGE_NAME</tt></li>
+
+    <li><tt>CODEPAGE_NAME_LIB</tt></li>
+
+    <li><tt>CODFNT_ARRAY</tt></li>
+
+    <li><tt>COLOR</tt></li>
+
+    <li><tt>CONSTBCK_OVL</tt></li>
+
+    <li><tt>CONTROLCHAR</tt></li>
+
+    <li><tt>CONVERT_LINEDATA</tt></li>
+
+    <li><tt>COPIES</tt></li>
+
+    <li><tt>COPIESLEFT</tt></li>
+
+    <li><tt>CORNER_STAPLE</tt></li>
+
+    <li><tt>CPI</tt></li>
+
+    <li><tt>CPI_CHANGES</tt></li>
+
+    <li><tt>CURPAGE</tt></li>
+
+    <li><tt>DATA_QUEUE</tt></li>
+
+    <li><tt>DATAFORMAT</tt></li>
+
+    <li><tt>DATE</tt></li>
+
+    <li><tt>DATE_END</tt></li>
+
+    <li><tt>DATE_USED</tt></li>
+
+    <li><tt>DATE_WTR_BEGAN_FILE</tt></li>
+
+    <li><tt>DATE_WTR_CMPL_FILE</tt></li>
+
+    <li><tt>DAYS_UNTIL_EXPIRE</tt></li>
+
+    <li><tt>DBCS_FNT</tt></li>
+
+    <li><tt>DBCS_FNT_LIB</tt></li>
+
+    <li><tt>DBCS_FNT_SIZE</tt></li>
+
+    <li><tt>DBCSCPI</tt></li>
+
+    <li><tt>DBCSDATA</tt></li>
+
+    <li><tt>DBCSEXTENSN</tt></li>
+
+    <li><tt>DBCSROTATE</tt></li>
+
+    <li><tt>DBCSSISO</tt></li>
+
+    <li><tt>DDS</tt></li>
+
+    <li><tt>DECIMAL_FMT</tt></li>
+
+    <li><tt>DELETESPLF</tt></li>
+
+    <li><tt>DESCRIPTION</tt></li>
+
+    <li><tt>DESTINATION</tt></li>
+
+    <li><tt>DESTOPTION</tt></li>
+
+    <li><tt>DEVCLASS</tt></li>
+
+    <li><tt>DEVMODEL</tt></li>
+
+    <li><tt>DEVSTATUS</tt></li>
+
+    <li><tt>DEVTYPE</tt></li>
+
+    <li><tt>DFR_WRITE</tt></li>
+
+    <li><tt>DISPLAYANY</tt></li>
+
+    <li><tt>DOUBLEWIDE</tt></li>
+
+    <li><tt>DRAWERCHANGE</tt></li>
+
+    <li><tt>DRWRSEP</tt></li>
+
+    <li><tt>DUPLEX</tt></li>
+
+    <li><tt>EDGESTITCH_NUMSTAPLES</tt></li>
+
+    <li><tt>EDGESTITCH_REF</tt></li>
+
+    <li><tt>EDGESTITCH_REFOFF</tt></li>
+
+    <li><tt>ENDPAGE</tt></li>
+
+    <li><tt>ENDPNDSTS</tt></li>
+
+    <li><tt>ENVLP_SOURCE</tt></li>
+
+    <li><tt>EXPIRATION_DATE</tt></li>
+
+    <li><tt>FIDELITY</tt></li>
+
+    <li><tt>FIELD_OUTLIN</tt></li>
+
+    <li><tt>FILESEP</tt></li>
+
+    <li><tt>FOLDREC</tt></li>
+
+    <li><tt>FONT_CHANGES</tt></li>
+
+    <li><tt>FONTID</tt></li>
+
+    <li><tt>FONTRESFMT</tt></li>
+
+    <li><tt>FORM_DEFINITION</tt></li>
+
+    <li><tt>FORMFEED</tt></li>
+
+    <li><tt>FORMTYPE</tt></li>
+
+    <li><tt>FORMTYPEMSG</tt></li>
+
+    <li><tt>FRONT_OVERLAY</tt></li>
+
+    <li><tt>FTMGN_ACR</tt></li>
+
+    <li><tt>FTMGN_DWN</tt></li>
+
+    <li><tt>FTOVL_ACR</tt></li>
+
+    <li><tt>FTOVL_DWN</tt></li>
+
+    <li><tt>GRAPHICS</tt></li>
+
+    <li><tt>GRAPHICS_TOK</tt></li>
+
+    <li><tt>GRPLVL_IDXTAG</tt></li>
+
+    <li><tt>HELDSTS</tt></li>
+
+    <li><tt>HIGHLIGHT</tt></li>
+
+    <li><tt>HOLD</tt></li>
+
+    <li><tt>HOLDPNDSTS</tt></li>
+
+    <li><tt>HOLDTYPE</tt></li>
+
+    <li><tt>IMGCFG</tt></li>
+
+    <li><tt>INTERNETADDR</tt></li>
+
+    <li><tt>IPDSPASSTHRU</tt></li>
+
+    <li><tt>IPP_ATTR_CCSID</tt></li>
+
+    <li><tt>IPP_ATTR_NL</tt></li>
+
+    <li><tt>IPP_JOB_ID</tt></li>
+
+    <li><tt>IPP_JOB_NAME</tt></li>
+
+    <li><tt>IPP_JOB_NAME_NL</tt></li>
+
+    <li><tt>IPP_JOB_ORIGUSER</tt></li>
+
+    <li><tt>IPP_JOB_ORIGUSER_NL</tt></li>
+
+    <li><tt>IPP_PRINTER_NAME</tt></li>
+
+    <li><tt>JOBCCSID</tt></li>
+
+    <li><tt>JOBNAME</tt></li>
+
+    <li><tt>JOBNUMBER</tt></li>
+
+    <li><tt>JOBSEPRATR</tt></li>
+
+    <li><tt>JOBSYSTEM</tt></li>
+
+    <li><tt>JOBUSER</tt></li>
+
+    <li><tt>JUSTIFY</tt></li>
+
+    <li><tt>LASTPAGE</tt></li>
+
+    <li><tt>LIBRARY</tt></li>
+
+    <li><tt>LINESPACING</tt></li>
+
+    <li><tt>LPI</tt></li>
+
+    <li><tt>LPI_CHANGES</tt></li>
+
+    <li><tt>MAX_JOBS_PER_CLIENT</tt></li>
+
+    <li><tt>MAXRCDS</tt></li>
+
+    <li><tt>MEASMETHOD</tt></li>
+
+    <li><tt>MESSAGE_QUEUE</tt></li>
+
+    <li><tt>MFGTYPE</tt></li>
+
+    <li><tt>MSGHELP</tt></li>
+
+    <li><tt>MSGID</tt></li>
+
+    <li><tt>MSGREPLY</tt></li>
+
+    <li><tt>MSGSEV</tt></li>
+
+    <li><tt>MSGTEXT</tt></li>
+
+    <li><tt>MSGTYPE</tt></li>
+
+    <li><tt>MULTI_ITEM_REPLY</tt></li>
+
+    <li><tt>MULTIUP</tt></li>
+
+    <li><tt>NETWORK</tt></li>
+
+    <li><tt>NPSCCSID</tt></li>
+
+    <li><tt>NPSLEVEL</tt></li>
+
+    <li><tt>NUMBYTES</tt></li>
+
+    <li><tt>NUMBYTES_SPLF</tt></li>
+
+    <li><tt>NUMFILES</tt></li>
+
+    <li><tt>NUMRSC_LIB_ENT</tt></li>
+
+    <li><tt>NUMWRITERS</tt></li>
+
+    <li><tt>OBJEXTATTR</tt></li>
+
+    <li><tt>OFFICEVISION</tt></li>
+
+    <li><tt>ONJOBQSTS</tt></li>
+
+    <li><tt>OPCNTRL</tt></li>
+
+    <li><tt>OPENCMDS</tt></li>
+
+    <li><tt>ORDER</tt></li>
+
+    <li><tt>OS4_CRT_AFP</tt></li>
+
+    <li><tt>OUTPTY</tt></li>
+
+    <li><tt>OUTPUT_QUEUE</tt></li>
+
+    <li><tt>OUTPUTBIN</tt></li>
+
+    <li><tt>OUTQSTS</tt></li>
+
+    <li><tt>OVERALLSTS</tt></li>
+
+    <li><tt>OVERFLOW</tt></li>
+
+    <li><tt>PAGE_AT_A_TIME</tt></li>
+
+    <li><tt>PAGE_DEFINITION</tt></li>
+
+    <li><tt>PAGE_GROUPS</tt></li>
+
+    <li><tt>PAGE_ROTATE</tt></li>
+
+    <li><tt>PAGELEN</tt></li>
+
+    <li><tt>PAGELVLIDXTAG</tt></li>
+
+    <li><tt>PAGENUMBER</tt></li>
+
+    <li><tt>PAGES</tt></li>
+
+    <li><tt>PAGES_EST</tt></li>
+
+    <li><tt>PAGEWIDTH</tt></li>
+
+    <li><tt>PAGRTT</tt></li>
+
+    <li><tt>PAPER_SOURCE_1</tt></li>
+
+    <li><tt>PAPER_SOURCE_2</tt></li>
+
+    <li><tt>PELDENSITY</tt></li>
+
+    <li><tt>PGM_OPN_FILE</tt></li>
+
+    <li><tt>PGM_OPN_LIB</tt></li>
+
+    <li><tt>POINTSIZE</tt></li>
+
+    <li><tt>PRINTER</tt></li>
+
+    <li><tt>PRINTER_FILE</tt></li>
+
+    <li><tt>PRTASSIGNED</tt></li>
+
+    <li><tt>PRTDEVTYPE</tt></li>
+
+    <li><tt>PRTQUALITY</tt></li>
+
+    <li><tt>PRTSEQUENCE</tt></li>
+
+    <li><tt>PRTTEXT</tt></li>
+
+    <li><tt>PUBINF</tt></li>
+
+    <li><tt>PUBINF_COLOR_SUP</tt></li>
+
+    <li><tt>PUBINF_DS</tt></li>
+
+    <li><tt>PUBINF_DUPLEX_SUP</tt></li>
+
+    <li><tt>PUBINF_LOCATION</tt></li>
+
+    <li><tt>PUBINF_PPM</tt></li>
+
+    <li><tt>PUBINF_PPM_COLOR</tt></li>
+
+    <li><tt>RCDFMT_DATA</tt></li>
+
+    <li><tt>RECLENGTH</tt></li>
+
+    <li><tt>REDUCE</tt></li>
+
+    <li><tt>RESTART</tt></li>
+
+    <li><tt>RMTLOCNAME</tt></li>
+
+    <li><tt>RMTPRTQ</tt></li>
+
+    <li><tt>RMTSYSTEM</tt></li>
+
+    <li><tt>RPLCHAR</tt></li>
+
+    <li><tt>RPLUNPRT</tt></li>
+
+    <li><tt>RSC_LIB_LIST</tt></li>
+
+    <li><tt>SADDLESTITCH_NUMSTAPLES</tt></li>
+
+    <li><tt>SADDLESTITCH_REF</tt></li>
+
+    <li><tt>SADDLESTITCH_STPL_OFFSEINFO</tt></li>
+
+    <li><tt>SAVE</tt></li>
+
+    <li><tt>SAVE_COMMAND</tt></li>
+
+    <li><tt>SAVE_DEVICE</tt></li>
+
+    <li><tt>SAVE_FILE</tt></li>
+
+    <li><tt>SAVE_LABEL</tt></li>
+
+    <li><tt>SAVE_SEQUENCE_NUMBER</tt></li>
+
+    <li><tt>SAVE_VOLUME_FORMAT</tt></li>
+
+    <li><tt>SAVE_VOLUME_ID</tt></li>
+
+    <li><tt>SCHEDULE</tt></li>
+
+    <li><tt>SCS2ASCII</tt></li>
+
+    <li><tt>SEEKOFF</tt></li>
+
+    <li><tt>SEEKORG</tt></li>
+
+    <li><tt>SENDPTY</tt></li>
+
+    <li><tt>SEPPAGE</tt></li>
+
+    <li><tt>SPLF_AUTH_METHOD</tt></li>
+
+    <li><tt>SPLF_CREATOR</tt></li>
+
+    <li><tt>SPLF_RESTORED_DATE</tt></li>
+
+    <li><tt>SPLF_RESTORED_TIME</tt></li>
+
+    <li><tt>SPLF_SAVED_DATE</tt></li>
+
+    <li><tt>SPLF_SAVED_TIME</tt></li>
+
+    <li><tt>SPLF_SECURITY_METHOD</tt></li>
+
+    <li><tt>SPLF_SIZE</tt></li>
+
+    <li><tt>SPLF_SIZE_MULT</tt></li>
+
+    <li><tt>SPLFNUM</tt></li>
+
+    <li><tt>SPLFSTATUS</tt></li>
+
+    <li><tt>SPLSCS</tt></li>
+
+    <li><tt>SPOOL</tt></li>
+
+    <li><tt>SPOOLFILE</tt></li>
+
+    <li><tt>SRC_CODEPAGE</tt></li>
+
+    <li><tt>SRCDRWR</tt></li>
+
+    <li><tt>STARTEDBY</tt></li>
+
+    <li><tt>STARTPAGE</tt></li>
+
+    <li><tt>SYS_DRV_PGM</tt></li>
+
+    <li><tt>SYSTEM</tt></li>
+
+    <li><tt>TGT_CODEPAGE</tt></li>
+
+    <li><tt>TIME</tt></li>
+
+    <li><tt>TIME_END</tt></li>
+
+    <li><tt>TIME_WTR_BEGAN_FILE</tt></li>
+
+    <li><tt>TIME_WTR_CMPL_FILE</tt></li>
+
+    <li><tt>TOADDRESS</tt></li>
+
+    <li><tt>TOUSERID</tt></li>
+
+    <li><tt>TRC1403</tt></li>
+
+    <li><tt>UNITOFMEAS</tt></li>
+
+    <li><tt>USER_DEFINED_OBJECT</tt></li>
+
+    <li><tt>USER_DFN_TXT</tt></li>
+
+    <li><tt>USER_DRIVER_PROG</tt></li>
+
+    <li><tt>USER_TRANSFORM_PROG</tt></li>
+
+    <li><tt>USERCMT</tt></li>
+
+    <li><tt>USERDATA</tt></li>
+
+    <li><tt>USERGEN_DATA</tt></li>
+
+    <li><tt>USRDEFDATA</tt></li>
+
+    <li><tt>USRDEFFILE</tt></li>
+
+    <li><tt>USRDEFOPT</tt></li>
+
+    <li><tt>USRDRVDATA</tt></li>
+
+    <li><tt>VIEWING_FIDELITY</tt></li>
+
+    <li><tt>VMMVSCLASS</tt></li>
+
+    <li><tt>WORKSTATION_CUST_OBJECT</tt></li>
+
+    <li><tt>WRTNGSTS</tt></li>
+
+    <li><tt>WTNGDATASTS</tt></li>
+
+    <li><tt>WTNGDEVSTS</tt></li>
+
+    <li><tt>WTNGMSGSTS</tt></li>
+
+    <li><tt>WTRAUTOEND</tt></li>
+
+    <li><tt>WTREND</tt></li>
+
+    <li><tt>WTRINIT</tt></li>
+
+    <li><tt>WTRJOBNAME</tt></li>
+
+    <li><tt>WTRJOBNUM</tt></li>
+
+    <li><tt>WTRJOBSTS</tt></li>
+
+    <li><tt>WTRJOBUSER</tt></li>
+
+    <li><tt>WTRSTRPAGE</tt></li>
+
+    <li><tt>WTRSTRTD</tt></li>
+  </ul>
+
+  <p><i>End of document</i></p>
 </body>
 </html>

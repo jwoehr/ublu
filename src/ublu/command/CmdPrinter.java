@@ -85,8 +85,7 @@ public class CmdPrinter extends Command {
      */
     public ArgArray printer(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE;
-        String attributeName;
-        Integer attributeInt = null;
+        String attributeName = null;
         Tuple printerTuple = null;
         PrintParameterList ppl = new PrintParameterList();
         while (argArray.hasDashCommand()) {
@@ -98,8 +97,8 @@ public class CmdPrinter extends Command {
                     break;
                 case "-get":
                     operation = OPERATIONS.GET;
-                    attributeName = argArray.nextMaybeQuotationTuplePopString();
-                    attributeInt = attribToInt(attributeName);
+                    attributeName = "ATTR_" + argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
+                    // attributeInt = attribToInt(attributeName);
                     break;
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
@@ -193,7 +192,8 @@ public class CmdPrinter extends Command {
                         break;
                     case GET:
                         try {
-                            put(printer.getStringAttribute(attributeInt));
+                            // put(printer.getStringAttribute(attributeInt));
+                            put(attrNameToValue(printer, attributeName));
                         } catch (AS400SecurityException | SQLException | ObjectDoesNotExistException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                             getLogger().log(Level.SEVERE, "Error getting printer attribute in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -258,6 +258,38 @@ public class CmdPrinter extends Command {
                 setCommandResult(COMMANDRESULT.FAILURE);
         }
         return intval;
+    }
+
+    private int attrNameToInt(String attrName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+       return Printer.class.getField(attrName).getInt(Printer.class);
+    }
+
+    private Object attrNameToValue(Printer p, String attrName) {
+        Object value = null;
+        Integer attrInteger = null;
+        try {
+            attrInteger = attrNameToInt(attrName);
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+            getLogger().log(Level.SEVERE, "No such attribute " + attrName + " in " + getNameAndDescription(), ex);
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        if (attrInteger != null) {
+            try {
+                value = p.getSingleIntegerAttribute(attrInteger);
+            } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                try {
+                    value = p.getSingleFloatAttribute(attrInteger);
+                } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex1) {
+                    try {
+                        value = p.getStringAttribute(attrInteger);
+                    } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex2) {
+                        getLogger().log(Level.SEVERE, "Could not get attribute value for " + attrName + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                }
+            }
+        }
+        return value;
     }
 
     @Override
