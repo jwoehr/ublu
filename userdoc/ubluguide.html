@@ -14,7 +14,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 30 Sep 2016 20:27:41 UTC">
+  "Sun, 2 Oct 2016 04:21:48 UTC">
 </head>
 
 <body>
@@ -1071,11 +1071,13 @@ message queue instance."<br>
   changes the function makes to that argument are changes to the
   variable itself.<br></p>
 
-  <p>Arguments in function argument lists are actually
-  <i>token-pasted</i> into the execution block which is the body of
-  the function. This allows some unusual programming techniques as
-  we'll see later, e.g., in the section on the <a href=
-  "#TupleStack">Tuple Stack</a>.</p>
+  <p>Arguments in function argument lists are actually <a href=
+  "./ubluref.html#Function_Parameter_Binding">token-pasted</a> into
+  the execution block which is the body of the function.</p>
+
+  <p>Token pasting in function argument marshalling allows some
+  unusual programming techniques as we'll see later, e.g., in the
+  section on the <a href="#TupleStack">Tuple Stack</a>.</p>
 
   <h4><a class="mozTocH4" name="mozTocId154189"></a>Local variables
   as arguments</h4>
@@ -1282,10 +1284,12 @@ block, so a local variable cannot be passed to the thread.<br>
   allow coding functions that get around some of the clunkiness of
   basic Ublu syntax. Instead of stowing results in tuple variables,
   functions can push their results to the stack to be popped as
-  arguments by the next function. Additionally, the token-pasting
-  nature of Ublu FUNC arguments allow even dash-commands to be
-  presented to an Ublu command via the argument list to a
-  function.<br>
+  arguments by the next function. Additionally, the <a href=
+  "./ubluref.html#Function_Parameter_Binding">token-pasting</a>
+  nature of Ublu <a href=
+  "./ubluref.html#Tuple_stack"><tt>FUNC</tt></a> arguments allow
+  even dash-commands to be presented to an Ublu command via the
+  argument list to a function.<br>
   <br>
   Here is an example of this object-disoriented slackomorphic style
   of programming:<br>
