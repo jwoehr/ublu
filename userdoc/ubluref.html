@@ -5,12 +5,10 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 30 Sep 2016 16:38:40 UTC">
+  "Sun, 2 Oct 2016 04:21:48 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +59,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-09-30</p>
+  Last edit: 2016-10-02</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com Copyright (c) 2016, Jack J. Woehr
@@ -1148,9 +1146,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <p>Ublu's interpreter being purely a text interpreter, performing
   (almost) no tokenization during interpretation and compilation,
-  function parameter binding is effected by runtime rewriting of
-  argument references (e.g., <tt>@@some_arg</tt>) in the execution
-  block.<br></p>
+  function parameter binding is effected by runtime rewriting
+  ("token pasting") of argument references (e.g.,
+  <tt>@@some_arg</tt>) in the execution block to the actual
+  positional parameter value provided at the time the function is
+  called. No interpretation such as <tt>${ string assimilation
+  }$</tt> is done during the function parameter binding process:
+  all arguments must be <tt>@variable</tt> or <a href=
+  "#Plain_words">plainword</a>.</p>
 
   <ul>
     <li>If the argument provided is a simple lex, e.g.,
@@ -1158,14 +1161,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     for all references to it.</li>
 
     <li>If the argument provided is a <a href=
-    "#Tuple_Variables">tuple variable</a>, a temporary is created
+    "#Tuple_Variables">tuple variable</a>, a temporary alias for
+    the tuple variable named in the invocation argument is created
     in a local extension to the tuple map and references to the
     argument are rewritten with the name of the temporary in the
     function's execution block.</li>
-  </ul>It is perfectly acceptable to name function parameters with
+  </ul>
+
+  <p>Thus, in the case of a function</p>
+
+  <blockquote>
+    <tt>foo ( a b c ) $[ put @@a put @@b put @@c ]$</tt>
+  </blockquote>called with arguments
+
+  <blockquote>
+    <tt>foo ( @bar woof @zotz )</tt>
+  </blockquote>is effectively seen at invocation by the interpreter
+  as
+
+  <blockquote>
+    <tt>$[ put @bar put woof put @zotz ]$</tt>
+  </blockquote>
+
+  <p>The temporary alias actually pasted for tuple variable
+  arguments to functions can be seen in the debugger.</p>
+
+  <p>It is perfectly acceptable to name function parameters with
   the same names as command or functions. But this practice can
   detract from the readability of the code, especially if using the
-  provided syntax coloring edit modes.<br>
+  <a href="#Syntax_coloring_edit_modes">syntax coloring edit
+  modes</a> provided with Ublu.</p>
 
   <h3><a name="Function_Dictionary" id=
   "Function_Dictionary"></a>Function Dictionary</h3>
