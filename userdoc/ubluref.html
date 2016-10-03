@@ -3685,32 +3685,45 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     immediately following the <tt>FUNC</tt> command, though
     otherwise the execution block can span multiple lines.<br>
     <br>
-    <i>Example</i><br>
-    <br>
-    <tt>FUNC showJobs ( joblist jobtype1 jobtype2 ) $[<br>
-    &nbsp;&nbsp;&nbsp; FOR @j in @@joblist $[<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; put -n -from
-    @@jobtype1 put -n -from @@jobtype2 put -n ${ job }$<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; put -n -s -from
-    @j<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; put -n -s ${ is
-    owned by }$ job -job @j -get user<br>
-    &nbsp;&nbsp;&nbsp; ]$<br>
-    ]$<br>
-    as400 -to @as400 MYHOST SOMEUSERID ********<br>
-    put ${ Getting list of all active interactive jobs }$<br>
+    <i>Example</i> (from <tt>examples/jobstuff.ublu</tt>)
+    <pre>
+<font color="#000000"><span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Show</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">jobs</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">joblist</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> showJobs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>joblist</strong></font> <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@subsys</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@type</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@j</font> in <font color="#6600CC">@@joblist</font> <font color="#000000"><strong>$[</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">job</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@j</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>        <font color="#009966"><strong>job</strong></font> <font color="#0099FF"><strong>-job</strong></font> <font color="#0000FF">@j</font> <font color="#0099FF"><strong>-get</strong></font> subsystem <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@subsys</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>        <font color="#009966"><strong>job</strong></font> <font color="#0099FF"><strong>-job</strong></font> <font color="#0000FF">@j</font> <font color="#0099FF"><strong>-get</strong></font> type <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@type</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@subsys</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@type</font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">owned</font><font color="#FF00CC"> </font><font color="#FF00CC">by</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>job</strong></font> <font color="#0099FF"><strong>-job</strong></font> <font color="#0000FF">@j</font> <font color="#0099FF"><strong>-get</strong></font> <font color="#009966"><strong>user</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>    <font color="#000000"><strong>]$</strong></font>
+<span style=
+"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#000000"><strong>]$</strong></font>
+</font>
+</pre><tt>as400 -to @myhost MYHOST SOMEUSERID ********<br>
     joblist -to @joblist -jobtype INTERACTIVE -active -as400
-    @as400<br>
-    put ${ Showing all active interactive jobs }$<br>
-    put -to @jobtype1 ${ active }$<br>
-    put -to @jobtype2 ${ interactive }$<br>
-    showJobs ( @joblist @jobtype1 @jobtype2 )<br>
-    <i>active interactive job 329077/FRED/QPADEV001B is owned by
-    FRED<br>
-    active interactive job 328723/CREEP/CRP2 is owned by CREEP<br>
-    active interactive job 328726/CREEP/CRP1 is owned by CREEP<br>
-    active interactive job 329080/SHREDDER/QPADEV0012 is owned by
-    SHREDDER<br></i></tt>
+    @myhost<br>
+    showJobs ( @joblist )<br>
+    <i>job 329077/FRED/QPADEV001B /QSYS.LIB/QINTER.SBSD I is owned
+    by FRED<br>
+    job 328723/CREEP/CRP2 /QSYS.LIB/QINTER.SBSD I is owned by
+    CREEP<br>
+    job 328726/CREEP/CRP1 /QSYS.LIB/QINTER.SBSD I is owned by
+    CREEP<br>
+    job 329080/SHREDDER/QPADEV0012 /QSYS.LIB/QINTER.SBSD I is owned
+    by SHREDDER</i><br></tt>
   </blockquote>
 
   <h4><a name="gensh" id="gensh"></a><tt>gensh</tt></h4>
