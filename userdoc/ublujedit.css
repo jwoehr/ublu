@@ -1,0 +1,76 @@
+.syntax-NULL {
+  color: #000000;
+}
+.syntax-COMMENT1 {
+  color: #cc0000;
+}
+.syntax-COMMENT2 {
+  color: #ff8400;
+}
+.syntax-COMMENT3 {
+  color: #6600cc;
+}
+.syntax-COMMENT4 {
+  color: #cc6600;
+}
+.syntax-DIGIT {
+  color: #ff0000;
+}
+.syntax-FUNCTION {
+  color: #9966ff;
+}
+.syntax-INVALID {
+  background: #ffffcc;
+  color: #ff0066;
+}
+.syntax-KEYWORD1 {
+  color: #006699;
+  font-weight: bold;
+}
+.syntax-KEYWORD2 {
+  color: #009966;
+  font-weight: bold;
+}
+.syntax-KEYWORD3 {
+  color: #0099ff;
+  font-weight: bold;
+}
+.syntax-KEYWORD4 {
+  color: #66ccff;
+  font-weight: bold;
+}
+.syntax-LABEL {
+  color: #02b902;
+}
+.syntax-LITERAL1 {
+  color: #ff00cc;
+}
+.syntax-LITERAL2 {
+  color: #cc00cc;
+}
+.syntax-LITERAL3 {
+  color: #9900cc;
+}
+.syntax-LITERAL4 {
+  color: #6600cc;
+}
+.syntax-MARKUP {
+  color: #0000ff;
+}
+.syntax-OPERATOR {
+  color: #000000;
+  font-weight: bold;
+}
+
+.gutter {
+  background: #dbdbdb;
+  color: #000000;
+  border-right: 2px solid black ;
+  margin-right: 5px ;
+}
+.gutterH {
+  background: #dbdbdb;
+  color: #990066;
+  border-right: 2px solid black ; 
+  margin-right: 5px ;
+}

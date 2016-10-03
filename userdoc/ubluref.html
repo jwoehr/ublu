@@ -8,7 +8,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 3 Oct 2016 00:50:00 UTC">
+  "Mon, 3 Oct 2016 22:43:16 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -18,6 +18,7 @@
   name="description">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
+  <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
 <body>
@@ -3335,45 +3336,202 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <tt>file -- @f -write @newrec</tt><tt><br></tt> <tt>file -- @f
     -close</tt><br>
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listsrc.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">type</font><font color="#CC0000"> </font><font color="#CC0000">out</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">program</font><font color="#CC0000"> </font><font color="#CC0000">source</font><font color="#CC0000"> </font><font color="#CC0000">member</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">record</font><font color="#CC0000"> </font><font color="#CC0000">file</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Given</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">server</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">fully</font><font color="#CC0000"> </font><font color="#CC0000">qualified</font><font color="#CC0000"> </font><font color="#CC0000">IFS</font><font color="#CC0000"> </font><font color="#CC0000">path</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">source</font><font color="#CC0000"> </font><font color="#CC0000">member</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">type</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">contents</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">file</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">standard</font><font color="#CC0000"> </font><font color="#CC0000">out,</font><font color="#CC0000"> </font><font color="#CC0000">e.g.,</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">listsrc</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@mysys</font><font color="#CC0000"> </font><font color="#CC0000">/QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">where</font><font color="#CC0000"> </font><font color="#CC0000">@mysys</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">as400</font><font color="#CC0000"> </font><font color="#CC0000">object.</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#006699"><strong>FUNC</strong></font> listsrc <font color="#000000"><strong>(</strong></font> sys fqp <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@f</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@lines</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@recordarray</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#6600CC">@@sys</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@f</font> <font color="#0099FF"><strong>-keyed</strong></font> <font color="#6600CC">@@fqp</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-open</strong></font>  R
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-close</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>    <font color="#009966"><strong>file</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@f</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@recordarray</font> <font color="#0099FF"><strong>-read</strong></font> ALL
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@i</font> in <font color="#0000FF">@recordarray</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0000FF">@i</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>    <font color="#000000"><strong>]$</strong></font>    
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#000000"><strong>]$</strong></font>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">listsrc.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">out</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">program</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">member</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">record</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">file</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutterH">   5 </span>
+<span class="gutter">   6 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Given</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">server</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">fully</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">qualified</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">IFS</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">path</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">member</span>
+<span class="gutter">   7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">contents</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">file</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">standard</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">out,</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">e.g.,</span>
+<span class="gutter">   8 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">listsrc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@mysys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">/QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR</span><span class="syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">   9 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">where</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@mysys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">an</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as400</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">object.</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-KEYWORD1">FUNC</span> listsrc <span class=
+"syntax-OPERATOR">(</span> sys fqp <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  11 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@f</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@lines</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@recordarray</span>
+<span class="gutter">  12 </span>    <span class=
+"syntax-KEYWORD2">file</span> <span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-LITERAL4">@@sys</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@f</span> <span class=
+"syntax-KEYWORD3">-keyed</span> <span class=
+"syntax-LITERAL4">@@fqp</span>
+<span class="gutter">  13 </span>    <span class=
+"syntax-KEYWORD2">file</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@f</span> <span class=
+"syntax-KEYWORD3">-open</span>  R
+<span class="gutter">  14 </span>    <span class=
+"syntax-KEYWORD2">file</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@f</span> <span class=
+"syntax-KEYWORD3">-close</span>
+<span class="gutterH">  15 </span>    <span class=
+"syntax-KEYWORD2">file</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@f</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@recordarray</span> <span class=
+"syntax-KEYWORD3">-read</span> ALL
+<span class="gutter">  16 </span>    <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@i</span> in <span class=
+"syntax-MARKUP">@recordarray</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutter">  17 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-MARKUP">@i</span>
+<span class="gutter">  18 </span>    <span class=
+"syntax-OPERATOR">]$</span>    
+<span class="gutter">  19 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutterH">  20 </span>
+</span>
 </pre>
   </blockquote>
 
@@ -3687,31 +3845,97 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <br>
     <i>Example</i> (from <tt>examples/jobstuff.ublu</tt>)
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Show</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">jobs</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">joblist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> showJobs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>joblist</strong></font> <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@subsys</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@type</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@j</font> in <font color="#6600CC">@@joblist</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">job</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@j</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>        <font color="#009966"><strong>job</strong></font> <font color="#0099FF"><strong>-job</strong></font> <font color="#0000FF">@j</font> <font color="#0099FF"><strong>-get</strong></font> subsystem <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@subsys</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>        <font color="#009966"><strong>job</strong></font> <font color="#0099FF"><strong>-job</strong></font> <font color="#0000FF">@j</font> <font color="#0099FF"><strong>-get</strong></font> type <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@type</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@subsys</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@type</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">owned</font><font color="#FF00CC"> </font><font color="#FF00CC">by</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>job</strong></font> <font color="#0099FF"><strong>-job</strong></font> <font color="#0000FF">@j</font> <font color="#0099FF"><strong>-get</strong></font> <font color="#009966"><strong>user</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>    <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#000000"><strong>]$</strong></font>
-</font>
+<span class="syntax0"><span class="gutter"> 7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Show</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">all</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jobs</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">in</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">joblist</span>
+<span class="gutter"> 8 </span><span class=
+"syntax-KEYWORD1">FUNC</span> showJobs <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-KEYWORD2">joblist</span> <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter"> 9 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@subsys</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@type</span>
+<span class="gutterH">10 </span>    <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@j</span> in <span class=
+"syntax-LITERAL4">@@joblist</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutter">11 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">job</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">12 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@j</span>
+<span class="gutter">13 </span>        <span class=
+"syntax-KEYWORD2">job</span> <span class=
+"syntax-KEYWORD3">-job</span> <span class=
+"syntax-MARKUP">@j</span> <span class=
+"syntax-KEYWORD3">-get</span> subsystem <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@subsys</span>
+<span class="gutter">14 </span>        <span class=
+"syntax-KEYWORD2">job</span> <span class=
+"syntax-KEYWORD3">-job</span> <span class=
+"syntax-MARKUP">@j</span> <span class=
+"syntax-KEYWORD3">-get</span> type <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@type</span>
+<span class="gutterH">15 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@subsys</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@type</span>
+<span class="gutter">16 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">owned</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">by</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">job</span> <span class=
+"syntax-KEYWORD3">-job</span> <span class=
+"syntax-MARKUP">@j</span> <span class=
+"syntax-KEYWORD3">-get</span> <span class=
+"syntax-KEYWORD2">user</span>
+<span class="gutter">17 </span>    <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">18 </span><span class=
+"syntax-OPERATOR">]$</span>
+</span>
 </pre><tt>as400 -to @myhost MYHOST SOMEUSERID ********<br>
     joblist -to @joblist -jobtype INTERACTIVE -active -as400
     @myhost<br>
@@ -3882,101 +4106,627 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <tt>::</tt><br>
     <tt>excluding&nbsp; null</tt><br>
     <tt>finding&nbsp; null</tt><br>
-    <tt>$ cat foo.sh</tt><br>
-    <tt># myscript.sh ... do something<br>
-    # autogenerated Tue Nov 18 10:58:46 MST 2014 by jwoehr using
-    command:<br>
-    # gensh -to foo.sh -optx x EXCLUDE @exclude ${ excludes 0 to
-    many things }$ -opt f FIND @find ${ finds something }$ -path
-    /opt/ublu/ublu.jar ${ myscript.sh ... do something }$
-    myFunc.ublu ${ myFunc ( @exclude @find ) }$<br>
-    <br>
-    # Usage message<br>
-    function usage () {<br>
-    echo "Usage: $0 [silent] -h -x EXCLUDE [-x EXCLUDE ..] -f FIND
-    "<br>
-    echo "&nbsp;&nbsp;&nbsp; where"<br>
-    echo "&nbsp;&nbsp;&nbsp; -h&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp; display this help message and exit 0"<br>
-    echo "&nbsp;&nbsp;&nbsp; -x EXCLUDE [-x EXCLUDE
-    ..]&nbsp;&nbsp;&nbsp; excludes 0 to many things "<br>
-    echo "&nbsp;&nbsp;&nbsp; -f FIND&nbsp;&nbsp;&nbsp; finds
-    something "<br>
-    echo "---"<br>
-    echo "If the keyword 'silent' appears ahead of all options,
-    then included files will not echo and prompting is
-    suppressed."<br>
-    echo "Exit code is the result of execution, or 0 for -h or 2 if
-    there is an error in processing options"<br>
-    }<br>
-    <br>
-    #Test if user wants silent includes<br>
-    if [ "$1" == "silent" ]<br>
-    then<br>
-    &nbsp;&nbsp;&nbsp; SILENT=" props -set includes.echo false
-    props -set prompting false "<br>
-    &nbsp;&nbsp;&nbsp; shift<br>
-    else<br>
-    &nbsp;&nbsp;&nbsp; SILENT=" "<br>
-    fi<br>
-    <br>
-    # Process options<br>
-    options=`getopt x:f:h&nbsp; $*`<br>
-    if [ $? != 0 ]<br>
-    then<br>
-    &nbsp;&nbsp;&nbsp; usage<br>
-    &nbsp;&nbsp;&nbsp; exit 2<br>
-    fi<br>
-    for i in&nbsp; $options&nbsp; {<br>
-    do<br>
-    &nbsp;&nbsp;&nbsp; case "$i"<br>
-    &nbsp;&nbsp;&nbsp; in<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; -x)<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    EXCLUDE="$2 ${EXCLUDE}";shift;<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    shift;;<br>
-    <br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; -f)<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    FIND="$2";shift;<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    shift;;<br>
-    <br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; -h)<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    usage;exit 0;shift;<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    shift;;<br>
-    <br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; --)<br>
-    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; shift;
-    break;;<br>
-    &nbsp;&nbsp;&nbsp; esac<br>
-    done<br>
-    <br>
-    # Translate options to tuple assignments<br>
-    if [ "${EXCLUDE}" != "" ]<br>
-    then<br>
-    &nbsp;&nbsp;&nbsp;
-    gensh_runtime_opts="${gensh_runtime_opts}string -to @exclude
-    -trim \${ ${EXCLUDE} }$ "<br>
-    else<br>
-    &nbsp;&nbsp;&nbsp;
-    gensh_runtime_opts="${gensh_runtime_opts}tuple -null @exclude
-    "<br>
-    fi<br>
-    if [ "${FIND}" != "" ]<br>
-    then<br>
-    &nbsp;&nbsp;&nbsp;
-    gensh_runtime_opts="${gensh_runtime_opts}string -to @find -trim
-    \${ ${FIND} }$ "<br>
-    fi<br>
-    <br>
-    # Invocation<br>
-    java -jar /opt/ublu/ublu.jar${SILENT}${gensh_runtime_opts}
-    include myFunc.ublu myFunc \( @exclude @find \)<br>
-    exit $?</tt><br>
+
+    <p><i>Here is the script file generated by
+    <tt>gensh</tt></i></p>
+    <pre>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myscript.sh</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">do</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">something</span><span class=
+"syntax-COMMENT1"> </span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">autogenerated</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mon</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">May</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">23</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">16:00:58</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MDT</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">by</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jax</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">using</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">command:</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">gensh</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">foo.sh</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-optx</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">x</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">EXCLUDE</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@exclude</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">excludes</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">0</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">many</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">things</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">}$</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-opt</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">f</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">FIND</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@find</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">finds</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">something</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">}$</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-path</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">/opt/ublu/ublu.jar</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myscript.sh</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">do</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">something</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">}$</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myFunc.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myFunc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@exclude</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@find</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">)</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
+<span class="gutter">   4 </span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Usage</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">message</span>
+<span class="gutter">   6 </span>function usage { 
+<span class="gutter">   7 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">myscript</span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">sh</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">do</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">something</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">   8 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">This</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">shell</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">script</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">was</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">autogenerated</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Mon</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">May</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">23</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">16</span><span class=
+"syntax-LITERAL1">:</span><span class=
+"syntax-LITERAL1">00</span><span class=
+"syntax-LITERAL1">:</span><span class=
+"syntax-LITERAL1">58</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">MDT</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">2016</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">by</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">jax</span><span class=
+"syntax-LITERAL1">.</span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">   9 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">Usage</span><span class=
+"syntax-LITERAL1">:</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-KEYWORD2">0</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">[</span><span class=
+"syntax-LITERAL1">silent</span><span class=
+"syntax-LITERAL1">]</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">h</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">x</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">EXCLUDE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">[</span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">x</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">EXCLUDE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">]</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">f</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">FIND</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutterH">  10 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">  </span><span class=
+"syntax-LITERAL1">where</span><span class=
+"syntax-LITERAL1">"</span>
+<span class="gutter">  11 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">  </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">h</span><span class=
+"syntax-LITERAL1">  </span><span class=
+"syntax-LITERAL1">    </span><span class=
+"syntax-LITERAL1">display</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">this</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">help</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">message</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">and</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">exit</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">0</span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  12 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">  </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">x</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">EXCLUDE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">[</span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">x</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">EXCLUDE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">.</span><span class=
+"syntax-LITERAL1">]</span><span class=
+"syntax-LITERAL1">  </span><span class=
+"syntax-LITERAL1">excludes</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">0</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">many</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">things</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  13 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">  </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">f</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">FIND</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">finds</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">something</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  14 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">-</span><span class="syntax-LITERAL1">"</span>
+<span class="gutterH">  15 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">If</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">the</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">keyword</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">'</span><span class=
+"syntax-LITERAL1">silent</span><span class=
+"syntax-LITERAL1">'</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">appears</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">ahead</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">of</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">all</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">options</span><span class=
+"syntax-LITERAL1">,</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">then</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">included</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">files</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">will</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">not</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">echo</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">and</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">prompting</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">suppressed</span><span class=
+"syntax-LITERAL1">.</span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  16 </span>echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">Exit</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">code</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">the</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">result</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">of</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">execution</span><span class=
+"syntax-LITERAL1">,</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">or</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">0</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">h</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">or</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">2</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">if</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">there</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">an</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">error</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">in</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">processing</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">options</span><span class=
+"syntax-LITERAL1">"</span>
+<span class="gutter">  17 </span>}
+<span class="gutter">  18 </span>
+<span class="gutter">  19 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1">Test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">if</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">user</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">wants</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">silent</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">includes</span>
+<span class="gutterH">  20 </span><span class=
+"syntax-KEYWORD1">if</span> [ <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-KEYWORD2">1</span><span class=
+"syntax-LITERAL1">"</span> <span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-OPERATOR">=</span> <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">silent</span><span class=
+"syntax-LITERAL1">"</span> ]
+<span class="gutter">  21 </span><span class=
+"syntax-KEYWORD1">then</span>
+<span class="gutter">  22 </span>    <span class=
+"syntax-KEYWORD2">SILENT</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">silent</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  23 </span>    shift
+<span class="gutter">  24 </span><span class=
+"syntax-KEYWORD1">else</span>
+<span class="gutterH">  25 </span>    <span class=
+"syntax-KEYWORD2">SILENT</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  26 </span><span class=
+"syntax-KEYWORD1">fi</span>
+<span class="gutter">  27 </span>
+<span class="gutter">  28 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Process</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">options</span>
+<span class="gutter">  29 </span><span class=
+"syntax-KEYWORD1">while</span> getopts x:f:h the_opt
+<span class="gutterH">  30 </span><span class=
+"syntax-KEYWORD1">do</span>
+<span class="gutter">  31 </span>    <span class=
+"syntax-KEYWORD1">case</span> <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-KEYWORD2">the_opt</span><span class=
+"syntax-LITERAL1">"</span> <span class="syntax-KEYWORD1">in</span>
+<span class="gutter">  32 </span>        x<span class=
+"syntax-OPERATOR">)</span>  <span class=
+"syntax-KEYWORD2">EXCLUDE</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-KEYWORD2">OPTARG</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">EXCLUDE</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1">"</span><span class="syntax-OPERATOR">;;</span>
+<span class="gutter">  33 </span>        f<span class=
+"syntax-OPERATOR">)</span>  <span class=
+"syntax-KEYWORD2">FIND</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-KEYWORD2">OPTARG</span><span class=
+"syntax-LITERAL1">"</span><span class="syntax-OPERATOR">;;</span>
+<span class="gutter">  34 </span>        h<span class=
+"syntax-OPERATOR">)</span>  usage;exit 0;;
+<span class="gutterH">  35 </span>        [?]<span class=
+"syntax-OPERATOR">)</span>    usage;exit 2;;
+<span class="gutter">  36 </span>
+<span class="gutter">  37 </span>    <span class=
+"syntax-KEYWORD1">esac</span>
+<span class="gutter">  38 </span><span class=
+"syntax-KEYWORD1">done</span>
+<span class="gutter">  39 </span>shift <span class=
+"syntax-KEYWORD3">`</span><span class=
+"syntax-KEYWORD3">expr</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">OPTIND</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">1</span><span class="syntax-KEYWORD3">`</span>
+<span class="gutterH">  40 </span><span class=
+"syntax-KEYWORD1">if</span> [ <span class=
+"syntax-KEYWORD2">$#</span> -ne <span class=
+"syntax-DIGIT">0</span> ]
+<span class="gutter">  41 </span><span class=
+"syntax-KEYWORD1">then</span>
+<span class="gutter">  42 </span>    echo <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">Superfluous</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">argument</span><span class=
+"syntax-LITERAL1">(</span><span class=
+"syntax-LITERAL1">s</span><span class=
+"syntax-LITERAL1">)</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-LITERAL1">*</span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  43 </span>    usage
+<span class="gutter">  44 </span>    exit <span class=
+"syntax-DIGIT">2</span>
+<span class="gutterH">  45 </span><span class=
+"syntax-KEYWORD1">fi</span>
+<span class="gutter">  46 </span>
+<span class="gutter">  47 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Translate</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">options</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">tuple</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">assignments</span>
+<span class="gutter">  48 </span><span class=
+"syntax-KEYWORD1">if</span> [ <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">EXCLUDE</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1">"</span> <span class=
+"syntax-OPERATOR">!</span><span class=
+"syntax-OPERATOR">=</span> <span class=
+"syntax-LITERAL1">"</span><span class="syntax-LITERAL1">"</span> ]
+<span class="gutter">  49 </span><span class=
+"syntax-KEYWORD1">then</span>
+<span class="gutterH">  50 </span>    <span class=
+"syntax-KEYWORD2">gensh_runtime_opts</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">gensh_runtime_opts</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1">string</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">@</span><span class=
+"syntax-LITERAL1">exclude</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">trim</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">\$</span><span class=
+"syntax-LITERAL1">{</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">EXCLUDE</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}</span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  51 </span><span class=
+"syntax-KEYWORD1">else</span>
+<span class="gutter">  52 </span>    <span class=
+"syntax-KEYWORD2">gensh_runtime_opts</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">gensh_runtime_opts</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1">tuple</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">null</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">@</span><span class=
+"syntax-LITERAL1">exclude</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  53 </span><span class=
+"syntax-KEYWORD1">fi</span>
+<span class="gutter">  54 </span><span class=
+"syntax-KEYWORD1">if</span> [ <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">FIND</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1">"</span> <span class=
+"syntax-OPERATOR">!</span><span class=
+"syntax-OPERATOR">=</span> <span class=
+"syntax-LITERAL1">"</span><span class="syntax-LITERAL1">"</span> ]
+<span class="gutterH">  55 </span><span class=
+"syntax-KEYWORD1">then</span>
+<span class="gutter">  56 </span>    <span class=
+"syntax-KEYWORD2">gensh_runtime_opts</span><span class=
+"syntax-OPERATOR">=</span><span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">gensh_runtime_opts</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1">string</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">@</span><span class=
+"syntax-LITERAL1">find</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">trim</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">\$</span><span class=
+"syntax-LITERAL1">{</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-KEYWORD2">FIND</span><span class=
+"syntax-KEYWORD2">}</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}</span><span class=
+"syntax-KEYWORD2">$</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">"</span>
+<span class="gutter">  57 </span><span class=
+"syntax-KEYWORD1">fi</span>
+<span class="gutter">  58 </span>
+<span class="gutter">  59 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Invocation</span>
+<span class=
+"gutterH">  60 </span>java -jar /opt/ublu/ublu.jar <span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-LITERAL1">gensh_runtime_opts</span><span class=
+"syntax-KEYWORD2">}</span> include <span class=
+"syntax-KEYWORD2">${</span><span class=
+"syntax-LITERAL1">SILENT</span><span class=
+"syntax-KEYWORD2">}</span>myFunc.ublu myFunc \<span class=
+"syntax-OPERATOR">(</span> @exclude @find \<span class=
+"syntax-OPERATOR">)</span> 
+<span class="gutter">  61 </span>exit <span class=
+"syntax-KEYWORD2">$?</span>
+<span class="gutter">  62 </span>
+</span>
+</pre>
   </blockquote>
 
   <h4><a name="help" id="help"></a><tt>help</tt></h4>
@@ -5163,45 +5913,155 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       1024.</li>
     </ul>The default operation is <tt>-instance</tt>.<br>
     <br>
-    <i>Example</i><br>
+    <i>Example</i> (<tt>examples/aujournal.ublu</tt>)
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">audJournal.ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">Midrange</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">Mainframe</font><font color="#CC0000"> </font><font color="#CC0000">Life</font><font color="#CC0000"> </font><font color="#CC0000">Cycle</font><font color="#CC0000"> </font><font color="#CC0000">Extension</font><font color="#CC0000"> </font><font color="#CC0000">language</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Read</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">number</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">entries</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">audit</font><font color="#CC0000"> </font><font color="#CC0000">journal</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">write</font><font color="#CC0000"> </font><font color="#CC0000">them</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">file.</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#006699"><strong>FUNC</strong></font> audJournal <font color="#000000"><strong>(</strong></font> sys userid password numentries filename <font color="#000000"><strong>)</strong></font>  <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@journal</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@entries</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@sys</font> <font color="#6600CC">@@userid</font> <font color="#6600CC">@@password</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#009966"><strong>jrnl</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@journal</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>jrnl</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@journal</font> <font color="#0099FF"><strong>-lib</strong></font> QSYS <font color="#0099FF"><strong>-journal</strong></font> QAUDJRN <font color="#0099FF"><strong>-get</strong></font> <font color="#6600CC">@@numentries</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@entries</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>    <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@entries</font> <font color="#0099FF"><strong>-tofile</strong></font> <font color="#6600CC">@@filename</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-disconnect</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">audJournal.ublu</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Midrange</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mainframe</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Life</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Cycle</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Extension</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">language</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutter">   6 </span>
+<span class="gutter">   7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Read</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">number</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">entries</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">audit</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">journal</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">write</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">them</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">file.</span>
+<span class="gutter">   8 </span><span class=
+"syntax-KEYWORD1">FUNC</span> audJournal <span class=
+"syntax-OPERATOR">(</span> sys userid password numentries filename <span class="syntax-OPERATOR">)</span>  <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">   9 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@as400</span>
+<span class="gutterH">  10 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@journal</span>
+<span class="gutter">  11 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@entries</span>
+<span class="gutter">  12 </span>    <span class=
+"syntax-KEYWORD2">as400</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@as400</span> <span class=
+"syntax-LITERAL4">@@sys</span> <span class=
+"syntax-LITERAL4">@@userid</span> <span class=
+"syntax-LITERAL4">@@password</span>
+<span class="gutter">  13 </span>    <span class=
+"syntax-KEYWORD2">jrnl</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@journal</span> <span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-MARKUP">@as400</span>
+<span class="gutter">  14 </span>    <span class=
+"syntax-KEYWORD2">jrnl</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@journal</span> <span class=
+"syntax-KEYWORD3">-lib</span> QSYS <span class=
+"syntax-KEYWORD3">-journal</span> QAUDJRN <span class=
+"syntax-KEYWORD3">-get</span> <span class=
+"syntax-LITERAL4">@@numentries</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@entries</span>
+<span class="gutterH">  15 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@entries</span> <span class=
+"syntax-KEYWORD3">-tofile</span> <span class=
+"syntax-LITERAL4">@@filename</span>
+<span class="gutter">  16 </span>    <span class=
+"syntax-KEYWORD2">as400</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@as400</span> <span class=
+"syntax-KEYWORD3">-disconnect</span>
+<span class="gutter">  17 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  18 </span>
+</span>
 </pre>
   </blockquote>
 
@@ -5327,69 +6187,242 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <p><i>Example</i>
     (<tt>examples/test/testlist.ublu</tt>)<br></p>
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testlist.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">quick</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">command</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">Midrange</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">Mainframe</font><font color="#CC0000"> </font><font color="#CC0000">Life</font><font color="#CC0000"> </font><font color="#CC0000">Cycle</font><font color="#CC0000"> </font><font color="#CC0000">Extension</font><font color="#CC0000"> </font><font color="#CC0000">language</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@mylist</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-addstr</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">string</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@mysys</font> mysys me abcd1234 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-add</strong></font> <font color="#0000FF">@mysys</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-set</strong></font> <font color="#FF0000">0</font> <font color="#0000FF">@mysys</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-remove</strong></font> <font color="#0000FF">@mysys</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-addstr</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">is</font><font color="#FF00CC"> </font><font color="#FF00CC">another</font><font color="#FF00CC"> </font><font color="#FF00CC">string</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-addstr</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">pardon</font><font color="#FF00CC"> </font><font color="#FF00CC">me</font><font color="#FF00CC"> </font><font color="#FF00CC">asking</font><font color="#FF00CC"> </font><font color="#FF00CC">what's</font><font color="#FF00CC"> </font><font color="#FF00CC">new</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-removeat</strong></font> <font color="#FF0000">2</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-get</strong></font> <font color="#FF0000">0</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-get</strong></font> <font color="#FF0000">1</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">29 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-clear</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">30 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0000FF">@mylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">31 </font></span><font color="#009966"><strong>list</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@mylist</font> <font color="#0099FF"><strong>-size</strong></font>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testlist.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">quick</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">list</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">command</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Midrange</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mainframe</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Life</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Cycle</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Extension</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">language</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutter">   6 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@mylist</span> 
+<span class="gutter">   7 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span> 
+<span class="gutter">   8 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-addstr</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">this</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">a</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">string</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">   9 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-KEYWORD2">as400</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@mysys</span> mysys me abcd1234 
+<span class="gutter">  11 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-add</span> <span class=
+"syntax-MARKUP">@mysys</span>
+<span class="gutter">  12 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span> 
+<span class="gutter">  13 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-set</span> <span class=
+"syntax-DIGIT">0</span> <span class="syntax-MARKUP">@mysys</span> 
+<span class="gutter">  14 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutterH">  15 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-remove</span> <span class=
+"syntax-MARKUP">@mysys</span>
+<span class="gutter">  16 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutter">  17 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-addstr</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">this</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">another</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">string</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  18 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutter">  19 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-addstr</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">pardon</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">me</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">asking</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">what's</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">new</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutterH">  20 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutter">  21 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-size</span>
+<span class="gutter">  22 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-removeat</span> <span class=
+"syntax-DIGIT">2</span>
+<span class="gutter">  23 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutter">  24 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-size</span>
+<span class="gutterH">  25 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-get</span> <span class="syntax-DIGIT">0</span>
+<span class="gutter">  26 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-get</span> <span class="syntax-DIGIT">1</span>
+<span class="gutter">  27 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutter">  28 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-size</span>
+<span class="gutter">  29 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-clear</span>
+<span class="gutterH">  30 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@mylist</span>
+<span class="gutter">  31 </span><span class=
+"syntax-KEYWORD2">list</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@mylist</span> <span class=
+"syntax-KEYWORD3">-size</span>
+</span>
 </pre>
   </blockquote>
 
@@ -5421,51 +6454,132 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <tt>LOCAL</tt> variable does not exist in the context of the
     new thread.<br>
     <br>
-    <i>Example</i><br>
+
+    <p><i>Example</i> (<tt>examples/test/testlocal.ublu</tt>)</p>
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testlocal.ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">LOCAL</font><font color="#CC0000"> </font><font color="#CC0000">variable</font><font color="#CC0000"> </font><font color="#CC0000">operation</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#006699"><strong>FUNC</strong></font> woof <font color="#000000"><strong>(</strong></font> a b <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>    <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@i</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@i</font> in <font color="#6600CC">@@a</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>        <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>        <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@q</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">@q</font><font color="#FF00CC"> </font><font color="#FF00CC">will</font><font color="#FF00CC"> </font><font color="#FF00CC">disappear</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">with</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">woof</font><font color="#FF00CC"> </font><font color="#FF00CC">upon</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@i</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@b</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>      <font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>      <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@q</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#000000"><strong>]$</strong></font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@z</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">1</font><font color="#FF00CC"> </font><font color="#FF00CC">2</font><font color="#FF00CC"> </font><font color="#FF00CC">3</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@x</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">doggie</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> 
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>woof <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@z</font> <font color="#0000FF">@x</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-map</strong></font>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testlocal.ublu</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">LOCAL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">variable</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">operation</span>
+<span class="gutter">   3 </span><span class=
+"syntax-KEYWORD1">FUNC</span> woof <span class=
+"syntax-OPERATOR">(</span> a b <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">   4 </span>    <span class=
+"syntax-KEYWORD2">tuple</span> <span class=
+"syntax-KEYWORD3">-map</span>
+<span class="gutterH">   5 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@i</span>
+<span class="gutter">   6 </span>    <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@i</span> in <span class=
+"syntax-LITERAL4">@@a</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutter">   7 </span>        <span class=
+"syntax-KEYWORD2">tuple</span> <span class=
+"syntax-KEYWORD3">-map</span>
+<span class="gutter">   8 </span>        <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@q</span>
+<span class="gutter">   9 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@q</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">@q</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">will</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">disappear</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutterH">  10 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@q</span>
+<span class="gutter">  11 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">with</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">a</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">woof</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">upon</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  12 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@i</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-LITERAL4">@@b</span>
+<span class="gutter">  13 </span>    <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  14 </span>      <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@q</span>
+<span class="gutterH">  15 </span>      <span class=
+"syntax-KEYWORD2">tuple</span> <span class=
+"syntax-KEYWORD3">-map</span>
+<span class="gutter">  16 </span>      <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@q</span>
+<span class="gutter">  17 </span><span class=
+"syntax-OPERATOR">]$</span> 
+<span class="gutter">  18 </span>
+<span class="gutter">  19 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@z</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">1</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">2</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">3</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@x</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">doggie</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span> 
+<span class="gutterH">  20 </span>woof <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@z</span> <span class=
+"syntax-MARKUP">@x</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutter">  21 </span><span class=
+"syntax-KEYWORD2">tuple</span> <span class=
+"syntax-KEYWORD3">-map</span>
+<span class="gutter">  22 </span>
+</span>
 </pre>
   </blockquote>
 
@@ -5670,75 +6784,268 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     messages requiring a reply and offers the user a chance to
     reply each.<br></p>
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">autoreply.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">Find</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">all</font><font color="#CC0000"> </font><font color="#CC0000">*INQ</font><font color="#CC0000"> </font><font color="#CC0000">&amp;</font><font color="#CC0000"> </font><font color="#CC0000">*NOTIFY</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">in</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">given</font><font color="#CC0000"> </font><font color="#CC0000">MSGQ</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jack</font><font color="#CC0000"> </font><font color="#CC0000">j.</font><font color="#CC0000"> </font><font color="#CC0000">woehr</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-10</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">instance</font><font color="#CC0000"> </font><font color="#CC0000">message</font><font color="#CC0000"> </font><font color="#CC0000">queue</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#009966"><strong>msgq</strong></font> <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@as400</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@as400</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#0000FF">@as400</font> <font color="#0099FF"><strong>-instance</strong></font> <font color="#6600CC">@@ifspath</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">of</font><font color="#CC0000"> </font><font color="#CC0000">messages</font><font color="#CC0000"> </font><font color="#CC0000">needing</font><font color="#CC0000"> </font><font color="#CC0000">reply</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#006699"><strong>FUNC</strong></font> getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>msgq</strong></font> replylist <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#6600CC">@@msgq</font> <font color="#0099FF"><strong>-query</strong></font> <font color="#0099FF"><strong>-reply</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@replylist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">get</font><font color="#CC0000"> </font><font color="#CC0000">messages,</font><font color="#CC0000"> </font><font color="#CC0000">walk</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">and</font><font color="#CC0000"> </font><font color="#CC0000">offer</font><font color="#CC0000"> </font><font color="#CC0000">user</font><font color="#CC0000"> </font><font color="#CC0000">chance</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">reply</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">each</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#006699"><strong>FUNC</strong></font> autoreply <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password ifspath <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@msgq</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@replylist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@key</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@answer</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@tf</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@reply</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span>    getMsgQ <font color="#000000"><strong>(</strong></font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font> <font color="#6600CC">@@ifspath</font> <font color="#0000FF">@msgq</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>    getReplyMsgs <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@msgq</font> <font color="#0000FF">@replylist</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@msg</font> in <font color="#0000FF">@replylist</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span>        <font color="#009966"><strong>msg</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@msg</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@key</font> <font color="#0099FF"><strong>-key</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span>        <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@msg</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span>        <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@answer</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Do</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">wish</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">to</font><font color="#FF00CC"> </font><font color="#FF00CC">this</font><font color="#FF00CC"> </font><font color="#FF00CC">message?</font><font color="#FF00CC"> </font><font color="#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span>        <font color="#009966"><strong>test</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@tf</font> <font color="#0099FF"><strong>-eq</strong></font> <font color="#0000FF">@answer</font> y
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span>        <font color="#006699"><strong>IF</strong></font> <font color="#0000FF">@tf</font> <font color="#006699"><strong>THEN</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">29 </font></span>            <font color="#009966"><strong>ask</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@reply</font> <font color="#0099FF"><strong>-say</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Please</font><font color="#FF00CC"> </font><font color="#FF00CC">enter</font><font color="#FF00CC"> </font><font color="#FF00CC">your</font><font color="#FF00CC"> </font><font color="#FF00CC">reply</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">30 </font></span>            <font color="#009966"><strong>msgq</strong></font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@msgq</font> <font color="#0099FF"><strong>-sendreplybinkey</strong></font> <font color="#0000FF">@key</font> <font color="#0000FF">@reply</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">31 </font></span>            <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">Reply</font><font color="#FF00CC"> </font><font color="#FF00CC">sent.</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">32 </font></span>        <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">33 </font></span>    <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">34 </font></span><font color="#000000"><strong>]$</strong></font>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">autoreply.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Find</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">reply</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">all</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*INQ</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&amp;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*NOTIFY</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">messages</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">in</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">given</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">MSGQ</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">j.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jwoehr@absolute-performance.com</span><span class="syntax-COMMENT1"> </span><span class="syntax-COMMENT1">jwoehr@softwoehr.com</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2015-03-10</span>
+<span class="gutter">   4 </span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">instance</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">message</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">queue</span>
+<span class="gutter">   6 </span><span class=
+"syntax-KEYWORD1">FUNC</span> getMsgQ <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-KEYWORD2">system</span> <span class=
+"syntax-KEYWORD2">user</span> password ifspath <span class=
+"syntax-KEYWORD2">msgq</span> <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">   7 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@as400</span>
+<span class="gutter">   8 </span>    <span class=
+"syntax-KEYWORD2">as400</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@as400</span> <span class=
+"syntax-LITERAL4">@@system</span> <span class=
+"syntax-LITERAL4">@@user</span> <span class=
+"syntax-LITERAL4">@@password</span>
+<span class="gutter">   9 </span>    <span class=
+"syntax-KEYWORD2">msgq</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">@@msgq</span> <span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-MARKUP">@as400</span> <span class=
+"syntax-KEYWORD3">-instance</span> <span class=
+"syntax-LITERAL4">@@ifspath</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  11 </span>
+<span class="gutter">  12 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">list</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">messages</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">needing</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">reply</span>
+<span class="gutter">  13 </span><span class=
+"syntax-KEYWORD1">FUNC</span> getReplyMsgs <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-KEYWORD2">msgq</span> replylist <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  14 </span>    <span class=
+"syntax-KEYWORD2">msgq</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@msgq</span> <span class=
+"syntax-KEYWORD3">-query</span> <span class=
+"syntax-KEYWORD3">-reply</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">@@replylist</span>
+<span class="gutterH">  15 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  16 </span>
+<span class="gutter">  17 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">messages,</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">walk</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">list</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">offer</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">user</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">chance</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">reply</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">each</span>
+<span class="gutter">  18 </span><span class=
+"syntax-KEYWORD1">FUNC</span> autoreply <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-KEYWORD2">system</span> <span class=
+"syntax-KEYWORD2">user</span> password ifspath <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  19 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@msgq</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@replylist</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@key</span>
+<span class="gutterH">  20 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@answer</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@tf</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@reply</span>
+<span class="gutter">  21 </span>    getMsgQ <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-LITERAL4">@@system</span> <span class=
+"syntax-LITERAL4">@@user</span> <span class=
+"syntax-LITERAL4">@@password</span> <span class=
+"syntax-LITERAL4">@@ifspath</span> <span class=
+"syntax-MARKUP">@msgq</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutter">  22 </span>    getReplyMsgs <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@msgq</span> <span class=
+"syntax-MARKUP">@replylist</span> <span class=
+"syntax-OPERATOR">)</span>
+<span class="gutter">  23 </span>    <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@msg</span> in <span class=
+"syntax-MARKUP">@replylist</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutter">  24 </span>        <span class=
+"syntax-KEYWORD2">msg</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@msg</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@key</span> <span class=
+"syntax-KEYWORD3">-key</span>
+<span class="gutterH">  25 </span>        <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@msg</span>
+<span class="gutter">  26 </span>        <span class=
+"syntax-KEYWORD2">ask</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@answer</span> <span class=
+"syntax-KEYWORD3">-say</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Do</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">you</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">wish</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">reply</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">this</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">message?</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">(y/n)</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  27 </span>        <span class=
+"syntax-KEYWORD2">test</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@tf</span> <span class=
+"syntax-KEYWORD3">-eq</span> <span class=
+"syntax-MARKUP">@answer</span> y
+<span class="gutter">  28 </span>        <span class=
+"syntax-KEYWORD1">IF</span> <span class=
+"syntax-MARKUP">@tf</span> <span class=
+"syntax-KEYWORD1">THEN</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutter">  29 </span>            <span class=
+"syntax-KEYWORD2">ask</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@reply</span> <span class=
+"syntax-KEYWORD3">-say</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Please</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">enter</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">your</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">reply</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutterH">  30 </span>            <span class=
+"syntax-KEYWORD2">msgq</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@msgq</span> <span class=
+"syntax-KEYWORD3">-sendreplybinkey</span> <span class=
+"syntax-MARKUP">@key</span> <span class=
+"syntax-MARKUP">@reply</span>
+<span class="gutter">  31 </span>            <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Reply</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">sent.</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  32 </span>        <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  33 </span>    <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  34 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutterH">  35 </span>
+</span>
 </pre>
   </blockquote>
 
@@ -5984,67 +7291,217 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <p><i>Example</i><br></p>
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listobjs.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">objects</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@absolute-performance.com</font><font color="#CC0000"> </font><font color="#CC0000">jwoehr@softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">2015-03-12</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">example:</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listObjs</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">s0mesys</font><font color="#CC0000"> </font><font color="#CC0000">qsecofr</font><font color="#CC0000"> </font><font color="#CC0000">xyz1234</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">FRED</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">objects</font><font color="#CC0000"> </font><font color="#CC0000">on</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">system</font><font color="#CC0000"> </font><font color="#CC0000">to</font><font color="#CC0000"> </font><font color="#CC0000">a</font><font color="#CC0000"> </font><font color="#CC0000">datasink</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">example:</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listObjs</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sys</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">FRED</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">@mylist)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#006699"><strong>FUNC</strong></font> listObjsTo <font color="#000000"><strong>(</strong></font> sys lib name type sink <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@objlist</font> <font color="#0099FF"><strong>-as400</strong></font> <font color="#6600CC">@@sys</font> <font color="#0099FF"><strong>-lib</strong></font> <font color="#6600CC">@@lib</font> <font color="#0099FF"><strong>-name</strong></font> <font color="#6600CC">@@name</font> <font color="#0099FF"><strong>-type</strong></font> <font color="#6600CC">@@type</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>    <font color="#009966"><strong>objlist</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@txtlist</font> <font color="#0099FF"><strong>--</strong></font><font color="#0099FF"><strong> </strong></font><font color="#0000FF">@objlist</font> <font color="#0099FF"><strong>-list</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>    <font color="#009966"><strong>string</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@stringbuff</font> <font color="#0099FF"><strong>-new</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>    <font color="#006699"><strong>FOR</strong></font> <font color="#0000FF">@obj</font> in <font color="#0000FF">@txtlist</font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span>        <font color="#009966"><strong>string</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@stringbuff</font> <font color="#0099FF"><strong>-cat</strong></font> <font color="#0000FF">@stringbuff</font> <font color="#0000FF">@obj</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>        <font color="#009966"><strong>string</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@stringbuff</font> <font color="#0099FF"><strong>-nl</strong></font> <font color="#0000FF">@stringbuff</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>    <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>    <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@stringbuff</font> <font color="#0099FF"><strong>-to</strong></font> <font color="#6600CC">@@sink</font>  
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>  
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">list</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">objects</font><font color="#CC0000"> </font><font color="#CC0000">on</font><font color="#CC0000"> </font><font color="#CC0000">specified</font><font color="#CC0000"> </font><font color="#CC0000">system</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">example:</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">listObjs</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">s0mesys</font><font color="#CC0000"> </font><font color="#CC0000">qsecofr</font><font color="#CC0000"> </font><font color="#CC0000">xyz1234</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">FRED</font><font color="#CC0000"> </font><font color="#CC0000">*ALL</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span><font color="#006699"><strong>FUNC</strong></font> listObjs <font color="#000000"><strong>(</strong></font> <font color="#009966"><strong>system</strong></font> <font color="#009966"><strong>user</strong></font> password lib name type <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">25 </font></span>    <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@sys</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@objlist</font> <font color="#006699"><strong>LOCAL</strong></font> <font color="#0000FF">@txtlist</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">26 </font></span>    <font color="#009966"><strong>as400</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@sys</font> <font color="#6600CC">@@system</font> <font color="#6600CC">@@user</font> <font color="#6600CC">@@password</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">27 </font></span>    listObjsTo <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@sys</font> <font color="#6600CC">@@lib</font> <font color="#6600CC">@@name</font> <font color="#6600CC">@@type</font> STD: <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">28 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">29 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">end</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">30 </font></span>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">listobjs.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">list</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">objects</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jwoehr@absolute-performance.com</span><span class="syntax-COMMENT1"> </span><span class="syntax-COMMENT1">jwoehr@softwoehr.com</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2015-03-12</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">example:</span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">listObjs</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">s0mesys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">qsecofr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">xyz1234</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*ALL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">FRED</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*ALL</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">   6 </span>
+<span class="gutter">   7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">list</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">specified</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">objects</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">on</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">specified</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">system</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">datasink</span>
+<span class="gutter">   8 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">example:</span>
+<span class="gutter">   9 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">listObjs</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*ALL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">FRED</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*ALL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@mylist)</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-KEYWORD1">FUNC</span> listObjsTo <span class=
+"syntax-OPERATOR">(</span> sys lib name type sink <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  11 </span>    <span class=
+"syntax-KEYWORD2">objlist</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@objlist</span> <span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-LITERAL4">@@sys</span> <span class=
+"syntax-KEYWORD3">-lib</span> <span class=
+"syntax-LITERAL4">@@lib</span> <span class=
+"syntax-KEYWORD3">-name</span> <span class=
+"syntax-LITERAL4">@@name</span> <span class=
+"syntax-KEYWORD3">-type</span> <span class=
+"syntax-LITERAL4">@@type</span>
+<span class="gutter">  12 </span>    <span class=
+"syntax-KEYWORD2">objlist</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@txtlist</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@objlist</span> <span class=
+"syntax-KEYWORD3">-list</span>
+<span class="gutter">  13 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@stringbuff</span> <span class=
+"syntax-KEYWORD3">-new</span>
+<span class="gutter">  14 </span>    <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@obj</span> in <span class=
+"syntax-MARKUP">@txtlist</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutterH">  15 </span>        <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@stringbuff</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@stringbuff</span> <span class=
+"syntax-MARKUP">@obj</span>
+<span class="gutter">  16 </span>        <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@stringbuff</span> <span class=
+"syntax-KEYWORD3">-nl</span> <span class=
+"syntax-MARKUP">@stringbuff</span>
+<span class="gutter">  17 </span>    <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  18 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@stringbuff</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">@@sink</span>  
+<span class="gutter">  19 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutterH">  20 </span>  
+<span class="gutter">  21 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">list</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">specified</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">objects</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">on</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">specified</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">system</span>
+<span class="gutter">  22 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">example:</span>
+<span class="gutter">  23 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">listObjs</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">s0mesys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">qsecofr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">xyz1234</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*ALL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">FRED</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">*ALL</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  24 </span><span class=
+"syntax-KEYWORD1">FUNC</span> listObjs <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-KEYWORD2">system</span> <span class=
+"syntax-KEYWORD2">user</span> password lib name type <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutterH">  25 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@sys</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@objlist</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@txtlist</span>
+<span class="gutter">  26 </span>    <span class=
+"syntax-KEYWORD2">as400</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@sys</span> <span class=
+"syntax-LITERAL4">@@system</span> <span class=
+"syntax-LITERAL4">@@user</span> <span class=
+"syntax-LITERAL4">@@password</span>
+<span class="gutter">  27 </span>    listObjsTo <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@sys</span> <span class=
+"syntax-LITERAL4">@@lib</span> <span class=
+"syntax-LITERAL4">@@name</span> <span class=
+"syntax-LITERAL4">@@type</span> STD: <span class=
+"syntax-OPERATOR">)</span>
+<span class="gutter">  28 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  29 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
+<span class="gutterH">  30 </span>
+</span>
 </pre>
   </blockquote>
 
@@ -7883,57 +9340,178 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     Interactively entered, all the <tt>-case</tt> dash-commands
     must appear on one line.<br>
     <br>
-    <i>Example</i><br>
+    <i>Example</i>(<tt>examples/test/testswitch.ublu</tt>)
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testswitch.ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">SWITCH</font><font color="#CC0000"> </font><font color="#CC0000">statement</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">session:</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">red</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">testSwitch</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">you</font><font color="#CC0000"> </font><font color="#CC0000">chose</font><font color="#CC0000"> </font><font color="#CC0000">red</font><font color="#CC0000"> </font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">green</font><font color="#CC0000"> </font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">testSwitch</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">you</font><font color="#CC0000"> </font><font color="#CC0000">chose</font><font color="#CC0000"> </font><font color="#CC0000">green</font><font color="#CC0000"> </font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">put</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">blue</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">&gt;</font><font color="#CC0000"> </font><font color="#CC0000">testSwitch</font><font color="#CC0000"> </font><font color="#CC0000">(</font><font color="#CC0000"> </font><font color="#CC0000">@sel</font><font color="#CC0000"> </font><font color="#CC0000">)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">What!?</font><font color="#CC0000"> </font><font color="#CC0000"> </font><font color="#CC0000">blue</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#006699"><strong>FUNC</strong></font> testSwitch <font color="#000000"><strong>(</strong></font> selector <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>    <font color="#006699"><strong>SWITCH</strong></font> <font color="#6600CC">@@selector</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span>        <font color="#0099FF"><strong>-case</strong></font> red
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">chose</font><font color="#FF00CC"> </font><font color="#FF00CC">red</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span>        <font color="#0099FF"><strong>-case</strong></font> green
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">20 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">you</font><font color="#FF00CC"> </font><font color="#FF00CC">chose</font><font color="#FF00CC"> </font><font color="#FF00CC">green</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">21 </font></span>        <font color="#0099FF"><strong>-default</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">22 </font></span>            <font color="#000000"><strong>$[</strong></font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-s</strong></font> <font color="#0099FF"><strong>-n</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">What!?</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font> <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@selector</font> <font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">23 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">24 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">End</font>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testswitch.ublu</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">SWITCH</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">statement</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">session:</span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sel</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">red</span>
+<span class="gutter">   6 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testSwitch</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sel</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">   7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">you</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">chose</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">red</span><span class="syntax-COMMENT1"> </span>
+<span class="gutter">   8 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sel</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">green</span><span class=
+"syntax-COMMENT1"> </span>
+<span class="gutter">   9 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testSwitch</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sel</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">you</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">chose</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">green</span><span class=
+"syntax-COMMENT1"> </span>
+<span class="gutter">  11 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sel</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">blue</span>
+<span class="gutter">  12 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testSwitch</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@sel</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  13 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">What!?</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">blue</span>
+<span class="gutter">  14 </span>
+<span class="gutterH">  15 </span><span class=
+"syntax-KEYWORD1">FUNC</span> testSwitch <span class=
+"syntax-OPERATOR">(</span> selector <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  16 </span>    <span class=
+"syntax-KEYWORD1">SWITCH</span> <span class=
+"syntax-LITERAL4">@@selector</span>
+<span class="gutter">  17 </span>        <span class=
+"syntax-KEYWORD3">-case</span> red
+<span class="gutter">  18 </span>            <span class=
+"syntax-OPERATOR">$[</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">you</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">chose</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">red</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class="syntax-OPERATOR">]$</span>
+<span class="gutter">  19 </span>        <span class=
+"syntax-KEYWORD3">-case</span> green
+<span class="gutterH">  20 </span>            <span class=
+"syntax-OPERATOR">$[</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">you</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">chose</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">green</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class="syntax-OPERATOR">]$</span>
+<span class="gutter">  21 </span>        <span class=
+"syntax-KEYWORD3">-default</span>
+<span class="gutter">  22 </span>            <span class=
+"syntax-OPERATOR">$[</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">What!?</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-LITERAL4">@@selector</span> <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  23 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  24 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">End</span>
+<span class="gutterH">  25 </span>
+</span>
 </pre>
   </blockquote>
 
@@ -8798,47 +10376,154 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   "#Dash_Command">dash-command</a>, if desired. The default
   datasink for <tt>\\</tt> is set to <tt>NULL:</tt><br>
   <br>
-  <i>Example</i>
+  <i>Example</i> (<tt>examples/test/testcommentquote.ublu</tt>)
   <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">quote</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#006699"><strong>FUNC</strong></font> cq <font color="#000000"><strong>(</strong></font> param <font color="#000000"><strong>)</strong></font> <font color="#000000"><strong>$[</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span>  <font color="#006699"><strong>\\</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@foo</font> zog  
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span>  <font color="#CC0000">\\</font><font color="#CC0000"> </font><font color="#CC0000">-to</font><font color="#CC0000"> </font><font color="#CC0000">@bar</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">this</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">extended</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span>  <font color="#CC0000">\\</font><font color="#CC0000"> </font><font color="#CC0000">${</font><font color="#CC0000"> </font><font color="#CC0000">this</font><font color="#CC0000"> </font><font color="#CC0000">is</font><font color="#CC0000"> </font><font color="#CC0000">also</font><font color="#CC0000"> </font><font color="#CC0000">an</font><font color="#CC0000"> </font><font color="#CC0000">extended</font><font color="#CC0000"> </font><font color="#CC0000">comment</font><font color="#CC0000"> </font><font color="#CC0000">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#6600CC">@@param</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">13 </font></span>  <font color="#009966"><strong>put</strong></font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">done</font><font color="#FF00CC"> </font><font color="#FF00CC">function</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">14 </font></span><font color="#000000"><strong>]$</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">15 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@myparam</font> <font color="#FF00CC">${</font><font color="#FF00CC"> </font><font color="#FF00CC">a</font><font color="#FF00CC"> </font><font color="#FF00CC">test</font><font color="#FF00CC"> </font><font color="#FF00CC">param</font><font color="#FF00CC"> </font><font color="#FF00CC">}$</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">16 </font></span>cq <font color="#000000"><strong>(</strong></font> <font color="#0000FF">@myparam</font> <font color="#000000"><strong>)</strong></font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">17 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@foo</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">18 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@bar</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">19 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">done</font>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">comment</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">quote</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutterH">   5 </span>
+<span class="gutter">   6 </span><span class=
+"syntax-KEYWORD1">FUNC</span> cq <span class=
+"syntax-OPERATOR">(</span> param <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">   7 </span>  <span class=
+"syntax-KEYWORD1">\\</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@foo</span> zog  
+<span class="gutter">   8 </span>  <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-LITERAL4">@@param</span>
+<span class="gutter">   9 </span>  <span class=
+"syntax-COMMENT1">\\</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@bar</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">this</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">an</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">extended</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">comment</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
+<span class="gutterH">  10 </span>  <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-LITERAL4">@@param</span>
+<span class="gutter">  11 </span>  <span class=
+"syntax-COMMENT1">\\</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">this</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">also</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">an</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">extended</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">comment</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
+<span class="gutter">  12 </span>  <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-LITERAL4">@@param</span>
+<span class="gutter">  13 </span>  <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">done</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">function</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  14 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutterH">  15 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@myparam</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">a</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">test</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">param</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  16 </span>cq <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@myparam</span> <span class=
+"syntax-OPERATOR">)</span>
+<span class="gutter">  17 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@foo</span>
+<span class="gutter">  18 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@bar</span>
+<span class="gutter">  19 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">done</span>
+<span class="gutterH">  20 </span>
+</span>
 </pre>
 
   <h2><a name="Tips_and_Tricks" id="Tips_and_Tricks"></a> Tips and
