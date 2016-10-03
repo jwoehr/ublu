@@ -12,6 +12,7 @@ Commands:
 
 Miscellaneous:
 * Update vim mode
+* ubluref.html example for FUNC corrected
 
 1.1.2
 Changes to commands:
