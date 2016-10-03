@@ -8,7 +8,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 2 Oct 2016 04:21:48 UTC">
+  "Mon, 3 Oct 2016 00:50:00 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -59,7 +59,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-02</p>
+  Last edit: 2016-10-03</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com Copyright (c) 2016, Jack J. Woehr
@@ -3631,12 +3631,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h4><a name="FUNC" id="FUNC"></a><tt>FUNC</tt></h4>
 
   <blockquote>
-    <tt>/7?.. [[-define] [-delete name] | [-list] | [-show name]]
-    name ( parameter name list )&nbsp; $[ an execution block
-    possibly spanning lines ]$ : define a named fnction<br>
-    &nbsp;&nbsp;&nbsp;</tt><br>
-    A function is created and added to the command lookup so that
-    it will be found in normal command processing.<br>
+    <tt>/7?.. [-to datasink] [[-delete name] | [-list] | [-show
+    name]] name ( parameter name list ) $[ an execution block
+    possibly spanning lines ]$ : define a named function</tt><br>
+    <br>
+    A <a href="#Functions">function</a> is created and added to the
+    command lookup so that it will be found in normal command
+    processing.<br>
     <br>
     The default operation is <tt>-define</tt>. This <a href=
     "#Dash_Command">dash-command</a> need not be present.<br>
@@ -3703,9 +3704,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     put ${ Showing all active interactive jobs }$<br>
     put -to @jobtype1 ${ active }$<br>
     put -to @jobtype2 ${ interactive }$<br>
-    showJobs ( @joblist @jobtype1 @jobtype2 )<i><br>
-    <br>
-    12345/MYUSER/MYJOB ...<br></i></tt>
+    showJobs ( @joblist @jobtype1 @jobtype2 )<br>
+    <i>active interactive job 329077/FRED/QPADEV001B is owned by
+    FRED<br>
+    active interactive job 328723/CREEP/CRP2 is owned by CREEP<br>
+    active interactive job 328726/CREEP/CRP1 is owned by CREEP<br>
+    active interactive job 329080/SHREDDER/QPADEV0012 is owned by
+    SHREDDER<br></i></tt>
   </blockquote>
 
   <h4><a name="gensh" id="gensh"></a><tt>gensh</tt></h4>
