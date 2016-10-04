@@ -61,7 +61,7 @@ public class CmdInclude extends Command {
      */
     public ArgArray include(ArgArray args) {
         boolean isSilent = false;
-        Path filepath = null;
+        Path filepath;
         while (args.hasDashCommand()) {
             String dashCommand = args.parseDashCommand();
             switch (dashCommand) {
