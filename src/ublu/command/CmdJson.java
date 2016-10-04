@@ -53,7 +53,7 @@ public class CmdJson extends Command {
 
     {
         setNameAndDescription("json",
-                "/0 [-to datasink] [--,-json @json] [[-instance] | [-cdl ~@{cdl}]: create and unpack JSON");
+                "/0 [-to datasink] [--,-json @json] [ [-array] | [-cdl ~@{cdl}] | [-object] ]: create and unpack JSON");
     }
 
     /**
@@ -62,13 +62,17 @@ public class CmdJson extends Command {
     protected enum OPERATIONS {
 
         /**
+         * Create JSON Array
+         */
+        ARRAY,
+        /**
          * Comma-delimited list
          */
         CDL,
         /**
          * Create JSON object
          */
-        INSTANCE
+        OBJECT
     }
 
     /**
@@ -78,7 +82,7 @@ public class CmdJson extends Command {
      * @return remnant of argArray
      */
     public ArgArray doCmdList(ArgArray argArray) {
-        OPERATIONS operation = OPERATIONS.INSTANCE;
+        OPERATIONS operation = OPERATIONS.OBJECT;
         String commaDelimitedList = null;
         Tuple jsonTuple = null;
         JSONObject jsonObject = null;
@@ -93,8 +97,11 @@ public class CmdJson extends Command {
                 case "-json":
                     jsonTuple = argArray.nextTupleOrPop();
                     break;
-                case "-instance":
-                    operation = OPERATIONS.INSTANCE;
+                case "-array":
+                    operation = OPERATIONS.ARRAY;
+                    break;
+                case "-object":
+                    operation = OPERATIONS.OBJECT;
                     break;
                 case "-cdl":
                     operation = OPERATIONS.CDL;
@@ -114,11 +121,19 @@ public class CmdJson extends Command {
                 }
             }
             switch (operation) {
-                case INSTANCE:
+                case OBJECT:
                     try {
                         put(new JSONObject());
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error putting List instance in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error putting JSON object in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case ARRAY:
+                     try {
+                        put(new JSONArray());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting JSON array in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -136,7 +151,7 @@ public class CmdJson extends Command {
                             try {
                                 put(jSONArray);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Exception putting JSONArray in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Exception putting CDL JSON Array in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
