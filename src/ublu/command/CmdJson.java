@@ -86,7 +86,6 @@ public class CmdJson extends Command {
         OPERATIONS operation = OPERATIONS.OBJECT;
         String commaDelimitedList = null;
         Tuple jsonTuple = null;
-        JSONObject jsonObject = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -119,15 +118,9 @@ public class CmdJson extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (jsonTuple != null) {
-                Object maybeJson = jsonTuple.getValue();
-                if (maybeJson instanceof JSONObject) {
-                    jsonObject = JSONObject.class.cast(maybeJson);
-                }
-            }
-            JSONObject jO;
             switch (operation) {
                 case OBJECT:
+                    JSONObject jO;
                     jO = null;
                     switch (getDataSrc().getType()) {
                         case STD:
