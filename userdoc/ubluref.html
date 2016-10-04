@@ -5,10 +5,11 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 3 Oct 2016 22:43:16 UTC">
+  "Tue, 4 Oct 2016 18:04:17 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-03</p>
+  Last edit: 2016-10-04</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com Copyright (c) 2016, Jack J. Woehr
@@ -575,23 +576,40 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <ul>
     <li>Ublu commences by initializing the <a href=
-    "#Main_interpreter">main interpreter</a> and passing it all
-    command line arguments.</li>
-
-    <li>When invoked with no command line arguments, the main
-    interpreter prompts and awaits interactive input.<br>
+    "#Main_interpreter">main interpreter</a> and processing the
+    arguments to the invocation.
 
       <ul>
-        <li>A greeting with copyright notices is displayed to
-        stderr before the main interpreter prompts.<br>
+        <li>Any initial arguments starting with the dash character
+        ( <tt>-</tt> ) are taken to be switches to the Ublu
+        invocation itself and are processed immediately.</li>
+
+        <li>Any remaining arguments beginning with the first
+        argument which does not start with a dash are passed as the
+        initial input line to the interpreter.</li>
+      </ul>
+    </li>
+
+    <li>When invoked with no non-dash command line arguments, Ublu
+    prints to standard error information about the build including
+    time/date stamp, open source usage and copyright before the
+    main interpreter prompts. Then the main interpreter prompts and
+    awaits interactive input.</li>
+
+    <li>The dash switches to Ublu invocation are as follows:
+
+      <ul>
+        <li>
+          <tt>-s</tt> means "silent, no introductory greeting".
 
           <ul>
-            <li>To avoid this greeting message when invoking in
-            interpret mode, you can append the single command
-            <a href="#interpret"><tt>interpret</tt></a> to the
-            invocation command line. This nests an interpreter and
-            thus the main interpreter has not yet completed the
-            initial command line.</li>
+            <li>Another way to avoid the introductory greeting
+            message when invoking in interpret mode is to append
+            the single command <a href=
+            "#interpret"><tt>interpret</tt></a> to the invocation
+            command line. This nests an interpreter and thus the
+            main interpreter has not yet completed the initial
+            command line.</li>
           </ul>
         </li>
       </ul>
@@ -620,43 +638,41 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <li>1 is FAILURE</li>
       </ul>
     </li>
-  </ul>At invocation in interpretive mode, Ublu prints to standard
-  error information about the build including time/date stamp, open
-  source usage and copyright.<br>
+  </ul>
 
   <blockquote>
-    <tt>$ java -jar ublu.jar<br>
-    Ublu version 1.1.1 build of 2016-08-02 11:10:45<br>
-    Author: Jack J. Woehr.<br>
-    Copyright 2015, Absolute Performance, Inc.,
-    http://www.absolute-performance.com<br>
-    Copyright 2016, Jack J. Woehr, http://www.softwoehr.com<br>
-    All Rights Reserved<br>
-    Ublu is Open Source Software under the BSD 2-clause
-    license.<br>
-    ***<br>
-    Ublu utilizes the following open source projects<br>
-    IBM Toolbox for Java:<br>
-    Open Source Software, JTOpen 8.7, codebase 5770-SS1 V7R2M0.00
-    built=20151102 @P5<br>
-    Supports JDBC version 3.0<br>
-    Toolbox driver version 10.7<br>
-    ---<br>
-    Postgresql PostgreSQL 9.4.1208.jre6<br>
-    Copyright (c) 1997-2011, PostgreSQL Global Development
-    Group<br>
-    All rights reserved http://www.postgresql.org<br>
-    ---<br>
-    tn5250j http://tn5250j.sourceforge.net/<br>
-    NO WARRANTY (GPL) see the file tn5250_LICENSE<br>
-    ---<br>
-    PigIron 0.9.7+ http://pigiron.sourceforge.net<br>
-    Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO
-    80403 USA<br>
-    All Rights Reserved<br>
-    ***<br>
-    Type help for help. Type license for license. Type bye to
-    exit.</tt>
+    <pre>
+$ java -jar ublu.jar
+Ublu version 1.1.2+ build of 2016-10-04 09:30:57
+Author: Jack J. Woehr.
+Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com
+Copyright 2016, Jack J. Woehr, http://www.softwoehr.com
+All Rights Reserved
+Ublu is Open Source Software under the BSD 2-clause license.
+THERE IS NO WARRANTY and NO GUARANTEE OF CORRECTNESS NOR APPLICABILITY.
+***
+Ublu utilizes the following open source projects:
+IBM Toolbox for Java:
+Open Source Software, JTOpen 9.1, codebase 5770-SS1 V7R3M0.00 built=20160705 @RF
+Supports JDBC version 3.0
+Toolbox driver version 11.1
+---
+Postgresql PostgreSQL 9.4.1208.jre6
+Copyright (c) 1997-2011, PostgreSQL Global Development Group
+All rights reserved http://www.postgresql.org
+---
+tn5250j http://tn5250j.sourceforge.net/
+NO WARRANTY (GPL) see the file tn5250_LICENSE
+---
+PigIron 0.9.7+ http://pigiron.sourceforge.net
+Copyright (c) 2008-2016 Jack J. Woehr, PO Box 51, Golden CO 80402 USA
+All Rights Reserved
+---
+org.json
+Copyright (c) 2002 JSON.org
+***
+Type help for help. Type license for license. Type bye to exit.
+</pre>
   </blockquote>To exit the system, type <tt><a href=
   "#bye">bye</a></tt> . Some minimal cleanup will be performed.<br>
   <br>
