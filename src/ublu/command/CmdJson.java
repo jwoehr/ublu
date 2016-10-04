@@ -34,6 +34,11 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -93,6 +98,10 @@ public class CmdJson extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
+                case "-from":
+                    String srcName = argArray.next();
+                    setDataSrc(DataSink.fromSinkName(srcName));
+                    break;
                 case "--":
                 case "-json":
                     jsonTuple = argArray.nextTupleOrPop();
@@ -120,17 +129,62 @@ public class CmdJson extends Command {
                     jsonObject = JSONObject.class.cast(maybeJson);
                 }
             }
+            JSONObject jO;
             switch (operation) {
                 case OBJECT:
-                    try {
-                        put(new JSONObject());
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error putting JSON object in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
+                    jO = null;
+                    switch (getDataSrc().getType()) {
+                        case STD:
+                            jO = new JSONObject();
+                            break;
+                        case TUPLE:
+                            Tuple t = getTuple(getDataSrc().getName());
+                            if (t != null) {
+                                Object o = t.getValue();
+                                if (o instanceof JSONObject) {
+                                    jO = new JSONObject(JSONObject.class.cast(o));
+                                } else if (o instanceof JSONTokener) {
+                                    try {
+                                        jO = new JSONObject(JSONTokener.class.cast(o));
+                                    } catch (JSONException ex) {
+                                        getLogger().log(Level.SEVERE, "Error creating JSON object from JSONTokener in " + getNameAndDescription(), ex);
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    }
+                                } else {
+                                    jO = new JSONObject(o);
+                                }
+                            } else {
+                                getLogger().log(Level.SEVERE, "Null tuple provided to -object in {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        case FILE: {
+                            try {
+                                File f = new File(getDataSrc().getName());
+                                FileReader fr = new FileReader(f);
+                                int length = new Long(f.length()).intValue();
+                                char[] in = new char[length];
+                                fr.read(in);
+                                jO = new JSONObject(in);
+                            } catch (IOException ex) {
+                                getLogger().log(Level.SEVERE, "Error creating JSON object from File in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        default:
+                            getLogger().log(Level.SEVERE, "Unsupported data source provided to -object in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                        try {
+                            put(jO);
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting JSON object in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
                 case ARRAY:
-                     try {
+                    try {
                         put(new JSONArray());
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Error putting JSON array in " + getNameAndDescription(), ex);
