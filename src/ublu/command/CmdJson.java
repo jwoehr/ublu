@@ -64,9 +64,6 @@ public class CmdJson extends Command {
         /**
          * append to JSON Array
          */
-        /**
-         * append to JSON Array
-         */
         ADD,
         /**
          * add at index in JSON Array
