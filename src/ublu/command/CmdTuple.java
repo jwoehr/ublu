@@ -263,7 +263,7 @@ public class CmdTuple extends Command {
                     if (Tuple.isTupleName(theTupleName)) {
                         someTuple = getTuple(someName);
                         if (someTuple == null) {
-                            getInterpreter().setTuple(theTupleName, true);
+                            setTuple(theTupleName, true);
                         } else {
                             someTuple.setValue(true); // to make sure it gets created if only proposed
                             if (Tuple.isParamSubTupleName(someName)) {
@@ -280,7 +280,7 @@ public class CmdTuple extends Command {
                     if (Tuple.isTupleName(theTupleName)) {
                         someTuple = getTuple(someName);
                         if (someTuple == null) {
-                            getInterpreter().setTuple(theTupleName, false);
+                            setTuple(theTupleName, false);
                         } else {
                             someTuple.setValue(false); // to make sure it gets created if only proposed
                             if (Tuple.isParamSubTupleName(someName)) {
@@ -324,7 +324,7 @@ public class CmdTuple extends Command {
                 case NULL:
                     theTupleName = someName;
                     if (Tuple.isTupleName(theTupleName)) {
-                        getInterpreter().setTuple(theTupleName, null);
+                        setTuple(theTupleName, null);
                     } else {
                         getLogger().log(Level.SEVERE, "Name {0} is not a tuple name.", theTupleName);
                         setCommandResult(COMMANDRESULT.FAILURE);
