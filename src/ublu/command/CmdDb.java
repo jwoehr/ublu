@@ -78,16 +78,16 @@ public class CmdDb extends Command {
     private String dbType;
 
     /**
-     * Get the name of the database we are accessing
+     * Get the type of the database we are accessing
      *
-     * @return name of the database
+     * @return type of the database
      */
     public String getDbType() {
         return dbType;
     }
 
     /**
-     * Set the name of the database we are accessing
+     * Set the type of the database we are accessing
      *
      * @param dbType
      */

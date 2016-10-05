@@ -53,6 +53,26 @@ import java.util.logging.Logger;
  */
 public abstract class Db {
 
+    private String sqlCollectionName;
+
+    /**
+     * Get the value of sqlCollectionName
+     *
+     * @return the value of sqlCollectionName
+     */
+    public String getSqlCollectionName() {
+        return sqlCollectionName;
+    }
+
+    /**
+     * Set the value of sqlCollectionName
+     *
+     * @param sqlCollectionName new value of sqlCollectionName
+     */
+    public void setSqlCollectionName(String sqlCollectionName) {
+        this.sqlCollectionName = sqlCollectionName;
+    }
+
     // only used in debugging
     // all Db methods throw to their callers
     private static Logger getLogger() {
@@ -247,6 +267,7 @@ public abstract class Db {
      * @return formulated URL
      */
     public String buildURL(String system, String port, String database, ConnectionProperties connectionProperties) {
+        setSqlCollectionName(database);
         StringBuilder sb = new StringBuilder("jdbc:");
         sb.append(getDriverType());
         sb.append(":");

@@ -105,6 +105,9 @@ public class Json extends DbHelper {
      */
     public JSONObject tableJSON() throws SQLException, UnsupportedEncodingException, IOException, JSONException {
         JSONObject jSONObject = new JSONObject();
+        jSONObject.put("catalog_name", getDb().getConnection().getCatalog());
+        jSONObject.put("collection_name", getDb().getSqlCollectionName());
+        jSONObject.put("table_name", getTableName());
         ColumnNameList cnl = new ColumnNameList();
         for (int i = 1; i <= getResultSetMetaData().getColumnCount(); i++) {
             cnl.add(getResultSetMetaData().getColumnName(i));
@@ -124,7 +127,7 @@ public class Json extends DbHelper {
             jsonTempArray.put(getResultSetMetaData().getColumnType(i));
         }
         jSONObject.put("column_jdbc_types", jsonTempArray);
-        int index = 0;
+        int index = 1;
         JSONObject jsonRowsObject = new JSONObject();
         while (getResultSet().next()) {
             StringArrayList rowArrayList = rowToStringArrayList(getColumnNameList());
