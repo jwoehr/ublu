@@ -46,12 +46,12 @@ import java.util.logging.Level;
 public class CmdLifo extends Command {
 
     {
-        setNameAndDescription("lifo", "/0 [-to datasink] -push @tuplevar | -pop | -popval  | -dup | -swap | -over | -pick ~@{0index} | -rot | -depth | -clear | -drop | -show : operate on the tuple stack");
+        setNameAndDescription("lifo", "/0 [-to datasink] -push @tuplevar | -pop | -popval  | -dup | -swap | -over | -pick ~@{0index} | -rot | -depth | -clear | -drop | -show | -true | -false | -null : operate on the tuple stack");
     }
 
     enum OPERATIONS {
 
-        PUSH, POP, POPVAL, DUP, SWAP, OVER, PICK, ROT, DEPTH, CLEAR, DROP, SHOW
+        PUSH, POP, POPVAL, DUP, SWAP, OVER, PICK, ROT, DEPTH, CLEAR, DROP, SHOW, TRUE, FALSE, NULL
     }
 
     /**
@@ -109,6 +109,15 @@ public class CmdLifo extends Command {
                     break;
                 case "-show":
                     operation = OPERATIONS.SHOW;
+                    break;
+                case "-true":
+                    operation = OPERATIONS.TRUE;
+                    break;
+                case "-false":
+                    operation = OPERATIONS.FALSE;
+                    break;
+                case "-null":
+                    operation = OPERATIONS.NULL;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -178,6 +187,15 @@ public class CmdLifo extends Command {
                             sb.insert(0, "top <== ");
                         }
                         put(sb.toString().trim());
+                        break;
+                    case TRUE:
+                        ts.push(new Tuple(null, true));
+                        break;
+                    case FALSE:
+                        ts.push(new Tuple(null, false));
+                        break;
+                    case NULL:
+                        ts.push(new Tuple(null, null));
                         break;
                 }
             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
