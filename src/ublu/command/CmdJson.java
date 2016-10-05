@@ -55,7 +55,7 @@ public class CmdJson extends Command {
 
     {
         setNameAndDescription("json",
-                "/0 [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [ -at ~@{index} ~@object ] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index} ] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] ]: create and unpack JSON");
+                "/0 [-from datasink] [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [-addkey ~@key ~@object] | [ -at ~@{index} ~@object] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index}] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] ] : create and unpack JSON");
     }
 
     /**
@@ -65,10 +65,11 @@ public class CmdJson extends Command {
         /**
          * append to JSON Array
          */
-        /**
-         * append to JSON Array
-         */
         ADD,
+        /**
+         * insert to JSON Object
+         */
+        ADDKEY,
         /**
          * add at index in JSON Array
          */
@@ -142,6 +143,11 @@ public class CmdJson extends Command {
                     break;
                 case "-add":
                     operation = OPERATIONS.ADD;
+                    objectTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-addkey":
+                    operation = OPERATIONS.ADDKEY;
+                    key = argArray.nextMaybeQuotationTuplePopString();
                     objectTuple = argArray.nextTupleOrPop();
                     break;
                 case "-array":
@@ -283,6 +289,20 @@ public class CmdJson extends Command {
                         jA.put(objectTuple.getValue());
                     } else {
                         getLogger().log(Level.SEVERE, "No JSON Array or no object passed to -add in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case ADDKEY:
+                    jO = objectFromTuple(jsonTuple);
+                    if (jO != null && key != null && objectTuple != null) {
+                        try {
+                            jO.put(key, objectTuple.getValue());
+                        } catch (JSONException ex) {
+                            getLogger().log(Level.SEVERE, "Error insertion to JSON object in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Array or no key or no object passed to -addkey in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
