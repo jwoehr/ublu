@@ -47,7 +47,7 @@ import org.json.JSONTokener;
 import ublu.util.Generics.ThingArrayList;
 
 /**
- * Create and manage lists
+ * Create and manage JSON Objects
  *
  * @author jwoehr
  */
@@ -55,7 +55,7 @@ public class CmdJson extends Command {
 
     {
         setNameAndDescription("json",
-                "/0 [-from datasink] [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [-addkey ~@key ~@object] | [ -at ~@{index} ~@object] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index}] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] ] : create and unpack JSON");
+                "/0 [-from datasink] [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [-addkey ~@key ~@object] | [ -at ~@{index} ~@object] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index}] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] [-remove ~@{key}] : create and unpack JSON");
     }
 
     /**
@@ -105,16 +105,20 @@ public class CmdJson extends Command {
         /**
          * Create JSON object
          */
-        OBJECT
+        OBJECT,
+        /**
+         * remove key/value from JSON Object
+         */
+        REMOVE
     }
 
     /**
-     * The list command
+     * The json command
      *
      * @param argArray
      * @return remnant of argArray
      */
-    public ArgArray doCmdList(ArgArray argArray) {
+    public ArgArray doCmdJson(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.OBJECT;
         String commaDelimitedList = null;
         Tuple jsonTuple = null;
@@ -172,6 +176,10 @@ public class CmdJson extends Command {
                     break;
                 case "-object":
                     operation = OPERATIONS.OBJECT;
+                    break;
+                case "-remove":
+                    operation = OPERATIONS.REMOVE;
+                    key = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-cdl":
                     operation = OPERATIONS.CDL;
@@ -429,6 +437,15 @@ public class CmdJson extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case REMOVE:
+                    jO = objectFromTuple(jsonTuple);
+                    if (jO != null && key != null) {
+                        jO.remove(key);
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Object or no key passed to -remove in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 default:
                     getLogger().log(Level.SEVERE, "Unknown operation unhandled in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
@@ -494,7 +511,7 @@ public class CmdJson extends Command {
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
-        return doCmdList(args);
+        return doCmdJson(args);
     }
 
     @Override
