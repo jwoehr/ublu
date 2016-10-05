@@ -87,6 +87,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>job</KEYWORD2>
         <KEYWORD2>joblist</KEYWORD2>
         <KEYWORD2>jrnl</KEYWORD2>
+        <KEYWORD2>json</KEYWORD2>
         <KEYWORD2>jvm</KEYWORD2>
         <KEYWORD1>LOCAL</KEYWORD1>
         <KEYWORD2>license</KEYWORD2>

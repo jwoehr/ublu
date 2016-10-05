@@ -1,0 +1,40 @@
+# testjson.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Test the json command
+
+json -to @jsonarray -cdl ${ a , b,    c     ,  d, e, f }$
+put @jsonarray
+put -to ~  ${ { woof : 1.23e5, arf : "elephants are grey" } }$
+json -to @jsonobj -from ~ -object
+put @jsonobj
+put -to ~ 9.99
+json -- @jsonarray -add ~
+put @jsonarray
+json -- @jsonarray -to ~ -length
+lifo -dup
+put -n -s ${ length of JSON array: }$ put ~
+json -- @jsonarray -at ~ @jsonobj
+put @jsonarray
+
+FUNC listValues ( jsonObj ) $[
+    LOCAL @keys
+    json -- @@jsonObj -to ~ -keys
+    json -- ~ -to ~ -list
+    FOR @i in ~ $[
+        json -- @@jsonObj -to ~ -key @i 
+        put -n -s key: put -n -s @i put -n -s value: put ~
+    ]$
+]$
+listValues ( @jsonobj )
+put -to ~ ${ some elephants are pink }$
+json -- @jsonobj -addkey more_on_elephants ~
+put @jsonobj
+listValues ( @jsonobj )
+put ${ here is a list created from the JSON array: }$
+json -- @jsonarray -list
+json -- @jsonobj -remove arf
+put @jsonobj
