@@ -71,6 +71,10 @@ public class CmdJson extends Command {
          */
         CDL,
         /**
+         * Array length
+         */
+        LENGTH,
+        /**
          * Create JSON object
          */
         OBJECT
@@ -104,6 +108,9 @@ public class CmdJson extends Command {
                 case "-array":
                     operation = OPERATIONS.ARRAY;
                     break;
+                case "-length":
+                    operation = OPERATIONS.LENGTH;
+                    break;
                 case "-object":
                     operation = OPERATIONS.OBJECT;
                     break;
@@ -118,9 +125,10 @@ public class CmdJson extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
+            JSONObject jO;
+            JSONArray jA;
             switch (operation) {
                 case OBJECT:
-                    JSONObject jO;
                     jO = null;
                     switch (getDataSrc().getType()) {
                         case STD:
@@ -140,13 +148,19 @@ public class CmdJson extends Command {
                                         setCommandResult(COMMANDRESULT.FAILURE);
                                     }
                                 } else {
-                                    jO = new JSONObject(o);
+                                    try {
+                                        jO = new JSONObject(new JSONTokener(o.toString()));
+                                    } catch (JSONException ex) {
+                                        getLogger().log(Level.SEVERE, "Error creating JSON object from String in " + getNameAndDescription(), ex);
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    }
                                 }
                             } else {
                                 getLogger().log(Level.SEVERE, "Null tuple provided to -object in {0}", getNameAndDescription());
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
-                        case FILE: {
+                            break;
+                        case FILE:
                             try {
                                 File f = new File(getDataSrc().getName());
                                 FileReader fr = new FileReader(f);
@@ -158,7 +172,7 @@ public class CmdJson extends Command {
                                 getLogger().log(Level.SEVERE, "Error creating JSON object from File in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
-                        }
+                            break;
                         default:
                             getLogger().log(Level.SEVERE, "Unsupported data source provided to -object in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -200,12 +214,48 @@ public class CmdJson extends Command {
                         }
                     }
                     break;
+                case LENGTH:
+                    jA = arrayFromTuple(jsonTuple);
+                    if (jA != null) {
+                        try {
+                            put(jA.length());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception putting JSON Array length in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Array passed to -length in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 default:
                     getLogger().log(Level.SEVERE, "Unknown operation unhandled in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return argArray;
+    }
+
+    private JSONArray arrayFromTuple(Tuple t) {
+        JSONArray result = null;
+        if (t != null) {
+            Object o = t.getValue();
+            if (o instanceof JSONArray) {
+                result = JSONArray.class.cast(o);
+            }
+        }
+        return result;
+    }
+
+    private JSONObject objectFromTuple(Tuple t) {
+        JSONObject result = null;
+        if (t != null) {
+            Object o = t.getValue();
+            if (o instanceof JSONObject) {
+                result = JSONObject.class.cast(o);
+            }
+        }
+        return result;
     }
 
     @Override
