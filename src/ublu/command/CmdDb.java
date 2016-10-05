@@ -50,6 +50,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
+import org.json.JSONException;
+import org.json.JSONObject;
+import ublu.db.Json;
 
 /* Uncomment the following if you are adding MSSQL support */
 // import ublu.db.DbMSSQL;
@@ -63,7 +66,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4? [--,-dbconnected @dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
+                "/4? [--,-dbconnected @dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
@@ -162,7 +165,11 @@ public class CmdDb extends Command {
         /**
          * Convert a table to comma-separated values
          */
-        TABLECSV
+        TABLECSV,
+        /**
+         * Convert a table to JSON
+         */
+        TABLEJSON
     }
     private FUNCTIONS function;
     private ConnectionProperties connectionProperties;
@@ -323,6 +330,10 @@ public class CmdDb extends Command {
                     setFunction(FUNCTIONS.TABLECSV);
                     setCsvTableName(argArray.nextMaybeQuotationTuplePopString());
                     break;
+                case "-json":
+                    setFunction(FUNCTIONS.TABLEJSON);
+                    setCsvTableName(argArray.nextMaybeQuotationTuplePopString());
+                    break;
                 case "-disconnect":
                     setFunction(FUNCTIONS.DISCONNECT);
                     break;
@@ -478,6 +489,18 @@ public class CmdDb extends Command {
                             String csvTable = cSV.tableCSV();
                             put(csvTable, charsetName);
                             cSV.close();
+                            break;
+                        case TABLEJSON:
+                            Json json = getDb().newStarJSON(getCsvTableName());
+                            JSONObject jsonTable = null;
+                            try {
+                                jsonTable = json.tableJSON();
+                            } catch (JSONException ex) {
+                                getLogger().log(Level.SEVERE, "Exception converting table to JSON", ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                            put(jsonTable, charsetName);
+                            json.close();
                             break;
                     }
                     // getDb().disconnect(); can't do this since result sets hang around in tuple vars from QUERY and QUERY_NORS
