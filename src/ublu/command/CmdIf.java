@@ -37,7 +37,7 @@ import java.util.logging.Level;
 public class CmdIf extends Command {
 
     {
-        setNameAndDescription("IF", "/1 [-!] @var : IF tests boolean @var (inverted by -!) and executes THEN $[ cmd cmd .. ]$ if true, ELSE  $[ cmd cmd .. ]$ if false");
+        setNameAndDescription("IF", "/1 [-!] ~@var : IF tests boolean @var (inverted by -!) and executes THEN $[ cmd cmd .. ]$ if true, ELSE  $[ cmd cmd .. ]$ if false");
     }
 
     /**
@@ -61,7 +61,8 @@ public class CmdIf extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Tuple t = getTuple(argArray.next());
+            // Tuple t = getTuple(argArray.next());
+            Tuple t = argArray.nextTupleOrPop();
             // Tuple t = argArray.nextTupleOrPop(); // this should be more correct
             // but have not tested it yet. 20140516
             if (t == null) {
