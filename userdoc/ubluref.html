@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -2441,10 +2442,10 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>/4? [--,-dbconnected @dbconnected] -db ~@{type}
     [-charsetname ~@{charsetname}] [-catalog | -columntypes
     ~@{tablename} | -connect | -csv ~@{tablename} [-separator
-    ~@{separator} ] | -disconnect | -metadata | -primarykeys
-    ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL
-    string} | -replicate ~@{tableName} ~@{destDbName}
-    ~@{destDbType} ~@{destDatabaseName} ~@{destUser}
+    ~@{separator} ] | -json ~@{tablename} | -disconnect | -metadata
+    | -primarykeys ~@{tablename} | -query ~@{SQL string} |
+    -query_nors ~@{SQL string} | -replicate ~@{tableName}
+    ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser}
     ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space
     separated primary keys }] [-port ~@{portnum] [-property ~@{key}
     ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system}
@@ -2518,8 +2519,8 @@ Type help for help. Type license for license. Type bye to exit.
       dash-command.</li>
 
       <li>
-        <tt>-csv</tt> dumps <i>tab</i><i>lename</i> as
-        comma-separated values (CSV).
+        <tt>-csv</tt> dumps <i>tablename</i> as comma-separated
+        values (CSV).
 
         <ul>
           <li>If the db type is <tt>as400</tt> and the column
@@ -2528,6 +2529,9 @@ Type help for help. Type license for license. Type bye to exit.
           intercolumnarly in the output.</li>
         </ul>
       </li>
+
+      <li><tt>-json ~@{tablename}</tt> dumps <i>tablename</i> as a
+      <a href="http://json.org">JSON</a> object.</li>
 
       <li><tt>-disconnect</tt> disconnects the database object
       provided via <tt>-dbconnected @dbconnected</tt> invalidating
