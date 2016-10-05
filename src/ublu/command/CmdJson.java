@@ -44,6 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import ublu.util.Generics.ThingArrayList;
 
 /**
  * Create and manage lists
@@ -54,13 +55,16 @@ public class CmdJson extends Command {
 
     {
         setNameAndDescription("json",
-                "/0 [-to datasink] [--,-json @json] [ [-add ~@object ] | [ -at ~@{index} ~@object ] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index} ] | [-key ~@{key}] | [-length] | [-object] ]: create and unpack JSON");
+                "/0 [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [ -at ~@{index} ~@object ] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index} ] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] ]: create and unpack JSON");
     }
 
     /**
      * Operations
      */
     protected enum OPERATIONS {
+        /**
+         * append to JSON Array
+         */
         /**
          * append to JSON Array
          */
@@ -86,9 +90,17 @@ public class CmdJson extends Command {
          */
         KEY,
         /**
+         * Get keys from JSON Object
+         */
+        KEYS,
+        /**
          * Array length
          */
         LENGTH,
+        /**
+         * Array members as list
+         */
+        LIST,
         /**
          * Create JSON object
          */
@@ -143,8 +155,14 @@ public class CmdJson extends Command {
                     operation = OPERATIONS.KEY;
                     key = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-keys":
+                    operation = OPERATIONS.KEYS;
+                    break;
                 case "-length":
                     operation = OPERATIONS.LENGTH;
+                    break;
+                case "-list":
+                    operation = OPERATIONS.LIST;
                     break;
                 case "-object":
                     operation = OPERATIONS.OBJECT;
@@ -161,8 +179,9 @@ public class CmdJson extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
             JSONObject jO;
-            JSONArray jA;
+            JSONArray jA = null;
             Object o = null;
+            Tuple t;
             switch (operation) {
                 case OBJECT:
                     jO = null;
@@ -170,27 +189,14 @@ public class CmdJson extends Command {
                         case STD:
                             jO = new JSONObject();
                             break;
+                        case LIFO:
+                            t = getTupleStack().pop();
+                            jO = jsonObjectFromObject(t.getValue());
+                            break;
                         case TUPLE:
-                            Tuple t = getTuple(getDataSrc().getName());
+                            t = getTuple(getDataSrc().getName());
                             if (t != null) {
-                                o = t.getValue();
-                                if (o instanceof JSONObject) {
-                                    jO = new JSONObject(JSONObject.class.cast(o));
-                                } else if (o instanceof JSONTokener) {
-                                    try {
-                                        jO = new JSONObject(JSONTokener.class.cast(o));
-                                    } catch (JSONException ex) {
-                                        getLogger().log(Level.SEVERE, "Error creating JSON object from JSONTokener in " + getNameAndDescription(), ex);
-                                        setCommandResult(COMMANDRESULT.FAILURE);
-                                    }
-                                } else {
-                                    try {
-                                        jO = new JSONObject(new JSONTokener(o.toString()));
-                                    } catch (JSONException ex) {
-                                        getLogger().log(Level.SEVERE, "Error creating JSON object from String in " + getNameAndDescription(), ex);
-                                        setCommandResult(COMMANDRESULT.FAILURE);
-                                    }
-                                }
+                                jO = jsonObjectFromObject(t.getValue());
                             } else {
                                 getLogger().log(Level.SEVERE, "Null tuple provided to -object in {0}", getNameAndDescription());
                                 setCommandResult(COMMANDRESULT.FAILURE);
@@ -224,10 +230,51 @@ public class CmdJson extends Command {
                     break;
                 case ARRAY:
                     try {
-                        put(new JSONArray());
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error putting JSON array in " + getNameAndDescription(), ex);
+                        switch (getDataSrc().getType()) {
+                            case STD:
+                                jA = new JSONArray();
+                                break;
+                            case LIFO:
+                                t = getTupleStack().pop();
+                                jA = new JSONArray(t.getValue());
+                                break;
+                            case TUPLE:
+                                t = getTuple(getDataSrc().getName());
+                                if (t != null) {
+                                    jA = new JSONArray(t.getValue());
+                                } else {
+                                    getLogger().log(Level.SEVERE, "Null tuple provided to -array in {0}", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                                break;
+                            case FILE:
+                                try {
+                                    File f = new File(getDataSrc().getName());
+                                    FileReader fr = new FileReader(f);
+                                    int length = new Long(f.length()).intValue();
+                                    char[] in = new char[length];
+                                    fr.read(in);
+                                    jA = new JSONArray(in);
+                                } catch (IOException ex) {
+                                    getLogger().log(Level.SEVERE, "Error creating JSON array from File in " + getNameAndDescription(), ex);
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                                break;
+                            default:
+                                getLogger().log(Level.SEVERE, "Unsupported data source provided to -object in {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } catch (JSONException ex) {
+                        getLogger().log(Level.SEVERE, "Error creating JSON array from datasrc " + getDataSrc().getName() + " in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                        try {
+                            put(jA);
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting JSON array in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
                 case ADD:
@@ -317,6 +364,23 @@ public class CmdJson extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case KEYS:
+                    jO = objectFromTuple(jsonTuple);
+                    if (jO != null) {
+                        o = jO.names();
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+                                put(o);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Exception putting JSON Object keys in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Object or no key passed to -names in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case LENGTH:
                     jA = arrayFromTuple(jsonTuple);
                     if (jA != null) {
@@ -328,6 +392,20 @@ public class CmdJson extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No JSON Array passed to -length in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case LIST:
+                    jA = arrayFromTuple(jsonTuple);
+                    if (jA != null) {
+                        try {
+                            put(listFromJSONArray(jA));
+                        } catch (JSONException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception putting JSON Array as list in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Array passed to -list in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -359,6 +437,38 @@ public class CmdJson extends Command {
             }
         }
         return result;
+    }
+
+    private JSONObject jsonObjectFromObject(Object o) {
+        JSONObject jSONObject = null;
+        if (o instanceof JSONObject) {
+            jSONObject = new JSONObject(JSONObject.class.cast(o));
+        } else if (o instanceof JSONTokener) {
+            try {
+                jSONObject = new JSONObject(JSONTokener.class.cast(o));
+            } catch (JSONException ex) {
+                getLogger().log(Level.SEVERE, "Error creating JSON object from JSONTokener in " + getNameAndDescription(), ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+        } else {
+            try {
+                jSONObject = new JSONObject(new JSONTokener(o.toString()));
+            } catch (JSONException ex) {
+                getLogger().log(Level.SEVERE, "Error creating JSON object from String in " + getNameAndDescription(), ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            }
+        }
+        return jSONObject;
+    }
+
+    private ThingArrayList listFromJSONArray(JSONArray jsonArray) throws JSONException {
+        ThingArrayList tal = new ThingArrayList();
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                tal.add(jsonArray.get(i));
+            }
+        }
+        return tal;
     }
 
     @Override
