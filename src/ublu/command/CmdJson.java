@@ -54,7 +54,7 @@ public class CmdJson extends Command {
 
     {
         setNameAndDescription("json",
-                "/0 [-to datasink] [--,-json @json] [ [-add ~@object ] | [ -addat ~@{index} ~@object ] | [-array] | [-cdl ~@{cdl}] | [-length] | [-object] ]: create and unpack JSON");
+                "/0 [-to datasink] [--,-json @json] [ [-add ~@object ] | [ -at ~@{index} ~@object ] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index} ] | [-key ~@{key}] | [-length] | [-object] ]: create and unpack JSON");
     }
 
     /**
@@ -64,11 +64,14 @@ public class CmdJson extends Command {
         /**
          * append to JSON Array
          */
+        /**
+         * append to JSON Array
+         */
         ADD,
         /**
          * add at index in JSON Array
          */
-        ADDAT,
+        AT,
         /**
          * Create JSON Array
          */
@@ -77,6 +80,14 @@ public class CmdJson extends Command {
          * Comma-delimited list
          */
         CDL,
+        /**
+         * Get value at index from JSON Array
+         */
+        GET,
+        /**
+         * Get value for key JSON Object
+         */
+        KEY,
         /**
          * Array length
          */
@@ -99,6 +110,7 @@ public class CmdJson extends Command {
         Tuple jsonTuple = null;
         Tuple objectTuple = null;
         Integer index = null;
+        String key = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -114,8 +126,8 @@ public class CmdJson extends Command {
                 case "-json":
                     jsonTuple = argArray.nextTupleOrPop();
                     break;
-                case "-addat":
-                    operation = OPERATIONS.ADDAT;
+                case "-at":
+                    operation = OPERATIONS.AT;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     objectTuple = argArray.nextTupleOrPop();
                     break;
@@ -125,6 +137,14 @@ public class CmdJson extends Command {
                     break;
                 case "-array":
                     operation = OPERATIONS.ARRAY;
+                    break;
+                case "-get":
+                    operation = OPERATIONS.GET;
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-key":
+                    operation = OPERATIONS.KEY;
+                    key = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-length":
                     operation = OPERATIONS.LENGTH;
@@ -145,6 +165,7 @@ public class CmdJson extends Command {
         } else {
             JSONObject jO;
             JSONArray jA;
+            Object o = null;
             switch (operation) {
                 case OBJECT:
                     jO = null;
@@ -155,7 +176,7 @@ public class CmdJson extends Command {
                         case TUPLE:
                             Tuple t = getTuple(getDataSrc().getName());
                             if (t != null) {
-                                Object o = t.getValue();
+                                o = t.getValue();
                                 if (o instanceof JSONObject) {
                                     jO = new JSONObject(JSONObject.class.cast(o));
                                 } else if (o instanceof JSONTokener) {
@@ -221,7 +242,7 @@ public class CmdJson extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
-                case ADDAT:
+                case AT:
                     jA = arrayFromTuple(jsonTuple);
                     if (jA != null && objectTuple != null && index != null) {
                         try {
@@ -231,7 +252,7 @@ public class CmdJson extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No JSON Array or no object or no index passed to -addat in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No JSON Array or no object or no index passed to -at in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -253,6 +274,50 @@ public class CmdJson extends Command {
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
+                    }
+                    break;
+                case GET:
+                    jA = arrayFromTuple(jsonTuple);
+                    if (jA != null && index != null) {
+                        try {
+                            o = jA.get(index);
+                        } catch (JSONException ex) {
+                            getLogger().log(Level.SEVERE, "Error on get from JSON array in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+                                put(o);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Exception putting JSON Array member from -get in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Array or no index passed to -get in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case KEY:
+                    jO = objectFromTuple(jsonTuple);
+                    if (jO != null && key != null) {
+                        try {
+                            o = jO.get(key);
+                        } catch (JSONException ex) {
+                            getLogger().log(Level.SEVERE, "Error on get from JSON Object in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+                                put(o);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Exception putting JSON Object key value in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Object or no key passed to -key in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case LENGTH:
