@@ -54,14 +54,21 @@ public class CmdJson extends Command {
 
     {
         setNameAndDescription("json",
-                "/0 [-to datasink] [--,-json @json] [ [-array] | [-cdl ~@{cdl}] | [-object] ]: create and unpack JSON");
+                "/0 [-to datasink] [--,-json @json] [ [-add ~@object ] | [ -addat ~@{index} ~@object ] | [-array] | [-cdl ~@{cdl}] | [-length] | [-object] ]: create and unpack JSON");
     }
 
     /**
      * Operations
      */
     protected enum OPERATIONS {
-
+        /**
+         * append to JSON Array
+         */
+        ADD,
+        /**
+         * add at index in JSON Array
+         */
+        ADDAT,
         /**
          * Create JSON Array
          */
@@ -90,6 +97,8 @@ public class CmdJson extends Command {
         OPERATIONS operation = OPERATIONS.OBJECT;
         String commaDelimitedList = null;
         Tuple jsonTuple = null;
+        Tuple objectTuple = null;
+        Integer index = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -104,6 +113,15 @@ public class CmdJson extends Command {
                 case "--":
                 case "-json":
                     jsonTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-addat":
+                    operation = OPERATIONS.ADDAT;
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    objectTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-add":
+                    operation = OPERATIONS.ADD;
+                    objectTuple = argArray.nextTupleOrPop();
                     break;
                 case "-array":
                     operation = OPERATIONS.ARRAY;
@@ -191,6 +209,29 @@ public class CmdJson extends Command {
                         put(new JSONArray());
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Error putting JSON array in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case ADD:
+                    jA = arrayFromTuple(jsonTuple);
+                    if (jA != null && objectTuple != null) {
+                        jA.put(objectTuple.getValue());
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Array or no object passed to -add in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case ADDAT:
+                    jA = arrayFromTuple(jsonTuple);
+                    if (jA != null && objectTuple != null && index != null) {
+                        try {
+                            jA.put(index, objectTuple.getValue());
+                        } catch (JSONException ex) {
+                            getLogger().log(Level.SEVERE, "Error insertion to JSON array in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JSON Array or no object or no index passed to -addat in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
