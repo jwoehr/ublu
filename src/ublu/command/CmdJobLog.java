@@ -37,7 +37,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
-import ublu.util.Generics;
 import ublu.util.Generics.QueuedMessageList;
 import ublu.util.Tuple;
 
