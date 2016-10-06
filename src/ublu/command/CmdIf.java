@@ -69,7 +69,7 @@ public class CmdIf extends Command {
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
                 Object o = t.getValue();
-                if (!o.equals(true) && !o.equals(false)) { // null is an error and will throw if tested with Object.equals()
+                if (o == null || !o.equals(true) && !o.equals(false)) { // null is an error and will throw if tested with Object.equals()
                     badIfArg(o);
                 } else {
                     boolean tf = Boolean.class.cast(o);
