@@ -1,0 +1,18 @@
+# joblogstuff.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Give an as400 a jobname, a jobuser and a jobnumber (the latter 3 all strings)
+# print all messages in the joblog for the job.
+FUNC catJobLog ( sys jobname jobuser jobnumber ) $[
+    LOCAL @jl
+    joblog -to @jl -as400 @@sys -new @@jobname @@jobuser @@jobnumber
+    joblog -to ~ -- @jl -length
+    joblog -- @jl -to ~ -qm 0 ~
+    FOR @i in ~ $[
+        msg -- @i -to ~ -message
+        put ~
+    ]$
+]$
