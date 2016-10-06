@@ -63,10 +63,7 @@ public class CmdIf extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            // Tuple t = getTuple(argArray.next());
             Tuple t = argArray.nextTupleOrPop();
-            // Tuple t = argArray.nextTupleOrPop(); // this should be more correct
-            // but have not tested it yet. 20140516
             if (t == null) {
                 getLogger().log(Level.SEVERE, "Argument to IF is not a Tuple variable");
                 setCommandResult(COMMANDRESULT.FAILURE);
