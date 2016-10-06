@@ -37,6 +37,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
+import ublu.util.Generics;
+import ublu.util.Generics.QueuedMessageList;
 import ublu.util.Tuple;
 
 /**
@@ -93,11 +95,13 @@ public class CmdJobLog extends Command {
                     op = OPS.LENGTH;
                     break;
                 case "-new":
+                    op = OPS.NEW;
                     jobName = argArray.nextMaybeQuotationTuplePopString();
                     jobUser = argArray.nextMaybeQuotationTuplePopString();
                     jobNumber = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-qm":
+                    op = OPS.QM;
                     messageOffset = argArray.nextIntMaybeQuotationTuplePopString();
                     numberMessages = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
@@ -151,7 +155,7 @@ public class CmdJobLog extends Command {
                     if (jobLog != null) {
                         try {
                             jobLog.load();
-                            put(jobLog.getMessages(messageOffset, numberMessages));
+                            put(new QueuedMessageList(jobLog.getMessages(messageOffset, numberMessages)));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Couldn't put JobLog instance in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
