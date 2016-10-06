@@ -5,12 +5,10 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 6 Oct 2016 01:01:48 UTC">
+  "Thu, 6 Oct 2016 13:21:15 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -62,10 +60,11 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-05</p>
+  Last edit: 2016-10-06</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
-  http://www.absolute-performance.com Copyright (c) 2016, Jack J. Woehr
+  http://www.absolute-performance.com
+ Copyright (c) 2016, Jack J. Woehr
   jwoehr@softwoehr.com http://www.softwoehr.com All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -6157,7 +6156,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="include" id="include"></a><tt>include</tt></h4>
 
   <blockquote>
-    <p><tt>/0 or /1 [-from datasink] [-silent] filepath</tt><br>
+    <p><tt>/0 or /1 [-from datasink] [-s,-silent] filepath</tt><br>
     loads all lines from <i>datasink</i>, or, in the absence of the
     <tt>-from</tt> <a href="#Dash_Command">dash-command</a>, from
     the file specified by <i>filepath</i> and interprets each line
@@ -6177,8 +6176,9 @@ Type help for help. Type license for license. Type bye to exit.
     preceded by <tt>::</tt> and any command output to standard out
     follows on the next line.<br></p>
 
-    <p>If <tt>-silent</tt> is set, then echoing of input lines and
-    prompting is suppressed until the end of the include.<br></p>
+    <p>If <tt>-silent</tt> ( <tt>-s</tt>) is set, then echoing of
+    input lines and prompting is suppressed until the end of the
+    include.<br></p>
 
     <p>If a file is included via the command line invocation of
     Ublu and the output is being captured and it is desirable to
