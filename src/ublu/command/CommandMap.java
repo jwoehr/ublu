@@ -80,6 +80,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("jmx", CmdJMX.class);
         put("job", CmdJob.class);
         put("joblist", CmdJobList.class);
+        put("joblog", CmdJobLog.class);
         put("jrnl", CmdJournal.class);
         put("json", CmdJson.class);
         put("jvm", CmdJVM.class);

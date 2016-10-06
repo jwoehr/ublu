@@ -511,6 +511,15 @@ public class Generics {
      * @see Renderer
      */
     public static class QueuedMessageList extends ArrayList<QueuedMessage> {
+
+        public QueuedMessageList() {
+            super();
+        }
+
+        public QueuedMessageList(QueuedMessage[] qma) {
+            addAll(Arrays.asList(qma));
+        }
+
     }
 
     /**
