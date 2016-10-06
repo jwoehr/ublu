@@ -3,7 +3,7 @@
 <!-- Edit mode for JEdit for Ublu Midrange and Mainframe Life Cycle Extension language -->
 <!-- Add to ~/.jedit/modes/catalog as follows:  -->
 <!-- <MODE NAME="ublu" FILE="ublu.xml" FILE_NAME_GLOB="*.ublu" /> -->
-<!-- Jack J. Woehr jwoehr@softwoehr.com updated 20160518 -->
+<!-- Jack J. Woehr jwoehr@softwoehr.com updated 20161006 -->
 <MODE>
 
 <PROPS>
@@ -86,6 +86,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>jmx</KEYWORD2>
         <KEYWORD2>job</KEYWORD2>
         <KEYWORD2>joblist</KEYWORD2>
+        <KEYWORD2>joblog</KEYWORD2>
         <KEYWORD2>jrnl</KEYWORD2>
         <KEYWORD2>json</KEYWORD2>
         <KEYWORD2>jvm</KEYWORD2>
