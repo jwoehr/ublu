@@ -42,7 +42,7 @@ import java.util.logging.Level;
 public class CmdInclude extends Command {
 
     {
-        setNameAndDescription("include", "/0 /1 [-from datasink] [-silent] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
+        setNameAndDescription("include", "/0 /1 [-from datasink] [-s,-silent] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
     }
 
     /**
@@ -70,6 +70,7 @@ public class CmdInclude extends Command {
                     setDataSrc(DataSink.fromSinkName(srcName));
                     wasSetFromDataSink = true;
                     break;
+                case "-s":
                 case "-silent":
                     isSilent = true;
                     break;
