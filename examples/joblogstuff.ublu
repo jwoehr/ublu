@@ -5,14 +5,24 @@
 # See the Ublu license (BSD-2 open source)
 
 # Give an as400 a jobname, a jobuser and a jobnumber (the latter 3 all strings)
-# print all messages in the joblog for the job.
-FUNC catJobLog ( sys jobname jobuser jobnumber ) $[
+# print all messages in the joblog for the job. If 'verbose' is true, extended
+# message info is displayed.
+# E.g.,
+#   as400 -to @mysys mysys myuid mypassword
+#   tuple -true @tf
+#   catJobLog ( @mysys MYDISPDEV MYUID 123654 @tf )
+#   tuple -false @tf
+#   catJobLog ( @mysys MYDISPDEV MYUID 123654 @tf )
+FUNC catJobLog ( sys jobname jobuser jobnumber verbose ) $[
     LOCAL @jl
     joblog -to @jl -as400 @@sys -new @@jobname @@jobuser @@jobnumber
     joblog -to ~ -- @jl -length
     joblog -- @jl -to ~ -qm 0 ~
-    FOR @i in ~ $[
-        msg -- @i -to ~ -message
-        put ~
+    FOR @i in ~ $[ 
+        IF @@verbose THEN $[
+            put -from @i
+        ]$ ELSE $[
+            msg -- @i -message
+        ]$
     ]$
 ]$
