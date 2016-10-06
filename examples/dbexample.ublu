@@ -74,6 +74,21 @@ FUNC starCSVFromPersons ( dbinst ) $[
     db -- @@dbinst -csv PERSONS
 ]$
 
+# Get a JSON of the table  
+FUNC starJSONfromPersons ( dbinst ) $[
+    db -- @@dbinst -json PERSONS
+]$
+
+# Get a JSON of one row of the table  
+FUNC oneJSONfromPersons ( dbinst lastname ) $[
+    put -to ~ ${ SELECT * FROM PERSONS WHERE LastName = }$
+    string -to ~ -cat ~ '
+    string -to ~ -cat ~ @@lastname
+    string -to ~ -cat ~ '
+    db -- @@dbinst -to ~ -query ~
+    rs -- ~ -json @@dbinst PERSONS
+]$
+  
 # Delete the PERSONS table
 FUNC deletePersons ( dbinst ) $[
     db -- @@dbinst -query_nors ${ drop table PERSONS }$

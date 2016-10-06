@@ -6,6 +6,7 @@
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -2628,7 +2629,845 @@ Type help for help. Type license for license. Type bye to exit.
     also available, if you care to download the JDBC driver
     yourself and rebuild Ublu. Follow the directions in the
     <tt>README.DbMSSQL.txt</tt> file in the directory
-    <tt>stuff/mssql</tt> .<br></p>
+    <tt>stuff/mssql</tt> .<br></p><i>Example</i>
+    (<tt>examples/dbexample.ublu</tt>)
+    <pre>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">dbexample.ublu</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Midrange</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mainframe</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Life</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Cycle</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Extension</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">language</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutter">   6 </span>
+<span class="gutter">   7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">NOTE:</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">The</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">'db'</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">command</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">among</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">oldest</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">code</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">in</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">currently</span>
+<span class="gutter">   8 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">being</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">updated</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">/</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">reworked.</span>
+<span class="gutter">   9 </span> 
+<span class="gutterH">  10 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">session:</span>
+<span class="gutter">  11 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">createPersons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  12 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@address</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">1313</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mockingbird</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Lane</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
+<span class="gutter">  13 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">addRowToPersons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">1</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@address</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">golden</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  14 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Query:</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">INSERT</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">INTO</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Persons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">VALUES</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">'1','woehr','jack','1313</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mockingbird</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Lane</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">','golden')</span>
+<span class="gutterH">  15 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">addRowToPersons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">sillyperson</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">monty</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">123_skidoo_street</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">gotham</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  16 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Query:</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">INSERT</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">INTO</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Persons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">VALUES</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">'2','sillyperson','monty','123_skidoo_street','gotham')</span>
+<span class="gutter">  17 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">starFromPersons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  18 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">PERSONID</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">LASTNAME</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">FIRSTNAME</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">ADDRESS</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">CITY</span>
+<span class="gutter">  19 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">1313</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mockingbird</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Lane</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">}</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">golden</span>
+<span class="gutterH">  20 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">sillyperson</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">monty</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">123_skidoo_street</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">gotham</span>
+<span class="gutter">  21 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">&gt;</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">starCSVFromPersons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  22 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">PERSONID,LASTNAME,FIRSTNAME,ADDRESS,CITY</span>
+<span class="gutter">  23 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">INTEGER,VARCHAR,VARCHAR,VARCHAR,VARCHAR</span>
+<span class="gutter">  24 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jdbc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">4,jdbc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">12,jdbc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">12,jdbc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">12,jdbc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">type</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">12</span>
+<span class="gutterH">  25 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">1,woehr,jack,1313</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mockingbird</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Lane</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">,golden</span>
+<span class="gutter">  26 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2,sillyperson,monty,123_skidoo_street,gotham</span>
+<span class="gutter">  27 </span>
+<span class="gutter">  28 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">DB</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">instance</span>
+<span class="gutter">  29 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">E.g.,</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myDb</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">pub400.com</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as400</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MYLIB1</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myuserid</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">mypassword</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutterH">  30 </span><span class=
+"syntax-KEYWORD1">FUNC</span> myDb <span class=
+"syntax-OPERATOR">(</span> sys type coll uid passwd dbinst <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  31 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-db</span> <span class=
+"syntax-LITERAL4">@@type</span> <span class=
+"syntax-KEYWORD3">-connect</span> <span class=
+"syntax-LITERAL4">@@sys</span> <span class=
+"syntax-LITERAL4">@@coll</span> <span class=
+"syntax-LITERAL4">@@uid</span> <span class=
+"syntax-LITERAL4">@@passwd</span>
+<span class="gutter">  32 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  33 </span>
+<span class="gutter">  34 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Create</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">this</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">will</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">fail</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">if</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">exists</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1"> </span>
+<span class="gutterH">  35 </span><span class=
+"syntax-KEYWORD1">FUNC</span> createPersons <span class=
+"syntax-OPERATOR">(</span> dbinst <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  36 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-query_nors</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">CREATE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">TABLE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Persons</span>
+<span class="gutter">  37 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">(</span>
+<span class="gutter">  38 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">PersonID</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">int,</span>
+<span class="gutter">  39 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">LastName</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">varchar(255),</span>
+<span class="gutterH">  40 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">FirstName</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">varchar(255),</span>
+<span class="gutter">  41 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Address</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">varchar(255),</span>
+<span class="gutter">  42 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">City</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">varchar(255)</span>
+<span class="gutter">  43 </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">)</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  44 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutterH">  45 </span>
+<span class="gutter">  46 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Create</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">many</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">entries</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">you</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">like</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">one</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">at</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">time,</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">e.g.,</span>
+<span class="gutter">  47 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@addr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">23</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Skidoo</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">St.</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
+<span class="gutter">  48 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">addRowToPersons</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@dbinst</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Farfel</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Freddy</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@addr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Gotham</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  49 </span><span class=
+"syntax-KEYWORD1">FUNC</span> addRowToPersons <span class=
+"syntax-OPERATOR">(</span> dbinst id_int lastname firstname addr city <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutterH">  50 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@query</span>
+<span class="gutter">  51 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">INSERT</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">INTO</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Persons</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">VALUES</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">(</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  52 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> '
+<span class="gutter">  53 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-LITERAL4">@@id_int</span>
+<span class="gutter">  54 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> ','
+<span class="gutterH">  55 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-LITERAL4">@@lastname</span>
+<span class="gutter">  56 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> ','
+<span class="gutter">  57 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-LITERAL4">@@firstname</span>
+<span class="gutter">  58 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> ','
+<span class="gutter">  59 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-LITERAL4">@@addr</span>
+<span class="gutterH">  60 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> ','
+<span class="gutter">  61 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-LITERAL4">@@city</span>
+<span class="gutter">  62 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@query</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-MARKUP">@query</span> '<span class=
+"syntax-OPERATOR">)</span>
+<span class="gutter">  63 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-KEYWORD3">-s</span> Query: <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@query</span>
+<span class="gutter">  64 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-query_nors</span> <span class=
+"syntax-MARKUP">@query</span>
+<span class="gutterH">  65 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  66 </span>  
+<span class="gutter">  67 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">List</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span>
+<span class="gutter">  68 </span><span class=
+"syntax-KEYWORD1">FUNC</span> starFromPersons <span class=
+"syntax-OPERATOR">(</span> dbinst <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  69 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-star</span> PERSONS
+<span class="gutterH">  70 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  71 </span>
+<span class="gutter">  72 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">CSV</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span>
+<span class="gutter">  73 </span><span class=
+"syntax-KEYWORD1">FUNC</span> starCSVFromPersons <span class=
+"syntax-OPERATOR">(</span> dbinst <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  74 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-csv</span> PERSONS
+<span class="gutterH">  75 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  76 </span>
+<span class="gutter">  77 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">JSON</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1"> </span>
+<span class="gutter">  78 </span><span class=
+"syntax-KEYWORD1">FUNC</span> starJSONfromPersons <span class=
+"syntax-OPERATOR">(</span> dbinst <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  79 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-json</span> PERSONS
+<span class="gutterH">  80 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  81 </span>
+<span class="gutter">  82 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">JSON</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">one</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">row</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1"> </span>
+<span class="gutter">  83 </span><span class=
+"syntax-KEYWORD1">FUNC</span> oneJSONfromPersons <span class=
+"syntax-OPERATOR">(</span> dbinst lastname <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  84 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">SELECT</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">FROM</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">PERSONS</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">WHERE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">LastName</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">=</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutterH">  85 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL4">~</span> '
+<span class="gutter">  86 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL4">@@lastname</span>
+<span class="gutter">  87 </span>    <span class=
+"syntax-KEYWORD2">string</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL4">~</span> '
+<span class="gutter">  88 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">-query</span> <span class=
+"syntax-LITERAL4">~</span>
+<span class="gutter">  89 </span>    <span class=
+"syntax-KEYWORD2">rs</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">-json</span> <span class=
+"syntax-LITERAL4">@@dbinst</span> PERSONS
+<span class="gutterH">  90 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  91 </span>  
+<span class="gutter">  92 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Delete</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">PERSONS</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span>
+<span class="gutter">  93 </span><span class=
+"syntax-KEYWORD1">FUNC</span> deletePersons <span class=
+"syntax-OPERATOR">(</span> dbinst <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  94 </span>    <span class=
+"syntax-KEYWORD2">db</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-KEYWORD3">-query_nors</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">drop</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">table</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">PERSONS</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutterH">  95 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  96 </span>
+<span class="gutter">  97 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">End</span>
+<span class="gutter">  98 </span>
+</span>
+</pre>
   </blockquote>
 
   <h4><a name="dbug" id="dbug"></a><tt>dbug</tt></h4>
@@ -8747,10 +9586,10 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><tt>-json ~@db ~@{tablename}</tt> puts the result set
       specified by the <tt>--,-rs ~@rs</tt> dash-command as
-      <a href="http://json.org">JSON</a> text. <i>db</i>
-      represents the <a href="#db"><tt>db</tt></a> instance which
-      produced the result set, and <i>tablename</i> is the name of
-      table from which the result set came.</li>
+      <a href="http://json.org">JSON</a> text. <i>db</i> represents
+      the <a href="#db"><tt>db</tt></a> instance which produced the
+      result set, and <i>tablename</i> is the name of table from
+      which the result set came.</li>
 
       <li><tt>-metadata</tt> returns the source (<tt>-from</tt>)
       result set metadata.</li>
