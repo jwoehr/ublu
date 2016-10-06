@@ -4,17 +4,35 @@ All rights reserved.
 
 1.1.3
 Commands:
-* command descriptions cleaned up
-* some commands' argument parsing modernized
-* json command added
-* job -hold -release
-* lifo -true -false -null
-* printer -wtrjob
-* printer -get works for all attributes now 
+* general
+	* command descriptions cleaned up
+	* some commands' argument parsing modernized
+* individual commands	
+	* system modernized
+	* db -json
+	* IF now tests for null as well as not-true-not-false
+	* joblog command added
+	* json command added
+	* job -hold -release
+	* lifo -true -false -null
+	* printer -wtrjob
+	* printer -get works for all attributes now
+	* rs -json
+	* string -toascii, -toas400
 
 Miscellaneous:
 * Update vim mode
 * ubluref.html example for FUNC corrected
+* ubluref.html many minor corrections
+
+Examples:
+* new
+	* joblogstuff.ublu
+	* test/testjson.ublu
+	* test/testnum.ublu
+* updated
+	* dbexample.ublu
+	* test/testlist.ublu
 
 1.1.2
 Changes to commands:
