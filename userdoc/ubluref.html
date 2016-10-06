@@ -308,6 +308,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#joblist">joblist</a></tt></li>
 
+            <li><tt><a href="#joblog">joblog</a></tt></li>
+
             <li><tt><a href="#jrnl">jrnl</a></tt></li>
 
             <li><tt><a href="#json">json</a></tt></li>
@@ -1667,6 +1669,7 @@ Type help for help. Type license for license. Type bye to exit.
         "#ifs">ifs</a></tt><tt><br></tt> <tt><a href=
         "#job">job</a></tt><tt><br></tt> <tt><a href=
         "#joblist">joblist</a></tt><tt><br></tt> <tt><a href=
+        "#joblog">joblog</a></tt><tt><br></tt> <tt><a href=
         "#jrnl">jrnl</a></tt><tt><br></tt> <tt><a href=
         "#monitor">monitor</a></tt><tt><br></tt> <tt><a href=
         "#msg">msg</a></tt><tt><br></tt> <tt><a href=
@@ -6739,6 +6742,329 @@ Type help for help. Type license for license. Type bye to exit.
     job</tt><br></p>
   </blockquote>
 
+  <h4><a name="joblog" id="joblog"></a><tt>joblog</tt></h4>
+
+  <blockquote>
+    <tt>/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [
+    -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} |
+    -qm ~@{offset} ~@{number} ] : manipulate job logs on the
+    host</tt><br>
+    <br>
+
+    <p>The <tt>joblog</tt> command provides access to joblogs on
+    the server.</p>
+
+    <p>The operations are as follows:</p>
+
+    <ul>
+      <li><tt>-close</tt> closes the connection to the joblog
+      referenced by <tt>--,-joblog ~@joblog</tt></li>
+
+      <li><tt>-length</tt> puts the length of the message list
+      associated with the job log referenced by <tt>--,-joblog
+      ~@joblog</tt></li>
+
+      <li><tt>-new ~@{jobname} ~@{jobuser} ~@{jobnumber}</tt> puts
+      a connected joblog instance for the job referenced by
+      <i>jobname</i> <i>jobuser</i> <i>jobnumber</i></li>
+
+      <li>
+        <tt>-qm ~@{offset} ~@{number}</tt> puts a list of
+        <i>number</i> queued messages starting at at offset
+        <i>offset</i> in the queued messages for the joblog
+        referenced by <tt>--,-joblog ~@joblog</tt>
+
+        <ul>
+          <li><i>offset</i> must be &gt; -1 and &lt;= the remaining
+          length of the list. Use <tt>-length</tt> to calculate
+          these arguments.</li>
+
+          <li>See the <a href="#msg"><tt>msg</tt></a> command for
+          processing the individual messages in the list.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><i>Example</i> (<tt>examples/joblogstuff.ublu</tt>)</p>
+    <pre>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">joblogstuff.ublu</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Midrange</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mainframe</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Life</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Cycle</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Extension</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">language</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutterH">   5 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutter">   6 </span>
+<span class="gutter">   7 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Give</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">an</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as400</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jobname,</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jobuser</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">jobnumber</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">latter</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">3</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">all</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">strings)</span>
+<span class="gutter">   8 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">print</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">all</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">messages</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">in</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">joblog</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">for</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">job.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">If</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">'verbose'</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">true,</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">extended</span>
+<span class="gutter">   9 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">message</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">info</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">displayed.</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">E.g.,</span>
+<span class="gutter">  11 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as400</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@mysys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">mysys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">myuid</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">mypassword</span>
+<span class="gutter">  12 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">tuple</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-true</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">@tf</span>
+<span class="gutter">  13 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">catJobLog</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@mysys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MYDISPDEV</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MYUID</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">123654</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@tf</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  14 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">tuple</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-false</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">@tf</span>
+<span class="gutterH">  15 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">catJobLog</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@mysys</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MYDISPDEV</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MYUID</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">123654</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@tf</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="gutter">  16 </span><span class=
+"syntax-KEYWORD1">FUNC</span> catJobLog <span class=
+"syntax-OPERATOR">(</span> sys jobname jobuser jobnumber verbose <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  17 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@jl</span>
+<span class="gutter">  18 </span>    <span class=
+"syntax-KEYWORD2">joblog</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@jl</span> <span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-LITERAL4">@@sys</span> <span class=
+"syntax-KEYWORD3">-new</span> <span class=
+"syntax-LITERAL4">@@jobname</span> <span class=
+"syntax-LITERAL4">@@jobuser</span> <span class=
+"syntax-LITERAL4">@@jobnumber</span>
+<span class="gutter">  19 </span>    <span class=
+"syntax-KEYWORD2">joblog</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@jl</span> <span class=
+"syntax-KEYWORD3">-length</span>
+<span class="gutterH">  20 </span>    <span class=
+"syntax-KEYWORD2">joblog</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@jl</span> <span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-KEYWORD3">-qm</span> <span class=
+"syntax-DIGIT">0</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">  21 </span>    <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@i</span> in <span class=
+"syntax-LITERAL4">~</span> <span class="syntax-OPERATOR">$[</span> 
+<span class="gutter">  22 </span>        <span class=
+"syntax-KEYWORD1">IF</span> <span class=
+"syntax-LITERAL4">@@verbose</span> <span class=
+"syntax-KEYWORD1">THEN</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutter">  23 </span>            <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@i</span>
+<span class="gutter">  24 </span>        <span class=
+"syntax-OPERATOR">]$</span> <span class=
+"syntax-KEYWORD1">ELSE</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutterH">  25 </span>            <span class=
+"syntax-KEYWORD2">msg</span> <span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-MARKUP">@i</span> <span class=
+"syntax-KEYWORD3">-message</span>
+<span class="gutter">  26 </span>        <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  27 </span>    <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  28 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  29 </span>
+</span>
+</pre>
+  </blockquote>
+
   <h4><a name="jrnl" id="jrnl"></a> <tt>jrnl</tt></h4>
 
   <blockquote>
@@ -6935,7 +7261,7 @@ Type help for help. Type license for license. Type bye to exit.
 </pre>
   </blockquote>
 
-  <h4><tt><a name="json" id="json"></a></tt> <tt>json</tt></h4>
+  <h4><a name="json" id="json"></a><tt>json</tt></h4>
 
   <blockquote>
     <tt>/0 [-from datasink] [-to datasink] [--,-json ~@json] [
