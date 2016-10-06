@@ -46,7 +46,7 @@ import ublu.util.Tuple;
 public class CmdJobLog extends Command {
 
     {
-        setNameAndDescription("joblog", "/6? [-as400 @as400] [--,-joblog ~@joblog] [-to datasink]  [ -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} ] : manipulate job logs on the host");
+        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [ -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} ] : manipulate job logs on the host");
     }
 
     enum OPS {
