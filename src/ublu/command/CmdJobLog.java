@@ -143,6 +143,7 @@ public class CmdJobLog extends Command {
                 case QM:
                     if (jobLog != null) {
                         try {
+                            jobLog.load();
                             put(jobLog.getMessages(messageOffset, numberMessages));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Couldn't put JobLog instance in " + getNameAndDescription(), ex);
