@@ -42,6 +42,8 @@ import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import org.json.JSONException;
+import ublu.db.Db;
 
 /**
  * Performs result set to result set operations
@@ -51,7 +53,7 @@ import java.util.logging.Level;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [-autocommit 0|1 | -close{|db|st} tuplename | -commit @resultSetTuple | -fetchsize numrows | -insert | -split split_specification] [-toascii numindices index index ..] [-metadata] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the @tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [-autocommit 0|1 | -close{|db|st} tuplename | -commit @resultSetTuple | -fetchsize numrows | -insert | -json ~@db ~@{tablename} | -split split_specification] [-toascii numindices index index ..] [-metadata] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the @tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
     }
 
     /**
@@ -144,6 +146,10 @@ public class CmdRs extends Command {
          */
         CLOSEDB,
         /**
+         * Dump the result set as JSON
+         */
+        JSON,
+        /**
          * Get the result set metadata
          */
         METADATA
@@ -185,6 +191,9 @@ public class CmdRs extends Command {
         int rowsToFetch = 0;
         String commitTupleName = "";
         boolean autoCommitValue = true;
+        Tuple dbTuple = null;
+        Tuple rsTuple = null;
+        String tableName = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             String srcName;
@@ -197,6 +206,10 @@ public class CmdRs extends Command {
                 case "-from":
                     srcName = argArray.next();
                     setDataSrc(DataSink.fromSinkName(srcName));
+                    break;
+                case "--":
+                case "-rs":
+                    rsTuple = argArray.nextTupleOrPop();
                     break;
                 case "-autocommit":
                     setFunction(FUNCTIONS.AUTOCOMMIT);
@@ -225,6 +238,11 @@ public class CmdRs extends Command {
                 case "-insert":
                     setFunction(FUNCTIONS.INSERT);
                     break;
+                case "-json":
+                    setFunction(FUNCTIONS.JSON);
+                    dbTuple = argArray.nextTupleOrPop();
+                    tableName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-metadata":
                     setFunction(FUNCTIONS.METADATA);
                     break;
@@ -247,6 +265,7 @@ public class CmdRs extends Command {
         } else {
             ResultSetClosure srcResultSetClosure;
             ResultSetClosure destResultSetClosure;
+            Db db;
             Tuple closeTuple;
             switch (getFunction()) {
                 case AUTOCOMMIT:
@@ -380,12 +399,24 @@ public class CmdRs extends Command {
                             getLogger().log(Level.SEVERE, "Either the source or destination in command rs was not a result set", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } catch (UnsupportedEncodingException ex) {
-                            getLogger().log(Level.SEVERE, "Charcter set conversion failed", ex);
+                            getLogger().log(Level.SEVERE, "Character set conversion failed", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
 
+                case JSON:
+                    srcResultSetClosure = rsClosureFromTuple(rsTuple);
+                    db = dbFromTuple(dbTuple);
+                    if (srcResultSetClosure != null && db != null && tableName != null) {
+                        try {
+                            put(srcResultSetClosure.toJSON(db, tableName));
+                        } catch (JSONException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting JSON in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 case SPLIT:
                     if (getDataDest() == null | getDataSrc() == null) {
                         getLogger().log(Level.SEVERE, "Missing data source or data dest in rs command");
@@ -501,6 +532,28 @@ public class CmdRs extends Command {
         } else {
             getLogger().log(Level.WARNING, "DataSink {0} is not a Tuple", ds.getName());
         }
+    }
+
+    private ResultSetClosure rsClosureFromTuple(Tuple t) {
+        ResultSetClosure rsc = null;
+        if (t != null) {
+            Object o = t.getValue();
+            if (o instanceof ResultSetClosure) {
+                rsc = ResultSetClosure.class.cast(o);
+            }
+        }
+        return rsc;
+    }
+
+    private Db dbFromTuple(Tuple t) {
+        Db db = null;
+        if (t != null) {
+            Object o = t.getValue();
+            if (o instanceof Db) {
+                db = Db.class.cast(o);
+            }
+        }
+        return db;
     }
 
     @Override

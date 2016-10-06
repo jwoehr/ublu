@@ -25,10 +25,14 @@
  */
 package ublu.db;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Encapsulates a ResultSet with the Db and Statement that fetched it. Used to
@@ -195,6 +199,10 @@ public class ResultSetClosure implements AutoCloseable {
             setConnection(null);
         }
         return this;
+    }
+
+    public JSONObject toJSON(Db db, String tableName) throws SQLException, IOException, UnsupportedEncodingException, JSONException {
+        return new Json(db, getResultSet(), getResultSet().getMetaData(), tableName).tableJSON();
     }
 
     /**
