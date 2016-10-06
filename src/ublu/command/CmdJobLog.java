@@ -40,6 +40,7 @@ import ublu.util.DataSink;
 import ublu.util.Tuple;
 
 /**
+ * Command to manipulate job logs on the server.
  *
  * @author jax
  */
@@ -53,6 +54,12 @@ public class CmdJobLog extends Command {
         CLOSE, LENGTH, NEW, NOOP, QM
     }
 
+    /**
+     * Manipulate job logs on the server
+     *
+     * @param argArray the remainder of the command stream
+     * @return the new remainder of the command stream
+     */
     public ArgArray jobLog(ArgArray argArray) {
         Tuple jobLogTuple = null;
         OPS op = OPS.NOOP;
