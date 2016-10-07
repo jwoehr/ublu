@@ -27,6 +27,7 @@
  */
 package ublu.command;
 
+import com.ibm.as400.access.AS400Message;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.JobLog;
@@ -35,6 +36,7 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Generics.QueuedMessageList;
@@ -48,11 +50,11 @@ import ublu.util.Tuple;
 public class CmdJobLog extends Command {
 
     {
-        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [ -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} ] : manipulate job logs on the host");
+        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
     }
 
     enum OPS {
-        CLOSE, LENGTH, NEW, NOOP, QM
+        CLOSE, LENGTH, NEW, NOOP, QM, WRITE
     }
 
     /**
@@ -69,6 +71,11 @@ public class CmdJobLog extends Command {
         String jobNumber = null;
         Integer messageOffset = null;
         Integer numberMessages = null;
+        String substitutionData = null;
+        String messageFileIFSPath = null;
+        String message_id = null;
+        String message_type = null;
+        Boolean onThread = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -93,16 +100,29 @@ public class CmdJobLog extends Command {
                 case "-length":
                     op = OPS.LENGTH;
                     break;
+                case "-msgfile":
+                    messageFileIFSPath = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-new":
                     op = OPS.NEW;
                     jobName = argArray.nextMaybeQuotationTuplePopString();
                     jobUser = argArray.nextMaybeQuotationTuplePopString();
                     jobNumber = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-onthread":
+                    onThread = argArray.nextBooleanTupleOrPop();
+                    break;
                 case "-qm":
                     op = OPS.QM;
                     messageOffset = argArray.nextIntMaybeQuotationTuplePopString();
                     numberMessages = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-subst":
+                    substitutionData = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-write":
+                    message_id = argArray.nextMaybeQuotationTuplePopString();
+                    message_type = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -142,11 +162,11 @@ public class CmdJobLog extends Command {
                         try {
                             put(jobLog.getLength());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't put JobLog instance in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Couldn't put JobLog length in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No JobLog instance for -length in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No JobLog for -length in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -160,11 +180,30 @@ public class CmdJobLog extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Error getting or putting queued message list in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No JobLog for queued message list in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case NOOP:
+                    break;
+                case WRITE:
+                    if (getAs400() != null) {
+                        try {
+                            JobLog.writeMessage(getAs400(),
+                                    message_id,
+                                    messageTypeFromString(message_type),
+                                    messageFileIFSPath,
+                                    substitutionData == null ? null : substitutionData.getBytes(),
+                                    onThread
+                            );
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Couldn't write message to job log in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No as400 for write in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
             }
         }
@@ -180,6 +219,26 @@ public class CmdJobLog extends Command {
             }
         }
         return jobLog;
+    }
+
+    private Integer messageTypeFromString(String messageType) {
+        Integer result = null;
+        switch (messageType.toUpperCase()) {
+            case "COMPLETION":
+                result = AS400Message.COMPLETION;
+                break;
+            case "DIAGNOSTIC":
+                result = AS400Message.DIAGNOSTIC;
+                break;
+            case "INFORMATIONAL":
+                result = AS400Message.INFORMATIONAL;
+                break;
+            case "ESCAPE":
+                result = AS400Message.ESCAPE;
+                break;
+        }
+        return result;
+
     }
 
     @Override
