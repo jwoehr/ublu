@@ -6788,11 +6788,13 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="joblog" id="joblog"></a><tt>joblog</tt></h4>
 
   <blockquote>
-    <tt>/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [
-    -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} |
-    -qm ~@{offset} ~@{number} ] : manipulate job logs on the
-    host</tt><br>
-    <br>
+    <tt>/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink]
+    [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst
+    ~@{message_substitution}] [ -add ~@{int_attrib} | -clear |
+    -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser}
+    ~@{jobnumber} | -qm ~@{offset} ~@{number} | -write
+    ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ]
+    : manipulate job logs on the host</tt><br>
 
     <p>The <tt>joblog</tt> command provides access to joblogs on
     the server.</p>
@@ -6800,8 +6802,89 @@ Type help for help. Type license for license. Type bye to exit.
     <p>The operations are as follows:</p>
 
     <ul>
+      <li>
+        <tt>-add ~@{int_attrib}</tt> adds an attribute to the list
+        of message attributes to receive. The values are
+
+        <ul>
+          <li><small>0101 Alert option</small></li>
+
+          <li><small>0201 Replacement data or impromptu message
+          text</small></li>
+
+          <li><small>0301 Message</small></li>
+
+          <li><small>0302 Message with replacement
+          data</small></li>
+
+          <li><small>0401 Message help</small></li>
+
+          <li><small>0402 Message help with replacement
+          data</small></li>
+
+          <li><small>0403 Message help with formatting
+          characters</small></li>
+
+          <li><small>0404 Message help with replacement data and
+          formatting characters</small></li>
+
+          <li><small>0501 Default reply</small></li>
+
+          <li><small>0602 Sender type</small></li>
+
+          <li><small>0603 Sending program name</small></li>
+
+          <li><small>0604 Sending module name</small></li>
+
+          <li><small>0605 Sending procedure name</small></li>
+
+          <li><small>0606 Number of sending statement
+          numbers</small></li>
+
+          <li><small>0607 Sending user profile</small></li>
+
+          <li><small>0702 Receiving type</small></li>
+
+          <li><small>0703 Receiving program name</small></li>
+
+          <li><small>0704 Receiving module name</small></li>
+
+          <li><small>0705 Receiving procedure name</small></li>
+
+          <li><small>0706 Number of receiving statement
+          numbers</small></li>
+
+          <li><small>0801 Message file library used</small></li>
+
+          <li><small>1001 Reply status</small></li>
+
+          <li><small>1101 Request status</small></li>
+
+          <li><small>1201 Request level</small></li>
+
+          <li><small>1301 Coded character set identifier (CCSID)
+          for text</small></li>
+
+          <li><small>1302 CCSID conversion status indicator for
+          text</small></li>
+
+          <li><small>1303 Coded character set identifier (CCSID)
+          for data</small></li>
+
+          <li><small>1304 CCSID conversion status indicator for
+          data</small></li>
+        </ul>
+      </li>
+
+      <li><tt>-clear</tt> clears all attributes (including
+      defaults) for the list of message attributes to receive.</li>
+
       <li><tt>-close</tt> closes the connection to the joblog
       referenced by <tt>--,-joblog ~@joblog</tt></li>
+
+      <li><tt>-dir ~@tf</tt> sets the list direction. <tt>true</tt>
+      sorts oldest-to-newest, <tt>false</tt> sorts
+      newest-to-oldest. The default is true.</li>
 
       <li><tt>-length</tt> puts the length of the message list
       associated with the job log referenced by <tt>--,-joblog
@@ -6824,6 +6907,30 @@ Type help for help. Type license for license. Type bye to exit.
 
           <li>See the <a href="#msg"><tt>msg</tt></a> command for
           processing the individual messages in the list.</li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-write ~@{message_id}
+        ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE}</tt> writes
+        a message to the job log of the Ublu job if running native
+        on the host and <tt>-onthread</tt> is <tt>true</tt>. The
+        message is written to the joblog of QZRCSRVS otherwise.
+
+        <ul>
+          <li><tt>-msgfile ~@{/full/ifs/path/}</tt> optionally
+          specifies message file on the host to use for
+          <tt>-write</tt></li>
+
+          <li><tt>-onthread ~@tf</tt> if <tt>true</tt> specifies
+          that a message from <tt>-write</tt> by an Ublu job
+          running native on the host goes to the Ublu job's log, to
+          the joblog of QZRCSRVS otherwise. If not explicitly set,
+          <tt>true</tt> is assumed.</li>
+
+          <li><tt>-subst ~@{message_substitution}</tt> optionally
+          specifies message substitution text for
+          <tt>-write</tt>.</li>
         </ul>
       </li>
     </ul>
