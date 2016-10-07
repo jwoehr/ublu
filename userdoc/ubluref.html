@@ -8,7 +8,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 6 Oct 2016 13:21:15 UTC">
+  "Fri, 7 Oct 2016 15:26:10 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-06</p>
+  Last edit: 2016-10-07</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -485,13 +485,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <h2><a name="Overview" id="Overview"></a>Overview</h2>
 
+  <p><a href="https://github.com/jwoehr/ublu">Ublu</a> is a tool
+  for ad-hoc process automation primarily aimed at <a href=
+  "http://www-03.ibm.com/systems/power/software/i/">IBM i</a>
+  &#174;.</p>
+
   <p>The Java command line <tt>java ublu.Ublu</tt> [args ...]
   invokes an extensible object-disoriented interpretive language
-  named Ublu intended for interaction with OS400 (IBM i Series OS
-  &#174;) and IBM z/VM &#174; SMAPI operations programming. The
-  language is <a href="#TASK">multithreaded</a> and offers a
-  <a href="#Server_mode">client-server</a> mode. It also possesses
-  a built-in single-step <a href="#Debugger">debugger</a>.<br></p>
+  named Ublu intended for interaction between any Java platform on
+  the one hand, and OS400 (IBM i Series OS &#174;) and IBM z/VM
+  &#174; SMAPI operations programming on the other. The language is
+  <a href="#TASK">multithreaded</a> and offers a <a href=
+  "#Server_mode">client-server</a> mode. It also possesses a
+  built-in single-step <a href="#Debugger">debugger</a>.<br></p>
 
   <ul>
     <li>Access to the i Series OS server is implemented via the
@@ -514,12 +520,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <p>"<a name="Object-disoriented" id=
   "Object-disoriented"></a><b>Object-disoriented</b>" means that
-  Ublu is a functional language implemented on top of
-  object-oriented Java libraries. Ublu manipulates objects
-  constructed in the underlying environment without forcing you to
-  know very much about the object architecture. By way of analogy,
-  consider how resources in a hierarchical network environment are
-  flattened out for ease of use by <a href=
+  Ublu is a procedural language with function definitions which is
+  implemented on top of object-oriented Java libraries. Ublu
+  manipulates objects constructed in the underlying environment
+  without forcing the user to know very much about the object
+  architecture. By way of analogy, consider how resources in a
+  hierarchical network environment are flattened out for ease of
+  use by <a href=
   "https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">
   LDAP</a>. In a similar fashion, Ublu conceals many details while
   still providing complete access should a program require it,
@@ -554,13 +561,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   should be made via whatever ticketing system is present on the
   site where Ublu is distributed.
 
-  <p>Ublu is distributed as a Java .jar file (<tt>ublu.jar</tt>)
-  and a <tt>lib</tt> directory. The <tt>lib</tt> directory contains
-  third-party .jar files containing classes referenced by
-  Ublu.<br></p>
+  <h2><a name="Installation">Installation</a></h2>
 
-  <p>The <tt>lib</tt> directory should be a subdirectory of the
-  directory containing <tt>ublu.jar</tt> .</p>
+  <p>Ublu is distributed as an archive containing a Java .jar file
+  (<tt>ublu.jar</tt>) and a <tt>lib</tt> directory (as well as
+  examples, documentation, edit modes, licenses, etc).
+  Alternatively, you can <a href=
+  "https://github.com/jwoehr/ublu">download the full source</a> or
+  check it out via <tt>git</tt> or <tt>svn</tt> from
+  <tt>https://github.com/jwoehr/ublu.git</tt></p>
+
+  <p>The <tt>lib</tt> directory contains third-party .jar files
+  containing classes referenced by Ublu. The <tt>lib</tt> directory
+  should be a subdirectory of the directory containing
+  <tt>ublu.jar</tt> .</p>
+
+  <p>We recommend the following layout:</p>
+
+  <blockquote>
+    <tt>/opt/ublu/ublu.jar</tt><br>
+    <tt>/opt/ublu/lib</tt><br>
+    <tt>/opt/ublu/examples</tt><br>
+    ... etc.
+  </blockquote>Then define a function for your login shell:
+
+  <ul>
+    <li>
+      <tt>bash</tt>
+
+      <ul>
+        <li><tt>function ublu () { java -jar /opt/ublu/ublu.jar $*
+        }</tt></li>
+      </ul>
+    </li>
+
+    <li>
+      <tt>ksh</tt>
+
+      <ul>
+        <li><tt>function ublu { java -jar /opt/ublu/ublu.jar $*;
+        }</tt></li>
+      </ul>
+    </li>
+  </ul>
 
   <h2><a name="Invocation" id="Invocation"></a>Invocation</h2>
 
