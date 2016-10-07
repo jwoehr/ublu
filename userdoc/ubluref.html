@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -6792,9 +6793,10 @@ Type help for help. Type license for license. Type bye to exit.
     [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst
     ~@{message_substitution}] [ -add ~@{int_attrib} | -clear |
     -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser}
-    ~@{jobnumber} | -qm ~@{offset} ~@{number} | -write
-    ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ]
-    : manipulate job logs on the host</tt><br>
+    ~@{jobnumber} | -qm ~@{offset} ~@{number} | -query
+    ~@{dir|name|user|number|sys} | -write ~@{message_id}
+    ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate
+    job logs on the host</tt><br>
 
     <p>The <tt>joblog</tt> command provides access to joblogs on
     the server.</p>
@@ -6907,6 +6909,26 @@ Type help for help. Type license for license. Type bye to exit.
 
           <li>See the <a href="#msg"><tt>msg</tt></a> command for
           processing the individual messages in the list.</li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-query ~@{dir|name|user|number|sys}</tt> queries the
+        joblog referenced by <tt>--,-joblog ~@joblog</tt>. The
+        queries are:
+
+        <ul>
+          <li><tt>dir</tt> puts the list direction, <tt>true</tt>
+          means oldest-to-newest, <tt>false</tt> means
+          newest-to-oldest.</li>
+
+          <li><tt>name</tt> puts the job name</li>
+
+          <li><tt>user</tt> puts the job user</li>
+
+          <li><tt>number</tt> puts the job number</li>
+
+          <li><tt>sys</tt> puts the host system</li>
         </ul>
       </li>
 
