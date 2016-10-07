@@ -36,7 +36,6 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Generics.QueuedMessageList;
@@ -50,11 +49,11 @@ import ublu.util.Tuple;
 public class CmdJobLog extends Command {
 
     {
-        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -close | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
+        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
     }
 
     enum OPS {
-        CLOSE, LENGTH, NEW, NOOP, QM, WRITE
+        ADD, CLEAR, DIR, CLOSE, LENGTH, NEW, NOOP, QM, WRITE
     }
 
     /**
@@ -69,6 +68,7 @@ public class CmdJobLog extends Command {
         String jobName = null;
         String jobUser = null;
         String jobNumber = null;
+        Integer attrib = null;
         Integer messageOffset = null;
         Integer numberMessages = null;
         String substitutionData = null;
@@ -76,6 +76,7 @@ public class CmdJobLog extends Command {
         String message_id = null;
         String message_type = null;
         Boolean onThread = null;
+        Boolean direction = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -94,8 +95,19 @@ public class CmdJobLog extends Command {
                 case "-joblog":
                     jobLogTuple = argArray.nextTupleOrPop();
                     break;
+                case "-add":
+                    op = OPS.ADD;
+                    attrib = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-clear":
+                    op = OPS.CLEAR;
+                    break;
                 case "-close":
                     op = OPS.CLOSE;
+                    break;
+                case "-dir":
+                    op = OPS.DIR;
+                    direction = argArray.nextBooleanTupleOrPop();
                     break;
                 case "-length":
                     op = OPS.LENGTH;
@@ -133,6 +145,27 @@ public class CmdJobLog extends Command {
         } else {
             JobLog jobLog = jobLogFromTuple(jobLogTuple);
             switch (op) {
+                case ADD:
+                    if (jobLog != null) {
+                        try {
+                            jobLog.addAttributeToRetrieve(attrib);
+                        } catch (IOException ex) {
+                            getLogger().log(Level.SEVERE, "Couldn't set JobLog attribute in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JobLog instance for -add in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case CLEAR:
+                    if (jobLog != null) {
+                        jobLog.clearAttributesToRetrieve();
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JobLog instance for -clear in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case CLOSE:
                     if (jobLog != null) {
                         try {
@@ -143,6 +176,14 @@ public class CmdJobLog extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No JobLog instance for -length in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case DIR:
+                     if (jobLog != null) {
+                        jobLog.setListDirection(direction);
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JobLog instance for -clear in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
