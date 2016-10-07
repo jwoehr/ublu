@@ -481,6 +481,32 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
+     * Look up next arg as a tuple name or a popped tuple from stack and return
+     * its Boolean value if Boolean or null if not.
+     *
+     * @return The tuple's Boolean value or null if not found or not Boolean
+     */
+    public Boolean nextBooleanTupleOrPop() {
+        Boolean result = null;
+        Tuple t = null;
+        if (isNextPopTuple()) {
+            next(); // discard "~" symbol
+            t = getInterpreter().getTupleStack().pop();
+        } else if (isNextTupleName()) {
+            t = getInterpreter().getTuple(next());
+        } else {
+            next(); // discard non-tuple
+        }
+        if (t != null) {
+            Object o = t.getValue();
+            if (o instanceof Boolean) {
+                result = Boolean.class.cast(o);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Check if the next element in the ArgArray is the openquote and if so
      * assimilate the quotation before returning the next element in the
      * ArgArray.
