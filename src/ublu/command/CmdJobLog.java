@@ -49,11 +49,11 @@ import ublu.util.Tuple;
 public class CmdJobLog extends Command {
 
     {
-        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
+        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -query ~@{dir|name|user|number|sys} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
     }
 
     enum OPS {
-        ADD, CLEAR, DIR, CLOSE, LENGTH, NEW, NOOP, QM, WRITE
+        ADD, CLEAR, DIR, CLOSE, LENGTH, NEW, NOOP, QM, QUERY, WRITE
     }
 
     /**
@@ -77,6 +77,7 @@ public class CmdJobLog extends Command {
         String message_type = null;
         Boolean onThread = null;
         Boolean direction = null;
+        String query = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -129,6 +130,10 @@ public class CmdJobLog extends Command {
                     messageOffset = argArray.nextIntMaybeQuotationTuplePopString();
                     numberMessages = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
+                case "-query":
+                    op = OPS.QUERY;
+                    query = argArray.nextMaybeQuotationTupleString();
+                    break;
                 case "-subst":
                     substitutionData = argArray.nextMaybeQuotationTuplePopString();
                     break;
@@ -180,7 +185,7 @@ public class CmdJobLog extends Command {
                     }
                     break;
                 case DIR:
-                     if (jobLog != null) {
+                    if (jobLog != null) {
                         jobLog.setListDirection(direction);
                     } else {
                         getLogger().log(Level.SEVERE, "No JobLog instance for -clear in {0}", getNameAndDescription());
@@ -225,7 +230,41 @@ public class CmdJobLog extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
-                case NOOP:
+                case QUERY:
+                    if (jobLog != null && query != null) {
+                        Object q = null;
+                        switch (query.toLowerCase()) {
+                            case "dir":
+                                q = jobLog.getListDirection();
+                                break;
+                            case "name":
+                                q = jobLog.getName();
+                                break;
+                            case "user":
+                                q = jobLog.getUser();
+                                break;
+                            case "number":
+                                q = jobLog.getNumber();
+                                break;
+                            case "sys":
+                                q = jobLog.getSystem();
+                                break;
+                            default:
+                                getLogger().log(Level.SEVERE, "Unknown query {0} in {1}", new Object[]{query, getNameAndDescription()});
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        if (q != null) {
+                            try {
+                                put(q);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Couldn't put query result in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No JobLog  or query for query in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 case WRITE:
                     if (getAs400() != null) {
@@ -245,6 +284,8 @@ public class CmdJobLog extends Command {
                         getLogger().log(Level.SEVERE, "No as400 for write in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
+                    break;
+                case NOOP:
                     break;
             }
         }
