@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class CmdCallJava extends Command {
 
     {
-        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [-obj ~@object] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java method");
+        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java method");
     }
 
     /**
@@ -85,6 +85,7 @@ public class CmdCallJava extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
+                case "--":
                 case "-obj":
                     object = argArray.nextTupleOrPop().getValue();
                     break;
