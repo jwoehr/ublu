@@ -5,10 +5,11 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 7 Oct 2016 15:26:10 UTC">
+  "Sun, 9 Oct 2016 20:26:10 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-07</p>
+  Last edit: 2016-10-09</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -639,17 +640,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </ul>
     </li>
 
-    <li>When invoked with no non-dash command line arguments, Ublu
-    prints to standard error information about the build including
-    time/date stamp, open source usage and copyright before the
-    main interpreter prompts. Then the main interpreter prompts and
-    awaits interactive input.</li>
+    <li>When invoked with no non-switch command line arguments,
+    Ublu prints to standard error information about the build
+    including time/date stamp, open source usage and copyright
+    before the main interpreter prompts. Then the main interpreter
+    prompts and awaits interactive input.</li>
 
-    <li>The dash switches to Ublu invocation are as follows:
+    <li>The switches to Ublu invocation are as follows:
 
       <ul>
         <li>
-          <tt>-s</tt> means "silent, no introductory greeting".
+          <tt>-s</tt> by itself means "silent, no introductory
+          greeting". When <tt>-include</tt> is also present, it has
+          another meaning (described below).
 
           <ul>
             <li>Another way to avoid the introductory greeting
@@ -661,11 +664,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             command line.</li>
           </ul>
         </li>
+
+        <li><tt>-include</tt> means that the first non-switch item
+        in the command line is the name of an Ublu source file to
+        <a href="#include">include</a>. If <tt>-s</tt> is also one
+        of the switches passed to Ublu, then the include will be a
+        silent include. After the include, the rest of the command
+        line will be parsed and executed as Ublu commands by the
+        main interpreter, after which the main interpreter will
+        take normal interactive input.</li>
       </ul>
     </li>
 
-    <li>When invoked with arguments, Ublu will execute the
-    arguments as if one line of commands were issued to the
+    <li>When invoked with non-switch arguments and none of the
+    switches were <tt>-include</tt>, Ublu will execute the
+    arguments as if one line of commands were issued to the main
     interpreter and then exit.
 
       <ul>

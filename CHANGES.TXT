@@ -16,12 +16,14 @@ Commands:
 	* json command added
 	* job -hold -release
 	* lifo -true -false -null
+	* msgq no longer does automatic close
 	* printer -wtrjob
 	* printer -get works for all attributes now
 	* rs -json
 	* string -toascii, -toas400
 
 Miscellaneous:
+* ublu.Ublu takes -include switch
 * Update vim mode
 * ubluref.html example for FUNC corrected
 * ubluref.html many minor corrections
@@ -33,6 +35,7 @@ Examples:
 	* test/testnum.ublu
 * updated
 	* dbexample.ublu
+	* msgstuff.ublu
 	* test/testlist.ublu
 
 1.1.2
