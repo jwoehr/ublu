@@ -182,6 +182,13 @@ public class Ublu {
                 }
             }
             interpreter.interpret();
+        } else if (getSwitches().contains("-include")) {
+            interpreter.getArgArray().add(0, "include");
+            if (getSwitches().contains("-s")) {
+                interpreter.getArgArray().add(1, "-s");
+            }
+            interpreter.loop();
+            interpreter.interpret();
         } else {
             interpreter.loop();
         }
