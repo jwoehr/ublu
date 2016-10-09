@@ -6,6 +6,7 @@
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -2203,7 +2204,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="calljava" id="calljava"></a> <tt>calljava</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to @datasink] [-new ~@{classname}] [-obj ~@object]
+    <tt>/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object]
     [-method ~@{methodname}] [-arg ~@argobj -arg ..]] [-primarg
     ~@argobj [-primarg ..]] : call Java method</tt><br>
     The <tt>calljava</tt> command invokes a method or constructor
@@ -2217,8 +2218,8 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li>
-        <tt>-obj ~@object</tt> indicates the object upon which the
-        method call is to be invoked.
+        <tt>--,-obj ~@object</tt> indicates the object upon which
+        the method call is to be invoked.
 
         <ul>
           <li>This element is necessary in a <tt>-method</tt>

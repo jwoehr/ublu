@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -167,6 +168,8 @@
         <li><a href="#mozTocId163217">Object-disoriented</a></li>
 
         <li><a href="#TupleStack">The Tuple Stack</a></li>
+
+        <li><a href="#Calling_Java">Calling Java</a></li>
 
         <li>
           <a href="#mozTocId722916">Notes</a>
@@ -2938,6 +2941,33 @@ block, so a local variable cannot be passed to the thread.<br>
 <span class="gutter">28 </span>
 </span>
 </pre>
+
+  <h2><a name="Calling_Java"></a>Calling Java</h2>
+
+  <p>Ublu can call Java directly via the <a href=
+  "./ubluref.html#calljava"><tt>calljava</tt></a> command. This
+  allows the user to extend the language interpretively in nearly
+  any direction desired. This is useful, because as I continually
+  extend Ublu, it is not practical to support every option for
+  every object in the JTOpen library with Ublu sytax</p>
+
+  <p>For instance, at present writing, there is no Ublu
+  dash-command to fetch the reply status of a queued message. Maybe
+  I'll add that later, if I need it enough. For the present, if I
+  need that reply status, I <tt>calljava</tt> on the queued message
+  object easily obtainable from Ublu.</p>
+  <pre>
+&gt; <a href=
+"./ubluref.html#as400">as400</a> -to @mysys MYSYS.ORG MYPROFILE MYPASSWORD
+&gt; <a href=
+"./ubluref.html#joblog">joblog</a> -to @jl -as400 @mysys -new MYJOBNAME MYUID 349989
+&gt; joblog -to ~ -- @jl -length
+&gt; joblog -- @jl -to ~ -qm 0 ~
+&gt; FOR @i in ~ $[ calljava -obj @i -method getReplyStatus -to @result put @result ]$
+</pre>
+
+  <p>Of course, in this sort of programming, downloading and
+  perusing the JTOpen library javadocs is essential.</p>
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
