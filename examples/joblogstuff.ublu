@@ -26,3 +26,9 @@ FUNC catJobLog ( sys jobname jobuser jobnumber verbose ) $[
         ]$
     ]$
 ]$
+
+# Get the reply status of a queued message. There's currently (2016-10-09)
+# no direct Ublu dash-command to get this status.
+FUNC replyStatus ( queuedMessage status ) $[
+    calljava -- @@queuedMessage -method getReplyStatus -to @@status
+]$

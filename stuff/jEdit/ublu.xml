@@ -3,7 +3,7 @@
 <!-- Edit mode for JEdit for Ublu Midrange and Mainframe Life Cycle Extension language -->
 <!-- Add to ~/.jedit/modes/catalog as follows:  -->
 <!-- <MODE NAME="ublu" FILE="ublu.xml" FILE_NAME_GLOB="*.ublu" /> -->
-<!-- Jack J. Woehr jwoehr@softwoehr.com updated 20161006 -->
+<!-- Jack J. Woehr jwoehr@softwoehr.com updated 20161009 -->
 <MODE>
 
 <PROPS>
@@ -33,8 +33,8 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
 		<END>}$</END>
 	</SPAN>
 
-	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\S+\b</SEQ_REGEXP> 
-	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\-\s</SEQ_REGEXP>
+	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\S+\b</SEQ_REGEXP> 
+	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\-\s</SEQ_REGEXP>
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\!\s</SEQ_REGEXP>
 	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\#</SEQ_REGEXP>
 	<SEQ_REGEXP TYPE="LITERAL2" HASH_CHAR="*">\*\S+\b</SEQ_REGEXP> 
