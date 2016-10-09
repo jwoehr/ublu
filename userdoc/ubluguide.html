@@ -15,7 +15,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 4 Oct 2016 00:45:31 UTC">
+  "Sun, 9 Oct 2016 16:54:37 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -48,7 +48,8 @@
         Reserved<br>
         <br>
         SoftWoehr LLC<br>
-        http://www.softwoehr.com<br>
+        <a href="http://www.softwoehr.com" target=
+        "_blank">http://www.softwoehr.com</a><br>
         PO Box 51<br>
         Golden, CO 80402-0051<br>
         USA</font></td>
@@ -81,9 +82,13 @@
 
         <li><a href="#mozTocId809903">What does Ublu do?</a></li>
 
+        <li><a href="#Discussing_Ublu">Discussing Ublu
+        Online</a></li>
+
         <li>
-          <a href="#mozTocId723509">Quick Tour of the Ublu
-          Language</a>
+          <a href="#Discussing_Ublu"></a><a href=
+          "#Discussing_Ublu"></a><a href="#mozTocId723509">Quick
+          Tour of the Ublu Language</a>
 
           <ul>
             <li><a href="#mozTocId190571">Overview</a></li>
@@ -188,9 +193,10 @@
 
   <p>It's for people who just want an introduction to using Ublu,
   or who have downloaded and built Ublu, read enough of the
-  <a href="ubluref.html">Ublu Reference</a> to know how to launch
-  <a href="https://github.com/jwoehr/ublu">Ublu</a>, and now want
-  more help understanding Ublu.</p>
+  <a href="./ubluref.html" target="_blank">Ublu Reference</a> to
+  know how to launch <a href="https://github.com/jwoehr/ublu"
+  target="_blank">Ublu</a>, and now want more help understanding
+  Ublu.</p>
 
   <p>The Guide is meant to be easy to read, and extra stuff you may
   not want to bother with is written <small><i>like this in small
@@ -198,21 +204,23 @@
 
   <h2><a class="mozTocH2" name="mozTocId185961"></a>Why Ublu?</h2>
 
-  <p>Ublu came into being because I wanted a language to run on
-  OpenBSD/Mac/Linux/Windows that could do remote systems
-  programming on IBM i Series OS &#174; via TCP/IP. It had to be
-  easy to understand and easy for me to maintain and extend
-  single-handed. It could not be "fancy" open source depending on a
-  lot of build magic. It needed to be easily packageable and
-  deliverable. I was not trying to design an ideal language, but an
-  eminently practical one.</p>
+  <p>Ublu is an interpretive language for remote systems
+  programming of midrange or mainframe hosts from a Java platform
+  such as Linux, Mac, OpenBSD or Windows. It also can run natively
+  on IBM i &#174;, IBM z/OS USS &#174; or any other reasonable Java
+  platform.</p>
 
-  <p>I was supporting clients by writing individual utility
-  programs using <a href="http://jt400.sourceforge.net/">JTOpen</a>
-  which I have used since 1998 to remotely operate the AS/400.
-  Finding the need to pass objects rather than string values from
-  one utility to the next, I consolidated the utility programs as
-  commands in a new language called Ublu.</p>
+  <p>I wrote Ublu because I wanted a language to run on
+  OpenBSD/Mac/Linux/Windows to perform ad-hoc process automation
+  primarily on IBM i Series OS &#174;. I was supporting consulting
+  clients by writing individual utility programs using JTOpen which
+  I have used since 1998 to control the AS/400. I decided to
+  consolidate the programs in a language, and the result is
+  Ublu.</p>
+
+  <p>Additionally, Ublu can call Java directly allowing the user
+  him- or herself to extend the language interpretively in nearly
+  any direction desired.</p>
 
   <p>It is convenient to operate legacy systems remotely from
   modern environments:</p>
@@ -241,12 +249,13 @@
   IBM z/VM &#174; System Management API <a href=
   "https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.dmse6/toc.htm?lang=en">
   (SMAPI)</a>. I provide PigIron support in Ublu. I had been using
-  my <a href="http://fiji.sourceforge.net/">FIJI ForthIsh Java
-  Interpreter</a> to drive PigIron, which works very well but is
-  arcane, and also <a href="http://www.oorexx.org/">ObjectRexx</a>,
-  which is a wonderful language which doesn't run on as many
-  platforms as Java. Ublu turns out to be an excellent language
-  environment for PigIron SMAPI operations.</i></small></p>
+  my <a href="http://fiji.sourceforge.net/" target="_blank">FIJI
+  ForthIsh Java Interpreter</a> to drive PigIron, which works very
+  well but is arcane, and also <a href="http://www.oorexx.org/"
+  target="_blank">ObjectRexx</a>, which is a wonderful language
+  which doesn't run on as many platforms as Java. Ublu turns out to
+  be an excellent language environment for PigIron SMAPI
+  operations.</i></small></p>
 
   <p>Ublu is a new language which was coded quick and easy in Java
   on top of other open source libraries. The "quick and easy"
@@ -277,8 +286,8 @@
   "http://www.softwoehr.com/">let me know</a>!<br>
   <br>
   If you find a bug, or wish to issue a feature request, you can
-  <a href="https://github.com/jwoehr/ublu/issues/new">create an
-  issue in the issue tracker</a>.<br>
+  <a href="https://github.com/jwoehr/ublu/issues/new" target=
+  "_blank">create an issue in the issue tracker</a>.<br>
 
   <h2><a class="mozTocH2" name="mozTocId809903"></a>What does Ublu
   do?</h2>
@@ -309,19 +318,32 @@
 
     <li>You can automate a telnet 5250 terminal emulator
     session.<br></li>
-  </ul>When you've got your complete application written in Ublu,
+
+    <li>You can interact directly with the underlying Java and
+    class libraries.</li>
+  </ul>
+
+  <p>When you've got your complete application written in Ublu,
   there's an Ublu command <a href=
   "#mozTocId10736"><tt>gensh</tt></a> which autogenerates a shell
   script to work under either <tt>bash</tt> or <tt>ksh</tt>. The
   script takes arguments via command-line switches and pass them to
   your program's top-level function. <small><i>The script effects a
-  closure on your top-level function.</i></small><br>
-  <br>
-  For a formal summary of everything, see the <a href=
+  closure on your top-level function.</i></small></p>
+
+  <p>For a formal summary of everything, see the <a href=
   "ubluref.html">Ublu Reference</a>. That Reference tells you how
   to install and run Ublu and lists the Open Source project
   dependencies as well as documenting every command and facility
-  built into Ublu.<br>
+  built into Ublu.</p>
+
+  <h2><a name="Discussing_Ublu"></a>Discussing Ublu Online</h2>
+
+  <p>Currently I discuss Ublu on the <a href=
+  "https://ibmioss.ryver.com/index.html#forums/1057363" target=
+  "_blank">Ublu, Java &amp; JTOpen forum</a> of the <a href=
+  "https://ibmioss.ryver.com/index.html" target="_blank">OSS on IBM
+  i Ryver team</a>.</p>
 
   <h2><a class="mozTocH2" name="mozTocId723509"></a>Quick Tour of
   the Ublu Language</h2>
@@ -394,9 +416,9 @@
   <br>
   Parsing is very simplistic. The parse parses, and having parsed,
   moves on, <a href=
-  "https://www.google.com/search?q=nor+can+all+your+piety+and+wit"><i>
-  nor can all your piety and wit</i></a> make it go back one
-  <i>lex</i> (unit of parsing).<br>
+  "https://www.google.com/search?q=nor+can+all+your+piety+and+wit"
+  target="_blank"><i>nor can all your piety and wit</i></a> make it
+  go back one <i>lex</i> (unit of parsing).<br>
   <br>
   The text interpreter loop parses the next whitespace-delimited
   element (a lex) and tries to locate it as an Ublu command or as a
@@ -458,16 +480,17 @@
   line-by-line</a> below.<br>
   <br>
   <i><small>The Ublu codes samples are shown in this document with
-  syntax coloring from a <a href="http://www.jedit.org/">jEdit</a>
-  mode</small></i> <small><tt>ublu.xml</tt></small>
-  <i><small>reproduced here via <a href=
-  "https://www.palfrader.org/code/code2html/">Code2HTML.</a><br>
+  syntax coloring from a <a href="http://www.jedit.org/" target=
+  "_blank">jEdit</a> mode</small></i>
+  <small><tt>ublu.xml</tt></small> <i><small>reproduced here via
+  <a href="https://www.palfrader.org/code/code2html/" target=
+  "_blank">Code2HTML.</a><br>
   The jEdit mode is in</small></i> <small><tt>stuff/jEdit</tt>
   <i>with instructions how to install it at the head of the mode
   file.</i><br></small> <i><small>There is also a <a href=
-  "http://www.vim.org/">Vim</a> mode for Ublu in</small></i>
-  <small><tt>stuff/ublu-vimfiles-master</tt></small> <i><small>.
-  Just copy the dir structure under that directory to
+  "http://www.vim.org/" target="_blank">Vim</a> mode for Ublu
+  in</small></i> <small><tt>stuff/ublu-vimfiles-master</tt></small>
+  <i><small>. Just copy the dir structure under that directory to
   your</small></i> <small><tt>$HOME/.vim</tt>
   <i>directory</i></small><i><small>.</small></i><br>
 
@@ -2581,14 +2604,15 @@ block, so a local variable cannot be passed to the thread.<br>
 
   <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
   Stack</h2>The <a href=
-  "https://en.wikipedia.org/wiki/Forth_(programming_language)">Forth
-  programming language</a> taught me the use of a LIFO stack in
-  programming. The Ublu <a href="./ubluref.html#Tuple_stack">Tuple
-  stack</a> allows some interesting programming metaphors that
-  allow coding functions that get around some of the clunkiness of
-  basic Ublu syntax. Instead of stowing results in tuple variables,
-  functions can push their results to the stack to be popped as
-  arguments by the next function. Additionally, the <a href=
+  "https://en.wikipedia.org/wiki/Forth_(programming_language)"
+  target="_blank">Forth programming language</a> taught me the use
+  of a LIFO stack in programming. The Ublu <a href=
+  "./ubluref.html#Tuple_stack">Tuple stack</a> allows some
+  interesting programming metaphors that allow coding functions
+  that get around some of the clunkiness of basic Ublu syntax.
+  Instead of stowing results in tuple variables, functions can push
+  their results to the stack to be popped as arguments by the next
+  function. Additionally, the <a href=
   "./ubluref.html#Function_Parameter_Binding">token-pasting</a>
   nature of Ublu <a href="./ubluref.html#FUNC"><tt>FUNC</tt></a>
   arguments allow even dash-commands to be presented to an Ublu
@@ -2967,7 +2991,10 @@ block, so a local variable cannot be passed to the thread.<br>
 </pre>
 
   <p>Of course, in this sort of programming, downloading and
-  perusing the JTOpen library javadocs is essential.</p>
+  perusing the Ublu javadocs and JTOpen library javadocs is
+  essential. In the example above, one would have to know that
+  Ublu's <tt>joblog -qm</tt> is returning a collection of
+  <tt>com.ibm.as400.access.QueuedMessage</tt> instances.</p>
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 

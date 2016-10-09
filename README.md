@@ -17,8 +17,8 @@ mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows. It
 also can run natively on IBM i ®, IBM z/OS USS ® or any other reasonable Java
 platform.
 
-I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows that
-could perform ad-hoc process automation primarily on IBM i Series OS ®. I was
+I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows to
+perform ad-hoc process automation primarily on IBM i Series OS ®. I was
 supporting consulting clients by writing individual utility programs using JTOpen
 which I  have used since 1998 to control the AS/400. I decided to consolidate
 the programs in a language, and the result is Ublu. Ublu is a work in progress,
