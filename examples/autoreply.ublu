@@ -1,4 +1,8 @@
 # autoreply.ublu ... Find and reply to all *INQ & *NOTIFY messages in a given MSGQ
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
 # jack j. woehr jwoehr@absolute-performance.com jwoehr@softwoehr.com
 # 2015-03-10
 
