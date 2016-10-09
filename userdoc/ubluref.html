@@ -5,9 +5,6 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -8444,13 +8441,14 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <p><tt>/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to
-    datasink] [-new,-instance | -query | -remove messagekey |
-    -removeall | -sendinfo ~@${ message text ... }$ | -sendinquiry
-    ~@${ message text} ~@replyqueueIFSpath | -sendreply messagekey
-    ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply
-    text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]]
-    ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send,
-    retrieve, remove or reply messages<br></tt></p>
+    datasink] [-new,-instance | -close | -query | -remove
+    messagekey | -removeall | -sendinfo ~@${ message text ... }$ |
+    -sendinquiry ~@${ message text} ~@replyqueueIFSpath |
+    -sendreply messagekey ~@{reply text} | -sendreplybinkey
+    ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply]
+    [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath
+    ~@userid ~@passwd : send, retrieve, remove or reply
+    messages<br></tt></p>
 
     <p>The <tt>msgq</tt> command sends, retrieves, removes or
     replies messages from the message queue instance represented by
@@ -8465,6 +8463,9 @@ Type help for help. Type license for license. Type bye to exit.
     must be omitted. If the <tt>-msgq</tt> dash-command is
     provided, then the arguments <i>system fullyqualifiedifspath
     userid</i> and <i>password</i> must be omitted.</p>
+
+    <p>It is recommended that you use <tt>-close</tt> to close the
+    message queue when you are done with it.</p>
 
     <h5>Reading messsages</h5>
 
@@ -8485,6 +8486,9 @@ Type help for help. Type license for license. Type bye to exit.
       <tt>-msgq</tt> dash-command to reference this message queue.
       <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
       instead</i></li>
+
+      <li><tt>-close</tt> closes the message queue whose instance
+      is provided via the <tt>--,-msgq</tt> dash-command.</li>
 
       <li><tt>-none</tt> means all selectors are cleared, and in
       the absence of any further selector dash-commands will result
