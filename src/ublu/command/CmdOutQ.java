@@ -56,7 +56,7 @@ public class CmdOutQ extends Command {
 
     {
         setNameAndDescription("outq",
-                "/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
+                "/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
     }
 
     /**
@@ -138,6 +138,7 @@ public class CmdOutQ extends Command {
                 case "-hold":
                     function = FUNCTIONS.HOLD;
                     break;
+                case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     break;

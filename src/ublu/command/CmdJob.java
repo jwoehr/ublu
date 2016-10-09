@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdJob extends Command {
 
     {
-        setNameAndDescription("job", "/6? [-as400 @as400] [--,-job @job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -hold ~@tf_holdspooledfiles | -info | -instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -release | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
+        setNameAndDescription("job", "/6? [-as400 @as400] [--,-job @job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -release | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
     }
 
     /**
@@ -146,6 +146,7 @@ public class CmdJob extends Command {
                 case "-info":
                     function = FUNCTIONS.INFO;
                     break;
+                case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     break;

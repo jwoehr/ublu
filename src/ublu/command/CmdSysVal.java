@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdSysVal extends Command {
 
     {
-        setNameAndDescription("sysval", "/0 [-as400 @as400] [-to datasink] [--,-sysval ~@sysval] [[-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a system value list");
+        setNameAndDescription("sysval", "/0 [-as400 @as400] [-to datasink] [--,-sysval ~@sysval] [[-new,-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a system value list");
     }
 
     /**
@@ -120,6 +120,7 @@ public class CmdSysVal extends Command {
                 case "-sysval":
                     sysValTuple = argArray.nextTupleOrPop();
                     break;
+                case "-new":
                 case "-instance":
                     op = OPS.INSTANCE;
                     groupname = argArray.nextMaybeQuotationTuplePopString();

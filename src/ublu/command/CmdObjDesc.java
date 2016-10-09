@@ -51,7 +51,7 @@ import java.util.logging.Level;
 public class CmdObjDesc extends Command {
 
     {
-        setNameAndDescription("objdesc", "/0 [-as400 @as400] [-to datasink] [--,-objdesc ~@objdesc] [-path ~@{ifspath}] [-instance] | [-refresh}] | [-query exists | library | name | path | type] | [-valuestring ~@{attribute}] | -refresh | -locks] : examine an object description");
+        setNameAndDescription("objdesc", "/0 [-as400 @as400] [-to datasink] [--,-objdesc ~@objdesc] [-path ~@{ifspath}] [-new,-instance] | [-refresh}] | [-query exists | library | name | path | type] | [-valuestring ~@{attribute}] | -refresh | -locks] : examine an object description");
 
     }
 
@@ -130,6 +130,7 @@ public class CmdObjDesc extends Command {
                 case "-locks":
                     op = OPS.LOCKLIST;
                     break;
+                case "-new":
                 case "-instance":
                     op = OPS.INSTANCE;
                     break;

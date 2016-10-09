@@ -45,7 +45,7 @@ import java.util.logging.Level;
 public class CmdPpl extends Command {
 
     {
-        setNameAndDescription("ppl", "/0 [--,-ppl @ppl] [-instance] [-get[int|float|string] ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} : create and manipulate print parameter list");
+        setNameAndDescription("ppl", "/0 [--,-ppl @ppl] [-new,-instance] [-get[int|float|string] ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} : create and manipulate print parameter list");
     }
 
     /**
@@ -129,6 +129,7 @@ public class CmdPpl extends Command {
                     attributeId = argArray.nextIntMaybeQuotationTuplePopString();
                     getResult = getString(pplTuple, attributeId);
                     break;
+                case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     instancePPL = new PrintParameterList();

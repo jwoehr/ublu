@@ -49,7 +49,7 @@ public class CmdSubSystem extends Command {
 
     {
         setNameAndDescription("subsys",
-                "/3? [-as400 @as400] [--,-subsys ~@subsys] [-to datasink] [-subsyspath ~@{subsysIFSpath}] [-authoritystring ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared ~@{sequencenumber} ~@{poolname} | -change [description ~@{text} | displayfile ~@{path} | languagelibrary ~@{lib}} | maxactivejobs ~@${int}] | -create | -delete | -end | -endall | -instance | -list | -query [description | activejobs | displayfilepath | languagelibrary | library | maxactivejobs | monitorjob | name | objectdescription | path | pool | pools ~@{sequencenumber} | status | system] | -refresh | -remove ~@{sequencenumber} | -start ] system userid password : manipulate subsystems");
+                "/3? [-as400 @as400] [--,-subsys ~@subsys] [-to datasink] [-subsyspath ~@{subsysIFSpath}] [-authoritystring ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared ~@{sequencenumber} ~@{poolname} | -change [description ~@{text} | displayfile ~@{path} | languagelibrary ~@{lib}} | maxactivejobs ~@${int}] | -create | -delete | -end | -endall | -new,-instance | -list | -query [description | activejobs | displayfilepath | languagelibrary | library | maxactivejobs | monitorjob | name | objectdescription | path | pool | pools ~@{sequencenumber} | status | system] | -refresh | -remove ~@{sequencenumber} | -start ] system userid password : manipulate subsystems");
     }
 
     enum OPS {
@@ -124,6 +124,7 @@ public class CmdSubSystem extends Command {
                 case "-exists":
                     op = OPS.EXISTS;
                     break;
+                case "-new":
                 case "-instance":
                     op = OPS.INSTANCE;
                     break;
@@ -168,18 +169,16 @@ public class CmdSubSystem extends Command {
                     getLogger().log(Level.SEVERE, "Tuple does represent a Subsystem in {0}", new Object[]{getNameAndDescription()});
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
-            } else {
-                if (getAs400() == null) {
-                    if (argArray.size() < 3) {
-                        logArgArrayTooShortError(argArray);
+            } else if (getAs400() == null) {
+                if (argArray.size() < 3) {
+                    logArgArrayTooShortError(argArray);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    try {
+                        setAs400FromArgs(argArray);
+                    } catch (PropertyVetoException ex) {
+                        getLogger().log(Level.SEVERE, "Can't set AS400 from arguments", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
-                    } else {
-                        try {
-                            setAs400FromArgs(argArray);
-                        } catch (PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Can't set AS400 from arguments", ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
                     }
                 }
             }

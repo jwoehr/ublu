@@ -56,9 +56,8 @@ import ublu.util.Tuple;
 public class CmdCs extends Command {
 
     {
-        setNameAndDescription("file",
-                // "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-inarray ~@{index} ~@array ~@{type_description}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+        setNameAndDescription("cs",                
+                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -156,7 +155,7 @@ public class CmdCs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
-                case "-instance":
+                case "-new":
                     function = FUNCTIONS.INSTANCE;
                     break;
                 case "-in":

@@ -46,7 +46,7 @@ public class CmdHost extends Command {
 
     {
         setNameAndDescription("host",
-                "/3 [-to @var] [-instance] [-port ~@{portnum}] [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} : instance a smapi host, default port 44444");
+                "/3 [-to @var] [-new,-instance] [-port ~@{portnum}] [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} : instance a smapi host, default port 44444");
     }
 
     /**
@@ -82,13 +82,14 @@ public class CmdHost extends Command {
                 case "-to":
                     setDataDest(DataSink.fromSinkName(argArray.next()));
                     break;
+                case "-new":
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
                     break;
                 case "-port":
                     port = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
-                case "-ssl":                    
+                case "-ssl":
                     usessl = argArray.nextTupleOrPop().getValue().equals(true);
                     break;
                 case "-usessl":

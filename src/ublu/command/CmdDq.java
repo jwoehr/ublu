@@ -48,7 +48,7 @@ import java.util.logging.Level;
 public class CmdDq extends Command {
 
     {
-        setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] -clear | -create ~@{maxentrylength} | -delete | -exists | -instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write} ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
+        setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] -clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write} ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
     }
 
     /**
@@ -141,6 +141,7 @@ public class CmdDq extends Command {
                 case "-exists":
                     function = FUNCTIONS.EXISTS;
                     break;
+                case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     break;

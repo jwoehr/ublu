@@ -45,7 +45,7 @@ import java.util.logging.Level;
 public class CmdThread extends Command {
 
     {
-        setNameAndDescription("thread", "/0 [-from datasink] [-to datasink ] [--,-thread ~@thread] -instance | -start | -stop : interpret in a background thread");
+        setNameAndDescription("thread", "/0 [-from datasink] [-to datasink ] [--,-thread ~@thread] -new,-instance | -start | -stop : interpret in a background thread");
     }
 
     /**
@@ -98,6 +98,7 @@ public class CmdThread extends Command {
                 case "-thread":
                     interpreterThreadTuple = argArray.nextTupleOrPop();
                     break;
+                case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     break;

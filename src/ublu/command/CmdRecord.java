@@ -51,7 +51,7 @@ public class CmdRecord extends Command {
 
     {
         setNameAndDescription("record",
-                "/0 [-to @var] [--,-record ~@record] [ -getfmt | instance | -setcontents ~@{contents} | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
+                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -new | -setcontents ~@{contents} | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
     }
 
     /**
@@ -114,7 +114,7 @@ public class CmdRecord extends Command {
                 case "-record":
                     recordTuple = argArray.nextTupleOrPop();
                     break;
-                case "-instance":
+                case "-new":
                     operation = OPERATIONS.INSTANCE;
                     break;
                 case "-getfmt":

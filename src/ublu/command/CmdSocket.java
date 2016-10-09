@@ -120,7 +120,7 @@ public class CmdSocket extends Command {
                 case "--":
                     sockTuple = argArray.nextTupleOrPop();
                     break;
-                case "-instance":
+                case "-new":
                     op = OPS.INSTANCE;
                     break;
                 case "-port":

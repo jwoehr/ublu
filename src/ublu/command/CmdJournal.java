@@ -48,7 +48,7 @@ public class CmdJournal extends Command {
 
     {
         setNameAndDescription("jrnl",
-                "/3? [-to datasink] [--,-jrnl ~@jrnl] [-as400 ~@as400 ] [-to @variable] [-instance] [-lib ~@{libname}] [-journal ~@{journal}] [-get ~@###] [-size ~@intval (default 1024)]  : get journal entries");
+                "/3? [-to datasink] [--,-jrnl ~@jrnl] [-as400 ~@as400 ] [-to @variable] [-new,-instance] [-lib ~@{libname}] [-journal ~@{journal}] [-get ~@###] [-size ~@intval (default 1024)]  : get journal entries");
     }
 
     /**
@@ -101,6 +101,7 @@ public class CmdJournal extends Command {
                     op = OPS.GET;
                     numToGet = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
+                case "-new":
                 case "-instance":
                     op = OPS.INSTANCE;
                     break;

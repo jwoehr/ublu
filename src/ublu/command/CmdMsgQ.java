@@ -52,7 +52,7 @@ import java.util.logging.Level;
 public class CmdMsgQ extends Command {
 
     {
-        setNameAndDescription("msgq", "/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to datasink] [-instance | -query | -remove messagekey | -removeall | -sendinfo ~@{message text ...} | -sendinquiry ~@{message text} ~@replyqueueIFSpath | -sendreply messagekey ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send, retrieve, remove or reply messages");
+        setNameAndDescription("msgq", "/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to datasink] [-new,-instance | -query | -remove messagekey | -removeall | -sendinfo ~@{message text ...} | -sendinquiry ~@{message text} ~@replyqueueIFSpath | -sendreply messagekey ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send, retrieve, remove or reply messages");
     }
 
     /**
@@ -157,6 +157,7 @@ public class CmdMsgQ extends Command {
                     all = false;
                     copyreply = true;
                     break;
+                case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     break;

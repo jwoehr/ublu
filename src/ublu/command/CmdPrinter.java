@@ -50,7 +50,7 @@ public class CmdPrinter extends Command {
 
     {
         setNameAndDescription("printer",
-                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
+                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-new,-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
     }
 
     private enum OPERATIONS {
@@ -100,6 +100,7 @@ public class CmdPrinter extends Command {
                     attributeName = "ATTR_" + argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
                     // attributeInt = attribToInt(attributeName);
                     break;
+                case "-new":
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
                     break;

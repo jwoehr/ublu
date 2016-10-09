@@ -51,7 +51,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -167,6 +167,7 @@ public class CmdAS400 extends Command {
                 case "-from":
                     setAs400(getAS400Tuple(argArray.next()));
                     break;
+                case "-new":
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
                     break;

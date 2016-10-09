@@ -53,7 +53,7 @@ public class CmdHistoryLog extends Command {
 
     {
         setNameAndDescription("histlog",
-                "/0 [-to datasink] [--,-histlog @histlog] [-as400 ~@as400 ] [-instance] [-close] [-get] [-examine] [-jobs ~@listofjobs] [-severity 0-99] [-startdate yyyy/mm/dd] [-enddate yyyy/mm/dd] [-msgids ~@list]  [-msgidsinc omit|select] [-msgtypes ~@list] [-msgtypesinc omit|select] : get (filtered) server history log");
+                "/0 [-to datasink] [--,-histlog @histlog] [-as400 ~@as400 ] [-new,-instance] [-close] [-get] [-examine] [-jobs ~@listofjobs] [-severity 0-99] [-startdate yyyy/mm/dd] [-enddate yyyy/mm/dd] [-msgids ~@list]  [-msgidsinc omit|select] [-msgtypes ~@list] [-msgtypesinc omit|select] : get (filtered) server history log");
     }
 
     /**
@@ -137,6 +137,7 @@ public class CmdHistoryLog extends Command {
                 case "-jobs":
                     jobsTalTuple = argArray.nextTupleOrPop();
                     break;
+                case "-new":
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
                     break;

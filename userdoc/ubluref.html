@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1843,7 +1844,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf]
-    [-instance | -alive | -alivesvc
+    [-new,-instance | -alive | -alivesvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -connectsvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
@@ -1890,8 +1891,9 @@ Type help for help. Type license for license. Type bye to exit.
     The operations of the dash-commands are as shown:<br>
 
     <ul>
-      <li><tt>-instance</tt> instances and puts the <tt>as400</tt>
-      instance.</li>
+      <li><tt>-new,-instance</tt> instances and puts the
+      <tt>as400</tt> instance. <i><tt>-instance</tt> is deprecated,
+      use <tt>-new</tt> instead</i></li>
 
       <li><tt>-usessl</tt> indicates connections will be made using
       Secure Sockets Layer (SSL)</li>
@@ -2422,13 +2424,13 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><tt><a name="cs" id="cs"></a>cs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-cs @cs] [-dbconnected @db]
-    [[[-instance] -sq1 ~@{ SQL code ... }] | [-call] | [-in
-    ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index}
-    ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale
-    ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] |
-    [-nextrs] | [-uc]] : instance and execute callable statements
-    which JDBC uses to execute SQL stored procedures</tt>
+    <tt>/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-new]
+    -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object
+    ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out
+    ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription
+    ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and
+    execute callable statements which JDBC uses to execute SQL
+    stored procedures</tt>
 
     <p>The <tt>cs</tt> command creates and executes a JDBC
     CallableStatement used primarily for invoking SQL stored
@@ -2446,8 +2448,8 @@ Type help for help. Type license for license. Type bye to exit.
       instance created by the <a href="db">db</a> command used to
       instance the cs object</li>
 
-      <li><code>-instance</code> is the default operation and
-      instances the cs object</li>
+      <li><code>-new</code> is the default operation and instances
+      the cs object</li>
 
       <li><code>-sq1 ~@{ SQL code ... }</code> provides at
       instancing time the SQL code to be executed by the cs object
@@ -3892,8 +3894,8 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/4? [-as400 @as400] [--,-dq ~@dq] -clear | -create
-    ~@{maxentrylength} | -delete | -exists | -instance | -peek |
-    -query [ ccsid | description | fifo | forceauxstorage |
+    ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek
+    | -query [ ccsid | description | fifo | forceauxstorage |
     maxentrylength | name | path | savesender | system ] | -read |
     -write ~@{data to write} ~@{dataqueuepath} ~@{system}
     ~@{userid} ~@{password} : manipulate a data queue on the
@@ -3932,11 +3934,12 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-exists</tt> Puts <tt>true</tt> if the data queue
       exists on the host.</li>
 
-      <li><tt>-instance</tt> Create a dataqueue object representing
-      the data queue on the host. This object may be saved in a
-      <a href="#Tuple_Variables">tuple variable</a> for later
-      reference in a <tt>dq</tt> command via the <tt>-dq @dq</tt>
-      dash-command</li>
+      <li><tt>-new,-instance</tt> Create a dataqueue object
+      representing the data queue on the host. This object may be
+      saved in a <a href="#Tuple_Variables">tuple variable</a> for
+      later reference in a <tt>dq</tt> command via the <tt>-dq
+      @dq</tt> dash-command. <i><tt>-instance</tt> is deprecated,
+      use <tt>-new</tt> instead</i></li>
 
       <li><tt>-peek</tt> Peeks (retrieves without removing from the
       queue) the next message in the data queue putting
@@ -4100,7 +4103,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed |
-    -sequential] [-instance | -create | -del | -delmemb | -delrec |
+    -sequential] [-new | -create | -del | -delmemb | -delrec |
     -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list
     | -pos ~@{BF|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to
@@ -4150,8 +4153,8 @@ Type help for help. Type license for license. Type bye to exit.
       provided when initially instancing the <tt>file</tt>
       object.</li>
 
-      <li><tt>-instance</tt> is the default operation and instances
-      the <tt>file</tt> object later used in an -open.
+      <li><tt>-new</tt> is the default operation and instances the
+      <tt>file</tt> object later used in an -open.
       <tt>-instance</tt> does not need to be provided to the
       command if no other operation is specified (other than
       <tt>[-keyed | -sequential]</tt>). Of course you will wish to
@@ -5684,11 +5687,11 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/0 [-to datasink] [--,-histlog @histlog] [-as400 ~@as400 ]
-    [-instance] [-close] [-get] [-examine] [-jobs ~@listofjobs]
-    [-severity 0-99] [-startdate yyyy/mm/dd] [-enddate yyyy/mm/dd]
-    [-msgids ~@list]&nbsp; [-msgidsinc omit|select] [-msgtypes
-    ~@list] [-msgtypesinc omit|select] : get (filtered) history
-    log<br>
+    [-new,-instance] [-close] [-get] [-examine] [-jobs
+    ~@listofjobs] [-severity 0-99] [-startdate yyyy/mm/dd]
+    [-enddate yyyy/mm/dd] [-msgids ~@list]&nbsp; [-msgidsinc
+    omit|select] [-msgtypes ~@list] [-msgtypesinc omit|select] :
+    get (filtered) history log<br>
     <br></tt> The <tt>histlog</tt> command retrieves, converts to a
     list and <tt>put</tt>s the host's history log. The log is
     filtered by the <a href="#Dash_Command">dash-commands</a>
@@ -5696,8 +5699,9 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li>
-        <tt>-instance</tt> is the default operation, creating the
-        HistoryLog object with defaults.
+        <tt>-new,-instance</tt> is the default operation, creating
+        the HistoryLog object with defaults. <i><tt>-instance</tt>
+        is deprecated, use <tt>-new</tt> instead</i>
 
         <ul>
           <li>The actual history lines from the host system
@@ -5871,22 +5875,24 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="host" id="host"></a> <tt>host</tt></h4>
 
   <blockquote>
-    <h4><tt>/3</tt> <tt>[-to @var] [-instance] [-port ~@{portnum}]
-    [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} :
-    instance a smapi host, default port 44444</tt><br></h4>The
-    <tt>host</tt> command creates and instance of a TCP/IP
-    reference to a z/VM SMAPI host which can then be used as an
-    argument to the <a href="#smapi"><tt>smapi</tt></a> command.
-    This is analogous to the use of an <a href=
-    "#as400"><tt>as400</tt></a> object to access an i Series OS
-    server.<br>
+    <h4><tt>/3</tt> <tt>[-to @var] [-new,-instance] [-port
+    ~@{portnum}] [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user}
+    ~@{password} : instance a smapi host, default port
+    44444</tt><br></h4>The <tt>host</tt> command creates and
+    instance of a TCP/IP reference to a z/VM SMAPI host which can
+    then be used as an argument to the <a href=
+    "#smapi"><tt>smapi</tt></a> command. This is analogous to the
+    use of an <a href="#as400"><tt>as400</tt></a> object to access
+    an i Series OS server.<br>
     <br>
     The <a href="#Dash_Command">dash-commands</a> are as
     follows:<br>
 
     <ul>
-      <li><tt>-instance</tt> is the default operation, instance the
-      object described by the arguments.</li>
+      <li><tt>-new,-instance</tt> is the default operation,
+      instance the object described by the arguments.
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
 
       <li>
         <tt>-port</tt> is the SMAPI TCP/IP portnumber on the host.
@@ -6485,8 +6491,8 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>/6? [-as400 @as400] [--,-job @job] [-to datasink]
     [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get
     ~@property[name|number|system|user|description|type] | -getsys
-    | -hold ~@tf_holdspooledfiles | -info | -instance | -noop |
-    -query
+    | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop
+    | -query
     ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit]
     | -release | -spec] (@)jobName (@)userName (@)jobNumber
     (@)system (@)userid (@)password : manipulate jobs on the
@@ -6578,9 +6584,10 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-info</tt> provides information on the job</li>
 
       <li>
-        <tt>-instance</tt> instances the -job @job tuple variable
-        with a Job object as described by the other arguments to
-        the command.
+        <tt>-new,-instance</tt> instances the -job @job tuple
+        variable with a Job object as described by the other
+        arguments to the command. <i><tt>-instance</tt> is
+        deprecated, use <tt>-new</tt> instead</i>
 
         <ul>
           <li><tt>@job</tt> must <i>not</i> be an already instanced
@@ -7242,7 +7249,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/3? [-to datasink] [--,-jrnl ~@jrnl] [-as400 ~@as400 ] [-to
-    @variable] [-instance] [-lib ~@{libname}] [-journal
+    @variable] [-new,-instance] [-lib ~@{libname}] [-journal
     ~@{journal}] [-get ~@###] [-size ~@intval (default 1024)]&nbsp;
     : get journal entries</tt><tt><br></tt><br>
     The <tt>jrnl</tt> commanda fetches entries from database
@@ -7280,7 +7287,9 @@ Type help for help. Type license for license. Type bye to exit.
       each entry. If this amount is too small, you will not
       retrieve the number of entries you expected. The default is
       1024.</li>
-    </ul>The default operation is <tt>-instance</tt>.<br>
+    </ul>The default operation is <tt>-new,-instance</tt>.
+    <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+    instead</i><br>
     <br>
     <i>Example</i> (<tt>examples/audjournal.ublu</tt>)
     <pre>
@@ -7898,12 +7907,12 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="list" id="list"></a><tt>list</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to datasink] [--,-list ~@list] [[-instance] | [-source
-    ~@enumeration|~@collection|~@string|-@array] | [-add ~@object ]
-    | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}]
-    | [-set ~@{intindex} ~@object] | [-remove ~@object] |
-    [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and
-    manage lists of objects<br></tt><br>
+    <tt>/0 [-to datasink] [--,-list ~@list] [[-new,-instance] |
+    [-source ~@enumeration|~@collection|~@string|-@array] | [-add
+    ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get
+    ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove
+    ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]:
+    create and manage lists of objects<br></tt><br>
     The <tt>list</tt> command creates and manages lists of objects,
     any objects which you add with the <tt>-source</tt>
     <tt>-add</tt> or <tt>-set</tt> <a href=
@@ -7916,8 +7925,9 @@ Type help for help. Type license for license. Type bye to exit.
     The operations are as follows:<br>
 
     <ul>
-      <li><tt>-instance</tt> creates an empty list (the default
-      operation)</li>
+      <li><tt>-new,-instance</tt> creates an empty list (the
+      default operation) <i><tt>-instance</tt> is deprecated, use
+      <tt>-new</tt> instead</i></li>
 
       <li><tt>-source
       ~@enumeration|~@collection</tt><tt>|~@string</tt>|<tt>-@array]</tt>
@@ -8434,9 +8444,9 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <p><tt>/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to
-    datasink] [-instance | -query | -remove messagekey | -removeall
-    | -sendinfo ~@${ message text ... }$ | -sendinquiry ~@${
-    message text} ~@replyqueueIFSpath | -sendreply messagekey
+    datasink] [-new,-instance | -query | -remove messagekey |
+    -removeall | -sendinfo ~@${ message text ... }$ | -sendinquiry
+    ~@${ message text} ~@replyqueueIFSpath | -sendreply messagekey
     ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply
     text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]]
     ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send,
@@ -8469,11 +8479,12 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-all</tt> means all messages, which is the default in
       the absence of any selector dash-command.</li>
 
-      <li><tt>-instance</tt> puts the specified message queue
+      <li><tt>-new,-instance</tt> puts the specified message queue
       object to the destination <a href="#Datasinks">datasink</a>,
       usually a tuple variable, later to be supplied to the
-      <tt>-msgq</tt> dash-command to reference this message
-      queue.</li>
+      <tt>-msgq</tt> dash-command to reference this message queue.
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
 
       <li><tt>-none</tt> means all selectors are cleared, and in
       the absence of any further selector dash-commands will result
@@ -8880,9 +8891,10 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/0 [-as400 @as400] [-to datasink] [--,-objdesc ~@objdesc]
-    [-path ~@{ifspath}] [-instance] | [-refresh] | [-query exists |
-    library | name | path | type] | [-valuestring ~@{attribute}] |
-    -refresh | -locks] : examine an object description</tt><br>
+    [-path ~@{ifspath}] [-new,-instance] | [-refresh] | [-query
+    exists | library | name | path | type] | [-valuestring
+    ~@{attribute}] | -refresh | -locks] : examine an object
+    description</tt><br>
     <br>
     The <tt>objdesc</tt> command retrieves the object description
     for the object indicated by the <tt>-path ~@{ifspath}</tt>
@@ -8892,9 +8904,11 @@ Type help for help. Type license for license. Type bye to exit.
     The operations are as follows<br>
 
     <ul>
-      <li><tt>-instance</tt> (the default operation) instances the
-      description indicated by <tt>-path ~@{ifspath}</tt> on the
-      system indicated by <tt>-as400 @as400</tt></li>
+      <li><tt>-new,-instance</tt> (the default operation) instances
+      the description indicated by <tt>-path ~@{ifspath}</tt> on
+      the system indicated by <tt>-as400 @as400</tt>
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
 
       <li><tt>-locks</tt> puts the collection of descriptions locks
       on the object.</li>
@@ -9029,8 +9043,9 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/0 [-as400 @as400] [-to datasink] [--,-objlist ~@objlist]
-    [-lib libspec ] [-name objname] [-type objtype] [-instance]
-    [-list]&nbsp; : retrieve a (filtered) object list</tt><br>
+    [-lib libspec ] [-name objname] [-type objtype]
+    [-new,-instance] [-list]&nbsp; : retrieve a (filtered) object
+    list</tt><br>
     <br>
     The objlist command retrieves a ObjectList of OS400 objects
     from the host.<br>
@@ -9039,12 +9054,13 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li>
-        <tt>-instance</tt> is the default which retrieves and
+        <tt>-new,-instance</tt> is the default which retrieves and
         <tt>put</tt>s the list specified by the <a href=
         "#Dash_Command">dash-command</a> <tt>-lib</tt>
         <tt>-name</tt> and <tt>-type</tt>. Each of these
         dash-commands, if omitted, has the default of
-        <tt>*ALL</tt>.
+        <tt>*ALL</tt>. <i><tt>-instance</tt> is deprecated, use
+        <tt>-new</tt> instead</i>
 
         <ul>
           <li>Generics are supported, e.g., if you are looking for
@@ -9281,7 +9297,7 @@ Type help for help. Type license for license. Type bye to exit.
   <blockquote>
     <tt>/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from
     @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] |
-    [-hold] | [-instance] | [-noop] | [-release] | [-info] |
+    [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] |
     [-infoparm ATTR]] outputqueuename system user password</tt><br>
     <br>
     The <tt>outq</tt> command operates on output queues. If the
@@ -9363,7 +9379,7 @@ Type help for help. Type license for license. Type bye to exit.
       </li>
 
       <li>
-        <tt>-instance</tt>
+        <tt>-new,-instance</tt>
 
         <ul>
           <li>Puts the output queue instance to the destination
@@ -9371,7 +9387,8 @@ Type help for help. Type license for license. Type bye to exit.
           re-use by <tt>-outq @q</tt> for the <tt>outq</tt> or
           <tt><a href="#spoolf">spoolf</a></tt> commands.&nbsp;
           Same as <tt>-info</tt>.</li>
-        </ul>
+        </ul><i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+        instead</i>
       </li>
 
       <li>
@@ -9396,7 +9413,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="ppl"></a><tt>ppl</tt></h4>
 
   <blockquote>
-    <tt>/0 [--,-ppl @ppl] [-instance] [-get[int|float|string]
+    <tt>/0 [--,-ppl @ppl] [-new,-instance] [-get[int|float|string]
     ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} :
     create and manipulate print parameter list</tt><br>
     <br>
@@ -9404,7 +9421,7 @@ Type help for help. Type license for license. Type bye to exit.
     suitable for use with <tt><a href="#spoolf">spoolf</a>
     -create</tt> .<br>
     <br>
-    Create an instace with <tt>-instance</tt> and then use the
+    Create an instance with <tt>-new,instance</tt> and then use the
     instance via the <tt>-ppl</tt> <a href=
     "#Dash_Command">dash-command</a> to set or get parameters by ID
     via<br>
@@ -9421,14 +9438,15 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-setstring</tt></li>
 
       <li><tt>-getstring</tt></li>
-    </ul>
+    </ul><i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+    instead</i>
   </blockquote>
 
   <h4><a name="printer" id="printer"></a> <tt>printer</tt></h4>
 
   <blockquote>
     <tt>/4? [-as400 @as400] [--,-printer ~@printer] [-to @var]
-    [-get ~@{attribute}] | [[-instance] | [-set ~@{attribute}
+    [-get ~@{attribute}] | [[-new,-instance] | [-set ~@{attribute}
     ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user}
     ~@{password} : instance as400 printer and get/set
     attributes</tt><br>
@@ -9449,11 +9467,12 @@ Type help for help. Type license for license. Type bye to exit.
     The operations are as follows:<br>
 
     <ul>
-      <li><tt>-instance</tt> puts a printer object to the
+      <li><tt>-new,-instance</tt> puts a printer object to the
       destination <a href="#Datasinks">datasink</a>. If standard
       out, this is a way to display a large number of the printer
       attributes, including several which cannot be set with this
-      command (due to limitations of JTOpen).</li>
+      command (due to limitations of JTOpen). <i><tt>-instance</tt>
+      is deprecated, use <tt>-new</tt> instead</i></li>
 
       <li><tt>-get ~@attribute</tt> puts the value of the named
       attribute to the destination datasink. <a href=
@@ -9866,7 +9885,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="record"></a><tt>record</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to @var] [--,-record ~@record] [ -getfmt | instance |
+    <tt>/0 [-to @var] [--,-record ~@record] [ -getfmt | -new |
     -setcontents ~@{contents} | -setfield ~@{index} ~@object |
     -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format |
     -tostring ] : manipulate record file records</tt><br>
@@ -9875,8 +9894,8 @@ Type help for help. Type license for license. Type bye to exit.
     record files operated on by the <a href=
     "#file"><tt>file</tt></a> command.<br>
     <br>
-    The&nbsp; record itself is either retrieved via <tt>file
-    -read</tt> or created via <tt>record -instance</tt>.<br>
+    The record itself is either retrieved via <tt>file -read</tt>
+    or created via <tt>record -instance</tt>.<br>
     <br>
     Once instanced, the record is reference via the <tt>--</tt> or
     <tt>-record</tt> dash-command.<br>
@@ -9888,7 +9907,7 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-getfmt</tt> fetches the record format of the
       record</li>
 
-      <li><tt>-instance</tt> instances a new record. This is the
+      <li><tt>-new</tt> instances a new record. This is the
       default.</li>
 
       <li><tt>-setcontents ~@{contents}</tt> sets the contents of
@@ -10543,7 +10562,7 @@ Type help for help. Type license for license. Type bye to exit.
   <blockquote>
     <tt>/0 [-to datasink] [--,-sock ~@sock] [-host
     ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr
-    ~@{local_addr}] [-locport ~@{local_portnum}]&nbsp; [-instance |
+    ~@{local_addr}] [-locport ~@{local_portnum}]&nbsp; [-new |
     -close | -avail | -read ~@{count} | -write ~@bytes] : create
     and manipulate sockets</tt><br>
     <br>
@@ -10566,8 +10585,8 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-locport ~@{local_portnum}</tt> optionally sets the
       outgoing port to use</li>
 
-      <li><tt>-instance</tt> creates and connects the socket. This
-      is the default operation</li>
+      <li><tt>-new</tt> creates and connects the socket. This is
+      the default operation</li>
 
       <li><tt>-close</tt> closes the socked provided via
       <tt>--,-sock ~@sock</tt></li>
@@ -10612,7 +10631,7 @@ Type help for help. Type license for license. Type bye to exit.
     [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] |
     [-delete] | -fetch | [-get createdate | createtime | jobname |
     jobnumber | jobsysname | jobuser | message | name | number] |
-    [-hold [-immed|-pageend]] | [-instance ] | [-move
+    [-hold [-immed|-pageend]] | [-new,-instance ] | [-move
     ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] |
     [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath]
     [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]]
@@ -10730,9 +10749,11 @@ Type help for help. Type license for license. Type bye to exit.
       or at page end ( if the -<tt>pageend</tt> dash-command is
       also provided).</li>
 
-      <li><tt>-instance</tt> instances the spooled file described
-      by the arguments to the command and puts it to the
-      destination <a href="#Datasinks">datasink</a>.</li>
+      <li><tt>-new,-instance</tt> instances the spooled file
+      described by the arguments to the command and puts it to the
+      destination <a href="#Datasinks">datasink</a>.
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
 
       <li>
         <tt>-move ~@spoolf_before_me</tt> moves the referenced
@@ -10973,7 +10994,7 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{sequencenumber} ~@{poolname} | -change [description ~@{text}
     | displayfile ~@{path} | languagelibrary ~@{lib}} |
     maxactivejobs ~@${int}] | -create | -delete | -end | -endall |
-    -instance | -list | -query [description | activejobs |
+    -new,-instance | -list | -query [description | activejobs |
     displayfilepath | languagelibrary | library | maxactivejobs |
     monitorjob | name | objectdescription | path | pool | pools
     ~@{sequencenumber} | status | system] | -refresh | -remove
@@ -11066,8 +11087,10 @@ Type help for help. Type license for license. Type bye to exit.
         </ul>
       </li>
 
-      <li><tt>-instance</tt> is the default operation, instancing
-      the subsystem object for Ublu use.</li>
+      <li><tt>-new,-instance</tt> is the default operation,
+      instancing the subsystem object for Ublu use.
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
 
       <li><tt>-list</tt> lists all subsystems.</li>
 
@@ -11373,10 +11396,11 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/0 [-as400 @as400] [-to datasink] [--,-sysval ~@sysval]
-    [[-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] |
-    [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key }
-    ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a
-    system value list</tt><br>
+    [[-new,-instance
+    alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{
+    key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] |
+    [-systemvalue] | [-list] | [-map]] : retrieve a system value
+    list</tt><br>
     <br>
     The sysval command gets and sets system values. When
     instancing, an <a href="#as400"><tt>as400</tt></a> instance
@@ -11390,9 +11414,10 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li>
-        <tt>-instance</tt> <i>groupid</i> creates a system value
-        list instance for the group of system values represent by
-        <i>groupid</i>.
+        <tt>-new,-instance</tt> <i>groupid</i> creates a system
+        value list instance for the group of system values
+        represent by <i>groupid</i>. <i><tt>-instance</tt> is
+        deprecated, use <tt>-new</tt> instead</i>
 
         <ul>
           <li><tt>all</tt> is the easiest to use.</li>
@@ -11537,7 +11562,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/0 [-from datasink] [-to datasink ] [--,-thread ~@thread]
-    -instance | -start | -stop : interpret in a background
+    -new,-instance | -start | -stop : interpret in a background
     thread</tt><br>
     <br>
     The thread command creates and/or manipulates threads of
@@ -11553,7 +11578,9 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li>
-        <tt>-instance</tt> creates and puts a new thread.
+        <tt>-new,-instance</tt> creates and puts a new thread.
+        <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+        instead</i>
 
         <ul>
           <li>The program for the thread to execute is an <a href=
@@ -11643,7 +11670,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="tn5250" id="tn5250"></a> <tt>tn5250</tt></h4>
 
   <blockquote>
-    <tt>/0 [-tn5250 @tn5250] [-to datasink] [[-instance] |
+    <tt>/0 [-tn5250 @tn5250] [-to datasink] [[-new,-instance] |
     [-my5250] | [-run] | [-session] | [-sessionlist]]&nbsp; [-args
     ~@${ arg string }$] ~@system : instance a programmable or
     interactive tn5250j</tt><br>
@@ -11665,8 +11692,10 @@ Type help for help. Type license for license. Type bye to exit.
     The operations are as follows:<br>
 
     <ul>
-      <li><tt>-instance</tt> puts a tn5250j instance to the
-      destination <a href="#Datasinks">datasink</a> .</li>
+      <li><tt>-new,-instance</tt> puts a tn5250j instance to the
+      destination <a href="#Datasinks">datasink</a>.
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
 
       <li><tt>-my5250</tt> runs an instance of tn5250j in a thread
       without preserving the instanced object for
@@ -11909,9 +11938,9 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/3? [-as400 @as400] [--,-user ~@user] [-to datasink]&nbsp;
-    [-userprofile ~@{username}] [-enable | -disable | -instance |
-    -query ~@{property} | -refresh ] system userid password :
-    manipulate user profile</tt><br>
+    [-userprofile ~@{username}] [-enable | -disable |
+    -new,-instance | -query ~@{property} | -refresh ] system userid
+    password : manipulate user profile</tt><br>
     <br>
     The <tt>user</tt> command instances a User object to manipulate
     a user profile. If the <a href=
@@ -11935,8 +11964,10 @@ Type help for help. Type license for license. Type bye to exit.
       difference if the user profile was already enabled.</li>
 
       <li>
-        <tt>-instance</tt> instances the user profile and puts it
-        to the destination <a href="#Datasinks">datasink</a>.
+        <tt>-new,-instance</tt> instances the user profile and puts
+        it to the destination <a href="#Datasinks">datasink</a>
+        <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+        instead</i>.
 
         <ul>
           <li>If the destination datasink is a file or standard
