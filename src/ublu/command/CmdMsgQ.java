@@ -52,7 +52,7 @@ import java.util.logging.Level;
 public class CmdMsgQ extends Command {
 
     {
-        setNameAndDescription("msgq", "/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to datasink] [-new,-instance | -query | -remove messagekey | -removeall | -sendinfo ~@{message text ...} | -sendinquiry ~@{message text} ~@replyqueueIFSpath | -sendreply messagekey ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send, retrieve, remove or reply messages");
+        setNameAndDescription("msgq", "/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to datasink] [-new,-instance | -close | -query | -remove messagekey | -removeall | -sendinfo ~@{message text ...} | -sendinquiry ~@{message text} ~@replyqueueIFSpath | -sendreply messagekey ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send, retrieve, remove or reply messages");
     }
 
     /**
@@ -64,6 +64,10 @@ public class CmdMsgQ extends Command {
          * Instance representation of the queue
          */
         INSTANCE,
+        /**
+         * Close the queue
+         */
+        CLOSE,
         /**
          * Query the queue
          */
@@ -141,6 +145,9 @@ public class CmdMsgQ extends Command {
                     reply = false;
                     noreply = false;
                     copyreply = false;
+                    break;
+                case "-close":
+                    function = FUNCTIONS.CLOSE;
                     break;
                 case "-query":
                     function = FUNCTIONS.QUERY;
@@ -247,6 +254,19 @@ public class CmdMsgQ extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
+                    case CLOSE:
+                        if (mq != null) {
+                            try {
+                                mq.close();
+                            } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
+                                getLogger().log(Level.SEVERE, "Exception closing message queue in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "MessageQueue instance not provided for close in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
                     case QUERY:
                         if (mq != null) {
                             QueuedMessageList qml = null;
@@ -270,7 +290,6 @@ public class CmdMsgQ extends Command {
                             getLogger().log(Level.SEVERE, "Neither MessageQueue nor AS400/IFS pair instanced in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-
                         break;
                     case REMOVE:
                         if (mq != null) {
@@ -361,7 +380,6 @@ public class CmdMsgQ extends Command {
                 }
             }
         }
-
         return argArray;
     }
 
@@ -407,7 +425,6 @@ public class CmdMsgQ extends Command {
                 }
                 put(queuedMessageList);
             }
-            mq.close();
         } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | IllegalPathNameException ex) {
             getLogger().log(Level.SEVERE, "Error in " + getNameAndDescription(), ex);
             setCommandResult(COMMANDRESULT.FAILURE);
