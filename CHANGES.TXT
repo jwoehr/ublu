@@ -5,6 +5,7 @@ All rights reserved.
 1.1.3
 Commands:
 * general
+	* deprecate -instance in favor of -new
 	* command descriptions cleaned up
 	* some commands' argument parsing modernized
 * individual commands	
