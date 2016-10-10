@@ -6,6 +6,7 @@
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -15,7 +16,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 9 Oct 2016 16:54:37 UTC">
+  "Mon, 10 Oct 2016 06:21:48 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -169,6 +170,8 @@
             directory</a></li>
           </ul>
         </li>
+
+        <li><a href="#extensions">The extensions directory</a></li>
 
         <li><a href="#mozTocId163217">Object-disoriented</a></li>
 
@@ -2541,6 +2544,24 @@ block, so a local variable cannot be passed to the thread.<br>
   directory</h3>Under the <tt>examples</tt> directory is the
   <tt>test</tt> directory which are fairly crude regression code
   used to test the basic functionality of Ublu commands.<br>
+
+  <h2><a class="extensions" name="extensions"></a>The
+  <tt>extensions</tt> directory</h2>
+
+  <p>Ublu is distributed with an <tt>extensions</tt> directory
+  which contains extensions to the base Ublu system which are
+  written in Ublu itself.</p>
+
+  <p>As the IBM i system upon which Ublu primarily operates is so
+  feature-rich, it is impractical to put every useful utility in
+  the base system. Therefore, as Ublu evolves, more and more
+  features will likely be relegated to the <tt>extensions</tt>
+  directory to be loaded via <a href=
+  "./ubluref.html#include"><tt>include</tt></a> as needed by the
+  application programmer.</p>
+
+  <p>Again, <b>there is NO WARRANTY OR GUARANTY of correctness or
+  fitness for a given application (see the LICENSE)</b>.</p>
 
   <h2><a class="mozTocH2" name=
   "mozTocId163217"></a>Object-disoriented</h2>A few words about
