@@ -109,7 +109,8 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>record</KEYWORD2>
         <KEYWORD1>RETURN</KEYWORD1>
         <KEYWORD2>rs</KEYWORD2>
-        <KEYWORD2>savf</KEYWORD2>        
+        <KEYWORD2>savf</KEYWORD2>
+        <KEYWORD2>savef</KEYWORD2>  
         <KEYWORD2>server</KEYWORD2>
         <KEYWORD2>sess</KEYWORD2>
         <KEYWORD2>session</KEYWORD2>
