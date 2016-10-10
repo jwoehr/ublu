@@ -62,7 +62,7 @@ public class CmdJMX extends Command {
 
     {
         setNameAndDescription("jmx",
-                "/0 [-from datasink] [-to datasink] [--,-jmx @jmx_instance] [-obj @obj_instance] [-protocol ~@rmi|iop|?] [-host ~@hostname|hostip] [-port ~@portnum] [-url ~@/remainder_of_url] [-role ~@${ rolename }$ ] [-password ~@${ password }$] [-connect | -close | -instance | -get ~@${}domain ~@${}type ~@${}name | -attrib ~@${ attribute }$ | -attribs ~@${ attrib attrib ... }$ | -cdi ~@attribute | -datakey ~@attribute ~@key | -mbeaninfo |-query [ names | mbeans | class classname]] : perform JMX access to a JVM");
+                "/0 [-from datasink] [-to datasink] [--,-jmx @jmx_instance] [-obj @obj_instance] [-protocol ~@rmi|iop|?] [-host ~@hostname|hostip] [-port ~@portnum] [-url ~@/remainder_of_url] [-role ~@${ rolename }$ ] [-password ~@${ password }$] [-connect | -close | -new,-instance | -get ~@${}domain ~@${}type ~@${}name | -attrib ~@${ attribute }$ | -attribs ~@${ attrib attrib ... }$ | -cdi ~@attribute | -datakey ~@attribute ~@key | -mbeaninfo |-query [ names | mbeans | class classname]] : perform JMX access to a JVM");
     }
 
     /**
@@ -183,6 +183,7 @@ public class CmdJMX extends Command {
                 case "-url":
                     urlPath = argArray.nextMaybeQuotationTuplePopString().trim();
                     break;
+                case "-new":
                 case "-instance":
                     operation = OPERATIONS.INSTANCE;
                     break;
@@ -308,20 +309,18 @@ public class CmdJMX extends Command {
                         if (oi == null) {
                             getLogger().log(Level.SEVERE, "No object instance retrievable from tuple {0} provided for JMX object instance in {1}", new Object[]{objTupleName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (attribName == null) {
+                            getLogger().log(Level.SEVERE, "No attribute name (or null name) provided to -attrib dash-command  in {1}", new Object[]{objTupleName, getNameAndDescription()});
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            if (attribName == null) {
-                                getLogger().log(Level.SEVERE, "No attribute name (or null name) provided to -attrib dash-command  in {1}", new Object[]{objTupleName, getNameAndDescription()});
+                            attribName = attribName.trim();
+                            // /* Debug */ System.out.println(" attribName: " + attribName + "***");
+                            try {
+                                Object attributeObj = myJmxh.getAttribute(oi.getObjectName(), attribName);
+                                put(attributeObj);
+                            } catch (AS400SecurityException | MBeanException | AttributeNotFoundException | ErrorCompletingRequestException | IOException | InstanceNotFoundException | InterruptedException | ObjectDoesNotExistException | ReflectionException | RequestNotSupportedException | SQLException ex) {
+                                getLogger().log(Level.SEVERE, "Error getting or putting attributes in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
-                            } else {
-                                attribName = attribName.trim();
-                                // /* Debug */ System.out.println(" attribName: " + attribName + "***");
-                                try {
-                                    Object attributeObj = myJmxh.getAttribute(oi.getObjectName(), attribName);
-                                    put(attributeObj);
-                                } catch (AS400SecurityException | MBeanException | AttributeNotFoundException | ErrorCompletingRequestException | IOException | InstanceNotFoundException | InterruptedException | ObjectDoesNotExistException | ReflectionException | RequestNotSupportedException | SQLException ex) {
-                                    getLogger().log(Level.SEVERE, "Error getting or putting attributes in " + getNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                }
                             }
                         }
                         break;
@@ -348,18 +347,16 @@ public class CmdJMX extends Command {
                         if (oi == null) {
                             getLogger().log(Level.SEVERE, "No object instance retrievable from tuple {0} provided for JMX object instance in {1}", new Object[]{objTupleName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (attribName == null) {
+                            getLogger().log(Level.SEVERE, "No attrib (or null name) provided to -cdi dash-command  in {1}", new Object[]{objTupleName, getNameAndDescription()});
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            if (attribName == null) {
-                                getLogger().log(Level.SEVERE, "No attrib (or null name) provided to -cdi dash-command  in {1}", new Object[]{objTupleName, getNameAndDescription()});
+                            try {
+                                CompositeDataSupport cdi = myJmxh.attributeCompositeDataInstanceFromObjectInstance(oi, attribName);
+                                put(cdi);
+                            } catch (AS400SecurityException | MBeanException | AttributeNotFoundException | ErrorCompletingRequestException | IOException | InstanceNotFoundException | InterruptedException | ObjectDoesNotExistException | ReflectionException | RequestNotSupportedException | SQLException ex) {
+                                getLogger().log(Level.SEVERE, "Error getting or putting CompositeDataInstance in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
-                            } else {
-                                try {
-                                    CompositeDataSupport cdi = myJmxh.attributeCompositeDataInstanceFromObjectInstance(oi, attribName);
-                                    put(cdi);
-                                } catch (AS400SecurityException | MBeanException | AttributeNotFoundException | ErrorCompletingRequestException | IOException | InstanceNotFoundException | InterruptedException | ObjectDoesNotExistException | ReflectionException | RequestNotSupportedException | SQLException ex) {
-                                    getLogger().log(Level.SEVERE, "Error getting or putting CompositeDataInstance in " + getNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                }
                             }
                         }
                         break;
@@ -368,20 +365,18 @@ public class CmdJMX extends Command {
                         if (oi == null) {
                             getLogger().log(Level.SEVERE, "No object instance retrievable from tuple {0} provided for JMX object instance in {1}", new Object[]{objTupleName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (attribName == null || datakey == null) {
+                            getLogger().log(Level.SEVERE, "No attrib or datakey (or null name) provided to -datakey dash-command  in {1}", new Object[]{objTupleName, getNameAndDescription()});
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            if (attribName == null || datakey == null) {
-                                getLogger().log(Level.SEVERE, "No attrib or datakey (or null name) provided to -datakey dash-command  in {1}", new Object[]{objTupleName, getNameAndDescription()});
+                            datakey = datakey.trim();
+                            // /* Debug */ System.out.println("attrib: " + attribName + " datakey: " + datakey + "***");
+                            try {
+                                Object compDataObj = myJmxh.attributeCompositeDataFromObjectInstance(oi, attribName, datakey);
+                                put(compDataObj);
+                            } catch (AS400SecurityException | MBeanException | AttributeNotFoundException | ErrorCompletingRequestException | IOException | InstanceNotFoundException | InterruptedException | ObjectDoesNotExistException | ReflectionException | RequestNotSupportedException | SQLException ex) {
+                                getLogger().log(Level.SEVERE, "Error getting or putting attributes in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
-                            } else {
-                                datakey = datakey.trim();
-                                // /* Debug */ System.out.println("attrib: " + attribName + " datakey: " + datakey + "***");
-                                try {
-                                    Object compDataObj = myJmxh.attributeCompositeDataFromObjectInstance(oi, attribName, datakey);
-                                    put(compDataObj);
-                                } catch (AS400SecurityException | MBeanException | AttributeNotFoundException | ErrorCompletingRequestException | IOException | InstanceNotFoundException | InterruptedException | ObjectDoesNotExistException | ReflectionException | RequestNotSupportedException | SQLException ex) {
-                                    getLogger().log(Level.SEVERE, "Error getting or putting attributes in " + getNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                }
                             }
                         }
                         break;
