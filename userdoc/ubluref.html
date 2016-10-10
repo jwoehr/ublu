@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -651,8 +650,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <ul>
         <li>
           <tt>-s</tt> by itself means "silent, no introductory
-          greeting". When <tt>-include</tt> is also present, it has
-          another meaning (described below).
+          greeting". When <tt>-include</tt> or <tt>-i</tt> is also
+          present, it has another meaning (described below).
 
           <ul>
             <li>Another way to avoid the introductory greeting
@@ -665,14 +664,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           </ul>
         </li>
 
-        <li><tt>-include</tt> means that the first non-switch item
-        in the command line is the name of an Ublu source file to
-        <a href="#include">include</a>. If <tt>-s</tt> is also one
-        of the switches passed to Ublu, then the include will be a
-        silent include. After the include, the rest of the command
-        line will be parsed and executed as Ublu commands by the
-        main interpreter, after which the main interpreter will
-        take normal interactive input.</li>
+        <li><tt>-include</tt> or <tt>-i</tt> means that the first
+        non-switch item in the command line is the name of an Ublu
+        source file to <a href="#include">include</a>. If
+        <tt>-s</tt> is also one of the switches passed to Ublu,
+        then the include will be a silent include. After the
+        include, the rest of the command line will be parsed and
+        executed as Ublu commands by the main interpreter, after
+        which the main interpreter will take normal interactive
+        input.</li>
       </ul>
     </li>
 
@@ -6262,11 +6262,11 @@ Type help for help. Type license for license. Type bye to exit.
     [-obj @obj_instance] [-protocol ~@rmi|iop|?] [-host
     ~@hostname|hostip] [-port ~@portnum] [-url ~@/remainder_of_url]
     [-role ~@${ rolename }$ ] [-password ~@${ password }$]
-    [-connect | -close | -instance | -get ~@${}domain ~@${}type
-    ~@${}name | -attrib ~@${ attribute }$ | -attribs ~@${ attrib
-    attrib ... }$ | -cdi ~@attribute | -datakey ~@attribute ~@key |
-    -mbeaninfo |-query [ names | mbeans | class classname]] :
-    perform JMX access to a JVM</tt><br>
+    [-connect | -close | -new,-instance | -get ~@${}domain
+    ~@${}type ~@${}name | -attrib ~@${ attribute }$ | -attribs ~@${
+    attrib attrib ... }$ | -cdi ~@attribute | -datakey ~@attribute
+    ~@key | -mbeaninfo |-query [ names | mbeans | class classname]]
+    : perform JMX access to a JVM</tt><br>
     <br>
     The <tt>jmx</tt> command provides JMX access to a JVM, either
     remote or local, which has been started with java command line
@@ -6296,9 +6296,9 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li>
-        <tt>-instance</tt> is the default operation, creating and
-        <tt>put</tt>ting a <tt>JMXHelper</tt> instance based on the
-        following specifications:
+        <tt>-new,-instance</tt> is the default operation, creating
+        and <tt>put</tt>ting a <tt>JMXHelper</tt> instance based on
+        the following specifications:
 
         <ul>
           <li><tt>-protocol ~@rmi|iop|?</tt> is the transport
@@ -6316,7 +6316,8 @@ Type help for help. Type license for license. Type bye to exit.
           <tt>/jmxrmi</tt></li>
 
           <li>The instance created by <tt>-instance</tt> is not yet
-          connected</li>
+          connected. <i><tt>-instance</tt> is deprecated, use
+          <tt>-new</tt> instead</i></li>
         </ul>
       </li>
 

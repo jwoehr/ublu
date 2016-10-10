@@ -27,7 +27,7 @@ FUNC describeObject ( as400sys ifspath dest ) $[
     ]$
 
     \\ ${ Instance the object description }$
-    objdesc -to @obj -as400 @@as400sys -path @@ifspath -instance 
+    objdesc -to @obj -as400 @@as400sys -path @@ifspath -new 
 
     \\ ${ Create a header }$
     put -n -s -to @@dest ${ Object is: }$ put -to @@dest -from @@ifspath

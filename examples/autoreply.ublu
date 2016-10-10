@@ -10,7 +10,7 @@
 FUNC getMsgQ ( system user password ifspath msgq ) $[
 	LOCAL @as400
 	as400 -to @as400 @@system @@user @@password
-	msgq -to @@msgq -as400 @as400 -instance @@ifspath
+	msgq -to @@msgq -as400 @as400 -new @@ifspath
 ]$
 
 # get list of messages needing reply

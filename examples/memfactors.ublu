@@ -1,3 +1,9 @@
+# memfactors.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+#
 # report memory factors from a remote JVM via JMX
 #
 # Log in somewhere and start a jvm running with jmx remote instrumentation enabled, e.g.:
@@ -18,12 +24,12 @@
 # ######################################################
 
 FUNC jmxConnect ( hostname port connection ) $[
-	jmx -to @@connection -instance -host @@hostname -port @@port
+	jmx -to @@connection -new -host @@hostname -port @@port
 	jmx -jmx @@connection -connect
 ]$
 
 FUNC jmxConnectAuth ( hostname port connection role pwrd ) $[
-	jmx -to @@connection -instance -host @@hostname -port @@port
+	jmx -to @@connection -new -host @@hostname -port @@port
 	jmx -jmx @@connection -connect -role @@role -password @@pwrd
 ]$
 

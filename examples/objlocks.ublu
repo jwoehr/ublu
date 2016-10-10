@@ -1,11 +1,17 @@
 # objlocks.ublu ... see locks on an OS/400 object
-# jack j. woehr jwoehr@absolute-performance.com jwoehr@softwoehr.com
-# 2015-03-12
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
 
+# jack j. woehr jwoehr@absolute-performance.com jwoehr@softwoehr.com
+# 2015-03-12 updated 2016-10-09
+
+# Display locks on an object as specified by its IFS path
 FUNC objLocks ( system user password ifspath ) $[
 	LOCAL @as400 LOCAL @objdesc LOCAL @locklist
 	as400 -to @as400 @@system @@user @@password
-	objdesc -to @objdesc -as400 @as400 -instance -path @@ifspath
+	objdesc -to @objdesc -as400 @as400 -new -path @@ifspath
 	objdesc -to @locklist -- @objdesc -locks
 	FOR @lock in @locklist $[ put -from @lock ]$
 ]$

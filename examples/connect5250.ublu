@@ -10,7 +10,7 @@
 # Session object stored in the user-provided sesstuple, e.g., @mysess
 FUNC connect5250 ( iserver userid password sesstuple ) $[
      LOCAL @tn5250
-     tn5250 -to @tn5250 -instance @@iserver
+     tn5250 -to @tn5250 -new @@iserver
      tn5250 -tn5250 @tn5250 -run
      put ${ Sleeping for 15 seconds to allow the connect }$
      iserver ${ sleep 15 }$
@@ -25,7 +25,7 @@ FUNC connect5250 ( iserver userid password sesstuple ) $[
 # Session object stored in the user-provided sesstuple, e.g., @mysess
 FUNC connect5250p ( iserver userid password portnum sesstuple ) $[
      LOCAL @tn5250
-     tn5250 -to @tn5250 -args ${ -p @@portnum }$ -instance @@iserver
+     tn5250 -to @tn5250 -args ${ -p @@portnum }$ -new @@iserver
      tn5250 -tn5250 @tn5250 -run
      put ${ Sleeping for 15 seconds to allow the connect }$
      system ${ sleep 15 }$
