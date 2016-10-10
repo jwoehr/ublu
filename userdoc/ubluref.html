@@ -9,7 +9,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 9 Oct 2016 20:26:10 UTC">
+  "Mon, 10 Oct 2016 20:59:05 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-09</p>
+  Last edit: 2016-10-10</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -357,7 +357,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#rs">rs</a></tt></li>
 
-            <li><tt><a href="#savf">savf</a><br></tt></li>
+            <li><tt><a href=
+            "#savf"><strike>savf</strike></a><br></tt></li>
+
+            <li><tt><a href="#savef">savef</a><br></tt></li>
 
             <li><tt><a href="#server">server</a></tt></li>
 
@@ -1784,7 +1787,8 @@ Type help for help. Type license for license. Type bye to exit.
         "#programcall">programcall</a></tt><tt><br>
         <a href="#record">record</a><br></tt> <tt><a href=
         "#rs">rs</a></tt><tt><br></tt> <tt><a href=
-        "#savf">savf</a></tt><tt><br>
+        "#savf"><strike>savf</strike></a></tt><tt><br>
+        <a href="#savef">savef</a></tt><tt><br>
         <a href="#session">session</a><br></tt> <tt><a href=
         "#smapi">smapi</a></tt><tt><br>
         <a href="#sock">sock</a><br></tt> <tt><a href=
@@ -10243,7 +10247,9 @@ Type help for help. Type license for license. Type bye to exit.
     @desttable</tt><br></p>
   </blockquote>
 
-  <h4><a name="savf" id="savf"></a> <tt>savf</tt></h4>
+  <h4><a name="savf" id="savf"></a> <tt><strike>savf</strike></tt>
+  <i><b>deprecated</b>, use <a href="#savef"><tt>savef</tt></a>
+  instead</i></h4>
 
   <blockquote>
     <tt>/5 -create | -delete | -exists | -list | -restore | -save [
@@ -10343,6 +10349,143 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li>
         <tt>-save</tt> saves to the savefile
+
+        <ul>
+          <li>If -lib has set a <i>libname</i>, save is of that
+          library</li>
+
+          <li>If -obj has created a list of one or more objects to
+          restore, only those objects are saved from the
+          library</li>
+
+          <li>If no list of objects was created, the entire library
+          is to be saved</li>
+
+          <li>If no <i>libname</i> was set, then all
+          fully-qualified IFS filepaths set by <tt>-path</tt> are
+          saved.</li>
+        </ul>
+      </li>
+    </ul>
+  </blockquote>
+
+  <h4><a name="savef" id="savef"></a> <tt>savef</tt></h4>
+
+  <blockquote>
+    <tt>/2? [-as400 ~@as400] [-to datasink] [--,-savef ~@savef] [
+    -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [
+    -path ~@pathname [ -path ~@pathname ...]] [-create | -delete |
+    -exists | -list | -new | -restore | -save ] ~@{libraryname}
+    ~@{savefilename} : instance and perform various savefile
+    operations</tt><br>
+
+    <p><tt>savef</tt> instances and operates on a savefile. To
+    instance, the IBM i savefile is specified by an <tt>as400</tt>
+    object and <i>libraryname savefilename</i>. <tt>-new</tt> is
+    the default operation.</p>
+
+    <p>All filenames and pathnames should be treated as
+    case-sensitive.</p>
+
+    <ul>
+      <li><tt>-new</tt> puts an object representing the savefile
+      whose system is provided via the <tt>-as400</tt> <a href=
+      "#Dash_Command">dashcommand</a> and whose library and
+      filename are provided by the <i>libraryname</i> and
+      <i>savefilename</i> arguments.</li>
+
+      <li><tt>-create</tt> creates on the server the savefile whose
+      instance is provided via <tt>--,-savef ~@savef</tt>.</li>
+
+      <li><tt>-delete</tt> deletes the savefile whose instance is
+      provided via <tt>--,-savef ~@savef</tt>.</li>
+
+      <li><tt>-exists</tt> returns the string <tt>true</tt> if
+      savefile whose instance is provided via <tt>--,-savef
+      ~@savef</tt> exists and <tt>false</tt> otherwise.</li>
+
+      <li>
+        <tt>-lib</tt> <i>savedlibname</i>
+
+        <ul>
+          <li>for a <tt>-save</tt> operation, sets the name of the
+          library to be saved, or from which selected objects are
+          to be saved</li>
+
+          <li>for a <tt>-restore</tt> operation, sets the name of
+          the library which was saved into the savefile.</li>
+        </ul>
+      </li>
+
+      <li><tt>-list</tt> lists the objects saved in the savefile
+      whose instance is provided via <tt>--,-savef
+      ~@savef</tt></li>
+
+      <li>
+        <tt>-obj</tt> <i>objectname</i>
+
+        <ul>
+          <li>for a <tt>-save</tt> operation, adds the name of an
+          object to list of objects to be saved from the library
+          selected by <tt>-lib</tt>.</li>
+
+          <li>for a <tt>-restore</tt> operation, adds the name of
+          an object to list of objects to be restored from the
+          library selected by <tt>-lib</tt>.</li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-path</tt> <i>fqpath</i>
+
+        <ul>
+          <li>for a <tt>-save</tt> operation, adds a
+          fully-qualified IFS filepath to the list of fqpaths to be
+          added to the save file.</li>
+
+          <li>for a <tt>-restore</tt> operation, adds a
+          fully-qualified IFS filepath to the list of fqpaths to be
+          restored from the save file.</li>
+
+          <li>ignored always if <tt>-lib</tt> has set a
+          <i>libname</i> or <tt>-tolib</tt> has set a
+          <i>tolibname</i>.</li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-restore</tt> restores from the savefile whose instance
+        is provided via <tt>--,-savef ~@savef</tt>.
+
+        <ul>
+          <li>If -lib has set a <i>libname</i>, restore is from
+          that library
+
+            <ul>
+              <li>If -obj has created a list of one or more objects
+              to restore, only those objects are restored from the
+              library</li>
+
+              <li>If no list of objects was created, the entire
+              library is to be restored</li>
+
+              <li>If -tolib has set a <i>tolibname</i>, then the
+              restore is to that target library.</li>
+            </ul>
+          </li>
+
+          <li><strike>If no</strike>
+          <strike><i>libname</i></strike> <strike>was set, then all
+          fully-qualified IFS filepaths set by</strike>
+          <strike><tt>-path</tt></strike> <strike>are
+          restored.</strike> <b>Note: restore to IFS pathnames is
+          currently unimplemented</b></li>
+        </ul>
+      </li>
+
+      <li>
+        <tt>-save</tt> saves to the savefile whose instance is
+        provided via <tt>--,-savef ~@savef</tt>
 
         <ul>
           <li>If -lib has set a <i>libname</i>, save is of that
