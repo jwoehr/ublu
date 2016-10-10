@@ -1,0 +1,86 @@
+# ux.objectlock.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Push to the stack fields of the ObjectLockListEntries in the
+# ObjectLockList which ublu puts via objdesc -locks
+
+#
+FUNC ux.objectlock.getJobName    ( olle ) $[
+    calljava -to ~ -- @@olle -method getJobName
+]$
+#
+FUNC ux.objectlock.getJobNumber     ( olle ) $[
+    calljava -to ~ -- @@olle -method getJobNumber
+]$
+#
+FUNC ux.objectlock.getJobUserName   ( olle ) $[
+    calljava -to ~ -- @@olle -method getJobUserName
+]$
+#
+FUNC ux.objectlock.getLockScope     ( olle ) $[
+    calljava -to ~ -- @@olle -method getLockScope
+]$
+#
+FUNC ux.objectlock.getLockState     ( olle ) $[
+    calljava -to ~ -- @@olle -method getLockState
+]$
+#
+FUNC ux.objectlock.getLockStatus    ( olle ) $[
+    calljava -to ~ -- @@olle -method getLockStatus
+]$
+#
+FUNC ux.objectlock.getLockType      ( olle ) $[
+    calljava -to ~ -- @@olle -method getLockType
+]$
+#
+FUNC ux.objectlock.getShare         ( olle ) $[
+    calljava -to ~ -- @@olle -method getShare
+]$
+#
+FUNC ux.objectlock.getThreadID      ( olle ) $[
+    calljava -to ~ -- @@olle -method getThreadID
+]$
+
+# display all the above fields for one lock
+FUNC ux.objectlock.display ( objlock ) $[
+    ux.objectlock.getJobName ( @@objlock )
+    put -n -s JobName: put ~
+    ux.objectlock.getJobNumber ( @@objlock )
+    put -n -s JobNumber: put ~
+    ux.objectlock.getJobUserName ( @@objlock )
+    put -n -s JobUserName: put ~
+    ux.objectlock.getLockScope ( @@objlock )
+    put -n -s LockScope: put ~
+    ux.objectlock.getLockState ( @@objlock )
+    put -n -s LockState: put ~
+    ux.objectlock.getLockStatus ( @@objlock )
+    put -n -s LockStatus: put ~
+    ux.objectlock.getLockType ( @@objlock )
+    put -n -s LockType: put ~
+    ux.objectlock.getShare ( @@objlock )
+    put -n -s Share: put ~
+    ux.objectlock.getThreadID ( @@objlock )
+    put -n -s ThreadID: put ~
+    put -n -s ${ Object Lock Rendered: }$ put -from @@objlock
+]$
+
+# display all the above fields for all locks in a locklist
+FUNC ux.objectlocks.display ( objlocklist ) $[
+    FOR @objlock in @@objlocklist $[
+        ux.objectlock.display ( @objlock )
+    ]$
+]$
+
+# Exercise all the above given an as400 and a path to the locked object
+FUNC ux.objectlock.testme ( sys ifspath ) $[
+    put -from @@sys
+    put -from @@ifspath
+    objdesc -to ~ -as400 @@sys -new -path @@ifspath
+    objdesc -to ~ -- ~ -locks
+    ux.objectlocks.display ( ~ )
+]$
+
+# End
