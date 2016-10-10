@@ -48,6 +48,7 @@ import com.ibm.as400.access.JobList;
 import com.ibm.as400.access.MemberDescription;
 import com.ibm.as400.access.MemberList;
 import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.ObjectLockListEntry;
 import com.ibm.as400.access.OutputQueue;
 import com.ibm.as400.access.QueuedMessage;
 import com.ibm.as400.access.RecordFormat;
@@ -200,6 +201,8 @@ public class Renderer {
             s = stringFrom(SpooledFileArrayList.class.cast(theObject));
         } else if (theObject instanceof DataQueueEntry) {
             s = stringFrom(DataQueueEntry.class.cast(theObject));
+        } else if (theObject instanceof ObjectLockListEntry) {
+            s = stringFrom(ObjectLockListEntry.class.cast(theObject));
         } else if (theObject instanceof String[]) {
             s = stringFrom(String[].class.cast(theObject));
         } else if (theObject instanceof Subsystem) {
@@ -944,6 +947,19 @@ public class Renderer {
      */
     public String stringFrom(ParameterArray pa) {
         return pa.prettyPrintAll();
+    }
+
+    public String stringFrom(ObjectLockListEntry olle) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(olle.getJobName()).append('|')
+                .append(olle.getJobNumber()).append('|')
+                .append(olle.getJobUserName()).append('|')
+                .append(olle.getLockScope()).append('|')
+                .append(olle.getLockState()).append('|')
+                .append(olle.getLockStatus()).append('|')
+                .append(olle.getLockType()).append('|')
+                .append(olle.getShare());
+        return sb.toString();
     }
 
     /**
