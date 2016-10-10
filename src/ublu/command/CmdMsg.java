@@ -61,7 +61,7 @@ public class CmdMsg extends Command {
      */
     public ArgArray doCmdMsg(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.MESSAGE; // default op
-        Tuple messageTuple = null;
+        QueuedMessage qm = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -71,7 +71,7 @@ public class CmdMsg extends Command {
                     break;
                 case "--":
                 case "-msg":
-                    messageTuple = argArray.nextTupleOrPop();
+                    qm = valueFromTuple(argArray.nextTupleOrPop(), QueuedMessage.class);
                     break;
                 case "-sender":
                     function = FUNCTIONS.SENDER;
@@ -103,48 +103,41 @@ public class CmdMsg extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else if (messageTuple == null) {
+        } else if (qm == null) {
             getLogger().log(Level.SEVERE, "No message tuple in {0}", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Object tupleVal = messageTuple.getValue();
-            if (tupleVal instanceof QueuedMessage) {
-                QueuedMessage qm = QueuedMessage.class.cast(tupleVal);
-                Object result = null;
-                switch (function) {
-                    case SENDER:
-                        result = qm.getSendingUserProfile();
-                        break;
-                    case USER:
-                        result = qm.getUser();
-                        break;
-                    case KEY:
-                        result = qm.getKey();
-                        break;
-                    case FROMJOB:
-                        result = qm.getFromJobName();
-                        break;
-                    case FROMJOBNUMBER:
-                        result = qm.getFromJobNumber();
-                        break;
-                    case FROMPROGRAM:
-                        result = qm.getFromProgram();
-                        break;
-                    case MESSAGE:
-                        result = qm.toString();
-                        break;
-                    case QUEUE:
-                        result = qm.getQueue();
-                        break;
-                }
-                try {
-                    put(result);
-                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                    getLogger().log(Level.SEVERE, "Error putting message content in " + getNameAndDescription(), ex);
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                }
-            } else {
-                getLogger().log(Level.SEVERE, "Tuple does not reference a message {0}", getNameAndDescription());
+            Object result = null;
+            switch (function) {
+                case SENDER:
+                    result = qm.getSendingUserProfile();
+                    break;
+                case USER:
+                    result = qm.getUser();
+                    break;
+                case KEY:
+                    result = qm.getKey();
+                    break;
+                case FROMJOB:
+                    result = qm.getFromJobName();
+                    break;
+                case FROMJOBNUMBER:
+                    result = qm.getFromJobNumber();
+                    break;
+                case FROMPROGRAM:
+                    result = qm.getFromProgram();
+                    break;
+                case MESSAGE:
+                    result = qm.toString();
+                    break;
+                case QUEUE:
+                    result = qm.getQueue();
+                    break;
+            }
+            try {
+                put(result);
+            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                getLogger().log(Level.SEVERE, "Error putting message content in " + getNameAndDescription(), ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
