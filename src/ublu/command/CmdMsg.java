@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,7 +29,6 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
-import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
@@ -71,7 +72,7 @@ public class CmdMsg extends Command {
                     break;
                 case "--":
                 case "-msg":
-                    qm = valueFromTuple(argArray.nextTupleOrPop(), QueuedMessage.class);
+                    qm = argArray.nextTupleOrPop().value(QueuedMessage.class);
                     break;
                 case "-sender":
                     function = FUNCTIONS.SENDER;
