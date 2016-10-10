@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +54,7 @@ public class CmdSavF extends Command {
 
     {
         setNameAndDescription("savf",
-                "/5 -create | -delete | -exists | -list | -restore | -save  [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] ~@system ~@library ~@savefilename ~@userid ~@password : perform various savefile operations");
+                "/5 -create | -delete | -exists | -list | -restore | -save  [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] ~@{system} ~@}library} ~@{savefilename} ~@{userid} ~@{password} : perform various savefile operations");
     }
 
     /**
@@ -145,122 +147,116 @@ public class CmdSavF extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (args.size() < 5) {
+            logArgArrayTooShortError(args);
+            setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (args.size() < 5) {
-                logArgArrayTooShortError(args);
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                String as400name = args.nextMaybeQuotationTuplePopString();
-                String libraryname = args.nextMaybeQuotationTuplePopString();
-                String savefilename = args.nextMaybeQuotationTuplePopString();
-                String userid = args.next();
-                String password = args.next();
-                try {
-                    AS400 as400 = AS400Factory.newAS400(getInterpreter(), as400name, userid, password);
-                    SaveFile saveFile = new SaveFile(as400, libraryname, savefilename);
-                    switch (function) {
-                        case CREATE:
-                            try {
-                                saveFile.create();
-                            } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | ObjectAlreadyExistsException ex) {
-                                getLogger().log(Level.SEVERE, "Exception encountered creating savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                            break;
-                        case DELETE:
-                            try {
-                                saveFile.delete();
-                            } catch (AS400Exception ex) {
-                                getLogger().log(Level.SEVERE, "Exception encountered deleting savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            } catch (AS400SecurityException | IOException | InterruptedException | ErrorCompletingRequestException ex) {
-                                getLogger().log(Level.SEVERE, "Exception encountered deleting savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                            break;
-                        case EXISTS:
-                            try {
-                                put(saveFile.exists());
-                            } catch (AS400Exception | RequestNotSupportedException | AS400SecurityException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.SEVERE, "Exception encountered testing for existence of savefile", ex);
-                            } catch (ErrorCompletingRequestException | SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Exception encountered testing for existence of savefile", ex);
-                            }
-                            break;
-                        case LIST:
-                            try {
-                                SaveFileEntry[] saveFileEntries = saveFile.listEntries();
-                                put(saveFileEntries);
-                            } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | SQLException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.SEVERE, "Error encountered listing savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                            break;
-                        case RESTORE:
-                            try {
-                                if (savedLibName == null) {
-                                    if (pathList.isEmpty()) {
-                                        getLogger().log(Level.SEVERE, "No library selected for restore nor are any pathnames set");
+            String as400name = args.nextMaybeQuotationTuplePopString();
+            String libraryname = args.nextMaybeQuotationTuplePopString();
+            String savefilename = args.nextMaybeQuotationTuplePopString();
+            String userid = args.nextMaybeQuotationTuplePopString();
+            String password = args.nextMaybeQuotationTuplePopString();
+            try {
+                AS400 as400 = AS400Factory.newAS400(getInterpreter(), as400name, userid, password);
+                SaveFile saveFile = new SaveFile(as400, libraryname, savefilename);
+                switch (function) {
+                    case CREATE:
+                        try {
+                            saveFile.create();
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | ObjectAlreadyExistsException ex) {
+                            getLogger().log(Level.SEVERE, "Exception encountered creating savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case DELETE:
+                        try {
+                            saveFile.delete();
+                        } catch (AS400Exception ex) {
+                            getLogger().log(Level.SEVERE, "Exception encountered deleting savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } catch (AS400SecurityException | IOException | InterruptedException | ErrorCompletingRequestException ex) {
+                            getLogger().log(Level.SEVERE, "Exception encountered deleting savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case EXISTS:
+                        try {
+                            put(saveFile.exists());
+                        } catch (AS400Exception | RequestNotSupportedException | AS400SecurityException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Exception encountered testing for existence of savefile", ex);
+                        } catch (ErrorCompletingRequestException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Exception encountered testing for existence of savefile", ex);
+                        }
+                        break;
+                    case LIST:
+                        try {
+                            SaveFileEntry[] saveFileEntries = saveFile.listEntries();
+                            put(saveFileEntries);
+                        } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | SQLException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error encountered listing savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case RESTORE:
+                        try {
+                            if (savedLibName == null) {
+                                if (pathList.isEmpty()) {
+                                    getLogger().log(Level.SEVERE, "No library selected for restore nor are any pathnames set");
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                } else {
+                                    try {
+                                        throw new UnsupportedOperationException("Savefile restore to pathname not implemented in JT400.");
+                                    } catch (UnsupportedOperationException ex) {
+                                        getLogger().log(Level.SEVERE, "Error in restore to pathname(s)");
                                         setCommandResult(COMMANDRESULT.FAILURE);
-                                    } else {
-                                        try {
-                                            throw new UnsupportedOperationException("Savefile restore to pathname not implemented in JT400.");
-                                        } catch (UnsupportedOperationException ex) {
-                                            getLogger().log(Level.SEVERE, "Error in restore to pathname(s)");
-                                            setCommandResult(COMMANDRESULT.FAILURE);
-                                        }
-                                    }
-                                } else { // we have a library name
-                                    if (objectList.isEmpty()) // save lib if no obj list
-                                    {
-                                        saveFile.restore(savedLibName);
-                                    } else { // We have an obj list
-                                        if (toLibName == null) {
-                                            toLibName = savedLibName;
-                                        }
-                                        saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                                     }
                                 }
-                            } catch (AS400Exception ex) {
-                                getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            } catch (AS400SecurityException | InterruptedException | IOException | ObjectDoesNotExistException | ErrorCompletingRequestException ex) {
-                                getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                            break;
-                        case SAVE:
-                            try {
-                                if (savedLibName == null) {
-                                    if (pathList.isEmpty()) {
-                                        getLogger().log(Level.SEVERE, "No library selected for save nor are any pathnames set");
-                                        setCommandResult(COMMANDRESULT.FAILURE);
-                                    } else {
-
-                                        saveFile.save(pathList.toStringArray());
-
-                                    }
-                                } else { // we have a library name
-                                    if (objectList.isEmpty()) // save lib if no obj list
-                                    {
-                                        saveFile.save(savedLibName);
-                                    } else { // We have an obj list
-                                        saveFile.save(savedLibName, objectList.toStringArray());
-                                    }
+                            } else // we have a library name
+                            if (objectList.isEmpty()) // save lib if no obj list
+                            {
+                                saveFile.restore(savedLibName);
+                            } else { // We have an obj list
+                                if (toLibName == null) {
+                                    toLibName = savedLibName;
                                 }
-                            } catch (AS400Exception ex) {
-                                getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            } catch (AS400SecurityException | InterruptedException | IOException | ObjectDoesNotExistException | ErrorCompletingRequestException ex) {
-                                getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
+                                saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                             }
-                            break;
-                    }
-                } catch (PropertyVetoException ex) {
-                    getLogger().log(Level.SEVERE, "Error encountered accessing " + as400name, ex);
-                    setCommandResult(COMMANDRESULT.FAILURE);
+                        } catch (AS400Exception ex) {
+                            getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } catch (AS400SecurityException | InterruptedException | IOException | ObjectDoesNotExistException | ErrorCompletingRequestException ex) {
+                            getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case SAVE:
+                        try {
+                            if (savedLibName == null) {
+                                if (pathList.isEmpty()) {
+                                    getLogger().log(Level.SEVERE, "No library selected for save nor are any pathnames set");
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                } else {
+                                    saveFile.save(pathList.toStringArray());
+                                }
+                            } else // we have a library name
+                            if (objectList.isEmpty()) // save lib if no obj list
+                            {
+                                saveFile.save(savedLibName);
+                            } else { // We have an obj list
+                                saveFile.save(savedLibName, objectList.toStringArray());
+                            }
+                        } catch (AS400Exception ex) {
+                            getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } catch (AS400SecurityException | InterruptedException | IOException | ObjectDoesNotExistException | ErrorCompletingRequestException ex) {
+                            getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
                 }
+            } catch (PropertyVetoException ex) {
+                getLogger().log(Level.SEVERE, "Error encountered accessing " + as400name, ex);
+                setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return args;
