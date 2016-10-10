@@ -83,7 +83,7 @@ public class CmdJournal extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     String destName = argArray.next();
@@ -123,8 +123,9 @@ public class CmdJournal extends Command {
         } else {
             JournalHelper journalHelper = null;
             if (jrnlTuple != null) {
-                Object o = jrnlTuple.getValue();
-                journalHelper = o instanceof JournalHelper ? JournalHelper.class.cast(o) : null;
+                journalHelper = valueFromTuple(jrnlTuple, JournalHelper.class);
+//                Object o = jrnlTuple.getValue();
+//                journalHelper = o instanceof JournalHelper ? JournalHelper.class.cast(o) : null;
             } else {
                 AS400 as400 = null;
                 try {

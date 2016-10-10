@@ -112,7 +112,6 @@ public class CmdList extends Command {
     public ArgArray doCmdList(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE;
         ThingArrayList myThingArrayList = null;
-        Tuple talTuple = null;
         Tuple toAddRemove = null;
         Integer toGetSet = null;
         String stringToAdd = null;
@@ -127,7 +126,7 @@ public class CmdList extends Command {
                     break;
                 case "--":
                 case "-list":
-                    talTuple = argArray.nextTupleOrPop();
+                    myThingArrayList = valueFromTuple(argArray.nextTupleOrPop(), ThingArrayList.class);
                     break;
                 case "-new":
                 case "-instance":
@@ -178,12 +177,6 @@ public class CmdList extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            if (talTuple != null) {
-                Object maybeList = talTuple.getValue();
-                if (maybeList instanceof ThingArrayList) {
-                    myThingArrayList = ThingArrayList.class.cast(maybeList);
-                }
-            }
             switch (operation) {
                 case ADD:
                     if (myThingArrayList == null) {
