@@ -949,6 +949,12 @@ public class Renderer {
         return pa.prettyPrintAll();
     }
 
+    /**
+     * Make an output string from an ObjectLockListEntry
+     *
+     * @param olle ObjectLockListEntry
+     * @return string representation
+     */
     public String stringFrom(ObjectLockListEntry olle) {
         StringBuilder sb = new StringBuilder();
         sb.append(olle.getJobName()).append('|')
