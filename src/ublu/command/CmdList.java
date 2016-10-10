@@ -264,7 +264,7 @@ public class CmdList extends Command {
                         try {
                             put(myThingArrayList.remove(removeIndex));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting removed " + toAddRemove.getValue() + " from List in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error putting removed " + toAddRemove == null ? null : toAddRemove.getValue() + " from List in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
