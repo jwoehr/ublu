@@ -49,7 +49,7 @@ import ublu.util.Tuple;
 public class CmdJobLog extends Command {
 
     {
-        setNameAndDescription("joblog", "/0 [-as400 @as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -query ~@{dir|name|user|number|sys} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
+        setNameAndDescription("joblog", "/0 [-as400 ~@as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -query ~@{dir|name|user|number|sys} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
     }
 
     enum OPS {
@@ -90,7 +90,7 @@ public class CmdJobLog extends Command {
 //                    setDataSrc(DataSink.fromSinkName(srcName));
 //                    break;
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "--":
                 case "-joblog":
@@ -148,7 +148,7 @@ public class CmdJobLog extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            JobLog jobLog = jobLogFromTuple(jobLogTuple);
+            JobLog jobLog = valueFromTuple(jobLogTuple, JobLog.class);
             switch (op) {
                 case ADD:
                     if (jobLog != null) {
@@ -290,17 +290,6 @@ public class CmdJobLog extends Command {
             }
         }
         return argArray;
-    }
-
-    private JobLog jobLogFromTuple(Tuple t) {
-        JobLog jobLog = null;
-        if (t != null) {
-            Object o = t.getValue();
-            if (o instanceof JobLog) {
-                jobLog = JobLog.class.cast(o);
-            }
-        }
-        return jobLog;
     }
 
     private Integer messageTypeFromString(String messageType) {

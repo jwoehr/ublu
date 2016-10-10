@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdJobList extends Command {
 
     {
-        setNameAndDescription("joblist", "/3? [-as400 @as400] [-to datasink] [-username userfilter ] [-jobname jobfilter] [-jobnumber jobnumfilter] [-jobtype JOBTYPE] [-active [-disconnected]] system userid passwd : retrieve a (filtered) joblist");
+        setNameAndDescription("joblist", "/3? [-as400 ~@as400] [-to datasink] [-username userfilter ] [-jobname jobfilter] [-jobnumber jobnumfilter] [-jobtype JOBTYPE] [-active [-disconnected]] system userid passwd : retrieve a (filtered) joblist");
 
     }
 
@@ -73,8 +73,7 @@ public class CmdJobList extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
-                    // /* Debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     String destName = argArray.next();
