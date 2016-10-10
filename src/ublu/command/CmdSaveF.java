@@ -62,8 +62,7 @@ public class CmdSaveF extends Command {
         /**
          * Instance savefile object
          */
-        NEW
-,        /**
+        NEW, /**
          * Create the savefile
          */
         CREATE,
@@ -235,8 +234,7 @@ public class CmdSaveF extends Command {
                                     }
                                 }
                             } else // we have a library name
-                            {
-                                if (objectList.isEmpty()) // save lib if no obj list
+                             if (objectList.isEmpty()) // save lib if no obj list
                                 {
                                     saveFile.restore(savedLibName);
                                 } else { // We have an obj list
@@ -245,7 +243,6 @@ public class CmdSaveF extends Command {
                                     }
                                     saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                                 }
-                            }
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -264,14 +261,12 @@ public class CmdSaveF extends Command {
                                     saveFile.save(pathList.toStringArray());
                                 }
                             } else // we have a library name
-                            {
-                                if (objectList.isEmpty()) // save lib if no obj list
+                             if (objectList.isEmpty()) // save lib if no obj list
                                 {
                                     saveFile.save(savedLibName);
                                 } else { // We have an obj list
                                     saveFile.save(savedLibName, objectList.toStringArray());
                                 }
-                            }
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
