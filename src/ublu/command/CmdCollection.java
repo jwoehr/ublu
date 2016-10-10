@@ -62,7 +62,6 @@ public class CmdCollection extends Command {
      */
     public ArgArray collection(ArgArray argArray) {
         OPS op = OPS.SHOW;
-        Tuple collectionTuple = null;
         Collection collection = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -77,8 +76,7 @@ public class CmdCollection extends Command {
 //                    break;
                 case "--":
                 case "-collection":
-                    collectionTuple = argArray.nextTupleOrPop();
-                    collection = valueFromTuple(collectionTuple, Collection.class);
+                    collection = argArray.nextTupleOrPop().value(Collection.class);
                     break;
                 case "-show":
                     op = OPS.SHOW;

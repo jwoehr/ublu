@@ -56,7 +56,7 @@ import ublu.util.Tuple;
 public class CmdCs extends Command {
 
     {
-        setNameAndDescription("cs",                
+        setNameAndDescription("cs",
                 "/4? [-to @var ] [--,-cs ~@cs] [-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
@@ -136,8 +136,7 @@ public class CmdCs extends Command {
                     break;
                 case "--":
                 case "-cs":
-                    csTuple = argArray.nextTupleOrPop();
-                    cs = valueFromTuple(csTuple, CallableStatement.class);                  
+                    cs = argArray.nextTupleOrPop().value(CallableStatement.class);
 //                    o = csTuple.getValue();
 //                    if (o instanceof CallableStatement) {
 //                        cs = CallableStatement.class.cast(o);
@@ -147,8 +146,7 @@ public class CmdCs extends Command {
 //                    }
                     break;
                 case "-dbconnected":
-                    dbTuple = argArray.nextTupleOrPop();
-                    db = valueFromTuple(dbTuple, Db.class);
+                    db = argArray.nextTupleOrPop().value(Db.class);
 //                    o = dbTuple.getValue();
 //                    if (o instanceof Db) {
 //                        db = Db.class.cast(o);

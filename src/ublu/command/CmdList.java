@@ -126,7 +126,7 @@ public class CmdList extends Command {
                     break;
                 case "--":
                 case "-list":
-                    myThingArrayList = valueFromTuple(argArray.nextTupleOrPop(), ThingArrayList.class);
+                    myThingArrayList = argArray.nextTupleOrPop().value(ThingArrayList.class);
                     break;
                 case "-new":
                 case "-instance":

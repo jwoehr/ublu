@@ -148,7 +148,7 @@ public class CmdJobLog extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            JobLog jobLog = valueFromTuple(jobLogTuple, JobLog.class);
+            JobLog jobLog = jobLogTuple.value(JobLog.class);
             switch (op) {
                 case ADD:
                     if (jobLog != null) {

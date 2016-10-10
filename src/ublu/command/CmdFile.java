@@ -163,7 +163,7 @@ public class CmdFile extends Command {
                     break;
                 case "--":
                 case "-file":
-                    aS400File = valueFromTuple(argArray.nextTupleOrPop(), AS400File.class);
+                    aS400File = argArray.nextTupleOrPop().value(AS400File.class);
                     if (aS400File == null) {
                         getLogger().log(Level.SEVERE, "Encountered an exception getting a file instance from the supplied command arguments in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);

@@ -110,7 +110,7 @@ public class CmdSaveF extends Command {
                     break;
                 case "--":
                 case "-savef":
-                    saveFile = valueFromTuple(args.nextTupleOrPop(), SaveFile.class);
+                    saveFile = args.nextTupleOrPop().value(SaveFile.class);
                     if (saveFile == null) {
                         getLogger().log(Level.SEVERE, "No savefile provided for {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);

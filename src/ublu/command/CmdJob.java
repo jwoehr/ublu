@@ -152,7 +152,7 @@ public class CmdJob extends Command {
                     break;
                 case "--":
                 case "-job":
-                    myJob = valueFromTuple(argArray.nextTupleOrPop(), Job.class);
+                    myJob = argArray.nextTupleOrPop().value(Job.class);
                     if (myJob == null) {
                         getLogger().log(Level.SEVERE, "Valued tuple which is not a Job tuple provided to -job in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);

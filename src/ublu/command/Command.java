@@ -132,8 +132,7 @@ public abstract class Command implements CommandInterface {
      * @param args the argument array for this command
      */
     public final void setAs400fromTupleOrPop(ArgArray args) {
-        Tuple t = args.nextTupleOrPop();
-        this.as400 = valueFromTuple(t, AS400.class);
+        this.as400 = args.nextTupleOrPop().value(AS400.class);
         // /* debug */ System.err.println(this.as400);
     }
 
@@ -281,27 +280,6 @@ public abstract class Command implements CommandInterface {
             anAs400 = AS400.class.cast(o);
         }
         return anAs400;
-    }
-
-    /**
-     * Unpack a tuple and cast its value
-     *
-     * @param <C> Class for the tuple value
-     * @param t the tuple
-     * @param cl the class the tuple supposedly contains
-     * @return object of the class or null
-     */
-    public static <C> C valueFromTuple(Tuple t, Class<C> cl) {
-        C result = null;
-        if (t != null) {
-            Object o = t.getValue();
-            // /* Debug*/ System.err.println(o.getClass());
-            // /* Debug*/ System.err.println(cl);
-            if (cl.isAssignableFrom(o.getClass())) {
-                result = cl.cast(o);
-            }
-        }
-        return result;
     }
 
     /**

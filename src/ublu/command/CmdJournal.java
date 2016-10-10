@@ -123,7 +123,7 @@ public class CmdJournal extends Command {
         } else {
             JournalHelper journalHelper = null;
             if (jrnlTuple != null) {
-                journalHelper = valueFromTuple(jrnlTuple, JournalHelper.class);
+                journalHelper = jrnlTuple.value(JournalHelper.class);
 //                Object o = jrnlTuple.getValue();
 //                journalHelper = o instanceof JournalHelper ? JournalHelper.class.cast(o) : null;
             } else {
