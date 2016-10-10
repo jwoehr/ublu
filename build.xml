@@ -86,7 +86,7 @@
         </tstamp>
         <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.zip" excludes="**">
             <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**"/>
-            <zipfileset dir="." includes="examples/**,userdoc/**"/>
+            <zipfileset dir="." includes="examples/**,extensions/**,userdoc/**"/>
         </zip>        
     </target>
 
