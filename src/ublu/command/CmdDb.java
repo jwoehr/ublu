@@ -66,7 +66,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4? [--,-dbconnected @dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
+                "/4? [--,-dbconnected ~@dbconnected] -db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
@@ -311,7 +311,8 @@ public class CmdDb extends Command {
                     break;
                 case "--":
                 case "-dbconnected":
-                    setDb(Db.class.cast(getTuple(argArray.next()).getValue()));
+                    setDb(valueFromTuple(argArray.nextTupleOrPop(), Db.class));
+                    // setDb(Db.class.cast(getTuple(argArray.next()).getValue()));
                     break;
                 case "-catalog":
                     setFunction(FUNCTIONS.CATALOG);

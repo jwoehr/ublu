@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class CmdCommandCall extends Command {
 
     {
-        setNameAndDescription("commandcall", "/4? [-as400 @as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{commandstring} : execute a CL command");
+        setNameAndDescription("commandcall", "/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{commandstring} : execute a CL command");
     }
 
     /**
@@ -71,7 +71,7 @@ public class CmdCommandCall extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     // /* debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
                     break;
                 case "-to":

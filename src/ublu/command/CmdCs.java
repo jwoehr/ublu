@@ -57,7 +57,7 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("cs",                
-                "/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs ~@cs] [-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -137,23 +137,25 @@ public class CmdCs extends Command {
                 case "--":
                 case "-cs":
                     csTuple = argArray.nextTupleOrPop();
-                    o = csTuple.getValue();
-                    if (o instanceof CallableStatement) {
-                        cs = CallableStatement.class.cast(o);
-                    } else {
-                        getLogger().log(Level.SEVERE, "Supplied tuple is not a Callable Statement instance in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
+                    cs = valueFromTuple(csTuple, CallableStatement.class);                  
+//                    o = csTuple.getValue();
+//                    if (o instanceof CallableStatement) {
+//                        cs = CallableStatement.class.cast(o);
+//                    } else {
+//                        getLogger().log(Level.SEVERE, "Supplied tuple is not a Callable Statement instance in {0}", getNameAndDescription());
+//                        setCommandResult(COMMANDRESULT.FAILURE);
+//                    }
                     break;
                 case "-dbconnected":
                     dbTuple = argArray.nextTupleOrPop();
-                    o = dbTuple.getValue();
-                    if (o instanceof Db) {
-                        db = Db.class.cast(o);
-                    } else {
-                        getLogger().log(Level.SEVERE, "Supplied tuple is not a Database instance in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
+                    db = valueFromTuple(dbTuple, Db.class);
+//                    o = dbTuple.getValue();
+//                    if (o instanceof Db) {
+//                        db = Db.class.cast(o);
+//                    } else {
+//                        getLogger().log(Level.SEVERE, "Supplied tuple is not a Database instance in {0}", getNameAndDescription());
+//                        setCommandResult(COMMANDRESULT.FAILURE);
+//                    }
                     break;
                 case "-new":
                     function = FUNCTIONS.INSTANCE;

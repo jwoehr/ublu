@@ -56,7 +56,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed | -sequential] [-new | -create | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{BF|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -141,7 +141,7 @@ public class CmdFile extends Command {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
         Object o; // used for unloading tuples
         Boolean keyedNotSequential = null;
-        Tuple fileTuple;
+//        Tuple fileTuple;
         Tuple formatTuple = null;
         AS400File aS400File = null;
         String readCommand = "";
@@ -156,21 +156,26 @@ public class CmdFile extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     setDataDest(DataSink.fromSinkName(argArray.next()));
                     break;
                 case "--":
                 case "-file":
-                    fileTuple = argArray.nextTupleOrPop();
-                    o = fileTuple.getValue();
-                    if (o instanceof AS400File) {
-                        aS400File = AS400File.class.cast(o);
-                    } else {
+                    aS400File = valueFromTuple(argArray.nextTupleOrPop(), AS400File.class);
+                    if (aS400File == null) {
                         getLogger().log(Level.SEVERE, "Encountered an exception getting a file instance from the supplied command arguments in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
+//                    fileTuple = argArray.nextTupleOrPop();
+//                    o = fileTuple.getValue();
+//                    if (o instanceof AS400File) {
+//                        aS400File = AS400File.class.cast(o);
+//                    } else {
+//                        getLogger().log(Level.SEVERE, "Encountered an exception getting a file instance from the supplied command arguments in {0}", getNameAndDescription());
+//                        setCommandResult(COMMANDRESULT.FAILURE);
+//                    }
                     break;
                 case "-keyed":
                     keyedNotSequential = true;

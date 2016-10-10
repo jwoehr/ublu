@@ -63,6 +63,7 @@ public class CmdCollection extends Command {
     public ArgArray collection(ArgArray argArray) {
         OPS op = OPS.SHOW;
         Tuple collectionTuple = null;
+        Collection collection = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -77,6 +78,7 @@ public class CmdCollection extends Command {
                 case "--":
                 case "-collection":
                     collectionTuple = argArray.nextTupleOrPop();
+                    collection = valueFromTuple(collectionTuple, Collection.class);
                     break;
                 case "-show":
                     op = OPS.SHOW;
@@ -90,43 +92,34 @@ public class CmdCollection extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (collection == null) {
+            getLogger().log(Level.SEVERE, "No Collection provided to --collection in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Collection collection = null;
-            if (collectionTuple != null) {
-                Object tupleValue = collectionTuple.getValue();
-                if (tupleValue instanceof Collection) {
-                    collection = Collection.class.cast(tupleValue);
-                } else {
-                    getLogger().log(Level.SEVERE, "Valued tuple which is not a Collection tuple provided to --collection in {0}", getNameAndDescription());
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                }
-            }
-            if (collection != null) {
-                switch (op) {
-                    case SIZE:
-                        int size = collection.size();
+            switch (op) {
+                case SIZE:
+                    int size = collection.size();
+                    try {
+                        put(size);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting member of Collection in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case SHOW:
+                    Iterator it = collection.iterator();
+                    while (it.hasNext()) {
                         try {
-                            put(size);
+                            put(it.next());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting member of Collection in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case SHOW:
-                        Iterator it = collection.iterator();
-                        while (it.hasNext()) {
-                            try {
-                                put(it.next());
-                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting member of Collection in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                        }
-                        break;
-                    default:
-                        getLogger().log(Level.SEVERE, "Unahndled operation {0} in {1}", new Object[]{op, getNameAndDescription()});
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                }
+                    }
+                    break;
+                default:
+                    getLogger().log(Level.SEVERE, "Unahndled operation {0} in {1}", new Object[]{op, getNameAndDescription()});
+                    setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return argArray;

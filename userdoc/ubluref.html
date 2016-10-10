@@ -2,10 +2,9 @@
 
 <html>
 <head>
-  <meta name="generator" content=
-  "tidyp for OpenBSD (v1.04), see www.w3.org">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8" >
+  <meta name="generator" content="Bluefish 2.2.8" >
+  <meta name="generator" content="Bluefish 2.2.8" >
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1903,7 +1902,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="as400" id="as400"></a><tt>as400</tt><br></h4>
 
   <blockquote>
-    <tt>/3? [-to @var] [--,-as400,-from @var] [-usessl] [-ssl ~@tf]
+    <tt>/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf]
     [-new,-instance | -alive | -alivesvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -connectsvc
@@ -2386,7 +2385,7 @@ Type help for help. Type license for license. Type bye to exit.
   "commandcall"></a></i><tt>commandcall</tt><br></h4>
 
   <blockquote>
-    <p><tt>/4? [-as400 @as400] [-to datasink] ~@{system} ~@{userid}
+    <p><tt>/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid}
     ~@{passwd} ~@{commandstring} : execute a CL command</tt><br>
     executes a CL command represented by <i>commandstring</i> on
     IBM i system <i>system</i> on behalf of <i>userid</i> with
@@ -2484,7 +2483,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><tt><a name="cs" id="cs"></a>cs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-cs @cs] [-dbconnected @db] [[[-new]
+    <tt>/4? [-to @var ] [--,-cs ~@cs] [-dbconnected ~@db] [[[-new]
     -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object
     ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out
     ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription
@@ -2549,7 +2548,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><tt><a name="db" id="db"></a>db</tt></h4>
 
   <blockquote>
-    <tt>/4? [--,-dbconnected @dbconnected] -db ~@{type}
+    <tt>/4? [--,-dbconnected ~@dbconnected] -db ~@{type}
     [-charsetname ~@{charsetname}] [-catalog | -columntypes
     ~@{tablename} | -connect | -csv ~@{tablename} [-separator
     ~@{separator} ] | -json ~@{tablename} | -disconnect | -metadata
@@ -4162,7 +4161,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="file"></a> <tt>file</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-file @file] [-as400 @as400] [-keyed |
+    <tt>/4? [-to @var ] [--,-file ~@file] [-as400 @as400] [-keyed |
     -sequential] [-new | -create | -del | -delmemb | -delrec |
     -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list
     | -pos ~@{BF|F|P|N|L|A} | -recfmtnum ~@{int} | -read
@@ -6028,7 +6027,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="ifs" id="ifs"></a> <tt>ifs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-ifs,-- @ifsfile] [-as400 @as400] [-to datasink]
+    <tt>/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink]
     [-from datasink] [-length ~@{length}] [-offset ~@{offset}]
     [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists |
     -file | -list | -mkdirs | -query
