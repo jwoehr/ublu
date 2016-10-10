@@ -104,6 +104,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("RETURN", CmdReturn.class);
         put("rs", CmdRs.class);
         put("savf", CmdSavF.class);
+        put("savef", CmdSaveF.class);
         put("server", CmdServer.class);
         put("sess", CmdSession.class);
         put("session", CmdSession.class);
