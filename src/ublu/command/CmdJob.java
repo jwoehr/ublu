@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdJob extends Command {
 
     {
-        setNameAndDescription("job", "/6? [-as400 @as400] [--,-job @job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -release | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
+        setNameAndDescription("job", "/6? [-as400 ~@as400] [--,-job ~@job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -release | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
     }
 
     /**
@@ -110,7 +110,7 @@ public class CmdJob extends Command {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
         String jobTupleName = null;
         String query = null;
-        Tuple jobTuple = null;
+        Job myJob = null;
         int delay = -1;
         String propertyToGet = "";
         boolean holdSpooledFiles = false;
@@ -126,7 +126,7 @@ public class CmdJob extends Command {
 //                    setDataSrc(DataSink.fromSinkName(srcName));
 //                    break;
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-end":
                     function = FUNCTIONS.END;
@@ -152,8 +152,11 @@ public class CmdJob extends Command {
                     break;
                 case "--":
                 case "-job":
-                    jobTupleName = argArray.next();
-                    jobTuple = getTuple(jobTupleName);
+                    myJob = valueFromTuple(argArray.nextTupleOrPop(), Job.class);
+                    if (myJob == null) {
+                        getLogger().log(Level.SEVERE, "Valued tuple which is not a Job tuple provided to -job in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 case "-noop":
                     function = FUNCTIONS.NOOP;
@@ -177,18 +180,8 @@ public class CmdJob extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
-            Job myJob = null;
-            if (jobTuple != null) {
-                Object tupleValue = jobTuple.getValue();
-
-                if (tupleValue instanceof Job) {
-                    myJob = Job.class
-                            .cast(tupleValue);
-                } else {
-                    getLogger().log(Level.WARNING, "Valued tuple which is not a Job tuple provided to -job in {0}", getNameAndDescription());
-                }
-            }
+        }
+        if (getCommandResult() != COMMANDRESULT.FAILURE) {
             if (myJob == null) { // no provided Job instance
                 if (argArray.size() < 3) {
                     logArgArrayTooShortError(argArray);
