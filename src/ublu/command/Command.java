@@ -125,6 +125,18 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * Set the AS400 instance (if any) associated with this command from the arg
+     * array's next tuple or pop. Gets the next tuple or pop from the arg array
+     * and instances the as400 member if tuple value is of that class
+     *
+     * @param args the argument array for this command
+     */
+    public final void setAs400fromTupleOrPop(ArgArray args) {
+        Tuple t = args.nextTupleOrPop();
+        this.as400 = valueFromTuple(t, AS400.class);
+    }
+
+    /**
      * Get the class of the instance so that static methods can be invoked
      *
      * @return the class of the instance
@@ -268,6 +280,25 @@ public abstract class Command implements CommandInterface {
             anAs400 = AS400.class.cast(o);
         }
         return anAs400;
+    }
+
+    /**
+     * Unpack a tuple and cast its value
+     *
+     * @param <C> Class for the tuple value
+     * @param t the tuple
+     * @param cl the class the tuple supposedly contains
+     * @return object of the class or null
+     */
+    public <C> C valueFromTuple(Tuple t, Class<C> cl) {
+        C result = null;
+        if (t != null) {
+            Object o = t.getValue();
+            if (o.getClass() == cl) {
+                result = cl.cast(o);
+            }
+        }
+        return result;
     }
 
     /**
@@ -456,7 +487,15 @@ public abstract class Command implements CommandInterface {
      * @param argArray The argument array from the interpreter
      */
     public final void logArgArrayTooShortError(ArgArray argArray) {
-        getLogger().log(Level.SEVERE, "{0} represents too few arguments to {1}", new Object[]{new Integer(argArray.size()), getNameAndDescription()});
+        getLogger().log(Level.SEVERE, "{0} represents too few arguments to {1}", new Object[]{argArray.size(), getNameAndDescription()});
+    }
+
+    /**
+     * Log an error when no as400 instance has been provided
+     *
+     */
+    public final void logNoAs400() {
+        getLogger().log(Level.SEVERE, "No as400 instance provided to {0}", getNameAndDescription());
     }
 
     /**
