@@ -958,7 +958,8 @@ public class Renderer {
                 .append(olle.getLockState()).append('|')
                 .append(olle.getLockStatus()).append('|')
                 .append(olle.getLockType()).append('|')
-                .append(olle.getShare());
+                .append(olle.getShare()).append('|')
+                .append(olle.getThreadID());
         return sb.toString();
     }
 
