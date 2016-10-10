@@ -118,6 +118,24 @@ public class Tuple {
     }
 
     /**
+     * Get the value object polymorphically as instance of specific class
+     *
+     * @param <C> Class of instance to be returned
+     * @param cl Class of instance to be returned
+     * @return already cast instance of the value object or null if not of
+     * desired class
+     */
+    public <C> C value(Class<C> cl) {
+        C result = null;
+        if (getValue() != null) {
+            if (cl.isAssignableFrom(valueClass())) {
+                result = cl.cast(getValue());
+            }
+        }
+        return result;
+    }
+
+    /**
      * For the class Tuple, returns the key. In Tuple subclass ParamSubTuple,
      * returns the key of the bound tuple.
      *
