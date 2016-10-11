@@ -28,7 +28,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics.StringArrayList;
 import ublu.util.Sess5250;
 import ublu.util.TN5250Helper;
@@ -74,10 +73,10 @@ public class CmdTN5250 extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    setDataSrc(DataSink.fromSinkName(argArray.next()));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "--":
                 case "-tn5250":
