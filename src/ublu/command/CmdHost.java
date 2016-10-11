@@ -80,7 +80,7 @@ public class CmdHost extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-new":
                 case "-instance":
