@@ -29,7 +29,6 @@ package ublu.command;
 
 import ublu.AS400Factory;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400Exception;
 import com.ibm.as400.access.AS400SecurityException;
@@ -53,7 +52,7 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdOutQ extends Command {
-
+    
     {
         setNameAndDescription("outq",
                 "/4? [-as400 @as400] [-outq ~@outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
@@ -114,12 +113,10 @@ public class CmdOutQ extends Command {
                     setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    String srcName = argArray.next();
-                    setDataSrc(DataSink.fromSinkName(srcName));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-clear":
                     function = FUNCTIONS.CLEAR;
@@ -304,13 +301,13 @@ public class CmdOutQ extends Command {
         }
         return argArray;
     }
-
+    
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return outqueue(args);
     }
-
+    
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
