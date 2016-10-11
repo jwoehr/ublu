@@ -43,7 +43,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics.RecordArrayList;
 import ublu.util.Tuple;
 
@@ -159,7 +158,7 @@ public class CmdFile extends Command {
                     setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-file":
