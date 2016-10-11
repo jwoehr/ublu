@@ -85,6 +85,15 @@ public class Interpreter {
     }
 
     /**
+     * Set the const map
+     *
+     * @param constMap the const map
+     */
+    public void setConstMap(ConstMap constMap) {
+        this.constMap = constMap;
+    }
+
+    /**
      * Get constant value from the map. Return null if not found.
      *
      * @param name name of const
