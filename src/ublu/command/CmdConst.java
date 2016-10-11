@@ -75,10 +75,10 @@ public class CmdConst extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    setDataSrc(DataSink.fromSinkName(argArray.next()));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-list":
                     op = OPS.LIST;
