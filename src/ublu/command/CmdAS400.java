@@ -29,7 +29,6 @@ package ublu.command;
 
 import ublu.AS400Factory;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400JPing;
 import com.ibm.as400.access.AS400SecurityException;
@@ -160,7 +159,7 @@ public class CmdAS400 extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-as400":
