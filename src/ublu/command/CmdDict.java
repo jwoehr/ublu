@@ -26,23 +26,16 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
-import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.FunctorMap;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -78,10 +71,10 @@ public class CmdDict extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    setDataSrc(DataSink.fromSinkName(argArray.next()));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-list":
                     operation = OPERATIONS.LIST;
