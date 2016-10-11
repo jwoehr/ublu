@@ -75,6 +75,10 @@ FUNC ux.objectlocks.display ( objlocklist ) $[
 ]$
 
 # Exercise all the above given an as400 and a path to the locked object
+# E.g., if you are editing a member of the the srcpf MYLIB/MYSRCFILE then:
+#   as400 -to @sys MYSIS MYID MYPASSWD
+#   put -to @ifspath /QSYS.LIB/MYLIB.LIB/MYSRCFILE.FILE
+#   ux.objectlock.testme ( @sys @ifspath )
 FUNC ux.objectlock.testme ( sys ifspath ) $[
     put -from @@sys
     put -from @@ifspath
