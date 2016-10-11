@@ -75,8 +75,7 @@ public class CmdCommandCall extends Command {
                     // /* debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
 //                case "-from":
 //                    String srcName = argArray.next();
