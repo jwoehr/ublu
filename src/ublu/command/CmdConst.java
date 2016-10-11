@@ -27,9 +27,16 @@
  */
 package ublu.command;
 
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
 import ublu.util.Const;
+import ublu.util.DataSink;
 
 /**
  * Command to create a named constant with a string value.
@@ -40,7 +47,11 @@ public class CmdConst extends Command {
 
     {
         setNameAndDescription("const",
-                "/2 *name ~@{value} : create a constant value");
+                "/2 [-to datasink] [-list] [-create] *name ~@{value} : create a constant value");
+    }
+
+    enum OPS {
+        CREATE, LIST
     }
 
     /**
@@ -50,13 +61,20 @@ public class CmdConst extends Command {
      * @return the remainder of the arg array
      */
     public ArgArray doConst(ArgArray argArray) {
+        OPS op = OPS.CREATE; // default
         while (getCommandResult() != COMMANDRESULT.FAILURE && argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
-//                case "-to":
-//                    String destName = argArray.next();
-//                    setDataDest(DataSink.fromSinkName(destName));
-//                    break;
+                case "-to":
+                    String destName = argArray.next();
+                    setDataDest(DataSink.fromSinkName(destName));
+                    break;
+                case "-list":
+                    op = OPS.LIST;
+                    break;
+                case "-create":
+                    op = OPS.CREATE;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -65,24 +83,36 @@ public class CmdConst extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
-            if (argArray.size() < 2) {
-                logArgArrayTooShortError(argArray);
-                setCommandResult(COMMANDRESULT.FAILURE);
-            } else {
-                String name = argArray.next();
-                String value = argArray.nextMaybeQuotationTuplePopString();
-                if (Const.isConstName(name)) {
-                    if (getInterpreter().getConst(name) != null) {
-                        getLogger().log(Level.SEVERE, "\"{0}\" already exists as a const with value \"{1}\" in {2}", new Object[]{name, getInterpreter().getConst(name), getNameAndDescription()});
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } else if (!getInterpreter().setConst(name, value)) {
-                        getLogger().log(Level.SEVERE, "Attempt to set a const with null value in {0}", getNameAndDescription());
+            switch (op) {
+                case CREATE:
+                    if (argArray.size() < 2) {
+                        logArgArrayTooShortError(argArray);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-                } else {
-                    getLogger().log(Level.SEVERE, "{0}" + " is not a const name starting with \"" + Const.CONSTNAMECHAR + "\" in {1}", new Object[]{name, getNameAndDescription()});
-                    setCommandResult(COMMANDRESULT.FAILURE);
+                    String name = argArray.next();
+                    String value = argArray.nextMaybeQuotationTuplePopString();
+                    if (Const.isConstName(name)) {
+                        if (getInterpreter().getConst(name) != null) {
+                            getLogger().log(Level.SEVERE, "\"{0}\" already exists as a const with value \"{1}\" in {2}", new Object[]{name, getInterpreter().getConst(name), getNameAndDescription()});
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else if (!getInterpreter().setConst(name, value)) {
+                            getLogger().log(Level.SEVERE, "Attempt to set a const with null value in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "{0}" + " is not a const name starting with \"" + Const.CONSTNAMECHAR + "\" in {1}", new Object[]{name, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case LIST: {
+                    try {
+                        put(getInterpreter().getConstMap().listConsts());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting const list in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                 }
+                break;
             }
         }
         return argArray;
