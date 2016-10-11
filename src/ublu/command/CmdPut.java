@@ -100,7 +100,7 @@ public class CmdPut extends Command {
                     setDataDest(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
                     break;
                 case "-from":
-                    setDataSrc(newDataSink(argArray));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-fromfile":
                     setDataSrc(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));

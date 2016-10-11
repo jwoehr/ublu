@@ -172,7 +172,7 @@ public class CmdIFS extends Command {
                     setDataSrcfromArgArray(argArray);
                     break;
                 case "-fromfile":
-                    setDataSrc(new DataSink(DataSink.SINKTYPE.FILE, argArray.nextMaybeQuotationTuplePopString()));
+                     setDataSrc(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
