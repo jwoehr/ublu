@@ -67,8 +67,7 @@ public class CmdCollection extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
 //                case "-from":
 //                    String srcName = argArray.next();
