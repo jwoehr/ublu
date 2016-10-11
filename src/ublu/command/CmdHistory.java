@@ -38,8 +38,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
- * Functionality of the interpreter "history" command. <p>Manages history file
- * creation, reading, writing, and repeat execution.</p>
+ * Functionality of the interpreter "history" command.
+ * <p>
+ * Manages history file creation, reading, writing, and repeat execution.</p>
  *
  *
  * @author jwoehr
@@ -126,8 +127,7 @@ public class CmdHistory extends Command {
             String dashCommand = args.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = args.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(args);
                     break;
                 case "-off":
                     setFunction(FUNCTIONS.OFF);
