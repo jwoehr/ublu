@@ -26,21 +26,21 @@ FUNC ifsc ( sys fqp ccsid ) $[
 FUNC ifsst ( sys fqp localfp ) $[
     LOCAL @_f
     ifs -as400 @@sys -to @_f -file @@fqp
-    ifs -- @_f -t -from @@localfp -write
+    ifs -- @_f -t -fromfile @@localfp -write
 ]$
   
 # Send text with no translation 
 FUNC ifssta ( sys fqp localfp ) $[
     LOCAL @_f
     ifs -as400 @@sys -to @_f -file @@fqp
-    ifs -- @_f -from @@localfp -write
+    ifs -- @_f -fromfile @@localfp -write
 ]$
 
 # Send binary
 FUNC ifssb ( sys fqp localfp ) $[
     LOCAL @_f
     ifs -as400 @@sys -to @_f -file @@fqp
-    ifs -- @_f -from @@localfp -writebin
+    ifs -- @_f -fromfile @@localfp -writebin
 ]$
 
 # Receive text with translation 

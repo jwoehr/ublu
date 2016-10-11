@@ -8,6 +8,7 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -6208,14 +6209,14 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/4? [-ifs,-- ~@ifsfile] [-as400 ~@as400] [-to datasink]
-    [-from datasink] [-length ~@{length}] [-offset ~@{offset}]
-    [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists |
-    -file | -list | -mkdirs | -query
-    ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename
-    ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]}
-    ~@{value} | -size | -write [~@{string }] | -writebin ]
-    ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password}
-    : integrated file system access<br>
+    [-from datasink] [-fromfile ~@{/full/file/path}] [-length
+    ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b]
+    [-t] [-create | -delete | -exists | -file | -list | -mkdirs |
+    -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read |
+    -rename ~@{/fully/qualified/path/name} | -set
+    ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] |
+    -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user}
+    ~@{password} : integrated file system access<br>
     &nbsp;&nbsp;&nbsp;</tt><br>
     <br>
     The <tt>ifs</tt> command performs operations on the OS/400
@@ -6253,8 +6254,7 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-create</tt> creates on the server the IFS file
       specified by either by <tt>/fully/qualified/pathname</tt> or
       by the tuple variable referenced by the <tt>-from</tt> or a
-      <tt>-ifsfile</tt> or <tt>--</tt> dash-command
-      dash-command.</li>
+      <tt>-ifsfile</tt> or <tt>--</tt> dash-command.</li>
 
       <li><tt>-delete</tt> deletes the IFS object specified by
       <tt>/fully/qualified/pathname</tt> or by the tuple variable
@@ -6270,6 +6270,15 @@ Type help for help. Type license for license. Type bye to exit.
       suitable for storage to a tuple variable via the <tt>-to</tt>
       <i>datasink</i> dash-command. This is the default
       operation.</li>
+
+      <li><tt>-from datasink</tt> sets the source datasink to the
+      datasink named by its argument. To write from a filepath
+      whose name is contained in a tuple, use
+      <tt>-fromfile</tt>.</li>
+
+      <li><tt>-fromfile ~@{/full/file/path}</tt> sets the source
+      datasink to the fully qualified filepath named by its
+      argument.</li>
 
       <li>
         <tt>-length</tt> sets the length for a <tt>-read</tt> or
