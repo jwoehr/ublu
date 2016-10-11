@@ -36,7 +36,6 @@ import java.sql.SQLException;
 import ublu.server.Listener;
 import ublu.util.ArgArray;
 import java.util.logging.Level;
-import ublu.util.DataSink;
 import ublu.util.Tuple;
 
 /**
@@ -112,8 +111,7 @@ public class CmdServer extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                     listener = argArray.nextTupleOrPop().value(Listener.class);
