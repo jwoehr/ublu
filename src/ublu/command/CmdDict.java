@@ -67,7 +67,7 @@ public class CmdDict extends Command {
 
     /**
      * do Dict operations
-     * 
+     *
      * @param argArray
      * @return remnant of argArray
      */
@@ -133,7 +133,7 @@ public class CmdDict extends Command {
                                 Object o = t.getValue();
                                 if (o instanceof byte[]) {
                                     try {
-                                        fm = functorMapFromByteArray(byte[].class.cast(o));
+                                        fm = FunctorMap.fromByteArray(byte[].class.cast(o));
                                         if (fm != null) {
                                             try {
                                                 put(fm.listFunctions());
@@ -162,7 +162,7 @@ public class CmdDict extends Command {
                                     getLogger().log(Level.SEVERE, "File does not exist {0}", getNameAndDescription());
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 } else {
-                                    fm = functorMapFromFile(f);
+                                    fm = FunctorMap.fromFile(f);
                                     if (fm != null) {
                                         try {
                                             put(fm.listFunctions());
@@ -219,7 +219,7 @@ public class CmdDict extends Command {
                                 Object o = t.getValue();
                                 if (o instanceof byte[]) {
                                     try {
-                                        fm = functorMapFromByteArray(byte[].class.cast(o));
+                                        fm = FunctorMap.fromByteArray(byte[].class.cast(o));
                                         if (fm != null) {
                                             if (isMerging) {
                                                 getInterpreter().getFunctorMap().putAll(fm);
@@ -247,7 +247,7 @@ public class CmdDict extends Command {
                                     getLogger().log(Level.SEVERE, "File does not exist {0}", getNameAndDescription());
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 } else {
-                                    fm = functorMapFromFile(f);
+                                    fm = FunctorMap.fromFile(f);
                                     if (fm != null) {
                                         if (isMerging) {
                                             getInterpreter().getFunctorMap().putAll(fm);
@@ -268,32 +268,6 @@ public class CmdDict extends Command {
             }
         }
         return argArray;
-    }
-
-    private FunctorMap functorMapFromFile(File f) throws FileNotFoundException, IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(f);
-        BufferedInputStream bis = new BufferedInputStream(fis);
-        ByteArrayList bal = new ByteArrayList();
-        byte[] buff = new byte[1024];
-        int numread;
-        while (bis.available() > 0) {
-            numread = bis.read(buff);
-            for (int i = 0; i < numread; i++) {
-                bal.add(buff[i]);
-            }
-        }
-        return functorMapFromByteArray(bal.byteArray());
-    }
-
-    private FunctorMap functorMapFromByteArray(byte[] byteArray) throws IOException, ClassNotFoundException {
-        FunctorMap fm = null;
-        ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
-        ObjectInputStream ois = new ObjectInputStream(bais);
-        Object restoredObject = ois.readObject();
-        if (restoredObject instanceof FunctorMap) {
-            fm = FunctorMap.class.cast(restoredObject);
-        }
-        return fm;
     }
 
     @Override
