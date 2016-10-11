@@ -39,8 +39,6 @@ import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
-import ublu.util.Tuple;
 
 /**
  * Command to manipulate record file records..
@@ -108,7 +106,7 @@ public class CmdRecord extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-record":
