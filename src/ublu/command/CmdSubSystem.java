@@ -46,14 +46,14 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdSubSystem extends Command {
-
+    
     {
         setNameAndDescription("subsys",
-                "/3? [-as400 @as400] [--,-subsys ~@subsys] [-to datasink] [-subsyspath ~@{subsysIFSpath}] [-authoritystring ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared ~@{sequencenumber} ~@{poolname} | -change [description ~@{text} | displayfile ~@{path} | languagelibrary ~@{lib}} | maxactivejobs ~@${int}] | -create | -delete | -end | -endall | -new,-instance | -list | -query [description | activejobs | displayfilepath | languagelibrary | library | maxactivejobs | monitorjob | name | objectdescription | path | pool | pools ~@{sequencenumber} | status | system] | -refresh | -remove ~@{sequencenumber} | -start ] system userid password : manipulate subsystems");
+                "/3? [-as400 ~@as400] [--,-subsys ~@subsys] [-to datasink] [-subsyspath ~@{subsysIFSpath}] [-authoritystring ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared ~@{sequencenumber} ~@{poolname} | -change [description ~@{text} | displayfile ~@{path} | languagelibrary ~@{lib}} | maxactivejobs ~@${int}] | -create | -delete | -end | -endall | -new,-instance | -list | -query [description | activejobs | displayfilepath | languagelibrary | library | maxactivejobs | monitorjob | name | objectdescription | path | pool | pools ~@{sequencenumber} | status | system] | -refresh | -remove ~@{sequencenumber} | -start ] system userid password : manipulate subsystems");
     }
-
+    
     enum OPS {
-
+        
         ASSIGNPRIVATE, ASSIGNSHARED, CREATE, CHANGE, DELETE, END, ENDALL, EXISTS, INSTANCE, LIST, QUERY, REFRESH, REMOVE, START
     }
 
@@ -81,7 +81,7 @@ public class CmdSubSystem extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     setDataDest(newDataSink(argArray));
@@ -302,7 +302,7 @@ public class CmdSubSystem extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
-
+                
                 case CREATE:
                     if (subsystem == null) {
                         subsystem = getSubsystem(subsystemIFSPath);
@@ -470,7 +470,7 @@ public class CmdSubSystem extends Command {
         }
         return argArray;
     }
-
+    
     private Subsystem getSubsystem(String subsystemIFSPath) {
         Subsystem subsystem = null;
         if (getAs400() != null) {
@@ -483,7 +483,7 @@ public class CmdSubSystem extends Command {
         }
         return subsystem;
     }
-
+    
     private Object querySubSystem(Subsystem subsys, String queryString, Integer sequenceNumber) throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, InterruptedException, IOException, ObjectDoesNotExistException {
         Object result = null;
         switch (queryString.toLowerCase()) {
@@ -535,13 +535,13 @@ public class CmdSubSystem extends Command {
         }
         return result;
     }
-
+    
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return cmdSubsys(args);
     }
-
+    
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
