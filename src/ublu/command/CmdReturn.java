@@ -42,9 +42,9 @@ public class CmdReturn extends Command {
         while (getInterpreter().frameDepth() > 0 && getInterpreter().isForBlock()) {
             getInterpreter().popFrame();
             getInterpreter().setBreakIssued(true);
-            /* Debug */ getInterpreter().outputerrln("popping in RETURN");
+            // /* Debug */ getInterpreter().outputerrln("popping in RETURN");
         }
-        /* Debug */ getInterpreter().outputerrln("doing RETURN");
+        // /* Debug */ getInterpreter().outputerrln("doing RETURN");
         getInterpreter().popFrame();
         getInterpreter().setBreakIssued(true);
         return new ArgArray(getInterpreter());
