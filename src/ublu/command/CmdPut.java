@@ -94,7 +94,7 @@ public class CmdPut extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(newDestDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-tofile":
                     setDataDest(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
