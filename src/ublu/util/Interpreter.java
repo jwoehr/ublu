@@ -76,6 +76,15 @@ public class Interpreter {
     private int instanceDepth = 0;
 
     /**
+     * Get the const map
+     *
+     * @return the const map
+     */
+    public ConstMap getConstMap() {
+        return constMap;
+    }
+
+    /**
      * Get constant value from the map. Return null if not found.
      *
      * @param name name of const
