@@ -27,7 +27,6 @@ package ublu.command;
 
 import ublu.AS400Factory;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics.QueuedMessageKey;
 import ublu.util.Generics.QueuedMessageList;
 import ublu.util.Tuple;
@@ -127,11 +126,10 @@ public class CmdMsgQ extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-msgq":
