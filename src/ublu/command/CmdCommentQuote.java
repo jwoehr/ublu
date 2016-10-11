@@ -61,7 +61,7 @@ public class CmdCommentQuote extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(newDestDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
                 default:
                     unknownDashCommand(dashCommand);
