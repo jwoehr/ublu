@@ -56,7 +56,7 @@ public class CmdOutQ extends Command {
 
     {
         setNameAndDescription("outq",
-                "/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
+                "/4? [-as400 @as400] [-outq ~@outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
     }
 
     /**
@@ -103,15 +103,15 @@ public class CmdOutQ extends Command {
      */
     public ArgArray outqueue(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
+        OutputQueue outQ = null;
         String clearOptName = "";
         String clearOptValue = "";
-        Tuple outQTuple = null;
         String infoparm = "";
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     String destName = argArray.next();
@@ -133,7 +133,7 @@ public class CmdOutQ extends Command {
                     break;
                 case "--":
                 case "-outq":
-                    outQTuple = getTuple(argArray.next());
+                    outQ = argArray.nextTupleOrPop().value(OutputQueue.class);
                     break;
                 case "-hold":
                     function = FUNCTIONS.HOLD;
@@ -158,159 +158,148 @@ public class CmdOutQ extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
-            OutputQueue myQ = null;
-            if (outQTuple != null) {
-                Object tupleValue = outQTuple.getValue();
-                if (tupleValue instanceof OutputQueue) {
-                    myQ = OutputQueue.class.cast(tupleValue);
-                } else {
-                    getLogger().log(Level.SEVERE, "Valued tuple which is not an OutputQueue tuple provided to -outq in {0}", getNameAndDescription());
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                }
-            } else { // no provided OutputQueue instance
-                switch (getDataSrc().getType()) {
-                    case TUPLE:
-                        String tuplename = getDataSrc().getName();
-                        Tuple t = getTuple(tuplename);
-                        if (!(t == null)) {
-                            Object o = t.getValue();
-                            if (o instanceof String) {
-                                myQ = new OutputQueue(getAs400(), o.toString());
-                            } else {
-                                getLogger().log(Level.SEVERE, "Tuple was not a string for OutputQueue name in {0}", getNameAndDescription());
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
+        } else if (outQ == null) {
+            switch (getDataSrc().getType()) {
+                case TUPLE:
+                    String tuplename = getDataSrc().getName();
+                    Tuple t = getTuple(tuplename);
+                    if (!(t == null)) {
+                        Object o = t.getValue();
+                        if (o instanceof String) {
+                            outQ = new OutputQueue(getAs400(), o.toString());
                         } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} does not exist to specify OutputQueue name in {1}", new Object[]{tuplename, getNameAndDescription()});
+                            getLogger().log(Level.SEVERE, "Tuple was not a string for OutputQueue name in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case FILE:
-                        String filename = getDataSrc().getName();
-                        try {
-                            FileReader fr = new FileReader(filename);
-                            BufferedReader br = new BufferedReader(fr);
-                            String outQName = br.readLine();
-                            myQ = new OutputQueue(getAs400(), outQName);
-                        } catch (FileNotFoundException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't get OutputQueue from file " + filename, ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (IOException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't get OutputQueue from file " + filename, ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case STD:
-                        if (argArray.size() < 1) {
-                            logArgArrayTooShortError(argArray);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } else { // get the Job factors
-                            String outQName = argArray.next();
-                            if (getAs400() == null) { // no AS400 instance
-                                if (argArray.size() < 3) {
-                                    logArgArrayTooShortError(argArray);
+                    } else {
+                        getLogger().log(Level.SEVERE, "Tuple {0} does not exist to specify OutputQueue name in {1}", new Object[]{tuplename, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case FILE:
+                    String filename = getDataSrc().getName();
+                    try {
+                        FileReader fr = new FileReader(filename);
+                        BufferedReader br = new BufferedReader(fr);
+                        String outQName = br.readLine();
+                        outQ = new OutputQueue(getAs400(), outQName);
+                    } catch (FileNotFoundException ex) {
+                        getLogger().log(Level.SEVERE, "Couldn't get OutputQueue from file " + filename, ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (IOException ex) {
+                        getLogger().log(Level.SEVERE, "Couldn't get OutputQueue from file " + filename, ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case STD:
+                    if (argArray.size() < 1) {
+                        logArgArrayTooShortError(argArray);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else { // get the Job factors
+                        String outQName = argArray.next();
+                        if (getAs400() == null) { // no AS400 instance
+                            if (argArray.size() < 3) {
+                                logArgArrayTooShortError(argArray);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            } else { // Get the AS400 instance
+                                String system = argArray.next();
+                                String userid = argArray.next();
+                                String password = argArray.next();
+                                try {
+                                    setAs400(AS400Factory.newAS400(getInterpreter(), system, userid, password));
+                                } catch (PropertyVetoException ex) {
+                                    getLogger().log(Level.SEVERE, "Couldn't create AS400 instance in " + getNameAndDescription(), ex);
                                     setCommandResult(COMMANDRESULT.FAILURE);
-                                } else { // Get the AS400 instance
-                                    String system = argArray.next();
-                                    String userid = argArray.next();
-                                    String password = argArray.next();
-                                    try {
-                                        setAs400(AS400Factory.newAS400(getInterpreter(), system, userid, password));
-                                    } catch (PropertyVetoException ex) {
-                                        getLogger().log(Level.SEVERE, "Couldn't create AS400 instance in " + getNameAndDescription(), ex);
-                                        setCommandResult(COMMANDRESULT.FAILURE);
-                                    }
                                 }
                             }
-                            if (getAs400() != null) {
-                                myQ = new OutputQueue(getAs400(), outQName);
-                            }
                         }
-                        break;
-                }
+                        if (getAs400() != null) {
+                            outQ = new OutputQueue(getAs400(), outQName);
+                        } else {
+                            getLogger().log(Level.SEVERE, "No AS400, couldn''t instance OutputQueue from STD: in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
             }
-            if (myQ != null) {
-                switch (function) {
-                    case CLEAR:
-                        PrintParameterList ppl = new PrintParameterList();
-                        switch (clearOptName) {
-                            case "all":
-                                ppl = null;
-                                break;
-                            case "user":
-                                ppl.setParameter(OutputQueue.ATTR_JOBUSER, clearOptValue);
-                                break;
-                            case "form":
-                                ppl.setParameter(OutputQueue.ATTR_FORMTYPE, clearOptValue);
-                        }
-                        try {
-                            myQ.clear(ppl);
-                        } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception clearing outq " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (ErrorCompletingRequestException ex) {
-                            getLogger().log(Level.SEVERE, "Exception clearing outq " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case HOLD:
-                        try {
-                            myQ.hold();
-                        } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception holding outq " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (ErrorCompletingRequestException ex) {
-                            getLogger().log(Level.SEVERE, "Exception holding outq " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case INSTANCE:
-                        try {
-                            put(myQ);
-                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception holding putting " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case INFO:
-                        try {
-                            put(myQ);
-                        } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Exception putting outq info from " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case INFOPARM:
-                        try {
-                            Field f = myQ.getClass().getField(infoparm.trim());
-                            int attr = f.getInt(f);
-                            put(myQ.getStringAttribute(attr));
-                        } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Exception putting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case NOOP:
-                        break;
-                    case RELEASE:
-                        try {
-                            myQ.release();
-                        } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception releasing outq " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (ErrorCompletingRequestException ex) {
-                            getLogger().log(Level.SEVERE, "Exception releasing outq " + myQ + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                }
-            } else {
-                getLogger().log(Level.SEVERE, "Unable to get Output Queue instance in {0}", getNameAndDescription());
-                setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        if (outQ != null) {
+            switch (function) {
+                case CLEAR:
+                    PrintParameterList ppl = new PrintParameterList();
+                    switch (clearOptName) {
+                        case "all":
+                            ppl = null;
+                            break;
+                        case "user":
+                            ppl.setParameter(OutputQueue.ATTR_JOBUSER, clearOptValue);
+                            break;
+                        case "form":
+                            ppl.setParameter(OutputQueue.ATTR_FORMTYPE, clearOptValue);
+                    }
+                    try {
+                        outQ.clear(ppl);
+                    } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception clearing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (ErrorCompletingRequestException ex) {
+                        getLogger().log(Level.SEVERE, "Exception clearing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case HOLD:
+                    try {
+                        outQ.hold();
+                    } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception holding outq " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (ErrorCompletingRequestException ex) {
+                        getLogger().log(Level.SEVERE, "Exception holding outq " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case INSTANCE:
+                    try {
+                        put(outQ);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception holding putting " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case INFO:
+                    try {
+                        put(outQ);
+                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting outq info from " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case INFOPARM:
+                    try {
+                        Field f = outQ.getClass().getField(infoparm.trim());
+                        int attr = f.getInt(f);
+                        put(outQ.getStringAttribute(attr));
+                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting outq infoparm from " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+                        getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case NOOP:
+                    break;
+                case RELEASE:
+                    try {
+                        outQ.release();
+                    } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception releasing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } catch (ErrorCompletingRequestException ex) {
+                        getLogger().log(Level.SEVERE, "Exception releasing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
             }
         }
         return argArray;

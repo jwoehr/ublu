@@ -30,7 +30,6 @@ package ublu.command;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Generics;
-import ublu.util.Tuple;
 import com.ibm.as400.access.AS400Exception;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -51,7 +50,7 @@ import java.util.logging.Level;
 public class CmdObjDesc extends Command {
 
     {
-        setNameAndDescription("objdesc", "/0 [-as400 @as400] [-to datasink] [--,-objdesc ~@objdesc] [-path ~@{ifspath}] [-new,-instance] | [-refresh}] | [-query exists | library | name | path | type] | [-valuestring ~@{attribute}] | -refresh | -locks] : examine an object description");
+        setNameAndDescription("objdesc", "/0 [-as400 ~@as400] [-to datasink] [--,-objdesc ~@objdesc] [-path ~@{ifspath}] [-new,-instance] | [-refresh}] | [-query exists | library | name | path | type] | [-valuestring ~@{attribute}] | -refresh | -locks] : examine an object description");
 
     }
 
@@ -100,12 +99,12 @@ public class CmdObjDesc extends Command {
         String ifspath = null;
         String queryString = null;
         String attributeName = null;
-        Tuple objDescTuple = null;
+        ObjectDescription objDesc = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     // /* Debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
                     break;
                 case "-to":
@@ -114,7 +113,7 @@ public class CmdObjDesc extends Command {
                     break;
                 case "--":
                 case "-objdesc":
-                    objDescTuple = argArray.nextTupleOrPop();
+                    objDesc = argArray.nextTupleOrPop().value(ObjectDescription.class);
                     break;
                 case "-path":
                     ifspath = argArray.nextMaybeQuotationTuplePopString();
@@ -144,7 +143,6 @@ public class CmdObjDesc extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            ObjectDescription objDesc;
             switch (op) {
                 case INSTANCE:
                     if (getAs400() == null) {
@@ -167,7 +165,6 @@ public class CmdObjDesc extends Command {
                     }
                     break;
                 case LOCKLIST:
-                    objDesc = getObjDescfromTuple(objDescTuple);
                     if (objDesc == null) {
                         getLogger().log(Level.WARNING, "No objdesc instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -182,7 +179,6 @@ public class CmdObjDesc extends Command {
                     }
                     break;
                 case QUERY:
-                    objDesc = getObjDescfromTuple(objDescTuple);
                     if (objDesc == null) {
                         getLogger().log(Level.WARNING, "No objdesc instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -197,7 +193,6 @@ public class CmdObjDesc extends Command {
                     }
                     break;
                 case REFRESH:
-                    objDesc = getObjDescfromTuple(objDescTuple);
                     if (objDesc != null) {
                         try {
                             objDesc.refresh();
@@ -211,7 +206,6 @@ public class CmdObjDesc extends Command {
                     }
                     break;
                 case VALUE_STRING:
-                    objDesc = getObjDescfromTuple(objDescTuple);
                     if (objDesc == null) {
                         getLogger().log(Level.WARNING, "No objdesc instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -250,19 +244,6 @@ public class CmdObjDesc extends Command {
             }
         }
         return argArray;
-    }
-
-    private ObjectDescription getObjDescfromTuple(Tuple objDescTuple) {
-        ObjectDescription objDesc = null;
-        if (objDescTuple != null) {
-            Object tupleValue = objDescTuple.getValue();
-            if (tupleValue instanceof ObjectDescription) {
-                objDesc = ObjectDescription.class.cast(tupleValue);
-            } else {
-                getLogger().log(Level.WARNING, "Valued tuple which is not an ObjectDescription tuple provided in {0}", getNameAndDescription());
-            }
-        }
-        return objDesc;
     }
 
     private int getAttributeInt(String attributeName) {

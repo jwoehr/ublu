@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +27,6 @@
  */
 package ublu.command;
 
-import com.ibm.as400.access.AS400;
 import ublu.Monitors;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
@@ -37,8 +38,6 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import ublu.AS400Extender;
 import ublu.util.Tuple;
 
 /**
@@ -85,7 +84,6 @@ public class CmdMonitor extends Command {
      * @return what's left of arguments
      */
     public ArgArray monitor(ArgArray argArray) {
-        Tuple myAs400Tuple = null;
         String worklibName = "APITESTXYZ";
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -95,7 +93,7 @@ public class CmdMonitor extends Command {
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-all":
                     setMonPoint(MONPOINTS.ALL);

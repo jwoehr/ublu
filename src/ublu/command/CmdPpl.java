@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +47,7 @@ import java.util.logging.Level;
 public class CmdPpl extends Command {
 
     {
-        setNameAndDescription("ppl", "/0 [--,-ppl @ppl] [-new,-instance] [-get[int|float|string] ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} : create and manipulate print parameter list");
+        setNameAndDescription("ppl", "/0 [--,-ppl ~@ppl] [-new,-instance] [-get[int|float|string] ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} : create and manipulate print parameter list");
     }
 
     /**
@@ -95,7 +97,6 @@ public class CmdPpl extends Command {
      */
     public ArgArray job(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
-        String pplTupleName;
         Tuple pplTuple = null;
         PrintParameterList instancePPL = null;
         int attributeId;
@@ -136,8 +137,7 @@ public class CmdPpl extends Command {
                     break;
                 case "--":
                 case "-ppl":
-                    pplTupleName = argArray.next();
-                    pplTuple = getTuple(pplTupleName);
+                    pplTuple = argArray.nextTupleOrPop();
                     break;
                 case "-setint":
                     function = FUNCTIONS.SETINT;

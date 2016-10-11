@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class CmdObjList extends Command {
 
     {
-        setNameAndDescription("objlist", "/0 [-as400 @as400] [-to datasink] [--,-objlist ~@objlist] [-lib libspec ] [-name objname] [-type objtype] [-new,-instance] [-list]  : retrieve a (filtered) object list");
+        setNameAndDescription("objlist", "/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist] [-lib libspec ] [-name objname] [-type objtype] [-new,-instance] [-list]  : retrieve a (filtered) object list");
 
     }
 
@@ -83,13 +83,12 @@ public class CmdObjList extends Command {
         String libspec = "*ALL";
         String objname = "*ALL";
         String objtype = "*ALL";
-        Tuple objListTuple = null;
+        ObjectList objList = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
-                    // /* Debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     String destName = argArray.next();
@@ -97,7 +96,7 @@ public class CmdObjList extends Command {
                     break;
                 case "--":
                 case "-objlist":
-                    objListTuple = argArray.nextTupleOrPop();
+                    objList = argArray.nextTupleOrPop().value(ObjectList.class);
                     break;
                 case "-lib":
                     libspec = argArray.nextMaybeQuotationTuplePopString();
@@ -122,18 +121,17 @@ public class CmdObjList extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            ObjectList objList = null;
             switch (op) {
                 case INSTANCE:
                     if (getAs400() == null) {
-                        getLogger().log(Level.WARNING, "No as400 instance provided in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No as400 instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         objList = new ObjectList(getAs400(), libspec, objname, objtype);
                         try {
                             put(objList);
                         } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.INFO, "Exception putting objlist in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Exception putting objlist in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } catch (SQLException ex) {
                             getLogger().log(Level.SEVERE, "SQL Exception putting objlist in " + getNameAndDescription(), ex);
@@ -142,16 +140,8 @@ public class CmdObjList extends Command {
                     }
                     break;
                 case LIST:
-                    if (objListTuple != null) {
-                        Object tupleValue = objListTuple.getValue();
-                        if (tupleValue instanceof ObjectList) {
-                            objList = ObjectList.class.cast(tupleValue);
-                        } else {
-                            getLogger().log(Level.WARNING, "Valued tuple which is not an ObjectList tuple provided to -objlist in {0}", getNameAndDescription());
-                        }
-                    }
                     if (objList == null) {
-                        getLogger().log(Level.WARNING, "No objlist instance provided in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No objlist instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
@@ -165,7 +155,7 @@ public class CmdObjList extends Command {
                     }
                     break;
                 default:
-                    getLogger().log(Level.WARNING, "Unknown operation in {0}", getNameAndDescription());
+                    getLogger().log(Level.SEVERE, "Unknown operation in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
