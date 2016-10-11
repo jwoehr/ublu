@@ -28,7 +28,6 @@ package ublu.command;
 import ublu.smapi.Host;
 import ublu.smapi.SmapiHelper;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -64,7 +63,7 @@ public class CmdSmapi extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 default:
                     unknownDashCommand(dashCommand);
