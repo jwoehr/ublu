@@ -63,7 +63,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-fromfile ~@{/full/file/path}] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -166,10 +166,13 @@ public class CmdIFS extends Command {
                     setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    this.setDataDestfromArgArray(argArray);
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    this.setDataSrcfromArgArray(argArray);
+                    setDataSrcfromArgArray(argArray);
+                    break;
+                case "-fromfile":
+                    setDataSrc(new DataSink(DataSink.SINKTYPE.FILE, argArray.nextMaybeQuotationTuplePopString()));
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
@@ -305,7 +308,7 @@ public class CmdIFS extends Command {
     }
 
     private IFSFile getIFSFileFromEponymous() {
-        return ifsFileTuple.value(IFSFile.class);
+        return ifsFileTuple == null ? null : ifsFileTuple.value(IFSFile.class);
     }
 
     private IFSFile getIFSFileFromDataSource() {
