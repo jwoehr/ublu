@@ -959,8 +959,11 @@ public class Generics {
         public String listConsts() {
             StringBuilder sb = new StringBuilder();
             for (String key : keySet()) {
+                Const c = get(key);
+                String value = c.getValue();
                 sb.append((key)).append(" : ")
-                        .append(get(key))
+                        .append(c).append(" : ")
+                        .append(value)
                         .append('\n');
             }
             return sb.toString();
