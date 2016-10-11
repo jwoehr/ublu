@@ -104,7 +104,6 @@ public class CmdSystem extends Command {
      * @return what's left of the argument array
      */
     public ArgArray system(ArgArray argArray) {
-        boolean hasFrom = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -113,7 +112,6 @@ public class CmdSystem extends Command {
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
                 case "-from":
-                    hasFrom = true;
                     String srcName = argArray.next();
                     setDataSrc(DataSink.fromSinkName(srcName));
                     break;
@@ -125,9 +123,9 @@ public class CmdSystem extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
             String command;
-            switch (dataSrc.getType()) {
+            switch (getDataSrc().getType()) {
                 case TUPLE:
-                    command = getInterpreter().getTuple(getDataSrc().getName()).getValue().toString();
+                    command = getTuple(getDataSrc().getName()).getValue().toString();
                     executeCommand(command);
                     break;
                 case FILE:
@@ -147,6 +145,8 @@ public class CmdSystem extends Command {
                     command = getTupleStack().pop().getValue().toString();
                     executeCommand(command);
                     break;
+                case NUL:
+                case URL:
                 default:
                     getLogger().log(Level.SEVERE, "Unsupported data source {0} in {1}", new Object[]{dataSrc.getType(), getNameAndDescription()});
                     setCommandResult(COMMANDRESULT.FAILURE);
