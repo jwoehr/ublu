@@ -59,7 +59,7 @@ public class CmdSleep extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-m":
                     millis = argArray.nextIntMaybeQuotationTuplePopString();
