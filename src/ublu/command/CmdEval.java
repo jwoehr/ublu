@@ -26,7 +26,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
@@ -59,8 +58,7 @@ public class CmdEval extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 default:
                     unknownDashCommand(dashCommand);
