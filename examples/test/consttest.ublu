@@ -16,4 +16,7 @@ DO @i to @limit $[ put -n -s *arf put @i ]$
 FUNC woo ( toput ) $[ put @@toput ]$
 woo ( *arf )
 woo ( *foo )
+const -list
+const -to @bar -list
+put -from @bar
 # end

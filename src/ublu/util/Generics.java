@@ -1027,6 +1027,49 @@ public class Generics {
         }
 
         /**
+         * Restore a const map from a frozen file
+         *
+         * @param f the file
+         * @return the const map
+         * @throws FileNotFoundException
+         * @throws IOException
+         * @throws ClassNotFoundException
+         */
+        public static ConstMap fromFile(File f) throws FileNotFoundException, IOException, ClassNotFoundException {
+            FileInputStream fis = new FileInputStream(f);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            ByteArrayList bal = new ByteArrayList();
+            byte[] buff = new byte[1024];
+            int numread;
+            while (bis.available() > 0) {
+                numread = bis.read(buff);
+                for (int i = 0; i < numread; i++) {
+                    bal.add(buff[i]);
+                }
+            }
+            return fromByteArray(bal.byteArray());
+        }
+
+        /**
+         * Restore a const map from a byte array
+         *
+         * @param byteArray the byte array
+         * @return the const map
+         * @throws IOException
+         * @throws ClassNotFoundException
+         */
+        public static ConstMap fromByteArray(byte[] byteArray) throws IOException, ClassNotFoundException {
+            ConstMap fm = null;
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            Object restoredObject = ois.readObject();
+            if (restoredObject instanceof ConstMap) {
+                fm = ConstMap.class.cast(restoredObject);
+            }
+            return fm;
+        }
+
+        /**
          * ctor/0
          */
         public ConstMap() {
