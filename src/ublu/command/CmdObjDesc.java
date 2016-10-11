@@ -28,7 +28,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics;
 import com.ibm.as400.access.AS400Exception;
 import com.ibm.as400.access.AS400SecurityException;
@@ -108,8 +107,7 @@ public class CmdObjDesc extends Command {
                     // /* Debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-objdesc":
