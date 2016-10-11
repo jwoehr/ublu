@@ -92,6 +92,10 @@ public class CmdConst extends Command {
                 case "-restore":
                     op = OPS.RESTORE;
                     break;
+                case "-merge":
+                    op = OPS.RESTORE;
+                    isMerging = true;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
