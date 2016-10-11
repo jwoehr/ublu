@@ -117,9 +117,7 @@ public class CmdCs extends Command {
     public ArgArray doCs(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
         Object o; // used for unloading tuples
-        Tuple csTuple;
         CallableStatement cs = null;
-        Tuple dbTuple;
         Db db = null;
         String sql = null;
         Integer index = null;
@@ -132,7 +130,7 @@ public class CmdCs extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-cs":
