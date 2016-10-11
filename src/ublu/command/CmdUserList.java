@@ -46,7 +46,7 @@ public class CmdUserList extends Command {
 
     {
         setNameAndDescription("userlist",
-                "/3? [-as400 @as400] [-to datasink] [-userinfo ~@{ALL|USER|GROUP|MEMBER}] [-groupinfo ~@{NONE|NOGROUP|profilename}] [-userprofile ~@{username|*ALL}] ~@{system} ~@{userid} ~@{password} : return a list of users");
+                "/3? [-as400 ~@as400] [-to datasink] [-userinfo ~@{ALL|USER|GROUP|MEMBER}] [-groupinfo ~@{NONE|NOGROUP|profilename}] [-userprofile ~@{username|*ALL}] ~@{system} ~@{userid} ~@{password} : return a list of users");
     }
 
     /**
@@ -64,7 +64,7 @@ public class CmdUserList extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     setDataDest(newDataSink(argArray));
