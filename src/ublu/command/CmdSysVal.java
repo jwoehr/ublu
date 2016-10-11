@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +48,7 @@ import java.util.logging.Level;
 public class CmdSysVal extends Command {
 
     {
-        setNameAndDescription("sysval", "/0 [-as400 @as400] [-to datasink] [--,-sysval ~@sysval] [[-new,-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a system value list");
+        setNameAndDescription("sysval", "/0 [-as400 ~@as400] [-to datasink] [--,-sysval ~@sysval] [[-new,-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a system value list");
     }
 
     /**
@@ -109,8 +111,7 @@ public class CmdSysVal extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
-                    // /* Debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     String destName = argArray.next();
