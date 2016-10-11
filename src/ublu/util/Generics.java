@@ -41,7 +41,13 @@ import com.ibm.as400.access.SystemValue;
 import com.ibm.as400.access.User;
 import com.ibm.as400.access.UserList;
 import com.softwoehr.pigiron.access.VSMParm;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -512,10 +518,18 @@ public class Generics {
      */
     public static class QueuedMessageList extends ArrayList<QueuedMessage> {
 
+        /**
+         * ctor/0
+         */
         public QueuedMessageList() {
             super();
         }
 
+        /**
+         * Ctor/1 on array of queued message objects
+         *
+         * @param qma array of queued message objects
+         */
         public QueuedMessageList(QueuedMessage[] qma) {
             addAll(Arrays.asList(qma));
         }
@@ -930,6 +944,49 @@ public class Generics {
                 remove(name);
             }
             return found;
+        }
+
+        /**
+         * Restore a functor map from a frozen file
+         *
+         * @param f the file
+         * @return the functor map
+         * @throws FileNotFoundException
+         * @throws IOException
+         * @throws ClassNotFoundException
+         */
+        public static FunctorMap fromFile(File f) throws FileNotFoundException, IOException, ClassNotFoundException {
+            FileInputStream fis = new FileInputStream(f);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            ByteArrayList bal = new ByteArrayList();
+            byte[] buff = new byte[1024];
+            int numread;
+            while (bis.available() > 0) {
+                numread = bis.read(buff);
+                for (int i = 0; i < numread; i++) {
+                    bal.add(buff[i]);
+                }
+            }
+            return fromByteArray(bal.byteArray());
+        }
+
+        /**
+         * Restore a functor map from a byte array
+         *
+         * @param byteArray the byte array
+         * @return the functor map
+         * @throws IOException
+         * @throws ClassNotFoundException
+         */
+        public static FunctorMap fromByteArray(byte[] byteArray) throws IOException, ClassNotFoundException {
+            FunctorMap fm = null;
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            Object restoredObject = ois.readObject();
+            if (restoredObject instanceof FunctorMap) {
+                fm = FunctorMap.class.cast(restoredObject);
+            }
+            return fm;
         }
     }
 
