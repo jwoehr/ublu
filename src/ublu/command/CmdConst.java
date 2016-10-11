@@ -47,7 +47,7 @@ public class CmdConst extends Command {
 
     {
         setNameAndDescription("const",
-                "/2 [-to datasink] [-list] [-create] *name ~@{value} : create a constant value");
+                "/2? [-to datasink] [-list] [-create] *name ~@{value} : create a constant value");
     }
 
     enum OPS {
