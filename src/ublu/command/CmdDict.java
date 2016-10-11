@@ -279,7 +279,7 @@ public class CmdDict extends Command {
         while (bis.available() > 0) {
             numread = bis.read(buff);
             for (int i = 0; i < numread; i++) {
-                bal.add(new Byte(buff[i]));
+                bal.add(buff[i]);
             }
         }
         return functorMapFromByteArray(bal.byteArray());
