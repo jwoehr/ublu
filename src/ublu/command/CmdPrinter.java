@@ -26,7 +26,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -92,8 +91,7 @@ public class CmdPrinter extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-get":
                     operation = OPERATIONS.GET;
@@ -262,7 +260,7 @@ public class CmdPrinter extends Command {
     }
 
     private int attrNameToInt(String attrName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-       return Printer.class.getField(attrName).getInt(Printer.class);
+        return Printer.class.getField(attrName).getInt(Printer.class);
     }
 
     private Object attrNameToValue(Printer p, String attrName) {
