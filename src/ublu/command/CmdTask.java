@@ -26,7 +26,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import static ublu.util.DataSink.SINKTYPE.FILE;
 import static ublu.util.DataSink.SINKTYPE.STD;
 import static ublu.util.DataSink.SINKTYPE.TUPLE;
@@ -72,13 +71,11 @@ public class CmdTask extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-from":
-                    String srcName = argArray.next();
-                    setDataSrc(DataSink.fromSinkName(srcName));
+                    setDataSrcfromArgArray(argArray);
                     wasSetDataSource = true;
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-start":
                     startNow = true;
