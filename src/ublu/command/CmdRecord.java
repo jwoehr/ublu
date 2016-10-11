@@ -98,8 +98,8 @@ public class CmdRecord extends Command {
      */
     public ArgArray doRecord(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.INSTANCE; // the default
-        Tuple recordTuple = null;
-        Tuple formatTuple = null;
+        Record record = null;
+        RecordFormat recordFormat = null;
         String contents = null;
         Integer fieldIndex = null;
         String fieldName = null;
@@ -112,7 +112,7 @@ public class CmdRecord extends Command {
                     break;
                 case "--":
                 case "-record":
-                    recordTuple = argArray.nextTupleOrPop();
+                    record = argArray.nextTupleOrPop().value(Record.class);
                     break;
                 case "-new":
                     operation = OPERATIONS.INSTANCE;
@@ -136,7 +136,7 @@ public class CmdRecord extends Command {
                     break;
                 case "-setfmt":
                     operation = OPERATIONS.SETFMT;
-                    formatTuple = argArray.nextTupleOrPop();
+                    recordFormat = argArray.nextTupleOrPop().value(RecordFormat.class);
                     break;
                 case "-tostring":
                     operation = OPERATIONS.TOSTRING;
@@ -148,13 +148,6 @@ public class CmdRecord extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Record record = null;
-            if (recordTuple != null) {
-                Object o = recordTuple.getValue();
-                if (o instanceof Record) {
-                    record = Record.class.cast(o);
-                }
-            }
             switch (operation) {
                 case GETFMT:
                     if (record != null) {
@@ -171,13 +164,6 @@ public class CmdRecord extends Command {
                     }
                     break;
                 case SETFMT:
-                    RecordFormat recordFormat = null;
-                    if (formatTuple != null) {
-                        Object o = formatTuple.getValue();
-                        if (o instanceof RecordFormat) {
-                            recordFormat = RecordFormat.class.cast(o);
-                        }
-                    }
                     if (recordFormat == null) {
                         getLogger().log(Level.INFO, "No record format provided to set format in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -273,5 +259,4 @@ public class CmdRecord extends Command {
     public COMMANDRESULT getResult() {
         return getCommandResult();
     }
-
 }

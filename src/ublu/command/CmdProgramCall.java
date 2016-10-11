@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +49,7 @@ import java.util.logging.Level;
 public class CmdProgramCall extends Command {
 
     {
-        setNameAndDescription("programcall", "/3? [-as400 @as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout} ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
+        setNameAndDescription("programcall", "/3? [-as400 ~@as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout} ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
     }
 
     /**
@@ -75,8 +77,7 @@ public class CmdProgramCall extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
-                    // /* debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
                     String destName = argArray.next();

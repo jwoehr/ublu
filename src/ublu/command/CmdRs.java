@@ -406,8 +406,8 @@ public class CmdRs extends Command {
                     break;
 
                 case JSON:
-                    srcResultSetClosure = rsClosureFromTuple(rsTuple);
-                    db = dbFromTuple(dbTuple);
+                    srcResultSetClosure = rsTuple.value(ResultSetClosure.class);
+                    db = dbTuple.value(Db.class);
                     if (srcResultSetClosure != null && db != null && tableName != null) {
                         try {
                             put(srcResultSetClosure.toJSON(db, tableName));
@@ -532,28 +532,6 @@ public class CmdRs extends Command {
         } else {
             getLogger().log(Level.WARNING, "DataSink {0} is not a Tuple", ds.getName());
         }
-    }
-
-    private ResultSetClosure rsClosureFromTuple(Tuple t) {
-        ResultSetClosure rsc = null;
-        if (t != null) {
-            Object o = t.getValue();
-            if (o instanceof ResultSetClosure) {
-                rsc = ResultSetClosure.class.cast(o);
-            }
-        }
-        return rsc;
-    }
-
-    private Db dbFromTuple(Tuple t) {
-        Db db = null;
-        if (t != null) {
-            Object o = t.getValue();
-            if (o instanceof Db) {
-                db = Db.class.cast(o);
-            }
-        }
-        return db;
     }
 
     @Override

@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,6 +104,7 @@ public class CmdServer extends Command {
      * @return what's left of args
      */
     public ArgArray server(ArgArray argArray) {
+        Listener listener = null;
         int port = DEFAULT_SERVER_PORT;
         int timeoutMs = Listener.DEFAULT_ACCEPT_TIMEOUT_MS;
         String executionBlock = null;
@@ -113,7 +116,7 @@ public class CmdServer extends Command {
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
                 case "--":
-                    listenerTuple = argArray.nextTupleOrPop();
+                    listener = argArray.nextTupleOrPop().value(Listener.class);
                     break;
                 case "-block":
                     if (argArray.isNextTupleNameOrPop() || argArray.isNextQuotation()) {
@@ -147,12 +150,11 @@ public class CmdServer extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Listener l = listenerFromListenerTuple();
             switch (getFunction()) {
                 case GETPORT:
-                    if (l != null) {
+                    if (listener != null) {
                         try {
-                            put(l.getPortnum());
+                            put(listener.getPortnum());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Exception putting Listener portnum in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -164,25 +166,25 @@ public class CmdServer extends Command {
                     break;
                 case START:
                     if (executionBlock != null) {
-                        l = new Listener(getUblu(), port, executionBlock, getInterpreter());
+                        listener = new Listener(getUblu(), port, executionBlock, getInterpreter());
                     } else {
-                        l = new Listener(getUblu(), port, getInterpreter());
+                        listener = new Listener(getUblu(), port, getInterpreter());
                     }
-                    l.setAcceptTimeoutMS(timeoutMs);
-                    l.start();
+                    listener.setAcceptTimeoutMS(timeoutMs);
+                    listener.start();
                     try {
-                        put(l);
+                        put(listener);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception putting Listener in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case STATUS:
-                    getInterpreter().output((l == null ? "No listener provided." : l.status()) + "\n");
+                    getInterpreter().output((listener == null ? "No listener provided." : listener.status()) + "\n");
                     break;
                 case STOP:
-                    if (l != null) {
-                        l.setListening(false);
+                    if (listener != null) {
+                        listener.setListening(false);
                     } else {
                         getLogger().log(Level.SEVERE, "No listener provided to stop in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -191,17 +193,6 @@ public class CmdServer extends Command {
             }
         }
         return argArray;
-    }
-
-    private Listener listenerFromListenerTuple() {
-        Listener result = null;
-        if (listenerTuple != null) {
-            Object o = listenerTuple.getValue();
-            if (o instanceof Listener) {
-                result = Listener.class.cast(o);
-            }
-        }
-        return result;
     }
 
     @Override
