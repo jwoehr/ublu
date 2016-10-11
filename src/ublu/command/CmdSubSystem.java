@@ -86,7 +86,7 @@ public class CmdSubSystem extends Command {
                     setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-subsys":
