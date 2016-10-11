@@ -13,7 +13,7 @@ FUNC connect5250 ( iserver userid password sesstuple ) $[
      tn5250 -to @tn5250 -new @@iserver
      tn5250 -tn5250 @tn5250 -run
      put ${ Sleeping for 15 seconds to allow the connect }$
-     iserver ${ sleep 15 }$
+     sleep -m 15000
      tn5250 -tn5250 @tn5250 -to @@sesstuple -session
      sess -sess @@sesstuple -send @@userid
      sess -sess @@sesstuple -send ${ [tab] }$
@@ -28,7 +28,7 @@ FUNC connect5250p ( iserver userid password portnum sesstuple ) $[
      tn5250 -to @tn5250 -args ${ -p @@portnum }$ -new @@iserver
      tn5250 -tn5250 @tn5250 -run
      put ${ Sleeping for 15 seconds to allow the connect }$
-     system ${ sleep 15 }$
+     sleep -m 15000
      tn5250 -tn5250 @tn5250 -to @@sesstuple -session
      sess -sess @@sesstuple -send @@userid
      sess -sess @@sesstuple -send ${ [tab] }$
