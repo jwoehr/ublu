@@ -952,6 +952,21 @@ public class Generics {
         }
 
         /**
+         * List all consts
+         *
+         * @return String describing all known consts
+         */
+        public String listConsts() {
+            StringBuilder sb = new StringBuilder();
+            for (String key : keySet()) {
+                sb.append((key)).append(" : ")
+                        .append(get(key))
+                        .append('\n');
+            }
+            return sb.toString();
+        }
+
+        /**
          * ctor/0
          */
         public ConstMap() {
