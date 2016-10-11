@@ -262,7 +262,6 @@ public class CmdDict extends Command {
                             } catch (IOException | ClassNotFoundException ex) {
                                 Logger.getLogger(CmdDict.class.getName()).log(Level.SEVERE, "Couldn't reload class in " + getNameAndDescription(), ex);
                             }
-
                             break;
                     }
             }
