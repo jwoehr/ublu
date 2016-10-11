@@ -196,16 +196,12 @@ public class CmdRs extends Command {
         String tableName = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
-            String srcName;
-            String destName;
             switch (dashCommand) {
                 case "-to":
-                    destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    srcName = argArray.next();
-                    setDataSrc(DataSink.fromSinkName(srcName));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "--":
                 case "-rs":
