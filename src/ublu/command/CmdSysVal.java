@@ -28,7 +28,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.SysValHelper;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
@@ -114,8 +113,7 @@ public class CmdSysVal extends Command {
                     setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "--":
                 case "-sysval":
@@ -160,10 +158,7 @@ public class CmdSysVal extends Command {
         } else {
             SysValHelper svh = null;
             if (sysValTuple != null) {
-                Object o = sysValTuple.getValue();
-                if (o instanceof SysValHelper) {
-                    svh = SysValHelper.class.cast(o);
-                }
+                svh = sysValTuple.value(SysValHelper.class);
             }
             switch (op) {
                 case INSTANCE:
