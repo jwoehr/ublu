@@ -29,7 +29,6 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.db.Csv;
-import ublu.util.DataSink;
 import ublu.db.Db;
 import ublu.db.DbAS400;
 import ublu.db.DbHelper;
@@ -288,8 +287,7 @@ public class CmdDb extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-db":
                     if (getDb() == null) {
