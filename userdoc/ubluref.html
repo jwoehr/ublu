@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -3955,7 +3956,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="dq" id="dq"></a> <tt>dq</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 @as400] [--,-dq ~@dq] -clear | -create
+    <tt>/4? [-as400 ~@as400] [--,-dq ~@dq] -clear | -create
     ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek
     | -query [ ccsid | description | fifo | forceauxstorage |
     maxentrylength | name | path | savesender | system ] | -read |
@@ -4164,8 +4165,8 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="file"></a> <tt>file</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-file ~@file] [-as400 @as400] [-keyed |
-    -sequential] [-new | -create | -del | -delmemb | -delrec |
+    <tt>/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed
+    | -sequential] [-new | -create | -del | -delmemb | -delrec |
     -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list
     | -pos ~@{BF|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to
@@ -4189,7 +4190,7 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{password}</tt> arguments must be omitted.<br>
     <br>
     If the <tt>-- @file</tt> or <tt>-file @file</tt> dash-commands
-    are absent but the <tt>--as400 @as400</tt> dash-command is
+    are absent but the <tt>--as400 ~@as400</tt> dash-command is
     present, the <tt>~@{system} ~@{user} ~@{password}</tt>
     arguments must be omitted.<br>
     <br>
@@ -6030,7 +6031,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="ifs" id="ifs"></a> <tt>ifs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink]
+    <tt>/4? [-ifs,-- ~@ifsfile] [-as400 ~@as400] [-to datasink]
     [-from datasink] [-length ~@{length}] [-offset ~@{offset}]
     [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists |
     -file | -list | -mkdirs | -query
@@ -8506,7 +8507,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="msgq" id="msgq"></a><tt>msgq</tt></h4>
 
   <blockquote>
-    <p><tt>/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to
+    <p><tt>/4? [[-as400 ~@as400] [--,-msgq ~@messagequeue]] [-to
     datasink] [-new,-instance | -close | -query | -remove
     messagekey | -removeall | -sendinfo ~@${ message text ... }$ |
     -sendinquiry ~@${ message text} ~@replyqueueIFSpath |
@@ -8960,7 +8961,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="objdesc" id="objdesc"></a> <tt>objdesc</tt></h4>
 
   <blockquote>
-    <tt>/0 [-as400 @as400] [-to datasink] [--,-objdesc ~@objdesc]
+    <tt>/0 [-as400 ~@as400] [-to datasink] [--,-objdesc ~@objdesc]
     [-path ~@{ifspath}] [-new,-instance] | [-refresh] | [-query
     exists | library | name | path | type] | [-valuestring
     ~@{attribute}] | -refresh | -locks] : examine an object
@@ -8969,14 +8970,14 @@ Type help for help. Type license for license. Type bye to exit.
     The <tt>objdesc</tt> command retrieves the object description
     for the object indicated by the <tt>-path ~@{ifspath}</tt>
     <a href="#Dash_Command">dash-command</a> on the system
-    indicated by the <tt>-as400 @as400</tt> dash-command.<br>
+    indicated by the <tt>-as400 ~@as400</tt> dash-command.<br>
     <br>
     The operations are as follows<br>
 
     <ul>
       <li><tt>-new,-instance</tt> (the default operation) instances
       the description indicated by <tt>-path ~@{ifspath}</tt> on
-      the system indicated by <tt>-as400 @as400</tt>
+      the system indicated by <tt>-as400 ~@as400</tt>
       <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
       instead</i></li>
 
@@ -9112,7 +9113,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="objlist" id="objlist"></a><tt>objlist</tt></h4>
 
   <blockquote>
-    <tt>/0 [-as400 @as400] [-to datasink] [--,-objlist ~@objlist]
+    <tt>/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist]
     [-lib libspec ] [-name objname] [-type objtype]
     [-new,-instance] [-list]&nbsp; : retrieve a (filtered) object
     list</tt><br>
@@ -9365,7 +9366,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="outq" id="outq"></a><tt>outq</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 @as400] [-outq @outqueue] [-to @var] [-from
+    <tt>/4? [-as400 ~@as400] [-outq ~@outqueue] [-to @var] [-from
     @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] |
     [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] |
     [-infoparm ATTR]] outputqueuename system user password</tt><br>
@@ -9515,7 +9516,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="printer" id="printer"></a> <tt>printer</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 @as400] [--,-printer ~@printer] [-to @var]
+    <tt>/4? [-as400 ~@as400] [--,-printer ~@printer] [-to @var]
     [-get ~@{attribute}] | [[-new,-instance] | [-set ~@{attribute}
     ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user}
     ~@{password} : instance as400 printer and get/set
@@ -9600,7 +9601,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="programcall"></a><tt>programcall</tt></h4>
 
   <blockquote>
-    <tt>/3? [-as400 @as400] [-to datasink] -program
+    <tt>/3? [-as400 ~@as400] [-to datasink] -program
     fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in
     ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..]
     [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout}
@@ -11196,7 +11197,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="subsys" id="subsys"></a> <tt>subsys</tt></h4>
 
   <blockquote>
-    <tt>//3? [-as400 @as400] [--,-subsys ~@subsys] [-to datasink]
+    <tt>//3? [-as400 ~@as400] [--,-subsys ~@subsys] [-to datasink]
     [-subsyspath ~@{subsysIFSpath}] [-authoritystring
     ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate
     ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared
@@ -11604,7 +11605,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="sysval" id="sysval"></a><tt>sysval</tt></h4>
 
   <blockquote>
-    <tt>/0 [-as400 @as400] [-to datasink] [--,-sysval ~@sysval]
+    <tt>/0 [-as400 ~@as400] [-to datasink] [--,-sysval ~@sysval]
     [[-new,-instance
     alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{
     key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] |
