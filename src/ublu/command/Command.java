@@ -112,7 +112,7 @@ public abstract class Command implements CommandInterface {
      *
      * @return the AS400 instance associated with this command or null if none
      */
-    public final AS400 getAs400() {
+    protected final AS400 getAs400() {
         return as400;
     }
 
@@ -122,7 +122,7 @@ public abstract class Command implements CommandInterface {
      * @param as400 the AS400 instance associated with this command or null if
      * none
      */
-    public final void setAs400(AS400 as400) {
+    protected final void setAs400(AS400 as400) {
         this.as400 = as400;
     }
 
@@ -133,7 +133,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param args the argument array for this command
      */
-    public final void setAs400fromTupleOrPop(ArgArray args) {
+    protected final void setAs400fromTupleOrPop(ArgArray args) {
         this.as400 = args.nextTupleOrPop().value(AS400.class);
         // /* debug */ System.err.println(this.as400);
     }
@@ -170,7 +170,7 @@ public abstract class Command implements CommandInterface {
      *
      * @return data source
      */
-    public DataSink getDataSrc() {
+    protected DataSink getDataSrc() {
         return dataSrc;
     }
 
@@ -188,7 +188,7 @@ public abstract class Command implements CommandInterface {
      *
      * @return data dest
      */
-    public DataSink getDataDest() {
+    protected DataSink getDataDest() {
         return dataDest;
     }
 
@@ -202,12 +202,23 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * Analyze next lex and return a new data sink. If the lex is "~" it means
+     * pop the tuple stack for the data sink.
+     *
+     * @param argArray the interpreter arg array
+     * @return a new data sink based on what was parsed
+     */
+    protected static DataSink newDataSink(ArgArray argArray) {
+        return DataSink.fromSinkName(argArray.next());
+    }
+
+    /**
      * Set data dest to data sink specified by next in the arg array
      *
      * @param args the arg array
      */
     protected void setDataDestfromArgArray(ArgArray args) {
-        setDataDest(DataSink.fromSinkName(args.next()));
+        setDataDest(newDataSink(args));
     }
 
     /**
@@ -216,7 +227,7 @@ public abstract class Command implements CommandInterface {
      * @param args the arg array
      */
     protected void setDataSrcfromArgArray(ArgArray args) {
-        setDataSrc(DataSink.fromSinkName(args.next()));
+        setDataSrc(newDataSink(args));
     }
 
     /**
@@ -224,7 +235,7 @@ public abstract class Command implements CommandInterface {
      *
      * @return interpreter
      */
-    public Interpreter getInterpreter() {
+    protected Interpreter getInterpreter() {
         return myInterpreter;
     }
 
@@ -233,7 +244,7 @@ public abstract class Command implements CommandInterface {
      *
      * @return associated application controller instance
      */
-    public Ublu getUblu() {
+    protected Ublu getUblu() {
         return getInterpreter().getMyUblu();
     }
 
@@ -263,7 +274,7 @@ public abstract class Command implements CommandInterface {
      * @param value
      * @return the tuple set or created
      */
-    public Tuple setTuple(String key, Object value) {
+    protected Tuple setTuple(String key, Object value) {
         return getInterpreter().setTuple(key, value);
     }
 
@@ -273,7 +284,7 @@ public abstract class Command implements CommandInterface {
      * @param key a tuple name or ~ for "pop the stack"
      * @return tuple the tuple or null
      */
-    public Tuple getTuple(String key) {
+    protected Tuple getTuple(String key) {
         Tuple t = null;
         if (key.equals(ArgArray.POPTUPLE)) {
             if (getTupleStack().size() > 0) {
@@ -292,7 +303,7 @@ public abstract class Command implements CommandInterface {
      * @param key Tuple name
      * @return the AS400 instance or null
      */
-    public AS400 getAS400Tuple(String key) {
+    protected AS400 getAS400Tuple(String key) {
         AS400 anAs400 = null;
         Tuple t = getTuple(key);
         Object o = t.getValue();
@@ -336,7 +347,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param description
      */
-    public final void setCommandDescription(String description) {
+    protected final void setCommandDescription(String description) {
         commandDescription = description;
     }
 
@@ -345,7 +356,7 @@ public abstract class Command implements CommandInterface {
      * @param name
      * @param description
      */
-    public void setNameAndDescription(String name, String description) {
+    protected void setNameAndDescription(String name, String description) {
         setCommandName(name);
         setCommandDescription(description);
     }
@@ -398,7 +409,7 @@ public abstract class Command implements CommandInterface {
      * @throws RequestNotSupportedException
      *
      */
-    public void put(Object o) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
+    protected void put(Object o) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
         new Putter(o, getInterpreter()).put(getDataDest());
     }
 
@@ -417,7 +428,7 @@ public abstract class Command implements CommandInterface {
      * @throws RequestNotSupportedException
      *
      */
-    public void put(Object o, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
+    protected void put(Object o, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
         new Putter(o, getInterpreter()).put(getDataDest(), newline);
     }
 
@@ -437,7 +448,7 @@ public abstract class Command implements CommandInterface {
      * @throws RequestNotSupportedException
      *
      */
-    public void put(Object o, boolean space, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
+    protected void put(Object o, boolean space, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
         new Putter(o, getInterpreter()).put(getDataDest(), space, newline);
     }
 
@@ -458,7 +469,7 @@ public abstract class Command implements CommandInterface {
      * @throws RequestNotSupportedException
      *
      */
-    public void put(Object o, boolean append, boolean space, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
+    protected void put(Object o, boolean append, boolean space, boolean newline) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
         new Putter(o, getInterpreter()).put(getDataDest(), append, space, newline);
     }
 
@@ -477,7 +488,7 @@ public abstract class Command implements CommandInterface {
      * @throws RequestNotSupportedException
      *
      */
-    public void put(Object o, String charsetName) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
+    protected void put(Object o, String charsetName) throws SQLException, IOException, AS400SecurityException, ErrorCompletingRequestException, InterruptedException, ObjectDoesNotExistException, RequestNotSupportedException {
         new Putter(o, getInterpreter(), charsetName).put(getDataDest());
     }
 
@@ -487,7 +498,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param argArray The argument array from the interpreter
      */
-    public final void logArgArrayTooShortError(ArgArray argArray) {
+    protected final void logArgArrayTooShortError(ArgArray argArray) {
         getLogger().log(Level.SEVERE, "{0} represents too few arguments to {1}", new Object[]{argArray.size(), getNameAndDescription()});
     }
 
@@ -495,7 +506,7 @@ public abstract class Command implements CommandInterface {
      * Log an error when no as400 instance has been provided
      *
      */
-    public final void logNoAs400() {
+    protected final void logNoAs400() {
         getLogger().log(Level.SEVERE, "No as400 instance provided to {0}", getNameAndDescription());
     }
 
@@ -510,7 +521,7 @@ public abstract class Command implements CommandInterface {
      * @return the AS400 object or null
      * @throws PropertyVetoException
      */
-    public AS400 as400FromArgs(ArgArray argArray) throws PropertyVetoException {
+    protected AS400 as400FromArgs(ArgArray argArray) throws PropertyVetoException {
         String system = argArray.nextMaybeQuotationTuplePopString();
         String username = argArray.nextMaybeQuotationTuplePopString();
         String password = argArray.nextMaybeQuotationTuplePopString();
@@ -529,7 +540,7 @@ public abstract class Command implements CommandInterface {
      * @return the AS400 object or null
      * @throws PropertyVetoException
      */
-    public AS400 as400FromArgs(ArgArray argArray, AS400Factory.SIGNON_SECURITY_TYPE signon_security_type) throws PropertyVetoException {
+    protected AS400 as400FromArgs(ArgArray argArray, AS400Factory.SIGNON_SECURITY_TYPE signon_security_type) throws PropertyVetoException {
         String system = argArray.nextMaybeQuotationTuplePopString();
         String username = argArray.nextMaybeQuotationTuplePopString();
         String password = argArray.nextMaybeQuotationTuplePopString();
@@ -543,7 +554,7 @@ public abstract class Command implements CommandInterface {
      * are system userid password
      * @throws PropertyVetoException
      */
-    public void setAs400FromArgs(ArgArray argArray) throws PropertyVetoException {
+    protected void setAs400FromArgs(ArgArray argArray) throws PropertyVetoException {
         setAs400(as400FromArgs(argArray));
     }
 
@@ -553,7 +564,7 @@ public abstract class Command implements CommandInterface {
      * @param as400Tuple Tuple nominally holding AS400 instance
      * @return the AS400 object or null
      */
-    public AS400 as400FromTuple(Tuple as400Tuple) {
+    protected AS400 as400FromTuple(Tuple as400Tuple) {
         AS400 result = null;
         if (as400Tuple != null) {
             Object o = as400Tuple.getValue();
@@ -569,7 +580,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param as400Tuple Tuple nominally holding AS400 instance
      */
-    public void setAs400FromTuple(Tuple as400Tuple) {
+    protected void setAs400FromTuple(Tuple as400Tuple) {
         setAs400(as400FromTuple(as400Tuple));
     }
 
@@ -578,7 +589,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param dashCommand the unknown dash-command
      */
-    public void unknownDashCommand(String dashCommand) {
+    protected void unknownDashCommand(String dashCommand) {
         getLogger().log(Level.SEVERE, "Unknown dash-command {0} in {1}", new Object[]{dashCommand, getNameAndDescription()});
         setHasUnknownDashCommand(true);
     }
@@ -594,7 +605,7 @@ public abstract class Command implements CommandInterface {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public String getStringFromDataSrc(ArgArray argArray) throws FileNotFoundException, IOException {
+    protected String getStringFromDataSrc(ArgArray argArray) throws FileNotFoundException, IOException {
         String sendString = null;
         switch (getDataSrc().getType()) {
             case FILE:
@@ -625,33 +636,8 @@ public abstract class Command implements CommandInterface {
      *
      * @return the tuple stack maintained by the interpreter
      */
-    public TupleStack getTupleStack() {
+    protected TupleStack getTupleStack() {
         return getInterpreter().getTupleStack();
-    }
-
-    /**
-     * Analyze next lex and return a new data sink. If the lex is "~" it means
-     * pop the tuple stack for the data sink.
-     *
-     * @param argArray the interpreter arg array
-     * @return a new data sink based on what was parsed
-     */
-    public DataSink newDataSink(ArgArray argArray) {
-        String sinkName = argArray.next();
-        return DataSink.fromSinkName(sinkName);
-    }
-
-    /**
-     * Analyze next lex and return a new data sink. This method became necessary
-     * when we started putting to ~ the LIFO. The original method newDataSink
-     * assumed all references to ~ are pops. This needs to be fixed globally.
-     *
-     * @param argArray the interpreter arg array
-     * @return a new data sink based on what was parsed
-     */
-    public DataSink newDestDataSink(ArgArray argArray) {
-        String sinkName = argArray.next();
-        return DataSink.fromSinkName(sinkName);
     }
 
     /**
