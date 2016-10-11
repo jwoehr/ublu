@@ -31,12 +31,20 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.Const;
 import ublu.util.DataSink;
+import ublu.util.Generics;
+import ublu.util.Generics.ConstMap;
+import ublu.util.Tuple;
 
 /**
  * Command to create a named constant with a string value.
@@ -47,11 +55,11 @@ public class CmdConst extends Command {
 
     {
         setNameAndDescription("const",
-                "/2? [-to datasink] [-list] [-create] *name ~@{value} : create a constant value");
+                "/2? [-to datasink] [-list | -create | -save | -restore | -merge ] *name ~@{value} : create a constant value");
     }
 
     enum OPS {
-        CREATE, LIST
+        CREATE, LIST, SAVE, RESTORE
     }
 
     /**
@@ -62,18 +70,27 @@ public class CmdConst extends Command {
      */
     public ArgArray doConst(ArgArray argArray) {
         OPS op = OPS.CREATE; // default
+        boolean isMerging = false;
         while (getCommandResult() != COMMANDRESULT.FAILURE && argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    break;
+                case "-from":
+                    setDataSrc(DataSink.fromSinkName(argArray.next()));
                     break;
                 case "-list":
                     op = OPS.LIST;
                     break;
                 case "-create":
                     op = OPS.CREATE;
+                    break;
+                case "-save":
+                    op = OPS.SAVE;
+                    break;
+                case "-restore":
+                    op = OPS.RESTORE;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -83,6 +100,7 @@ public class CmdConst extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
+            ConstMap cm;
             switch (op) {
                 case CREATE:
                     if (argArray.size() < 2) {
@@ -113,13 +131,97 @@ public class CmdConst extends Command {
                     }
                 }
                 break;
+                case SAVE:
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    try {
+                        ObjectOutputStream oos = new ObjectOutputStream(baos);
+                        cm = getInterpreter().getConstMap();
+                        oos.writeObject(cm);
+                        switch (getDataDest().getType()) {
+                            case STD:
+                                put(baos.toByteArray());
+                                break;
+                            case TUPLE:
+                                put(baos.toByteArray());
+                                break;
+                            case FILE:
+                                FileOutputStream fo = new FileOutputStream(getDataDest().getName());
+                                fo.write(baos.toByteArray());
+                                break;
+                        }
+                    } catch (IOException | RequestNotSupportedException | ObjectDoesNotExistException | SQLException | InterruptedException | AS400SecurityException | ErrorCompletingRequestException ex) {
+                        getLogger().log(Level.SEVERE, "Error opening object output stream or writing object in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case RESTORE:
+                    switch (getDataSrc().getType()) {
+                        case STD:
+                            // getLogger().log(Level.SEVERE, "Cannot restore dictionary from standard input " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                            break;
+                        case TUPLE:
+                            Tuple t = getTuple(getDataSrc().getName());
+                            if (t == null) {
+                                getLogger().log(Level.SEVERE, "Tuple does not exist {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            } else {
+                                Object o = t.getValue();
+                                if (o instanceof byte[]) {
+                                    try {
+                                        cm = Generics.ConstMap.fromByteArray(byte[].class.cast(o));
+                                        if (cm != null) {
+                                            if (isMerging) {
+                                                getInterpreter().getConstMap().putAll(cm);
+                                            } else {
+                                                getInterpreter().setConstMap(cm);
+                                            }
+                                        } else {
+                                            getLogger().log(Level.SEVERE, "Tuple does not reference a saved dictionary in {0}", getNameAndDescription());
+                                            setCommandResult(COMMANDRESULT.FAILURE);
+                                        }
+                                    } catch (IOException | ClassNotFoundException ex) {
+                                        getLogger().log(Level.SEVERE, "Error opening object input stream or reading object in " + getNameAndDescription(), ex);
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    }
+                                } else {
+                                    getLogger().log(Level.SEVERE, "Tuple does not reference a saved dictionary in {0}", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                            break;
+                        case FILE:
+                            try {
+                                File f = new File(getDataSrc().getName());
+                                if (!f.exists()) {
+                                    getLogger().log(Level.SEVERE, "File does not exist in {0}", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                } else {
+                                    cm = Generics.ConstMap.fromFile(f);
+                                    if (cm != null) {
+                                        if (isMerging) {
+                                            getInterpreter().getConstMap().putAll(cm);
+                                        } else {
+                                            getInterpreter().setConstMap(cm);
+                                        }
+                                    } else {
+                                        getLogger().log(Level.SEVERE, "File does not contain a saved dictionary in {0}", getNameAndDescription());
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    }
+                                }
+                            } catch (IOException | ClassNotFoundException ex) {
+                                Logger.getLogger(CmdDict.class.getName()).log(Level.SEVERE, "Couldn't reload class in " + getNameAndDescription(), ex);
+                            }
+                            break;
+                    }
             }
         }
         return argArray;
     }
 
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return doConst(args);
     }
