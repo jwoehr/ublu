@@ -70,10 +70,10 @@ public class CmdUser extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
 //                case "-from":
 //                    setDataSrc(newDataSink(argArray));
