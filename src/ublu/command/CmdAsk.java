@@ -63,10 +63,10 @@ public class CmdAsk extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    setDataSrc(newDataSink(argArray));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-say":
                     prompt = argArray.nextMaybeQuotationTuplePopString();
