@@ -61,29 +61,29 @@ public abstract class Command implements CommandInterface {
     private boolean hasUnknownDashCommand;
     private AS400 as400;
     /**
-     * ublu instance
+     * Interpreter instance
      */
     private Interpreter myInterpreter;
     /**
      * Command commandName
      */
-    protected String commandName;
+    private String commandName;
     /**
      * Command commandDescription
      */
-    protected String commandDescription;
+    private String commandDescription;
     /**
      * Data source
      */
-    protected DataSink dataSrc;
+    private DataSink dataSrc;
     /**
      * Data dest
      */
-    protected DataSink dataDest;
+    private DataSink dataDest;
     /**
      * result code
      */
-    protected COMMANDRESULT commandResult;
+    private COMMANDRESULT commandResult;
 
     /**
      * True if so set that the dash-command parsing found an unknown
