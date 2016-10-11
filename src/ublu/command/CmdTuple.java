@@ -38,6 +38,9 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import static ublu.command.CmdTuple.FUNCTIONS.AUTONOME;
+import ublu.util.Autonome;
 
 /**
  * A command to display or manipulate {@link Tuple}s
@@ -47,7 +50,7 @@ import java.util.logging.Level;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map | -autonome @tuplename ] : operations on tuple variables");
     }
 
     /**
@@ -110,7 +113,11 @@ public class CmdTuple extends Command {
         /**
          * Substitute tuple
          */
-        SUB
+        SUB,
+        /**
+         * Delivers autonome info
+         */
+        AUTONOME
     }
     /**
      * The function we're executing
@@ -203,6 +210,10 @@ public class CmdTuple extends Command {
                 case "-sub":
                     setFunction(FUNCTIONS.SUB);
                     someName = argArray.next();
+                    someTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-autonome":
+                    setFunction(FUNCTIONS.AUTONOME);
                     someTuple = argArray.nextTupleOrPop();
                     break;
                 default:
@@ -383,6 +394,22 @@ public class CmdTuple extends Command {
                         getLogger().log(Level.SEVERE, "Null name found for -sub in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
+                    break;
+                case AUTONOME:
+                    String autonome = null;
+                    if (someTuple != null) {
+                        Object o = someTuple.getValue();
+                        if (o != null) {
+                            autonome = o.getClass().toString() + " : " + Autonome.get(o.getClass());
+                        }
+                    }
+                    try {
+                        put(autonome);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Couldn't put autonome in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+
                     break;
                 default:
                     getLogger().log(Level.SEVERE, "Unhandled case in {0}", getNameAndDescription());

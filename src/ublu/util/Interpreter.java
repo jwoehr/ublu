@@ -1129,6 +1129,17 @@ public class Interpreter {
         COMMANDRESULT lastCommandResult = COMMANDRESULT.SUCCESS;
         String initialCommandLine = getArgArray().toHistoryLine();
         while (!getArgArray().isEmpty() && !good_bye && !isBreakIssued()) {
+            // /* Debug */ System.err.println(" arg array is " + getArgArray());
+            if (getArgArray().isNextTupleNameOrPop()) {
+                Tuple t = getArgArray().peekNextTupleOrPop();
+                if (Autonome.autonomize(t, getArgArray())) {
+                    continue;
+                } else {
+                    getLogger().log(Level.SEVERE, "non-autonomized tuple or pop : " + getArgArray().next());
+                    lastCommandResult = COMMANDRESULT.FAILURE;
+                    break;
+                }
+            }
             String commandName = getArgArray().next().trim();
             if (commandName.equals("")) {
                 continue; // cr or some sort of whitespace got parsed, skip to next

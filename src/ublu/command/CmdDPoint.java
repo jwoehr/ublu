@@ -26,7 +26,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.SysShepHelper;
 import ublu.util.SysShepHelper.ALERTCOMPARATOR;
 import ublu.util.SysShepHelper.MetricName;

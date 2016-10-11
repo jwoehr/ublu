@@ -135,6 +135,34 @@ public class ArgArray extends ArrayList<String> {
         return get(0);
     }
 
+    public Tuple peekNextTuple() {
+        Tuple result = null;
+        if (isNextTupleName()) {
+            result = getInterpreter().getTuple(peekNext());
+        }
+        return result;
+    }
+
+    public Tuple peekNextPop() {
+        Tuple result = null;
+        if (isNextPopTuple()) {
+            result = getInterpreter().getTupleStack().peek();
+        }
+        return result;
+    }
+
+    public Tuple peekNextTupleOrPop() {
+        Tuple result = null;
+        if (isNextPopTuple()) {
+            if (getInterpreter().getTupleStack().size() > 0) {
+                result = getInterpreter().getTupleStack().peek();
+            }
+        } else if (isNextTupleName()) {
+            result = getInterpreter().getTuple(peekNext());
+        }
+        return result;
+    }
+
     /**
      * True .IFF. next item in arg array is a tuple name and a tuple isn't
      * mapped with that name
@@ -398,11 +426,19 @@ public class ArgArray extends ArrayList<String> {
      * @return True iff next in this arg array is a tuple name
      */
     public boolean isNextTupleName() {
-        return Tuple.isTupleName(peekNext());
+        boolean result = false;
+        if (peekNext() != null && peekNext().length() > 0) {
+            result = Tuple.isTupleName(peekNext());
+        }
+        return result;
     }
 
     private boolean isNextPopTuple() {
-        return peekNext().equals(POPTUPLE);
+        boolean result = false;
+        if (peekNext() != null && peekNext().length() > 0) {
+            result = peekNext().equals(POPTUPLE);
+        }
+        return result;
     }
 
     /**

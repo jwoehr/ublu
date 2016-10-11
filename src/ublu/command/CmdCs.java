@@ -44,7 +44,6 @@ import java.util.logging.Level;
 import ublu.db.Db;
 import ublu.db.ResultSetClosure;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Tuple;
 
