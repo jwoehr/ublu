@@ -13,4 +13,7 @@ interpret -block $[ put *arf ]$
 put -to @i 1
 put -to @limit 10
 DO @i to @limit $[ put -n -s *arf put @i ]$
+FUNC woo ( toput ) $[ put @@toput ]$
+woo ( *arf )
+woo ( *foo )
 # end
