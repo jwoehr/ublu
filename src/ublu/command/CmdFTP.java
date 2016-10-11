@@ -119,12 +119,10 @@ public class CmdFTP extends Command {
                     isAs400 = true;
                     break;
                 case "-to":
-                    String destName = args.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(args);
                     break;
                 case "-from":
-                    String srcName = args.next();
-                    setDataSrc(DataSink.fromSinkName(srcName));
+                    setDataSrcfromArgArray(args);
                     break;
                 case "-cd":
                     function = FUNCTIONS.CD;
@@ -209,35 +207,34 @@ public class CmdFTP extends Command {
                 } else {
                     getLogger().log(Level.SEVERE, "Session tuple {0} does not reference FTP.", sessionTupleName);
                 }
-            } else { // no session tuple yet established
-                if (args.size() < 3) {
-                    logArgArrayTooShortError(args);
-                    setCommandResult(COMMANDRESULT.FAILURE);
-                } else {
-                    String server = args.nextMaybeQuotationTuplePopString();
-                    String userid = args.nextMaybeQuotationTuplePopString();
-                    String password = args.nextMaybeQuotationTuplePopString();
-                    if (isAs400) {
-                        try {
-                            myFTP = new AS400FTP(AS400Factory.newAS400(getInterpreter(), server, userid, password));
-                        } catch (PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Error creating  AS400FTP session", ex);
-                        }
-                    } else {
-                        myFTP = new FTP(server, userid, password);
-                    }
+            } else // no session tuple yet established
+            if (args.size() < 3) {
+                logArgArrayTooShortError(args);
+                setCommandResult(COMMANDRESULT.FAILURE);
+            } else {
+                String server = args.nextMaybeQuotationTuplePopString();
+                String userid = args.nextMaybeQuotationTuplePopString();
+                String password = args.nextMaybeQuotationTuplePopString();
+                if (isAs400) {
                     try {
-                        if (myFTP != null) {
-                            myFTP.setPort(portNum); // only set port before 1st connect
-                            // If we got an FTP and user provided a session tuple
-                            if (sessionTupleName != null) { // BUG allows illegal tuple name
-                                setTuple(sessionTupleName, myFTP);
-                            }
-                        }
+                        myFTP = new AS400FTP(AS400Factory.newAS400(getInterpreter(), server, userid, password));
                     } catch (PropertyVetoException ex) {
-                        getLogger().log(Level.SEVERE, "Error setting port for FTP session", ex);
-                        myFTP = null; // This will make us fall out below
+                        getLogger().log(Level.SEVERE, "Error creating  AS400FTP session", ex);
                     }
+                } else {
+                    myFTP = new FTP(server, userid, password);
+                }
+                try {
+                    if (myFTP != null) {
+                        myFTP.setPort(portNum); // only set port before 1st connect
+                        // If we got an FTP and user provided a session tuple
+                        if (sessionTupleName != null) { // BUG allows illegal tuple name
+                            setTuple(sessionTupleName, myFTP);
+                        }
+                    }
+                } catch (PropertyVetoException ex) {
+                    getLogger().log(Level.SEVERE, "Error setting port for FTP session", ex);
+                    myFTP = null; // This will make us fall out below
                 }
             }
             if (myFTP == null) { // Here's where we fall out if no FTP instance
