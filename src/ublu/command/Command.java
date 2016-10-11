@@ -179,7 +179,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param dataSrc data source
      */
-    public void setDataSrc(DataSink dataSrc) {
+    protected void setDataSrc(DataSink dataSrc) {
         this.dataSrc = dataSrc;
     }
 
@@ -197,8 +197,26 @@ public abstract class Command implements CommandInterface {
      *
      * @param dataDest data dest
      */
-    public void setDataDest(DataSink dataDest) {
+    protected void setDataDest(DataSink dataDest) {
         this.dataDest = dataDest;
+    }
+
+    /**
+     * Set data dest to data sink specified by next in the arg array
+     *
+     * @param args the arg array
+     */
+    protected void setDataDestfromArgArray(ArgArray args) {
+        setDataDest(DataSink.fromSinkName(args.next()));
+    }
+
+    /**
+     * Set data src to data sink specified by next in the arg array
+     *
+     * @param args the arg array
+     */
+    protected void setDataSrcfromArgArray(ArgArray args) {
+        setDataSrc(DataSink.fromSinkName(args.next()));
     }
 
     /**
