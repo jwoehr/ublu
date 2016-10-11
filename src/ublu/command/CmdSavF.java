@@ -29,7 +29,6 @@ package ublu.command;
 
 import ublu.AS400Factory;
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics.StringArrayList;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400Exception;
@@ -108,8 +107,7 @@ public class CmdSavF extends Command {
             String dashCommand = args.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = args.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(args);
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
@@ -212,14 +210,16 @@ public class CmdSavF extends Command {
                                     }
                                 }
                             } else // we have a library name
-                            if (objectList.isEmpty()) // save lib if no obj list
                             {
-                                saveFile.restore(savedLibName);
-                            } else { // We have an obj list
-                                if (toLibName == null) {
-                                    toLibName = savedLibName;
+                                if (objectList.isEmpty()) // save lib if no obj list
+                                {
+                                    saveFile.restore(savedLibName);
+                                } else { // We have an obj list
+                                    if (toLibName == null) {
+                                        toLibName = savedLibName;
+                                    }
+                                    saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                                 }
-                                saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                             }
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
@@ -239,11 +239,13 @@ public class CmdSavF extends Command {
                                     saveFile.save(pathList.toStringArray());
                                 }
                             } else // we have a library name
-                            if (objectList.isEmpty()) // save lib if no obj list
                             {
-                                saveFile.save(savedLibName);
-                            } else { // We have an obj list
-                                saveFile.save(savedLibName, objectList.toStringArray());
+                                if (objectList.isEmpty()) // save lib if no obj list
+                                {
+                                    saveFile.save(savedLibName);
+                                } else { // We have an obj list
+                                    saveFile.save(savedLibName, objectList.toStringArray());
+                                }
                             }
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
