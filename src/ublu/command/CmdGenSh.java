@@ -64,7 +64,7 @@ public class CmdGenSh extends Command {
             genSh.accumulateCommand(dashCommand);
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     genSh.accumulateCommand(getDataDest().getName());
                     break;
                 case "-opt":
