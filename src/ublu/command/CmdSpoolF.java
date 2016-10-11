@@ -167,15 +167,13 @@ public class CmdSpoolF extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-from":
-                    String srcName = argArray.next();
-                    setDataSrc(DataSink.fromSinkName(srcName));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-tofile":
                     String destFileName = argArray.nextMaybeQuotationTuplePopString();
