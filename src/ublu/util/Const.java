@@ -27,8 +27,6 @@
  */
 package ublu.util;
 
-import java.util.LinkedHashMap;
-
 /**
  *
  * @author jax
@@ -80,27 +78,5 @@ public class Const {
      */
     public static boolean isConstName(String s) {
         return s.startsWith(CONSTNAMECHAR);
-    }
-
-    /**
-     * A map to hold the Consts the user defines.
-     */
-    public static class ConstMap extends LinkedHashMap<String, Const> {
-
-        /**
-         * ctor/0
-         */
-        public ConstMap() {
-            super();
-        }
-
-        /**
-         * Copy ctor
-         *
-         * @param cm the map to copy
-         */
-        public ConstMap(ConstMap cm) {
-            super(cm);
-        }
     }
 }

@@ -48,7 +48,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Set;
-import ublu.util.Const.ConstMap;
+import ublu.util.Generics.ConstMap;
 
 /**
  * command interface object

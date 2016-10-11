@@ -934,6 +934,41 @@ public class Generics {
     }
 
     /**
+     * A map to hold the Consts the user defines.
+     */
+    public static class ConstMap extends LinkedHashMap<String, Const> implements Serializable {
+
+        private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+            out.defaultWriteObject();
+        }
+
+        private void readObject(java.io.ObjectInputStream in)
+                throws IOException, ClassNotFoundException {
+            in.defaultReadObject();
+        }
+
+        private void readObjectNoData()
+                throws ObjectStreamException {
+        }
+
+        /**
+         * ctor/0
+         */
+        public ConstMap() {
+            super();
+        }
+
+        /**
+         * Copy ctor
+         *
+         * @param cm the map to copy
+         */
+        public ConstMap(ConstMap cm) {
+            super(cm);
+        }
+    }
+
+    /**
      * Encapsulate array of messages from command / program execution
      */
     public static class AS400MessageList extends ArrayList<AS400Message> {
