@@ -159,7 +159,7 @@ public class CmdDict extends Command {
                             try {
                                 File f = new File(getDataSrc().getName());
                                 if (!f.exists()) {
-                                    getLogger().log(Level.SEVERE, "File does not exist {0}", getNameAndDescription());
+                                    getLogger().log(Level.SEVERE, "File does not exist in {0}", getNameAndDescription());
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 } else {
                                     fm = FunctorMap.fromFile(f);
