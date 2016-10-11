@@ -163,13 +163,13 @@ public class CmdIFS extends Command {
                     ifsFileTuple = argArray.nextTupleOrPop();
                     break;
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
+                    this.setDataDestfromArgArray(argArray);
                     break;
                 case "-from":
-                    setDataSrc(DataSink.fromSinkName(argArray.next()));
+                    this.setDataSrcfromArgArray(argArray);
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
@@ -299,19 +299,13 @@ public class CmdIFS extends Command {
         IFSFile ifsFile = null;
         if (datasink.getType() == DataSink.SINKTYPE.TUPLE) {
             Tuple t = getTuple(datasink.getName());
-            Object o = t.getValue();
-            ifsFile = o instanceof IFSFile ? IFSFile.class.cast(o) : null;
+            ifsFile = t.value(IFSFile.class);
         }
         return ifsFile;
     }
 
     private IFSFile getIFSFileFromEponymous() {
-        IFSFile ifsFile = null;
-        if (ifsFileTuple != null) {
-            Object o = ifsFileTuple.getValue();
-            ifsFile = o instanceof IFSFile ? IFSFile.class.cast(o) : null;
-        }
-        return ifsFile;
+        return ifsFileTuple.value(IFSFile.class);
     }
 
     private IFSFile getIFSFileFromDataSource() {
