@@ -27,14 +27,31 @@
  */
 package ublu.util;
 
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
 /**
  *
  * @author jax
  */
-public class Const {
+public class Const implements Serializable {
 
     private final String name;
     private final String value;
+
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
+
+    private void readObject(java.io.ObjectInputStream in)
+            throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+    }
+
+    private void readObjectNoData()
+            throws ObjectStreamException {
+    }
 
     /**
      *
