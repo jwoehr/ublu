@@ -148,7 +148,7 @@ public class CmdSystem extends Command {
                 case NUL:
                 case URL:
                 default:
-                    getLogger().log(Level.SEVERE, "Unsupported data source {0} in {1}", new Object[]{dataSrc.getType(), getNameAndDescription()});
+                    getLogger().log(Level.SEVERE, "Unsupported data source {0} in {1}", new Object[]{getDataSrc().getType(), getNameAndDescription()});
                     setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
