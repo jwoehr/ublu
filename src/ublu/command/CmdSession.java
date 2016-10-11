@@ -28,7 +28,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Sess5250;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
@@ -75,10 +74,9 @@ public class CmdSession extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    setDataDest(DataSink.fromSinkName(argArray.next()));
-                    break;
+                    setDataDestfromArgArray(argArray);
                 case "-from":
-                    setDataSrc(DataSink.fromSinkName(argArray.next()));
+                    setDataSrcfromArgArray(argArray);
                     break;
                 case "-close":
                     operation = OPERATIONS.CLOSE;
