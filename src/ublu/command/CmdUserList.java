@@ -69,7 +69,7 @@ public class CmdUserList extends Command {
                     setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    setDataDest(newDataSink(argArray));
+                    setDataDestfromArgArray(argArray);
                     break;
 //                case "-from":
 //                    setDataSrc(newDataSink(argArray));
