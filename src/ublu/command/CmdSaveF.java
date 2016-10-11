@@ -28,7 +28,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Generics.StringArrayList;
 import com.ibm.as400.access.AS400Exception;
 import com.ibm.as400.access.AS400SecurityException;
@@ -48,7 +47,7 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdSaveF extends Command {
-
+    
     {
         setNameAndDescription("savef",
                 "/2? [-as400 ~@as400] [-to datasink] [--,-savef ~@savef] [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] [-create | -delete | -exists | -list | -new | -restore | -save ] ~@{libraryname} ~@{savefilename} : instance and perform various savefile operations");
@@ -105,8 +104,7 @@ public class CmdSaveF extends Command {
             String dashCommand = args.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = args.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    this.setDataDestfromArgArray(args);
                     break;
                 case "--":
                 case "-savef":
@@ -234,7 +232,8 @@ public class CmdSaveF extends Command {
                                     }
                                 }
                             } else // we have a library name
-                             if (objectList.isEmpty()) // save lib if no obj list
+                            {
+                                if (objectList.isEmpty()) // save lib if no obj list
                                 {
                                     saveFile.restore(savedLibName);
                                 } else { // We have an obj list
@@ -243,6 +242,7 @@ public class CmdSaveF extends Command {
                                     }
                                     saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                                 }
+                            }
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -261,12 +261,14 @@ public class CmdSaveF extends Command {
                                     saveFile.save(pathList.toStringArray());
                                 }
                             } else // we have a library name
-                             if (objectList.isEmpty()) // save lib if no obj list
+                            {
+                                if (objectList.isEmpty()) // save lib if no obj list
                                 {
                                     saveFile.save(savedLibName);
                                 } else { // We have an obj list
                                     saveFile.save(savedLibName, objectList.toStringArray());
                                 }
+                            }
                         } catch (AS400Exception ex) {
                             getLogger().log(Level.SEVERE, "Error encountered saving to savefile", ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -276,18 +278,18 @@ public class CmdSaveF extends Command {
                         }
                         break;
                 }
-
+                
             }
         }
         return args;
     }
-
+    
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return savef(args);
     }
-
+    
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
