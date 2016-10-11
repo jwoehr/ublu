@@ -27,7 +27,6 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.SpooledFileLister;
-import ublu.util.DataSink;
 import ublu.util.Generics.SpooledFileArrayList;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400SecurityException;
@@ -67,11 +66,10 @@ public class CmdSpoolFList extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
-                    setAs400(getAS400Tuple(argArray.next()));
+                    setAs400fromTupleOrPop(argArray);
                     break;
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 default:
                     unknownDashCommand(dashCommand);
