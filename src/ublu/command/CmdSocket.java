@@ -28,7 +28,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -115,8 +114,7 @@ public class CmdSocket extends Command {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
-                    String destName = argArray.next();
-                    setDataDest(DataSink.fromSinkName(destName));
+                    setDataDestfromArgArray(argArray);
                     break;
                 case "-sock":
                 case "--":
@@ -265,21 +263,12 @@ public class CmdSocket extends Command {
     }
 
     private Socket sockFromTuple() {
-        Socket so = null;
-        if (sockTuple != null) {
-            Object o = sockTuple.getValue();
-
-            if (o instanceof Socket) {
-                so = Socket.class
-                        .cast(o);
-            }
-        }
+        Socket so = sockTuple.value(Socket.class);
         if (so == null) {
             getLogger().log(Level.WARNING, "No socket provided in {0}", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         return so;
-
     }
 
     private byte[] bytesFromWriteTuple() {
@@ -288,8 +277,10 @@ public class CmdSocket extends Command {
             Object o = writeTuple.getValue();
             if (o instanceof String) {
                 b = o.toString().getBytes();
+
             } else if (o instanceof ByteArrayList) {
-                b = ByteArrayList.class.cast(o).byteArray();
+                b = ByteArrayList.class
+                        .cast(o).byteArray();
             } else if (o instanceof byte[]) {
                 b = (byte[]) o;
             }
