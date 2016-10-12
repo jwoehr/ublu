@@ -48,7 +48,7 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} |-trim ~@{string}] : string operations");
+                "/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} |-trim ~@{string}] : string operations");
     }
 
     enum OPERATIONS {
@@ -64,7 +64,7 @@ public class CmdString extends Command {
      */
     public ArgArray cmdString(ArgArray argArray) {
         OPERATIONS operation = OPERATIONS.NOOP;
-        String lopr = "";
+        String lopr = null;
         String ropr = "";
         String regex = "";
         String target = "";
@@ -80,27 +80,31 @@ public class CmdString extends Command {
                 case "-to":
                     setDataDest(DataSink.fromSinkName(argArray.next()));
                     break;
+                case "--":
+                case "-string":
+                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-uchar":
                     operation = OPERATIONS.UCHAR;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-bl":
                     operation = OPERATIONS.BL;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-bls":
                     operation = OPERATIONS.BLS;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     fillcount = argArray.nextIntMaybeTupleString();
                     break;
                 case "-cat":
                     operation = OPERATIONS.CAT;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ropr = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-eq":
                     operation = OPERATIONS.EQ;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ropr = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-frombytes":
@@ -109,51 +113,51 @@ public class CmdString extends Command {
                     break;
                 case "-len":
                     operation = OPERATIONS.LEN;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-new":
                     operation = OPERATIONS.NEW;
                     break;
                 case "-nl":
                     operation = OPERATIONS.NL;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-repl":
                     operation = OPERATIONS.REPL;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     target = argArray.nextMaybeQuotationTuplePopString();
                     replacement = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-repl1":
                     operation = OPERATIONS.REPL1;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     target = argArray.nextMaybeQuotationTuplePopString();
                     replacement = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-replregx":
                     operation = OPERATIONS.REPLREGX;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     regex = argArray.nextMaybeQuotationTuplePopString();
                     replacement = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-startswith":
                     operation = OPERATIONS.STARTSWITH;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ropr = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-substr":
                     operation = OPERATIONS.SUBSTR;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     beginindex = argArray.nextInt();
                     endindex = argArray.nextInt();
                     break;
                 case "-tobytes":
                     operation = OPERATIONS.TOBYTES;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-trim":
                     operation = OPERATIONS.TRIM;
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-toascii":
                     operation = OPERATIONS.TOASCII;
@@ -164,7 +168,7 @@ public class CmdString extends Command {
                 case "-toas400":
                     operation = OPERATIONS.TOAS400;
                     setAs400FromTuple(argArray.nextTupleOrPop());
-                    lopr = argArray.nextMaybeQuotationTuplePopString();
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ccsid = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:

@@ -38,8 +38,6 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import static ublu.command.CmdTuple.FUNCTIONS.AUTONOME;
 import ublu.util.Autonome;
 
 /**
@@ -50,7 +48,7 @@ import ublu.util.Autonome;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map | -autonome @tuplename ] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map | -autonome @tuplename | -autonomes ] : operations on tuple variables");
     }
 
     /**
@@ -117,7 +115,11 @@ public class CmdTuple extends Command {
         /**
          * Delivers autonome info
          */
-        AUTONOME
+        AUTONOME,
+        /**
+         * Delivers autonomes info
+         */
+        AUTONOMES
     }
     /**
      * The function we're executing
@@ -215,6 +217,9 @@ public class CmdTuple extends Command {
                 case "-autonome":
                     setFunction(FUNCTIONS.AUTONOME);
                     someTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-autonomes":
+                    setFunction(FUNCTIONS.AUTONOMES);
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -400,7 +405,7 @@ public class CmdTuple extends Command {
                     if (someTuple != null) {
                         Object o = someTuple.getValue();
                         if (o != null) {
-                            autonome = o.getClass().toString() + " : " + Autonome.get(o.getClass());
+                            autonome = Autonome.autonomic(o);
                         }
                     }
                     try {
@@ -409,7 +414,14 @@ public class CmdTuple extends Command {
                         getLogger().log(Level.SEVERE, "Couldn't put autonome in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-
+                    break;
+                case AUTONOMES:
+                    try {
+                        put(Autonome.displayAll());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Couldn't put autonomes in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 default:
                     getLogger().log(Level.SEVERE, "Unhandled case in {0}", getNameAndDescription());

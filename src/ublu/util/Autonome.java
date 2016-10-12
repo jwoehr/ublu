@@ -54,7 +54,9 @@ import com.ibm.as400.access.UserList;
 import java.net.Socket;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ublu.AS400Extender;
@@ -70,7 +72,7 @@ import ublu.util.Generics.ThingArrayList;
  */
 public class Autonome {
 
-    static final LinkedHashMap<Class, String> AUTONOMY;
+    public static final LinkedHashMap<Class, String> AUTONOMY;
 
     static {
         AUTONOMY = new LinkedHashMap<>();
@@ -126,6 +128,28 @@ public class Autonome {
      */
     public static String get(Class c) {
         return AUTONOMY.get(c);
+    }
+
+    public static String displayAll() {
+        StringBuilder sb = new StringBuilder();
+        Set s = AUTONOMY.keySet();
+        Iterator i = s.iterator();
+        while (i.hasNext()) {
+            Class c = Class.class.cast(i.next());
+            sb.append(get(c))
+                    .append(" : ")
+                    .append(c.toString())
+                    .append('\n');
+        }
+        return sb.toString();
+    }
+
+    public static String autonomic(Object o) {
+        String autonomic = null;
+        if (o != null) {
+            autonomic = o.getClass().toString() + " : " + get(o.getClass());
+        }
+        return autonomic;
     }
 
     /**
