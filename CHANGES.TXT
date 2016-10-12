@@ -4,8 +4,12 @@ All rights reserved.
 
 1.1.3
 System:
+* Much refactoring at the Java level
+* ublu.Ublu takes -include (i) switch
+* autonomic tuple variables
+* save and restore const map
 * ublu.util.Renderer
-	* ObjectLockListEntry
+	* ObjectLockListEntry	
 
 Commands:
 * general
@@ -13,9 +17,11 @@ Commands:
 	* command descriptions cleaned up
 	* some commands' argument parsing modernized
 * individual commands	
-	* system modernized
+	* const -list
 	* db -json
 	* IF now tests for null as well as not-true-not-false
+	* ifs -fromfile
+	* include -s (for -silent)
 	* joblog command added
 	* json command added
 	* job -hold -release
@@ -24,10 +30,11 @@ Commands:
 	* printer -wtrjob
 	* printer -get works for all attributes now
 	* rs -json
-	* string -toascii, -toas400
+	* string --,-string -toascii -toas400
+	* system modernized
+	* tuple -autonome(s)
 
 Miscellaneous:
-* ublu.Ublu takes -include switch
 * Update vim mode
 * ubluref.html example for FUNC corrected
 * ubluref.html many minor corrections
