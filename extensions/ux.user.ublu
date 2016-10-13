@@ -118,13 +118,13 @@ FUNC ux.user.getIASPNames ( userobj ) $[
 ]$
 # int 	getIASPStorageAllowed(String iaspName)
 # Retrieves the maximum amount of auxiliary storage in kilobytes that can be assigned to store permanent object owned by this user on the given independant ASP.
-FUNC ux.user.getIASPStorageAllowed ( userobj ) $[
-    calljava -to ~ -- @@userobj -method getIASPStorageAllowed
+FUNC ux.user.getIASPStorageAllowed ( userobj iaspName ) $[
+    calljava -to ~ -- @@userobj -method getIASPStorageAllowed -arg iaspName
 ]$
 # int 	getIASPStorageUsed(String iaspName)
 # Retrieves the amount of auxiliary storage in kilobytes occupied by this user's owned objects on the given independent ASP.
-FUNC ux.user.getIASPStorageUsed ( userobj ) $[
-    calljava -to ~ -- @@userobj -method getIASPStorageUsed
+FUNC ux.user.getIASPStorageUsed ( userobj iaspName ) $[
+    calljava -to ~ -- @@userobj -method getIASPStorageUsed -arg iaspName
 ]$
 # String 	getInitialMenu()
 # Retrieves the initial menu for the user.
@@ -373,7 +373,7 @@ FUNC ux.user.getUserProfileName ( userobj ) $[
 #   *AUDIT - Audit.
 #   *IOSYSCFG - Input/output system configuration.
 FUNC ux.user.hasSpecialAuthority ( userobj authority ) $[
-    calljava -to ~ -- @@userobj -method exists -arg @@authority
+    calljava -to ~ -- @@userobj -method hasSpecialAuthority -arg @@authority
 ]$
 # boolean 	isAuthCollectionActive()
 # ?? No description in javadocs
@@ -423,12 +423,496 @@ FUNC ux.user.isWithDigitalCertificates ( userobj ) $[
 # void 	loadUserInformation()
 # Refreshes the values for all attributes.
 FUNC ux.user.loadUserInformation ( userobj ) $[
-    calljava -to ~ -- @@userobj -method loadUserInformation
+    calljava -- @@userobj -method loadUserInformation
 ]$
 # void 	refresh()
 # Refreshes all the attribute values for this User object by retrieving them from the system.
 FUNC ux.user.refresh ( userobj ) $[
-    calljava -to ~ -- @@userobj -method refresh
+    calljava -- @@userobj -method refresh
+]$
+
+# Dump most user properties to a destination datasink  
+FUNC ux.user.dump ( userobj dest ) $[
+    TRY $[
+    ux.user.getUserProfileName ( @@userobj )
+    put -to @@dest ${ ux.user.getUserProfileName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserProfileName }$ ]$
+    TRY $[
+    ux.user.exists ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.exists }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.exists }$ ]$
+    TRY $[
+    ux.user.getAccountingCode ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getAccountingCode }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getAccountingCode }$ ]$
+    TRY $[
+    ux.user.getAssistanceLevel ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getAssistanceLevel }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getAssistanceLevel }$ ]$
+    TRY $[
+    ux.user.getAttentionKeyHandlingProgram ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getAttentionKeyHandlingProgram }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getAttentionKeyHandlingProgram }$ ]$
+    TRY $[
+    ux.user.getCCSID ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getCCSID }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getCCSID }$ ]$
+    TRY $[
+    ux.user.getCHRIDControl ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getCHRIDControl }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getCHRIDControl }$ ]$
+    TRY $[
+    ux.user.getCountryID ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getCountryID }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getCountryID }$ ]$
+    TRY $[
+    ux.user.getCurrentLibraryName ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getCurrentLibraryName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getCurrentLibraryName }$ ]$
+    TRY $[
+    ux.user.getDaysUntilPasswordExpire ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getDaysUntilPasswordExpire }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getDaysUntilPasswordExpire }$ ]$
+    TRY $[
+    ux.user.getDescription ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getDescription }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getDescription }$ ]$
+    \\ ${
+    TRY $[
+    ux.user.getDetailInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getDetailInSTRAUTCOL  string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@des
+    ]$ CATCH $[ put ${ Error in ux.user.getDetailInSTRAUTCOL  ]$
+     }$
+    TRY $[
+    ux.user.getDirectoryEntry ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getDirectoryEntry }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getDirectoryEntry }$ ]$
+    TRY $[
+    ux.user.getDisplaySignOnInformation ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getDisplaySignOnInformation }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getDisplaySignOnInformation }$ ]$
+     \\ ${
+    TRY $[
+    ux.user.getDLOObjectTypesInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getDLOObjectTypesInSTRAUTCOL string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getDLOObjectTypesInSTRAUTCOL  ]$
+    TRY $[
+    ux.user.getFileSystemObjectTypesInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getFileSystemObjectTypesInSTRAUTCOL string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getFileSystemObjectTypesInSTRAUTCOL ]$
+     }$
+    TRY $[
+    ux.user.getGroupAuthority ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getGroupAuthority }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getGroupAuthority }$ ]$
+    TRY $[
+    ux.user.getGroupAuthorityType ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getGroupAuthorityType }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getGroupAuthorityType }$ ]$
+    TRY $[
+    ux.user.getGroupID ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getGroupID }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getGroupID }$ ]$
+    TRY $[
+    ux.user.getGroupProfileName ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getGroupProfileName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getGroupProfileName }$ ]$
+    TRY $[
+    ux.user.getHighestSchedulingPriority ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getHighestSchedulingPriority }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getHighestSchedulingPriority }$ ]$
+    TRY $[
+    ux.user.getHomeDirectory ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getHomeDirectory }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getHomeDirectory }$ ]$
+    TRY $[
+    ux.user.getIASPNames ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getIASPNames }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getIASPNames }$ ]$
+    \\ ${
+    TRY $[
+    ux.user.getIASPStorageAllowed ( @@userobj ) 
+    string -to @@dest -cat @@dest ux.user.getIASPStorageAllowed  string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getIASPStorageAllowed ]$
+    TRY $[
+    ux.user.getIASPStorageUsed ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getIASPStorageUsed  string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getIASPStorageUsed ]$
+    }$
+    TRY $[
+    ux.user.getInitialMenu ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getInitialMenu }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getInitialMenu }$ ]$
+    TRY $[
+    ux.user.getInitialProgram ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getInitialProgram }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getInitialProgram }$ ]$
+    TRY $[
+    ux.user.getJobDescription ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getJobDescription }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getJobDescription }$ ]$
+    TRY $[
+    ux.user.getKeyboardBuffering ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getKeyboardBuffering }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getKeyboardBuffering }$ ]$
+    TRY $[
+    ux.user.getLanguageID ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getLanguageID }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getLanguageID }$ ]$
+     \\ ${
+    TRY $[
+    ux.user.getLibNameInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getLibNameInSTRAUTCOL string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getLibNameInSTRAUTCOL ]$
+     }$
+    TRY $[
+    ux.user.getLimitCapabilities ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getLimitCapabilities }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getLimitCapabilities }$ ]$
+    TRY $[
+    ux.user.getLimitDeviceSessions ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getLimitDeviceSessions }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getLimitDeviceSessions }$ ]$
+    TRY $[
+    ux.user.getLocaleJobAttributes ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getLocaleJobAttributes }$
+    list -to ~ -source ~
+    string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getLocaleJobAttributes }$ ]$
+    TRY $[
+    ux.user.getLocalePathName ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getLocalePathName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getLocalePathName }$ ]$
+    TRY $[
+    ux.user.getMaximumStorageAllowed ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getMaximumStorageAllowed }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getMaximumStorageAllowed }$ ]$
+    TRY $[
+    ux.user.getMaximumStorageAllowedInLong ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getMaximumStorageAllowedInLong }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getMaximumStorageAllowedInLong }$ ]$
+    TRY $[
+    ux.user.getMessageQueue ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getMessageQueue }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getMessageQueue }$ ]$
+    TRY $[
+    ux.user.getMessageQueueDeliveryMethod ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getMessageQueueDeliveryMethod }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getMessageQueueDeliveryMethod }$ ]$
+    TRY $[
+    ux.user.getMessageQueueSeverity ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getMessageQueueSeverity }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getMessageQueueSeverity }$ ]$
+    TRY $[
+    ux.user.getName ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getName }$ ]$
+    TRY $[
+    ux.user.getObjectAuditingValue ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getObjectAuditingValue }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getObjectAuditingValue }$ ]$
+     \\ ${
+    TRY $[
+    ux.user.getObjectNamesInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getObjectNamesInSTRAUTCOL string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getObjectNamesInSTRAUTCOL ]$
+     }$
+    TRY $[
+    ux.user.getObjectsOwned ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getObjectsOwned }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getObjectsOwned }$ ]$
+    \\ ${
+    TRY $[
+    ux.user.getObjectTypesInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getObjectTypesInSTRAUTCOL string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getObjectTypesInSTRAUTCOL ]$
+    TRY $[
+    ux.user.getOmitLibNamesInSTRAUTCOL ( @@userobj )
+    string -to @@dest -cat @@dest ux.user.getOmitLibNamesInSTRAUTCOL string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getOmitLibNamesInSTRAUTCOL ]$
+    }$
+    TRY $[
+    ux.user.getOutputQueue ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getOutputQueue }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getOutputQueue }$ ]$
+    TRY $[
+    ux.user.getOwner ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getOwner }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getOwner }$ ]$
+    TRY $[
+    ux.user.getPasswordChangeBlock ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getPasswordChangeBlock }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getPasswordChangeBlock }$ ]$
+    TRY $[
+    ux.user.getPasswordExpirationInterval ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getPasswordExpirationInterval }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getPasswordExpirationInterval }$ ]$
+    TRY $[
+    ux.user.getPasswordExpireDate ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getPasswordExpireDate }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getPasswordExpireDate }$ ]$
+    TRY $[
+    ux.user.getPasswordLastChangedDate ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getPasswordLastChangedDate }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getPasswordLastChangedDate }$ ]$
+    TRY $[
+    ux.user.getPreviousSignedOnDate ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getPreviousSignedOnDate }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getPreviousSignedOnDate }$ ]$
+    TRY $[
+    ux.user.getPrintDevice ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getPrintDevice }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getPrintDevice }$ ]$
+    TRY $[
+    ux.user.getSignedOnAttemptsNotValid ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSignedOnAttemptsNotValid }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSignedOnAttemptsNotValid }$ ]$
+    TRY $[
+    ux.user.getSortSequenceTable ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSortSequenceTable }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSortSequenceTable }$ ]$
+    TRY $[
+    ux.user.getSpecialAuthority ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSpecialAuthority }$
+    list -to ~ -source ~
+    string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSpecialAuthority }$ ]$
+    TRY $[
+    ux.user.getSpecialEnvironment ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSpecialEnvironment }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSpecialEnvironment }$ ]$
+    TRY $[
+    ux.user.getStatus ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getStatus }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getStatus }$ ]$
+    TRY $[
+    ux.user.getStorageUsed ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getStorageUsed }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getStorageUsed }$ ]$
+    TRY $[
+    ux.user.getStorageUsedInLong ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getStorageUsedInLong }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getStorageUsedInLong }$ ]$
+    TRY $[
+    ux.user.getSupplementalGroups ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSupplementalGroups }$
+    list -to ~ -source ~
+    string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSupplementalGroups }$ ]$
+    TRY $[
+    ux.user.getSupplementalGroupsNumber ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSupplementalGroupsNumber }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSupplementalGroupsNumber }$ ]$
+    TRY $[
+    ux.user.getSystem ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getSystem }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getSystem }$ ]$
+    TRY $[
+    ux.user.getUserActionAuditLevel ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserActionAuditLevel }$
+    list -to ~ -source ~  
+    string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserActionAuditLevel }$ ]$
+    TRY $[
+    ux.user.getUserClassName ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserClassName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserClassName }$ ]$
+    TRY $[
+    ux.user.getUserExpirationAction ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserExpirationAction }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserExpirationAction }$ ]$
+    TRY $[
+    ux.user.getUserExpirationDate ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserExpirationDate }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserExpirationDate }$ ]$
+    TRY $[
+    ux.user.getUserExpirationInterval ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserExpirationInterval }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserExpirationInterval }$ ]$
+    TRY $[
+    ux.user.getUserID ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserID }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserID }$ ]$
+    TRY $[
+    ux.user.getUserOptions ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.getUserOptions }$
+    list -to ~ -source ~
+    string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.getUserOptions }$ ]$
+    TRY $[
+    put -to ~ *ALLOBJ     
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *ALLOBJ }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *SECADM
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *SECADM }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *JOBCTL
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *JOBCTL }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *SPLCTL
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *SPLCTL }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *SAVSYS 
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *SAVSYS }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *SERVICE
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *SERVICE }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *AUDIT
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *AUDIT }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    put -to ~ *IOSYSCFG
+    ux.user.hasSpecialAuthority ( @@userobj ~ )
+    string -to @@dest -cat @@dest ${ ux.user.hasSpecialAuthority *IOSYSCFG }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.hasSpecialAuthority }$ ]$
+    TRY $[
+    ux.user.isAuthCollectionActive ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isAuthCollectionActive }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isAuthCollectionActive }$ ]$
+    TRY $[
+    ux.user.isAuthCollectionDeleted ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isAuthCollectionDeleted }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isAuthCollectionDeleted }$ ]$
+    TRY $[
+    ux.user.isAuthCollectionRepositoryExist ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isAuthCollectionRepositoryExist }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isAuthCollectionRepositoryExist }$ ]$
+    TRY $[
+    ux.user.isGroupHasMember ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isGroupHasMember }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isGroupHasMember }$ ]$
+    TRY $[
+    ux.user.isLocalPasswordManagement ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isLocalPasswordManagement }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isLocalPasswordManagement }$ ]$
+    TRY $[
+    ux.user.isNoPassword ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isNoPassword }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isNoPassword }$ ]$
+    TRY $[
+    ux.user.isPasswordSetExpire ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isPasswordSetExpire }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isPasswordSetExpire }$ ]$
+    TRY $[
+    ux.user.isUserEntitlementRequired ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isUserEntitlementRequired }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isUserEntitlementRequired }$ ]$
+    TRY $[
+    ux.user.isWithDigitalCertificates ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.isWithDigitalCertificates }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.isWithDigitalCertificates }$ ]$
+    TRY $[
+    ux.user.loadUserInformation ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.loadUserInformation is void }$
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.loadUserInformation }$ ]$
+    TRY $[
+    ux.user.refresh ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.refresh is void }$
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.refresh }$ ]$
 ]$
   
 # end
