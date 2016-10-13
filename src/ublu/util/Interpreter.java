@@ -1257,6 +1257,7 @@ public class Interpreter {
                     setArgArray(aa);
                     commandResult = loop();
                     if (commandResult == COMMANDRESULT.FAILURE) {
+                        getLogger().log(Level.SEVERE, "Error in include : {0}", input);
                         break;
                     }
                 }
