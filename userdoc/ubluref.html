@@ -10,6 +10,7 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -6255,16 +6256,16 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="ifs" id="ifs"></a> <tt>ifs</tt></h4>
 
   <blockquote>
-    <tt>/4? [-ifs,-- ~@ifsfile] [-as400 ~@as400] [-to datasink]
-    [-from datasink] [-fromfile ~@{/full/file/path}] [-length
-    ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b]
-    [-t] [-create | -delete | -exists | -file | -list | -mkdirs |
-    -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read |
-    -rename ~@{/fully/qualified/path/name} | -set
-    ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] |
-    -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user}
-    ~@{password} : integrated file system access<br>
-    &nbsp;&nbsp;&nbsp;</tt><br>
+    <tt>/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink]
+    [-tofile ~@filepath] [-from datasink] [-fromfile ~@{filepath}]
+    [-length ~@{length}] [-offset ~@{offset}] [-pattern
+    ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file |
+    -list | -mkdirs | -query
+    ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename
+    ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]}
+    ~@{value} | -size | -write [~@{string }] | -writebin ]
+    ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password}
+    : integrated file system access</tt><br>
     <br>
     The <tt>ifs</tt> command performs operations on the OS/400
     integrated file system, operating on files and directories
@@ -6318,14 +6319,21 @@ Type help for help. Type license for license. Type bye to exit.
       <i>datasink</i> dash-command. This is the default
       operation.</li>
 
+      <li><tt>-to datasink</tt> sets the destination datasink to
+      the datasink named by its argument. To write to a filepath
+      whose name is contained in a tuple, use
+      <tt>-tofile</tt>.</li>
+
+      <li><tt>-tofile ~@{filepath}</tt> sets the destination
+      datasink to the filepath named by its argument.</li>
+
       <li><tt>-from datasink</tt> sets the source datasink to the
       datasink named by its argument. To write from a filepath
       whose name is contained in a tuple, use
       <tt>-fromfile</tt>.</li>
 
-      <li><tt>-fromfile ~@{/full/file/path}</tt> sets the source
-      datasink to the fully qualified filepath named by its
-      argument.</li>
+      <li><tt>-fromfile ~@{filepath}</tt> sets the source datasink
+      to the filepath named by its argument.</li>
 
       <li>
         <tt>-length</tt> sets the length for a <tt>-read</tt> or
@@ -10070,12 +10078,12 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="put" id="put"></a><tt>put</tt></h4>
 
   <blockquote>
-    <tt>/1? [-to datasink] [-tofile ~@tuplename] [-from datasink ]
-    [-fromfile ~@filename] [-append] [ -toascii ] [ -charset
+    <tt>/1? [-to datasink] [-tofile ~@filepath] [-from datasink ]
+    [-fromfile ~@filepath] [-append] [ -toascii ] [ -charset
     srccharsetname ] [-n] [-s] [ -# number | ~@{object or a string}
     | a single lex ] : put data from datasink to datasink,
     optionally translating charset if -toascii or -charset are
-    set<br></tt><br>
+    set</tt><br>
     The <tt>put</tt> command puts data from the source <a href=
     "#Datasinks">datasink</a> ( Standard Input ( called
     <tt>STD:</tt> ), filename, <a href=

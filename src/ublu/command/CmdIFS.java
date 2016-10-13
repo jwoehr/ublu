@@ -63,7 +63,7 @@ public class CmdIFS extends Command {
 
     {
         setNameAndDescription("ifs",
-                "/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink] [-from datasink] [-fromfile ~@{/full/file/path}] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
+                "/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink] [-tofile ~@filepath] [-from datasink] [-fromfile ~@{filepath}] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }
 
     /**
@@ -168,11 +168,14 @@ public class CmdIFS extends Command {
                 case "-to":
                     setDataDestfromArgArray(argArray);
                     break;
+                case "-tofile":
+                    setDataDest(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
+                    break;
                 case "-from":
                     setDataSrcfromArgArray(argArray);
                     break;
                 case "-fromfile":
-                     setDataSrc(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
+                    setDataSrc(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
