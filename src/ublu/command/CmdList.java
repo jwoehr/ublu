@@ -314,9 +314,6 @@ public class CmdList extends Command {
         setCommandResult(COMMANDRESULT.FAILURE);
     }
 
-    private static final Object MODELARRAY[] = new Object[0];
-    private static final Class ARRAYCLASS = MODELARRAY.getClass();
-
     private ThingArrayList listFromSource(Object o) {
         ThingArrayList tal = null;
         if (o instanceof Collection) {
@@ -327,8 +324,10 @@ public class CmdList extends Command {
                     .cast(o));
         } else if (o instanceof String) {
             tal = new ThingArrayList(new StringArrayList(String.class.cast(o)));
-        } else if (o.getClass().equals(ARRAYCLASS)) {
+        } else if (o instanceof Object []) {
             tal = new ThingArrayList((Object[]) o);
+        } else if (o instanceof String[]) {
+            tal = new ThingArrayList((String[]) o);
         } else {
             getLogger().log(Level.SEVERE, "Cannot create List from {0} in {1}", new Object[]{o, getNameAndDescription()});
             setCommandResult(COMMANDRESULT.FAILURE);
