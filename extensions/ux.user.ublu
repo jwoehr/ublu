@@ -1,0 +1,434 @@
+# FUNC ux.user.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Methods to call on the user object returned by Ublu's user command
+
+# boolean 	exists()
+# Determines if this user profile exists on the system.
+FUNC ux.user.exists ( userobj ) $[
+    calljava -to ~ -- @@userobj -method exists
+]$
+# String 	getAccountingCode()
+# Retrieves the accounting code that is associated with this user.
+FUNC ux.user.getAccountingCode ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getAccountingCode
+]$
+# String 	getAssistanceLevel()
+# Retrieves the user interface that the user will use.
+FUNC ux.user.getAssistanceLevel ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getAssistanceLevel
+]$
+# String 	getAttentionKeyHandlingProgram()
+# Retrieves the attention key handling program for this user.
+FUNC ux.user.getAttentionKeyHandlingProgram ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getAttentionKeyHandlingProgram
+]$
+# int 	getCCSID()
+# Retrieves the character code set ID to be used by the system for this user.
+FUNC ux.user.getCCSID ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getCCSID
+]$
+# String 	getCHRIDControl()
+# Retrieves the character identifier control for the user.
+FUNC ux.user.getCHRIDControl ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getCHRIDControl
+]$
+# String 	getCountryID()
+# Retrieves the country or region ID used by the system for this user.
+FUNC ux.user.getCountryID ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getCountryID
+]$
+# String 	getCurrentLibraryName()
+# Retrieves the name of the user's current library.
+FUNC ux.user.getCurrentLibraryName ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getCurrentLibraryName
+]$
+# int 	getDaysUntilPasswordExpire()
+# Retrieves the number of days until the password will expire.
+FUNC ux.user.getDaysUntilPasswordExpire ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getDaysUntilPasswordExpire
+]$
+ # String 	getDescription()
+# Retrieves the descriptive text for the user profile.
+FUNC ux.user.getDescription ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getDescription
+]$
+# String 	getDetailInSTRAUTCOL() 
+# ?? No description in javadocs
+FUNC ux.user.getDetailInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getDetailInSTRAUTCOL
+]$
+# DirectoryEntry 	getDirectoryEntry()
+# Retrieves the system distribution directory entry for the user profile, if one exists.
+FUNC ux.user.getDirectoryEntry ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getDirectoryEntry
+]$
+# String 	getDisplaySignOnInformation()
+# Retrieves whether the sign-on information display is shown when the user signs on.
+FUNC ux.user.getDisplaySignOnInformation ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getDisplaySignOnInformation
+]$
+# String[] 	getDLOObjectTypesInSTRAUTCOL()
+# ?? No description in javadocs
+FUNC ux.user.getDLOObjectTypesInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getDLOObjectTypesInSTRAUTCOL
+]$
+# String[] 	getFileSystemObjectTypesInSTRAUTCOL()
+# ?? No description in javadocs
+FUNC ux.user.getFileSystemObjectTypesInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getFileSystemObjectTypesInSTRAUTCOL
+]$
+# String 	getGroupAuthority()
+# Retrieves the authority the user's group profile has to objects the user creates.
+FUNC ux.user.getGroupAuthority ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getGroupAuthority
+]$
+# String 	getGroupAuthorityType()
+# Retrieves the type of authority the user's group has to objects the user creates.
+FUNC ux.user.getGroupAuthorityType ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getGroupAuthorityType
+]$
+# long 	getGroupID()
+# Retrieves the group ID number for the user profile.
+FUNC ux.user.getGroupID ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getGroupID
+]$
+# String 	getGroupProfileName()
+# Retrieves the name of the group profile.
+FUNC ux.user.getGroupProfileName ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getGroupProfileName
+]$
+# int 	getHighestSchedulingPriority()
+# Retrieves the highest scheduling priority the user is allowed to have for each job submitted to the system.
+FUNC ux.user.getHighestSchedulingPriority ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getHighestSchedulingPriority
+]$
+# String 	getHomeDirectory()
+# Retrieves the home directory for this user profile.
+FUNC ux.user.getHomeDirectory ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getHomeDirectory
+]$
+# String[] 	getIASPNames()
+# Retrieves the list of independent auxiliary storage pool (IASP) names in use by this user.
+FUNC ux.user.getIASPNames ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getIASPNames
+]$
+# int 	getIASPStorageAllowed(String iaspName)
+# Retrieves the maximum amount of auxiliary storage in kilobytes that can be assigned to store permanent object owned by this user on the given independant ASP.
+FUNC ux.user.getIASPStorageAllowed ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getIASPStorageAllowed
+]$
+# int 	getIASPStorageUsed(String iaspName)
+# Retrieves the amount of auxiliary storage in kilobytes occupied by this user's owned objects on the given independent ASP.
+FUNC ux.user.getIASPStorageUsed ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getIASPStorageUsed
+]$
+# String 	getInitialMenu()
+# Retrieves the initial menu for the user.
+FUNC ux.user.getInitialMenu ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getInitialMenu
+]$
+# String 	getInitialProgram()
+# Retrieves the initial program for the user.
+FUNC ux.user.getInitialProgram ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getInitialProgram
+]$
+# String 	getJobDescription()
+# Retrieves the fully qualified integrated file system path name of the job description used for jobs that start through subsystem work station entries.
+FUNC ux.user.getJobDescription ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getJobDescription
+]$
+# String 	getKeyboardBuffering()
+# Retrieves the keyboard buffering value that is used when a job is initialized for this user.
+FUNC ux.user.getKeyboardBuffering ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getKeyboardBuffering
+]$
+# String 	getLanguageID()
+# Retrieves the language ID used by the system for this user.
+FUNC ux.user.getLanguageID ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getLanguageID
+]$
+# String[] 	getLibNameInSTRAUTCOL()
+# ?? No description in javadocs
+FUNC ux.user.getLibNameInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getLibNameInSTRAUTCOL
+]$
+# String 	getLimitCapabilities()
+# Retrieves whether the user has limited capabilites.
+FUNC ux.user.getLimitCapabilities ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getLimitCapabilities
+]$
+# String 	getLimitDeviceSessions()
+# Retrieves whether the user is limited to one device session.
+FUNC ux.user.getLimitDeviceSessions ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getLimitDeviceSessions
+]$
+# String[] 	getLocaleJobAttributes()
+# Retrieves a list of the job attributes which are set from the user's locale path name.
+FUNC ux.user.getLocaleJobAttributes ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getLocaleJobAttributes
+]$
+# String 	getLocalePathName()
+# Retrieves the locale path name that is assigned to the user profile when a job is started.
+FUNC ux.user.getLocalePathName ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getLocalePathName
+]$
+# int 	getMaximumStorageAllowed()
+# Retrieves the maximum amount of auxiliary storage (in kilobytes) that can be assigned to store permanant objects owned by the user.
+FUNC ux.user.getMaximumStorageAllowed ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getMaximumStorageAllowed
+]$
+# long 	getMaximumStorageAllowedInLong()
+# ?? No description in javadocs.
+FUNC ux.user.getMaximumStorageAllowedInLong ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getMaximumStorageAllowedInLong
+]$
+# String 	getMessageQueue()
+# Retrieves the fully qualified integrated file system path name of the message queue that is used by this user.
+FUNC ux.user.getMessageQueue ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getMessageQueue
+]$
+# String 	getMessageQueueDeliveryMethod()
+# Retrieves how the messages are delivered to the message queue used by the user.
+FUNC ux.user.getMessageQueueDeliveryMethod ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getMessageQueueDeliveryMethod
+]$
+# int 	getMessageQueueSeverity()
+# Retrieves the lowest severity that a message can have and still be delivered to a user in break or notify mode.
+FUNC ux.user.getMessageQueueSeverity ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getMessageQueueSeverity
+]$
+# String 	getName()
+# Returns the user profile name.
+FUNC ux.user.getName ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getName
+]$
+# String 	getObjectAuditingValue()
+# Retrieves the user's object auditing value.
+FUNC ux.user.getObjectAuditingValue ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getObjectAuditingValue
+]$
+# String[] 	getObjectNamesInSTRAUTCOL() 
+# ?? No description in javadocs
+FUNC ux.user.getObjectNamesInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getObjectNamesInSTRAUTCOL
+]$
+# UserObjectsOwnedList 	getObjectsOwned()
+# Return an object representing the objects that this user owns.
+FUNC ux.user.getObjectsOwned ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getObjectsOwned
+]$
+# String[] 	getObjectTypesInSTRAUTCOL()
+# ?? No description in javadocs
+FUNC ux.user.getObjectTypesInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getObjectTypesInSTRAUTCOL
+]$
+# String[] 	getOmitLibNamesInSTRAUTCOL()
+# ?? No description in javadocs
+FUNC ux.user.getOmitLibNamesInSTRAUTCOL ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getOmitLibNamesInSTRAUTCOL
+]$
+# String 	getOutputQueue()
+# Retrieves the output queue used by this user.
+FUNC ux.user.getOutputQueue ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getOutputQueue
+]$
+# String 	getOwner()
+# Retrieves who is to own objects created by this user.
+FUNC ux.user.getOwner ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getOwner
+]$
+# String 	getPasswordChangeBlock()
+# Retrieves the time period during which a password is blocked from being changed following the prior successful password change operation.
+FUNC ux.user.getPasswordChangeBlock ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getPasswordChangeBlock
+]$
+# int 	getPasswordExpirationInterval()
+# Retrieves the number of days the user's password can remain active before it must be changed.
+FUNC ux.user.getPasswordExpirationInterval ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getPasswordExpirationInterval
+]$
+# Date 	getPasswordExpireDate()
+# Retrieves the date the user's password expires.
+FUNC ux.user.getPasswordExpireDate ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getPasswordExpireDate
+]$
+# Date 	getPasswordLastChangedDate()
+# Retrieves the date the user's password was last changed.
+FUNC ux.user.getPasswordLastChangedDate ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getPasswordLastChangedDate
+]$
+# Date 	getPreviousSignedOnDate()
+# Retrieves the date and time the user last signed on.
+FUNC ux.user.getPreviousSignedOnDate ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getPreviousSignedOnDate
+]$
+# String 	getPrintDevice()
+# Retrieves the printer used to print for this user.
+FUNC ux.user.getPrintDevice ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getPrintDevice
+]$
+# int 	getSignedOnAttemptsNotValid()
+# Retrieves the number of sign-on attempts that were not valid since the last successful sign-on.
+FUNC ux.user.getSignedOnAttemptsNotValid ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSignedOnAttemptsNotValid
+]$
+# String 	getSortSequenceTable()
+# Retrieves the name of the sort sequence table used for string comparisons.
+FUNC ux.user.getSortSequenceTable ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSortSequenceTable
+]$
+# String[] 	getSpecialAuthority()
+# Retrieves a list of the special authorities the user has.
+FUNC ux.user.getSpecialAuthority ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSpecialAuthority
+]$
+# String 	getSpecialEnvironment()
+# Retrieves the special environment the user operates in after signing on.
+FUNC ux.user.getSpecialEnvironment ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSpecialEnvironment
+]$
+# String 	getStatus()
+# Retrieves the status of the user profile.
+FUNC ux.user.getStatus ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getStatus
+]$
+# int 	getStorageUsed()
+# Retrieves the amount of auxiliary storage (in kilobytes) occupied by this user's owned objects.
+FUNC ux.user.getStorageUsed ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getStorageUsed
+]$
+# long 	getStorageUsedInLong()
+# Retrieves the amount of auxiliary storage (in kilobytes) occupied by this user's owned objects.
+FUNC ux.user.getStorageUsedInLong ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getStorageUsedInLong
+]$
+# String[] 	getSupplementalGroups()
+# Retrieves the supplemental groups for the user profile.
+FUNC ux.user.getSupplementalGroups ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSupplementalGroups
+]$
+# int 	getSupplementalGroupsNumber()
+# Retrieves the number of supplemental groups for the user profile.
+FUNC ux.user.getSupplementalGroupsNumber ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSupplementalGroupsNumber
+]$
+# AS400 	getSystem()
+# Returns the system object representing the system on which the user profile exists.
+FUNC ux.user.getSystem ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getSystem
+]$
+# String[] 	getUserActionAuditLevel()
+# Retrieves a list of action audit levels for the user.
+FUNC ux.user.getUserActionAuditLevel ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserActionAuditLevel
+]$
+# String 	getUserClassName()
+# Retrieves the user class name.
+FUNC ux.user.getUserClassName ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserClassName
+]$
+# String 	getUserExpirationAction()
+# Retrieves the action that will occur when the user profile has expired.
+FUNC ux.user.getUserExpirationAction ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserExpirationAction
+]$
+# Date 	getUserExpirationDate()
+# Retrieves the date when the user profile expires and is automatically disabled.
+FUNC ux.user.getUserExpirationDate ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserExpirationDate
+]$
+# int 	getUserExpirationInterval()
+# Retrieves the number of days before the user profile is automatically disabled.
+FUNC ux.user.getUserExpirationInterval ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserExpirationInterval
+]$
+# long 	getUserID()
+# Retrieves the user ID (UID) number for the user profile.
+FUNC ux.user.getUserID ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserID
+]$
+# String[] 	getUserOptions()
+# Retrieves a list of options for users to customize their environment.
+FUNC ux.user.getUserOptions ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserOptions
+]$
+# String 	getUserProfileName()
+# Retrieves the name of the user profile for which the information is returned.
+FUNC ux.user.getUserProfileName ( userobj ) $[
+    calljava -to ~ -- @@userobj -method getUserProfileName
+]$
+# boolean 	hasSpecialAuthority(String authority)
+# Retrieves if this user profile has been granted the specified authority, or belongs to a group profile that has been granted the specified authority.
+# authority is one of:
+#   *ALLOBJ - All object.
+#   *SECADM - Security administrator.
+#   *JOBCTL - Job control.
+#   *SPLCTL - Spool control.
+#   *SAVSYS - Save system.
+#   *SERVICE - Service.
+#   *AUDIT - Audit.
+#   *IOSYSCFG - Input/output system configuration.
+FUNC ux.user.hasSpecialAuthority ( userobj authority ) $[
+    calljava -to ~ -- @@userobj -method exists -arg @@authority
+]$
+# boolean 	isAuthCollectionActive()
+# ?? No description in javadocs
+FUNC ux.user.isAuthCollectionActive ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isAuthCollectionActive
+]$
+# boolean 	isAuthCollectionDeleted()
+# ?? No description in javadocs
+FUNC ux.user.isAuthCollectionDeleted ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isAuthCollectionDeleted
+]$
+# boolean 	isAuthCollectionRepositoryExist()
+# ?? No description in javadocs
+FUNC ux.user.isAuthCollectionRepositoryExist ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isAuthCollectionRepositoryExist
+]$
+# boolean 	isGroupHasMember()
+# Retrieves whether this user is a group that has members.
+FUNC ux.user.isGroupHasMember ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isGroupHasMember
+]$
+# boolean 	isLocalPasswordManagement()
+# Retrieves whether the password is managed locally.
+FUNC ux.user.isLocalPasswordManagement ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isLocalPasswordManagement
+]$
+# boolean 	isNoPassword()
+# Retrieves whether *NONE is specified for the password in the user profile.
+FUNC ux.user.isNoPassword ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isNoPassword
+]$
+# boolean 	isPasswordSetExpire()
+# Retrieves whether the user's password is set to expired, requiring the user to change the password when signing on.
+FUNC ux.user.isPasswordSetExpire ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isPasswordSetExpire
+]$
+# boolean 	isUserEntitlementRequired()
+# Retrieves whether a user entitlement is required for this user profile.
+FUNC ux.user.isUserEntitlementRequired ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isUserEntitlementRequired
+]$
+# boolean 	isWithDigitalCertificates()
+# Retrieves whether there are digital certificates associated with this user.
+FUNC ux.user.isWithDigitalCertificates ( userobj ) $[
+    calljava -to ~ -- @@userobj -method isWithDigitalCertificates
+]$
+# void 	loadUserInformation()
+# Refreshes the values for all attributes.
+FUNC ux.user.loadUserInformation ( userobj ) $[
+    calljava -to ~ -- @@userobj -method loadUserInformation
+]$
+# void 	refresh()
+# Refreshes all the attribute values for this User object by retrieving them from the system.
+FUNC ux.user.refresh ( userobj ) $[
+    calljava -to ~ -- @@userobj -method refresh
+]$
+  
+# end
