@@ -82,6 +82,7 @@
     
     <!-- Make zip archive of distribution -->
     <target name="zipitup" description="Make zip archive of distribution">
+        <property file="nbproject/project.properties"/>
         <tstamp>
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
