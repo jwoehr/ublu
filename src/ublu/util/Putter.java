@@ -34,7 +34,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 /**
  * Puts objects to a {@link DataSink}.
@@ -252,10 +251,14 @@ public class Putter {
                 }
                 break;
             case LIFO:
-                if (getObject().getClass().equals(ublu.util.Tuple.class)) {
-                    getInterpreter().getTupleStack().push(ublu.util.Tuple.class.cast(getObject()));
+                if (getObject() == null) {
+                    getInterpreter().getTupleStack().push(new Tuple(null, null));
                 } else {
-                    getInterpreter().getTupleStack().push(new Tuple(null, getObject()));
+                    if (getObject().getClass().equals(ublu.util.Tuple.class)) {
+                        getInterpreter().getTupleStack().push(ublu.util.Tuple.class.cast(getObject()));
+                    } else {
+                        getInterpreter().getTupleStack().push(new Tuple(null, getObject()));
+                    }
                 }
                 break;
             case NUL:
