@@ -423,19 +423,29 @@ FUNC ux.user.isWithDigitalCertificates ( userobj ) $[
 # void 	loadUserInformation()
 # Refreshes the values for all attributes.
 FUNC ux.user.loadUserInformation ( userobj ) $[
-    calljava -- @@userobj -method loadUserInformation
+    calljava -- @@userobj -to NULL: -method loadUserInformation
 ]$
 # void 	refresh()
 # Refreshes all the attribute values for this User object by retrieving them from the system.
 FUNC ux.user.refresh ( userobj ) $[
-    calljava -- @@userobj -method refresh
+    calljava -- @@userobj -to NULL: -method refresh
 ]$
 
 # Dump most user properties to a destination datasink  
 FUNC ux.user.dump ( userobj dest ) $[
     TRY $[
+    ux.user.loadUserInformation ( @@userobj )
+    put -to @@dest ${ ux.user.loadUserInformation is void }$
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.loadUserInformation }$ ]$
+    TRY $[
+    ux.user.refresh ( @@userobj )
+    string -to @@dest -cat @@dest ${ ux.user.refresh is void }$
+    string -to @@dest -nl @@dest
+    ]$ CATCH $[ put ${ Error in ux.user.refresh }$ ]$
+    TRY $[
     ux.user.getUserProfileName ( @@userobj )
-    put -to @@dest ${ ux.user.getUserProfileName }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -cat @@dest ${ ux.user.getUserProfileName }$ string -to @@dest -cat @@dest ~ 
     string -to @@dest -nl @@dest
     ]$ CATCH $[ put ${ Error in ux.user.getUserProfileName }$ ]$
     TRY $[
@@ -903,16 +913,6 @@ FUNC ux.user.dump ( userobj dest ) $[
     string -to @@dest -cat @@dest ${ ux.user.isWithDigitalCertificates }$ string -to @@dest -cat @@dest ~ 
     string -to @@dest -nl @@dest
     ]$ CATCH $[ put ${ Error in ux.user.isWithDigitalCertificates }$ ]$
-    TRY $[
-    ux.user.loadUserInformation ( @@userobj )
-    string -to @@dest -cat @@dest ${ ux.user.loadUserInformation is void }$
-    string -to @@dest -nl @@dest
-    ]$ CATCH $[ put ${ Error in ux.user.loadUserInformation }$ ]$
-    TRY $[
-    ux.user.refresh ( @@userobj )
-    string -to @@dest -cat @@dest ${ ux.user.refresh is void }$
-    string -to @@dest -nl @@dest
-    ]$ CATCH $[ put ${ Error in ux.user.refresh }$ ]$
 ]$
   
 # end
