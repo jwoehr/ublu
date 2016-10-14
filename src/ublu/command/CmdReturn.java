@@ -28,8 +28,9 @@ package ublu.command;
 import ublu.util.ArgArray;
 
 /**
- * RETURN from immediately from a FUNC
- *
+ * RETURN from immediately from a FUNC. No body is needed, Interpreter.loop()
+ * handles RETURN. This is just here for the command map and the description.
+ * Doesn't actually work, though ...
  * @author jwoehr
  */
 public class CmdReturn extends Command {
@@ -38,22 +39,10 @@ public class CmdReturn extends Command {
         setNameAndDescription("RETURN", "/0 : return immediately from a FUNC");
     }
 
-    ArgArray performReturn(ArgArray argArray) {
-        while (getInterpreter().frameDepth() > 0 && getInterpreter().isForBlock()) {
-            getInterpreter().popFrame();
-            getInterpreter().setBreakIssued(true);
-            // /* Debug */ getInterpreter().outputerrln("popping in RETURN");
-        }
-        // /* Debug */ getInterpreter().outputerrln("doing RETURN");
-        getInterpreter().popFrame();
-        getInterpreter().setBreakIssued(true);
-        return new ArgArray(getInterpreter());
-    }
-
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
-        return performReturn(args);
+        return args;
     }
 
     @Override
