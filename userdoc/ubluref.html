@@ -13,6 +13,7 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -362,7 +363,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <li><tt><a href="#put">put</a></tt></li>
 
             <li><tt><a href="#record">record</a><br></tt></li>
-
             <!-- <li><tt><a href="#RETURN">RETURN</a><br></tt></li> -->
 
             <li><tt><a href="#rs">rs</a></tt></li>
@@ -2322,14 +2322,16 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object]
     [-method ~@{methodname}] [-arg ~@argobj -arg ..]] [-primarg
     ~@argobj [-primarg ..]] : call Java method</tt><br>
-    The <tt>calljava</tt> command invokes a method or constructor
-    in the underlying Java virtual machine. The object result is
-    put to the assigned <a href="#Datasinks">datasink</a>. The
-    <a href="#Dash_Command">dash-commands</a> describe the desired
-    Java call.<br>
-    <br>
-    Implicitly the call is a method call. If <tt>-new</tt> appears,
-    the call is to a constructor.<br>
+
+    <p>The <tt>calljava</tt> command invokes a method or
+    constructor in the underlying Java virtual machine. The object
+    result is put to the assigned <a href=
+    "#Datasinks">datasink</a>. If the method has a void return
+    type, nothing is put.</p>
+
+    <p>The <a href="#Dash_Command">dash-commands</a> describe the
+    desired Java call. Implicitly the call is a method call. If
+    <tt>-new</tt> appears, the call is to a constructor.</p>
 
     <ul>
       <li>
@@ -2398,6 +2400,10 @@ Type help for help. Type license for license. Type bye to exit.
         </ul>
       </li>
     </ul>
+
+    <p><b>Note:</b> The Ublu-coded extensions to Ublu in the
+    <tt>extensions</tt> subdirectory provide many examples of the
+    use of <tt>calljava</tt>.</p>
 
     <p><i>Example</i></p><tt>&gt; put -to @obj ${ this is a test
     }$</tt><tt><br></tt> <tt>&gt; calljava -to @result -obj @obj

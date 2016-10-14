@@ -121,18 +121,22 @@ public class CmdCallJava extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     if (jch != null) {
+                        /* Debug */ // System.err.println("void? : " + jch.isVoid());
+                        /* Debug */ // System.err.println("return type : " + jch.getReturnType());
                         try {
                             callResult = jch.callJava();
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                             getLogger().log(Level.SEVERE, "Error invoking method in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                    }
-                    try {
-                        put(callResult);
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error putting result of Java call in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
+                        if (!jch.isVoid()) {
+                            try {
+                                put(callResult);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting result of Java call in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
                     }
                     break;
                 case NEW:

@@ -112,6 +112,22 @@ public class JavaCallHelper {
     }
 
     /**
+     *
+     * @return
+     */
+    public boolean isVoid() {
+        return zMethod.getGenericReturnType().toString().equals("void");
+    }
+
+    /**
+     * Get the class which is the method's return type
+     * @return the class which is the method's return type
+     */
+    public Class getReturnType() {
+        return zMethod.getReturnType();
+    }
+
+    /**
      * Class to hold arg and type so we can substitute prim types for wrapper
      * args
      */

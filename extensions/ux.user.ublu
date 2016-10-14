@@ -423,12 +423,12 @@ FUNC ux.user.isWithDigitalCertificates ( userobj ) $[
 # void 	loadUserInformation()
 # Refreshes the values for all attributes.
 FUNC ux.user.loadUserInformation ( userobj ) $[
-    calljava -- @@userobj -to NULL: -method loadUserInformation
+    calljava -- @@userobj -method loadUserInformation
 ]$
 # void 	refresh()
 # Refreshes all the attribute values for this User object by retrieving them from the system.
 FUNC ux.user.refresh ( userobj ) $[
-    calljava -- @@userobj -to NULL: -method refresh
+    calljava -- @@userobj -method refresh
 ]$
 
 # Dump most user properties to a destination datasink  
