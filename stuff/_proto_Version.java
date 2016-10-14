@@ -55,5 +55,6 @@ public class Version {
      *
      * @compile.date.time@.</p>
      */
+    public static String ubluVersion = "@ublu.version@";
     public static String compileDateTime = "@compile.date.time@";
 }

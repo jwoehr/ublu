@@ -76,6 +76,7 @@
             <format property="COMPILE_DATE_TIME" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
         <filter token="compile.date.time" value="${COMPILE_DATE_TIME}"/>
+        <filter token="ublu.version" value="${ublu.version}"/>
         <copy file="stuff/_proto_Version.java" tofile="${src.dir}/ublu/Version.java" filtering="true" overwrite="true"/>
     </target>
     

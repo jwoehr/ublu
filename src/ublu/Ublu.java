@@ -87,11 +87,20 @@ public class Ublu {
     }
 
     /**
-     * Get the build version
+     * Get the Ublu version
+     *
+     * @return String describing the Ublu version
+     */
+    public static String ubluVersion() {
+        return Version.ubluVersion;
+    }
+
+    /**
+     * Get the compile date and time
      *
      * @return String describing the build
      */
-    public static String version() {
+    public static String compileDateTime() {
         return Version.compileDateTime;
     }
 
@@ -132,8 +141,9 @@ public class Ublu {
      * @return a string introducing the program.
      */
     public final String startupMessage() {
-        StringBuilder sb = new StringBuilder("Ublu version 1.1.2+");
-        return sb.append(" build of ").append(version()).append("\n")
+        StringBuilder sb = new StringBuilder("Ublu ");
+        return sb.append(ubluVersion())
+                .append(" build of ").append(compileDateTime()).append("\n")
                 .append("Author: Jack J. Woehr.\n")
                 .append("Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com\n")
                 .append("Copyright 2016, Jack J. Woehr, http://www.softwoehr.com\n")
