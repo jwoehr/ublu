@@ -1135,7 +1135,7 @@ public class Interpreter {
                 if (Autonome.autonomize(t, getArgArray())) {
                     continue;
                 } else {
-                    getLogger().log(Level.SEVERE, "non-autonomized tuple or pop : " + getArgArray().next());
+                    getLogger().log(Level.SEVERE, "non-autonomized tuple or pop : {0}", getArgArray().next());
                     lastCommandResult = COMMANDRESULT.FAILURE;
                     break;
                 }
