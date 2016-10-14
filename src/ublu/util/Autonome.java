@@ -67,11 +67,17 @@ import ublu.smapi.Host;
 import ublu.util.Generics.ThingArrayList;
 
 /**
+ * Class to provide autonomization of tuple variables, that is, providing Ublu
+ * command strings relevant to the class type of the variable value so variables
+ * can auto-execute.
  *
  * @author jax
  */
 public class Autonome {
 
+    /**
+     * The map of class types and their relevant Ublu commands
+     */
     public static final LinkedHashMap<Class, String> AUTONOMY;
 
     static {
@@ -122,14 +128,20 @@ public class Autonome {
     }
 
     /**
+     * Get an ublu command string from the class type
      *
-     * @param c
-     * @return
+     * @param c the class type
+     * @return the applicable ublu command string
      */
     public static String get(Class c) {
         return AUTONOMY.get(c);
     }
 
+    /**
+     * Create a string of all the autonomes
+     *
+     * @return a string of all the autonomes
+     */
     public static String displayAll() {
         StringBuilder sb = new StringBuilder();
         Set s = AUTONOMY.keySet();
@@ -144,6 +156,12 @@ public class Autonome {
         return sb.toString();
     }
 
+    /**
+     * True if the class of the object is autonomic
+     *
+     * @param o object whose class type to test
+     * @return True if the class of the object is autonomic
+     */
     public static String autonomic(Object o) {
         String autonomic = null;
         if (o != null) {
@@ -153,10 +171,11 @@ public class Autonome {
     }
 
     /**
+     * Prepend in the arg array the applicable Ublu command for the class type.
      *
-     * @param t
-     * @param aa
-     * @return
+     * @param t The autonomic tuple
+     * @param aa The arg array
+     * @return True if was autonomized, false if non-autonomizable
      */
     public static boolean autonomize(Tuple t, ArgArray aa) {
         boolean result = false;

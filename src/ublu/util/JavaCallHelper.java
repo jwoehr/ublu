@@ -112,8 +112,9 @@ public class JavaCallHelper {
     }
 
     /**
+     * Check if method return type is void.
      *
-     * @return
+     * @return true if a void method
      */
     public boolean isVoid() {
         return zMethod.getGenericReturnType().toString().equals("void");
@@ -121,6 +122,7 @@ public class JavaCallHelper {
 
     /**
      * Get the class which is the method's return type
+     *
      * @return the class which is the method's return type
      */
     public Class getReturnType() {
