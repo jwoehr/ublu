@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -16,7 +17,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 10 Oct 2016 06:21:48 UTC">
+  "Fri, 14 Oct 2016 12:54:21 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -3024,8 +3025,8 @@ block, so a local variable cannot be passed to the thread.<br>
   is the Java code for the interpretive loop.
   <pre>
 <span class="syntax0"><span class=
-"gutter">1104 </span>    <span class="syntax-COMMENT3">/**</span>
-<span class="gutterH">1105 </span><span class=
+"gutter">1122 </span>    <span class="syntax-COMMENT3">/**</span>
+<span class="gutter">1123 </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
@@ -3057,7 +3058,7 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT3">until</span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3">exhausted</span>
-<span class="gutter">1106 </span><span class=
+<span class="gutter">1124 </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
@@ -3085,13 +3086,13 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3">failure</span><span class=
 "syntax-COMMENT3">.</span>
-<span class="gutter">1107 </span><span class=
+<span class="gutterH">1125 </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class="syntax-COMMENT3">*</span>
-<span class="gutter">1108 </span><span class=
+<span class="gutter">1126 </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
@@ -3117,28 +3118,22 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3">failure</span><span class=
 "syntax-COMMENT3">.</span>
-<span class="gutter">1109 </span><span class=
+<span class="gutter">1127 </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class=
 "syntax-COMMENT3"> </span><span class="syntax-COMMENT3">*/</span>
-<span class="gutterH">1110 </span>    <span class=
+<span class="gutter">1128 </span>    <span class=
 "syntax-KEYWORD2">public</span> COMMANDRESULT <span class=
 "syntax-FUNCTION">loop</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1111 </span>        COMMANDRESULT lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.SUCCESS;
+"gutter">1129 </span>        COMMANDRESULT lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.SUCCESS;
 <span class=
-"gutter">1112 </span>        String initialCommandLine <span class=
-"syntax-OPERATOR">=</span> <span class=
-"syntax-FUNCTION">getArgArray</span><span class=
-"syntax-OPERATOR">(</span><span class=
-"syntax-OPERATOR">)</span>.<span class=
-"syntax-FUNCTION">toHistoryLine</span><span class=
-"syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
-<span class="gutter">1113 </span>        <span class=
+"gutterH">1130 </span>        String initialCommandLine <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">getArgArray</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>.<span class="syntax-FUNCTION">toHistoryLine</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+<span class="gutter">1131 </span>        <span class=
 "syntax-KEYWORD1">while</span> <span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">!</span><span class=
@@ -3158,8 +3153,101 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
+<span class="gutter">1132 </span>            <span class=
+"syntax-COMMENT2">//</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">/*</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">Debug</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">*/</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">System.err.println("</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">arg</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">array</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">is</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">"</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">+</span><span class=
+"syntax-COMMENT2"> </span><span class=
+"syntax-COMMENT2">getArgArray());</span>
+<span class="gutter">1133 </span>            <span class=
+"syntax-KEYWORD1">if</span> <span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-FUNCTION">getArgArray</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span>.<span class=
+"syntax-FUNCTION">isNextTupleNameOrPop</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span><span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1114 </span>            String commandName <span class=
+"gutter">1134 </span>                Tuple t <span class=
+"syntax-OPERATOR">=</span> <span class=
+"syntax-FUNCTION">getArgArray</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span>.<span class=
+"syntax-FUNCTION">peekNextTupleOrPop</span><span class=
+"syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+<span class="gutterH">1135 </span>                <span class=
+"syntax-KEYWORD1">if</span> <span class=
+"syntax-OPERATOR">(</span>Autonome.<span class=
+"syntax-FUNCTION">autonomize</span><span class=
+"syntax-OPERATOR">(</span>t, <span class=
+"syntax-FUNCTION">getArgArray</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span><span class=
+"syntax-OPERATOR">)</span><span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
+<span class="gutter">1136 </span>                    <span class=
+"syntax-KEYWORD1">continue</span>;
+<span class="gutter">1137 </span>                <span class=
+"syntax-OPERATOR">}</span> <span class=
+"syntax-KEYWORD1">else</span> <span class=
+"syntax-OPERATOR">{</span>
+<span class="gutter">1138 </span>                    <span class=
+"syntax-FUNCTION">getLogger</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span>.<span class=
+"syntax-FUNCTION">log</span><span class=
+"syntax-OPERATOR">(</span>Level.SEVERE, <span class=
+"syntax-LITERAL1">"</span><span class=
+"syntax-LITERAL1">non</span><span class=
+"syntax-LITERAL1">-</span><span class=
+"syntax-LITERAL1">autonomized</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">tuple</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">or</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">pop</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">:</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">{</span><span class=
+"syntax-LITERAL1">0</span><span class=
+"syntax-LITERAL1">}</span><span class=
+"syntax-LITERAL1">"</span>, <span class=
+"syntax-FUNCTION">getArgArray</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span>.<span class=
+"syntax-FUNCTION">next</span><span class=
+"syntax-OPERATOR">(</span><span class=
+"syntax-OPERATOR">)</span><span class="syntax-OPERATOR">)</span>;
+<span class=
+"gutter">1139 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
+<span class="gutterH">1140 </span>                    <span class=
+"syntax-KEYWORD1">break</span>;
+<span class="gutter">1141 </span>                <span class=
+"syntax-OPERATOR">}</span>
+<span class="gutter">1142 </span>            <span class=
+"syntax-OPERATOR">}</span>
+<span class=
+"gutter">1143 </span>            String commandName <span class=
 "syntax-OPERATOR">=</span> <span class=
 "syntax-FUNCTION">getArgArray</span><span class=
 "syntax-OPERATOR">(</span><span class=
@@ -3169,7 +3257,7 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">)</span>.<span class=
 "syntax-FUNCTION">trim</span><span class=
 "syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
-<span class="gutterH">1115 </span>            <span class=
+<span class="gutter">1144 </span>            <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span>commandName.<span class=
 "syntax-FUNCTION">equals</span><span class=
@@ -3178,7 +3266,7 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL1">"</span><span class=
 "syntax-OPERATOR">)</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1116 </span>                <span class=
+<span class="gutterH">1145 </span>                <span class=
 "syntax-KEYWORD1">continue</span>; <span class=
 "syntax-COMMENT2">//</span><span class=
 "syntax-COMMENT2"> </span><span class=
@@ -3202,9 +3290,9 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT2"> </span><span class=
 "syntax-COMMENT2">to</span><span class=
 "syntax-COMMENT2"> </span><span class="syntax-COMMENT2">next</span>
-<span class="gutter">1117 </span>            <span class=
+<span class="gutter">1146 </span>            <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutter">1118 </span>            <span class=
+<span class="gutter">1147 </span>            <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-FUNCTION">getCmdMap</span><span class=
@@ -3215,10 +3303,10 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">)</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1119 </span>                CommandInterface command <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">getCmd</span><span class="syntax-OPERATOR">(</span><span class="syntax-LITERAL2">this</span>, commandName<span class="syntax-OPERATOR">)</span>;
-<span class="gutterH">1120 </span>                <span class=
+"gutter">1148 </span>                CommandInterface command <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">getCmd</span><span class="syntax-OPERATOR">(</span><span class="syntax-LITERAL2">this</span>, commandName<span class="syntax-OPERATOR">)</span>;
+<span class="gutter">1149 </span>                <span class=
 "syntax-KEYWORD1">try</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1121 </span>                    <span class=
+<span class="gutterH">1150 </span>                    <span class=
 "syntax-FUNCTION">setArgArray</span><span class=
 "syntax-OPERATOR">(</span>command.<span class=
 "syntax-FUNCTION">cmd</span><span class=
@@ -3228,15 +3316,15 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">)</span><span class=
 "syntax-OPERATOR">)</span><span class="syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1122 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> command.<span class="syntax-FUNCTION">getResult</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
-<span class="gutter">1123 </span>                    <span class=
+"gutter">1151 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> command.<span class="syntax-FUNCTION">getResult</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+<span class="gutter">1152 </span>                    <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span>lastCommandResult <span class=
 "syntax-OPERATOR">=</span><span class=
 "syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE<span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1124 </span>                        <span class=
+"gutter">1153 </span>                        <span class=
 "syntax-KEYWORD1">break</span>; <span class=
 "syntax-COMMENT2">//</span><span class=
 "syntax-COMMENT2"> </span><span class=
@@ -3251,14 +3339,14 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT2">on</span><span class=
 "syntax-COMMENT2"> </span><span class=
 "syntax-COMMENT2">error</span>
-<span class="gutterH">1125 </span>                    <span class=
+<span class="gutter">1154 </span>                    <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutter">1126 </span>                <span class=
+<span class="gutterH">1155 </span>                <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">catch</span> <span class=
 "syntax-OPERATOR">(</span>IllegalArgumentException ex<span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1127 </span>                    <span class=
+<span class="gutter">1156 </span>                    <span class=
 "syntax-FUNCTION">getLogger</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
@@ -3280,15 +3368,15 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL1">"</span>, ex<span class=
 "syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1128 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
-<span class="gutter">1129 </span>                    <span class=
+"gutter">1157 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
+<span class="gutter">1158 </span>                    <span class=
 "syntax-KEYWORD1">break</span>;
-<span class="gutterH">1130 </span>                <span class=
+<span class="gutter">1159 </span>                <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">catch</span> <span class=
 "syntax-OPERATOR">(</span>java.lang.RuntimeException ex<span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1131 </span>                    <span class=
+<span class="gutterH">1160 </span>                    <span class=
 "syntax-COMMENT1">/*</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">java.net.UnknownHostException</span><span class=
@@ -3304,11 +3392,11 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT1">as</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">*/</span>
-<span class="gutter">1132 </span> <span class=
+<span class="gutter">1161 </span> <span class=
 "syntax-COMMENT1">/*</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">com.ibm.as400.access.ExtendedIllegalArgumentException</span><span class="syntax-COMMENT1"> </span><span class="syntax-COMMENT1">*/</span>
-<span class="gutter">1133 </span>                    <span class=
+<span class="gutter">1162 </span>                    <span class=
 "syntax-FUNCTION">getLogger</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
@@ -3330,12 +3418,12 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL1">"</span>, ex<span class=
 "syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1134 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
-<span class="gutterH">1135 </span>                    <span class=
+"gutter">1163 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
+<span class="gutter">1164 </span>                    <span class=
 "syntax-KEYWORD1">break</span>;
-<span class="gutter">1136 </span>                <span class=
+<span class="gutterH">1165 </span>                <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutter">1137 </span>            <span class=
+<span class="gutter">1166 </span>            <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">else</span> <span class=
 "syntax-KEYWORD1">if</span> <span class=
@@ -3347,11 +3435,11 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">(</span>commandName<span class=
 "syntax-OPERATOR">)</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1138 </span>                <span class=
+<span class="gutter">1167 </span>                <span class=
 "syntax-KEYWORD1">try</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1139 </span>                    TupleNameList tnl <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">parseTupleNameList</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
-<span class="gutterH">1140 </span>                    <span class=
+"gutter">1168 </span>                    TupleNameList tnl <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">parseTupleNameList</span><span class="syntax-OPERATOR">(</span><span class="syntax-OPERATOR">)</span>;
+<span class="gutter">1169 </span>                    <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span>tnl <span class=
 "syntax-OPERATOR">!</span><span class=
@@ -3359,26 +3447,26 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL2">null</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1141 </span>                        lastCommandResult <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">executeFunctor</span><span class="syntax-OPERATOR">(</span><span class="syntax-FUNCTION">getFunctor</span><span class="syntax-OPERATOR">(</span>commandName<span class="syntax-OPERATOR">)</span>, tnl<span class="syntax-OPERATOR">)</span>;
+"gutterH">1170 </span>                        lastCommandResult <span class="syntax-OPERATOR">=</span> <span class="syntax-FUNCTION">executeFunctor</span><span class="syntax-OPERATOR">(</span><span class="syntax-FUNCTION">getFunctor</span><span class="syntax-OPERATOR">(</span>commandName<span class="syntax-OPERATOR">)</span>, tnl<span class="syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1142 </span>                        <span class=
+"gutter">1171 </span>                        <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span>lastCommandResult <span class=
 "syntax-OPERATOR">=</span><span class=
 "syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE<span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
 <span class=
-"gutter">1143 </span>                            <span class=
+"gutter">1172 </span>                            <span class=
 "syntax-KEYWORD1">break</span>;
 <span class=
-"gutter">1144 </span>                        <span class=
+"gutter">1173 </span>                        <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutterH">1145 </span>                    <span class=
+<span class="gutter">1174 </span>                    <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">else</span> <span class=
 "syntax-OPERATOR">{</span>
 <span class=
-"gutter">1146 </span>                        <span class=
+"gutterH">1175 </span>                        <span class=
 "syntax-FUNCTION">getLogger</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
@@ -3405,18 +3493,18 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL1">"</span>, commandName<span class=
 "syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1147 </span>                        lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
+"gutter">1176 </span>                        lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
 <span class=
-"gutter">1148 </span>                        <span class=
+"gutter">1177 </span>                        <span class=
 "syntax-KEYWORD1">break</span>;
-<span class="gutter">1149 </span>                    <span class=
+<span class="gutter">1178 </span>                    <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutterH">1150 </span>                <span class=
+<span class="gutter">1179 </span>                <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">catch</span> <span class=
 "syntax-OPERATOR">(</span>java.lang.RuntimeException ex<span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1151 </span>                    <span class=
+<span class="gutterH">1180 </span>                    <span class=
 "syntax-FUNCTION">getLogger</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
@@ -3438,16 +3526,16 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL1">"</span>, ex<span class=
 "syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1152 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
-<span class="gutter">1153 </span>                    <span class=
+"gutter">1181 </span>                    lastCommandResult <span class="syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
+<span class="gutter">1182 </span>                    <span class=
 "syntax-KEYWORD1">break</span>;
-<span class="gutter">1154 </span>                <span class=
+<span class="gutter">1183 </span>                <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutterH">1155 </span>            <span class=
+<span class="gutter">1184 </span>            <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">else</span> <span class=
 "syntax-OPERATOR">{</span>
-<span class="gutter">1156 </span>                <span class=
+<span class="gutterH">1185 </span>                <span class=
 "syntax-FUNCTION">getLogger</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
@@ -3469,15 +3557,15 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-LITERAL1">"</span>, commandName<span class=
 "syntax-OPERATOR">)</span>;
 <span class=
-"gutter">1157 </span>                lastCommandResult <span class=
+"gutter">1186 </span>                lastCommandResult <span class=
 "syntax-OPERATOR">=</span> COMMANDRESULT.FAILURE;
-<span class="gutter">1158 </span>                <span class=
+<span class="gutter">1187 </span>                <span class=
 "syntax-KEYWORD1">break</span>;
-<span class="gutter">1159 </span>            <span class=
+<span class="gutter">1188 </span>            <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutterH">1160 </span>        <span class=
+<span class="gutter">1189 </span>        <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutter">1161 </span>        <span class=
+<span class="gutterH">1190 </span>        <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">!</span><span class=
@@ -3491,7 +3579,7 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1162 </span>            <span class=
+<span class="gutter">1191 </span>            <span class=
 "syntax-KEYWORD1">if</span> <span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-FUNCTION">getHistory</span><span class=
@@ -3501,21 +3589,21 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">=</span> <span class=
 "syntax-LITERAL2">null</span><span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1163 </span>                <span class=
+<span class="gutter">1192 </span>                <span class=
 "syntax-KEYWORD1">try</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1164 </span>                    <span class=
+<span class="gutter">1193 </span>                    <span class=
 "syntax-FUNCTION">getHistory</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
 "syntax-FUNCTION">writeLine</span><span class=
 "syntax-OPERATOR">(</span>initialCommandLine<span class=
 "syntax-OPERATOR">)</span>;
-<span class="gutterH">1165 </span>                <span class=
+<span class="gutter">1194 </span>                <span class=
 "syntax-OPERATOR">}</span> <span class=
 "syntax-KEYWORD1">catch</span> <span class=
 "syntax-OPERATOR">(</span>IOException ex<span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">{</span>
-<span class="gutter">1166 </span>                    <span class=
+<span class="gutterH">1195 </span>                    <span class=
 "syntax-FUNCTION">getLogger</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>.<span class=
@@ -3543,26 +3631,24 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span>, ex<span class=
 "syntax-OPERATOR">)</span>;
-<span class="gutter">1167 </span>                <span class=
+<span class="gutter">1196 </span>                <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutter">1168 </span>            <span class=
+<span class="gutter">1197 </span>            <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutter">1169 </span>        <span class=
+<span class="gutter">1198 </span>        <span class=
 "syntax-OPERATOR">}</span>
-<span class="gutterH">1170 </span>        <span class=
+<span class="gutter">1199 </span>        <span class=
 "syntax-FUNCTION">setGlobal_ret_val</span><span class=
 "syntax-OPERATOR">(</span>lastCommandResult.<span class=
 "syntax-FUNCTION">ordinal</span><span class=
 "syntax-OPERATOR">(</span><span class=
 "syntax-OPERATOR">)</span><span class="syntax-OPERATOR">)</span>;
-<span class="gutter">1171 </span>        <span class=
+<span class="gutterH">1200 </span>        <span class=
 "syntax-KEYWORD1">return</span> lastCommandResult;
-<span class="gutter">1172 </span>    <span class=
+<span class="gutter">1201 </span>    <span class=
 "syntax-OPERATOR">}</span>
+<span class="gutter">1202 </span>
 </span>
 </pre><i>This guide is a work in progress ... continued ...</i><br>
-
-  <br>
-  <br>
-</body>
+  </body>
 </html>

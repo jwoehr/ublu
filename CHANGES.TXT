@@ -5,7 +5,7 @@ All rights reserved.
 1.1.3
 System:
 * Much refactoring at the Java level
-* ublu.Ublu takes -include (i) switch
+* ublu.Ublu takes -include (i) switch and -silent (s) switch
 * autonomic tuple variables
 * save and restore const map
 * ublu.util.Renderer
@@ -29,6 +29,8 @@ Commands:
 	* msgq no longer does automatic close
 	* printer -wtrjob
 	* printer -get works for all attributes now
+	* put pushes null correctly
+	* RETURN removed (doesn't work correctly)
 	* rs -json
 	* string --,-string -toascii -toas400
 	* system modernized
@@ -49,6 +51,10 @@ Examples:
 	* dbexample.ublu
 	* msgstuff.ublu
 	* test/testlist.ublu
+	
+Extensions (extending Ublu in Ublu) in the new extensions subdir:
+* ux.objectlock.ublu 
+* ux.user.ublu
 
 1.1.2
 Changes to commands:
