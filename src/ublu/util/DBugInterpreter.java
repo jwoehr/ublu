@@ -31,6 +31,8 @@ import ublu.Ublu;
 import ublu.command.CommandInterface;
 import java.io.IOException;
 import java.util.logging.Level;
+import ublu.command.CommandInterface.COMMANDRESULT;
+import ublu.util.Generics.TupleNameList;
 
 /**
  * A version of the interpreter slightly modified for single-step debugging.
@@ -89,11 +91,21 @@ public class DBugInterpreter extends Interpreter {
      * @return the last command result indicating success or failure.
      */
     @Override
-    public CommandInterface.COMMANDRESULT loop() {
+    public COMMANDRESULT loop() {
 //        dbug().dbugMessage("in DBugInterpreter.loop()");
-        CommandInterface.COMMANDRESULT lastCommandResult = CommandInterface.COMMANDRESULT.SUCCESS;
+        COMMANDRESULT lastCommandResult = COMMANDRESULT.SUCCESS;
         String initialCommandLine = getArgArray().toHistoryLine();
         while (!getArgArray().isEmpty() && !isGoodBye() && !isBreakIssued()) {
+            if (getArgArray().isNextTupleNameOrPop()) {
+                Tuple t = getArgArray().peekNextTupleOrPop();
+                if (Autonome.autonomize(t, getArgArray())) {
+                    continue;
+                } else {
+                    getLogger().log(Level.SEVERE, "non-autonomized tuple or pop : {0}", getArgArray().next());
+                    lastCommandResult = COMMANDRESULT.FAILURE;
+                    break;
+                }
+            }
             String commandName = getArgArray().next().trim();
 //            dbug()
 //                    .dbugMessage(
@@ -114,45 +126,45 @@ public class DBugInterpreter extends Interpreter {
                 try {
                     setArgArray(command.cmd(getArgArray()));
                     lastCommandResult = command.getResult();
-                    if (lastCommandResult == CommandInterface.COMMANDRESULT.FAILURE) {
+                    if (lastCommandResult == COMMANDRESULT.FAILURE) {
                         break; // we exit the loop on error
                     }
                 } catch (IllegalArgumentException ex) {
                     getLogger().log(Level.SEVERE, "Command \"" + commandName + "\" threw exception", ex);
-                    lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+                    lastCommandResult = COMMANDRESULT.FAILURE;
                     break;
                 } catch (java.lang.RuntimeException ex) {
                     /* java.net.UnknownHostException lands here, as well as  */
-                    /* com.ibm.as400.access.ExtendedIllegalArgumentException */
+ /* com.ibm.as400.access.ExtendedIllegalArgumentException */
                     getLogger().log(Level.SEVERE, "Command \"" + commandName + "\" threw exception", ex);
-                    lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+                    lastCommandResult = COMMANDRESULT.FAILURE;
                     break;
                 }
             } else if (getFunctorMap().containsKey(commandName)) {
                 try {
-                    Generics.TupleNameList tnl = parseTupleNameList();
+                    TupleNameList tnl = parseTupleNameList();
                     if (tnl != null) {
                         lastCommandResult = executeFunctor(getFunctor(commandName), tnl);
-                        if (lastCommandResult == CommandInterface.COMMANDRESULT.FAILURE) {
+                        if (lastCommandResult == COMMANDRESULT.FAILURE) {
                             break;
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "Found function {0} but could not execute it", commandName);
-                        lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+                        lastCommandResult = COMMANDRESULT.FAILURE;
                         break;
                     }
                 } catch (java.lang.RuntimeException ex) {
                     getLogger().log(Level.SEVERE, "Function \"" + commandName + "\" threw exception", ex);
-                    lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+                    lastCommandResult = COMMANDRESULT.FAILURE;
                     break;
                 }
             } else {
                 getLogger().log(Level.SEVERE, "Command \"{0}\" not found.", commandName);
-                lastCommandResult = CommandInterface.COMMANDRESULT.FAILURE;
+                lastCommandResult = COMMANDRESULT.FAILURE;
                 break;
             }
         }
-        if (!initialCommandLine.isEmpty()) {
+        if (!isIncluding() && !initialCommandLine.isEmpty()) {
             if (getHistory() != null) {
                 try {
                     getHistory().writeLine(initialCommandLine);
