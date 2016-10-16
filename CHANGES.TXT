@@ -3,14 +3,21 @@ Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved.
 
 1.1.4
+-----
 System
 *   Debugger now handles autonomic variables
+
 Commands
 * general
 	* minor fixes at Java level
 * individual commands
+	* outq -getint -getfloat -getstring
 	* savesys
-
+	
+Extensions
+* new
+	* ux.outq.ublu
+	
 1.1.3 2016-10-14
 System:
 * Much refactoring at the Java level
