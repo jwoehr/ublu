@@ -14,10 +14,11 @@
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 14 Oct 2016 12:54:21 UTC">
+  "Sun, 16 Oct 2016 01:29:41 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -69,7 +70,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-14</p>
+  Last edit: 2016-10-16</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -3818,8 +3819,8 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="dbug" id="dbug"></a><tt>dbug</tt></h4>
 
   <blockquote>
-    <tt>/0 [--,-dbug $[ execution block ]$] [-init] [-info] [-brk
-    ~@opname] [-clr ~@opname] [[-step]|[-go]] : dbug your
+    <tt>/0 [-init] [-info] [-brk ~@opname] [-clr ~@opname]
+    [[-step]|[-go]] [--,-dbug $[ execution block ]$] : dbug your
     program</tt><br>
     <br>
     The <tt>dbug</tt> command runs a stepping program debugger on
@@ -3901,7 +3902,7 @@ Type help for help. Type license for license. Type bye to exit.
     breakpoint is displayed and a command line. To continue in
     single-step mode, simply press the return key.<br></p>
 
-    <p>The valid commands are as follows:</p>
+    <p>The valid commands at a breakpoint are as follows:</p>
 
     <ul>
       <li>
@@ -3930,9 +3931,9 @@ Type help for help. Type license for license. Type bye to exit.
       <i>@tuplename</i></li>
 
       <li><tt>x</tt> <i>command command ...</i> executes Ublu
-      commands&nbsp; <i>command command</i> ... in a child
-      interpreter instance that shares variable and function space
-      and i/o with the host interpreter.</li>
+      commands <i>command command</i> ... in a child interpreter
+      instance that shares variable and function space and i/o with
+      the host interpreter.</li>
 
       <li>Pressing the enter key causes a single-step.</li>
     </ul>
