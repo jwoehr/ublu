@@ -63,12 +63,12 @@ public class ArgArray extends ArrayList<String> {
      * The char string introducing a quoted string in our application-specific
      * language.
      */
-    public static final String OPENQUOTE = "${";
+    private static final String OPENQUOTE = "${";
     /**
      * The char string closing a quoted string in our application-specific
      * language
      */
-    public static final String CLOSEQUOTE = "}$";
+    private static final String CLOSEQUOTE = "}$";
     private static final String OPENBLOCK = "$[";
     private static final String CLOSEBLOCK = "]$";
     /**
@@ -554,33 +554,6 @@ public class ArgArray extends ArrayList<String> {
             assimilateFullQuotation();
         }
         return next();
-    }
-
-    /**
-     * Check if the next element in the ArgArray is a tuplename, and if so,
-     * return the string value of the tuple. If it's not a tuple, look for the
-     * the openquote and if so assimilate the quotation before returning the
-     * next element in the ArgArray.
-     *
-     * @return next element in the ArgArray, possibly a string from a tuple or
-     * an assimilated quotation. Value could be null from a tuple
-     */
-    public String nextMaybeQuotationTupleString() {
-        String result = null;
-        if (isNextTupleName()) {
-            String tupleName = next();
-            Tuple t = getInterpreter().getTuple(tupleName);
-            if (t != null) {
-                Object o = t.getValue();
-                result = o == null ? null : t.getValue().toString();
-            }
-        } else {
-            if (isNextQuotation()) {
-                assimilateFullQuotation();
-            }
-            result = next();
-        }
-        return result;
     }
 
     /**
