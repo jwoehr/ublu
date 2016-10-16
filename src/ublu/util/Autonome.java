@@ -46,6 +46,7 @@ import com.ibm.as400.access.Printer;
 import com.ibm.as400.access.QueuedMessage;
 import com.ibm.as400.access.Record;
 import com.ibm.as400.access.SaveFile;
+import com.ibm.as400.access.SecureAS400;
 import com.ibm.as400.access.SpooledFile;
 import com.ibm.as400.access.SpooledFileList;
 import com.ibm.as400.access.Subsystem;
@@ -59,8 +60,6 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ublu.AS400Extender;
-import ublu.SecureAS400Extender;
 import ublu.db.Db;
 import ublu.server.Listener;
 import ublu.smapi.Host;
@@ -83,8 +82,7 @@ public class Autonome {
     static {
         AUTONOMY = new LinkedHashMap<>();
         AUTONOMY.put(AS400.class, "as400");
-        AUTONOMY.put(AS400Extender.class, "as400");
-        AUTONOMY.put(SecureAS400Extender.class, "as400");
+        AUTONOMY.put(SecureAS400.class, "as400");
         AUTONOMY.put(CallableStatement.class, "cs");
         AUTONOMY.put(Db.class, "db");
         AUTONOMY.put(SysShepHelper.class, "dpoint");
@@ -184,6 +182,13 @@ public class Autonome {
             if (o != null) {
                 Class c = o.getClass();
                 String s = AUTONOMY.get(c);
+                if (s == null) {
+                    for (Class sup : AUTONOMY.keySet()) {
+                        if (sup.isAssignableFrom(c)) {
+                            s = AUTONOMY.get(sup);
+                        }
+                    }
+                }
                 if (s != null) {
                     aa.add(0, "--");
                     aa.add(0, s);
