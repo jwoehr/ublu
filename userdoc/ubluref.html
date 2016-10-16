@@ -5,16 +5,6 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -201,9 +191,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <li><a href="#User_ID_and_password">User ID and
     password</a></li>
 
-    <li><a href="#Commands_by_Category">Commands by
-    Category</a></li>
-
     <li>
       <a href="#Commands">Commands</a>
 
@@ -242,6 +229,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </li>
           </ul>
         </li>
+
+        <li><a href="#Commands_by_Category">Commands by
+        Category</a></li>
 
         <li>
           <a href="#List_of_commands">List of commands</a>
@@ -372,6 +362,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             "#savf"><strike>savf</strike></a><br></tt></li>
 
             <li><tt><a href="#savef">savef</a><br></tt></li>
+
+            <li><a href="#savesys"><tt>savesys</tt></a></li>
 
             <li><tt><a href="#server">server</a></tt></li>
 
@@ -765,7 +757,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <blockquote>
     <pre>
 $ java -jar ublu.jar
-Ublu version 1.1.2+ build of 2016-10-04 09:30:57
+Ublu version 1.1.3+ build of 2016-10-16 09:30:57
 Author: Jack J. Woehr.
 Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com
 Copyright 2016, Jack J. Woehr, http://www.softwoehr.com
@@ -1798,8 +1790,9 @@ Type help for help. Type license for license. Type bye to exit.
         "#list">list</a></tt><tt><br></tt> <tt><a href=
         "#props">props</a></tt><tt><br></tt> <tt><a href=
         "#put">put</a></tt><tt><br>
-        <!-- <a href="#RETURN">RETURN</a><br>--></tt><tt><a href=
-        "#server">server</a></tt><tt><br>
+        <!-- <a href="#RETURN">RETURN</a><br>--></tt> <a href=
+        "#savesys"><tt>savesys</tt></a><br>
+        <tt><a href="#server">server</a></tt><tt><br>
         <a href="#sleep">sleep</a><br></tt> <tt><a href=
         "#string">string</a></tt><tt><br></tt> <tt><a href=
         "#SWITCH">SWITCH</a></tt><tt><br></tt> <tt><a href=
@@ -10761,14 +10754,41 @@ Type help for help. Type license for license. Type bye to exit.
     </ul>
   </blockquote>
 
+  <h4><a name="savesys" id="savesys"></a> <tt>savesys</tt></h4>
+
+  <blockquote>
+    <p><tt>/0 [-to datasink] [-from datasink] [-merge] [-save |
+    -restore] : save and restore compiled code</tt></p>The
+    <tt>savesys</tt> command saves your compiled Ublu code to a
+    file which can subsequently be restored, but only to the exact
+    same level of the Ublu system. The <a href="#Dash_Command">dash
+    commands</a> are as follows:
+
+    <ul>
+      <li><tt>-save</tt> saves the system to the destination data
+      sink specified by <tt>-to datasink</tt>. Currently this can
+      only be a file datasink.</li>
+
+      <li><tt>-restore</tt> restores the system from the source
+      data sink specified by <tt>-from datasink</tt>. Currently
+      this can only be a file datasink.</li>
+
+      <li><tt>-merge</tt> indicates that the restore should merge
+      the restored system with the extant compiled code. Any
+      definition which exists in the saved system will overwrite a
+      definition of the same name in the current system. Without
+      the <tt>-merge</tt> dash command, the saved system overwrites
+      the current system.</li>
+    </ul>
+  </blockquote>
+
   <h4><a name="server" id="server"></a><tt>server</tt></h4>
 
   <blockquote>
     <tt>/0 [-to datasink] [-- @listener] [-port ~@{portnum}] [[
     -block ~@{executionBlock} | $[execution block]$ ] | -getport |
     -start | -status | -stop ] : start, stop or monitor status of a
-    thread server<br>
-    &nbsp;&nbsp;&nbsp;</tt><br>
+    thread server<br></tt><br>
     <br>
     Starts, stops, or displays status of a TCP/IP listener over
     <i>portnum</i> (defaulting to port 43860) which spawns server
