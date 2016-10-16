@@ -32,6 +32,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 /**
+ * Class to represent string constants
  *
  * @author jax
  */
