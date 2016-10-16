@@ -77,7 +77,7 @@ public class Const implements Serializable {
     }
 
     /**
-     * ctor/2 creates new const with name and valie
+     * ctor/2 creates new const with name and value
      *
      * @param name name
      * @param value value
