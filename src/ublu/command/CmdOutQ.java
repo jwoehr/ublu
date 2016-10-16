@@ -52,10 +52,10 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdOutQ extends Command {
-    
+
     {
         setNameAndDescription("outq",
-                "/4? [-as400 @as400] [-outq ~@outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
+                "/4? [-as400 @as400] [--,-outq ~@outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] |[-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
     }
 
     /**
@@ -67,6 +67,18 @@ public class CmdOutQ extends Command {
          * Clear the Q
          */
         CLEAR,
+        /**
+         * Get float attribute
+         */
+        GETFLOAT,
+        /**
+         * Get int attribute
+         */
+        GETINT,
+        /**
+         * Get string attribute
+         */
+        GETSTRING,
         /**
          * Hold the Q
          */
@@ -106,6 +118,7 @@ public class CmdOutQ extends Command {
         String clearOptName = "";
         String clearOptValue = "";
         String infoparm = "";
+        Integer attr_int = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -131,6 +144,18 @@ public class CmdOutQ extends Command {
                 case "--":
                 case "-outq":
                     outQ = argArray.nextTupleOrPop().value(OutputQueue.class);
+                    break;
+                case "-getfloat":
+                    function = FUNCTIONS.GETFLOAT;
+                    attr_int = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-getint":
+                    function = FUNCTIONS.GETINT;
+                    attr_int = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-getstring":
+                    function = FUNCTIONS.GETSTRING;
+                    attr_int = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-hold":
                     function = FUNCTIONS.HOLD;
@@ -244,6 +269,30 @@ public class CmdOutQ extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case GETFLOAT:
+                    try {
+                        put(outQ.getFloatAttribute(attr_int));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception getting float attribute of " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case GETINT:
+                    try {
+                        put(outQ.getIntegerAttribute(attr_int));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception getting integer attribute of " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case GETSTRING:
+                    try {
+                        put(outQ.getStringAttribute(attr_int));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception getting string attribute of " + outQ + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case HOLD:
                     try {
                         outQ.hold();
@@ -301,13 +350,13 @@ public class CmdOutQ extends Command {
         }
         return argArray;
     }
-    
+
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return outqueue(args);
     }
-    
+
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();

@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -9613,10 +9614,12 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="outq" id="outq"></a><tt>outq</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 ~@as400] [-outq ~@outqueue] [-to @var] [-from
+    <tt>/4? [-as400 @as400] [--,-outq ~@outqueue] [-to @var] [-from
     @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] |
-    [-hold] | [-new,-instance] | [-noop] | [-release] | [-info] |
-    [-infoparm ATTR]] outputqueuename system user password</tt><br>
+    [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring
+    ~@{attr_int}] |[-hold] | [-new,-instance] | [-noop] |
+    [-release] | [-info] | [-infoparm ATTR]] outputqueuename system
+    user password : operate on output queues</tt><br>
     <br>
     The <tt>outq</tt> command operates on output queues. If the
     <a href="#System_Userid"><tt>-as400</tt></a> <a href=
@@ -9667,6 +9670,30 @@ Type help for help. Type license for license. Type bye to exit.
         </ul>
       </li>
 
+      <li>The following three operations get attributes of the
+      output queue. These attributes are represented by integer
+      selectors whose values are described (deep) in the JTOpen
+      documentation. <b>There is extended support for these
+      operations in <tt>extensions/ux.outq.ublu</tt></b>
+
+        <ul>
+          <li><tt>-getfloat ~@{attr_int}</tt> puts the float value
+          of the attribute represented by <i>attr_int</i> of the
+          output queue represented by the <tt>--,-outq
+          ~@outqueue</tt> dash command.</li>
+
+          <li><tt>-getint ~@{attr_int}</tt> puts the integer value
+          of the attribute represented by <i>attr_int</i> of the
+          output queue represented by the <tt>--,-outq
+          ~@outqueue</tt> dash command.</li>
+
+          <li><tt>getstring ~@{attr_int}</tt> puts the string value
+          of the attribute represented by <i>attr_int</i> of the
+          output queue represented by the <tt>--,-outq
+          ~@outqueue</tt> dash command.</li>
+        </ul>
+      </li>
+
       <li>
         <tt>-hold</tt>
 
@@ -9688,7 +9715,8 @@ Type help for help. Type license for license. Type bye to exit.
       </li>
 
       <li>
-        <tt>-infoparm ATTR</tt>
+        <tt><strike>-infoparm ATTR</strike></tt><i>Deprecated, use
+        <tt>-getfloat -getint -getstring</tt></i>
 
         <ul>
           <li>Returns info on the Print Object parameter specified
