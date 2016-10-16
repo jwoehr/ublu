@@ -132,7 +132,7 @@ public class CmdJobLog extends Command {
                     break;
                 case "-query":
                     op = OPS.QUERY;
-                    query = argArray.nextMaybeQuotationTupleString();
+                    query = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-subst":
                     substitutionData = argArray.nextMaybeQuotationTuplePopString();
