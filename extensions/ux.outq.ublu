@@ -4,9 +4,29 @@
 # Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# These consts are the attribute integers for use with
-# outq -getint,-getfloat,-getstring. You have to figure out which go with which
-# style of parameter fetch :( as they only work with the right one.
+# The following consts are the attribute integers for use with
+# outq -getint,-getfloat,-getstring.
+# Not all attributes are valid for all output queues.
+# Use the JTOpen documentation to figure out which attributes use which
+# parameter fetch method, as each attribute fetch only works using the correct
+# method. E.g., this sample session:
+#
+#   > as400 -to @mysys MYSYS.COM MYID MYPASSWD
+#   > outq -to @q -as400 @mysys /QSYS.LIB/QGPL.LIB/QPRINT.OUTQ
+#   > @q -getstring *ATTR_AUTHCHCK
+#   *OWNER
+#   > @tq -getstring *ATTR_NUMFILES
+#   Ublu:1:UbluInterpreter.Thread[main,5,main]:SEVERE:ublu.util.Interpreter.loop():Command "outq" threw exception
+#   ATTR_NUMFILES: The data type requested is not valid for the parameter value.
+#   com.ibm.as400.access.ExtendedIllegalArgumentException: ATTR_NUMFILES: The data type requested is not valid for the parameter value.
+#   > @q -getint *ATTR_NUMFILES
+#   0
+
+# References from the JTOpen documentation:
+#   com/ibm/as400/access/doc-files/PrintAttributes.html
+#   com/ibm/as400/access/PrintObject.html
+#   constant-values.html#com.ibm.as400.access.PrintObject.ATTR_3812SCS
+######################################################################
 const *ATTR_3812SCS 	287
 const *ATTR_ACCOUNT_CODE 	265
 const *ATTR_AFP 	10
