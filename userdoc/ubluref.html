@@ -948,8 +948,7 @@ Type help for help. Type license for license. Type bye to exit.
   which autogenerates a shell script to process arguments to your
   custom function via command line switches and invoke your custom
   function with those arguments. This is the Ublu model for runtime
-  program delivery.<br>
-  <br></p>
+  program delivery.</p>
 
   <h3><a name="Debugger" id="Debugger"></a>Debugger</h3>
 
@@ -966,7 +965,9 @@ Type help for help. Type license for license. Type bye to exit.
   of non-whitespace characters separated from other non-whitespace
   by at least one whitespace character is parsed as an element. No
   extra whitespace is preserved in parsing, not even within
-  <a href="#Quoted_strings">quoted strings</a>.<br></p>
+  <a href="#Quoted_strings">quoted strings</a> (with the important
+  exception that a quoted string is always returned with a blank
+  space as the last character).<br></p>
 
   <p><b>Note</b> that the simplistic parser imposes one
   particularly arbitrary limitation in that within an <a href=
@@ -991,19 +992,21 @@ Type help for help. Type license for license. Type bye to exit.
   separated by at least one space from the contents of the string
   and from any leading or following commands or arguments.<br>
   <br>
-  Whitespace between non-whitespace elements of the string is
+
+  <p>Whitespace between non-whitespace elements of the string is
   compacted into single spaces&nbsp; <tt>${ This &nbsp; &nbsp; is
   &nbsp; &nbsp; &nbsp; a quoted&nbsp;&nbsp;&nbsp;&nbsp; string.
   }$</tt> represents <tt>This is a quoted string.</tt> A quoted
-  string can span multiple lines.<br>
-  <br>
-  When end-of-line is reached in the interpreter after the
-  open-quote glyph ( <tt>${</tt> ) without finding the close-quote
-  glyph ( <tt>}$</tt> ) then string parsing continues and the
-  prompt changes for any lines following until the close-quote
-  glyph is encountered. The string parsing continuation prompt is
-  the open-quote glyph surrounded in parentheses <tt>(${)</tt>
-  .<br>
+  string is always returned by the parser with a blank space at the
+  end of it.</p>
+
+  <p>A quoted string can span multiple lines. When end-of-line is
+  reached in the interpreter after the open-quote glyph (
+  <tt>${</tt> ) without finding the close-quote glyph ( <tt>}$</tt>
+  ), then string parsing continues and the prompt changes for any
+  lines following until the close-quote glyph is encountered. The
+  string parsing continuation prompt is the open-quote glyph
+  surrounded in parentheses <tt>(${)</tt> .</p>
 
   <p><b>Note</b> that the simplistic parser imposes one
   particularly arbitrary limitation in that within an <a href=
@@ -1157,10 +1160,10 @@ Type help for help. Type license for license. Type bye to exit.
   notation represent the argument as <tt>~@{something}</tt> and
   only in such position. Constants are not expanded within quoted
   strings. Constants cannot be used as the argument to a
-  <tt>-from</tt> or <tt>-to</tt> dash-command. Constants cannot be
-  pushed to the <a href="#Tuple_stack">tuple stack</a>. <a href=
+  <tt>-from</tt> or <tt>-to</tt> dash-command. <a href=
   "#Plainwords">Plainwords</a> resembling constants, i.e., starting
-  with an asterisk * are not mistaken for constants.<br></p>
+  with an asterisk * are not mistaken for constants if they have
+  not been defined as such.<br></p>
 
   <p>Constants defined in an interpreter level appear in its
   <a href="#Nested_interpreter_sublevel">nested interpreter
@@ -1381,7 +1384,8 @@ Type help for help. Type license for license. Type bye to exit.
   <p>You can view the current function dictionary or save it to a
   file or <a href="#Tuple_Variables">tuple variable</a> and later
   restore it or merge it with the current dictionary. See the
-  <a href="#dict"><tt>dict</tt></a> command.<br></p>
+  <a href="#dict"><tt>dict</tt></a> and <a href=
+  "#savesys">savesys</a> commands.</p>
 
   <h3><a name="User_ID_and_password" id=
   "User_ID_and_password"></a>User ID and password</h3>You supply a
@@ -2545,6 +2549,8 @@ Type help for help. Type license for license. Type bye to exit.
         </ul>
       </li>
     </ul>
+
+    <p>See also: <tt><a href="#savesys">savesys</a></tt></p>
 
     <p><i>Example</i> (<tt>examples/test/consttest.ublu</tt>)</p>
     <pre>
@@ -4043,7 +4049,8 @@ Type help for help. Type license for license. Type bye to exit.
 
     <p>See also<br>
     <a href="#FUNC"><tt>FUNC</tt></a> <tt><a href="#FUN">FUN</a>
-    <a href="#defun">defun</a></tt></p>
+    <a href="#defun">defun</a></tt> <tt><a href=
+    "#savesys">savesys</a></tt></p>
   </blockquote>
 
   <h4><a name="DO" id="DO"></a> <tt>DO</tt></h4>
@@ -4947,7 +4954,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="FUN" id="FUN"></a> <tt>FUN</tt></h4>
 
   <blockquote>
-    <tt>/6.. [-to @tuplename] ( parameter name list )&nbsp; $[ an
+    <tt>/6.. [-to @tuplename] ( parameter name list ) $[ an
     execution block possibly spanning lines ]$ : create a
     functor</tt><br>
     <br>
@@ -5053,7 +5060,10 @@ Type help for help. Type license for license. Type bye to exit.
     immediately following the <tt>FUNC</tt> command, though
     otherwise the execution block can span multiple lines.<br>
     <br>
-    <i>Example</i> (from <tt>examples/jobstuff.ublu</tt>)
+
+    <p>See also: <tt><a href=
+    "#savesys">savesys</a></tt></p><i>Example</i> (from
+    <tt>examples/jobstuff.ublu</tt>)
     <pre>
 <span class="syntax0"><span class="gutter"> 7 </span><span class=
 "syntax-COMMENT1">#</span><span class=
