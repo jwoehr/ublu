@@ -33,7 +33,7 @@ package ublu.util;
 public class ParamSubTuple extends Tuple {
 
     private Tuple boundTuple;
-    private String proposedKey;
+    private final String proposedKey;
 
     @Override
     public Object getValue() {
