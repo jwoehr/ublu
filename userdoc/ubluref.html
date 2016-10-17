@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "tidyp for OpenBSD (v1.04), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.8">
+  <meta name="generator" content="Bluefish 2.2.8">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1055,15 +1056,18 @@ Type help for help. Type license for license. Type bye to exit.
   name a tuple variable.<br>
 
   <h4><a name="Tuple_autoinstancing" id=
-  "Tuple_autoinstancing"></a>Tuple autoinstancing</h4>A tuple
-  springs into being in the global tuple map when a previously
-  unused tuple name is used as a <a href="#Datasinks">destination
-  datasink</a> or as a parameter (input or output) to a <a href=
-  "#Functions">function</a>. Alternatively, you can create a tuple
-  variable using the tuple command, e.g.&nbsp; <tt>tuple -true
-  @foo</tt> will set <tt>@foo</tt> to <tt>true</tt> if it exists
-  already, or will create <tt>@foo</tt> and set it to <tt>true</tt>
-  if it does not yet exist.<br>
+  "Tuple_autoinstancing"></a>Tuple autoinstancing</h4>
+
+  <p>A tuple springs into being in the global tuple map when a
+  previously unused tuple name is used as a <a href=
+  "#Datasinks">destination datasink</a> or as a parameter (input or
+  output) to a <a href="#Functions">function</a>. When
+  autoinstanced in this fashion, the new tuple's value is
+  <tt>null</tt>. Alternatively, you can create a tuple variable
+  using the tuple command, e.g. <tt>tuple -true @foo</tt> will set
+  <tt>@foo</tt> to <tt>true</tt> if it exists already, or will
+  create <tt>@foo</tt> and set it to <tt>true</tt> if it does not
+  yet exist.</p>
 
   <h3><a name="Tuple_stack" id="Tuple_stack"></a>Tuple
   stack</h3>The system maintains a Last In, First Out (LIFO) stack
@@ -1334,8 +1338,10 @@ Type help for help. Type license for license. Type bye to exit.
 
   <ul>
     <li>If the argument provided is a simple lex, e.g.,
-    <tt>foo</tt> or <tt>1234</tt>, it is substituted uncritically
-    for all references to it.</li>
+    <tt>foo</tt> or <tt>1234</tt>, or a <a href=
+    "#const">*const</a>, that text is substituted uncritically at
+    runtime for all references to that argument in the function
+    body.</li>
 
     <li>If the argument provided is a <a href=
     "#Tuple_Variables">tuple variable</a>, a temporary alias for
@@ -1343,6 +1349,10 @@ Type help for help. Type license for license. Type bye to exit.
     in a local extension to the tuple map and references to the
     argument are rewritten with the name of the temporary in the
     function's execution block.</li>
+
+    <li>If the argument is the tuple stack pop symbol
+    <code>~</code> that symbol will appear at runtime wherever the
+    argument is substituted in the function body.</li>
   </ul>
 
   <p>Thus, in the case of a function</p>
@@ -1543,7 +1553,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <p>Often the order in which dash-commands appear on a line does
   not matter, but sometimes it does. To be safe, dash commands
-  should follow the command in this order:<br></p>
+  should generally follow the command in this order:<br></p>
 
   <ol>
     <li>the <a href="#Eponymous_dash-command__--_">eponymous
@@ -1554,7 +1564,9 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>-from</tt> and <tt>-to</tt> , if used</li>
 
     <li>any other dash-commands</li>
-  </ol>
+  </ol>There are exceptions to this ordering, e.g, the eponymous
+  dash-command must come <i>last</i> for the <a href=
+  "#dbug"><code>dbug</code></a> command.
 
   <h4><a name="Argument" id="Argument"></a>Argument</h4>
 
@@ -1608,8 +1620,7 @@ Type help for help. Type license for license. Type bye to exit.
         which means that <tt>-type</tt> expects an argument, either
         from a tuple or from a quoted string or <a href=
         "#Plainwords">plainword</a> that is the literal string
-        either&nbsp; <tt>int</tt>, <tt>long</tt>,&nbsp; or
-        <tt>float</tt>.</li>
+        either <tt>int</tt>, <tt>long</tt>, or <tt>float</tt>.</li>
       </ul>
     </li>
   </ul>
@@ -1618,7 +1629,7 @@ Type help for help. Type license for license. Type bye to exit.
   Example<br></h4>
 
   <p>An example of a command with dash-commands and arguments is
-  the following:<br></p>
+  the following:</p>
 
   <blockquote>
     <tt>job -job @j -to @subsys -get subsystem</tt>
