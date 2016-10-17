@@ -356,10 +356,7 @@ public class CmdSpoolF extends Command {
                             } catch (AS400Exception ex) {
                                 getLogger().log(Level.SEVERE, "Unable to -copyq spooled file in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
-                            } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Unable to -copyq spooled file in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            } catch (ErrorCompletingRequestException ex) {
+                            } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                                 getLogger().log(Level.SEVERE, "Unable to -copyq spooled file in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
