@@ -1,12 +1,12 @@
-# ux.outq.ublu
+# ux.printobj.ublu
 # Extension to Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
 # Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
 # The following consts are the attribute integers for use with
-# outq -getint,-getfloat,-getstring.
-# Not all attributes are valid for all output queues.
+# outq -getint,-getfloat,-getstring or printer-getint,-getfloat,-getstring 
+# Not all attributes are valid for all output queues or printers.
 # Use the JTOpen documentation to figure out which attributes use which
 # parameter fetch method, as each attribute fetch only works using the correct
 # method. E.g., this sample session:

@@ -25,11 +25,19 @@
  */
 package ublu.util;
 
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.PrintObject;
+import com.ibm.as400.access.Printer;
+import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import ublu.command.Command;
+import ublu.command.CommandInterface;
 
 /**
  * Misc util routines
@@ -97,5 +105,37 @@ public class Utils {
             lineLen += word.length();
         }
         return output.toString();
+    }
+
+    public static int attrNameToInt(String attrName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        return PrintObject.class.getField(attrName).getInt(Printer.class);
+    }
+
+    public static Object attrNameToValue(PrintObject p, String attrName, Command c) {
+        Object value = null;
+        Integer attrInteger = null;
+        try {
+            attrInteger = attrNameToInt(attrName);
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+            c.getLogger().log(Level.SEVERE, "No such attribute " + attrName + " in " + c.getNameAndDescription(), ex);
+            c.setCommandResult(CommandInterface.COMMANDRESULT.FAILURE);
+        }
+        if (attrInteger != null) {
+            try {
+                value = p.getSingleIntegerAttribute(attrInteger);
+            } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                try {
+                    value = p.getSingleFloatAttribute(attrInteger);
+                } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex1) {
+                    try {
+                        value = p.getStringAttribute(attrInteger);
+                    } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex2) {
+                        c.getLogger().log(Level.SEVERE, "Could not get attribute value for " + attrName + " in " + c.getNameAndDescription(), ex);
+                        c.setCommandResult(CommandInterface.COMMANDRESULT.FAILURE);
+                    }
+                }
+            }
+        }
+        return value;
     }
 }

@@ -30,6 +30,7 @@ package ublu.command;
 import ublu.AS400Factory;
 import ublu.util.ArgArray;
 import ublu.util.Tuple;
+import ublu.util.Utils;
 import com.ibm.as400.access.AS400Exception;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -55,7 +56,7 @@ public class CmdOutQ extends Command {
 
     {
         setNameAndDescription("outq",
-                "/4? [-as400 @as400] [--,-outq ~@outqueue] [-to @var] [-from @qnamevar] [-clear [[user jobuser] | [form formtype] | all]] | [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] |[-hold] | [-new,-instance] | [-noop] | [-release] | [-info] | [-infoparm ATTR]] outputqueuename system user password : operate on output queues");
+                "/4? [-as400 @as400] [--,-outq ~@outqueue] [-to @var] [-from @qnamevar] [[-clear [[user jobuser] | [form formtype] | all]] | [-get ~@{attributename}] | [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] | [-hold] | [-new,-instance] | [-noop] | [-release]] outputqueuename system user password : operate on output queues");
     }
 
     /**
@@ -67,6 +68,10 @@ public class CmdOutQ extends Command {
          * Clear the Q
          */
         CLEAR,
+        /**
+         * Get any attribute
+         */
+        GET,
         /**
          * Get float attribute
          */
@@ -92,15 +97,6 @@ public class CmdOutQ extends Command {
          */
         RELEASE,
         /**
-         * Just put the Tuple so this is the instancer with a -to and otherwise
-         * it dumps the object
-         */
-        INFO,
-        /**
-         * info on a specific parameter
-         */
-        INFOPARM,
-        /**
          * do nothing
          */
         NOOP
@@ -118,6 +114,7 @@ public class CmdOutQ extends Command {
         String clearOptName = "";
         String clearOptValue = "";
         String infoparm = "";
+        String attributeName = null;
         Integer attr_int = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -145,6 +142,10 @@ public class CmdOutQ extends Command {
                 case "-outq":
                     outQ = argArray.nextTupleOrPop().value(OutputQueue.class);
                     break;
+                case "-get":
+                    function = FUNCTIONS.GET;
+                    attributeName = "ATTR_" + argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
+                    break;
                 case "-getfloat":
                     function = FUNCTIONS.GETFLOAT;
                     attr_int = argArray.nextIntMaybeQuotationTuplePopString();
@@ -163,13 +164,6 @@ public class CmdOutQ extends Command {
                 case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
-                    break;
-                case "-info":
-                    function = FUNCTIONS.INFO;
-                    break;
-                case "-infoparm":
-                    function = FUNCTIONS.INFOPARM;
-                    infoparm = argArray.next();
                     break;
                 case "-release":
                     function = FUNCTIONS.RELEASE;
@@ -269,6 +263,17 @@ public class CmdOutQ extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case GET:
+                    Object attrValue = Utils.attrNameToValue(outQ, attributeName, this);
+                    if (attrValue != null) {
+                        try {
+                            put(attrValue);
+                        } catch (AS400SecurityException | SQLException | ObjectDoesNotExistException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
+                            getLogger().log(Level.SEVERE, "Error putting attribute in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 case GETFLOAT:
                     try {
                         put(outQ.getFloatAttribute(attr_int));
@@ -309,27 +314,6 @@ public class CmdOutQ extends Command {
                         put(outQ);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception holding putting " + outQ + " in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case INFO:
-                    try {
-                        put(outQ);
-                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Exception putting outq info from " + outQ + " in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case INFOPARM:
-                    try {
-                        Field f = outQ.getClass().getField(infoparm.trim());
-                        int attr = f.getInt(f);
-                        put(outQ.getStringAttribute(attr));
-                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Exception putting outq infoparm from " + outQ + " in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-                        getLogger().log(Level.SEVERE, "Exception getting outq infoparm from " + outQ + " in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;

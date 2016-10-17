@@ -27,6 +27,7 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.util.Tuple;
+import ublu.util.Utils;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.Job;
@@ -49,7 +50,7 @@ public class CmdPrinter extends Command {
 
     {
         setNameAndDescription("printer",
-                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [-get ~@{attribute}] | [[-new,-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
+                "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [[-get ~@{attributename}] | [-getfloat ~@{attr_int}] [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] | [-new,-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
     }
 
     private enum OPERATIONS {
@@ -62,6 +63,18 @@ public class CmdPrinter extends Command {
          * get attrib
          */
         GET,
+        /**
+         * Get float attribute
+         */
+        GETFLOAT,
+        /**
+         * Get int attribute
+         */
+        GETINT,
+        /**
+         * Get string attribute
+         */
+        GETSTRING,
         /**
          * set attrib
          */
@@ -86,6 +99,7 @@ public class CmdPrinter extends Command {
         OPERATIONS operation = OPERATIONS.INSTANCE;
         String attributeName = null;
         Tuple printerTuple = null;
+        Integer attr_int = null;
         PrintParameterList ppl = new PrintParameterList();
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -96,7 +110,18 @@ public class CmdPrinter extends Command {
                 case "-get":
                     operation = OPERATIONS.GET;
                     attributeName = "ATTR_" + argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
-                    // attributeInt = attribToInt(attributeName);
+                    break;
+                case "-getfloat":
+                    operation = OPERATIONS.GETFLOAT;
+                    attr_int = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-getint":
+                    operation = OPERATIONS.GETINT;
+                    attr_int = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-getstring":
+                    operation = OPERATIONS.GETSTRING;
+                    attr_int = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-new":
                 case "-instance":
@@ -190,11 +215,37 @@ public class CmdPrinter extends Command {
                         }
                         break;
                     case GET:
+                        Object attrValue = Utils.attrNameToValue(printer, attributeName, this);
+                        if (attrValue != null) {
+                            try {
+                                put(attrValue);
+                            } catch (AS400SecurityException | SQLException | ObjectDoesNotExistException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting attribute in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case GETFLOAT:
                         try {
-                            // put(printer.getStringAttribute(attributeInt));
-                            put(attrNameToValue(printer, attributeName));
-                        } catch (AS400SecurityException | SQLException | ObjectDoesNotExistException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting printer attribute in " + getNameAndDescription(), ex);
+                            put(printer.getFloatAttribute(attr_int));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception getting float attribute of " + printer + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case GETINT:
+                        try {
+                            put(printer.getIntegerAttribute(attr_int));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception getting integer attribute of " + printer + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case GETSTRING:
+                        try {
+                            put(printer.getStringAttribute(attr_int));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception getting string attribute of " + printer + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -257,38 +308,6 @@ public class CmdPrinter extends Command {
                 setCommandResult(COMMANDRESULT.FAILURE);
         }
         return intval;
-    }
-
-    private int attrNameToInt(String attrName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        return Printer.class.getField(attrName).getInt(Printer.class);
-    }
-
-    private Object attrNameToValue(Printer p, String attrName) {
-        Object value = null;
-        Integer attrInteger = null;
-        try {
-            attrInteger = attrNameToInt(attrName);
-        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-            getLogger().log(Level.SEVERE, "No such attribute " + attrName + " in " + getNameAndDescription(), ex);
-            setCommandResult(COMMANDRESULT.FAILURE);
-        }
-        if (attrInteger != null) {
-            try {
-                value = p.getSingleIntegerAttribute(attrInteger);
-            } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                try {
-                    value = p.getSingleFloatAttribute(attrInteger);
-                } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex1) {
-                    try {
-                        value = p.getStringAttribute(attrInteger);
-                    } catch (IllegalArgumentException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | RequestNotSupportedException ex2) {
-                        getLogger().log(Level.SEVERE, "Could not get attribute value for " + attrName + " in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                }
-            }
-        }
-        return value;
     }
 
     @Override
