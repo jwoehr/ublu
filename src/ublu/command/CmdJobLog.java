@@ -148,7 +148,13 @@ public class CmdJobLog extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            JobLog jobLog = jobLogTuple.value(JobLog.class);
+            JobLog jobLog = null;
+            if (jobLogTuple != null) {
+                jobLog = jobLogTuple.value(JobLog.class);
+                if (jobLog == null) {
+                    getLogger().log(Level.SEVERE, "{0}Tuple does not have JobLog value in ", getNameAndDescription());
+                }
+            }
             switch (op) {
                 case ADD:
                     if (jobLog != null) {
