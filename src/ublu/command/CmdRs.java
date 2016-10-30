@@ -197,6 +197,7 @@ public class CmdRs extends Command {
         Db myDb = null;
         ResultSetClosure myRs = null;
         String tableName = null;
+        Integer fieldindex = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -213,6 +214,10 @@ public class CmdRs extends Command {
                 case "-autocommit":
                     setFunction(FUNCTIONS.AUTOCOMMIT);
                     autoCommitValue = argArray.nextInt() == 0;
+                    break;
+                case "bytes":
+                    setFunction(FUNCTIONS.BYTES);
+                    fieldindex = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-close":
                     myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
@@ -277,6 +282,20 @@ public class CmdRs extends Command {
                     } catch (SQLException ex) {
                         getLogger().log(Level.SEVERE, "Exception setting autocommit mode in CmdRs for destination result set", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+
+                case BYTES:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().getBytes(fieldindex));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get or put bytes result set for column index " + fieldindex + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
 
@@ -391,6 +410,7 @@ public class CmdRs extends Command {
                         }
                     }
                     break;
+                    
                 case SPLIT:
                     if (getDataDest() == null | getDataSrc() == null) {
                         getLogger().log(Level.SEVERE, "Missing data source or data dest in rs command");
