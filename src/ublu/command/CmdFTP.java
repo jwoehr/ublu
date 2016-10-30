@@ -264,7 +264,7 @@ public class CmdFTP extends Command {
                         case DISCONNECT:
                             myFTP.disconnect();
                             if (sessionTuple != null) {
-                                getInterpreter().deleteTuple(sessionTuple.getKey());
+                                getInterpreter().deleteTuple(sessionTuple);
                             }
                             break;
                         case GET:

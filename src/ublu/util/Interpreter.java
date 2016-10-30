@@ -655,16 +655,6 @@ public class Interpreter {
     }
 
     /**
-     * Delete a tuple from the map
-     *
-     * @param key the string key identifying the tuple
-     * @return the object value of the deleted tuple
-     */
-    public Object deleteTuple(String key) {
-        return tupleMap.deleteTuple(key);
-    }
-
-    /**
      * Remove a tuple from the tuple map
      *
      * @param t the tuple to remove

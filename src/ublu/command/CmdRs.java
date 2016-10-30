@@ -282,19 +282,20 @@ public class CmdRs extends Command {
                 case CLOSE:
                     closeTuple = getTuple(closeTupleName);
                     if (closeTuple == null) {
-                        getLogger().log(Level.WARNING, "Tuple {0} not found", closeTupleName);
+                        getLogger().log(Level.SEVERE, "Tuple {0} not found for -close in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         Object hopefullyAResultSetClosure = closeTuple.getValue();
                         if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
                             try {
                                 ResultSetClosure.class.cast(hopefullyAResultSetClosure).closeRS();
-                                getInterpreter().deleteTuple(closeTupleName);
+                                getInterpreter().deleteTuple(closeTuple);
                             } catch (SQLException ex) {
                                 getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName, ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set.", closeTupleName);
+                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set in {1}", new Object[]{closeTupleName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -303,19 +304,20 @@ public class CmdRs extends Command {
                 case CLOSEDB:
                     closeTuple = getTuple(closeTupleName);
                     if (closeTuple == null) {
-                        getLogger().log(Level.WARNING, "Tuple {0} not found", closeTupleName);
+                        getLogger().log(Level.SEVERE, "Tuple {0} not found for -closedb in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         Object hopefullyAResultSetClosure = closeTuple.getValue();
                         if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
                             try {
                                 ResultSetClosure.class.cast(hopefullyAResultSetClosure).close();
-                                getInterpreter().deleteTuple(closeTupleName);
+                                getInterpreter().deleteTuple(closeTuple);
                             } catch (SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName, ex);
+                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName + " in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set.", closeTupleName);
+                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set in {1}", new Object[]{closeTupleName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -324,20 +326,21 @@ public class CmdRs extends Command {
                 case CLOSEST:
                     closeTuple = getTuple(closeTupleName);
                     if (closeTuple == null) {
-                        getLogger().log(Level.WARNING, "Tuple {0} not found", closeTupleName);
+                        getLogger().log(Level.SEVERE, "Tuple {0} not found for -closest in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         Object hopefullyAResultSetClosure = closeTuple.getValue();
                         if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
                             try {
                                 ResultSetClosure.class.cast(hopefullyAResultSetClosure).
                                         closeRS().closeStatement();
-                                getInterpreter().deleteTuple(closeTupleName);
+                                getInterpreter().deleteTuple(closeTuple);
                             } catch (SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName, ex);
+                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName + " in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set.", closeTupleName);
+                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set in {1}", new Object[]{closeTupleName, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
