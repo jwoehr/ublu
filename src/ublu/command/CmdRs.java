@@ -53,7 +53,7 @@ import ublu.db.Db;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [-autocommit 0|1 | -close{|db|st} tuplename | -commit @resultSetTuple | -fetchsize numrows | -insert | -json ~@db ~@{tablename} | -split split_specification] [-toascii numindices index index ..] [-metadata] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the @tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[-autocommit 0|1] | [-bytes ~@{fieldindex}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | -insert | [-json ~@db ~@{tablename}] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the ~@tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
     }
 
     /**
@@ -109,6 +109,10 @@ public class CmdRs extends Command {
          * Do nothing.
          */
         NULL,
+        /**
+         * Get raw bytes from field
+         */
+        BYTES,
         /**
          * Set the autocommit mode for result sets
          */
@@ -187,12 +191,11 @@ public class CmdRs extends Command {
     public ArgArray rs(ArgArray argArray) {
         ResultSetHelper.CONVERSION conversion = null;
         Generics.IndexList charConversionIndexList = null;
-        String closeTupleName = "";
         int rowsToFetch = 0;
         String commitTupleName = "";
         boolean autoCommitValue = true;
-        Tuple dbTuple = null;
-        Tuple rsTuple = null;
+        Db myDb = null;
+        ResultSetClosure myRs = null;
         String tableName = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -205,22 +208,22 @@ public class CmdRs extends Command {
                     break;
                 case "--":
                 case "-rs":
-                    rsTuple = argArray.nextTupleOrPop();
+                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     break;
                 case "-autocommit":
                     setFunction(FUNCTIONS.AUTOCOMMIT);
                     autoCommitValue = argArray.nextInt() == 0;
                     break;
                 case "-close":
-                    closeTupleName = argArray.next();
+                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     setFunction(FUNCTIONS.CLOSE);
                     break;
                 case "-closedb":
-                    closeTupleName = argArray.next();
+                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     setFunction(FUNCTIONS.CLOSEDB);
                     break;
                 case "-closest":
-                    closeTupleName = argArray.next();
+                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     setFunction(FUNCTIONS.CLOSEST);
                     break;
                 case "-commit":
@@ -236,7 +239,7 @@ public class CmdRs extends Command {
                     break;
                 case "-json":
                     setFunction(FUNCTIONS.JSON);
-                    dbTuple = argArray.nextTupleOrPop();
+                    myDb = argArray.nextTupleOrPop().value(Db.class);
                     tableName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-metadata":
@@ -261,8 +264,6 @@ public class CmdRs extends Command {
         } else {
             ResultSetClosure srcResultSetClosure;
             ResultSetClosure destResultSetClosure;
-            Db db;
-            Tuple closeTuple;
             switch (getFunction()) {
                 case AUTOCOMMIT:
                     try {
@@ -280,67 +281,43 @@ public class CmdRs extends Command {
                     break;
 
                 case CLOSE:
-                    closeTuple = getTuple(closeTupleName);
-                    if (closeTuple == null) {
-                        getLogger().log(Level.SEVERE, "Tuple {0} not found for -close in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -close in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        Object hopefullyAResultSetClosure = closeTuple.getValue();
-                        if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
-                            try {
-                                ResultSetClosure.class.cast(hopefullyAResultSetClosure).closeRS();
-                                getInterpreter().deleteTuple(closeTuple);
-                            } catch (SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName, ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                        } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                        try {
+                            myRs.closeRS();
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Could not close result set from tuple in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
 
                 case CLOSEDB:
-                    closeTuple = getTuple(closeTupleName);
-                    if (closeTuple == null) {
-                        getLogger().log(Level.SEVERE, "Tuple {0} not found for -closedb in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -closedb in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        Object hopefullyAResultSetClosure = closeTuple.getValue();
-                        if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
-                            try {
-                                ResultSetClosure.class.cast(hopefullyAResultSetClosure).close();
-                                getInterpreter().deleteTuple(closeTuple);
-                            } catch (SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName + " in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                        } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                        try {
+                            myRs.close();
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Could not close result set from tuple in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
 
                 case CLOSEST:
-                    closeTuple = getTuple(closeTupleName);
-                    if (closeTuple == null) {
-                        getLogger().log(Level.SEVERE, "Tuple {0} not found for -closest in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -closest in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        Object hopefullyAResultSetClosure = closeTuple.getValue();
-                        if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
-                            try {
-                                ResultSetClosure.class.cast(hopefullyAResultSetClosure).
-                                        closeRS().closeStatement();
-                                getInterpreter().deleteTuple(closeTuple);
-                            } catch (SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Could not close result set from tuple " + closeTupleName + " in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
-                        } else {
-                            getLogger().log(Level.SEVERE, "Tuple {0} is not a result set in {1}", new Object[]{closeTupleName, getNameAndDescription()});
+
+                        try {
+                            myRs.closeRS().closeStatement();
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Could not close result set from tuple in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -405,11 +382,9 @@ public class CmdRs extends Command {
                     break;
 
                 case JSON:
-                    srcResultSetClosure = rsTuple.value(ResultSetClosure.class);
-                    db = dbTuple.value(Db.class);
-                    if (srcResultSetClosure != null && db != null && tableName != null) {
+                    if (myRs != null && myDb != null && tableName != null) {
                         try {
-                            put(srcResultSetClosure.toJSON(db, tableName));
+                            put(myRs.toJSON(myDb, tableName));
                         } catch (JSONException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Exception converting or putting JSON in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -482,8 +457,10 @@ public class CmdRs extends Command {
                 getLogger().log(Level.WARNING, "Tuple {0} not found", getDataSrc().getName());
             } else {
                 hopefullyAResultSetClosure = autoCommitTuple.getValue();
+
                 if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
-                    ResultSetClosure.class.cast(hopefullyAResultSetClosure).setAutoCommit(ac);
+                    ResultSetClosure.class
+                            .cast(hopefullyAResultSetClosure).setAutoCommit(ac);
                 } else {
                     getLogger().log(Level.WARNING, "Source tuple {0} is not a ResultSetClosure", autoCommitTuple.getKey());
                 }
@@ -501,8 +478,10 @@ public class CmdRs extends Command {
             getLogger().log(Level.WARNING, "Tuple {0} not found", commitTupleName);
         } else {
             hopefullyAResultSetClosure = commitTuple.getValue();
+
             if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
-                ResultSetClosure.class.cast(hopefullyAResultSetClosure).commit();
+                ResultSetClosure.class
+                        .cast(hopefullyAResultSetClosure).commit();
             } else {
                 getLogger().log(Level.WARNING, "Source tuple {0} is not a ResultSetClosure", commitTuple.getKey());
             }
@@ -518,8 +497,10 @@ public class CmdRs extends Command {
                 getLogger().log(Level.WARNING, "Tuple {0} not found", getDataSrc().getName());
             } else {
                 hopefullyAResultSetClosure = fetchSizeTuple.getValue();
+
                 if (hopefullyAResultSetClosure instanceof ResultSetClosure) {
-                    ResultSetClosure rsc = ResultSetClosure.class.cast(hopefullyAResultSetClosure);
+                    ResultSetClosure rsc = ResultSetClosure.class
+                            .cast(hopefullyAResultSetClosure);
                     if (fetchSize > 0) {
                         rsc.setFetchSize(fetchSize);
                     }

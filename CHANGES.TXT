@@ -10,12 +10,14 @@ System
 Commands
 * general
 	* minor fixes at Java level
+	* major fixes to rs and db
 * individual commands
 	* outq and printer rationalized
 		* outq -get -getint -getfloat -getstring
 		* outq removed superflous dash-commands
 		* printer -getint -getfloat -getstring
-	* rs & ftp bug in close deleting tuple fixed	
+	* rs & ftp bug in close deleting tuple fixed
+	* rs  -close?? dash-commands  no longer delete tuple
 	* savesys
 	
 Extensions
