@@ -251,7 +251,7 @@ public class Renderer {
     public String stringFrom(Byte[] bytes) {
         StringBuilder sb = new StringBuilder("[ ");
         for (Byte b : bytes) {
-            sb.append(String.format("%02x", b.byteValue()));
+            sb.append(String.format("%02x", b));
         }
         sb.append("]").append(" ( ").append(bytes).append(" )");
         return sb.toString();
