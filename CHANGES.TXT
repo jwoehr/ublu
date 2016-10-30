@@ -15,6 +15,7 @@ Commands
 		* outq -get -getint -getfloat -getstring
 		* outq removed superflous dash-commands
 		* printer -getint -getfloat -getstring
+	* rs & ftp bug in close deleting tuple fixed	
 	* savesys
 	
 Extensions
