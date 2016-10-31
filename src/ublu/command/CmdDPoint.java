@@ -224,7 +224,7 @@ public class CmdDPoint extends Command {
 
     private Number getNumberByType(String number, VALTYPE valtype) {
         Number n = null;
-        switch (valtype) {
+        switch (valtype == null ? VALTYPE.INT : valtype) {
             case FLOAT:
                 n = Float.parseFloat(number);
                 break;
