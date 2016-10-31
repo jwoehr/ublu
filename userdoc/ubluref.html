@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -2795,7 +2796,7 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><tt><a name="db" id="db"></a>db</tt></h4>
 
   <blockquote>
-    <tt>/4? [--,-dbconnected ~@dbconnected] -db ~@{type}
+    <tt>/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type}
     [-charsetname ~@{charsetname}] [-catalog | -columntypes
     ~@{tablename} | -connect | -csv ~@{tablename} [-separator
     ~@{separator} ] | -json ~@{tablename} | -disconnect | -metadata
@@ -2820,7 +2821,7 @@ Type help for help. Type license for license. Type bye to exit.
 
     <p><b>Note:</b> For historic reasons, the dash-commands for
     this (early) Ublu commmand are stylistically inconsistent with
-    the other commands: <tt>-db</tt> really should be called
+    the other commands: <tt>-db</tt> is now deprecated in favor of
     <tt>-dbtype</tt> and <tt>-dbconnected</tt> should be called
     <tt>-db</tt>. In any case, the <a href=
     "#Eponymous_dash-command__--_">eponymous dash-command</a>
@@ -2835,9 +2836,9 @@ Type help for help. Type license for license. Type bye to exit.
     <h5>Operations<br></h5>
 
     <ul>
-      <li>-<tt>db type</tt> is obligatory (unless the database
-      object is provided via <tt>-dbconnected @dbconnected</tt>)
-      and is one of precisely
+      <li>-<tt>--dbtype type</tt> is obligatory (unless the
+      database object is provided via <tt>---,-dbconnected
+      @dbconnected</tt>) and is one of precisely
 
         <ul>
           <li><tt>as400</tt></li>
@@ -2849,9 +2850,9 @@ Type help for help. Type license for license. Type bye to exit.
       <li>
         <tt>-charsetname charsetname</tt> is optional and
         specifically sets the charsetname which otherwise defaults
-        through the <tt>-db type</tt> to the name of an appropriate
-        charset. Possibilities include any valid charset name per
-        <a href=
+        through the <tt>-dbtype type</tt> to the name of an
+        appropriate charset. Possibilities include any valid
+        charset name per <a href=
         "http://www.iana.org/assignments/character-sets/character-sets.xhtml">
         http://www.iana.org/assignments/character-sets/character-sets.xhtml</a>
         such as:
@@ -2871,7 +2872,7 @@ Type help for help. Type license for license. Type bye to exit.
       <i>tablename</i></li>
 
       <li><tt>-connect</tt> connects to the database and puts the
-      database for use with the <tt>-dbconnected</tt>
+      database for use with the <tt>--,-dbconnected</tt>
       dash-command.</li>
 
       <li>
@@ -2879,7 +2880,7 @@ Type help for help. Type license for license. Type bye to exit.
         values (CSV).
 
         <ul>
-          <li>If the db type is <tt>as400</tt> and the column
+          <li>If the dbtype is <tt>as400</tt> and the column
           datatype is BINARY, currently ASCII translation of the
           binary as EBCDIC character data is inserted
           intercolumnarly in the output.</li>
@@ -2890,8 +2891,8 @@ Type help for help. Type license for license. Type bye to exit.
       <a href="http://json.org">JSON</a> object.</li>
 
       <li><tt>-disconnect</tt> disconnects the database object
-      provided via <tt>-dbconnected @dbconnected</tt> invalidating
-      all result sets associated with that database
+      provided via <tt>--,-dbconnected @dbconnected</tt>
+      invalidating all result sets associated with that database
       object.<tt><br></tt></li>
 
       <li><tt>-metadata</tt> fetches a subset of database
@@ -4106,23 +4107,28 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="dpoint" id="dpoint"></a><tt>dpoint</tt></h4>
 
   <blockquote>
-    <tt>/0? [--,-dpoint @dpoint] [-to datasink] [-dkey ~@{keytext}]
-    [-addkey ~@{keytext}] [-type ~@{int|long|float} [-value
-    ~@{value}] [-alertlevel ~@{alertlevel}] [-compare
-    ~@{gt|gte|lt|lte|info|warn|crit}] [-msg ~@{msg}] : create and
+    <tt>/0? [--,-dpoint @dpoint] [-to datasink] [[-dup] | [-dkey
+    ~@{keytext}] [-addkey ~@{keytext}] [-type ~@{int|long|float}
+    [-value ~@{value}] [-alertlevel ~@{alertlevel}] [-compare
+    ~@{gt|gte|lt|lte|info|warn|crit}] [-msg ~@{msg}]] : create and
     manipulate monitoring datapoints</tt><br>
     <br>
     The <tt>dpoint</tt> command <tt>put</tt>s a correctly formed
     <a href=
     "http://www.absolute-performance.com/application-performance-management/system-shepherd-performance-monitoring/">
     SystemShepherd &#174;</a> datapoint. The datapoint can be
-    partially or fully created and subsquently modified (when an
-    extant datapoint is referenced via the <tt>-dpoint</tt>
+    incrementally or fully created and subsquently modified (when
+    an extant datapoint is referenced via the <tt>--,-dpoint</tt>
     <a href="#Dash_Command">dash-command</a>.<br>
     <br>
     The dash-commands that define the datapoint are as follows:<br>
 
     <ul>
+      <li><code>-dup</code> puts a duplicate datapoint of the
+      datapoint provided by the <code>--,-dpoint @dpoint</code>
+      dash-command. If no such datapoint was provided, an error
+      results.</li>
+
       <li><tt>-dkey ~@{keytext}</tt> defines the dkey such as
       OS|Version|Major.</li>
 
@@ -4131,7 +4137,8 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li>
         <tt>-type</tt> defines the type of the numeric value for
-        the data value of the datapoint, one of
+        the data value of the datapoint and/or comparison value,
+        one of
 
         <ul>
           <li><tt>int</tt></li>
@@ -4139,34 +4146,26 @@ Type help for help. Type license for license. Type bye to exit.
           <li><tt>long</tt></li>
 
           <li><tt>float<br></tt></li>
-        </ul>
+        </ul>The default is <code>int</code>.
       </li>
 
-      <li>
-        <tt>-alertlevel ~@{alertlevel}</tt> gives the numeric value
-        at which the datapoint comparison defined by
-        <tt>-comparison</tt> would render the datapoint as
-        critical.
+      <li><tt>-alertlevel ~@{alertlevel}</tt> gives the numeric
+      value at which the datapoint comparison defined by
+      <tt>-comparison</tt> would render the datapoint as critical.
+      If there is no alertlevel, no comparison is made and the
+      status is OK (0). If the alertlevel is a <code>float</code>
+      or <code>long</code>, the <code>-type</code> dash command
+      must be present, as <code>int</code> is assumed
+      otherwise.</li>
 
-        <ul>
-          <li>Any dpoint command using <tt>-alertlevel</tt> must
-          include the <tt>-type</tt> dash-command.</li>
-        </ul>
-      </li>
-
-      <li>
-        <tt>-value ~@{value}</tt> gives the value of the datapoint.
-
-        <ul>
-          <li>Any dpoint command using <tt>-alertlevel</tt> must
-          include the <tt>-type</tt> dash-command.</li>
-        </ul>
-      </li>
+      <li><tt>-value ~@{value}</tt> assigns the value of the
+      datapoint.</li>
 
       <li>
         <tt>-compare ~@{gt|gte|lt|lte|info|warn|crit}</tt> gives
         the comparison between the value and alertlevel which would
-        render the datapoint as critical.
+        render the datapoint as critical. If no comparison is set,
+        no comparison is made.
 
         <ul>
           <li><tt>gt</tt> greater than</li>
