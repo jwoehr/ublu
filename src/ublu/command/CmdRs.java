@@ -53,7 +53,7 @@ import ublu.db.Db;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{fieldindex}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the ~@tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
     }
 
     /**
@@ -217,7 +217,7 @@ public class CmdRs extends Command {
         Db myDb = null;
         ResultSetClosure myRs = null;
         String tableName = null;
-        Integer fieldindex = null;
+        Integer index = null;
         String fieldLabel = null;
         Integer cursorinc = null;
         while (argArray.hasDashCommand()) {
@@ -250,7 +250,7 @@ public class CmdRs extends Command {
                     break;
                 case "bytes":
                     setFunction(FUNCTIONS.BYTES);
-                    fieldindex = argArray.nextIntMaybeQuotationTuplePopString();
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-close":
                     myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
@@ -274,7 +274,7 @@ public class CmdRs extends Command {
                     break;
                 case "-get":
                     setFunction(FUNCTIONS.GET);
-                    fieldindex = argArray.nextIntMaybeQuotationTuplePopString();
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-lget":
                     setFunction(FUNCTIONS.LGET);
@@ -358,9 +358,9 @@ public class CmdRs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
-                            put(myRs.getResultSet().getBytes(fieldindex));
+                            put(myRs.getResultSet().getBytes(index));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or put bytes for column index " + fieldindex + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or put bytes for column index " + index + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -439,9 +439,9 @@ public class CmdRs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
-                            put(myRs.getResultSet().getObject(fieldindex));
+                            put(myRs.getResultSet().getObject(index));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + fieldindex + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + index + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
