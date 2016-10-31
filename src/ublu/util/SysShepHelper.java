@@ -245,7 +245,6 @@ public class SysShepHelper {
      * /0 ctor
      */
     public SysShepHelper() {
-        this(null, null, null, null, null);
     }
 
     /**
@@ -259,6 +258,7 @@ public class SysShepHelper {
     }
 
     /**
+     * Instance all
      *
      * @param metric
      * @param value
@@ -267,7 +267,10 @@ public class SysShepHelper {
      * @param alertcomparator
      */
     public SysShepHelper(MetricName metric, Number value, String message, Number alertlevel, ALERTCOMPARATOR alertcomparator) {
-        this.metric = metric;
+        this();
+        if (metric != null) {
+            this.metric = new MetricName(metric.toString());
+        }
         this.value = value;
         this.message = message;
         this.alertlevel = alertlevel;
