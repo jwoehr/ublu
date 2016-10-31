@@ -53,7 +53,7 @@ import ublu.db.Db;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[-autocommit 0|1] | [-bytes ~@{fieldindex}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the ~@tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{fieldindex}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the ~@tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
     }
 
     /**
@@ -109,6 +109,14 @@ public class CmdRs extends Command {
          * Do nothing.
          */
         NULL,
+        /**
+         * move cursor absolute
+         */
+        ABS,
+        /**
+         * move cursor relative
+         */
+        REL,
         /**
          * Get raw bytes from field
          */
@@ -211,6 +219,7 @@ public class CmdRs extends Command {
         String tableName = null;
         Integer fieldindex = null;
         String fieldLabel = null;
+        Integer cursorinc = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -223,6 +232,17 @@ public class CmdRs extends Command {
                 case "--":
                 case "-rs":
                     myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
+                    break;
+                case "-abs":
+                    setFunction(FUNCTIONS.ABS);
+                    cursorinc = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-rel":
+                    setFunction(FUNCTIONS.REL);
+                    cursorinc = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-next":
+                    setFunction(FUNCTIONS.NEXT);
                     break;
                 case "-autocommit":
                     setFunction(FUNCTIONS.AUTOCOMMIT);
@@ -291,6 +311,32 @@ public class CmdRs extends Command {
             ResultSetClosure srcResultSetClosure;
             ResultSetClosure destResultSetClosure;
             switch (getFunction()) {
+                case ABS:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -abs in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().absolute(cursorinc));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not set cursor absolute or put result in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case REL:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -rel in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().relative(cursorinc));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not set cursor relative or put result in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 case AUTOCOMMIT:
                     try {
                         setAutoCommit(getDataSrc(), autoCommitValue);
@@ -514,7 +560,7 @@ public class CmdRs extends Command {
                     break;
                 case NEXT:
                     if (myRs == null) {
-                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Tuple not found for -next in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
