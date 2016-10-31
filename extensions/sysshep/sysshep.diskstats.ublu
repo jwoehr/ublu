@@ -1,0 +1,61 @@
+# sysshep.qsys2.diskstats.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# System Shepherd is Copyright (C) 2016 Absolute Performance, Inc.
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# sysshep.qsys2.diskstats
+# get datapoints for diskstats from db2 services
+# Usage example:
+#   db -to @myDb -dbtype as400 mysys QSYS2 myid mypasswd
+#   sysshep.qsys2.diskstats ( @myDb @stats)
+#   put @stats
+FUNC sysshep.qsys2.diskstats ( qsys2db stats ) $[
+   LOCAL @myRs
+   LOCAL @dp1 LOCAL @dp2
+   LOCAL @valid  LOCAL @tmp
+   string -to @stats -new
+   @@qsys2db -to @myRs -query ${ SELECT * FROM SYSDISKSTAT }$   
+   @myRs -to @valid -abs 1   
+   WHILE @valid $[
+       dpoint -to @dp1 -dkey OS400|QSYS2|SYSDISKSTAT
+       @myRs -to ~ -lget ASP_NUMBER
+       @dp1 -to NULL: -addkey ~
+       @myRs -to ~ -lget DISK_TYPE
+       @dp1 -to NULL: -addkey ~
+       @myRs -to ~ -lget DISK_MODEL
+       @dp1 -to NULL: -addkey ~  
+       @myRs -to ~ -lget UNIT_NUMBER
+       @dp1 -to NULL: -addkey ~
+       @myRs -to ~ -lget UNIT_TYPE
+       @dp1 -to NULL: -addkey ~
+       @dp1 -to @dp2 -dup
+       @myRs -to ~ -lget UNIT_STORAGE_CAPACITY
+       @dp1 -to NULL: -addkey ~
+       @myRs -to NULL: -to ~ -lget UNIT_SPACE_AVAILABLE
+       @dp1 -to NULL: -addkey ~
+       @myRs -to ~ -lget UNIT_MEDIA_CAPACITY
+       @dp1 -to NULL: -addkey ~       
+       @dp1 -to NULL: -addkey PERCENT_USED
+       @myRs -to ~ -lget PERCENT_USED
+       @dp1 -to NULL: -value ~ -type float
+       @myRs -to @tmp -lget LOGICAL_MIRRORED_PAIR_STATUS
+       test -to ~ -null @tmp
+       IF ~ THEN $[
+           @dp2 -to NULL: -addkey X
+       ]$ ELSE $[
+           @dp2 -to NULL: -addkey @tmp
+       ]$
+       @dp2 -to NULL: -addkey MIRRORED_UNIT_STATUS
+       @myRs -to ~ -lget MIRRORED_UNIT_STATUS
+       @dp2 -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp1
+       string -to @@stats -nl @@stats
+       string -to @@stats -cat @@stats @dp2
+       string -to @@stats -nl @@stats
+       @myRs -to @valid -next
+   ]$
+]$
+
+# end
