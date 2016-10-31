@@ -289,7 +289,12 @@ public class SysShepHelper {
     }
 
     private Class getValueClass() {
-        return getValue().getClass();
+        Class c = null;
+        Object o = getValue();
+        if (o != null) {
+            c = o.getClass();
+        }
+        return c;
     }
 
     /**
@@ -383,36 +388,41 @@ public class SysShepHelper {
      */
     public STATUS getIntegerStatus() {
         STATUS status = STATUS.OK;
-        switch (getAlertcomparator()) {
-            case GT:
-                if (Integer.class.cast(getValue()) > Integer.class.cast(getAlertlevel())) {
+        ALERTCOMPARATOR alertcomparator = getAlertcomparator();
+        if (alertcomparator == null) {
+            status = STATUS.OK;
+        } else {
+            switch (getAlertcomparator()) {
+                case GT:
+                    if (Integer.class.cast(getValue()) > Integer.class.cast(getAlertlevel())) {
+                        status = STATUS.CRITICAL;
+                    }
+                    break;
+                case GTE:
+                    if (Integer.class.cast(getValue()) >= Integer.class.cast(getAlertlevel())) {
+                        status = STATUS.CRITICAL;
+                    }
+                    break;
+                case LT:
+                    if (Integer.class.cast(getValue()) < Integer.class.cast(getAlertlevel())) {
+                        status = STATUS.CRITICAL;
+                    }
+                    break;
+                case LTE:
+                    if (Integer.class.cast(getValue()) <= Integer.class.cast(getAlertlevel())) {
+                        status = STATUS.CRITICAL;
+                    }
+                    break;
+                case INFO:
+                    status = STATUS.OK;
+                    break;
+                case WARN:
+                    status = STATUS.WARNING;
+                    break;
+                case CRIT:
                     status = STATUS.CRITICAL;
-                }
-                break;
-            case GTE:
-                if (Integer.class.cast(getValue()) >= Integer.class.cast(getAlertlevel())) {
-                    status = STATUS.CRITICAL;
-                }
-                break;
-            case LT:
-                if (Integer.class.cast(getValue()) < Integer.class.cast(getAlertlevel())) {
-                    status = STATUS.CRITICAL;
-                }
-                break;
-            case LTE:
-                if (Integer.class.cast(getValue()) <= Integer.class.cast(getAlertlevel())) {
-                    status = STATUS.CRITICAL;
-                }
-                break;
-            case INFO:
-                status = STATUS.OK;
-                break;
-            case WARN:
-                status = STATUS.WARNING;
-                break;
-            case CRIT:
-                status = STATUS.CRITICAL;
-                break;
+                    break;
+            }
         }
         return status;
     }
@@ -446,26 +456,30 @@ public class SysShepHelper {
     public String format() throws BadNumberClassException {
         String datapoint = null;
         Class valueClass = getValueClass();
-        if (valueClass.equals(Float.class)) {
-            /**
-             * DEBUG *
-             */
-            // System.err.println("Status is " + getFloatStatus());
-            datapoint = format(getMetric().toString(), Float.class.cast(getValue()), getFloatStatus(), getMessage());
-        } else if (valueClass.equals(Long.class)) {
-            /**
-             * DEBUG *
-             */
-            // System.err.println("Status is " + getLongStatus());
-            datapoint = format(getMetric().toString(), Long.class.cast(getValue()), getLongStatus(), getMessage());
-        } else if (valueClass.equals(Integer.class)) {
-            /**
-             * DEBUG *
-             */
-            // System.err.println("Status is " + getIntegerStatus());
-            datapoint = format(getMetric().toString(), Integer.class.cast(getValue()), getIntegerStatus(), getMessage());
+        if (valueClass != null) {
+            if (valueClass.equals(Float.class)) {
+                /**
+                 * DEBUG *
+                 */
+                // System.err.println("Status is " + getFloatStatus());
+                datapoint = format(getMetric().toString(), Float.class.cast(getValue()), getFloatStatus(), getMessage());
+            } else if (valueClass.equals(Long.class)) {
+                /**
+                 * DEBUG *
+                 */
+                // System.err.println("Status is " + getLongStatus());
+                datapoint = format(getMetric().toString(), Long.class.cast(getValue()), getLongStatus(), getMessage());
+            } else if (valueClass.equals(Integer.class)) {
+                /**
+                 * DEBUG *
+                 */
+                // System.err.println("Status is " + getIntegerStatus());
+                datapoint = format(getMetric().toString(), Integer.class.cast(getValue()), getIntegerStatus(), getMessage());
+            } else {
+                throw new BadNumberClassException("Bad number class for datapoint formulation");
+            }
         } else {
-            throw new BadNumberClassException("Bad number class for datapoint formulation");
+            datapoint = format(getMetric().toString(), 0, STATUS.OK, getMessage());
         }
         return datapoint;
     }
