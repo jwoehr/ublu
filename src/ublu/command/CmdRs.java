@@ -53,7 +53,7 @@ import ublu.db.Db;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[-autocommit 0|1] | [-bytes ~@{fieldindex}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | -insert | [-json ~@db ~@{tablename}] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the ~@tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[-autocommit 0|1] | [-bytes ~@{fieldindex}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] -from tuplename -to @tuplename : tuples assumed to hold result sets, performs the indicated operation (such as commit, set autocommit mode, set&get fetchsize) out of the 'from' result set into the 'to' result set (splitting if -split is chosen instead of -insert) or closes the result set represented by the ~@tuplename argument to -close (and the statement if -closest and also disconnects db instance if -closedb)");
     }
 
     /**
@@ -150,13 +150,21 @@ public class CmdRs extends Command {
          */
         CLOSEDB,
         /**
+         * get object in field
+         */
+        GET,
+        /**
          * Dump the result set as JSON
          */
         JSON,
         /**
          * Get the result set metadata
          */
-        METADATA
+        METADATA,
+        /**
+         * next row
+         */
+        NEXT
     }
     /**
      * The function this pass through the command is going to perform
@@ -239,6 +247,10 @@ public class CmdRs extends Command {
                     setFunction(FUNCTIONS.FETCHSIZE);
                     rowsToFetch = argArray.nextInt();
                     break;
+                case "-get":
+                    setFunction(FUNCTIONS.GET);
+                    fieldindex = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
                 case "-insert":
                     setFunction(FUNCTIONS.INSERT);
                     break;
@@ -293,7 +305,7 @@ public class CmdRs extends Command {
                         try {
                             put(myRs.getResultSet().getBytes(fieldindex));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or put bytes result set for column index " + fieldindex + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or put bytes for column index " + fieldindex + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -366,6 +378,20 @@ public class CmdRs extends Command {
                     }
                     break;
 
+                case GET:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().getObject(fieldindex));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + fieldindex + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+
                 case INSERT:
                     if (getDataDest() == null | getDataSrc() == null) {
                         getLogger().log(Level.SEVERE, "Missing data source or data dest in rs command");
@@ -410,7 +436,7 @@ public class CmdRs extends Command {
                         }
                     }
                     break;
-                    
+
                 case SPLIT:
                     if (getDataDest() == null | getDataSrc() == null) {
                         getLogger().log(Level.SEVERE, "Missing data source or data dest in rs command");
@@ -461,6 +487,19 @@ public class CmdRs extends Command {
                     } catch (ClassCastException ex) {
                         getLogger().log(Level.SEVERE, "Source command rs -metadata was not a result set", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case NEXT:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().next());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get or put next in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
             }
