@@ -8,7 +8,7 @@
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 31 Oct 2016 03:12:30 UTC">
+  "Mon, 31 Oct 2016 13:46:02 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-30</p>
+  Last edit: 2016-10-31</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2813,15 +2813,10 @@ Type help for help. Type license for license. Type bye to exit.
     <i>password</i>.<br>
 
     <p>Alternatively, a connected database object can be provided
-    via the <tt>-dbconnected @dbconnected</tt> <a href=
+    via the <tt>-dbconnected ~@dbconnected</tt> <a href=
     "#Dash_Command">dash-command</a> in which case the <tt>system
     database userid password</tt> arguments must be
     omitted.<br></p>
-
-    <p>Any of the arguments shown above beginning with <tt>(@)</tt>
-    can either be a plain word or the name of a <a href=
-    "#Tuple_Variables">tuple variable</a> set to the needed
-    argument value.<br></p>
 
     <p><b>Note:</b> For historic reasons, the dash-commands for
     this (early) Ublu commmand are stylistically inconsistent with
@@ -2830,14 +2825,12 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>-db</tt>. In any case, the <a href=
     "#Eponymous_dash-command__--_">eponymous dash-command</a>
     <tt>-- @dbconnected</tt> can be used instead of
-    <tt>--dbconnected</tt><br></p>
+    <tt>-dbconnected</tt><br></p>
 
     <p><b>Note:</b> This command and the Ublu database code of
     which it is part is some of the oldest code in Ublu. It is
-    imperfectly factored and is both internally inconsistent and
-    inconsistent in style with the rest of Ublu. It's here because
-    it works. There will be an overhaul of the database code in the
-    near future centered on a new command <tt><b>dbs</b></tt>.</p>
+    being reworked somewhat.</p><em>See also:</em> <code><a href=
+    "#cs">cs</a></code> <code><a href="#rs">rs</a></code>
 
     <h5>Operations<br></h5>
 
