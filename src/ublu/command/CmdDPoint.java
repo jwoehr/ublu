@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdDPoint extends Command {
 
     {
-        setNameAndDescription("dpoint", "/0? [--,-dpoint @dpoint] [-to datasink] [-dkey ~@{keytext}] [-addkey ~@{keytext}] [-type ~@{int|long|float} [-value ~@{value}] [-alertlevel ~@{alertlevel}] [-compare ~@{gt|gte|lt|lte|info|warn|crit}] [-msg ~@{msg}]  : create and manipulate monitoring datapoints");
+        setNameAndDescription("dpoint", "/0? [--,-dpoint @dpoint] [-to datasink] [[-dup] | [-dkey ~@{keytext}] [-addkey ~@{keytext}] [-type ~@{int|long|float} [-value ~@{value}] [-alertlevel ~@{alertlevel}] [-compare ~@{gt|gte|lt|lte|info|warn|crit}] [-msg ~@{msg}]]  : create and manipulate monitoring datapoints");
     }
 
     private enum VALTYPE {
@@ -63,6 +63,7 @@ public class CmdDPoint extends Command {
     public ArgArray dpoint(ArgArray argArray) {
         Tuple helperTuple = null;
         String dkey = null;
+        Boolean dup = false;
         String keyToAdd = null;
         String valuetypename = null;
         String value = null;
@@ -85,6 +86,9 @@ public class CmdDPoint extends Command {
                     break;
                 case "-dkey":
                     dkey = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-dup":
+                    dup = true;
                     break;
                 case "-addkey":
                     keyToAdd = argArray.nextMaybeQuotationTuplePopString();
@@ -111,65 +115,77 @@ public class CmdDPoint extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            SysShepHelper myHelper = null;
+            SysShepHelper myHelper;
             MetricName mn;
             VALTYPE valuetype = null;
             if (helperTuple != null) {
-                Object tupleValue = helperTuple.getValue();
-                if (tupleValue instanceof SysShepHelper) {
-                    myHelper = SysShepHelper.class.cast(tupleValue);
-                } else {
-                    getLogger().log(Level.SEVERE, "Valued tuple which is not a dpoint tuple provided to -metric in {0}", getNameAndDescription());
+                myHelper = helperTuple.value(SysShepHelper.class);
+                if (myHelper == null) {
+                    getLogger().log(Level.SEVERE, "Valued tuple which is not a dpoint tuple in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
             } else {
                 myHelper = new SysShepHelper();
             }
             if (myHelper != null) {
-                if (dkey != null) {
-                    myHelper.setMetric(new MetricName(dkey));
-                }
-                if (keyToAdd != null) {
-                    mn = myHelper.getMetric();
-                    if (mn != null) {
-                        mn.append(keyToAdd);
+                if (dup) {
+                    if (helperTuple != null) {
+                        try {
+                            put(new SysShepHelper(myHelper));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception putting duplicate dpoint tuple in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     } else {
-                        mn = new MetricName(keyToAdd);
-                        myHelper.setMetric(mn);
-                    }
-                }
-                if (valuetypename != null) {
-                    valuetype = getvaltype(valuetypename);
-                    if (valuetype == null) {
-                        getLogger().log(Level.WARNING, "Unknown value type {0} provided to -type in {1}", new Object[]{valuetypename, getNameAndDescription()});
+                        getLogger().log(Level.SEVERE, "No datapoint tuple provided to duplicate in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-                }
-                if (getCommandResult() != COMMANDRESULT.FAILURE) {
-                    if (comparison != null) {
-                        ALERTCOMPARATOR a = getCompareType(comparison);
-                        if (a == null) {
-                            getLogger().log(Level.WARNING, "Invalid comparator {0} provided to -compare in {1}", new Object[]{comparison, getNameAndDescription()});
-                            setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    if (dkey != null) {
+                        myHelper.setMetric(new MetricName(dkey));
+                    }
+                    if (keyToAdd != null) {
+                        mn = myHelper.getMetric();
+                        if (mn != null) {
+                            mn.append(keyToAdd);
                         } else {
-                            myHelper.setAlertcomparator(a);
+                            mn = new MetricName(keyToAdd);
+                            myHelper.setMetric(mn);
+                        }
+                    }
+                    if (valuetypename != null) {
+                        valuetype = getvaltype(valuetypename);
+                        if (valuetype == null) {
+                            getLogger().log(Level.WARNING, "Unknown value type {0} provided to -type in {1}", new Object[]{valuetypename, getNameAndDescription()});
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     if (getCommandResult() != COMMANDRESULT.FAILURE) {
-                        if (value != null) {
-                            myHelper.setValue(getNumberByType(value, valuetype));
+                        if (comparison != null) {
+                            ALERTCOMPARATOR a = getCompareType(comparison);
+                            if (a == null) {
+                                getLogger().log(Level.WARNING, "Invalid comparator {0} provided to -compare in {1}", new Object[]{comparison, getNameAndDescription()});
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            } else {
+                                myHelper.setAlertcomparator(a);
+                            }
                         }
-                        if (alertlevel != null) {
-                            myHelper.setAlertlevel(getNumberByType(alertlevel, valuetype));
-                        }
-                        if (message != null) {
-                            myHelper.setMessage(message);
-                        }
-                        try {
-                            put(myHelper);
-                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting job query in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            if (value != null) {
+                                myHelper.setValue(getNumberByType(value, valuetype));
+                            }
+                            if (alertlevel != null) {
+                                myHelper.setAlertlevel(getNumberByType(alertlevel, valuetype));
+                            }
+                            if (message != null) {
+                                myHelper.setMessage(message);
+                            }
+                            try {
+                                put(myHelper);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting job query in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                     }
                 }
