@@ -49,7 +49,12 @@ FUNC sysshep.qsys2.sysdiskstat ( qsys2db stats ) $[
        ]$
        @dp2 -to NULL: -addkey MIRRORED_UNIT_STATUS
        @myRs -to ~ -lget MIRRORED_UNIT_STATUS
-       @dp2 -to NULL: -value ~ -type int
+       \\ ${ Hack follows, some SYSDISKDATA have 0x01 in field }$
+       TRY $[
+           @dp2 -to NULL: -value ~ -type int
+       ]$ CATCH $[
+           @dp2 -to NULL: -value 0
+       ]$
        string -to @@stats -cat @@stats @dp1
        string -to @@stats -nl @@stats
        string -to @@stats -cat @@stats @dp2
