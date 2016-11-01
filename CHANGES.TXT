@@ -20,11 +20,14 @@ Commands
 	* rs
 		* -bytes added
 		* -close?? dash-commands  no longer delete tuple
+		* -get -lget
+		* -abs -rel -next
 	* savesys
 	
 Extensions
 * new
 	* ux.printobj.ublu
+	* sysshep directory
 	
 1.1.3 2016-10-14
 System:
