@@ -1,17 +1,17 @@
-# sysshep.qsys2.diskstat.ublu
+# sysshep.qsys2.sysdiskstat.ublu
 # Extension to Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
 # System Shepherd is Copyright (C) 2016 Absolute Performance, Inc.
 # Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# sysshep.qsys2.diskstat
+# sysshep.qsys2.sysdiskstat
 # get datapoints for diskstat from db2 services
 # Usage example:
 #   db -to @myDb -dbtype as400 mysys QSYS2 myid mypasswd
-#   sysshep.qsys2.diskstat ( @myDb @stats)
+#   sysshep.qsys2.sysdiskstat ( @myDb @stats)
 #   put @stats
-FUNC sysshep.qsys2.diskstat ( qsys2db stats ) $[
+FUNC sysshep.qsys2.sysdiskstat ( qsys2db stats ) $[
    LOCAL @myRs
    LOCAL @dp1 LOCAL @dp2
    LOCAL @valid  LOCAL @tmp
