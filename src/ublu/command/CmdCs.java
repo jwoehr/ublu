@@ -173,6 +173,9 @@ public class CmdCs extends Command {
                     sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
                     typeDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-call":
+                    function = FUNCTIONS.CALL;
+                    break;
                 case "-nextrs":
                     function = FUNCTIONS.NEXTRS;
                     break;
