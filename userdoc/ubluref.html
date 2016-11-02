@@ -5,11 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 31 Oct 2016 13:46:02 UTC">
+  "Wed, 2 Nov 2016 20:15:19 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-10-31</p>
+  Last edit: 2016-11-02</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2790,7 +2789,16 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><code>-uc</code> puts the updated rows count when that is
       returned by the statement rather than a result set.</li>
-    </ul>
+    </ul><em>Example</em>
+
+    <p><code>&gt; db -to @myDb -dbtype as400 -connect PUB400.COM
+    qsys2 me MYPASSWD<br>
+    &gt; cs -to @myCs -dbconnected @myDb -new -sql ${ CALL
+    QCMDEXC('SNDMSG MSG(''Hi there'') TOUSR(JAX)') }$<br>
+    &gt; @myCs -call<br>
+    <em>false</em></code></p><img src="images/cs_sndmsg.png" width=
+    "455" height="300" alt="image of WRKMSG screen" longdesc=
+    "image%20of%20WRKMSG%20screen">
   </blockquote>
 
   <h4><tt><a name="db" id="db"></a>db</tt></h4>
