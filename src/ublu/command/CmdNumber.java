@@ -108,6 +108,7 @@ public class CmdNumber extends Command {
                     break;
                 case "-bin":
                     conversion = CONVERSION.BIN;
+                    break;
                 case "-int":
                     conversion = CONVERSION.INT;
                     break;
@@ -145,7 +146,7 @@ public class CmdNumber extends Command {
             switch (conversion) {
                 case BIN:
                     byte[] ba = theNumber.getBytes();
-                    byte x = (byte) (ba[0] & 0x1e);
+                    byte x = (byte) (ba[0] | 0x30);
                     try {
                         put(Byte.toUnsignedInt(x));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
