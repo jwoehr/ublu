@@ -1195,7 +1195,10 @@ public class Generics {
         }
 
         public ThingArrayList(byte[] ba) {
-            super(Arrays.asList(ba));
+            this();
+            for (int i = 0; i < ba.length; i++) {
+                this.add(ba[i]);
+            }
         }
 
         /**

@@ -47,7 +47,7 @@ public class CmdNumber extends Command {
 
     {
         setNameAndDescription("num",
-                "/1 [-to (@)datasink] [[-bin] [-byte] | [-int] | [-short] | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
+                "/1 [-to (@)datasink] [[-bin] | [-byte] | [-int] | [-short] | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
     }
 
     /**
