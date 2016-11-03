@@ -9,3 +9,5 @@ tuple -typename @anInt
 num -to @aBigDec -bigdec 1234.56
 put -from @aBigDec
 tuple -typename @aBigDec
+put ${ num -bin will convert "abcd" to the unsigned int value of the letter 'a' }$
+num -bin ${ abcd }$ 
