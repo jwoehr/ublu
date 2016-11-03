@@ -238,6 +238,17 @@ public class Putter {
                     t.setValue(getObject());
                 }
                 break;
+            case ERR:
+                stringdata = new Renderer(getObject(), getCharsetName()).asString();
+                if (space) {
+                    stringdata = stringdata + " ";
+                }
+                if (newline) {
+                    getInterpreter().getErroutStream().println(stringdata);
+                } else {
+                    getInterpreter().getErroutStream().print(stringdata);
+                }
+                break;
             case STD:
             default:
                 stringdata = new Renderer(getObject(), getCharsetName()).asString();
