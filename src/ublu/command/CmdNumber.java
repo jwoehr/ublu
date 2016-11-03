@@ -47,7 +47,7 @@ public class CmdNumber extends Command {
 
     {
         setNameAndDescription("num",
-                "/1 [-to (@)datasink] [[-byte] | [-int] | [-short] | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
+                "/1 [-to (@)datasink] [[-bin] [-byte] | [-int] | [-short] | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance");
     }
 
     /**
@@ -55,6 +55,10 @@ public class CmdNumber extends Command {
      */
     protected enum CONVERSION {
 
+        /**
+         * binary byte first byte in string
+         */
+        BIN,
         /**
          * D'oh
          */
@@ -102,6 +106,8 @@ public class CmdNumber extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
+                case "-bin":
+                    conversion = CONVERSION.BIN;
                 case "-int":
                     conversion = CONVERSION.INT;
                     break;
@@ -137,6 +143,15 @@ public class CmdNumber extends Command {
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
             String theNumber = argArray.nextMaybeQuotationTuplePopString();
             switch (conversion) {
+                case BIN:
+                    byte[] ba = theNumber.getBytes();
+                    try {
+                        put((int) ba[0]);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case INT:
                     try {
                         put(Integer.parseInt(theNumber, radix));
