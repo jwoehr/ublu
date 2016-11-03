@@ -1195,8 +1195,7 @@ public class Generics {
         }
 
         public ThingArrayList(byte[] ba) {
-            this();
-            addAll(Arrays.asList(ba));
+            super(Arrays.asList(ba));
         }
 
         /**
