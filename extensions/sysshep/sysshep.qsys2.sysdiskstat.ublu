@@ -45,15 +45,18 @@ FUNC sysshep.qsys2.sysdiskstat ( qsys2db stats ) $[
        IF ~ THEN $[
            @dp2 -to NULL: -addkey X
        ]$ ELSE $[
+           \\ ${ here IBM uses the SQL CHAR type as a character value }$
            @dp2 -to NULL: -addkey @tmp
        ]$
        @dp2 -to NULL: -addkey MIRRORED_UNIT_STATUS
-       @myRs -to ~ -lget MIRRORED_UNIT_STATUS
-       \\ ${ Hack follows, some SYSDISKDATA have 0x01 in field }$
-       TRY $[
+       @myRs -to @tmp -lget MIRRORED_UNIT_STATUS
+       test -to ~ -null @tmp
+       IF ~ THEN $[
+           @dp2 -to NULL: -value 0 -type int
+       ]$ ELSE $[
+           \\ ${ here IBM uses the SQL CHAR type is as a binary value }$
+           num -to ~ -bin @tmp
            @dp2 -to NULL: -value ~ -type int
-       ]$ CATCH $[
-           @dp2 -to NULL: -value 0
        ]$
        string -to @@stats -cat @@stats @dp1
        string -to @@stats -nl @@stats
