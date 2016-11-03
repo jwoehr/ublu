@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1676,7 +1677,9 @@ Type help for help. Type license for license. Type bye to exit.
   A datasink is currently one of these types:<br>
 
   <ol>
-    <li>Standard output</li>
+    <li>Standard input and output</li>
+
+    <li>Error output</li>
 
     <li>File</li>
 
@@ -1689,9 +1692,13 @@ Type help for help. Type license for license. Type bye to exit.
   <p>A datasink's type is recognizable from its name.<br></p>
 
   <ul>
-    <li>Standard output is named <tt>STD:</tt> and is the default
-    destination datasink if none is explicitly provided via the
-    <tt>-to</tt> dash-command.<tt><br></tt></li>
+    <li><tt>STD:</tt> represents standard input and output and is
+    the default destination datasink if none is explicitly provided
+    via the <tt>-to</tt> dash-command.<tt><br></tt></li>
+
+    <li><code>ERR:</code> is the standard error output stream.</li>
+
+    <li><code>NULL:</code> discards output.</li>
 
     <li>A file can be any filename, relative or fully qualified
     pathname.
@@ -1707,16 +1714,15 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>@</tt> as in <tt>@ThisIsAVar</tt> .
 
       <ul>
-        <li>The tuple variable thus named is created if it was not
+        <li>The tuple variable thus named is created if it did not
         previously exist.</li>
       </ul>
     </li>
-
-    <li>Null output is named <tt>NULL:</tt></li>
   </ul>
 
   <p>In the absence of the <tt>-to</tt> dash-command, the default
-  datasink of a commands is <tt>STD:</tt> (standard out).<br></p>
+  destination datasink of a commands is <tt>STD:</tt> (standard
+  out).</p>
 
   <p>When a command results in an object other than a string and
   the command's destination datasink is File or Standard output the
@@ -9167,8 +9173,8 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="num" id="num"></a> <tt>num</tt></h4>
 
   <blockquote>
-    <tt>/1 [-to (@)datasink] [[-byte] | [-int] | [-short] |
-    [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}]
+    <tt>/1 [-to (@)datasink] [[-bin] | [-byte] | [-int] | [-short]
+    | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}]
     ~@{numstring} : convert string to number class
     instance</tt><br>
     <br>
@@ -9176,6 +9182,9 @@ Type help for help. Type license for license. Type bye to exit.
     a tuple variable to the specific Java class wrapper type in the
     specified radix. It is not an error to convert a number to
     itself.<br>
+
+    <p>The <code>-bin</code> conversion converts the first byte of
+    its argument to an unsigned int.</p>
 
     <ul>
       <li>Number type conversion is to <tt>Integer</tt> for the
@@ -9192,31 +9201,141 @@ Type help for help. Type license for license. Type bye to exit.
     <br>
     <i>Example</i> (<tt>examples/test/testnum.ublu</tt>)<br>
     <pre>
-<font color="#000000"><span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 1 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">testnum.ublu</font><font color="#CC0000"> </font><font color="#CC0000">...</font><font color="#CC0000"> </font><font color="#CC0000">test</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">num</font><font color="#CC0000"> </font><font color="#CC0000">command</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 2 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Example</font><font color="#CC0000"> </font><font color="#CC0000">from</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">https://github.com/jwoehr/ublu</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 3 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">Copyright</font><font color="#CC0000"> </font><font color="#CC0000">(C)</font><font color="#CC0000"> </font><font color="#CC0000">2016</font><font color="#CC0000"> </font><font color="#CC0000">Jack</font><font color="#CC0000"> </font><font color="#CC0000">J.</font><font color="#CC0000"> </font><font color="#CC0000">Woehr</font><font color="#CC0000"> </font><font color="#CC0000">http://www.softwoehr.com</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 4 </font></span><font color="#CC0000">#</font><font color="#CC0000"> </font><font color="#CC0000">See</font><font color="#CC0000"> </font><font color="#CC0000">the</font><font color="#CC0000"> </font><font color="#CC0000">Ublu</font><font color="#CC0000"> </font><font color="#CC0000">license</font><font color="#CC0000"> </font><font color="#CC0000">(BSD-2</font><font color="#CC0000"> </font><font color="#CC0000">open</font><font color="#CC0000"> </font><font color="#CC0000">source)</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066"> 5 </font></span>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 6 </font></span><font color="#009966"><strong>num</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@anInt</font> <font color="#0099FF"><strong>-int</strong></font> <font color="#FF0000">1234</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 7 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@anInt</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 8 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-typename</strong></font> <font color="#0000FF">@anInt</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000"> 9 </font></span><font color="#009966"><strong>num</strong></font> <font color="#0099FF"><strong>-to</strong></font> <font color="#0000FF">@aBigDec</font> <font color="#0099FF"><strong>-bigdec</strong></font> <font color="#FF0000">1234</font>.<font color="#FF0000">56</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#990066">10 </font></span><font color="#009966"><strong>put</strong></font> <font color="#0099FF"><strong>-from</strong></font> <font color="#0000FF">@aBigDec</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">11 </font></span><font color="#009966"><strong>tuple</strong></font> <font color="#0099FF"><strong>-typename</strong></font> <font color="#0000FF">@aBigDec</font>
-<span style=
-"background:#dbdbdb; border-right:solid 2px black; margin-right:5px;"><font color="#000000">12 </font></span>
-</font>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">testnum.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">num</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">command</span>
+<span class="gutter">   2 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="gutter">   3 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2016</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="gutter">   4 </span><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+<span class="gutterH">   5 </span>
+<span class="gutter">   6 </span><span class=
+"syntax-KEYWORD2">num</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@anInt</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-int</span> <span class=
+"syntax-DIGIT">1234</span>
+<span class="gutter">   7 </span><span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@anInt</span>
+<span class="gutter">   8 </span><span class=
+"syntax-KEYWORD2">tuple</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-typename</span> <span class=
+"syntax-MARKUP">@anInt</span>
+<span class="gutter">   9 </span><span class=
+"syntax-KEYWORD2">num</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@aBigDec</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-bigdec</span> <span class=
+"syntax-DIGIT">1234</span>.<span class="syntax-DIGIT">56</span>
+<span class="gutterH">  10 </span><span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@aBigDec</span>
+<span class="gutter">  11 </span><span class=
+"syntax-KEYWORD2">tuple</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-typename</span> <span class=
+"syntax-MARKUP">@aBigDec</span>
+<span class="gutter">  12 </span><span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">num</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">-bin</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">will</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">convert</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">"abcd"</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">the</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">unsigned</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">int</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">value</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">of</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">the</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">letter</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">'a'</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  13 </span><span class=
+"syntax-KEYWORD2">num</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-bin</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">abcd</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span> 
+<span class="gutter">  14 </span>
+</span>
 </pre>
   </blockquote>
 
