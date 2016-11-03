@@ -146,7 +146,7 @@ public class CmdNumber extends Command {
                 case BIN:
                     byte[] ba = theNumber.getBytes();
                     try {
-                        put((int) ba[0]);
+                        put(Byte.toUnsignedInt(ba[0]));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
