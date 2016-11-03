@@ -66,6 +66,10 @@ public class DataSink {
          */
         STD,
         /**
+         * STDERR
+         */
+        ERR,
+        /**
          * null device i.e., nowhere
          */
         NUL,
@@ -93,6 +97,8 @@ public class DataSink {
             sinkType = SINKTYPE.NUL;
         } else if (name.equals("STD:")) {
             sinkType = SINKTYPE.STD;
+        } else if (name.equals("ERR:")) {
+            sinkType = SINKTYPE.ERR;
         } else if (name.equals("~")) {
             sinkType = SINKTYPE.LIFO;
         } else {
