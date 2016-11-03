@@ -49,7 +49,7 @@ public class CmdList extends Command {
 
     {
         setNameAndDescription("list",
-                "/0 [-to datasink] [--,-list ~@list] [[-new,-instance] | [-source ~@enumeration|~@collection|~@string|-@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and manage lists of objects");
+                "/0 [-to datasink] [--,-list ~@list] [[-new,-instance] | [-source ~@enumeration|~@collection|~@string|~@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and manage lists of objects");
     }
 
     /**
@@ -324,10 +324,12 @@ public class CmdList extends Command {
                     .cast(o));
         } else if (o instanceof String) {
             tal = new ThingArrayList(new StringArrayList(String.class.cast(o)));
-        } else if (o instanceof Object []) {
+        } else if (o instanceof Object[]) {
             tal = new ThingArrayList((Object[]) o);
         } else if (o instanceof String[]) {
             tal = new ThingArrayList((String[]) o);
+        } else if (o instanceof byte[]) {
+            tal = new ThingArrayList((byte[]) o);
         } else {
             getLogger().log(Level.SEVERE, "Cannot create List from {0} in {1}", new Object[]{o, getNameAndDescription()});
             setCommandResult(COMMANDRESULT.FAILURE);

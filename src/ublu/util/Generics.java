@@ -1194,6 +1194,11 @@ public class Generics {
             addAll(Arrays.asList(oa));
         }
 
+        public ThingArrayList(byte[] ba) {
+            this();
+            addAll(Arrays.asList(ba));
+        }
+
         /**
          * ctor/1 Create with capacity
          *
