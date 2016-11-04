@@ -12,6 +12,7 @@ Commands
 	* minor fixes at Java level
 	* major fixes to rs and db
 * individual commands
+    * num -bin
 	* outq and printer rationalized
 		* outq -get -getint -getfloat -getstring
 		* outq removed superflous dash-commands
