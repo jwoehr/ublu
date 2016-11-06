@@ -1,0 +1,277 @@
+# sysshep.qsys2.system_status.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# System Shepherd is Copyright (C) 2016 Absolute Performance, Inc.
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# sysshep.qsys2.system_status
+# get datapoints for diskstat from db2 services
+# 3rd arg is a true tuple if you want to reset stats, use false tuple otherwise
+#
+# Usage example:
+#   db -to @myDb -dbtype as400 mysys QSYS2 myid mypasswd
+#   tuple -false @tf
+#   sysshep.qsys2.system_status ( @myDb @stats @tf )
+#   put @stats
+FUNC sysshep.qsys2.system_status ( qsys2db stats reset_tf ) $[
+   LOCAL @myRs
+   LOCAL @dp
+   LOCAL @valid  LOCAL @tmp
+   LOCAL @stem
+   put -to @stem OS400|QSYS2|SYSTEM_STATUS
+   string -to @stats -new
+   
+   IF @@reset_tf THEN $[
+       @@qsys2db -to @myRs -query ${ SELECT * FROM TABLE(QSYS2.SYSTEM_STATUS(RESET_STATISTICS=>'YES')) AS X }$
+   ]$ ELSE $[
+       @@qsys2db -to @myRs -query ${ SELECT * FROM TABLE(QSYS2.SYSTEM_STATUS()) AS X }$
+   ]$
+
+   @myRs -to @valid -abs 1   
+   IF @valid THEN $[
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ROWS
+       @dp -to NULL: -value 1 -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey TOTAL_JOBS_IN_SYSTEM
+       @myRs -to ~ -lget TOTAL_JOBS_IN_SYSTEM
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey MAXIMUM_JOBS_IN_SYSTEM
+       @myRs -to ~ -lget MAXIMUM_JOBS_IN_SYSTEM
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ACTIVE_JOBS_IN_SYSTEM
+       @myRs -to ~ -lget ACTIVE_JOBS_IN_SYSTEM
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey INTERACTIVE_JOBS_IN_SYSTEM
+       @myRs -to ~ -lget INTERACTIVE_JOBS_IN_SYSTEM
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ELAPSED_TIME
+       @myRs -to ~ -lget ELAPSED_TIME
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ELAPSED_CPU_USED
+       @myRs -to ~ -lget ELAPSED_CPU_USED
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ELAPSED_CPU_SHARED
+       @myRs -to ~ -lget ELAPSED_CPU_SHARED
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ELAPSED_CPU_UNCAPPED_CAPACITY
+       @myRs -to ~ -lget ELAPSED_CPU_UNCAPPED_CAPACITY
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey CONFIGURED_CPUS
+       @myRs -to ~ -lget CONFIGURED_CPUS
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey CPU_SHARING_ATTRIBUTE
+       @myRs -to ~ -lget CPU_SHARING_ATTRIBUTE
+       @dp -to NULL: -addkey ~
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey CURRENT_CPU_CAPACITY
+       @myRs -to ~ -lget CURRENT_CPU_CAPACITY
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey AVERAGE_CPU_RATE
+       @myRs -to ~ -lget AVERAGE_CPU_RATE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey AVERAGE_CPU_UTILIZATION
+       @myRs -to ~ -lget AVERAGE_CPU_UTILIZATION
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey MINIMUM_CPU_UTILIZATION
+       @myRs -to ~ -lget MINIMUM_CPU_UTILIZATION
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey MAXIMUM_CPU_UTILIZATION
+       @myRs -to ~ -lget MAXIMUM_CPU_UTILIZATION
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+\\ ${ Skip SQL_CPU_UTILIZATION DECIMAL(20,2) Always contains the null value. }$
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey MAIN_STORAGE_SIZE
+       @myRs -to ~ -lget MAIN_STORAGE_SIZE
+       @dp -to NULL: -value ~ -type long
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey SYSTEM_ASP_STORAGE
+       @myRs -to ~ -lget SYSTEM_ASP_STORAGE
+       @dp -to NULL: -value ~ -type long
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey TOTAL_AUXILIARY_STORAGE
+       @myRs -to ~ -lget TOTAL_AUXILIARY_STORAGE
+       @dp -to NULL: -value ~ -type long
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey SYSTEM_ASP_USED
+       @myRs -to ~ -lget SYSTEM_ASP_USED
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey CURRENT_TEMPORARY_STORAGE
+       @myRs -to ~ -lget CURRENT_TEMPORARY_STORAGE
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey MAXIMUM_TEMPORARY_STORAGE_USED
+       @myRs -to ~ -lget MAXIMUM_TEMPORARY_STORAGE_USED
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey PERMANENT_ADDRESS_RATE
+       @myRs -to ~ -lget PERMANENT_ADDRESS_RATE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey TEMPORARY_ADDRESS_RATE
+       @myRs -to ~ -lget TEMPORARY_ADDRESS_RATE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey TEMPORARY_256MB_SEGMENTS
+       @myRs -to ~ -lget TEMPORARY_256MB_SEGMENTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey TEMPORARY_4GB_SEGMENTS
+       @myRs -to ~ -lget TEMPORARY_4GB_SEGMENTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey PERMANENT_256MB_SEGMENTS
+       @myRs -to ~ -lget PERMANENT_256MB_SEGMENTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey PERMANENT_4GB_SEGMENTS
+       @myRs -to ~ -lget PERMANENT_4GB_SEGMENTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey HOST_NAME
+       @myRs -to ~ -lget HOST_NAME
+       @dp -to NULL: -addkey ~
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey PARTITION_ID
+       @myRs -to ~ -lget PARTITION_ID
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey NUMBER_OF_PARTITIONS
+       @myRs -to ~ -lget NUMBER_OF_PARTITIONS
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ACTIVE_THREADS_IN_SYSTEM
+       @myRs -to ~ -lget ACTIVE_THREADS_IN_SYSTEM
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey RESTRICTED_STATE
+       @myRs -to ~ -lget RESTRICTED_STATE
+       @dp -to NULL: -addkey ~
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+   ]$ ELSE $[
+       
+       dpoint -to @dp -dkey @stem
+       @dp -to NULL: -addkey ROWS
+       @dp -to NULL: -value 0 -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+   ]$
+]$
+
+# end
