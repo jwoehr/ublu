@@ -665,6 +665,12 @@ public class Interpreter {
         return t.getValue();
     }
 
+    /* Tuples we start with already instanced */
+    private void defaultTuples() {
+        setTuple("@true", true);
+        setTuple("@false", false);
+    }
+
     /**
      * Get the map of commands
      *
@@ -849,6 +855,7 @@ public class Interpreter {
         setErroutStream(System.err);
         setOutputStream(System.out);
         setTupleMap(new TupleMap());
+        defaultTuples();
         setCmdMap(new CommandMap());
         setFunctorMap(new FunctorMap());
         setParsingString(false);
