@@ -5,11 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 2 Nov 2016 20:15:19 UTC">
+  "Mon, 7 Nov 2016 17:36:56 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-02</p>
+  Last edit: 2016-11-07</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -149,6 +148,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <a href="#Tuple_Variables">Tuple variables</a>
 
       <ul>
+        <li><a href="#Default_Tuples">Default Tuples</a></li>
+
         <li><a href="#Tuple_naming">Tuple naming</a></li>
 
         <li><a href="#Tuple_autoinstancing">Tuple
@@ -1043,6 +1044,42 @@ Type help for help. Type license for license. Type bye to exit.
   Tuples can be directly manipulated via the <a href=
   "#put"><tt>put</tt></a> and <a href="#tuple"><tt>tuple</tt></a>
   commands.<br>
+
+  <h4><a name="Default_Tuples">Default Tuples</a></h4>
+
+  <p>The Ublu interpreter starts with certain tuples already
+  defined, as shown in the chart below:</p>
+
+  <blockquote>
+    <table>
+      <tr>
+        <td><em>name</em></td>
+
+        <td><em>value</em></td>
+
+        <td><em>notes</em></td>
+      </tr>
+
+      <tr>
+        <td><code>@true</code></td>
+
+        <td><code>true</code></td>
+
+        <td>can be used for conditionals, etc.</td>
+      </tr>
+
+      <tr>
+        <td><code>@false</code></td>
+
+        <td><code>false</code></td>
+
+        <td>can be used for conditionals, etc.</td>
+      </tr>
+    </table>
+  </blockquote>
+
+  <p>These defaults are not constant and can be overwritten at
+  runtime via normal tuple manipulation.</p>
 
   <h4><a name="Tuple_naming" id="Tuple_naming"></a>Tuple
   naming</h4>A tuple name can consist of any string of printable
