@@ -11,8 +11,7 @@
 #
 # Usage example:
 #   db -to @myDb -dbtype as400 mysys QSYS2 myid mypasswd
-#   tuple -false @tf
-#   sysshep.qsys2.system_status ( @myDb @stats @tf )
+#   sysshep.qsys2.system_status ( @myDb @stats @false )
 #   put @stats
 FUNC sysshep.qsys2.system_status ( qsys2db stats reset_tf ) $[
    LOCAL @myRs
