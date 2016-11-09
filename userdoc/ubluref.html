@@ -5,10 +5,11 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 7 Nov 2016 17:36:56 UTC">
+  "Wed, 9 Nov 2016 21:09:31 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-07</p>
+  Last edit: 2016-11-09</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2848,17 +2849,17 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type}
-    [-charsetname ~@{charsetname}] [-catalog | -columntypes
-    ~@{tablename} | -connect | -csv ~@{tablename} [-separator
-    ~@{separator} ] | -json ~@{tablename} | -disconnect | -metadata
-    | -primarykeys ~@{tablename} | -query ~@{SQL string} |
-    -query_nors ~@{SQL string} | -replicate ~@{tableName}
-    ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser}
-    ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space
-    separated primary keys }] [-port ~@{portnum] [-property ~@{key}
-    ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system}
-    ~@{database} ~@{userid} ~@{password} : perform various
-    operations on databases</tt><br>
+    [-charsetname ~@{charsetname}] [-catalog | -columnnames
+    ~@{tablename} | -columntypes ~@{tablename} | -connect | -csv
+    ~@{tablename} [-separator ~@{separator} ] | -json ~@{tablename}
+    | -disconnect | -metadata | -primarykeys ~@{tablename} | -query
+    ~@{SQL string} | -query_nors ~@{SQL string} | -replicate
+    ~@{tableName} ~@{destDbName} ~@{destDbType}
+    ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star
+    ~@{tablename}] [-pklist ~@{ space separated primary keys }]
+    [-port ~@{portnum] [-property ~@{key} ~@{value} [-property
+    ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid}
+    ~@{password} : perform various operations on databases</tt><br>
     <br>
     The <tt>db</tt> command performs a database operation on
     <i>system</i>'s <i>database</i> for <i>userid</i> with
@@ -2918,9 +2919,12 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-catalog</tt> fetches a catalog of
       <i>database</i></li>
 
-      <li><tt>-columntypes</tt> creates a string list of the
-      database-specific types of the columns of
-      <i>tablename</i></li>
+      <li><tt>-columnnames ~@{tablename}</tt> creates a string list
+      of the names of the columns of <i>tablename</i>.</li>
+
+      <li><tt>-columntypes ~@{tablename}</tt> creates a string list
+      of the database-specific types of the columns of
+      <i>tablename</i>.</li>
 
       <li><tt>-connect</tt> connects to the database and puts the
       database for use with the <tt>--,-dbconnected</tt>

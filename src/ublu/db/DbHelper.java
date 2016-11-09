@@ -288,6 +288,20 @@ public class DbHelper {
     }
 
     /**
+     * Create a list of column names
+     *
+     * @return The list or null if no list could be built
+     * @throws SQLException
+     */
+    public ColumnNameList generateColumnNameList() throws SQLException {
+        ColumnNameList cnl = new ColumnNameList();
+        for (int i = 1; i <= getResultSetMetaData().getColumnCount(); i++) {
+            cnl.add(getResultSetMetaData().getColumnName(i));
+        }
+        return cnl;
+    }
+
+    /**
      * Fetch the list of column type names from the database meta data and
      * instance the member returned by {@link #getColumnTypeNameList()}.
      *

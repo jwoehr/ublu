@@ -8,6 +8,12 @@ System
 * default tuples
 	@true
 	@false
+	
+Commands
+* general
+	* more cleanup
+* individual commands
+	* db -columnnames
 
 Extensions
 * general

@@ -65,7 +65,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
+                "/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
@@ -125,6 +125,10 @@ public class CmdDb extends Command {
          * Deliver a catalog
          */
         CATALOG,
+        /**
+         * Deliver a string of column names
+         */
+        COLUMNNAMES,
         /**
          * Deliver a string of column types
          */
@@ -319,6 +323,10 @@ public class CmdDb extends Command {
                 case "-charsetname":
                     charsetName = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-columnnames":
+                    setFunction(FUNCTIONS.COLUMNNAMES);
+                    starTableName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-columntypes":
                     setFunction(FUNCTIONS.COLUMNTYPES);
                     starTableName = argArray.nextMaybeQuotationTuplePopString();
@@ -419,13 +427,19 @@ public class CmdDb extends Command {
                     ResultSet rs;
                     ResultSetClosure rsc;
                     DatabaseMetaData dbMetaData;
+                    DbHelper dbHelper;
                     switch (getFunction()) {
                         case CATALOG:
                             String catalog = getDb().getCatalog();
                             put(catalog, charsetName);
                             break;
+                        case COLUMNNAMES:
+                            dbHelper = DbHelper.newDbHelperStarFrom(db, starTableName);
+                            Generics.ColumnNameList columnNameList = dbHelper.generateColumnNameList();
+                            put(columnNameList);
+                            break;
                         case COLUMNTYPES:
-                            DbHelper dbHelper = DbHelper.newDbHelperStarFrom(db, starTableName);
+                            dbHelper = DbHelper.newDbHelperStarFrom(db, starTableName);
                             Generics.ColumnTypeNameList columnTypeNameList = dbHelper.fetchColumnTypeNameList(null, null, starTableName, null).getColumnTypeNameList();
                             put(columnTypeNameList);
                             break;

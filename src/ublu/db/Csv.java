@@ -124,11 +124,7 @@ public class Csv extends DbHelper {
     public String tableCSV() throws SQLException, UnsupportedEncodingException, IOException {
         StringBuilder sb = new StringBuilder();
         String temp;
-        ColumnNameList cnl = new ColumnNameList();
-        for (int i = 1; i <= getResultSetMetaData().getColumnCount(); i++) {
-            cnl.add(getResultSetMetaData().getColumnName(i));
-        }
-        setColumnNameList(cnl);
+        setColumnNameList(generateColumnNameList());
         if (getColumnNameList() != null) {
             for (String columnName : getColumnNameList()) {
                 sb.append(columnName).append(getColumnSeparator());

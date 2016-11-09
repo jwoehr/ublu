@@ -108,13 +108,9 @@ public class Json extends DbHelper {
         jSONObject.put("catalog_name", getDb().getConnection().getCatalog());
         jSONObject.put("collection_name", getDb().getSqlCollectionName());
         jSONObject.put("table_name", getTableName());
-        ColumnNameList cnl = new ColumnNameList();
-        for (int i = 1; i <= getResultSetMetaData().getColumnCount(); i++) {
-            cnl.add(getResultSetMetaData().getColumnName(i));
-        }
-        setColumnNameList(cnl);
+        setColumnNameList(generateColumnNameList());
         if (getColumnNameList() != null) {
-            jSONObject.put("column_names", new JSONArray(cnl));
+            jSONObject.put("column_names", new JSONArray(getColumnNameList()));
         }
         JSONArray jsonTempArray = new JSONArray();
         for (int i = 1; i <= getResultSetMetaData().getColumnCount(); i++) {
