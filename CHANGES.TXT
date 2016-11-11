@@ -21,6 +21,9 @@ Extensions
 	* some cleanup
 * new
 	* sysshep.qsys2.system_status.ublu
+* updated
+	* sysshep.qsys2.sysdiskstat.ublu
+		* changed format
 
 1.1.4 2016-11-04
 -----
