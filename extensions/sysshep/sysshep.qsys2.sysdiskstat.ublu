@@ -14,54 +14,86 @@
 #   put @stats
 FUNC sysshep.qsys2.sysdiskstat ( qsys2db stats ) $[
    LOCAL @myRs
-   LOCAL @dp1 LOCAL @dp2
+   LOCAL @dpCap LOCAL @dpCapU  LOCAL @dpCapM  LOCAL @dpCapP
+   LOCAL @dpMir LOCAL @dpMirS
    LOCAL @valid  LOCAL @tmp
    string -to @stats -new
    @@qsys2db -to @myRs -query ${ SELECT * FROM SYSDISKSTAT }$   
    @myRs -to @valid -abs 1   
    WHILE @valid $[
-       dpoint -to @dp1 -dkey OS400|QSYS2|SYSDISKSTAT
+       
+       \\ ${ Generate path used by all }$
+       dpoint -to @dpCap -dkey OS400|QSYS2|SYSDISKSTAT
        @myRs -to ~ -lget ASP_NUMBER
-       @dp1 -to NULL: -addkey ~
+       @dpCap -to NULL: -addkey ~
        @myRs -to ~ -lget DISK_TYPE
-       @dp1 -to NULL: -addkey ~
+       @dpCap -to NULL: -addkey ~
        @myRs -to ~ -lget DISK_MODEL
-       @dp1 -to NULL: -addkey ~  
+       @dpCap -to NULL: -addkey ~  
        @myRs -to ~ -lget UNIT_NUMBER
-       @dp1 -to NULL: -addkey ~
+       @dpCap -to NULL: -addkey ~
        @myRs -to ~ -lget UNIT_TYPE
-       @dp1 -to NULL: -addkey ~
-       @dp1 -to @dp2 -dup
+       @dpCap -to NULL: -addkey ~
+       
+       \\ ${ Copy }$  
+       @dpCap -to @dpCapU -dup
+       @dpCap -to @dpCapM -dup
+       @dpCap -to @dpCapP -dup
+       @dpCap -to @dpMir  -dup
+       @dpCap -to @dpMirS -dup
+       
+       \\ ${ Storage datapoints }$  
+       @dpCap -to NULL: -addkey UNIT_STORAGE_CAPACITY      
        @myRs -to ~ -lget UNIT_STORAGE_CAPACITY
-       @dp1 -to NULL: -addkey ~
+       @dpCap -to NULL: -value ~ -type long
+       
+       @dpCapU -to NULL: -addkey UNIT_SPACE_AVAILABLE
        @myRs -to ~ -lget UNIT_SPACE_AVAILABLE
-       @dp1 -to NULL: -addkey ~
+       @dpCapU -to NULL: -value ~ -type long
+       
+       @dpCapM -to NULL: -addkey UNIT_MEDIA_CAPACITY
        @myRs -to ~ -lget UNIT_MEDIA_CAPACITY
-       @dp1 -to NULL: -addkey ~       
-       @dp1 -to NULL: -addkey PERCENT_USED
+       @dpCapM -to NULL: -value ~ -type long
+       
+       @dpCapP -to NULL: -addkey PERCENT_USED
        @myRs -to ~ -lget PERCENT_USED
-       @dp1 -to NULL: -value ~ -type float
+       @dpCapP -to NULL: -value ~ -type float
+       
+       \\ ${ LOGICAL_MIRRORED_PAIR_STATUS }$  
+       @dpMir -to NULL: -addkey LOGICAL_MIRRORED_PAIR_STATUS
        @myRs -to @tmp -lget LOGICAL_MIRRORED_PAIR_STATUS
        test -to ~ -null @tmp
        IF ~ THEN $[
-           @dp2 -to NULL: -addkey X
+           @dpMir -to NULL: -value -1 -type int
        ]$ ELSE $[
            \\ ${ here IBM uses the SQL CHAR type as a character value }$
-           @dp2 -to NULL: -addkey @tmp
+           @dpMir -to NULL: -value @tmp -type int
        ]$
-       @dp2 -to NULL: -addkey MIRRORED_UNIT_STATUS
+         
+       \\ ${ MIRRORED_UNIT_STATUS }$  
+       @dpMirS -to NULL: -addkey MIRRORED_UNIT_STATUS
        @myRs -to @tmp -lget MIRRORED_UNIT_STATUS
        test -to ~ -null @tmp
        IF ~ THEN $[
-           @dp2 -to NULL: -value 0 -type int
+           @dpMirS -to NULL: -value 0 -type int
        ]$ ELSE $[
            \\ ${ here IBM uses the SQL CHAR type is as a binary value }$
            num -to ~ -bin @tmp
-           @dp2 -to NULL: -value ~ -type int
+           @dpMirS -to NULL: -value ~ -type int
        ]$
-       string -to @@stats -cat @@stats @dp1
+         
+       \\ ${ Concat datapoints as listing }$  
+       string -to @@stats -cat @@stats @dpCap
        string -to @@stats -nl @@stats
-       string -to @@stats -cat @@stats @dp2
+       string -to @@stats -cat @@stats @dpCapU
+       string -to @@stats -nl @@stats
+       string -to @@stats -cat @@stats @dpCapM
+       string -to @@stats -nl @@stats
+       string -to @@stats -cat @@stats @dpCapP
+       string -to @@stats -nl @@stats
+       string -to @@stats -cat @@stats @dpMir
+       string -to @@stats -nl @@stats
+       string -to @@stats -cat @@stats @dpMirS
        string -to @@stats -nl @@stats
        @myRs -to @valid -next
    ]$
