@@ -9,7 +9,7 @@
 # get datapoints for diskstat from db2 services
 #
 # Usage example:
-#   db -to @myDb -dbtype as400 mysys QSYS2 myid mypasswd
+#   db -to @myDb -dbtype as400 -connect mysys QSYS2 myid mypasswd
 #   sysshep.qsys2.sysdiskstat ( @myDb @stats )
 #   put @stats
 FUNC sysshep.qsys2.sysdiskstat ( qsys2db stats ) $[
