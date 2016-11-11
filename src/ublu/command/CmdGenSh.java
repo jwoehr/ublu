@@ -47,7 +47,7 @@ public class CmdGenSh extends Command {
 
     {
         setNameAndDescription("gensh",
-                "/5+ [-to datasink] [[-path fullyqualifiedjarpath] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate launcher shell script");
+                "/5+ [-to datasink] [-strictPosix] [[-path fullyqualifiedjarpath] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate launcher shell script");
     }
 
     /**
@@ -59,6 +59,7 @@ public class CmdGenSh extends Command {
     public ArgArray cmdGenSh(ArgArray argArray) {
         GenSh genSh = new GenSh();
         Option o;
+        boolean strictPosix=false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             genSh.accumulateCommand(dashCommand);
@@ -82,6 +83,9 @@ public class CmdGenSh extends Command {
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
                     break;
+                case "-strictPosix":
+                    strictPosix=true;
+                    break;
                 case "-path":
                     genSh.setFqJarPath(argArray.next());
                     genSh.accumulateCommand(genSh.getFqJarPath());
@@ -96,6 +100,7 @@ public class CmdGenSh extends Command {
             logArgArrayTooShortError(argArray);
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
+            genSh.setStrictPosix(strictPosix);
             String scriptname = argArray.nextMaybeQuotationTuplePopString();
             String includename = argArray.nextMaybeQuotationTuplePopString();
             String functionInvocation = argArray.nextMaybeQuotationTuplePopString();

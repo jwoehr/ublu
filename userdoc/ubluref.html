@@ -5,11 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 9 Nov 2016 21:09:31 UTC">
+  "Fri, 11 Nov 2016 18:40:28 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-09</p>
+  Last edit: 2016-11-11</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -5230,12 +5229,13 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="gensh" id="gensh"></a><tt>gensh</tt></h4>
 
   <blockquote>
-    <tt>/5+ [-to datasink] [[-path fullyqualifiedjarpath] [-opt
-    optchar assignment_name tuplename ${ description }$] [-optr
-    optchar assignment_name tuplename ${ description }$] [-optx
-    optchar assignment_name tuplename ${ description }$]]
-    ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ...
-    ) }$ : generate launcher shell script</tt><br>
+    <tt>/5+ [-to datasink] [-strictPosix] [[-path
+    fullyqualifiedjarpath] [-opt optchar assignment_name tuplename
+    ${ description }$ ..] [-optr optchar assignment_name tuplename
+    ${ description }$] [-optx optchar multiple_assignment_name
+    tuplename ${ description }$ ..]] ~@${scriptname}
+    ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate
+    launcher shell script</tt><br>
     <br>
     The <tt>gensh</tt> command generates a shell script to launch
     Ublu and call your top-level application program function with
@@ -5263,30 +5263,35 @@ Type help for help. Type license for license. Type bye to exit.
     The dash-commands are as follows:<br>
 
     <ul>
+      <li><code>-strictPosix</code> means the script will follow
+      Posix standards for function declarations.</li>
+
       <li><tt>-opt optchar assignment_name tuplename ${ description
-      }$</tt> creates a Berkeley getopt(1) option that will assign
-      <i>optchar</i>'s argument to shell variable
-      <tt>assignment_name</tt> and from there to <tt>tuplename</tt>
-      with a description in the script help message furnished by
-      the <a href="#Quoted_strings">quoted string</a> <tt>${
-      description }$</tt>.</li>
+      }$</tt> creates in the generated script a
+      <code>getopts</code> option that will assign <i>optchar</i>'s
+      argument to shell variable <tt>assignment_name</tt> and from
+      there to <tt>tuplename</tt> with a description in the script
+      help message furnished by the <a href=
+      "#Quoted_strings">quoted string</a> <tt>${ description
+      }$</tt>.</li>
 
       <li><tt>-optr optchar assignment_name tuplename ${
-      description }$</tt> creates a Berkeley getopt(1) option&nbsp;
-      that will assign <i>optchar</i>'s argument to shell variable
-      <tt>assignment_name</tt> and from there to <tt>tuplename</tt>
-      with a description in the script help message furnished by
-      the <a href="#Quoted_strings">quoted string</a> <tt>${
-      description }$</tt> and which will be <b>required</b> at
-      runtime, causing the generated shell script to exit with a
-      <tt>errno</tt> of <tt>2</tt> if the option is not
-      present.</li>
+      description }$</tt> creates in the generated script a
+      <code>getopts</code> option that will assign <i>optchar</i>'s
+      argument to shell variable <tt>assignment_name</tt> and from
+      there to <tt>tuplename</tt> with a description in the script
+      help message furnished by the <a href=
+      "#Quoted_strings">quoted string</a> <tt>${ description
+      }$</tt> and which will be <b>required</b> at runtime, causing
+      the generated shell script to exit with a <tt>errno</tt> of
+      <tt>2</tt> if the option is not present.</li>
 
       <li>
         <tt>-optx optchar assignment_name tuplename ${ description
-        }$</tt> creates a Berkeley getopt(1) option that will
-        assign multiple <i>optchar</i>s' arguments cumulatively to
-        shell variable <tt>assignment_name</tt> and from there to
+        }$</tt> createsin the generated script a
+        <code>getopts</code> option that will assign multiple
+        <i>optchar</i>s' arguments cumulatively to shell variable
+        <tt>assignment_name</tt> and from there to
         <tt>tuplename</tt> as a quoted string with a description in
         the script help message furnished by the <a href=
         "#Quoted_strings">quoted string</a> <tt>${ description
