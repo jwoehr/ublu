@@ -13,8 +13,11 @@ Commands
 * general
 	* more cleanup
 * individual commands
-	* db -columnnames
+	* db
+		* -columnnames
+		* bug: -bytes
 	* gensh -strictPosix
+        * rs -fileblob
 
 Extensions
 * general
