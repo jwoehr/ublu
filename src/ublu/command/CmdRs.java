@@ -480,22 +480,15 @@ public class CmdRs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
-                            Blob b = null;
-                            Object o = (myRs.getResultSet().getObject(index));
-                            if (o.getClass().isAssignableFrom(Blob.class)) {
-                                b = Blob.class.cast(o);
-                            } else {
-                                getLogger().log(Level.SEVERE, "Datum is not a Blob in {0}", getNameAndDescription());
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
+                            Blob b = (myRs.getResultSet().getBlob(index));
                             if (b != null) {
-                                BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream());
-                                FileOutputStream fout = new FileOutputStream(blobFileName);
-                                while (bis.available() > 0) {
-                                    fout.write(bis.read());
+                                try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream())) {
+                                    FileOutputStream fout = new FileOutputStream(blobFileName);
+                                    while (bis.available() > 0) {
+                                        fout.write(bis.read());
+                                    }
+                                    fout.close();
                                 }
-                                fout.close();
-                                bis.close();
                             }
                         } catch (SQLException | IOException ex) {
                             getLogger().log(Level.SEVERE, "Could not get or write Blob to file from index " + index + " in " + getNameAndDescription(), ex);
