@@ -37,8 +37,11 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -53,7 +56,7 @@ import ublu.db.Db;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
     }
 
     /**
@@ -166,6 +169,10 @@ public class CmdRs extends Command {
          */
         LGET,
         /**
+         * write blob in field by index to file
+         */
+        FILEBLOB,
+        /**
          * Dump the result set as JSON
          */
         JSON,
@@ -220,6 +227,7 @@ public class CmdRs extends Command {
         Integer index = null;
         String fieldLabel = null;
         Integer cursorinc = null;
+        String blobFileName = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -248,7 +256,7 @@ public class CmdRs extends Command {
                     setFunction(FUNCTIONS.AUTOCOMMIT);
                     autoCommitValue = argArray.nextInt() == 0;
                     break;
-                case "bytes":
+                case "-bytes":
                     setFunction(FUNCTIONS.BYTES);
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
@@ -279,6 +287,11 @@ public class CmdRs extends Command {
                 case "-lget":
                     setFunction(FUNCTIONS.LGET);
                     fieldLabel = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-fileblob":
+                    setFunction(FUNCTIONS.FILEBLOB);
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    blobFileName = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-insert":
                     setFunction(FUNCTIONS.INSERT);
@@ -456,6 +469,36 @@ public class CmdRs extends Command {
                             put(myRs.getResultSet().getObject(fieldLabel));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + fieldLabel + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+
+                case FILEBLOB:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            Blob b = null;
+                            Object o = (myRs.getResultSet().getObject(index));
+                            if (o.getClass().isAssignableFrom(Blob.class)) {
+                                b = Blob.class.cast(o);
+                            } else {
+                                getLogger().log(Level.SEVERE, "Datum is not a Blob in {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                            if (b != null) {
+                                BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream());
+                                FileOutputStream fout = new FileOutputStream(blobFileName);
+                                while (bis.available() > 0) {
+                                    fout.write(bis.read());
+                                }
+                                fout.close();
+                                bis.close();
+                            }
+                        } catch (SQLException | IOException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get or write Blob to file from index " + index + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
