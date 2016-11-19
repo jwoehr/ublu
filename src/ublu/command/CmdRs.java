@@ -47,6 +47,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import org.json.JSONException;
 import ublu.db.Db;
+import ublu.util.Generics.ByteArrayList;
 
 /**
  * Performs result set to result set operations
@@ -56,7 +57,7 @@ import ublu.db.Db;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
     }
 
     /**
@@ -173,6 +174,10 @@ public class CmdRs extends Command {
          */
         FILEBLOB,
         /**
+         * fetch blob in field by index or fieldname
+         */
+        GETBLOB,
+        /**
          * Dump the result set as JSON
          */
         JSON,
@@ -286,6 +291,14 @@ public class CmdRs extends Command {
                     break;
                 case "-lget":
                     setFunction(FUNCTIONS.LGET);
+                    fieldLabel = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-getblob":
+                    setFunction(FUNCTIONS.GETBLOB);
+                    index = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-lgetblob":
+                    setFunction(FUNCTIONS.GETBLOB);
                     fieldLabel = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-fileblob":
@@ -469,6 +482,44 @@ public class CmdRs extends Command {
                             put(myRs.getResultSet().getObject(fieldLabel));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + fieldLabel + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+
+                case GETBLOB:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        Blob b;
+                        try {
+                            if (index != null) {
+                                b = (myRs.getResultSet().getBlob(index));
+                            } else {
+                                b = (myRs.getResultSet().getBlob(fieldLabel));
+                            }
+                            if (b != null) {
+                                switch (getDataDest().getType()) {
+                                    case TUPLE:
+                                        Tuple t = getTuple(getDataDest().getName());
+                                        if (t != null) {
+                                            put(arrayBlob(b));
+                                        }
+                                        break;
+                                    case FILE:
+                                        fileBlob(b, blobFileName);
+                                        if (getCommandResult() == COMMANDRESULT.FAILURE) {
+                                            getLogger().log(Level.SEVERE, "Could not get or write Blob from index {0} in {1}", new Object[]{index, getNameAndDescription()});
+                                            setCommandResult(COMMANDRESULT.FAILURE);
+                                        }
+                                    default:
+                                        getLogger().log(Level.SEVERE, "Unsupported data destination for Blob in {0}", getNameAndDescription());
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                        } catch (SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IOException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get or write Blob from index " + index + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -676,6 +727,35 @@ public class CmdRs extends Command {
         } else {
             getLogger().log(Level.WARNING, "DataSink {0} is not a Tuple", ds.getName());
         }
+    }
+
+    private ByteArrayList arrayBlob(Blob b) {
+        ByteArrayList bal = new ByteArrayList();
+        try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream());) {
+            while (bis.available() > 0) {
+                bal.add((byte) (bis.read()));
+            }
+        } catch (SQLException | IOException ex) {
+            getLogger().log(Level.SEVERE, "Error reading blob in " + getNameAndDescription(), ex);
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        return bal;
+    }
+
+    private long fileBlob(Blob b, String blobFileName) {
+        long l = 0;
+        try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream());
+                FileOutputStream fout = new FileOutputStream(blobFileName)) {
+
+            while (bis.available() > 0) {
+                fout.write(bis.read());
+                l++;
+            }
+        } catch (SQLException | IOException ex) {
+            getLogger().log(Level.SEVERE, "Could not get or write Blob to file in " + getNameAndDescription(), ex);
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        return l;
     }
 
     @Override
