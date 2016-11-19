@@ -489,7 +489,7 @@ public class CmdRs extends Command {
 
                 case GETBLOB:
                     if (myRs == null) {
-                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Result set not found for getting blob in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         Blob b;
@@ -517,9 +517,12 @@ public class CmdRs extends Command {
                                         getLogger().log(Level.SEVERE, "Unsupported data destination for Blob in {0}", getNameAndDescription());
                                         setCommandResult(COMMANDRESULT.FAILURE);
                                 }
+                            } else {
+                                getLogger().log(Level.SEVERE, "Null Blob in {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } catch (SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or write Blob from index " + index + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or write Blob in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -527,7 +530,7 @@ public class CmdRs extends Command {
 
                 case FILEBLOB:
                     if (myRs == null) {
-                        getLogger().log(Level.SEVERE, "Tuple not found for -bytes in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Result set not found for -fileblob in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
