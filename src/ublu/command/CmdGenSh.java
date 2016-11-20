@@ -105,11 +105,11 @@ public class CmdGenSh extends Command {
             String includename = argArray.nextMaybeQuotationTuplePopString();
             String functionInvocation = argArray.nextMaybeQuotationTuplePopString();
             genSh.setScriptName(scriptname);
-            genSh.accumulateCommand("${ " + scriptname + "}$");
+            genSh.accumulateCommandQuoted(scriptname);
             genSh.setIncludeName(includename);
             genSh.accumulateCommand(includename);
             genSh.setFunctionInvocation(functionInvocation);
-            genSh.accumulateCommand("${ " + functionInvocation + "}$");
+            genSh.accumulateCommandQuoted(functionInvocation);
             try {
                 put(genSh.genSh());
             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {

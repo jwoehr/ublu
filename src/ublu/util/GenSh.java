@@ -79,7 +79,7 @@ public class GenSh {
         accumulateCommand(o.getOptionChar());
         accumulateCommand(o.getAssignedName());
         accumulateCommand(o.getTupleName());
-        accumulateCommand("${ " + o.getDescription() + "}$");
+        accumulateCommandQuoted(o.getDescription());
     }
 
     /**
@@ -91,6 +91,20 @@ public class GenSh {
     public void accumulateCommand(String s) {
         accumulatedCommand.append(" ");
         accumulatedCommand.append(s);
+    }
+
+    /**
+     * Accumulate a string which will be placed in the gensh output header but
+     * make sure it ends in a blank space for quoted string purposes. Plainword
+     * arguments to gensh need this because they'll otherwise appear incorrectly
+     * quoted in the header which serves as documention of the (complicated)
+     * command lines put to gensh.
+     *
+     * @param s string to accumulate
+     */
+    public void accumulateCommandQuoted(String s) {
+        s = "${ " + (s.endsWith(" ") ? s : s + " ") + "}$";
+        accumulateCommand(s);
     }
 
     /**
