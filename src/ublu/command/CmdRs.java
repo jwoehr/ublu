@@ -505,6 +505,7 @@ public class CmdRs extends Command {
                                         put(arrayBlob(b));
                                         break;
                                     case FILE:
+                                        blobFileName = getDataDest().getName();
                                         fileBlob(b, blobFileName);
                                         if (getCommandResult() == COMMANDRESULT.FAILURE) {
                                             getLogger().log(Level.SEVERE, "Could not get or write Blob from "
@@ -731,7 +732,7 @@ public class CmdRs extends Command {
         }
     }
 
-    private ByteArrayList arrayBlob(Blob b) {
+    private byte[] arrayBlob(Blob b) {
         ByteArrayList bal = new ByteArrayList();
         try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream());) {
             while (bis.available() > 0) {
@@ -741,7 +742,7 @@ public class CmdRs extends Command {
             getLogger().log(Level.SEVERE, "Error reading blob in " + getNameAndDescription(), ex);
             setCommandResult(COMMANDRESULT.FAILURE);
         }
-        return bal;
+        return bal.byteArray();
     }
 
     private long fileBlob(Blob b, String blobFileName) {
