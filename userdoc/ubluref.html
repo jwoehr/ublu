@@ -6,10 +6,11 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 16 Nov 2016 05:32:17 UTC">
+  "Sun, 20 Nov 2016 02:49:40 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +62,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-15</p>
+  Last edit: 2016-11-20</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -10503,10 +10504,11 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes
     ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet]
     | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}]
-    | [-get ~@{index}] | [-lget ~@{label}] |-insert | [-json ~@db
-    ~@{tablename}] | [-next] | [-split split_specification] |
-    [-toascii numindices index index ..] | [-metadata]] : operate
-    on result sets</tt></p>
+    | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] |
+    [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] |
+    [-next] | [-split split_specification] | [-toascii numindices
+    index index ..] | [-metadata]] : operate on result
+    sets</tt></p>
 
     <p>The <tt>rs</tt> command operates on result sets.</p>
 
@@ -10626,7 +10628,17 @@ Type help for help. Type license for license. Type bye to exit.
         </ul>
       </li>
 
-      <li><code>-fileblob ~@{index} ~@{blobfilepath}</code> writes
+      <li><code>-getblob ~@{index}</code> puts the Blob at column
+      index <em>index</em> to the destination datasink. Only file
+      and tuple datasinks are supported.</li>
+
+      <li><code>-lgetblob ~@{label}</code> puts the Blob at column
+      name <em>label</em> to the destination datasink. Only file
+      and tuple datasinks are supported.</li>
+
+      <li><code><strike>-fileblob ~@{index}
+      ~@{blobfilepath}</strike></code> <em>(deprecated, use
+      <code>-getblob</code> or <code>-lgetblob</code>)</em> writes
       the Blob from the <em>index</em> column of the current row to
       the file whose fully qualified path is
       <em>blobfilepath</em>.</li>
