@@ -3,11 +3,9 @@
 <html>
 <head>
   <meta name="generator" content=
-  "tidyp for OpenBSD (v1.04), see www.w3.org">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
-  <meta name="generator" content="Bluefish 2.2.8">
+  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -17,7 +15,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 14 Oct 2016 12:54:21 UTC">
+  "Sun, 20 Nov 2016 06:41:07 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -174,7 +172,14 @@
 
         <li><a href="#extensions">The extensions directory</a></li>
 
-        <li><a href="#mozTocId163217">Object-disoriented</a></li>
+        <li>
+          <a href="#mozTocId163217">Object-disoriented</a>
+
+          <ul>
+            <li><a href="#Autonomes">Autonomes offer easier
+            syntax</a></li>
+          </ul>
+        </li>
 
         <li><a href="#TupleStack">The Tuple Stack</a></li>
 
@@ -2618,11 +2623,34 @@ block, so a local variable cannot be passed to the thread.<br>
   creates an <i>object instance</i> stored in <tt>@sys</tt>. That
   object has a method <i>alivesvc(CENTRAL)</i> invoked on it.<br>
   <br>
-  Ublu's "object-disoriented" syntax is wordier than a true object
-  language, in that the class is named each time (the "command"),
-  but it tends to be easy to use interpretively. It's clunky, yet
-  it is reminiscent of traditional "big iron"-style command syntax
-  and is pretty easy to remember.<br>
+
+  <p>Ublu's default "object-disoriented" syntax is wordier than a
+  true object language, in that the class is named each time (the
+  "command"), but it tends to be easy to use interpretively. It's
+  clunky, yet it is reminiscent of traditional "big iron"-style
+  command syntax and is pretty easy to remember.</p>
+
+  <h3><a name="Autonomes">Autonomes</a> offer easier syntax</h3>
+
+  <p><a href=
+  "./ubluref.html#Autonomic_Tuple_Variables">Autonomes</a> simplify
+  Ublu syntax. An <em>autonome</em> is a tuple variable whose value
+  is of one of many recognized types allowed by Ublu to stand for
+  its most typical command and the <a href=
+  "./ubluref.html#Eponymous_dash-command__--_">eponymous
+  dash-command</a>.</p>
+
+  <p>Thus, assuming that <code>@job</code> contains a valid
+  instance created by the <a href=
+  "./ubluref.html#job"><code>job</code> command</a>,</p>
+
+  <blockquote>
+    <code>job -- @job -info</code>
+  </blockquote>can be expressed
+
+  <blockquote>
+    <code>@job -info</code>
+  </blockquote>
 
   <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
   Stack</h2>The <a href=
