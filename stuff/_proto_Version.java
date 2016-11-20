@@ -45,6 +45,12 @@ public class Version {
 
     private Version() {
     }
+
+    /**
+     * Version stamp for anyone who wants to know
+     */
+    public static String ubluVersion = "@ublu.version@";
+
     /**
      * A date/time stamp to be called up by whatever wants to know. E.g., it is
      * displayed in the interpreter startup message. The actual timestamp is
@@ -55,6 +61,5 @@ public class Version {
      *
      * @compile.date.time@.</p>
      */
-    public static String ubluVersion = "@ublu.version@";
     public static String compileDateTime = "@compile.date.time@";
 }

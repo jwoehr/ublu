@@ -107,10 +107,27 @@ public class Utils {
         return output.toString();
     }
 
+    /**
+     * Convert print attribute to integer
+     *
+     * @param attrName attrib name
+     * @return int for attrib
+     * @throws NoSuchFieldException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     */
     public static int attrNameToInt(String attrName) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         return PrintObject.class.getField(attrName).getInt(Printer.class);
     }
 
+    /**
+     * Convert print attribute name to its value
+     *
+     * @param p print object with attrib
+     * @param attrName name of attrib
+     * @param c command calling this static method
+     * @return value of attribute
+     */
     public static Object attrNameToValue(PrintObject p, String attrName, Command c) {
         Object value = null;
         Integer attrInteger = null;

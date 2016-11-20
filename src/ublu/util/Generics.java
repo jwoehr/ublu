@@ -1194,6 +1194,11 @@ public class Generics {
             addAll(Arrays.asList(oa));
         }
 
+        /**
+         * ctor/1 Create from byte array
+         *
+         * @param ba source byte array
+         */
         public ThingArrayList(byte[] ba) {
             this();
             for (int i = 0; i < ba.length; i++) {

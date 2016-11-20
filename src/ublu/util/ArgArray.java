@@ -135,6 +135,12 @@ public class ArgArray extends ArrayList<String> {
         return get(0);
     }
 
+    /**
+     * Return a tuple if one is waiting in the arg array without changing arg
+     * array. Used to detect autonomes.
+     *
+     * @return waiting tuple or null
+     */
     public Tuple peekNextTuple() {
         Tuple result = null;
         if (isNextTupleName()) {
@@ -143,6 +149,12 @@ public class ArgArray extends ArrayList<String> {
         return result;
     }
 
+    /**
+     * Return a tuple if one is waiting on the tuple stack without changing arg
+     * array or tuple stack. Used to detect autonomes.
+     *
+     * @return waiting tuple
+     */
     public Tuple peekNextPop() {
         Tuple result = null;
         if (isNextPopTuple()) {
@@ -151,6 +163,12 @@ public class ArgArray extends ArrayList<String> {
         return result;
     }
 
+    /**
+     * Return a tuple if one is waiting on the tuple stack or in the arg array
+     * without changing arg array or tuple stack. Used to detect autonomes.
+     *
+     * @return waiting tuple
+     */
     public Tuple peekNextTupleOrPop() {
         Tuple result = null;
         if (isNextPopTuple()) {

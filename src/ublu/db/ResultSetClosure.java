@@ -201,6 +201,17 @@ public class ResultSetClosure implements AutoCloseable {
         return this;
     }
 
+    /**
+     * Express a table as JSON
+     *
+     * @param db source db
+     * @param tableName source table
+     * @return JSON text
+     * @throws SQLException
+     * @throws IOException
+     * @throws UnsupportedEncodingException
+     * @throws JSONException
+     */
     public JSONObject toJSON(Db db, String tableName) throws SQLException, IOException, UnsupportedEncodingException, JSONException {
         return new Json(db, getResultSet(), getResultSet().getMetaData(), tableName).tableJSON();
     }
