@@ -513,6 +513,7 @@ public class CmdRs extends Command {
                                                             + " in " + getNameAndDescription());
                                             setCommandResult(COMMANDRESULT.FAILURE);
                                         }
+                                        break;
                                     default:
                                         getLogger().log(Level.SEVERE, "Unsupported data destination for Blob in {0}", getNameAndDescription());
                                         setCommandResult(COMMANDRESULT.FAILURE);
