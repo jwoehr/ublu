@@ -502,15 +502,14 @@ public class CmdRs extends Command {
                             if (b != null) {
                                 switch (getDataDest().getType()) {
                                     case TUPLE:
-                                        Tuple t = getTuple(getDataDest().getName());
-                                        if (t != null) {
-                                            put(arrayBlob(b));
-                                        }
+                                        put(arrayBlob(b));
                                         break;
                                     case FILE:
                                         fileBlob(b, blobFileName);
                                         if (getCommandResult() == COMMANDRESULT.FAILURE) {
-                                            getLogger().log(Level.SEVERE, "Could not get or write Blob from index {0} in {1}", new Object[]{index, getNameAndDescription()});
+                                            getLogger().log(Level.SEVERE, "Could not get or write Blob from "
+                                                    + index == null ? ("label " + fieldLabel) : (" index " + index)
+                                                            + " in " + getNameAndDescription());
                                             setCommandResult(COMMANDRESULT.FAILURE);
                                         }
                                     default:
