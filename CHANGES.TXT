@@ -16,7 +16,9 @@ Commands
 	* db
 		* -columnnames
 		* bug: -bytes
-	* gensh -strictPosix
+	* gensh
+		* -strictPosix
+		* gensh was generating bad documentary headers when passed plainwords.
     * rs
         * -fileblob
         * -getblob
