@@ -16,9 +16,11 @@
 FUNC sysshep.qsys2.memory_pool ( qsys2db stats reset_tf ) $[
    LOCAL @myRs
    LOCAL @dp
-   LOCAL @valid  LOCAL @tmp
+   LOCAL @valid
+   LOCAL @tmp
    LOCAL @stem
    LOCAL @dpath
+   
    put -to @stem OS400|QSYS2|MEMORY_POOL
    string -to @stats -new
    
@@ -38,7 +40,8 @@ FUNC sysshep.qsys2.memory_pool ( qsys2db stats reset_tf ) $[
        
        @myRs -to @tmp -lget POOL_NAME
        @dpath -to NULL: -addkey @tmp
-       
+
+\\ ${       
        @myRs -to @tmp -lget SUBSYSTEM_LIBRARY_NAME
        test -to ~ -null @tmp
        IF ~ THEN $[
@@ -62,12 +65,33 @@ FUNC sysshep.qsys2.memory_pool ( qsys2db stats reset_tf ) $[
        ]$ ELSE $[
            @dpath -to NULL: -addkey @tmp
        ]$
-         
+}$       
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey STATUS
        @myRs -to @tmp -lget STATUS
-       @dpath -to NULL: -addkey @tmp
+       @tmp -to @tmp -trim
+       @tmp -to ~ -eq ACTIVE
+       IF ~ THEN $[
+           put -to ~ 1
+       ]$ ELSE $[
+           put -to ~ 0
+       ]$
+       @dp -to NULL: -value ~ -type int  
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
        
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey PAGING_OPTION         
        @myRs -to @tmp -lget PAGING_OPTION
-       @dpath -to NULL: -addkey @tmp
+       @tmp -to @tmp -trim
+       SWITCH @tmp
+            -case *FIXED $[ put -to ~ 1 ]$
+            -case *CALC  $[ put -to ~ 2 ]$
+            -default     $[ put -to ~ 3 ]$
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
        
        @dpath -to @dp -dup
        @dp -to NULL: -addkey CURRENT_SIZE
