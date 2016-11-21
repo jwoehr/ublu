@@ -6,7 +6,7 @@
 # See the Ublu license (BSD-2 open source)
 
 # sysshep.qsys2.memory_pool
-# get datapoints for diskstat from db2 services
+# get datapoints for memory pool from db2 services
 # 3rd arg is a true tuple if you want to reset stats, use false tuple otherwise
 #
 # Usage example:
