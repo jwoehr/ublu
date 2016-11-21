@@ -97,6 +97,7 @@ FUNC sysshep.qsys2.sysdiskstat ( qsys2db stats ) $[
        string -to @@stats -nl @@stats
        @myRs -to @valid -next
    ]$
+   rs -close @myRs  
 ]$
 
 # end

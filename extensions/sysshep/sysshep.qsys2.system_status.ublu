@@ -271,6 +271,7 @@ FUNC sysshep.qsys2.system_status ( qsys2db stats reset_tf ) $[
        string -to @@stats -nl @@stats
 
    ]$
+   rs -close @myRs  
 ]$
 
 # end

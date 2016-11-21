@@ -232,6 +232,7 @@ FUNC sysshep.qsys2.memory_pool ( qsys2db stats reset_tf ) $[
        
        @myRs -to @valid -next
    ]$
+   rs -close @myRs  
 ]$
 
 # end
