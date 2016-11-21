@@ -10,7 +10,7 @@
 # 3rd arg is a true tuple if you want to reset stats, use false tuple otherwise
 #
 # Usage example:
-#   db -to @myDb -dbtype as400 mysys QSYS2 myid mypasswd
+#   db -to @myDb -dbtype as400 -connect mysys QSYS2 myid mypasswd
 #   sysshep.qsys2.system_status ( @myDb @stats @false )
 #   put @stats
 FUNC sysshep.qsys2.system_status ( qsys2db stats reset_tf ) $[

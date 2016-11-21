@@ -1,0 +1,237 @@
+# sysshep.qsys2.memory_pool.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# System Shepherd is Copyright (C) 2016 Absolute Performance, Inc.
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# sysshep.qsys2.memory_pool
+# get datapoints for diskstat from db2 services
+# 3rd arg is a true tuple if you want to reset stats, use false tuple otherwise
+#
+# Usage example:
+#   db -to @myDb -dbtype as400 -connect mysys QSYS2 myid mypasswd
+#   sysshep.qsys2.memory_pool ( @myDb @stats @false )
+#   put @stats
+FUNC sysshep.qsys2.memory_pool ( qsys2db stats reset_tf ) $[
+   LOCAL @myRs
+   LOCAL @dp
+   LOCAL @valid  LOCAL @tmp
+   LOCAL @stem
+   LOCAL @dpath
+   put -to @stem OS400|QSYS2|MEMORY_POOL
+   string -to @stats -new
+   
+   IF @@reset_tf THEN $[
+       @@qsys2db -to @myRs -query ${ SELECT * FROM TABLE(QSYS2.MEMORY_POOL(RESET_STATISTICS=>'YES')) AS X }$
+   ]$ ELSE $[
+       @@qsys2db -to @myRs -query ${ SELECT * FROM TABLE(QSYS2.MEMORY_POOL()) AS X }$
+   ]$
+
+   @myRs -to @valid -abs 1   
+   WHILE @valid $[
+
+       dpoint -to @dpath -dkey @stem
+       
+       @myRs -to @tmp -lget SYSTEM_POOL_ID
+       @dpath -to  NULL: -addkey @tmp
+       
+       @myRs -to @tmp -lget POOL_NAME
+       @dpath -to NULL: -addkey @tmp
+       
+       @myRs -to @tmp -lget SUBSYSTEM_LIBRARY_NAME
+       test -to ~ -null @tmp
+       IF ~ THEN $[
+           @dpath -to NULL: -addkey NULL_SUBSYSTEM_LIBRARY_NAME
+       ]$ ELSE $[
+           @dpath -to NULL: -addkey @tmp
+       ]$
+         
+       @myRs -to @tmp -lget SUBSYSTEM_NAME
+       test -to ~ -null @tmp
+       IF ~ THEN $[
+           @dpath -to NULL: -addkey NULL_SUBSYSTEM_NAME
+       ]$ ELSE $[
+           @dpath -to NULL: -addkey @tmp
+       ]$
+         
+       @myRs -to @tmp -lget DESCRIPTION
+       test -to ~ -null @tmp
+       IF ~ THEN $[
+           @dpath -to NULL: -addkey NULL_DESCRIPTION
+       ]$ ELSE $[
+           @dpath -to NULL: -addkey @tmp
+       ]$
+         
+       @myRs -to @tmp -lget STATUS
+       @dpath -to NULL: -addkey @tmp
+       
+       @myRs -to @tmp -lget PAGING_OPTION
+       @dpath -to NULL: -addkey @tmp
+       
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey CURRENT_SIZE
+       @myRs -to ~ -lget CURRENT_SIZE       
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey RESERVED_SIZE
+       @myRs -to ~ -lget RESERVED_SIZE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey DEFINED_SIZE
+       @myRs -to ~ -lget DEFINED_SIZE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey MAXIMUM_ACTIVE_THREADS
+       @myRs -to ~ -lget MAXIMUM_ACTIVE_THREADS
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey CURRENT_THREADS
+       @myRs -to ~ -lget CURRENT_THREADS
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey CURRENT_INELIGIBLE_THREADS
+       @myRs -to ~ -lget CURRENT_INELIGIBLE_THREADS
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_TIME
+       @myRs -to ~ -lget ELAPSED_TIME
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_DATABASE_FAULTS
+       @myRs -to ~ -lget ELAPSED_DATABASE_FAULTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_NON_DATABASE_FAULTS
+       @myRs -to ~ -lget ELAPSED_NON_DATABASE_FAULTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_TOTAL_FAULTS
+       @myRs -to ~ -lget ELAPSED_TOTAL_FAULTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_DATABASE_PAGES
+       @myRs -to ~ -lget ELAPSED_DATABASE_PAGES
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_NON_DATABASE_PAGES
+       @myRs -to ~ -lget ELAPSED_NON_DATABASE_PAGES
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_ACTIVE_TO_WAIT
+       @myRs -to ~ -lget ELAPSED_ACTIVE_TO_WAIT
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_WAIT_TO_INELIGIBLE
+       @myRs -to ~ -lget ELAPSED_WAIT_TO_INELIGIBLE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey ELAPSED_ACTIVE_TO_INELIGIBLE
+       @myRs -to ~ -lget ELAPSED_ACTIVE_TO_INELIGIBLE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_PRIORITY
+       @myRs -to ~ -lget TUNING_PRIORITY
+       @dp -to NULL: -value ~ -type int
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+      
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_MINIMUM_SIZE
+       @myRs -to ~ -lget TUNING_MINIMUM_SIZE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_MAXIMUM_SIZE
+       @myRs -to ~ -lget TUNING_MAXIMUM_SIZE
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_MINIMUM_FAULTS
+       @myRs -to ~ -lget TUNING_MINIMUM_FAULTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_MAXIMUM_FAULTS
+       @myRs -to ~ -lget TUNING_MAXIMUM_FAULTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_THREAD_FAULTS
+       @myRs -to ~ -lget TUNING_THREAD_FAULTS
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_MINIMUM_ACTIVITY
+       @myRs -to ~ -lget TUNING_MINIMUM_ACTIVITY
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       @dpath -to @dp -dup
+       @dp -to NULL: -addkey TUNING_MAXIMUM_ACTIVITY
+       @myRs -to ~ -lget TUNING_MAXIMUM_ACTIVITY
+       @dp -to NULL: -value ~ -type float
+       string -to @@stats -cat @@stats @dp
+       string -to @@stats -nl @@stats
+       
+       @myRs -to @valid -next
+   ]$
+]$
+
+# end
