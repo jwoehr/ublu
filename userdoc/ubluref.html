@@ -10517,14 +10517,14 @@ Type help for help. Type license for license. Type bye to exit.
     <p>The <tt>rs</tt> command operates on result sets.</p>
 
     <ul>
-      <li><code>abs ~@{row}</code> moves the result set cursor to
+      <li><code>-abs ~@{row}</code> moves the result set cursor to
       the given one-based index. If negative, the cursor moves to
       an absolute row position from the end of the result set. Zero
       (0) is before the first row, -1 is the last. Puts true if the
       cursor is still within the result set, false if beyond either
       end.</li>
 
-      <li><code>rel ~@{rows}</code> moves the result set cursor
+      <li><code>-rel ~@{rows}</code> moves the result set cursor
       forward (positive) or backward (negative) the given number of
       rows. Puts true if the cursor is still within the result set,
       false if beyond either end.</li>
