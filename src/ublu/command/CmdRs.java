@@ -57,7 +57,7 @@ import ublu.util.Generics.ByteArrayList;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} tuplename] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[abs ~@{row}] | [rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
     }
 
     /**
@@ -266,16 +266,22 @@ public class CmdRs extends Command {
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-close":
-                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     setFunction(FUNCTIONS.CLOSE);
+                    if (myRs == null) {
+                        myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
+                    }
                     break;
                 case "-closedb":
-                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     setFunction(FUNCTIONS.CLOSEDB);
+                    if (myRs == null) {
+                        myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
+                    }
                     break;
                 case "-closest":
-                    myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
                     setFunction(FUNCTIONS.CLOSEST);
+                    if (myRs == null) {
+                        myRs = argArray.nextTupleOrPop().value(ResultSetClosure.class);
+                    }
                     break;
                 case "-commit":
                     setFunction(FUNCTIONS.COMMIT);
