@@ -239,6 +239,9 @@ public class CmdRs extends Command {
                 case "-to":
                     setDataDestfromArgArray(argArray);
                     break;
+                case "-tofile":
+                    setDataDest(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
+                    break;
                 case "-from":
                     setDataSrcfromArgArray(argArray);
                     break;
@@ -507,6 +510,7 @@ public class CmdRs extends Command {
                             }
                             if (b != null) {
                                 switch (getDataDest().getType()) {
+                                    case LIFO:
                                     case TUPLE:
                                         put(arrayBlob(b));
                                         break;
