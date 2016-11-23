@@ -57,7 +57,7 @@ import ublu.util.Generics.ByteArrayList;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
     }
 
     /**
