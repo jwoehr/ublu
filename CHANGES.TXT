@@ -23,6 +23,7 @@ Commands
         * -fileblob
         * -getblob
         * -lgetblob
+        * -tofile
 
 Extensions
 * general
