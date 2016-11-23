@@ -152,10 +152,7 @@ public class CmdPut extends Command {
                     } catch (FileNotFoundException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
-                    } catch (IOException | SQLException ex) {
-                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                    } catch (IOException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                         getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
