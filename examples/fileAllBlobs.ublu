@@ -1,0 +1,64 @@
+# fileAllBlobs.ublu
+# File all the BLOBs in a given column in every row of an AS400 table.
+# Name the files after another field in the row and the row number.
+# Example for Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# fileAllBlobs ( svr lib tbl usr passwd nameCol blobCol startRow )
+# File all the BLOBs in a given column in every row of an AS400 table.
+# Name the files after another field in the row and the row number.
+# svr - server name
+# lib - as400 lib
+# tbl - table of rows
+# usr - user id
+# passwd - password
+# nameCol - label of column where naming field is found
+# blobCol - label of column where BLOB is found
+# startRow - row of table to start with
+FUNC fileAllBlobs ( svr lib tbl usr passwd nameCol blobCol startRow ) $[
+    LOCAL @myDb
+    db -to @myDb -dbtype as400 -connect @@svr @@lib @@usr @@passwd
+    allBlobs ( @myDb @@tbl @@nameCol @@blobCol @@startRow )
+    @myDb -disconnect
+]$
+
+# allBlobs ( myDb myTable myNameCol myBlobCol myStartRow )
+# Actual fetching and writing function called from fileAllBlobs()
+# myDb - connected Db instance to lib
+# myTable - Table to fetch BLOBs from
+# myNameCol - label of column where naming field is found
+# myBlobCol - label of column where BLOB is found
+# myStartRow - row of table to start with
+FUNC allBlobs ( myDb myTable myNameCol myBlobCol myStartRow ) $[
+    LOCAL @myRs
+    LOCAL @myQuery
+    LOCAL @valid
+    LOCAL @filename
+    LOCAL @rowcount
+    LOCAL @tmp
+    
+    put -to @myQuery ${ SELECT * FROM }$
+    @myQuery -to @myQuery -cat @@myTable
+    @@myDb -to @myRs -query @myQuery
+    
+    put -to @rowcount @@myStartRow
+    @myRs -to @valid -abs @@myStartRow
+    
+    WHILE @valid $[
+        @myRs -to @filename -lget @@myNameCol        
+        @filename -to @filename -cat _
+        @filename -to @filename -cat @rowcount
+        @filename -to @filename -cat .bin
+        put -n -s @rowcount put -n -s ${ fetching }$ put @filename        
+        @myRs -tofile @filename -lgetblob @@myBlobCol      
+        eval -to @rowcount + @rowcount 1
+        @myRs -to @valid -next
+    ]$
+      
+    @myRs -closest  
+    put Done.
+]$
+
+# End
