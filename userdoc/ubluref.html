@@ -8,10 +8,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 23 Nov 2016 21:41:59 UTC">
+  "Sun, 27 Nov 2016 21:22:35 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-23</p>
+  Last edit: 2016-11-27</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -12596,8 +12597,8 @@ Type help for help. Type license for license. Type bye to exit.
     @tuplename | -null @tuplename | -true @tuplename | -false
     @tuplename | -name @tuplename | -realname @tuplename | -value
     ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename |
-    -map | -autonome @tuplename | -autonomes ] : operations on
-    tuple variables</tt><br>
+    -map | -autonome @tuplename | -autonomic @tuplename |
+    -autonomes ] : operations on tuple variables</tt><br>
     <br>
     Operations on <a href="#Tuple_Variables">tuple
     variables</a>.<br>
@@ -12682,9 +12683,13 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><tt>-map</tt> shows all tuple names</li>
 
-      <li><tt>-autonome @tuplename</tt> displays information about
-      whether the specific tuple's value is <a href=
+      <li><tt>-autonome @tuplename</tt> puts information about a
+      the specific tuple's value's class and whether is <a href=
       "#Autonomic_Tuple_Variables">autonomic</a>.</li>
+
+      <li><tt>-autonomic @tuplename</tt> puts <code>true</code> if
+      a the specific tuple's value's class is autonomic and
+      <code>false</code> otherwise.</li>
 
       <li><tt>-autonomes</tt> displays a list of all classes which
       allow a tuple to be <a href=

@@ -59,6 +59,8 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ublu.AS400Extender;
+import ublu.SecureAS400Extender;
 import ublu.db.Db;
 import ublu.db.ResultSetClosure;
 import ublu.server.Listener;
@@ -83,6 +85,8 @@ public class Autonome {
         AUTONOMY = new LinkedHashMap<>();
         AUTONOMY.put(AS400.class, "as400");
         AUTONOMY.put(SecureAS400.class, "as400");
+        AUTONOMY.put(AS400Extender.class, "as400");
+        AUTONOMY.put(SecureAS400Extender.class, "as400");
         AUTONOMY.put(CallableStatement.class, "cs");
         AUTONOMY.put(Db.class, "db");
         AUTONOMY.put(SysShepHelper.class, "dpoint");
@@ -155,15 +159,30 @@ public class Autonome {
     }
 
     /**
-     * True if the class of the object is autonomic
+     * Return description indicating command if the class of the object is
+     * autonomic
      *
      * @param o object whose class type to test
-     * @return True if the class of the object is autonomic
+     * @return class name and command it invokes, null command if not autonomic
      */
-    public static String autonomic(Object o) {
+    public static String autonomeDescription(Object o) {
         String autonomic = null;
         if (o != null) {
             autonomic = o.getClass().toString() + " : " + get(o.getClass());
+        }
+        return autonomic;
+    }
+
+    /**
+     * True if the class of the object is autonomic
+     *
+     * @param o object whose class type to test
+     * @return class name and command it invokes
+     */
+    public static boolean isAutonomic(Object o) {
+        boolean autonomic = false;
+        if (o != null) {
+            autonomic = null != get(o.getClass());
         }
         return autonomic;
     }

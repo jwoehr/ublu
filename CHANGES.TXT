@@ -24,6 +24,9 @@ Commands
         * -getblob
         * -lgetblob
         * -tofile
+    * tuple
+    	* account for the variety of as400 classes
+    	* -autonomic
 
 Extensions
 * general

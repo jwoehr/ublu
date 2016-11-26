@@ -48,7 +48,7 @@ import ublu.util.Autonome;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map | -autonome @tuplename | -autonomes ] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map | -autonome @tuplename | -autonomic @tuplename | -autonomes ] : operations on tuple variables");
     }
 
     /**
@@ -116,6 +116,10 @@ public class CmdTuple extends Command {
          * Delivers autonome info
          */
         AUTONOME,
+        /**
+         * Delivers autonome boolean
+         */
+        AUTONOMIC,
         /**
          * Delivers autonomes info
          */
@@ -218,6 +222,10 @@ public class CmdTuple extends Command {
                     setFunction(FUNCTIONS.AUTONOME);
                     someTuple = argArray.nextTupleOrPop();
                     break;
+                case "-autonomic":
+                    setFunction(FUNCTIONS.AUTONOMIC);
+                    someTuple = argArray.nextTupleOrPop();
+                    break;
                 case "-autonomes":
                     setFunction(FUNCTIONS.AUTONOMES);
                     break;
@@ -230,6 +238,7 @@ public class CmdTuple extends Command {
         } else {
             String theTupleName;
             Tuple t;
+            String autonome = null;
             switch (getFunction()) {
                 case DELETE:
                     theTupleName = someName;
@@ -401,20 +410,38 @@ public class CmdTuple extends Command {
                     }
                     break;
                 case AUTONOME:
-                    String autonome = null;
+
                     if (someTuple != null) {
                         Object o = someTuple.getValue();
                         if (o != null) {
-                            autonome = Autonome.autonomic(o);
+                            autonome = Autonome.autonomeDescription(o);
                         }
                     }
                     try {
                         put(autonome);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Couldn't put autonome in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Couldn't put autonome description in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case AUTONOMIC:
+                    try {
+                        if (someTuple != null) {
+                            Object o = someTuple.getValue();
+                            if (o != null) {
+                                put(Autonome.isAutonomic(o));
+                            } else {
+                                put(false);
+                            }
+                        } else {
+                            put(false);
+                        }
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Couldn't put autonomic flag in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+
                 case AUTONOMES:
                     try {
                         put(Autonome.displayAll());
@@ -438,7 +465,8 @@ public class CmdTuple extends Command {
     }
 
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return tuple(args);
     }
