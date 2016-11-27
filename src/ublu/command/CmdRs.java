@@ -57,7 +57,8 @@ import ublu.util.Generics.ByteArrayList;
 public class CmdRs extends Command {
 
     {
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        // setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
     }
 
     /**
@@ -169,10 +170,10 @@ public class CmdRs extends Command {
          * get object in field by label
          */
         LGET,
-        /**
-         * write blob in field by index to file
-         */
-        FILEBLOB,
+//        /**
+//         * write blob in field by index to file
+//         */
+//        FILEBLOB,
         /**
          * fetch blob in field by index or fieldname
          */
@@ -310,11 +311,11 @@ public class CmdRs extends Command {
                     setFunction(FUNCTIONS.GETBLOB);
                     fieldLabel = argArray.nextMaybeQuotationTuplePopString();
                     break;
-                case "-fileblob":
-                    setFunction(FUNCTIONS.FILEBLOB);
-                    index = argArray.nextIntMaybeQuotationTuplePopString();
-                    blobFileName = argArray.nextMaybeQuotationTuplePopString();
-                    break;
+//                case "-fileblob":
+//                    setFunction(FUNCTIONS.FILEBLOB);
+//                    index = argArray.nextIntMaybeQuotationTuplePopString();
+//                    blobFileName = argArray.nextMaybeQuotationTuplePopString();
+//                    break;
                 case "-insert":
                     setFunction(FUNCTIONS.INSERT);
                     break;
@@ -539,28 +540,28 @@ public class CmdRs extends Command {
                     }
                     break;
 
-                case FILEBLOB:
-                    if (myRs == null) {
-                        getLogger().log(Level.SEVERE, "Result set not found for -fileblob in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } else {
-                        try {
-                            Blob b = (myRs.getResultSet().getBlob(index));
-                            if (b != null) {
-                                try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream())) {
-                                    FileOutputStream fout = new FileOutputStream(blobFileName);
-                                    while (bis.available() > 0) {
-                                        fout.write(bis.read());
-                                    }
-                                    fout.close();
-                                }
-                            }
-                        } catch (SQLException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or write Blob to file from index " + index + " in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                    }
-                    break;
+//                case FILEBLOB:
+//                    if (myRs == null) {
+//                        getLogger().log(Level.SEVERE, "Result set not found for -fileblob in {0}", getNameAndDescription());
+//                        setCommandResult(COMMANDRESULT.FAILURE);
+//                    } else {
+//                        try {
+//                            Blob b = (myRs.getResultSet().getBlob(index));
+//                            if (b != null) {
+//                                try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream())) {
+//                                    FileOutputStream fout = new FileOutputStream(blobFileName);
+//                                    while (bis.available() > 0) {
+//                                        fout.write(bis.read());
+//                                    }
+//                                    fout.close();
+//                                }
+//                            }
+//                        } catch (SQLException | IOException ex) {
+//                            getLogger().log(Level.SEVERE, "Could not get or write Blob to file from index " + index + " in " + getNameAndDescription(), ex);
+//                            setCommandResult(COMMANDRESULT.FAILURE);
+//                        }
+//                    }
+//                    break;
 
                 case INSERT:
                     if (getDataDest() == null | getDataSrc() == null) {
