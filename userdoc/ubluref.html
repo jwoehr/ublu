@@ -9,6 +9,7 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -10508,12 +10509,13 @@ Type help for help. Type license for license. Type bye to exit.
     <p><tt>/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath]
     [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] |
     [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st}
-    [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] |
-    [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] |
-    [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob
-    ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] |
-    [-split split_specification] | [-toascii numindices index index
-    ..] | [-metadata]] : operate on result sets</tt></p>
+    [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | 
+    <!-- [-fileblob ~@{index} ~@{blobfilepath}] |  --> [-get
+    ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] |
+    [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] |
+    [-next] | [-split split_specification] | [-toascii numindices
+    index index ..] | [-metadata]] : operate on result
+    sets</tt></p>
 
     <p>The <tt>rs</tt> command operates on result sets.</p>
 
@@ -10657,13 +10659,12 @@ Type help for help. Type license for license. Type bye to exit.
       <li><code>-lgetblob ~@{label}</code> puts the Blob at column
       name <em>label</em> to the destination datasink. Only file
       and tuple datasinks are supported.</li>
-
-      <li><code><strike>-fileblob ~@{index}
+      <!-- <li><code><strike>-fileblob ~@{index}
       ~@{blobfilepath}</strike></code> <em>(deprecated, use
       <code>-getblob</code> or <code>-lgetblob</code>)</em> writes
       the Blob from the <em>index</em> column of the current row to
       the file whose fully qualified path is
-      <em>blobfilepath</em>.</li>
+      <em>blobfilepath</em>.</li> -->
 
       <li>
         <tt>-insert</tt>
