@@ -10,6 +10,7 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -1146,8 +1147,8 @@ Type help for help. Type license for license. Type bye to exit.
   <a href="#Commands">command</a>, it checks the value of that
   variable. If the value is of a class in the list of autonomes,
   that is, classes whose instances are generally passed as the
-  argument <a href="#Eponymous_dash-command__--_">eponymous
-  dash-command</a> to a specific Ublu command,that command is
+  argument to the <a href="#Eponymous_dash-command__--_">eponymous
+  dash-command</a> of a specific Ublu command, that command is
   invoked with tuple as the eponymous argument, along with any
   <a href="#Dash_Command">dash-commands</a> and/or arguments which
   follow. If the variable is not autonomic, the interpreter reports
@@ -1168,11 +1169,17 @@ Type help for help. Type license for license. Type bye to exit.
 <i>56</i>
 </pre>
 
-  <p>This is a shorthand mostly useful for interactive sessions and
-  probably should be avoided in larger programs written in
-  Ublu.</p>
+  <p>Autonomic tuple variables offer a useful <a href=
+  "#Object-disoriented">object-disoriented</a> shorthand which,
+  along with <a href="#Tuple_stack">tuple stack</a> wizardry, one
+  should consider avoiding in larger programs in the interest of
+  clarity.</p>
 
   <ul>
+    <li>To test whether the tuple variable <tt>@foo</tt> is
+    autonomic, use <tt><a href="#tuple">tuple</a> -autonomic
+    @foo</tt></li>
+
     <li>To display whether the tuple variable <tt>@foo</tt> is
     autonomic, use <tt><a href="#tuple">tuple</a> -autonome
     @foo</tt></li>
