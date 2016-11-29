@@ -39,6 +39,8 @@ import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
+import ublu.util.Generics.ByteArrayList;
+import ublu.util.Tuple;
 
 /**
  * Command to manipulate record file records..
@@ -49,7 +51,7 @@ public class CmdRecord extends Command {
 
     {
         setNameAndDescription("record",
-                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -new | -setcontents ~@{contents} | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
+                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
     }
 
     /**
@@ -98,7 +100,8 @@ public class CmdRecord extends Command {
         OPERATIONS operation = OPERATIONS.INSTANCE; // the default
         Record record = null;
         RecordFormat recordFormat = null;
-        String contents = null;
+        byte[] contents = null;
+        Tuple contentsTuple = null;
         Integer fieldIndex = null;
         String fieldName = null;
         Object fieldContents = null;
@@ -120,7 +123,7 @@ public class CmdRecord extends Command {
                     break;
                 case "-setcontents":
                     operation = OPERATIONS.SETCONTENTS;
-                    contents = argArray.nextMaybeQuotationTuplePopString();
+                    contentsTuple = argArray.nextTupleOrPop();
                     break;
                 case "-setfield":
                     operation = OPERATIONS.SETFIELD;
@@ -191,8 +194,19 @@ public class CmdRecord extends Command {
                 case SETCONTENTS:
                     if (record != null) {
                         try {
-                            if (contents != null) {
-                                record.setContents(contents.getBytes());
+                            if (contentsTuple != null) {
+                                Object o = contentsTuple.getValue();
+                                if (o instanceof ByteArrayList) {
+                                    contents = ((ByteArrayList) o).byteArray();
+                                } else if (o instanceof byte[]) {
+
+                                } else {
+                                    getLogger().log(Level.INFO, "Contents provided to set contents in {0} is not convertible to byte array.", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                                if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                                    record.setContents(contents);
+                                }
                             } else {
                                 getLogger().log(Level.INFO, "Null contents provided to set contents in {0}", getNameAndDescription());
                                 setCommandResult(COMMANDRESULT.FAILURE);

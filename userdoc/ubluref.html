@@ -11,10 +11,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 27 Nov 2016 21:22:35 UTC">
+  "Tue, 29 Nov 2016 03:17:18 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -66,7 +67,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-27</p>
+  Last edit: 2016-11-28</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -10442,7 +10443,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/0 [-to @var] [--,-record ~@record] [ -getfmt | -new |
-    -setcontents ~@{contents} | -setfield ~@{index} ~@object |
+    -setcontents ~@contents | -setfield ~@{index} ~@object |
     -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format |
     -tostring ] : manipulate record file records</tt><br>
     <br>
@@ -10467,7 +10468,7 @@ Type help for help. Type license for license. Type bye to exit.
       default.</li>
 
       <li><tt>-setcontents ~@{contents}</tt> sets the contents of
-      the record to the string provided.</li>
+      the record to the byte array provided.</li>
 
       <li><tt>-setfield ~@{index} ~@object</tt> sets the
       (zero-based) indexed field of the record to the object
@@ -10660,13 +10661,12 @@ Type help for help. Type license for license. Type bye to exit.
       </li>
 
       <li><code>-getblob ~@{index}</code> puts the Blob at column
-      index <em>index</em> to the destination datasink. Only file
-      and tuple datasinks are supported.</li>
+      index <em>index</em> as a binary stream to the destination
+      datasink.</li>
 
       <li><code>-lgetblob ~@{label}</code> puts the Blob at column
-      name <em>label</em> to the destination datasink. Only file
-      and tuple datasinks are supported.</li>
-      <!-- <li><code><strike>-fileblob ~@{index}
+      name <em>label</em> as a binary stream to the destination
+      datasink.</li><!-- <li><code><strike>-fileblob ~@{index}
       ~@{blobfilepath}</strike></code> <em>(deprecated, use
       <code>-getblob</code> or <code>-lgetblob</code>)</em> writes
       the Blob from the <em>index</em> column of the current row to

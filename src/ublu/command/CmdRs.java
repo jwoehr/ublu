@@ -40,6 +40,7 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
 import java.sql.ResultSet;
@@ -170,10 +171,10 @@ public class CmdRs extends Command {
          * get object in field by label
          */
         LGET,
-//        /**
-//         * write blob in field by index to file
-//         */
-//        FILEBLOB,
+        //        /**
+        //         * write blob in field by index to file
+        //         */
+        //        FILEBLOB,
         /**
          * fetch blob in field by index or fieldname
          */
@@ -233,7 +234,7 @@ public class CmdRs extends Command {
         Integer index = null;
         String fieldLabel = null;
         Integer cursorinc = null;
-        String blobFileName = null;
+        String blobFileName;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -525,6 +526,14 @@ public class CmdRs extends Command {
                                             setCommandResult(COMMANDRESULT.FAILURE);
                                         }
                                         break;
+                                    case STD:
+                                        streamBlob(b, getInterpreter().getOutputStream());
+                                        break;
+                                    case ERR:
+                                        streamBlob(b, getInterpreter().getErroutStream());
+                                        break;
+                                    case NUL:
+                                        break;
                                     default:
                                         getLogger().log(Level.SEVERE, "Unsupported data destination for Blob in {0}", getNameAndDescription());
                                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -562,7 +571,6 @@ public class CmdRs extends Command {
 //                        }
 //                    }
 //                    break;
-
                 case INSERT:
                     if (getDataDest() == null | getDataSrc() == null) {
                         getLogger().log(Level.SEVERE, "Missing data source or data dest in rs command");
@@ -755,6 +763,21 @@ public class CmdRs extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         return bal.byteArray();
+    }
+
+    private long streamBlob(Blob b, OutputStream os) {
+        long l = 0;
+        try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream())) {
+
+            while (bis.available() > 0) {
+                os.write(bis.read());
+                l++;
+            }
+        } catch (SQLException | IOException ex) {
+            getLogger().log(Level.SEVERE, "Could not get or write Blob to stream in " + getNameAndDescription(), ex);
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        return l;
     }
 
     private long fileBlob(Blob b, String blobFileName) {
