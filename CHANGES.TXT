@@ -6,8 +6,8 @@ All rights reserved.
 -----
 System
 * default tuples
-	@true
-	@false
+	* @true
+	* @false
 	
 Commands
 * general
@@ -19,11 +19,14 @@ Commands
 	* gensh
 		* -strictPosix
 		* gensh was generating bad documentary headers when passed plainwords.
+    * record
+    	* setcontents works more correctly
     * rs
         * -fileblob
         * -getblob
         * -lgetblob
         * -tofile
+        * more destinations for blobs
     * tuple
     	* account for the variety of as400 classes
     	* -autonomic
