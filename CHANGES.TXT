@@ -22,6 +22,7 @@ Commands
 		* -strictPosix
 		* gensh was generating bad documentary headers when passed plainwords.
     * record
+    	* -create
     	* -getcontents
     	* -getfield
     	* -setcontents works more correctly

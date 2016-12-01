@@ -55,7 +55,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -151,6 +151,10 @@ public class CmdFile extends Command {
         String positionString = "";
         int recordFormatNumber = 0;
         Tuple recordTuple = null;
+        /* Next 3 for create */
+        Integer recordLength = null;
+        String fileType = null;
+        String textDescription = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -184,6 +188,9 @@ public class CmdFile extends Command {
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
+                    recordLength = argArray.nextIntMaybeQuotationTuplePopString();
+                    fileType = argArray.nextMaybeQuotationTuplePopString().toUpperCase();
+                    textDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-del":
                     function = FUNCTIONS.DELETE;
@@ -292,12 +299,18 @@ public class CmdFile extends Command {
                     break;
                 case CREATE:
                     if (aS400File != null) {
-                        try {
-                            put("Not Implemented Yet");
-                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE,
-                                    "Encountered an exception creating an AS400File in " + getNameAndDescription(), ex);
+                        String fileTypeConst = selectFileTypeConst(fileType);
+                        if (fileTypeConst == null) {
+                            getLogger().log(Level.SEVERE, "Invalid file type for create in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            try {
+                                aS400File.create(recordLength, fileTypeConst, textDescription);
+                            } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception creating an AS400File in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No AS400File object in {0} to create.", getNameAndDescription());
@@ -352,7 +365,9 @@ public class CmdFile extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
-                            aS400File.setRecordFormat(recordFormatNumber);
+                            if (aS400File.getRecordFormat() == null) {
+                                aS400File.setRecordFormat(recordFormatNumber);
+                            }
                             aS400File.open(openType, blockingFactor, commitLockLevel);
                         } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException | PropertyVetoException ex) {
                             getLogger().log(Level.SEVERE,
@@ -545,6 +560,19 @@ public class CmdFile extends Command {
             }
         }
         return argArray;
+    }
+
+    private String selectFileTypeConst(String fileType) {
+        String result = null;
+        switch (fileType) {
+            case "*DATA":
+                result = AS400File.TYPE_DATA;
+                break;
+            case "*SOURCE":
+                result = AS400File.TYPE_SOURCE;
+                break;
+        }
+        return result;
     }
 
     @Override

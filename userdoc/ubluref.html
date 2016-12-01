@@ -5,18 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 1 Dec 2016 02:04:04 UTC">
+  "Thu, 1 Dec 2016 18:37:33 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -68,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-30</p>
+  Last edit: 2016-12-1</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4472,13 +4464,14 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="file"></a> <tt>file</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed
-    | -sequential] [-new | -create | -del | -delmemb | -delrec |
-    -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list
-    | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read
-    ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to
-    datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user}
-    ~@{password} : record file access</tt><br>
+    <tt>//4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed
+    | -sequential] [-new | -create ~@{recordLength}
+    ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -del |
+    -delmemb | -delrec | -getfmt | -setfmt ~@format | -open
+    ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum
+    ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write
+    ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname}
+    ~@{system} ~@{user} ~@{password} : record file access</tt><br>
     <br>
     The <tt>file</tt> command provides i Series OS record file
     access.<br>
@@ -4530,7 +4523,10 @@ Type help for help. Type license for license. Type bye to exit.
       <tt>[-keyed | -sequential]</tt>). Of course you will wish to
       use <tt>-to @var</tt> to store the resulting object.</li>
 
-      <li><tt>-create</tt> is Not Implemented Yet.</li>
+      <li><tt>-create ~@{recordLength}
+      ~@{fileType([*DATA|*SOURCE])} ~@{textDescription}</tt>
+      creates the file specified by <code>--,-file @file</code>
+      with the specified attributes.</li>
 
       <li>
         <tt>-open ~@{R|W|RW}</tt> opens the file or member
