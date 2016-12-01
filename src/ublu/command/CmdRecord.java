@@ -51,7 +51,7 @@ public class CmdRecord extends Command {
 
     {
         setNameAndDescription("record",
-                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
+                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -getcontents | -getfield ~@{index} | -getfieldbyname ~@{fieldname} | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
     }
 
     /**
@@ -64,21 +64,25 @@ public class CmdRecord extends Command {
          */
         GETFMT,
         /**
+         * Get contents
+         */
+        GETCONTENTS,
+        /**
+         * Get field by index or name
+         */
+        GETFIELD,
+        /**
          * Create instance
          */
         INSTANCE,
         /**
-         * Set record contsnts
+         * Set record contents
          */
         SETCONTENTS,
         /**
-         * Set one field by index
+         * Set one field by index or name
          */
         SETFIELD,
-        /**
-         * Set one field by name
-         */
-        SETFIELDBYNAME,
         /**
          * Set format
          */
@@ -121,6 +125,17 @@ public class CmdRecord extends Command {
                 case "-getfmt":
                     operation = OPERATIONS.GETFMT;
                     break;
+                case "-getcontents":
+                    operation = OPERATIONS.GETCONTENTS;
+                    break;
+                case "-getfield":
+                    operation = OPERATIONS.GETFIELD;
+                    fieldIndex = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-getfieldbyname":
+                    operation = OPERATIONS.GETFIELD;
+                    fieldName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-setcontents":
                     operation = OPERATIONS.SETCONTENTS;
                     contentsTuple = argArray.nextTupleOrPop();
@@ -131,7 +146,7 @@ public class CmdRecord extends Command {
                     fieldContents = argArray.nextTupleOrPop().getValue();
                     break;
                 case "-setfieldbyname":
-                    operation = OPERATIONS.SETFIELDBYNAME;
+                    operation = OPERATIONS.SETFIELD;
                     fieldName = argArray.nextMaybeQuotationTuplePopString();
                     fieldContents = argArray.nextTupleOrPop().getValue();
                     break;
@@ -161,6 +176,38 @@ public class CmdRecord extends Command {
                         }
                     } else {
                         getLogger().log(Level.INFO, "No record object provided to get format in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case GETCONTENTS:
+                    if (record != null) {
+                        try {
+                            put(new ByteArrayList(record.getContents()));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception putting record contents in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.INFO, "No record object provided to get contents in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case GETFIELD:
+                    if (record != null) {
+                        try {
+                            if (fieldIndex != null) {
+                                put(record.getField(fieldIndex));
+                            } else {
+                                put(record.getField(fieldName));
+                            }
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception putting record field in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.INFO, "No record object provided to get field in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -224,18 +271,13 @@ public class CmdRecord extends Command {
                     break;
                 case SETFIELD:
                     if (record != null) {
-                        record.setField(fieldIndex, fieldContents);
+                        if (fieldIndex != null) {
+                            record.setField(fieldIndex, fieldContents);
+                        } else {
+                            record.setField(fieldName, fieldContents);
+                        }
                     } else {
-                        getLogger().log(Level.INFO, "No record object provided to set field by index in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                        break;
-                    }
-                    break;
-                case SETFIELDBYNAME:
-                    if (record != null) {
-                        record.setField(fieldName, fieldContents);
-                    } else {
-                        getLogger().log(Level.INFO, "No record object provided to set field by name in {0}", getNameAndDescription());
+                        getLogger().log(Level.INFO, "No record object provided to set field in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                         break;
                     }

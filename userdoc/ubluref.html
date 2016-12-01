@@ -12,10 +12,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 29 Nov 2016 03:17:18 UTC">
+  "Thu, 1 Dec 2016 02:04:04 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -67,7 +68,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-11-28</p>
+  Last edit: 2016-11-30</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -10442,10 +10443,12 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="record"></a><tt>record</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to @var] [--,-record ~@record] [ -getfmt | -new |
-    -setcontents ~@contents | -setfield ~@{index} ~@object |
-    -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format |
-    -tostring ] : manipulate record file records</tt><br>
+    <tt>/0 [-to @var] [--,-record ~@record] [ -getfmt |
+    -getcontents | -getfield ~@{index} | -getfieldbyname
+    ~@{fieldname} | -new | -setcontents ~@contents | -setfield
+    ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object |
+    -setfmt ~@format | -tostring ] : manipulate record file
+    records.</tt><br>
     <br>
     The <tt>record</tt> command manipulates records in classic
     record files operated on by the <a href=
@@ -10461,11 +10464,24 @@ Type help for help. Type license for license. Type bye to exit.
     follows:<br>
 
     <ul>
+      <li><tt>-new</tt> instances a new record. This is the
+      default.</li>
+
       <li><tt>-getfmt</tt> fetches the record format of the
       record</li>
 
-      <li><tt>-new</tt> instances a new record. This is the
-      default.</li>
+      <li><code>-getcontents</code> puts the contents of the record
+      as a byte array.</li>
+
+      <li><code>-getfield ~@{index}</code> puts the object from
+      <em>index</em>th field of the record.</li>
+
+      <li><code>-getfieldbyname ~@{fieldname}</code>puts the object
+      from the field named <em>fieldname</em> of the record.</li>
+
+      <li><tt>-setfmt ~@format</tt> sets the format of the record
+      to given format (typically retrieved via <tt>record
+      -getfmt</tt> or <tt>file -getfmt</tt>).</li>
 
       <li><tt>-setcontents ~@{contents}</tt> sets the contents of
       the record to the byte array provided.</li>
@@ -10476,10 +10492,6 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><tt>-setfieldbyname ~@{fieldname} ~@object</tt> sets the
       field with the given name to the object provided.</li>
-
-      <li><tt>-setfmt ~@format</tt> sets the format of the record
-      to given format (typically retrieved via <tt>record
-      -getfmt</tt> or <tt>file -getfmt</tt>).</li>
 
       <li><tt>-tostring</tt> returns the record as a string.</li>
     </ul><i>Example</i><br>
