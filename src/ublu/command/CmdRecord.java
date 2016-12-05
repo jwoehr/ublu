@@ -40,6 +40,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
 import ublu.util.Generics.ByteArrayList;
+import ublu.util.Generics.ThingArrayList;
 import ublu.util.Tuple;
 
 /**
@@ -51,7 +52,7 @@ public class CmdRecord extends Command {
 
     {
         setNameAndDescription("record",
-                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -getcontents | -getfield ~@{index} | -getfieldbyname ~@{fieldname} | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
+                "/0 [-to @var] [--,-record ~@record] [ -getfmt | -getcontents | -getfield ~@{index} | -getfieldbyname ~@{fieldname} | -getfields | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
     }
 
     /**
@@ -71,6 +72,10 @@ public class CmdRecord extends Command {
          * Get field by index or name
          */
         GETFIELD,
+        /**
+         * Get all fields
+         */
+        GETFIELDS,
         /**
          * Create instance
          */
@@ -135,6 +140,9 @@ public class CmdRecord extends Command {
                 case "-getfieldbyname":
                     operation = OPERATIONS.GETFIELD;
                     fieldName = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-getfields":
+                    operation = OPERATIONS.GETFIELDS;
                     break;
                 case "-setcontents":
                     operation = OPERATIONS.SETCONTENTS;
@@ -201,6 +209,20 @@ public class CmdRecord extends Command {
                             } else {
                                 put(record.getField(fieldName));
                             }
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception putting record field in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.INFO, "No record object provided to get field in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case GETFIELDS:
+                    if (record != null) {
+                        try {
+                            put(new ThingArrayList(record.getFields()));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE,
                                     "Encountered an exception putting record field in " + getNameAndDescription(), ex);

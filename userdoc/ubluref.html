@@ -5,10 +5,11 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 1 Dec 2016 18:37:33 UTC">
+  "Mon, 5 Dec 2016 18:20:08 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-01</p>
+  Last edit: 2016-12-05</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -10441,10 +10442,10 @@ Type help for help. Type license for license. Type bye to exit.
   <blockquote>
     <tt>/0 [-to @var] [--,-record ~@record] [ -getfmt |
     -getcontents | -getfield ~@{index} | -getfieldbyname
-    ~@{fieldname} | -new | -setcontents ~@contents | -setfield
-    ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object |
-    -setfmt ~@format | -tostring ] : manipulate record file
-    records.</tt><br>
+    ~@{fieldname} | -getfields | -new | -setcontents ~@contents |
+    -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname}
+    ~@object | -setfmt ~@format | -tostring ] : manipulate record
+    file records.</tt><br>
     <br>
     The <tt>record</tt> command manipulates records in classic
     record files operated on by the <a href=
@@ -10471,6 +10472,9 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><code>-getfield ~@{index}</code> puts the object from
       <em>index</em>th field of the record.</li>
+
+      <li><code>-getfields</code> puts an object array of all
+      fields' contents of the record.</li>
 
       <li><code>-getfieldbyname ~@{fieldname}</code>puts the object
       from the field named <em>fieldname</em> of the record.</li>

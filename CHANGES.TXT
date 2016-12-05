@@ -24,7 +24,8 @@ Commands
     * record
     	* -create
     	* -getcontents
-    	* -getfield
+    	* -getfield[byname]
+    	* -getfields
     	* -setcontents works more correctly
     * rs
         * -fileblob
