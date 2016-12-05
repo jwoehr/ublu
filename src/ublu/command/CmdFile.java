@@ -507,10 +507,7 @@ public class CmdFile extends Command {
                     } else if (aS400File.isOpen()) {
                         Record record = null;
                         if (recordTuple != null) {
-                            o = recordTuple.getValue();
-                            if (o instanceof Record) {
-                                record = Record.class.cast(o);
-                            }
+                            record = recordTuple.value(Record.class);
                         }
                         if (record != null) {
                             try {
