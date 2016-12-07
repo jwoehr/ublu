@@ -530,9 +530,8 @@ public class CmdFile extends Command {
                     RecordFormat recordFormat;
                     if (aS400File != null) {
                         if (formatTuple != null) {
-                            o = formatTuple.getValue();
-                            if (o instanceof RecordFormat) {
-                                recordFormat = RecordFormat.class.cast(o);
+                            recordFormat = formatTuple.value(RecordFormat.class);
+                            if (recordFormat != null) {
                                 try {
                                     aS400File.setRecordFormat(recordFormat);
                                 } catch (PropertyVetoException ex) {
@@ -541,7 +540,7 @@ public class CmdFile extends Command {
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 }
                             } else {
-                                getLogger().log(Level.SEVERE, "No format instance from the supplied command arguments for set format in {0}", getNameAndDescription());
+                                getLogger().log(Level.SEVERE, "No valid format instance from the supplied command arguments for set format in {0}", getNameAndDescription());
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
