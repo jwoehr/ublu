@@ -17,6 +17,8 @@ Commands
 		* -columnnames
 		* bug: -bytes
 	* file
+	    * -createdds
+	    * -createfmt
 		* change -pos BF to B
 	* gensh
 		* -strictPosix
