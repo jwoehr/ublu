@@ -55,7 +55,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -74,6 +74,10 @@ public class CmdFile extends Command {
          * Create a Physical file using DDS
          */
         CREATEDDS,
+        /**
+         * Create a Physical file using a record format
+         */
+        CREATEFMT,
         /**
          * Delete a Physical file
          */
@@ -160,6 +164,7 @@ public class CmdFile extends Command {
         String fileType = null;
         String textDescription = null;
         String ddsPath = null;
+        RecordFormat recFormat = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -200,6 +205,11 @@ public class CmdFile extends Command {
                 case "-createdds":
                     function = FUNCTIONS.CREATEDDS;
                     ddsPath = argArray.nextMaybeQuotationTuplePopString();
+                    textDescription = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-createfmt":
+                    function = FUNCTIONS.CREATEFMT;
+                    recFormat = argArray.nextTupleOrPop().value(RecordFormat.class);
                     textDescription = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-del":
@@ -331,6 +341,20 @@ public class CmdFile extends Command {
                     if (aS400File != null) {
                         try {
                             aS400File.create(ddsPath, textDescription);
+                        } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception creating an AS400File in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No AS400File object in {0} to create.", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case CREATEFMT:
+                    if (aS400File != null) {
+                        try {
+                            aS400File.create(recFormat, textDescription);
                         } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
                             getLogger().log(Level.SEVERE,
                                     "Encountered an exception creating an AS400File in " + getNameAndDescription(), ex);
