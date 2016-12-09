@@ -11,7 +11,7 @@ token:  string
         | '}$'
         | WORD;
 
-STRING : '"' (ESC | ~ ["\\])* '"' ;
+STRING : '"' (ESC | ~ ["\\\n])* '"' ;
 fragment ESC : '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
 fragment HEX : [0-9a-fA-F] ;
@@ -25,4 +25,4 @@ WORD : '('
     | ']$'
     | '${'
     | '}$'
-    | ~[()\[\]{}$\n \t\r]+;
+    | ~[()\[\]{}$\n \t\r"]+;
