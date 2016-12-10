@@ -50,7 +50,7 @@ public class CmdFTP extends Command {
 
     {
         setNameAndDescription("ftp",
-                "/3? -cd path | -cmd ${ command string }$ | -disconnect | -get filepath | -list | -put filepath | -pwd | -session @session [ -as400 ] [ -from datasink ] [ -to datasink ]  [ -mode act/pas ] [ -port portnum ] [ -type asc/bin ] [ -tofile destfile ] ~@{system} ~@{userid} ~@{password} : FTP client");
+                "/3? -cd path | -cmd ${ command string }$ | -disconnect | -get filepath | -list | -put filepath | -pwd | --,-session @session [ -as400 ] [ -from datasink ] [ -to datasink ]  [ -mode act/pas ] [ -port portnum ] [ -type asc/bin ] [ -tofile destfile ] ~@{system} ~@{userid} ~@{password} : FTP client with AS400-specific extensions");
     }
 
     /**
@@ -146,7 +146,7 @@ public class CmdFTP extends Command {
                     portNum = args.nextInt();
                     break;
                 case "-type":
-                    String typestring = args.next().substring(0, 3);
+                    String typestring = args.next().substring(0, 3).toLowerCase();
                     switch (typestring) {
                         case "asc":
                             xferType = FTP.ASCII;
@@ -169,6 +169,7 @@ public class CmdFTP extends Command {
                     function = FUNCTIONS.PUT;
                     localFilename = args.next();
                     break;
+                case "--":
                 case "-session":
                     sessionTupleName = args.next();
                     sessionTuple = getTuple(sessionTupleName);
@@ -237,7 +238,8 @@ public class CmdFTP extends Command {
                     myFTP = null; // This will make us fall out below
                 }
             }
-            if (myFTP == null) { // Here's where we fall out if no FTP instance
+            // Here's where we fall out if no FTP instance
+            if (myFTP == null) {
                 getLogger().log(Level.SEVERE, "Unable to create FTP session");
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
@@ -251,7 +253,7 @@ public class CmdFTP extends Command {
                     switch (function) {
                         case CD:
                             myFTP.cd(cdpath);
-                            getLogger().log(Level.INFO, myFTP.getLastMessage());
+                            put(myFTP.getLastMessage());
                             break;
                         case CMD:
                             if (commandString == null) {
@@ -277,7 +279,7 @@ public class CmdFTP extends Command {
                             } else {
                                 getrc = myFTP.get(remoteFilename, remoteFilename);
                             }
-                            getLogger().log(Level.INFO, myFTP.getLastMessage());
+                            put(myFTP.getLastMessage());
                             setCommandResult(getrc ? COMMANDRESULT.SUCCESS : COMMANDRESULT.FAILURE);
                             break;
                         case LIST:
@@ -298,7 +300,7 @@ public class CmdFTP extends Command {
                                 }
                                 putrc = myFTP.put(localFilename, remoteFilename);
                             }
-                            getLogger().log(Level.INFO, myFTP.getLastMessage());
+                            put(myFTP.getLastMessage());
                             setCommandResult(putrc ? COMMANDRESULT.SUCCESS : COMMANDRESULT.FAILURE);
                             break;
                         case PWD:
