@@ -7,10 +7,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 8 Dec 2016 06:03:56 UTC">
+  "Sat, 10 Dec 2016 01:29:13 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -62,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-07</p>
+  Last edit: 2016-12-09</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4948,10 +4949,11 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/3? -cd path | -cmd ${ command string }$ | -disconnect |
-    -get filepath | -list | -put filepath | -pwd | -session
+    -get filepath | -list | -put filepath | -pwd | --,-session
     @session [ -as400 ] [ -from datasink ] [ -to datasink ] [ -mode
     act/pas ] [ -port portnum ] [ -type asc/bin ] [ -tofile
-    destfile ] system userid password<br>
+    destfile ] ~@{system} ~@{userid} ~@{password} : FTP client with
+    AS400-specific extensions<br>
     <br></tt> The <tt>ftp</tt> command provides FTP client
     capability with a persistent session or with one-off
     capability. You may issue <tt>ftp</tt> with any <a href=
@@ -4970,7 +4972,7 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><tt>-cmd</tt> <i>${ command string }$</i> issues the
       <a href="#Quoted_strings">quoted string</a> as a command to
-      the server and displays the response.</li>
+      the server and <code>put</code>s the response.</li>
 
       <li><tt>-disconnect</tt> disconnects the current session
       (usually in conjunction with the <tt>-session</tt>
@@ -4980,13 +4982,13 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-get</tt> <i>filepath</i> fetches <i>filepath</i>
       from the server.</li>
 
-      <li><tt>-list</tt> shows a listing of the current server
+      <li><tt>-list</tt> puts a listing of the current server
       directory.</li>
 
       <li><tt>-put</tt> <i>filepath</i> puts local file
       <i>filepath</i> to the server.</li>
 
-      <li><tt>-pwd</tt> displays the current server directory.</li>
+      <li><tt>-pwd</tt> puts the current server directory.</li>
     </ul>Paths on the server should be specfied either starting
     with <tt>/</tt> (absolute) or <tt>./</tt> (relative).<br>
     <br>
@@ -5032,7 +5034,7 @@ Type help for help. Type license for license. Type bye to exit.
 
     <h5>Persistent sessions</h5>
 
-    <p>Persistent sessions are provided by the <tt>-session</tt>
+    <p>Persistent sessions are provided by the <tt>--,-session</tt>
     dash-command. <tt>-session</tt> <i>@session</i> references a
     <a href="#Tuple_Variables">tuple</a> var to hold the persistent
     session. Referencing a nonexistent tuple var in conjunction
@@ -11036,19 +11038,20 @@ Type help for help. Type license for license. Type bye to exit.
         is provided via <tt>--,-savef ~@savef</tt>.
 
         <ul>
-          <li>If -lib has set a <i>libname</i>, restore is from
-          that library
+          <li>If <code>-lib</code> has set a <i>libname</i>,
+          restore is from that library
 
             <ul>
-              <li>If -obj has created a list of one or more objects
-              to restore, only those objects are restored from the
-              library</li>
+              <li>If <code>-obj</code> has created a list of one or
+              more objects to restore, only those objects are
+              restored from the library</li>
 
               <li>If no list of objects was created, the entire
               library is to be restored</li>
 
-              <li>If -tolib has set a <i>tolibname</i>, then the
-              restore is to that target library.</li>
+              <li>If -<code>tolib</code> has set a
+              <i>tolibname</i>, then the restore is to that target
+              library.</li>
             </ul>
           </li>
 
@@ -11066,12 +11069,12 @@ Type help for help. Type license for license. Type bye to exit.
         provided via <tt>--,-savef ~@savef</tt>
 
         <ul>
-          <li>If -lib has set a <i>libname</i>, save is of that
-          library</li>
+          <li>If <code>-lib</code> has set a <i>libname</i>, save
+          is of that library</li>
 
-          <li>If -obj has created a list of one or more objects to
-          restore, only those objects are saved from the
-          library</li>
+          <li>If <code>-obj</code> has created a list of one or
+          more objects to restore, only those objects are saved
+          from the library</li>
 
           <li>If no list of objects was created, the entire library
           is to be saved</li>
