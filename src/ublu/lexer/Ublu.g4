@@ -19,6 +19,7 @@ STRING : '"' (ESC | ~[\\"\b\f\n\r\t])* '"' {
             output.append(str);
             break;
         } else {
+            int skip = 2;
             output.append(str.substring(0, index));
             switch (str.charAt(index + 1)) {
                 case '\\':
@@ -43,10 +44,13 @@ STRING : '"' (ESC | ~[\\"\b\f\n\r\t])* '"' {
                     output.append('\t');
                     break;
                 case 'u':
-                    // TODO: still need to handle unicode escapes
+                    skip = 6;
+                    String chars = str.substring(index + 2, index + 6);
+                    int codepoint = Integer.parseInt(chars, 16);
+                    output.append(Character.toChars(codepoint));
                     break;
             }
-            str = str.substring(index + 2);
+            str = str.substring(index + skip);
         }
     }
     setText(output.toString());
