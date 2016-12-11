@@ -37,6 +37,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.Generics.AS400MessageList;
 
 /**
  * Calls a host command on OS400.
@@ -116,10 +117,11 @@ public class CmdCommandCall extends Command {
                         }
                         // Show the messages (returned whether or not there was an error.)
                         AS400Message[] messagelist = command.getMessageList();
-                        for (AS400Message message : messagelist) {
-                            sb.append(message.getText());
-                            put(sb.toString());
-                        }
+//                        for (AS400Message message : messagelist) {
+//                            sb.append(message.getText());
+//                            put(sb.toString());
+//                        }
+                        put(new AS400MessageList(messagelist));
                     } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | PropertyVetoException ex) {
                         getLogger().log(Level.SEVERE, "Command " + commandString + " failed in commandcall", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
