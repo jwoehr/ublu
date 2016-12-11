@@ -42,8 +42,10 @@ STRING : '"' (ESC | ~[\\"\b\f\n\r\t])* '"' {
                 case 't':
                     output.append('\t');
                     break;
+                case 'u':
+                    // TODO: still need to handle unicode escapes
+                    break;
             }
-            // TODO: still need to handle unicode escapes
             str = str.substring(index + 2);
         }
     }
