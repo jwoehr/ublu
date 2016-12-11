@@ -55,7 +55,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -126,6 +126,10 @@ public class CmdFile extends Command {
          * Read a Physical file
          */
         READ,
+        /**
+         * Update a record
+         */
+        UPDATE,
         /**
          * Write a Physical file
          */
@@ -267,6 +271,10 @@ public class CmdFile extends Command {
                 case "-setfmt":
                     function = FUNCTIONS.SETFORMAT;
                     formatTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-update":
+                    function = FUNCTIONS.UPDATE;
+                    recordTuple = argArray.nextTupleOrPop();
                     break;
                 case "-write":
                     function = FUNCTIONS.WRITE;
@@ -546,6 +554,32 @@ public class CmdFile extends Command {
                                     "Encountered an exception reading or putting records for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
+                    }
+                    break;
+                case UPDATE:
+                    if (aS400File == null) {
+                        getLogger().log(Level.SEVERE, "No AS400File instance provided to write in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else if (aS400File.isOpen()) {
+                        Record record = null;
+                        if (recordTuple != null) {
+                            record = recordTuple.value(Record.class);
+                        }
+                        if (record != null) {
+                            try {
+                                aS400File.update(record);
+                            } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        "Encountered an exception writing record for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "No Record provided to write in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "AS400File instance provided to write in {0} is not open", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case WRITE:
