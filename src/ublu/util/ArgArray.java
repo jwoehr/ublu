@@ -71,6 +71,12 @@ public class ArgArray extends ArrayList<String> {
     private static final String CLOSEQUOTE = "}$";
     private static final String OPENBLOCK = "$[";
     private static final String CLOSEBLOCK = "]$";
+
+    private static final String SLASHEDOPENQUOTE = "\\$\\{";
+    private static final String SLASHEDCLOSEQUOTE = "\\}\\$";
+    private static final String SLASHEDOPENBLOCK = "\\$\\[";
+    private static final String SLASHEDCLOSEBLOCK = "\\]\\$";
+
     /**
      * Character which represents in the arg array popping a tuple from the
      * tuple stack
@@ -695,6 +701,27 @@ public class ArgArray extends ArrayList<String> {
             s = next();
         }
         return s;
+    }
+
+    /**
+     * Next element in arg array as a semantic whole, a block or quote or some
+     * single element such as a plainword or tuplename or popname.
+     *
+     * @return Next element in arg array as a semantic whole
+     */
+    public String nextAssimilableElement() {
+        String result;
+        if (isNextQuotation()) {
+            result = SLASHEDOPENQUOTE + ' ' + nextMaybeQuotation() + SLASHEDCLOSEQUOTE;
+        } else if (isNextBlock()) {
+            //interpreter.getArgArray().remove(0); // throw away the block opener!
+            result = SLASHEDOPENBLOCK + ' ' + nextUnlessNotBlock() + SLASHEDCLOSEBLOCK;
+            result = result.replace(OPENQUOTE, SLASHEDOPENQUOTE);
+            result = result.replace(CLOSEQUOTE, SLASHEDCLOSEQUOTE);
+        } else {
+            result = next();
+        }
+        return result;
     }
 
     /**

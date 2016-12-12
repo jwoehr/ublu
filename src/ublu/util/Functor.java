@@ -144,6 +144,7 @@ public class Functor implements Serializable {
      */
     public String bindWithSubstitutes(Interpreter interpreter, TupleNameList tnl) {
         tnl = subTupleNameList(interpreter, tnl);
+        // /* debug */ System.err.println("Tuple name list is " + tnl);
         FunctorParamList fpl = getFunctorParamList();
         String s = getBlock();
         String y;
@@ -186,7 +187,7 @@ public class Functor implements Serializable {
      * @param tupleName the real tuple name
      * @param index
      * @return a new tuple in the local map created by
- Interpreter.executeFunctor
+     * Interpreter.executeFunctor
      */
     public Tuple createSubstitute(Interpreter interpreter, String tupleName, long index) {
         Tuple t = interpreter.getTuple(tupleName);

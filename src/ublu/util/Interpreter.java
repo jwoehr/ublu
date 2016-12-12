@@ -1056,7 +1056,7 @@ public class Interpreter {
             getArgArray().next(); // discard "("
             tnl = new TupleNameList();
             while (!getArgArray().peekNext().equals(")")) {
-                tnl.add(getArgArray().next());
+                tnl.add(getArgArray().nextAssimilableElement());
             }
             getArgArray().next(); // discard ")"
         }
