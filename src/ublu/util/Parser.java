@@ -78,6 +78,7 @@ public class Parser {
             try {
                 line = Lexer.parseString(getInput());
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return line;
