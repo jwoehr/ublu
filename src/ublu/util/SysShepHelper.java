@@ -101,7 +101,7 @@ public class SysShepHelper {
         bldr.append(String.valueOf(longValue));
         bldr.append("\t");
         bldr.append(status.ordinal());
-        if (status.equals(STATUS.CRITICAL)) {
+        if (status.equals(STATUS.CRITICAL) || status.equals(STATUS.WARNING)) {
             bldr.append("\t");
             bldr.append(message);
         }
@@ -123,7 +123,7 @@ public class SysShepHelper {
         bldr.append(String.valueOf(floatValue));
         bldr.append("\t");
         bldr.append(status.ordinal());
-        if (status.equals(STATUS.CRITICAL)) {
+        if (status.equals(STATUS.CRITICAL) || status.equals(STATUS.WARNING)) {
             bldr.append("\t");
             bldr.append(message);
         }
@@ -145,7 +145,7 @@ public class SysShepHelper {
         bldr.append(String.valueOf(value));
         bldr.append("\t");
         bldr.append(status.ordinal());
-        if (status.equals(STATUS.CRITICAL)) {
+        if (status.equals(STATUS.CRITICAL) || status.equals(STATUS.WARNING)) {
             bldr.append("\t");
             bldr.append(message);
         }
