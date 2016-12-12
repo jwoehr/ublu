@@ -25,6 +25,9 @@
  */
 package ublu.util;
 
+import ublu.lexer.Lexer;
+import java.io.IOException;
+
 /**
  * Parser to take an input line and lex it into an {@link ArgArray}.
  *
@@ -72,8 +75,10 @@ public class Parser {
     public String[] parseALine() {
         String[] line = null;
         if (getInput() != null) {
-            setInput(getInput().trim());
-            line = getInput().split("\\p{Space}+");
+            try {
+                line = Lexer.parseString(getInput());
+            } catch (IOException e) {
+            }
         }
         return line;
     }
