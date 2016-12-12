@@ -833,22 +833,6 @@ public class Generics {
      * Holds Tuple names to match to the param list in Functors
      */
     public static class TupleNameList extends StringArrayList {
-
-        /**
-         * Replaces entries consisting of "~" with the key of the tuple popped
-         * from the tuple stack.
-         *
-         * @param interpreter the interpreter with the tuple stack
-         * @return this tuple name list de-lifo-ized
-         */
-        public TupleNameList delifoize(Interpreter interpreter) {
-            for (int i = 0; i < this.size(); i++) {
-                if (get(i).equals(ArgArray.POPTUPLE)) {
-                    set(i, interpreter.getTupleStack().pop().getKey());
-                }
-            }
-            return this;
-        }
     }
 
     /**
