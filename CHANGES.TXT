@@ -8,6 +8,9 @@ System
 * default tuples
 	* @true
 	* @false
+* interpreter
+	* allow quoted strings as function arguments
+	* allow blocks as function arguments
 	
 Commands
 * general

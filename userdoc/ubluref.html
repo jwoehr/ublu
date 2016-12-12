@@ -5,11 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 11 Dec 2016 02:29:13 UTC">
+  "Mon, 12 Dec 2016 02:29:13 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -565,11 +564,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <p>Ublu provides the command <a href="#FUNC">FUNC</a> to define
   functions with argument lists which can later be invoked with
-  appropriate arguments.<br></p>Commands and command features are
-  steadily being added to the repertoire of Ublu. Suggestions for
-  added commands or extensions to extant commands are welcome and
-  should be made via whatever ticketing system is present on the
-  site where Ublu is distributed.
+  appropriate arguments.</p>
+
+  <p>Commands and command features are steadily being added to the
+  repertoire of Ublu. Suggestions for added commands or extensions
+  to extant commands are welcome and should be made via whatever
+  ticketing system is present on the site where Ublu is
+  distributed.</p>
 
   <h2><a name="Installation">Installation</a></h2>
 
@@ -1089,7 +1090,7 @@ Type help for help. Type license for license. Type bye to exit.
   sequence <tt>@///</tt><i>number</i>. A tuple name of this form
   (e.g., <tt>@///19</tt>) denotes a temporary variable used in
   function argument binding. Currently the protection of this form
-  of tuple name&nbsp; is not enforced by the interpreter.
+  of tuple name is not enforced by the interpreter.
   <b>Unpredictable results</b> can occur if you use this form to
   name a tuple variable.<br>
 
@@ -1375,10 +1376,22 @@ Type help for help. Type license for license. Type bye to exit.
   ("token pasting") of argument references (e.g.,
   <tt>@@some_arg</tt>) in the execution block to the actual
   positional parameter value provided at the time the function is
-  called. No interpretation such as <tt>${ string assimilation
-  }$</tt> is done during the function parameter binding process:
-  all arguments must be <tt>@variable</tt> or <a href=
-  "#Plain_words">plainword</a>.</p>
+  called.</p>
+
+  <p>Arguments passed to a function or functor can be</p>
+
+  <ul>
+    <li><a href="#Tuple_Variables"><tt>@variable</tt></a></li>
+
+    <li><a href="#Plain_words">plainword</a></li>
+
+    <li><a href="#Quoted_strings">quoted string</a></li>
+
+    <li><a href="#Execution_blocks">block</a></li>
+  </ul>
+
+  <p>Arguments other than blocks or quoted strings are handled as
+  follows:</p>
 
   <ul>
     <li>If the argument provided is a simple lex, e.g.,
