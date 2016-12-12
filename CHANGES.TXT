@@ -11,7 +11,7 @@ System
 * interpreter
 	* allow quoted strings as function arguments
 	* allow blocks as function arguments
-	
+
 Commands
 * general
 	* more cleanup
