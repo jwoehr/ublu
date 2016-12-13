@@ -19,6 +19,8 @@ Commands
 	* db
 		* -columnnames
 		* bug: -bytes
+	* dpoint
+		* WARNING status now has message
 	* file
 	    * -createdds
 	    * -createfmt
