@@ -436,7 +436,15 @@ public class SysShepHelper {
      */
     public STATUS getStatus() throws BadNumberClassException {
         STATUS status = STATUS.OK;
-        if (getValue() != null && getAlertlevel() != null) {
+
+        // Do not use a switch, because comparator might be null
+        if (alertcomparator == ALERTCOMPARATOR.INFO) {
+            status = STATUS.OK;
+        } else if (alertcomparator == ALERTCOMPARATOR.WARN) {
+            status = STATUS.WARNING;
+        } else if (alertcomparator == ALERTCOMPARATOR.CRIT) {
+            status = STATUS.CRITICAL;
+        } else if (getValue() != null && getAlertlevel() != null) {
             Class valueClass = getValueClass();
             if (valueClass.equals(Float.class)) {
                 status = getFloatStatus();
