@@ -1338,5 +1338,18 @@ public class Generics {
             this();
             addAll(Arrays.asList(ra));
         }
+
+        /**
+         * Return the contents as a simple Record array.
+         *
+         * @return the contents as a simple Record array
+         */
+        public Record[] recordArray() {
+            Record[] result = new Record[size()];
+            for (int i = 0; i < size(); i++) {
+                result[i] = get(i);
+            }
+            return result;
+        }
     }
 }
