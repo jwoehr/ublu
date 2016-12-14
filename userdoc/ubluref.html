@@ -5,10 +5,11 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 12 Dec 2016 02:29:13 UTC">
+  "Wed, 14 Dec 2016 20:21:41 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -60,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-11</p>
+  Last edit: 2016-12-14</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4489,8 +4490,9 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{textDescription} | -open ~@{R|W|RW} | -close | -list | -pos
     ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write
-    ~@record ] [-to datasink] ~@{/fully/qualified/ifspathname}
-    ~@{system} ~@{user} ~@{password} : record file access</tt><br>
+    ~@record | -writeall ~@recordarray ] [-to datasink]
+    ~@{/fully/qualified/ifspathname} ~@{system} ~@{user}
+    ~@{password} : record file access</tt><br>
     <br>
     The <tt>file</tt> command provides i Series OS record file
     access.<br>
@@ -4619,7 +4621,9 @@ Type help for help. Type license for license. Type bye to exit.
         <tt>-read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL}</tt> reads and
         <a href="#put"><tt>put</tt></a>s one or more records. If a
         single record, the single Record is put. If multiple
-        records, an array of Records is put.
+        records (<code>ALL</code>), an array of Records of an Ublu
+        array type matching the type consumed by
+        <code>-writeall</code> is put.
 
         <ul>
           <li><tt>CURR</tt> current</li>
@@ -4643,6 +4647,9 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-write ~@record</tt> writes the record (often created
       via the <a href="#record"><tt>record</tt></a> command) to the
       end of the file.</li>
+
+      <li><tt>-writeall ~@recordarray</tt> writes the record array
+      to the end of the file.</li>
 
       <li><tt>-setfmt ~@format</tt> sets the format of the file
       object to the specified RecordFormat (usually obtained via
