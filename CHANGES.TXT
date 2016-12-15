@@ -55,6 +55,7 @@ Extensions
 * new
 	* sysshep.qsys2.system_status.ublu
 	* sysshep.qsys2.memory_pool.ublu
+	* ux.msg.ublu
 * updated
 	* sysshep.qsys2.sysdiskstat.ublu
 		* changed format

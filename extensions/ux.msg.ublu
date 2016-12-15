@@ -62,7 +62,7 @@ FUNC ux.msg.getFromProgram ( theMsg ) $[
 ]$
 
 # Returns the 4-byte message key.
-byte[]#  getKey
+# byte[]  getKey
 FUNC ux.msg.getKey ( theMsg ) $[
     calljava -to ~ -- @@theMsg -method getKey
 ]$
