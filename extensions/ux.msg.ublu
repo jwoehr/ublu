@@ -104,7 +104,7 @@ FUNC ux.msg.getQueue ( theMsg ) $[
 ]$
 
 # Returns the number of statement numbers or instruction numbers available for the receiving program or procedure.
-String[]#  getReceiverStatementNumbers
+# String[]  getReceiverStatementNumbers
 FUNC ux.msg.getReceiverStatementNumbers ( theMsg ) $[
     calljava -to ~ -- @@theMsg -method getReceiverStatementNumbers
 ]$
@@ -170,7 +170,7 @@ FUNC ux.msg.getSendingProcedureName ( theMsg ) $[
 ]$
 
 # Returns number of sending statement numbers or instruction numbers available followed by an array of the sending statement numbers or instruction numbers.
-String[]#  getSendingStatementNumbers
+# String[] getSendingStatementNumbers
 FUNC ux.msg.getSendingStatementNumbers ( theMsg ) $[
     calljava -to ~ -- @@theMsg -method getSendingStatementNumbers
 ]$
