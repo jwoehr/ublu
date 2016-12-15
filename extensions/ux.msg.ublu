@@ -1,0 +1,196 @@
+# ux.msg.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Methods to call on the msg object referenced by Ublu's user command
+# and frequently obtained from a message list returned by Ublu's msgq command.
+
+# Returns the alert option.
+# String getAlertOption
+FUNC ux.msg.getAlertOption ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getAlertOption
+]$
+
+# Returns the coded character set identifier (CCSID) that the replacement data is returned in.
+# Integer getCcsidCodedCharacterSetIdentifierForData
+FUNC ux.msg.getCcsidCodedCharacterSetIdentifierForData ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getCcsidCodedCharacterSetIdentifierForData
+]$
+
+# Returns the coded character set identifier (CCSID) that the message text is returned in.
+# Integer getCcsidCodedCharacterSetIdentifierForText
+FUNC ux.msg.getCcsidCodedCharacterSetIdentifierForText ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getCcsidCodedCharacterSetIdentifierForText
+]$
+
+# Returns the CCSID conversion status indicator for data.
+# Integer getCcsidconversionStatusIndicatorForData
+FUNC ux.msg.getCcsidconversionStatusIndicatorForData ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getCcsidconversionStatusIndicatorForData
+]$
+
+# Returns the CCSID conversion status indicator for text.
+# Integer getCcsidConversionStatusIndicatorForText
+FUNC ux.msg.getCcsidConversionStatusIndicatorForText ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getCcsidConversionStatusIndicatorForText
+]$
+
+# Returns the current user name.
+# String getCurrentUser
+FUNC ux.msg.getCurrentUser ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getCurrentUser
+]$
+
+# Returns the sender job name.
+# String getFromJobName
+FUNC ux.msg.getFromJobName ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getFromJobName
+]$
+
+# Returns the sender job number.
+# String getFromJobNumber
+FUNC ux.msg.getFromJobNumber ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getFromJobNumber
+]$
+
+# Returns the sending program name.
+# String getFromProgram
+FUNC ux.msg.getFromProgram ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getFromProgram
+]$
+
+# Returns the 4-byte message key.
+byte[]#  getKey
+FUNC ux.msg.getKey ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getKey
+]$
+
+# Returns the text of a predefined message without replacement data substitution option.If an impromptu message is listed, this field contains the impromptu message text.
+# String getMessage
+FUNC ux.msg.getMessage ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getMessage
+]$
+
+# Returns the message help for the message listed without formatting characters and without replacement of data.
+# String getMessageHelp
+FUNC ux.msg.getMessageHelp ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getMessageHelp
+]$
+
+# Returns the message help for the message listed, including the replacement data but without formatting characters.
+# String getMessageHelpFormat
+FUNC ux.msg.getMessageHelpFormat ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getMessageHelpFormat
+]$
+
+# Returns the message help for the message listed, including the replacement data.
+# String getMessageHelpReplacement
+FUNC ux.msg.getMessageHelpReplacement ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getMessageHelpReplacement
+]$
+
+# Returns the message help for the message listed, including the replacement data and the formatting characters.
+# String getMessageHelpReplacementandFormat
+FUNC ux.msg.getMessageHelpReplacementandFormat ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getMessageHelpReplacementandFormat
+]$
+
+# Returns the message queue.
+# MessageQueue getQueue
+FUNC ux.msg.getQueue ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getQueue
+]$
+
+# Returns the number of statement numbers or instruction numbers available for the receiving program or procedure.
+String[]#  getReceiverStatementNumbers
+FUNC ux.msg.getReceiverStatementNumbers ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getReceiverStatementNumbers
+]$
+
+# Returns the name of the module that contains the procedure where the message was sent.
+# String getReceivingModuleName
+FUNC ux.msg.getReceivingModuleName ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getReceivingModuleName
+]$
+
+# Returns the name of the procedure receiving the message.
+# String getReceivingProcedureName
+FUNC ux.msg.getReceivingProcedureName ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getReceivingProcedureName
+]$
+
+# Returns the program name, or the ILE program name that contains the procedure that the message was sent to.
+# String getReceivingProgramName
+FUNC ux.msg.getReceivingProgramName ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getReceivingProgramName
+]$
+
+# Returns the type of the receiver (whether it is a program or a procedure).
+# String getReceivingType
+FUNC ux.msg.getReceivingType ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getReceivingType
+]$
+
+# Returns the reply status.
+# String getReplyStatus
+FUNC ux.msg.getReplyStatus ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getReplyStatus
+]$
+
+# Returns the level of the request-processing program that received the request message.
+# Integer getRequestLevel
+FUNC ux.msg.getRequestLevel ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getRequestLevel
+]$
+
+# Returns information regarding the processing status of the request message.
+# String getRequestStatus
+FUNC ux.msg.getRequestStatus ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getRequestStatus
+]$
+
+# Returns the type of the sender (whether it is a program or procedure).
+# String getSenderType
+FUNC ux.msg.getSenderType ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getSenderType
+]$
+
+# Returns the name of the module that contains the procedure sending the message.
+# String getSendingModuleName
+FUNC ux.msg.getSendingModuleName ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getSendingModuleName
+]$
+
+# Returns the name of the procedure sending the message.
+# String getSendingProcedureName
+FUNC ux.msg.getSendingProcedureName ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getSendingProcedureName
+]$
+
+# Returns number of sending statement numbers or instruction numbers available followed by an array of the sending statement numbers or instruction numbers.
+String[]#  getSendingStatementNumbers
+FUNC ux.msg.getSendingStatementNumbers ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getSendingStatementNumbers
+]$
+
+# Returns the name of the user profile that the thread was running under when the message was sent.
+# String getSendingUserProfile
+FUNC ux.msg.getSendingUserProfile ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getSendingUserProfile
+]$
+
+# Returns the sender job's user.
+# String getUser
+FUNC ux.msg.getUser ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method getUser
+]$
+
+# Returns the String representation of this QueuedMessage object.
+# String toString
+FUNC ux.msg.toString ( theMsg ) $[
+    calljava -to ~ -- @@theMsg -method toString
+]$
+
+# end
