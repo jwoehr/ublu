@@ -324,12 +324,12 @@ public class CmdList extends Command {
                     .cast(o));
         } else if (o instanceof String) {
             tal = new ThingArrayList(new StringArrayList(String.class.cast(o)));
-        } else if (o instanceof Object[]) {
-            tal = new ThingArrayList((Object[]) o);
         } else if (o instanceof String[]) {
             tal = new ThingArrayList((String[]) o);
         } else if (o instanceof byte[]) {
             tal = new ThingArrayList((byte[]) o);
+        } else if (o instanceof Object[]) {
+            tal = new ThingArrayList((Object[]) o);
         } else {
             getLogger().log(Level.SEVERE, "Cannot create List from {0} in {1}", new Object[]{o, getNameAndDescription()});
             setCommandResult(COMMANDRESULT.FAILURE);
