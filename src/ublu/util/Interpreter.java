@@ -884,17 +884,14 @@ public class Interpreter {
         props = new Props();
         myDBug = new DBug(this);
         constMap = new ConstMap();
-        TerminalBuilder builder = TerminalBuilder.builder();
         Terminal terminal = null;
         try {
-             terminal = builder.build();
+            terminal = TerminalBuilder.terminal();
         } catch (IOException e) {
             System.err.println(e.toString());
         }
         reader = LineReaderBuilder.builder()
             .terminal(terminal)
-            .completer(null)
-            .parser(null)
             .build();
     }
 

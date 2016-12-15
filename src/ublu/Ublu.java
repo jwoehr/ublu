@@ -132,6 +132,9 @@ public class Ublu {
                 .append("\n---\n")
                 .append("org.json\n")
                 .append("Copyright (c) 2002 JSON.org")
+                .append("\n---\n")
+                .append("JLine 3\n")
+                .append("Copyright (c) 2002-2016, the original author or authors.")
                 .toString();
     }
 
