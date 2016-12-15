@@ -45,7 +45,7 @@ import java.util.logging.Level;
 public class CmdJob extends Command {
 
     {
-        setNameAndDescription("job", "/6? [-as400 ~@as400] [--,-job ~@job] [-to datasink] [-refresh] [-end (@)delaytime (-1 for \"controlled\") | -get ~@property[name|number|system|user|description|type] | -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop | -query ~@property[user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit] | -release | -spec] (@)jobName (@)userName (@)jobNumber (@)system (@)userid (@)password : manipulate jobs on the host");
+        setNameAndDescription("job", "/6? [-as400 ~@as400] [--,-job ~@job] [-to datasink] [-refresh] [-end ~@{delaytime} (-1 for \"controlled\") | -get ~@{property([name|number|system|user|description|type])} | -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop | -query ~@{property([user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit])} | -release | -spec] ~@{jobName} ~@{userName} ~@{jobNumber} ~@{system} ~@{userid} ~@{password} : manipulate jobs on the host");
     }
 
     /**
@@ -133,7 +133,7 @@ public class CmdJob extends Command {
                     break;
                 case "-get":
                     function = FUNCTIONS.GET;
-                    propertyToGet = argArray.nextMaybeTupleString();
+                    propertyToGet = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-getsys":
                     function = FUNCTIONS.GETSYS;
@@ -162,7 +162,7 @@ public class CmdJob extends Command {
                     break;
                 case "-query":
                     function = FUNCTIONS.QUERY;
-                    query = argArray.nextMaybeQuotationTuplePopString();
+                    query = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-refresh":
                     function = FUNCTIONS.REFRESH;
@@ -186,9 +186,9 @@ public class CmdJob extends Command {
                     logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else { // get the Job factors
-                    String jobName = argArray.nextMaybeTupleString();
-                    String userName = argArray.nextMaybeTupleString();
-                    String jobNumber = argArray.nextMaybeTupleString();
+                    String jobName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    String userName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    String jobNumber = argArray.nextMaybeQuotationTuplePopStringTrim();
                     if (getAs400() == null) { // no AS400 instance
                         if (argArray.size() < 3) {
                             logArgArrayTooShortError(argArray);
@@ -241,7 +241,7 @@ public class CmdJob extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
-                    case INFO:                       
+                    case INFO:
                     case INSTANCE:
                         try {
                             put(myJob);

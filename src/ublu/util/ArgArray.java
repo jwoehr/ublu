@@ -617,6 +617,45 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
+     * Check if the next element in the ArgArray is a tuplename or the symbol
+     * POPTUPLE ("~"), and if so, return the string value of the tuple trimmed.
+     * If it's not a tuple (popped or otherwise), look for the the openquote and
+     * if so assimilate the quotation before returning the next element in the
+     * ArgArray whether it was a quotation or just a plain word.
+     *
+     * @return next element in the ArgArray, possibly a string from a tuple
+     * (popped or otherwise) or an assimilated quotation trimmed. Value could be
+     * null from a tuple
+     */
+    public String nextMaybeQuotationTuplePopStringTrim() {
+        String result = null;
+        if (isNextConstName() && getInterpreter().getConst(peekNext()) != null) {
+            result = getInterpreter().getConst(next());
+        } else if (isNextTupleNameOrPop()) {
+            Tuple t;
+            if (isNextPopTuple()) {
+                t = getInterpreter().getTupleStack().pop();
+                next(); // discard "~"
+            } else {
+                t = getInterpreter().getTuple(next());
+            }
+            if (t != null) {
+                Object o = t.getValue();
+                result = o == null ? null : t.getValue().toString();
+            }
+        } else {
+            if (isNextQuotation()) {
+                assimilateFullQuotation();
+            }
+            result = next();
+        }
+        if (result != null) {
+            result = result.trim();
+        }
+        return result;
+    }
+
+    /**
      * Check if the next element in the ArgArray is a tuple or an unadorned lex
      * and return either the tuple value or the String lex.
      *
