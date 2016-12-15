@@ -27,7 +27,6 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
-import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.Job;
@@ -242,17 +241,13 @@ public class CmdJob extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
-                    case INFO:
+                    case INFO:                       
+                    case INSTANCE:
                         try {
                             put(myJob);
                         } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error putting Job info in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
-                    case INSTANCE:
-                        if (jobTupleName != null) {
-                            setTuple(jobTupleName, myJob);
                         }
                         break;
                     case NOOP:
