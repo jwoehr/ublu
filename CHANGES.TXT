@@ -24,6 +24,11 @@ Commands
 	* file
 	    * -createdds
 	    * -createfmt
+	    * -writeall
+	    * -commitstart
+	    * -commit
+	    * -rollback
+	    * -commitend
 		* change -pos BF to B
 	* gensh
 		* -strictPosix

@@ -6,6 +6,7 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -4483,11 +4484,13 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed
-    | -createdds ~@{ddsPath} ~@{textDescription} | -createfmt
-    ~@recFormat ~@{textDescription} | -del | -delmemb | -delrec |
-    -getfmt | -setfmt ~@format | -sequential] [-new | -create
-    ~@{recordLength} ~@{fileType([*DATA|*SOURCE])}
-    ~@{textDescription} | -open ~@{R|W|RW} | -close | -list | -pos
+    | -sequential] [-new | -create ~@{recordLength}
+    ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds
+    ~@{ddsPath} ~@{textDescription} | -createfmt ~@recFormat
+    ~@{textDescription} | -commitstart
+    ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback |
+    -commitend | -del | -delmemb | -delrec | -getfmt | -setfmt
+    ~@format | -open ~@{R|W|RW} | -close | -list | -pos
     ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write
     ~@record | -writeall ~@recordarray ] [-to datasink]
@@ -4568,6 +4571,18 @@ Type help for help. Type license for license. Type bye to exit.
       from the record format specified by the supplied
       <em>recFormat</em> object with description
       <em>textDescription</em>.</li>
+
+      <li><code>-commitstart
+      ~@{lockLevel([ALL|CHANGE|STABLE])}</code> starts commitment
+      control on the file at the specified lock level</li>
+
+      <li><code>-rollback</code> rolls back any transactions since
+      the last commit/rollback boundary.</li>
+
+      <li><code>-commit</code> commits changes to the file.</li>
+
+      <li><code>-commitend</code> ends commitment control on the
+      file.</li>
 
       <li>
         <tt>-open ~@{R|W|RW}</tt> opens the file or member
