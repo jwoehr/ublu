@@ -50,19 +50,11 @@ import java.nio.file.Path;
 import java.util.Set;
 import ublu.util.Generics.ConstMap;
 
-import org.jline.keymap.KeyMap;
-import org.jline.reader.*;
-import org.jline.reader.impl.DefaultParser;
-import org.jline.reader.impl.LineReaderImpl;
-import org.jline.reader.impl.completer.ArgumentCompleter;
-import org.jline.reader.impl.completer.FileNameCompleter;
-import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.reader.EndOfFileException;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-import org.jline.utils.AttributedString;
-import org.jline.utils.AttributedStringBuilder;
-import org.jline.utils.AttributedStyle;
-import org.jline.utils.InfoCmp.Capability;
 
 /**
  * command interface object
@@ -884,15 +876,17 @@ public class Interpreter {
         props = new Props();
         myDBug = new DBug(this);
         constMap = new ConstMap();
-        Terminal terminal = null;
-        try {
-            terminal = TerminalBuilder.terminal();
-        } catch (IOException e) {
-            System.err.println(e.toString());
+        if (isConsole()) {
+            Terminal terminal = null;
+            try {
+                terminal = TerminalBuilder.terminal();
+            } catch (IOException e) {
+                System.err.println(e.toString());
+            }
+            reader = LineReaderBuilder.builder()
+                .terminal(terminal)
+                .build();
         }
-        reader = LineReaderBuilder.builder()
-            .terminal(terminal)
-            .build();
     }
 
     /**
