@@ -50,6 +50,20 @@ import java.nio.file.Path;
 import java.util.Set;
 import ublu.util.Generics.ConstMap;
 
+import org.jline.keymap.KeyMap;
+import org.jline.reader.*;
+import org.jline.reader.impl.DefaultParser;
+import org.jline.reader.impl.LineReaderImpl;
+import org.jline.reader.impl.completer.ArgumentCompleter;
+import org.jline.reader.impl.completer.FileNameCompleter;
+import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.AttributedString;
+import org.jline.utils.AttributedStringBuilder;
+import org.jline.utils.AttributedStyle;
+import org.jline.utils.InfoCmp.Capability;
+
 /**
  * command interface object
  *
@@ -74,6 +88,7 @@ public class Interpreter {
     private Props props;
     private long paramSubIndex = 0;
     private int instanceDepth = 0;
+    private LineReader reader;
 
     /**
      * Get the const map
@@ -869,6 +884,18 @@ public class Interpreter {
         props = new Props();
         myDBug = new DBug(this);
         constMap = new ConstMap();
+        TerminalBuilder builder = TerminalBuilder.builder();
+        Terminal terminal = null;
+        try {
+             terminal = builder.build();
+        } catch (IOException e) {
+            System.err.println(e.toString());
+        }
+        reader = LineReaderBuilder.builder()
+            .terminal(terminal)
+            .completer(null)
+            .parser(null)
+            .build();
     }
 
     /**
@@ -1294,7 +1321,11 @@ public class Interpreter {
                 getLogger().log(Level.SEVERE, "IO error reading included file", ex);
             }
         } else if (isConsole()) {
-            input = System.console().readLine();
+            try {
+                input = reader.readLine(prompt(), "", null, null);
+            } catch (EndOfFileException e) {
+                setGoodBye(true);
+            }
         } else { // we're reading from the input stream
             try {
                 input = getInputStreamBufferedReader().readLine();
@@ -1319,7 +1350,6 @@ public class Interpreter {
      */
     public int interpret() {
         while (!isGoodBye()) {
-            prompt();
             readAndParse();
             loop();
             if (isGoodBye() && isConsole() && instanceDepth == 0) {
@@ -1334,7 +1364,7 @@ public class Interpreter {
      * parsing a multiline <tt>${ quoted string }$</tt> an intermediate
      * continuation prompt of <tt>${</tt>
      */
-    public void prompt() {
+    public String prompt() {
         if (isPrompting()) {
             StringBuilder sb = new StringBuilder(instanceDepth == 0 ? "" : Integer.toString(instanceDepth)).append("> ");
             String thePrompt = sb.toString();
@@ -1350,8 +1380,9 @@ public class Interpreter {
                 thePrompt = sb.toString();
             }
             if (isConsole()) {
-                outputerr(thePrompt);
+                return thePrompt;
             }
         }
+        return "";
     }
 }
