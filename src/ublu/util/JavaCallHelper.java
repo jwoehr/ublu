@@ -62,6 +62,8 @@ public class JavaCallHelper {
      * @param methodName The method name to find.
      * @param args The classes of the argument list.
      * @return the found method
+     * @throws NoSuchMethodException if the method could not be found matching any argument superclass combination
+     * @author Taylor C. Richberger
      */
     public static Method FindMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
         try {
@@ -103,6 +105,11 @@ public class JavaCallHelper {
      *
      * This method checks the cache first, then calls the recursive FindMethod
      * if the cache check misses.
+     * @param obj The class of the object to find the method for.
+     * @param methodName The method name to find.
+     * @param args The classes of the argument list.
+     * @return the found method
+     * @throws NoSuchMethodException if the method could not be found matching any argument superclass combination
      */
     public static Method GetMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
         // First check the cache for a call with the same class, argument classes, and method name
@@ -143,6 +150,9 @@ public class JavaCallHelper {
      * @throws NoSuchMethodException
      */
     public JavaCallHelper(Object o, String methodName, MethodArgPairList margs) throws NoSuchMethodException {
+        // TCR note: GetMethod is used as a level of indirection to facilitate
+        // a conditional "search cache or do a deep search for matching method"
+        // method finder
         this(o, GetMethod(o.getClass(), methodName, margs.toClassArray()), margs.toArgList());
         this.margs = margs;
     }
@@ -334,6 +344,9 @@ public class JavaCallHelper {
 
     /**
      * Class for use as a hash key, for the method cache.
+     *
+     * Essentially just a simple struct with some overrides to facilitate use
+     * as a HashMap key.
      */
     private static class MethodKey {
         private Class object;
