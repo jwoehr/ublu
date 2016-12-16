@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,21 +53,20 @@ public class JavaCallHelper {
         cache = Collections.synchronizedMap(new HashMap<MethodKey, Method>());
     }
 
-    /** 
+    /**
      * A deepsearch method finder.
      *
-     * This recursively searches for a method in obj and all of its
-     * superclasses and interfaces, crawling up all superclasses and interfaces
-     * of each part of args in turn as well.
+     * This recursively searches for a method in obj and all of its superclasses
+     * and interfaces, crawling up all superclasses and interfaces of each part
+     * of args in turn as well.
      *
      * @param obj The class of the object to find the method for.
      * @param methodName The method name to find.
      * @param args The classes of the argument list.
      * @return the found method
-     * @throws NoSuchMethodException if the method could not be found matching any argument superclass combination
-     * @author Taylor C. Richberger
+     * @throws java.lang.NoSuchMethodException
      */
-    public static Method FindMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
+    public static Method findMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
         try {
             // Try the literal argument list first
             return obj.getMethod(methodName, args);
@@ -79,16 +80,16 @@ public class JavaCallHelper {
                 // Skip if it is null, because that means it was already Object or Class
                 if (newArgs[i] != null) {
                     try {
-                        return FindMethod(obj, methodName, newArgs);
+                        return findMethod(obj, methodName, newArgs);
                     } catch (NoSuchMethodException ex) {
                         // Do nothing here.
                     }
                 }
                 // Try interfaces as well
-                for (Class iface: prev.getInterfaces()) {
+                for (Class iface : prev.getInterfaces()) {
                     newArgs[i] = iface;
                     try {
-                        return FindMethod(obj, methodName, newArgs);
+                        return findMethod(obj, methodName, newArgs);
                     } catch (NoSuchMethodException ex) {
                         // Do nothing here.
                     }
@@ -105,13 +106,14 @@ public class JavaCallHelper {
      *
      * This method checks the cache first, then calls the recursive FindMethod
      * if the cache check misses.
-     * @param obj The class of the object to find the method for.
-     * @param methodName The method name to find.
-     * @param args The classes of the argument list.
-     * @return the found method
-     * @throws NoSuchMethodException if the method could not be found matching any argument superclass combination
+     *
+     * @param obj class for method
+     * @param methodName name of method
+     * @param args argument types
+     * @return method with the signature
+     * @throws java.lang.NoSuchMethodException
      */
-    public static Method GetMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
+    public static Method getMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
         // First check the cache for a call with the same class, argument classes, and method name
         MethodKey key = new MethodKey(obj, methodName, args);
         Method method = cache.get(key);
@@ -119,7 +121,7 @@ public class JavaCallHelper {
         // exception to propegate if not found.  Set the method in the cache
         // for future calls.
         if (method == null) {
-            method = FindMethod(obj, methodName, args);
+            method = findMethod(obj, methodName, args);
             cache.put(key, method);
         }
         return method;
@@ -150,10 +152,7 @@ public class JavaCallHelper {
      * @throws NoSuchMethodException
      */
     public JavaCallHelper(Object o, String methodName, MethodArgPairList margs) throws NoSuchMethodException {
-        // TCR note: GetMethod is used as a level of indirection to facilitate
-        // a conditional "search cache or do a deep search for matching method"
-        // method finder
-        this(o, GetMethod(o.getClass(), methodName, margs.toClassArray()), margs.toArgList());
+        this(o, getMethod(o.getClass(), methodName, margs.toClassArray()), margs.toArgList());
         this.margs = margs;
     }
 
@@ -344,38 +343,49 @@ public class JavaCallHelper {
 
     /**
      * Class for use as a hash key, for the method cache.
-     *
-     * Essentially just a simple struct with some overrides to facilitate use
-     * as a HashMap key.
      */
     private static class MethodKey {
-        private Class object;
-        private String name;
-        private Class[] args;
+
+        private final Class object;
+        private final String name;
+        private final Class[] args;
 
         MethodKey(Class object, String name, Class[] args) {
             this.object = object;
             this.name = name;
             this.args = args;
         }
+
         Class getObject() {
             return object;
         }
+
         String getName() {
             return name;
         }
+
         Object[] getArgs() {
             return args;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (obj == null) return false;
-            if (getClass() != obj.getClass()) return false;
-            final MethodKey other = (MethodKey)obj;
-            if (!this.object.equals(other.object)) return false;
-            if (!this.name.equals(other.name)) return false;
-            if (!Arrays.deepEquals(this.args, other.args)) return false;
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final MethodKey other = (MethodKey) obj;
+            if (!this.object.equals(other.object)) {
+                return false;
+            }
+            if (!this.name.equals(other.name)) {
+                return false;
+            }
+            if (!Arrays.deepEquals(this.args, other.args)) {
+                return false;
+            }
             return true;
         }
 

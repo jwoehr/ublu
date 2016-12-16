@@ -4,6 +4,10 @@ All rights reserved.
 
 1.1.5
 -----
+General
+* Taylor C. Richberger taywee@gmx.com has begun enhancing Ublu code and fixing
+various shortfalls, e..g, see his work on the calljava and dpoint commands.
+
 System
 * default tuples
 	* @true
@@ -16,11 +20,14 @@ Commands
 * general
 	* more cleanup
 * individual commands
+	* calljava
+		* properly deals with interfaces
 	* db
 		* -columnnames
 		* bug: -bytes
 	* dpoint
 		* WARNING status now has message
+		* dpoint allows a crit and warn alert comparator to work without value 
 	* file
 	    * -createdds
 	    * -createfmt
