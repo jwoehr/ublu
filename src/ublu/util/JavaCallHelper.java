@@ -99,6 +99,23 @@ public class JavaCallHelper {
         }
     }
 
+    /**
+     * Helper static method to simplify constructors.
+     */
+    public static Method GetMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
+        // First check the cache for a call with the same class, argument classes, and method name
+        MethodKey key = new MethodKey(obj, methodName, args);
+        Method method = cache.get(key);
+        // If not found, try to find the method recursively, allowing an
+        // exception to propegate if not found.  Set the method in the cache
+        // for future calls.
+        if (method == null) {
+            method = FindMethod(obj, methodName, args);
+            cache.put(key, method);
+        }
+        return method;
+    }
+
     private JavaCallHelper() {
     }
 
@@ -124,20 +141,7 @@ public class JavaCallHelper {
      * @throws NoSuchMethodException
      */
     public JavaCallHelper(Object o, String methodName, MethodArgPairList margs) throws NoSuchMethodException {
-        // First check the cache for a call with the same class, argument classes, and method name
-        MethodKey key = new MethodKey(o.getClass(), methodName, margs.toClassArray());
-        Method method = cache.get(key);
-        // If not found, try to find the method recursively, allowing an
-        // exception to propegate if not found.  Set the method in the cache
-        // for future calls.
-        if (method == null) {
-            method = FindMethod(o.getClass(), methodName, margs.toClassArray());
-            cache.put(key, method);
-        }
-
-        this.zObject = o;
-        this.zArgs = margs.toArgList();
-        this.zMethod = method;
+        this(o, GetMethod(o.getClass(), methodName, margs.toClassArray()), margs.toArgList());
         this.margs = margs;
     }
 
