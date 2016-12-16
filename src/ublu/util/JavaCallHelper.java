@@ -100,6 +100,9 @@ public class JavaCallHelper {
 
     /**
      * Helper static method to simplify constructors.
+     *
+     * This method checks the cache first, then calls the recursive FindMethod
+     * if the cache check misses.
      */
     public static Method GetMethod(Class obj, String methodName, Class[] args) throws NoSuchMethodException {
         // First check the cache for a call with the same class, argument classes, and method name
