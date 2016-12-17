@@ -342,6 +342,10 @@ public class GenSh {
 
     private String genInvocation() {
         StringBuilder sb = new StringBuilder("# Invocation\n");
+        // In case of relative import (especially for portable gensh scripts,
+        // which may not be run on the machine where they are generated, or in
+        // the same path), cd to the gensh script directory first.
+        sb.append("cd \"$(dirname \"$0\")\"\n");
         sb.append("java -jar ")
                 .append(fqJarPath)
                 .append(' ')
