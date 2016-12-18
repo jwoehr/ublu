@@ -49,6 +49,8 @@ public class Props {
      */
     public Props() {
         myProperties = new Properties();
+        String includepath = System.getProperty("ublu.includepath", "");
+        myProperties.setProperty("ublu.includepath", includepath.replace(";", ":"));
     }
 
     /**
