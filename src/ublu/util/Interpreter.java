@@ -27,17 +27,6 @@
  */
 package ublu.util;
 
-import ublu.Ublu;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import ublu.command.CommandInterface;
-import ublu.command.CommandInterface.COMMANDRESULT;
-import ublu.command.CommandMap;
-import ublu.util.Generics.UbluProgram;
-import ublu.util.Generics.FunctorMap;
-import ublu.util.Generics.InterpreterFrameStack;
-import ublu.util.Generics.TupleNameList;
-import ublu.util.Generics.TupleStack;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,9 +35,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ublu.Ublu;
+import ublu.command.CommandInterface.COMMANDRESULT;
+import ublu.command.CommandInterface;
+import ublu.command.CommandMap;
 import ublu.util.Generics.ConstMap;
+import ublu.util.Generics.FunctorMap;
+import ublu.util.Generics.InterpreterFrameStack;
+import ublu.util.Generics.TupleNameList;
+import ublu.util.Generics.TupleStack;
+import ublu.util.Generics.UbluProgram;
 
 /**
  * command interface object
@@ -1225,7 +1226,8 @@ public class Interpreter {
     }
 
     /**
-     * Read in a text file and execute as commands
+     * Read in a text file and execute as commands, searching ublu.includepath
+     * for relative paths.
      *
      * @param filepath Path to the file of commands
      * @return last command result
@@ -1234,9 +1236,28 @@ public class Interpreter {
      */
     public COMMANDRESULT include(Path filepath) throws FileNotFoundException, IOException {
         pushFrame();
-        Path currentIncludePath = getIncludePath();
-        if (currentIncludePath != null) {
-            filepath = currentIncludePath.resolve(filepath.normalize());
+
+        boolean foundPath = false;
+
+        // First order of business is to search the search paths
+        if (!filepath.isAbsolute()) {
+            for (String searchPart: getProperty("ublu.includepath").split(":"))
+            {
+                Path searchPath = FileSystems.getDefault().getPath(searchPart).resolve(filepath);
+                if (searchPath.toFile().exists()) {
+                    foundPath = true;
+                    filepath = searchPath.normalize();
+                    break;
+                }
+            }
+        }
+        // If the path wasn't found or is absolute, try the current path as is
+        // (allowing failure to raise an exception)
+        if (!foundPath) {
+            Path currentIncludePath = getIncludePath();
+            if (currentIncludePath != null) {
+                filepath = currentIncludePath.resolve(filepath.normalize());
+            }
         }
         setIncludePath(filepath.getParent());
         setIncluding(true);
