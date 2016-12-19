@@ -19,6 +19,7 @@ System
 Commands
 * general
 	* more cleanup
+	* ublu.includepath property management
 * individual commands
 	* calljava
 		* properly deals with interfaces
@@ -40,6 +41,9 @@ Commands
 	* gensh
 		* -strictPosix
 		* gensh was generating bad documentary headers when passed plainwords.
+        * -includepath
+    * include
+        * relative includes try to take ublu.includepath property into account
     * record
     	* -create
     	* -getcontents

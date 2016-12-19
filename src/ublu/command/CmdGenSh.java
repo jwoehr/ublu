@@ -47,7 +47,7 @@ public class CmdGenSh extends Command {
 
     {
         setNameAndDescription("gensh",
-                "/5+ [-to datasink] [-strictPosix] [[-path fullyqualifiedjarpath] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate launcher shell script");
+                "/5+ [-to datasink] [-strictPosix] [[-path fullyqualifiedjarpath] [-includepath searchpath] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate launcher shell script");
     }
 
     /**
@@ -89,6 +89,10 @@ public class CmdGenSh extends Command {
                 case "-path":
                     genSh.setFqJarPath(argArray.next());
                     genSh.accumulateCommand(genSh.getFqJarPath());
+                    break;
+                case "-includepath":
+                    genSh.setIncludePath(argArray.next());
+                    genSh.accumulateCommand(genSh.getIncludePath());
                     break;
                 default:
                     unknownDashCommand(dashCommand);

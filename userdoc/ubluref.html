@@ -5320,7 +5320,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/5+ [-to datasink] [-strictPosix] [[-path
-    fullyqualifiedjarpath] [-opt optchar assignment_name tuplename
+    fullyqualifiedjarpath] [-includepath searchpath] [-opt optchar assignment_name tuplename
     ${ description }$ ..] [-optr optchar assignment_name tuplename
     ${ description }$] [-optx optchar multiple_assignment_name
     tuplename ${ description }$ ..]] ~@${scriptname}
@@ -5355,6 +5355,11 @@ Type help for help. Type license for license. Type bye to exit.
     <ul>
       <li><code>-strictPosix</code> means the script will follow
       Posix standards for function declarations.</li>
+      <li><code>-includepath</code> may be used to set a search path for the
+        script (and all modules), primarily so that gensh scripts can be used
+        portably.  $SCRIPTDIR is an available variable for embedding, and will
+        be set to the gensh script's directory on call.
+      </li>
 
       <li><tt>-opt optchar assignment_name tuplename ${ description
       }$</tt> creates in the generated script a
