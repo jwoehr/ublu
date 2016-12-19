@@ -338,10 +338,9 @@ public class GenSh {
     }
 
     private String genScriptDir() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("# scriptdir generation for use in -includepath\n")
-            .append("SCRIPTDIR=\"$(CDPATH= cd \"$(dirname \"$0\")\" && pwd)\"\n");
-        return sb.toString();
+        // SCRIPTDIR variable generation, for use in ublu.includepath; the cd
+        // && pwd pair is used because a simple dirname fails on relative calls
+        return "SCRIPTDIR=$(CDPATH= cd \"$(dirname \"$0\")\" && pwd)\n";
     }
 
     private String genOptionsString() {
