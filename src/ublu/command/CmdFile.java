@@ -55,7 +55,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -127,6 +127,14 @@ public class CmdFile extends Command {
          */
         LIST,
         /**
+         * Lock physical file
+         */
+        LOCK,
+        /**
+         * Unlock physical file
+         */
+        UNLOCK,
+        /**
          * Nada
          */
         NOOP,
@@ -192,6 +200,8 @@ public class CmdFile extends Command {
         RecordFormat recFormat = null;
         RecordArrayList recordArrayList = null;
         String lockLevel = null;
+        String lockTypeString = null;
+        Integer lockType = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -276,6 +286,18 @@ public class CmdFile extends Command {
                             getLogger().log(Level.SEVERE, "Unknown open type {0} in {1}", new Object[]{openTypeString, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                     }
+                    break;
+                case "-lock":
+                    function = FUNCTIONS.LOCK;
+                    lockTypeString = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    lockType = lockLockType(lockTypeString);
+                    if (lockType == null) {
+                        getLogger().log(Level.SEVERE, "Unknown lock type {0} in {1}", new Object[]{lockTypeString, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case "-unlock":
+                    function = FUNCTIONS.UNLOCK;
                     break;
                 case "-recfmtnum":
                     recordFormatNumber = argArray.nextIntMaybeQuotationTuplePopString();
@@ -435,6 +457,34 @@ public class CmdFile extends Command {
                         }
                     } else {
                         getLogger().log(Level.SEVERE, "No AS400File object in {0} to commit.", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case LOCK:
+                    if (aS400File != null) {
+                        try {
+                            aS400File.lock(lockType);
+                        } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception locking an AS400File in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No AS400File object in {0} to lock.", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case UNLOCK:
+                    if (aS400File != null) {
+                        try {
+                            aS400File.releaseExplicitLocks();
+                        } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception unlocking an AS400File in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No AS400File object in {0} to unlock.", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -766,6 +816,31 @@ public class CmdFile extends Command {
                 break;
             case "STABLE":
                 result = AS400File.COMMIT_LOCK_LEVEL_CURSOR_STABILITY;
+                break;
+        }
+        return result;
+    }
+
+    private Integer lockLockType(String lockType) {
+        Integer result = null;
+        switch (lockType.toUpperCase()) {
+            case "RX":
+                result = AS400File.READ_EXCLUSIVE_LOCK;
+                break;
+            case "RSR":
+                result = AS400File.READ_ALLOW_SHARED_READ_LOCK;
+                break;
+            case "RSW":
+                result = AS400File.READ_ALLOW_SHARED_WRITE_LOCK;
+                break;
+            case "WX":
+                result = AS400File.WRITE_EXCLUSIVE_LOCK;
+                break;
+            case "WSR":
+                result = AS400File.WRITE_ALLOW_SHARED_READ_LOCK;
+                break;
+            case "WSW":
+                result = AS400File.WRITE_ALLOW_SHARED_WRITE_LOCK;
                 break;
         }
         return result;
