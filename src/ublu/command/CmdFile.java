@@ -208,14 +208,6 @@ public class CmdFile extends Command {
                         getLogger().log(Level.SEVERE, "Encountered an exception getting a file instance from the supplied command arguments in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-//                    fileTuple = argArray.nextTupleOrPop();
-//                    o = fileTuple.getValue();
-//                    if (o instanceof AS400File) {
-//                        aS400File = AS400File.class.cast(o);
-//                    } else {
-//                        getLogger().log(Level.SEVERE, "Encountered an exception getting a file instance from the supplied command arguments in {0}", getNameAndDescription());
-//                        setCommandResult(COMMANDRESULT.FAILURE);
-//                    }
                     break;
                 case "-keyed":
                     keyedNotSequential = true;
