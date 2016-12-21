@@ -8,10 +8,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 15 Dec 2016 21:16:05 UTC">
+  "Tue, 20 Dec 2016 04:33:14 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-15</p>
+  Last edit: 2016-12-19</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4490,7 +4491,8 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{ddsPath} ~@{textDescription} | -createfmt ~@recFormat
     ~@{textDescription} | -commitstart
     ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback |
-    -commitend | -del | -delmemb | -delrec | -getfmt | -setfmt
+    -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} |
+    -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt
     ~@format | -open ~@{R|W|RW} | -close | -list | -pos
     ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write
@@ -4584,6 +4586,29 @@ Type help for help. Type license for license. Type bye to exit.
 
       <li><code>-commitend</code> ends commitment control on the
       file.</li>
+
+      <li>
+        <code>-lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)}</code>
+        locks the file with the specified lock
+
+        <ul>
+          <li><code>RX</code> == READ_EXCLUSIVE_LOCK</li>
+
+          <li><code>RSR</code> == READ_ALLOW_SHARED_READ_LOCK</li>
+
+          <li><code>RSW</code> == READ_ALLOW_SHARED_WRITE_LOCK</li>
+
+          <li><code>WX</code> == WRITE_EXCLUSIVE_LOCK</li>
+
+          <li><code>WSR</code> == WRITE_ALLOW_SHARED_READ_LOCK</li>
+
+          <li><code>WSW</code> ==
+          WRITE_ALLOW_SHARED_WRITE_LOCK</li>
+        </ul>
+      </li>
+
+      <li><code>-unlock</code> releases the lock obtained via
+      <code>-lock</code></li>
 
       <li>
         <tt>-open ~@{R|W|RW}</tt> opens the file or member

@@ -32,6 +32,8 @@ Commands
 	* file
 	    * -createdds
 	    * -createfmt
+	    * -lock
+	    * -unlock
 	    * -writeall
 	    * -commitstart
 	    * -commit
