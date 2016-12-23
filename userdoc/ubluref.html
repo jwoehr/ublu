@@ -5345,7 +5345,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/5+ [-to datasink] [-strictPosix] [[-path
-    fullyqualifiedjarpath] [-opt optchar assignment_name tuplename
+    fullyqualifiedjarpath] [-includepath ~@${searchpath}] [-opt optchar assignment_name tuplename
     ${ description }$ ..] [-optr optchar assignment_name tuplename
     ${ description }$] [-optx optchar multiple_assignment_name
     tuplename ${ description }$ ..]] ~@${scriptname}
@@ -5380,6 +5380,13 @@ Type help for help. Type license for license. Type bye to exit.
     <ul>
       <li><code>-strictPosix</code> means the script will follow
       Posix standards for function declarations.</li>
+      <li><code>-includepath</code> may be used to set a search path for the
+        script (and all modules), primarily so that gensh scripts can be used
+        portably.  <code>$SCRIPTDIR</code> is an available variable for
+        embedding, and will be set to the gensh script's directory on call.
+        Check for the relative include description in <a
+        href="#include">include</a> for more information on how to use this.
+      </li>
 
       <li><tt>-opt optchar assignment_name tuplename ${ description
       }$</tt> creates in the generated script a
@@ -6731,10 +6738,53 @@ Type help for help. Type license for license. Type bye to exit.
     remove the input line echo, a pipe to a grep filter can
     eliminate the input lines. e.g.:<br></p>
 
+
     <blockquote>
       <tt>java -jar ublu.jar include somefile.ublu | grep -v
       '^\:\:' &gt;output.txt</tt><br>
     </blockquote>
+
+    <p>Inclusion of an absolute filepath is done literally as written.
+    Relative paths are done with a special set of rules as follows:</p>
+
+    <ul>
+      <li>
+        The path is similarly defined to Unix shell paths, as a colon-separated
+        list (semicolon-separated is allowed for easier Windows compatibility,
+        but the semicolons are automatically converted to colons on load).
+        This search list lives in the ublu.includepath <a
+        href="#props">interpreter property</a>, which may be modified at
+        will.
+      </li>
+      <li>
+        On startup, Ublu checks the ublu.includepath system property. If set
+        and non-empty, the ublu.includepath interpreter property is copied from
+        it.
+      </li>
+      <li>
+        On startup, Ublu checks the UBLU_INCLUDEPATH environment variable. If
+        set and non-empty, the ublu.includepath interpreter property is copied
+        from it (or appended to it, if the property is already set at this
+        point).
+      </li>
+      <li>
+        When include is called with a relative path, each element of the
+        ublu.includepath property will be searched for the file in order until
+        one is found (eg. if <code>include foo/bar.ublu</code> is called, and
+        the ublu.includepath property is <code>/A:/B:.</code>, the include will
+        be searched in order as /A/foo/bar.ublu, /B/foo/bar.ublu, and
+        ./foo/bar.ublu).
+      </li>
+      <li>
+        If the file was not found in the search path, the file will be
+        attempted to be located relative to the including file's location (eg.
+        if <code>include foo/bar.ublu</code> is called from /path/to/baz.ublu,
+        /path/to/foo/bar.ublu will be tried).
+      </li>
+      <li>
+        If the file could not be found anywhere, a FileNotFoundException will
+        be raised and the command fails.
+      </li>
   </blockquote>
 
   <h4><a name="jmx" id="jmx"></a> <tt>jmx</tt></h4>

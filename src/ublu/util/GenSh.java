@@ -46,6 +46,7 @@ public class GenSh {
     private String functionInvocation;
     private String scriptName;
     private String includeName;
+    private String includePath;
     private StringBuffer accumulatedCommand = new StringBuffer("gensh");
     private String dateGenerated = Calendar.getInstance().getTime().toString();
     private String generatingUser = Ublu.getUser();
@@ -125,6 +126,7 @@ public class GenSh {
     public GenSh() {
         this.optionArrayList = new OptionArrayList();
         fqJarPath = DEFAULT_FQJARPATH;
+        includePath = "";
     }
 
     /**
@@ -204,6 +206,24 @@ public class GenSh {
      */
     public void setIncludeName(String includeName) {
         this.includeName = includeName;
+    }
+
+    /**
+     * Get the include path for the gensh script, for relative imports
+     *
+     * @return the include path to find the script
+     */
+    public String getIncludePath() {
+        return includePath;
+    }
+
+    /**
+     * Set the include path for the gensh script, for relative imports
+     *
+     * @param includePath the include path, to find the script
+     */
+    public void setIncludePath(String includePath) {
+        this.includePath = includePath;
     }
 
     /**
@@ -317,6 +337,12 @@ public class GenSh {
         return sb.toString();
     }
 
+    private String genScriptDir() {
+        // SCRIPTDIR variable generation, for use in ublu.includepath; the cd
+        // && pwd pair is used because a simple dirname fails on relative calls
+        return "SCRIPTDIR=$(CDPATH= cd \"$(dirname \"$0\")\" && pwd)\n";
+    }
+
     private String genOptionsString() {
         StringBuilder sb = new StringBuilder();
         sb.append("# Translate options to tuple assignments").append("\n");
@@ -342,7 +368,9 @@ public class GenSh {
 
     private String genInvocation() {
         StringBuilder sb = new StringBuilder("# Invocation\n");
-        sb.append("java -jar ")
+        sb.append("java -Dublu.includepath=\"")
+                .append(includePath)
+                .append("\" -jar ")
                 .append(fqJarPath)
                 .append(' ')
                 .append("${gensh_runtime_opts} ")
@@ -372,6 +400,7 @@ public class GenSh {
                 .append(genSuperfluousArgumentWarning())
                 .append("\n")
                 .append(genOptionsString()).append("\n")
+                .append(genScriptDir()).append("\n")
                 .append(genInvocation())
                 .append("\nexit $?\n");
         return sb.toString();

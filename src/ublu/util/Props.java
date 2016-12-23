@@ -49,6 +49,18 @@ public class Props {
      */
     public Props() {
         myProperties = new Properties();
+
+        // Set ublu.includepath based on system property and environment
+        // variable, combined in order
+        String includepath = System.getProperty("ublu.includepath", "");
+        String envincludepath = System.getenv("UBLU_INCLUDEPATH");
+        if (envincludepath != null && !envincludepath.isEmpty()) {
+            if (!includepath.isEmpty()) {
+                includepath += ':';
+            }
+            includepath += envincludepath;
+        }
+        myProperties.setProperty("ublu.includepath", includepath.replace(";", ":"));
     }
 
     /**
