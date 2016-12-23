@@ -5,14 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 20 Dec 2016 04:33:14 UTC">
+  "Fri, 23 Dec 2016 17:10:05 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -64,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-19</p>
+  Last edit: 2016-12-23</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -5345,12 +5341,12 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/5+ [-to datasink] [-strictPosix] [[-path
-    fullyqualifiedjarpath] [-includepath ~@${searchpath}] [-opt optchar assignment_name tuplename
-    ${ description }$ ..] [-optr optchar assignment_name tuplename
-    ${ description }$] [-optx optchar multiple_assignment_name
-    tuplename ${ description }$ ..]] ~@${scriptname}
-    ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate
-    launcher shell script</tt><br>
+    fullyqualifiedjarpath] [-includepath ~@${searchpath}] [-opt
+    optchar assignment_name tuplename ${ description }$ ..] [-optr
+    optchar assignment_name tuplename ${ description }$] [-optx
+    optchar multiple_assignment_name tuplename ${ description }$
+    ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a
+    @b ... ) }$ : generate launcher shell script</tt><br>
     <br>
     The <tt>gensh</tt> command generates a shell script to launch
     Ublu and call your top-level application program function with
@@ -5380,13 +5376,14 @@ Type help for help. Type license for license. Type bye to exit.
     <ul>
       <li><code>-strictPosix</code> means the script will follow
       Posix standards for function declarations.</li>
-      <li><code>-includepath</code> may be used to set a search path for the
-        script (and all modules), primarily so that gensh scripts can be used
-        portably.  <code>$SCRIPTDIR</code> is an available variable for
-        embedding, and will be set to the gensh script's directory on call.
-        Check for the relative include description in <a
-        href="#include">include</a> for more information on how to use this.
-      </li>
+
+      <li><code>-includepath</code> may be used to set a search
+      path for the script (and all modules), primarily so that
+      gensh scripts can be used portably. <code>$SCRIPTDIR</code>
+      is an available variable for embedding, and will be set to
+      the gensh script's directory on call. Check for the relative
+      include description in <a href="#include">include</a> for
+      more information on how to use this.</li>
 
       <li><tt>-opt optchar assignment_name tuplename ${ description
       }$</tt> creates in the generated script a
@@ -6738,53 +6735,55 @@ Type help for help. Type license for license. Type bye to exit.
     remove the input line echo, a pipe to a grep filter can
     eliminate the input lines. e.g.:<br></p>
 
-
     <blockquote>
       <tt>java -jar ublu.jar include somefile.ublu | grep -v
       '^\:\:' &gt;output.txt</tt><br>
     </blockquote>
 
-    <p>Inclusion of an absolute filepath is done literally as written.
-    Relative paths are done with a special set of rules as follows:</p>
+    <p>Inclusion of an absolute filepath is done literally as
+    written. Relative paths are done with a special set of rules as
+    follows:</p>
 
     <ul>
-      <li>
-        The path is similarly defined to Unix shell paths, as a colon-separated
-        list (semicolon-separated is allowed for easier Windows compatibility,
-        but the semicolons are automatically converted to colons on load).
-        This search list lives in the ublu.includepath <a
-        href="#props">interpreter property</a>, which may be modified at
-        will.
-      </li>
-      <li>
-        On startup, Ublu checks the ublu.includepath system property. If set
-        and non-empty, the ublu.includepath interpreter property is copied from
-        it.
-      </li>
-      <li>
-        On startup, Ublu checks the UBLU_INCLUDEPATH environment variable. If
-        set and non-empty, the ublu.includepath interpreter property is copied
-        from it (or appended to it, if the property is already set at this
-        point).
-      </li>
-      <li>
-        When include is called with a relative path, each element of the
-        ublu.includepath property will be searched for the file in order until
-        one is found (eg. if <code>include foo/bar.ublu</code> is called, and
-        the ublu.includepath property is <code>/A:/B:.</code>, the include will
-        be searched in order as /A/foo/bar.ublu, /B/foo/bar.ublu, and
-        ./foo/bar.ublu).
-      </li>
-      <li>
-        If the file was not found in the search path, the file will be
-        attempted to be located relative to the including file's location (eg.
-        if <code>include foo/bar.ublu</code> is called from /path/to/baz.ublu,
-        /path/to/foo/bar.ublu will be tried).
-      </li>
-      <li>
-        If the file could not be found anywhere, a FileNotFoundException will
-        be raised and the command fails.
-      </li>
+      <li>The path is similarly defined to Unix shell paths, as a
+      colon-separated list (semicolon-separated is allowed for
+      easier Windows compatibility, but the semicolons are
+      automatically converted to colons on load). This search list
+      lives in the <code>ublu.includepath</code> <a href=
+      "#props">interpreter property</a>, which may be modified at
+      will.</li>
+
+      <li>On startup, Ublu checks the <code>ublu.includepath</code>
+      system property. If set and non-empty, the
+      <code>ublu.includepath</code> interpreter property is copied
+      from it.</li>
+
+      <li>On startup, Ublu checks the <code>UBLU_INCLUDEPATH</code>
+      environment variable. If set and non-empty, the
+      <code>ublu.includepath</code> interpreter property is copied
+      from it (or appended to it, if the property is already set at
+      this point).</li>
+
+      <li>When include is called with a relative path, each element
+      of the <code>ublu.includepath</code> property will be
+      searched for the file in order until one is found (eg. if
+      <code>include foo/bar.ublu</code> is called, and the
+      <code>ublu.includepath</code> property is
+      <code>/A:/B:.</code>, the include will be searched in order
+      as <code>/A/foo/bar.ublu</code>,
+      <code>/B/foo/bar.ublu</code>, and
+      <code>./foo/bar.ublu</code>).</li>
+
+      <li>If the file was not found in the search path, the file
+      will be attempted to be located relative to the including
+      file's location (eg. if <code>include foo/bar.ublu</code> is
+      called from <code>/path/to/baz.ublu</code>,
+      <code>/path/to/foo/bar.ublu</code> will be tried).</li>
+
+      <li>If the file could not be found anywhere, a
+      <code>FileNotFoundException</code> will be raised and the
+      command fails.</li>
+    </ul>
   </blockquote>
 
   <h4><a name="jmx" id="jmx"></a> <tt>jmx</tt></h4>
