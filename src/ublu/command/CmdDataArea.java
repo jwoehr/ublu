@@ -27,9 +27,24 @@
  */
 package ublu.command;
 
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.BidiStringType;
+import com.ibm.as400.access.CharacterDataArea;
 import ublu.util.ArgArray;
 import com.ibm.as400.access.DataArea;
+import com.ibm.as400.access.DecimalDataArea;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.LocalDataArea;
+import com.ibm.as400.access.LogicalDataArea;
+import com.ibm.as400.access.ObjectAlreadyExistsException;
+import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import ublu.util.Tuple;
 
 /**
  * Manipulates an OS400 Object Description
@@ -39,7 +54,7 @@ import java.util.logging.Level;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dataarea", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -refresh | -query  name| system|length | -write ~@{data}] | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -refresh | -query  name| system|length | -write ~@{data}] | -read | -clear] : create and use data areas");
 
     }
 
@@ -93,6 +108,12 @@ public class CmdDataArea extends Command {
         OPS op = OPS.INSTANCE;
         String ifspath = null;
         String queryString = null;
+        String type = null;
+        String bidiType = null;
+        int writeOffset = 0;
+        int buffOffset = 0;
+        Integer writeLength = null;
+        Tuple writeObjectTuple = null;
 //        String attributeName = null;
         DataArea da = null;
         while (argArray.hasDashCommand()) {
@@ -100,7 +121,6 @@ public class CmdDataArea extends Command {
             switch (dashCommand) {
                 case "-as400":
                     setAs400fromTupleOrPop(argArray);
-                    // /* Debug */ getLogger().log(Level.INFO, "my AS400 == {0}", getAs400());
                     break;
                 case "-to":
                     setDataDestfromArgArray(argArray);
@@ -110,11 +130,14 @@ public class CmdDataArea extends Command {
                     da = argArray.nextTupleOrPop().value(DataArea.class);
                     break;
                 case "-path":
-                    ifspath = argArray.nextMaybeQuotationTuplePopString().trim();
+                    ifspath = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-biditype":
+                    bidiType = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
                     break;
                 case "-query":
                     op = OPS.QUERY;
-                    queryString = argArray.nextMaybeQuotationTuplePopString().toUpperCase().trim();
+                    queryString = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
                     break;
                 case "-read":
                     op = OPS.READ;
@@ -125,12 +148,26 @@ public class CmdDataArea extends Command {
                 case "-new":
                 case "-instance":
                     op = OPS.INSTANCE;
+                    type = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
                     break;
                 case "-create":
                     op = OPS.CREATE;
                     break;
                 case "-refresh":
                     op = OPS.REFRESH;
+                    break;
+                case "-write":
+                    op = OPS.WRITE;
+                    writeObjectTuple = argArray.nextTupleOrPop();
+                    break;
+                case "-buffoffset":
+                    buffOffset = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-offset":
+                    writeOffset = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-length":
+                    writeLength = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -141,10 +178,87 @@ public class CmdDataArea extends Command {
         } else {
             switch (op) {
                 case CLEAR:
+                    if (da == null) {
+                        getLogger().log(Level.SEVERE, "No data area instance provided for clear in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            if (da instanceof CharacterDataArea) {
+                                ((CharacterDataArea) da).clear();
+                            }
+                            if (da instanceof DecimalDataArea) {
+                                ((DecimalDataArea) da).clear();
+                            }
+                            if (da instanceof LocalDataArea) {
+                                ((LocalDataArea) da).clear();
+                            }
+                            if (da instanceof LogicalDataArea) {
+                                ((LogicalDataArea) da).clear();
+                            }
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
                     break;
                 case CREATE:
+                    if (da == null) {
+                        getLogger().log(Level.SEVERE, "No data area instance provided for create in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            if (da instanceof CharacterDataArea) {
+                                ((CharacterDataArea) da).create();
+                            }
+                            if (da instanceof DecimalDataArea) {
+                                ((DecimalDataArea) da).create();
+                            }
+                            if (da instanceof LocalDataArea) {
+                                getLogger().log(Level.WARNING, "It is not necessary to -create a local data area in {0}", getNameAndDescription());
+                            }
+                            if (da instanceof LogicalDataArea) {
+                                ((LogicalDataArea) da).create();
+                            }
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectAlreadyExistsException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
                     break;
                 case INSTANCE:
+                    if (getAs400() == null) {
+                        getLogger().log(Level.SEVERE, "No AS400 instance provided for new in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        if (type != null) {
+                            switch (type) {
+                                case "CHAR":
+                                    da = new CharacterDataArea(getAs400(), ifspath);
+                                    break;
+                                case "DEC":
+                                    da = new DecimalDataArea(getAs400(), ifspath);
+                                    break;
+                                case "LOC":
+                                    da = new LocalDataArea(getAs400());
+                                    break;
+                                case "LOG":
+                                    da = new LogicalDataArea(getAs400(), ifspath);
+                                    break;
+                                default:
+                                    getLogger().log(Level.SEVERE, "Data area type must be one of CHAR|DEC|LOC|LOG for new in {0}", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                            try {
+                                put(da);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting data area in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "Data area type must be one of CHAR|DEC|LOC|LOG for new in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
                     break;
                 case QUERY:
                     break;
@@ -153,14 +267,61 @@ public class CmdDataArea extends Command {
                 case REFRESH:
                     break;
                 case WRITE:
+                    if (da == null || writeObjectTuple == null || writeObjectTuple.getValue() == null) {
+                        getLogger().log(Level.SEVERE, "Data area instance or write value is null in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        Object writeValue = writeObjectTuple.getValue();
+                        try {
+                            if (da instanceof CharacterDataArea) {
+                                if (writeValue != null && writeValue instanceof String) {
+                                    if (bidiType == null) {
+                                        ((CharacterDataArea) da).write((String) writeValue, writeOffset);
+                                    } else {
+                                        try {
+                                            ((CharacterDataArea) da).write((String) writeValue, writeOffset, bidiInt(bidiType));
+                                        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+                                            getLogger().log(Level.SEVERE, "Error bidi type in character data area write in " + getNameAndDescription(), ex);
+                                        }
+                                    }
+                                } else if (writeValue != null && writeValue instanceof byte[]) {
+                                    ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, writeOffset, writeLength);
+                                }
+                            } else if (da instanceof DecimalDataArea) {
+                                ((DecimalDataArea) da).write((writeObjectTuple.value(BigDecimal.class)));
+                            } else if (da instanceof LocalDataArea) {
+                                if (writeValue != null && writeValue instanceof String) {
+                                    if (bidiType == null) {
+                                        ((CharacterDataArea) da).write((String) writeValue, writeOffset);
+                                    } else {
+                                        try {
+                                            ((CharacterDataArea) da).write((String) writeValue, writeOffset, bidiInt(bidiType));
+                                        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+                                            getLogger().log(Level.SEVERE, "Error bidi type in character data area write in " + getNameAndDescription(), ex);
+                                        }
+                                    }
+                                } else if (writeValue != null && writeValue instanceof byte[]) {
+                                    ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, writeOffset, writeLength);
+                                }
+                            } else if (da instanceof LogicalDataArea) {
+                                ((LogicalDataArea) da).write(writeObjectTuple.value(boolean.class));
+                            }
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
                     break;
-
                 default:
                     getLogger().log(Level.WARNING, "Unknown operation in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return argArray;
+    }
+
+    private int bidiInt(String bidiType) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        return BidiStringType.class.getField(bidiType).getInt(BidiStringType.class);
     }
 
     @Override
