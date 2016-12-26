@@ -5,11 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 23 Dec 2016 17:10:05 UTC">
+  "Mon, 26 Dec 2016 21:51:48 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-23</p>
+  Last edit: 2016-12-26</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -274,6 +273,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <li><a href="#dpoint"><tt>dpoint</tt></a></li>
 
             <li><tt><a href="#dq">dq</a><br></tt></li>
+
+            <li><tt><a href="#dta">dta</a></tt></li>
 
             <li><tt><a href="#eval">eval</a></tt></li>
 
@@ -1892,7 +1893,8 @@ Type help for help. Type license for license. Type bye to exit.
         "#as400">as400</a></tt><tt><br></tt> <tt><a href=
         "#db">db</a></tt><tt><br></tt> <tt><a href=
         "#cs">cs</a></tt><tt><br></tt> <tt><a href=
-        "#dq">dq</a></tt><tt><br>
+        "#dq">dq</a></tt><br>
+        <code><a href="#dta">dta</a></code> <tt><br>
         <a href="#file">file</a><br></tt> <tt><a href=
         "#ftp">ftp</a></tt><tt><br></tt> <tt><a href=
         "#host">host</a></tt><tt><br></tt> <tt><a href=
@@ -4366,6 +4368,149 @@ Type help for help. Type license for license. Type bye to exit.
     The full implementation of data queue support awaits the
     addition of data queue attributes and a <tt>dqentry</tt>
     command.<br>
+  </blockquote>
+
+  <h4><a name="dta"></a><code>dta</code></h4>
+
+  <blockquote>
+    <code>/0 [-as400 ~@as400] [-to datasink] [--,-dataarea
+    ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype
+    ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}]
+    [-length ~@{length}] [-new,-instance CHAR|DEC|LOC|LOG | -create
+    | -refresh | -query ~@{query(name|system|length|path)} | -write
+    ~@data | -read | -clear] : create and use data areas</code><br>
+    <br>
+    The <code>dta</code> command manipulates IBM i data areas.
+    Initialize an instance by providing a system via the
+    <code>-as400 ~@as400</code> and <code>-path ~@{ifspath}</code>
+    <a href="#Dash_Command">dash-commands</a> in conjunction with
+    <code>-new CHAR|DEC|LOC|LOG</code>.
+
+    <ul>
+      <li><code>CHAR</code> creates a character data area.</li>
+
+      <li><code>DEC</code> creates a decimal
+      (<code>BigDecimal</code>) data area.</li>
+
+      <li><code>LOC</code> creates a local character data area and
+      <code>path</code> is ignored.</li>
+
+      <li><code>LOG</code> creates a logical data area which holds
+      only the values true or false.</li>
+    </ul>This instance can refer to an extant data area or to one
+    you intend to create. Thereafter operations proceed by
+    providing the instance to the command via the
+    <code>--,-dataarea ~@dataarea</code> dash-command.
+
+    <ul>
+      <li><code>-create</code> creates the instance as described on
+      the IBM i server.</li>
+
+      <li><code>-refresh</code> refreshes the information about the
+      data area from the server.</li>
+
+      <li><code>-query ~@{query(name|system|length|path)</code>
+      puts the data area name or system or length or path.</li>
+
+      <li><code>-clear</code> clears the data area.</li>
+
+      <li>
+        <code>-read</code> reads from the data area and puts the
+        result. Decimal data is put as-is. There are options for
+        character data:
+
+        <ul>
+          <li><code>-offset ~@{offset}</code> may be set to
+          indicate the location in the data area at which to start
+          the read, in which case <code>-length ~@{length}</code>
+          should be set.</li>
+
+          <li>If <code>-biditype ~@{biditype}</code> is set it must
+          be one of the values shown below for
+          <code>-write</code></li>
+
+          <li>If <code>-bytes</code> is set, a byte array is the
+          output and <code>-offset ~@{offset}</code> into the data
+          area must be set as well as <code>-length
+          ~@{length}</code></li>
+        </ul>
+      </li>
+
+      <li>
+        <code>-write ~@data</code> writes the data object to the
+        data area. The data object must be appropriate to the type
+        of data area. LOG takes boolean values and DEC takes
+        BigDecimal values. The remaining two types CHAR and LOC
+        take String or byte array values. For CHAR and LOC:
+
+        <ul>
+          <li>If the write object is a byte array then:
+
+            <ul>
+              <li>The offset into the byte array must be set via
+              <code>-buffoffset ~@{buffoffset}</code></li>
+
+              <li>The offset into the data area must be set via
+              <code>-offset ~@{offset}</code></li>
+
+              <li>The length to write must be set via <code>-length
+              ~@{length}</code></li>
+            </ul>
+          </li>
+
+          <li>If the write object is a string the <code>-offset
+          ~@{offset}</code> may be set to indicate the offset in
+          the data area at which to begin the write. The default is
+          zero (0). If <code>-biditype ~@{biditype}</code> is set
+          it must be one of:
+
+            <ul>
+              <li><code>DEFAULT</code> The default string type for
+              Bidi data (Logical LTR)</li>
+
+              <li><code>NONE</code> String type used when an
+              EBCDIC/Unicode conversion is desired, but without
+              swapping, shaping, or transformation</li>
+
+              <li><code>ST10</code> String Type 10 Type of text:
+              Implicit Orientation: Contextual LTR Symmetric
+              swapping: Yes Numeral shape: Nominal Text shapes:
+              Nominal</li>
+
+              <li><code>ST11</code> String Type 11 Type of text:
+              Implicit Orientation: Contextual RTL Symmetric
+              swapping: Yes Numeral shape: Nominal Text shapes:
+              Nominal</li>
+
+              <li><code>ST4</code> String Type 4 Type of text:
+              Visual Orientation: LTR Symmetric swapping: No
+              Numeral shape: Nominal Text shapes: Shaped</li>
+
+              <li><code>ST5</code> String Type 5 Type of text:
+              Implicit Orientation: LTR Symmetric swapping: Yes
+              Numeral shape: Nominal Text shapes: Nominal</li>
+
+              <li><code>ST6</code> String Type 6 Type of text:
+              Implicit Orientation: RTL Symmetric swapping: Yes
+              Numeral shape: Nominal Text shapes: Nominal</li>
+
+              <li><code>ST7</code> String Type 7 Type of text:
+              Visual Orientation: Contextual LTR Symmetric
+              swapping: No Numeral shape: Nominal Text shapes:
+              Nominal</li>
+
+              <li><code>ST8</code> String Type 8 Type of text:
+              Visual Orientation: RTL Symmetric swapping: No
+              Numeral shape: Nominal Text shapes: Shaped</li>
+
+              <li><code>ST9</code> String Type 9 Type of text:
+              Visual Orientation: RTL Symmetric swapping: Yes
+              Numeral shape: Nominal Text shapes: Shaped</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </blockquote>
 
   <h4><a name="eval" id="eval"></a> <tt>eval</tt></h4>

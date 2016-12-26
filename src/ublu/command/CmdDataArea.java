@@ -30,10 +30,10 @@ package ublu.command;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.BidiStringType;
 import com.ibm.as400.access.CharacterDataArea;
-import ublu.util.ArgArray;
 import com.ibm.as400.access.DataArea;
 import com.ibm.as400.access.DecimalDataArea;
 import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.IllegalObjectTypeException;
 import com.ibm.as400.access.LocalDataArea;
 import com.ibm.as400.access.LogicalDataArea;
 import com.ibm.as400.access.ObjectAlreadyExistsException;
@@ -43,7 +43,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import ublu.util.ArgArray;
+import ublu.util.Generics.ByteArrayList;
 import ublu.util.Tuple;
 
 /**
@@ -54,7 +55,7 @@ import ublu.util.Tuple;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -refresh | -query  name| system|length | -write ~@{data}] | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
 
     }
 
@@ -110,10 +111,11 @@ public class CmdDataArea extends Command {
         String queryString = null;
         String type = null;
         String bidiType = null;
-        int writeOffset = 0;
+        int readWriteOffset = 0;
         int buffOffset = 0;
-        Integer writeLength = null;
+        Integer readWriteLength = null;
         Tuple writeObjectTuple = null;
+        boolean readInBytes = false;
 //        String attributeName = null;
         DataArea da = null;
         while (argArray.hasDashCommand()) {
@@ -132,12 +134,15 @@ public class CmdDataArea extends Command {
                 case "-path":
                     ifspath = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
+                case "-bytes":
+                    readInBytes = true;
+                    break;
                 case "-biditype":
                     bidiType = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
                     break;
                 case "-query":
                     op = OPS.QUERY;
-                    queryString = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
+                    queryString = argArray.nextMaybeQuotationTuplePopStringTrim().toLowerCase();
                     break;
                 case "-read":
                     op = OPS.READ;
@@ -164,10 +169,10 @@ public class CmdDataArea extends Command {
                     buffOffset = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-offset":
-                    writeOffset = argArray.nextIntMaybeQuotationTuplePopString();
+                    readWriteOffset = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-length":
-                    writeLength = argArray.nextIntMaybeQuotationTuplePopString();
+                    readWriteLength = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -261,10 +266,110 @@ public class CmdDataArea extends Command {
                     }
                     break;
                 case QUERY:
+                    if (da == null) {
+                        getLogger().log(Level.SEVERE, "No data area instance provided for query in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        Object result = null;
+                        switch (queryString == null ? "" : queryString) {
+                            case "name":
+                                result = da.getName();
+                                break;
+                            case "system":
+                                result = da.getSystem();
+                                break;
+                            case "length": {
+                                try {
+                                    result = da.getLength();
+                                } catch (AS400SecurityException | ErrorCompletingRequestException | IllegalObjectTypeException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
+                                    getLogger().log(Level.SEVERE, "Error getting data area length in " + getNameAndDescription(), ex);
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                            break;
+                            case "path":
+                                if (da instanceof CharacterDataArea) {
+                                    result = ((CharacterDataArea) da).getPath();
+                                }
+                                if (da instanceof DecimalDataArea) {
+                                    result = ((DecimalDataArea) da).getPath();
+                                }
+                                if (da instanceof LocalDataArea) {
+                                    getLogger().log(Level.WARNING, "You cannot get path for a local data area in {0}", getNameAndDescription());
+                                }
+                                if (da instanceof LogicalDataArea) {
+                                    result = ((LogicalDataArea) da).getPath();
+                                }
+                                break;
+                            default:
+                                getLogger().log(Level.SEVERE, "Query must be one of name|system|length|path in {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+                                put(result);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting query result in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                    }
                     break;
                 case READ:
+                    if (da == null) {
+                        getLogger().log(Level.SEVERE, "No data area instance provided for read in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        Object readResult = null;
+                        try {
+                            if (da instanceof CharacterDataArea) {
+                                if (readInBytes == true) {
+                                    readResult = ((CharacterDataArea) da).read(new byte[readWriteLength], 0, readWriteOffset, readWriteLength);
+                                } else if (bidiType != null) {
+                                    readResult = ((CharacterDataArea) da).read(readWriteOffset, readWriteLength, bidiInt(bidiType));
+                                } else if (readWriteLength != null) {
+                                    readResult = ((CharacterDataArea) da).read(readWriteOffset, readWriteLength);
+                                } else {
+                                    readResult = ((CharacterDataArea) da).read();
+                                }
+                            }
+                            if (da instanceof DecimalDataArea) {
+                                readResult = ((DecimalDataArea) da).read();
+                            }
+                            if (da instanceof LocalDataArea) {
+                                if (readInBytes == true) {
+                                    readResult = ((LocalDataArea) da).read(new byte[readWriteLength], 0, readWriteOffset, readWriteLength);
+                                } else if (bidiType != null) {
+                                    readResult = ((LocalDataArea) da).read(readWriteOffset, readWriteLength, bidiInt(bidiType));
+                                } else if (readWriteLength != null) {
+                                    readResult = ((LocalDataArea) da).read(readWriteOffset, readWriteLength);
+                                } else {
+                                    readResult = ((LocalDataArea) da).read();
+                                }
+                            }
+                            if (da instanceof LogicalDataArea) {
+                                readResult = ((LogicalDataArea) da).read();
+                            }
+                            put(readResult);
+                        } catch (SQLException | RequestNotSupportedException | AS400SecurityException | ErrorCompletingRequestException | IllegalAccessException | IllegalObjectTypeException | IOException | InterruptedException | NoSuchFieldException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error reading or putting data area in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
                     break;
                 case REFRESH:
+                    if (da == null) {
+                        getLogger().log(Level.SEVERE, "No data area instance provided for refresh in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+
+                        try {
+                            da.refreshAttributes();
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IllegalObjectTypeException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error refreshing data area attributes in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
                     break;
                 case WRITE:
                     if (da == null || writeObjectTuple == null || writeObjectTuple.getValue() == null) {
@@ -276,32 +381,37 @@ public class CmdDataArea extends Command {
                             if (da instanceof CharacterDataArea) {
                                 if (writeValue != null && writeValue instanceof String) {
                                     if (bidiType == null) {
-                                        ((CharacterDataArea) da).write((String) writeValue, writeOffset);
+                                        ((CharacterDataArea) da).write((String) writeValue, readWriteOffset);
                                     } else {
                                         try {
-                                            ((CharacterDataArea) da).write((String) writeValue, writeOffset, bidiInt(bidiType));
+                                            ((CharacterDataArea) da).write((String) writeValue, readWriteOffset, bidiInt(bidiType));
                                         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
                                             getLogger().log(Level.SEVERE, "Error bidi type in character data area write in " + getNameAndDescription(), ex);
                                         }
                                     }
-                                } else if (writeValue != null && writeValue instanceof byte[]) {
-                                    ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, writeOffset, writeLength);
+                                } else {
+                                    if (writeValue != null && writeValue instanceof ByteArrayList) {
+                                        writeValue = ((ByteArrayList) writeValue).byteArray();
+                                    }
+                                    if (writeValue != null && writeValue instanceof byte[]) {
+                                        ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, readWriteOffset, readWriteLength);
+                                    }
                                 }
                             } else if (da instanceof DecimalDataArea) {
                                 ((DecimalDataArea) da).write((writeObjectTuple.value(BigDecimal.class)));
                             } else if (da instanceof LocalDataArea) {
                                 if (writeValue != null && writeValue instanceof String) {
                                     if (bidiType == null) {
-                                        ((CharacterDataArea) da).write((String) writeValue, writeOffset);
+                                        ((CharacterDataArea) da).write((String) writeValue, readWriteOffset);
                                     } else {
                                         try {
-                                            ((CharacterDataArea) da).write((String) writeValue, writeOffset, bidiInt(bidiType));
+                                            ((CharacterDataArea) da).write((String) writeValue, readWriteOffset, bidiInt(bidiType));
                                         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
                                             getLogger().log(Level.SEVERE, "Error bidi type in character data area write in " + getNameAndDescription(), ex);
                                         }
                                     }
                                 } else if (writeValue != null && writeValue instanceof byte[]) {
-                                    ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, writeOffset, writeLength);
+                                    ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, readWriteOffset, readWriteLength);
                                 }
                             } else if (da instanceof LogicalDataArea) {
                                 ((LogicalDataArea) da).write(writeObjectTuple.value(boolean.class));
