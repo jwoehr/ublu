@@ -57,7 +57,7 @@ import ublu.util.Utils;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [ [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
 
     }
 
