@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.StringArrayList;
 import ublu.util.Tuple;
+import ublu.util.Utils;
 
 /**
  * Command for string operations
@@ -193,12 +194,7 @@ public class CmdString extends Command {
                     opresult = lopr + ' ';
                     break;
                 case BLS:
-                    fillcount = Math.max(0, fillcount);
-                    sb = new StringBuilder(lopr);
-                    for (int i = 0; i < fillcount; i++) {
-                        sb.append(' ');
-                    }
-                    opresult = sb.toString();
+                    opresult = lopr + Utils.fillString(' ', fillcount);
                     break;
                 case CAT:
                     opresult = lopr + ropr;
