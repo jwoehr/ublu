@@ -2,12 +2,11 @@
 
 <html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content="Bluefish 2.2.7" >
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -4383,7 +4382,7 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}]
     [-initdesc ~@{initdesc}] [ -new,-instance CHAR|DEC|LOC|LOG |
     -create | -delete | -refresh | -query
-    ~@{query(name|sys|length|path)} | -write ~@data | -read |
+    ~@{query(name|sys|length|path|decpos)} | -write ~@data | -read |
     -clear] : create and use data areas</code><br>
     <br>
     The <code>dta</code> command manipulates IBM i data areas.
@@ -4456,8 +4455,9 @@ Type help for help. Type license for license. Type bye to exit.
       <li><code>-refresh</code> refreshes the information about the
       data area from the server.</li>
 
-      <li><code>-query ~@{query(name|sys|length|path)</code> puts
-      the data area name or system or length or path.</li>
+      <li><code>-query ~@{query(name|sys|length|path|decpos)}</code> puts
+      the data area name or system or length or path or decimal positions
+      (the latter only applicable to decimal data areas).</li>
 
       <li><code>-clear</code> clears the data area.</li>
 
