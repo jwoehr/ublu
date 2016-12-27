@@ -57,7 +57,7 @@ import ublu.util.Utils;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|sys|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|sys|length|path|decpos)} | -write ~@data | -read | -clear] : create and use data areas");
 
     }
 
@@ -348,6 +348,18 @@ public class CmdDataArea extends Command {
                                 }
                             }
                             break;
+                            case "decpos":
+                                if (da instanceof DecimalDataArea) {
+                                    try {
+                                        result = ((DecimalDataArea) da).getDecimalPositions();
+                                    } catch (AS400SecurityException | ErrorCompletingRequestException | IllegalObjectTypeException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
+                                        getLogger().log(Level.SEVERE, "Error getting decimal positions in " + getNameAndDescription(), ex);
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    }
+                                } else {
+                                    getLogger().log(Level.WARNING, "decpos only applies to decimal data areas in {0}", getNameAndDescription());
+                                }
+                                break;
                             case "path":
                                 if (da instanceof CharacterDataArea) {
                                     result = ((CharacterDataArea) da).getPath();
@@ -463,20 +475,20 @@ public class CmdDataArea extends Command {
                             } else if (da instanceof LocalDataArea) {
                                 if (writeValue != null && writeValue instanceof String) {
                                     if (bidiType == null) {
-                                        ((CharacterDataArea) da).write((String) writeValue, readWriteOffset);
+                                        ((LocalDataArea) da).write((String) writeValue, readWriteOffset);
                                     } else {
                                         try {
-                                            ((CharacterDataArea) da).write((String) writeValue, readWriteOffset, bidiInt(bidiType));
+                                            ((LocalDataArea) da).write((String) writeValue, readWriteOffset, bidiInt(bidiType));
                                         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
                                             getLogger().log(Level.SEVERE, "Error bidi type in character data area write in " + getNameAndDescription(), ex);
                                         }
                                     }
                                 } else if (writeValue != null && writeValue instanceof byte[]) {
-                                    ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, readWriteOffset, readWriteLength);
+                                    ((LocalDataArea) da).write((byte[]) writeValue, buffOffset, readWriteOffset, readWriteLength);
                                 }
                             } else if (da instanceof LogicalDataArea) {
                                 if (writeValue.getClass().equals(boolean.class)) {
-                                    writeObjectTuple.setValue(new Boolean((boolean) writeValue));
+                                    writeObjectTuple.setValue(((boolean) writeValue));
                                 }
                                 ((LogicalDataArea) da).write(writeObjectTuple.value(Boolean.class));
                             }
