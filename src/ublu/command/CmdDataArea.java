@@ -241,24 +241,24 @@ public class CmdDataArea extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
+                            initDesc = initDesc == null ? new String() : initDesc;
                             if (da instanceof CharacterDataArea) {
                                 initLen = initLen == null ? 32 : initLen;
                                 initVal = initVal == null ? Utils.fillString(' ', initLen) : initVal;
-                                initDesc = initDesc == null ? new String() : initDesc;
                                 ((CharacterDataArea) da).create(initLen, initVal, initDesc, initAuth);
                                 // ((CharacterDataArea) da).create();
                             }
                             if (da instanceof DecimalDataArea) {
                                 initLen = initLen == null ? 15 : initLen;
                                 BigDecimal initDecVal = initVal == null ? new BigDecimal(BigInteger.ZERO) : new BigDecimal(initVal);
-                                initDesc = initDesc == null ? new String() : initDesc;
                                 ((DecimalDataArea) da).create(initLen, initDecPos, initDecVal, initDesc, initAuth);
                             }
                             if (da instanceof LocalDataArea) {
                                 getLogger().log(Level.WARNING, "It is not necessary to -create a local data area in {0}", getNameAndDescription());
                             }
                             if (da instanceof LogicalDataArea) {
-                                ((LogicalDataArea) da).create();
+                                boolean initBoolVal = initVal == null ? false : initVal.equals("true");
+                                ((LogicalDataArea) da).create(initBoolVal, initDesc, initAuth);
                             }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectAlreadyExistsException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
@@ -475,7 +475,10 @@ public class CmdDataArea extends Command {
                                     ((CharacterDataArea) da).write((byte[]) writeValue, buffOffset, readWriteOffset, readWriteLength);
                                 }
                             } else if (da instanceof LogicalDataArea) {
-                                ((LogicalDataArea) da).write(writeObjectTuple.value(boolean.class));
+                                if (writeValue.getClass().equals(boolean.class)) {
+                                    writeObjectTuple.setValue(new Boolean((boolean) writeValue));
+                                }
+                                ((LogicalDataArea) da).write(writeObjectTuple.value(Boolean.class));
                             }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
