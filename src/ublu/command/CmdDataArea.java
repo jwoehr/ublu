@@ -41,6 +41,7 @@ import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
@@ -56,7 +57,7 @@ import ublu.util.Utils;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initlen ~@{initlen}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [ [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [ [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
 
     }
 
@@ -123,8 +124,9 @@ public class CmdDataArea extends Command {
         boolean readInBytes = false;
         String initVal = null;
         Integer initLen = null;
-        String initAuth = null;
+        String initAuth = "*EXCLUDE";
         String initDesc = null;
+        Integer initDecPos = 5;
 //        String attributeName = null;
         DataArea da = null;
         while (argArray.hasDashCommand()) {
@@ -161,6 +163,9 @@ public class CmdDataArea extends Command {
                     break;
                 case "-initlen":
                     initLen = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-initdecpos":
+                    initDecPos = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-initval":
                     initVal = argArray.nextMaybeQuotationTuplePopStringTrim();
@@ -235,18 +240,19 @@ public class CmdDataArea extends Command {
                         getLogger().log(Level.SEVERE, "No data area instance provided for create in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-
                         try {
                             if (da instanceof CharacterDataArea) {
                                 initLen = initLen == null ? 32 : initLen;
-                                initAuth = initAuth == null ? "*EXCLUDE" : initAuth;
                                 initVal = initVal == null ? Utils.fillString(' ', initLen) : initVal;
                                 initDesc = initDesc == null ? new String() : initDesc;
                                 ((CharacterDataArea) da).create(initLen, initVal, initDesc, initAuth);
                                 // ((CharacterDataArea) da).create();
                             }
                             if (da instanceof DecimalDataArea) {
-                                ((DecimalDataArea) da).create();
+                                initLen = initLen == null ? 15 : initLen;
+                                BigDecimal initDecVal = initVal == null ? new BigDecimal(BigInteger.ZERO) : new BigDecimal(initVal);
+                                initDesc = initDesc == null ? new String() : initDesc;
+                                ((DecimalDataArea) da).create(initLen, initDecPos, initDecVal, initDesc, initAuth);
                             }
                             if (da instanceof LocalDataArea) {
                                 getLogger().log(Level.WARNING, "It is not necessary to -create a local data area in {0}", getNameAndDescription());
