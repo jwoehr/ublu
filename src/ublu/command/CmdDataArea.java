@@ -57,7 +57,7 @@ import ublu.util.Utils;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|sys|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
 
     }
 
@@ -336,7 +336,7 @@ public class CmdDataArea extends Command {
                             case "name":
                                 result = da.getName();
                                 break;
-                            case "system":
+                            case "sys":
                                 result = da.getSystem();
                                 break;
                             case "length": {
@@ -363,7 +363,7 @@ public class CmdDataArea extends Command {
                                 }
                                 break;
                             default:
-                                getLogger().log(Level.SEVERE, "Query must be one of name|system|length|path in {0}", getNameAndDescription());
+                                getLogger().log(Level.SEVERE, "Query must be one of name|sys|length|path in {0}", getNameAndDescription());
                                 setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
