@@ -155,4 +155,20 @@ public class Utils {
         }
         return value;
     }
+
+    /**
+     * Return a new string filled with a char
+     *
+     * @param fillchar char to fill with
+     * @param fillcount length of string
+     * @return filled string
+     */
+    public static String fillString(char fillchar, int fillcount) {
+        fillcount = Math.max(0, fillcount);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < fillcount; i++) {
+            sb.append(fillchar);
+        }
+        return sb.toString();
+    }
 }
