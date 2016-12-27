@@ -46,6 +46,7 @@ import java.util.logging.Level;
 import ublu.util.ArgArray;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Tuple;
+import ublu.util.Utils;
 
 /**
  * Manipulates an OS400 Object Description
@@ -55,7 +56,7 @@ import ublu.util.Tuple;
 public class CmdDataArea extends Command {
 
     {
-        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
+        setNameAndDescription("dta", "/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initlen ~@{initlen}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [ [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|system|length|path)} | -write ~@data | -read | -clear] : create and use data areas");
 
     }
 
@@ -71,6 +72,10 @@ public class CmdDataArea extends Command {
          * Create the area
          */
         CREATE,
+        /**
+         * Delete the area
+         */
+        DELETE,
         /**
          * Query various aspects
          */
@@ -116,6 +121,10 @@ public class CmdDataArea extends Command {
         Integer readWriteLength = null;
         Tuple writeObjectTuple = null;
         boolean readInBytes = false;
+        String initVal = null;
+        Integer initLen = null;
+        String initAuth = null;
+        String initDesc = null;
 //        String attributeName = null;
         DataArea da = null;
         while (argArray.hasDashCommand()) {
@@ -150,6 +159,18 @@ public class CmdDataArea extends Command {
                 case "-clear":
                     op = OPS.CLEAR;
                     break;
+                case "-initlen":
+                    initLen = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-initval":
+                    initVal = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-initauth":
+                    initAuth = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-initdesc":
+                    initDesc = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
                 case "-new":
                 case "-instance":
                     op = OPS.INSTANCE;
@@ -157,6 +178,9 @@ public class CmdDataArea extends Command {
                     break;
                 case "-create":
                     op = OPS.CREATE;
+                    break;
+                case "-delete":
+                    op = OPS.DELETE;
                     break;
                 case "-refresh":
                     op = OPS.REFRESH;
@@ -211,9 +235,15 @@ public class CmdDataArea extends Command {
                         getLogger().log(Level.SEVERE, "No data area instance provided for create in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
+
                         try {
                             if (da instanceof CharacterDataArea) {
-                                ((CharacterDataArea) da).create();
+                                initLen = initLen == null ? 32 : initLen;
+                                initAuth = initAuth == null ? "*EXCLUDE" : initAuth;
+                                initVal = initVal == null ? Utils.fillString(' ', initLen) : initVal;
+                                initDesc = initDesc == null ? new String() : initDesc;
+                                ((CharacterDataArea) da).create(initLen, initVal, initDesc, initAuth);
+                                // ((CharacterDataArea) da).create();
                             }
                             if (da instanceof DecimalDataArea) {
                                 ((DecimalDataArea) da).create();
@@ -225,6 +255,31 @@ public class CmdDataArea extends Command {
                                 ((LogicalDataArea) da).create();
                             }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectAlreadyExistsException | ObjectDoesNotExistException ex) {
+                            getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case DELETE:
+                    if (da == null) {
+                        getLogger().log(Level.SEVERE, "No data area instance provided for create in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+
+                        try {
+                            if (da instanceof CharacterDataArea) {
+                                ((CharacterDataArea) da).delete();
+                            }
+                            if (da instanceof DecimalDataArea) {
+                                ((DecimalDataArea) da).delete();
+                            }
+                            if (da instanceof LocalDataArea) {
+                                getLogger().log(Level.WARNING, "You cannot -delete a local data area in {0}", getNameAndDescription());
+                            }
+                            if (da instanceof LogicalDataArea) {
+                                ((LogicalDataArea) da).delete();
+                            }
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error clearing data area in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
