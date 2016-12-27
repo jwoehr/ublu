@@ -6,6 +6,7 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -4377,9 +4378,12 @@ Type help for help. Type license for license. Type bye to exit.
     <code>/0 [-as400 ~@as400] [-to datasink] [--,-dataarea
     ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype
     ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}]
-    [-length ~@{length}] [-new,-instance CHAR|DEC|LOC|LOG | -create
-    | -refresh | -query ~@{query(name|system|length|path)} | -write
-    ~@data | -read | -clear] : create and use data areas</code><br>
+    [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos
+    ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}]
+    [-initdesc ~@{initdesc}] [ -new,-instance CHAR|DEC|LOC|LOG |
+    -create | -delete | -refresh | -query
+    ~@{query(name|system|length|path)} | -write ~@data | -read |
+    -clear] : create and use data areas</code><br>
     <br>
     The <code>dta</code> command manipulates IBM i data areas.
     Initialize an instance by providing a system via the
@@ -4404,8 +4408,49 @@ Type help for help. Type license for license. Type bye to exit.
     <code>--,-dataarea ~@dataarea</code> dash-command.
 
     <ul>
-      <li><code>-create</code> creates the instance as described on
-      the IBM i server.</li>
+      <li>
+        <code>-create</code> creates the instance as described on
+        the IBM i server. Optionally use one or more of the
+        following to further specify create arguments:
+
+        <ul>
+          <li><code>-initlen ~@{initlen}</code> specifies the
+          length. For character areas the default is 32. For
+          decimal areas the default is 15</li>
+
+          <li><code>-initdecpos ~@{initdecpos}</code> specifies the
+          number of decimal places for decimal areas. The default
+          is 5.</li>
+
+          <li><code>-initval ~@{initval}</code> specifies the
+          initial value for the data area. Logicals use
+          <code>true</code> and <code>false</code>. Decimals use
+          plain decimal numbers with optional E-notation. The
+          default is a blank string for character areas, 0 for
+          decimal areas and <code>false</code> for logicals.</li>
+
+          <li>
+            <code>-initauth ~@{initval}</code> specifies public
+            authority to the data area, one of
+
+            <ul>
+              <li><code>*ALL</code></li>
+
+              <li><code>*CHANGE</code></li>
+
+              <li><code>*EXCLUDE</code></li>
+
+              <li><code>*LIBCRTAUT</code></li>
+
+              <li><code>*USE</code></li>
+            </ul>The default is <code>*EXCLUDE</code>.
+          </li>
+
+          <li><code>-initdesc ~@{initdesc}</code> is the text
+          description of the data area. The default is the empty
+          string.</li>
+        </ul>
+      </li>
 
       <li><code>-refresh</code> refreshes the information about the
       data area from the server.</li>
@@ -4441,8 +4486,10 @@ Type help for help. Type license for license. Type bye to exit.
         <code>-write ~@data</code> writes the data object to the
         data area. The data object must be appropriate to the type
         of data area. LOG takes boolean values and DEC takes
-        BigDecimal values. The remaining two types CHAR and LOC
-        take String or byte array values. For CHAR and LOC:
+        BigDecimal values (see the <code><a href=
+        "#num">num</a></code> command for this latter). The
+        remaining two types CHAR and LOC take String or byte array
+        values. For CHAR and LOC:
 
         <ul>
           <li>If the write object is a byte array then:
