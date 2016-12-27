@@ -1,0 +1,83 @@
+# testdta.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# testdta ( myserver mylib myid mypasswd )
+# connect to server and test each kind of supported data area
+# delete data areas if requested
+FUNC testdta ( myserver mylib myid mypasswd deletetf ) $[
+    LOCAL @myas400
+    LOCAL @mychar LOCAL @mydec LOCAL @myloc LOCAL @mylog
+    as400 -to @myas400 @@myserver @@myid @@mypasswd
+    
+    \\ ${ do CHAR }$
+    buildDtaPath ( @@mylib MY CHAR )
+    dta -to @mychar -as400 @myas400 -path ~ -new CHAR
+    @mychar -initlen 8 -initval argle! -initdesc ${ test please ignore }$ -initauth *USE -create
+    put -n -s value: @mychar -read
+    put -n -s name: @mychar -query name
+    put -n -s sys: @mychar -query sys
+    put -n -s length: @mychar -query length
+    put -n -s path: @mychar -query path
+    IF @@deletetf THEN $[
+        @mychar -delete
+    ]$
+
+    \\ ${ do DEC }$
+    buildDtaPath ( @@mylib MY DEC )
+    dta -to @mydec -as400 @myas400 -path ~ -new DEC
+    @mydec -initlen 20 -initdecpos 6 -initval 12345678901234.654321 -initdesc ${ dec test please ignore }$ -initauth *CHANGE -create
+    put -n -s value: @mydec -read
+    put -n -s name: @mydec -query name
+    put -n -s sys: @mydec -query sys
+    put -n -s length: @mydec -query length
+    put -n -s path: @mydec -query path
+    put -n -s decpos: @mydec -query decpos
+    IF @@deletetf THEN $[
+        @mydec -delete
+    ]$    
+      
+    \\ ${ do LOG }$
+    buildDtaPath ( @@mylib MY LOG )
+    dta -to @mylog -as400 @myas400 -path ~ -new LOG
+    @mylog -initval @true -initdesc ${ log test please ignore }$ -initauth *EXCLUDE -create
+    put -n -s value: @mylog -read
+    put -n -s name: @mylog -query name
+    put -n -s sys: @mylog -query sys
+    put -n -s length: @mylog -query length
+    put -n -s path: @mylog -query path
+    put -n -s decpos: @mylog -query decpos
+    IF @@deletetf THEN $[
+        @mylog -delete
+    ]$
+      
+    \\ ${ do LOC }$
+    dta -to @myloc -as400 @myas400 -new LOC
+    put -to ~ ${ this is a local data area }$ 
+    @myloc -write ~
+    put -n -s value: @myloc -read
+    put -n -s name: @myloc -query name
+    put -n -s sys: @myloc -query sys
+    put -n -s length: @myloc -query length
+    put -n -s path: @myloc -query path
+    put -n -s decpos: @myloc -query decpos
+    IF @@deletetf THEN $[
+        @myloc -delete
+    ]$      
+]$
+
+# FUNC buildDtaPath ( mylib qualifier dtatype )
+# create an IFS path for the data area
+# e.g., buildDtaPath ( SOMELIB FOO CHAR )
+# puts /QSYS.LIB/SOMELIB.LIB/FOOCHAR.DTAARA to the tuple stack.
+FUNC buildDtaPath ( mylib qualifier dtatype ) $[
+    LOCAL @myifspath
+    string -to @myifspath -cat /QSYS.LIB/ @@mylib
+    @myifspath -to @myifspath -cat .LIB/
+    @myifspath -to @myifspath -cat @@qualifier
+    @myifspath -to @myifspath -cat @@dtatype
+    @myifspath -to ~ -cat .DTAARA
+]$
+# end
