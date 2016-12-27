@@ -29,6 +29,7 @@ Commands
 	* dpoint
 		* WARNING status now has message
 		* dpoint allows a crit and warn alert comparator to work without value 
+	* dta command for data areas
 	* file
 	    * -createdds
 	    * -createfmt
