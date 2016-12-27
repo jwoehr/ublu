@@ -30,6 +30,7 @@ package ublu.util;
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400FTP;
 import com.ibm.as400.access.AS400File;
+import com.ibm.as400.access.DataArea;
 import com.ibm.as400.access.DataQueue;
 import com.ibm.as400.access.FTP;
 import com.ibm.as400.access.HistoryLog;
@@ -91,6 +92,7 @@ public class Autonome {
         AUTONOMY.put(Db.class, "db");
         AUTONOMY.put(SysShepHelper.class, "dpoint");
         AUTONOMY.put(DataQueue.class, "dq");
+        AUTONOMY.put(DataArea.class, "dta");
         AUTONOMY.put(AS400File.class, "file");
         AUTONOMY.put(FTP.class, "ftp");
         AUTONOMY.put(AS400FTP.class, "ftp");

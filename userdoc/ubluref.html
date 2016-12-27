@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -11929,7 +11930,7 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1
     ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string}
     ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} |
-    -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} |
+    -substr ~@{string} ~@intoffset ~@intend | -tobytes ~@{string} |
     -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400
     ~@bytes ~@{ccsid} |-trim ~@{string}] : string
     operations</tt><br>
@@ -12010,9 +12011,9 @@ Type help for help. Type license for license. Type bye to exit.
       <tt>true</tt> if <i>string</i> starts with <i>substr</i>,
       <tt>false</tt> otherwise.</li>
 
-      <li><tt>-substr ~@{string} ~@intoffset ~@intlen</tt> puts an
-      <i>intlen</i> substring of <i>string</i> starting from the
-      zero-base <i>intoffset</i><i>.</i></li>
+      <li><tt>-substr ~@{string} ~@intoffset ~@intend</tt> puts the
+      substring of <i>string</i> starting from the zero-base
+      <i>intoffset</i> and ending at <i>intend</i>-1.</li>
 
       <li><tt>-toas400 ~@as400 ~@{string} ~@{ccsid}</tt> converts
       <i>string</i> to a byte array encoded according to
