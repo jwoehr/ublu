@@ -2,15 +2,17 @@
 
 <html>
 <head>
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content=
+  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 27 Dec 2016 15:02:24 UTC">
+  "Wed, 28 Dec 2016 22:56:23 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -62,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2016-12-27</p>
+  Last edit: 2016-12-28</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4382,8 +4384,8 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}]
     [-initdesc ~@{initdesc}] [ -new,-instance CHAR|DEC|LOC|LOG |
     -create | -delete | -refresh | -query
-    ~@{query(name|sys|length|path|decpos)} | -write ~@data | -read |
-    -clear] : create and use data areas</code><br>
+    ~@{query(name|sys|length|path|decpos)} | -write ~@data | -read
+    | -clear] : create and use data areas</code><br>
     <br>
     The <code>dta</code> command manipulates IBM i data areas.
     Initialize an instance by providing a system via the
@@ -4455,8 +4457,9 @@ Type help for help. Type license for license. Type bye to exit.
       <li><code>-refresh</code> refreshes the information about the
       data area from the server.</li>
 
-      <li><code>-query ~@{query(name|sys|length|path|decpos)}</code> puts
-      the data area name or system or length or path or decimal positions
+      <li><code>-query
+      ~@{query(name|sys|length|path|decpos)}</code> puts the data
+      area name or system or length or path or decimal positions
       (the latter only applicable to decimal data areas).</li>
 
       <li><code>-clear</code> clears the data area.</li>
@@ -13547,6 +13550,77 @@ Type help for help. Type license for license. Type bye to exit.
   command will simply exit because there is no extra input for a
   nested interpeter session to be had when input is redirected in
   this fashion.
+
+  <h3><a name="Delete_all_spool_files">Delete all spool files
+  created before 2016 for all users</a></h3>
+
+  <p>This simple example can be easily modified to operate on the
+  files for a given user, or for another date. The key concept here
+  is that AS400 dates consist of</p>
+
+  <blockquote>
+    <code>1-digit century (0=20,1=21) | 2-digit year | 2-digit
+    month | 2-digit date</code>
+  </blockquote>
+  <pre>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-KEYWORD2">as400</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@mysys</span> mysys myid mypasswd
+<span class="gutter">   2 </span><span class=
+"syntax-KEYWORD2">spoolflist</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@l</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-MARKUP">@mysys</span> <span class=
+"syntax-LITERAL2">*ALL</span>
+<span class="gutter">   3 </span><span class=
+"syntax-KEYWORD2">list</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@ll</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-source</span> <span class=
+"syntax-MARKUP">@l</span>
+<span class="gutter">   4 </span><span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@i</span> in <span class=
+"syntax-MARKUP">@ll</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutterH">   5 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@date</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@tf</span> 
+<span class="gutter">   6 </span>    <span class=
+"syntax-MARKUP">@i</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@date</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-get</span> createdate
+<span class="gutter">   7 </span>    <span class=
+"syntax-KEYWORD2">eval</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@tf</span> &lt; <span class=
+"syntax-MARKUP">@date</span> <span class=
+"syntax-DIGIT">1160000</span>
+<span class="gutter">   8 </span>    <span class=
+"syntax-KEYWORD1">IF</span> <span class=
+"syntax-MARKUP">@tf</span> <span class=
+"syntax-KEYWORD1">THEN</span> <span class=
+"syntax-OPERATOR">$[</span> <span class=
+"syntax-MARKUP">@i</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-delete</span> <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">   9 </span><span class=
+"syntax-OPERATOR">]$</span>
+</span>
+</pre>
 
   <h3><a name="Defluff_a_CSV" id="Defluff_a_CSV"></a>Defluff a
   CSV</h3>
