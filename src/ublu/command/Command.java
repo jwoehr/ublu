@@ -522,9 +522,9 @@ public abstract class Command implements CommandInterface {
      * @throws PropertyVetoException
      */
     protected AS400 as400FromArgs(ArgArray argArray) throws PropertyVetoException {
-        String system = argArray.nextMaybeQuotationTuplePopString();
-        String username = argArray.nextMaybeQuotationTuplePopString();
-        String password = argArray.nextMaybeQuotationTuplePopString();
+        String system = argArray.nextMaybeQuotationTuplePopStringTrim();
+        String username = argArray.nextMaybeQuotationTuplePopStringTrim();
+        String password = argArray.nextMaybeQuotationTuplePopStringTrim();
         return AS400Factory.newAS400(getInterpreter(), system, username, password);
     }
 
