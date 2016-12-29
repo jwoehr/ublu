@@ -6,6 +6,7 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -11757,10 +11758,10 @@ Type help for help. Type license for license. Type bye to exit.
     ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] |
     [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath]
     [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]]
-    system user password name number jobname jobuser
-    jobnumber&nbsp; : operate on an individual spooled file<br>
-    &nbsp;&nbsp;&nbsp;</tt> <tt><br>
-    &nbsp;&nbsp;&nbsp;</tt><br>
+    ~@{system} ~@{user} ~@{password} ~@{name} ~@{number}
+    ~@{jobname} ~@{jobuser} ~@{jobnumber} : operate on an
+    individual spooled file</tt><br>
+    <br>
     The <tt>spoolf</tt> command operates on an individual spooled
     file object. You can create the spooled file object directly
     from a full specification as shown above, or you can use the
@@ -11911,14 +11912,15 @@ Type help for help. Type license for license. Type bye to exit.
     <p><br></p>
 
     <p><i>Example</i><br>
-    <tt>&nbsp;</tt><tt><br></tt> <tt>&gt; as400 -to @remote
-    localbox qsecofr *******</tt><tt><br></tt> <tt>&gt; as400 -to
-    @local remotebox qsecofr *******</tt><tt><br></tt> <tt>&gt;
-    spoolflist -to @src -as400 @local jwoehr</tt><tt><br></tt>
-    <tt>&gt; put -from @src</tt><tt><br></tt> <i><tt>QSYSPRT 1
-    XBXUHP2 JWOEHR 418388 1141009
-    113633</tt></i><i><tt><br></tt></i> <i><tt>QPJOBLOG 2 XBXUHP2
-    JWOEHR 418388 1141009 113650</tt></i><tt><br></tt> <tt><br>
+    <br>
+    <tt>&gt; as400 -to @remote localbox qsecofr
+    *******</tt><tt><br></tt> <tt>&gt; as400 -to @local remotebox
+    qsecofr *******</tt><tt><br></tt> <tt>&gt; spoolflist -to @src
+    -as400 @local jwoehr</tt><tt><br></tt> <tt>&gt; put -from
+    @src</tt><tt><br></tt> <i><tt>QSYSPRT 1 XBXUHP2 JWOEHR 418388
+    1141009 113633</tt></i><i><tt><br></tt></i> <i><tt>QPJOBLOG 2
+    XBXUHP2 JWOEHR 418388 1141009 113650</tt></i><tt><br></tt>
+    <tt><br>
     &gt; FOR @i in @src $[ spoolf -spoolf @i -copyto @remote
     ]$</tt><tt><br></tt> <i><tt>QPRINT 1 QPRTJOB QSECOFR 019607
     1171008 174859</tt></i><i><tt><br></tt></i> <i><tt>QPRINT 2
@@ -11946,9 +11948,9 @@ Type help for help. Type license for license. Type bye to exit.
   "spoolflist"></a></i></font><tt>spoolflist</tt></h4>
 
   <blockquote>
-    <tt>/4? [-as400 ~@as400] [-to datasink] ~@system ~@userid
-    ~@passwd ~@spoolfileowner : fetch a list of the given user's
-    spooled files as objects</tt><br>
+    <tt>/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid}
+    ~@{passwd} ~@{spoolfileowner} : fetch a list of the given
+    user's spooled files as objects</tt><br>
     <br>
     The <tt>spoolflist</tt> command retrieves a collection of
     spooled file objects from the host. These objects can then be

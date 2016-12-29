@@ -66,7 +66,7 @@ public class CmdSpoolF extends Command {
 
     {
         setNameAndDescription("spoolf",
-                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@{ some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate | createtime | jobname | jobnumber | jobsysname | jobuser | message | name | number] | [-hold [-immed|-pageend]] | [-new,-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] system user password name number jobname jobuser jobnumber  : operate on an individual spooled file");
+                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@{ some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate | createtime | jobname | jobnumber | jobsysname | jobuser | message | name | number] | [-hold [-immed|-pageend]] | [-new,-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] ~@{system} ~@{user} ~@{password} ~@{name} ~@{number} ~@{jobname} ~@{jobuser} ~@{jobnumber}  : operate on an individual spooled file");
     }
 
     /**
@@ -579,11 +579,11 @@ public class CmdSpoolF extends Command {
             }
         }
         if (a != null) {
-            String name = argArray.nextMaybeQuotationTuplePopString();
-            int number = argArray.nextIntMaybeTupleString();
-            String jobName = argArray.nextMaybeQuotationTuplePopString();
-            String jobUser = argArray.nextMaybeQuotationTuplePopString();
-            String jobNumber = argArray.nextMaybeQuotationTuplePopString();
+            String name = argArray.nextMaybeQuotationTuplePopStringTrim();
+            int number = argArray.nextIntMaybeQuotationTuplePopString();
+            String jobName = argArray.nextMaybeQuotationTuplePopStringTrim();
+            String jobUser = argArray.nextMaybeQuotationTuplePopStringTrim();
+            String jobNumber = argArray.nextMaybeQuotationTuplePopStringTrim();
             splf = new SpooledFile(a, name, number, jobName, jobUser, jobNumber);
         }
         return splf;

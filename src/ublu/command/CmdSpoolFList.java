@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdSpoolFList extends Command {
 
     {
-        setNameAndDescription("spoolflist", "/4? [-as400 ~@as400] [-to datasink] ~@system ~@userid ~@passwd ~@spoolfileowner : fetch a list of the given user's spooled files as objects");
+        setNameAndDescription("spoolflist", "/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{spoolfileowner} : fetch a list of the given user's spooled files as objects");
     }
 
     /**
@@ -111,7 +111,7 @@ public class CmdSpoolFList extends Command {
             }
         }
         if (a != null) {
-            String spoolowner = argArray.nextMaybeQuotationTuplePopString();
+            String spoolowner = argArray.nextMaybeQuotationTuplePopStringTrim();
             splflister = new SpooledFileLister(a);
             splflister.setUserFilter(spoolowner);
         }
