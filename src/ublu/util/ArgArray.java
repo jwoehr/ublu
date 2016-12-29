@@ -703,7 +703,7 @@ public class ArgArray extends ArrayList<String> {
      * array.
      */
     public int nextIntMaybeQuotationTuplePopString() {
-        return Long.decode(nextMaybeQuotationTuplePopString()).intValue();
+        return Long.decode(nextMaybeQuotationTuplePopStringTrim()).intValue();
     }
 
     /**
