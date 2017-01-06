@@ -51,6 +51,12 @@ import ublu.util.Generics.TupleNameList;
 import ublu.util.Generics.TupleStack;
 import ublu.util.Generics.UbluProgram;
 
+import org.jline.reader.EndOfFileException;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+
 /**
  * command interface object
  *
@@ -75,6 +81,7 @@ public class Interpreter {
     private Props props;
     private long paramSubIndex = 0;
     private int instanceDepth = 0;
+    private LineReader reader;
 
     /**
      * Get the const map
@@ -870,6 +877,17 @@ public class Interpreter {
         props = new Props();
         myDBug = new DBug(this);
         constMap = new ConstMap();
+        if (isConsole()) {
+            Terminal terminal = null;
+            try {
+                terminal = TerminalBuilder.terminal();
+            } catch (IOException e) {
+                System.err.println(e.toString());
+            }
+            reader = LineReaderBuilder.builder()
+                .terminal(terminal)
+                .build();
+        }
     }
 
     /**
@@ -1315,7 +1333,11 @@ public class Interpreter {
                 getLogger().log(Level.SEVERE, "IO error reading included file", ex);
             }
         } else if (isConsole()) {
-            input = System.console().readLine();
+            try {
+                input = reader.readLine(prompt(), "", null, null);
+            } catch (EndOfFileException e) {
+                setGoodBye(true);
+            }
         } else { // we're reading from the input stream
             try {
                 input = getInputStreamBufferedReader().readLine();
@@ -1340,7 +1362,6 @@ public class Interpreter {
      */
     public int interpret() {
         while (!isGoodBye()) {
-            prompt();
             readAndParse();
             loop();
             if (isGoodBye() && isConsole() && instanceDepth == 0) {
@@ -1355,7 +1376,7 @@ public class Interpreter {
      * parsing a multiline <tt>${ quoted string }$</tt> an intermediate
      * continuation prompt of <tt>${</tt>
      */
-    public void prompt() {
+    public String prompt() {
         if (isPrompting()) {
             StringBuilder sb = new StringBuilder(instanceDepth == 0 ? "" : Integer.toString(instanceDepth)).append("> ");
             String thePrompt = sb.toString();
@@ -1371,8 +1392,9 @@ public class Interpreter {
                 thePrompt = sb.toString();
             }
             if (isConsole()) {
-                outputerr(thePrompt);
+                return thePrompt;
             }
         }
+        return "";
     }
 }
