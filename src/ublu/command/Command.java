@@ -641,6 +641,15 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * Push to the tuple stack maintained by the interpreter
+     *
+     * @param t tuple to push
+     */
+    protected void pushTuple(Tuple t) {
+        getTupleStack().push(t);
+    }
+
+    /**
      * Don't allow null strings coming from non-existent tuples. Set command
      * failure if non-existent tuple provided.
      *
