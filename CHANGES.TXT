@@ -4,6 +4,9 @@ All rights reserved.
 
 1.1.6
 -----
+Commands
+* ftp command rewritten, new specifications
+	* previous ftp command is now called 'oldftp'
 
 1.1.5 2016-12-31
 -----
