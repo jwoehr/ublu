@@ -130,16 +130,16 @@ public class CmdSaveF extends Command {
                     function = FUNCTIONS.EXISTS;
                     break;
                 case "-lib":
-                    savedLibName = args.nextMaybeQuotationTuplePopString();
+                    savedLibName = args.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-list":
                     function = FUNCTIONS.LIST;
                     break;
                 case "-obj":
-                    objectList.add(args.nextMaybeQuotationTuplePopString());
+                    objectList.add(args.nextMaybeQuotationTuplePopStringTrim());
                     break;
                 case "-path":
-                    pathList.add(args.nextMaybeQuotationTuplePopString());
+                    pathList.add(args.nextMaybeQuotationTuplePopStringTrim());
                     break;
                 case "-restore":
                     function = FUNCTIONS.RESTORE;
@@ -148,7 +148,7 @@ public class CmdSaveF extends Command {
                     function = FUNCTIONS.SAVE;
                     break;
                 case "-tolib":
-                    toLibName = args.nextMaybeQuotationTuplePopString();
+                    toLibName = args.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -166,8 +166,8 @@ public class CmdSaveF extends Command {
                     logNoAs400();
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
-                    String libraryname = args.nextMaybeQuotationTuplePopString();
-                    String savefilename = args.nextMaybeQuotationTuplePopString();
+                    String libraryname = args.nextMaybeQuotationTuplePopStringTrim();
+                    String savefilename = args.nextMaybeQuotationTuplePopStringTrim();
                     saveFile = new SaveFile(getAs400(), libraryname, savefilename);
                 }
             }
