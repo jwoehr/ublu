@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -5242,7 +5243,14 @@ Type help for help. Type license for license. Type bye to exit.
           instanced session, optionally use <code>-to</code> to
           indicate the <a href="#Datasinks">datasink</a> to which
           the textual message output by an <code>ftp</code> command
-          is put.</li>
+          is put.
+
+            <ul>
+              <li>Note: the JTOpen FTP code does a certain amount
+              of logging to stderr which is not under the control
+              of Ublu.</li>
+            </ul>
+          </li>
         </ul>
       </li>
 
@@ -5371,7 +5379,49 @@ Type help for help. Type license for license. Type bye to exit.
       <li>Use <tt>-type bin</tt> for all AS400 FTP transfers
       involving libraries and objects (as opposed to stream files
       from the Integrated File System (IFS)).</li>
-    </ul>
+    </ul><em>Example</em>
+    <pre>
+&gt;  ftp -to @iftp -as400 -mode pas -new pub400.com FOOBERG ********
+&gt;  @iftp -pwd
+257 "/" is current directory.
+&gt;  @iftp  -cd /QSYS.LIB/FOOBERG1.LIB
+250 "/QSYS.LIB/FOOBERG1.LIB" is current library.
+&gt; @iftp -dir
+drwx------   1 FOOBERG      0          57344 Dec 15 03:47 FOO.FILE
+-rwx------   1 FOOBERG      0          65536 Dec 10 01:18 MYTEST.SAVF
+drwx------   1 FOOBERG      0          77824 Dec 08 04:43 TEST1.FILE
+drwx------   1 FOOBERG      0          77824 Dec 08 05:05 TEST2.FILE
+
+Ublu:1:UbluInterpreter.Thread[main,5,main]:INFO:ublu.command.CmdFTPNu.ftp():250 List completed.
+&gt; @iftp -cd /home/FOOBERG
+250 "/home/FOOBERG" is current directory.
+&gt; @iftp -ls ublu/*.jar
+-rwx------   1 FOOBERG      0        1253099 Oct 11 19:13 ublu.jar
+
+Ublu:1:UbluInterpreter.Thread[main,5,main]:INFO:ublu.command.CmdFTPNu.ftp():250 List completed.
+&gt; @iftp -cd /home/FOOBERG -to @ftp_messages
+&gt; put @ftp_messages
+250 "/home/FOOBERG" is current directory.
+&gt;  @iftp  -cd /QSYS.LIB/FOOBERG1.LIB
+250 "/QSYS.LIB/FOOBERG1.LIB" is current library.
+&gt; @iftp -type bin -get MYTEST.SAVF
+226 File transfer completed successfully.
+&gt; as400 -to @pubcom pub400.com FOOBERG ******** 
+&gt; savef -create -as400 @pubcom FOOBERG1 MYTEST2
+&gt; @iftp -type bin -target /QSYS.LIB/FOOBERG1.LIB/MYTEST2.SAVF -put  MYTEST.SAVF
+226 File transfer completed successfully.
+&gt; savef -as400 @pubcom -list FOOBERG1 MYTEST2
+FOOBERG1/FOO.FILE 36864
+Sat Dec 10 01:18:20 MST 2016
+PF
+*SYSBAS:1
+
+ 
+
+
+&gt; @iftp -disconnect
+&gt; @pubcom -disconnect
+</pre>
   </blockquote>
 
   <h4><a name="oldftp" id="oldftp"></a> <tt><del>oldftp</del></tt>
@@ -5380,13 +5430,13 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <p><em><strong>Note</strong>: This is the old <code>ftp</code>
-    command. If your code used that earlier <code>ftp</code>command
-    and you want that functionality, simply change the command to
-    <code>oldftp</code>.</em></p><tt>/3? -cd path | -cmd ${ command
-    string }$ | -disconnect | -get filepath | -list | -put filepath
-    | -pwd | --,-session @session [ -as400 ] [ -from datasink ] [
-    -to datasink ] [ -mode act/pas ] [ -port portnum ] [ -type
-    asc/bin ] [ -tofile destfile ] ~@{system} ~@{userid}
+    command. If your code used that earlier <code>ftp</code>
+    command and you want that functionality, simply change the
+    command to <code>oldftp</code>.</em></p><tt>/3? -cd path | -cmd
+    ${ command string }$ | -disconnect | -get filepath | -list |
+    -put filepath | -pwd | --,-session @session [ -as400 ] [ -from
+    datasink ] [ -to datasink ] [ -mode act/pas ] [ -port portnum ]
+    [ -type asc/bin ] [ -tofile destfile ] ~@{system} ~@{userid}
     ~@{password} : FTP client with AS400-specific extensions<br>
     <br></tt> The <tt>ftp</tt> command provides FTP client
     capability with a persistent session or with one-off
