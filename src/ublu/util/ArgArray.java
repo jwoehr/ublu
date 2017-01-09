@@ -84,6 +84,15 @@ public class ArgArray extends ArrayList<String> {
     public static final String POPTUPLE = "~";
 
     /**
+     * Return true if is the pop tuple sign ~
+     * @param s string to test
+     * @return true if is the pop tuple sign ~
+     */
+    public static boolean isPopTupleSign(String s) {
+        return s.equals(POPTUPLE);
+    }
+
+    /**
      * Instance empty
      */
     private ArgArray() {
@@ -692,8 +701,8 @@ public class ArgArray extends ArrayList<String> {
 
     /**
      * Check if the next element in the ArgArray is a tuplename or the symbol
-     * POPTUPLE ("~"), and if so, return the Long value of the tuple. If it's not
-     * a tuple (popped or otherwise), look for the the openquote and if so
+     * POPTUPLE ("~"), and if so, return the Long value of the tuple. If it's
+     * not a tuple (popped or otherwise), look for the the openquote and if so
      * assimilate the quotation before returning the next element in the
      * ArgArray whether it was a quotation or just a plain word and return it
      * parsed as an int.
