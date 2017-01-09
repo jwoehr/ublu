@@ -48,7 +48,7 @@ import ublu.util.Autonome;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename | -map | -autonome @tuplename | -autonomic @tuplename | -autonomes ] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null ~@tuplename | -true ~@tuplename | -false ~@tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple |  -type ~@tuple | -typename ~@tuple | -map | -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on tuple variables");
     }
 
     /**
@@ -100,6 +100,10 @@ public class CmdTuple extends Command {
          * functor parameter binding temp, we can find the real name.
          */
         REALNAME,
+        /**
+         * Return the java class of the operand
+         */
+        TYPE,
         /**
          * Return a typename, usually a java class
          */
@@ -205,6 +209,10 @@ public class CmdTuple extends Command {
                     setFunction(FUNCTIONS.FALSE);
                     someName = argArray.next();
                     break;
+                case "-type":
+                    setFunction(FUNCTIONS.TYPE);
+                    someTuple = argArray.nextTupleOrPop();
+                    break;
                 case "-typename":
                     setFunction(FUNCTIONS.TYPENAME);
                     someTuple = argArray.nextTupleOrPop();
@@ -297,6 +305,8 @@ public class CmdTuple extends Command {
                                 getInterpreter().setTupleNoLocal(someTuple.getBoundKey(), someTuple.getValue());
                             }
                         }
+                    } else if (ArgArray.isPopTupleSign(theTupleName)) {
+                        getTupleStack().push(getTupleStack().pop().setValue(true));
                     } else {
                         getLogger().log(Level.SEVERE, "Name {0} is not a tuple name.", theTupleName);
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -314,6 +324,8 @@ public class CmdTuple extends Command {
                                 getInterpreter().setTupleNoLocal(someTuple.getBoundKey(), someTuple.getValue());
                             }
                         }
+                    } else if (ArgArray.isPopTupleSign(theTupleName)) {
+                        getTupleStack().push(getTupleStack().pop().setValue(false));
                     } else {
                         getLogger().log(Level.SEVERE, "Name {0} is not a tuple name.", theTupleName);
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -352,8 +364,29 @@ public class CmdTuple extends Command {
                     theTupleName = someName;
                     if (Tuple.isTupleName(theTupleName)) {
                         setTuple(theTupleName, null);
+                    } else if (ArgArray.isPopTupleSign(theTupleName)) {
+                        getTupleStack().push(getTupleStack().pop().setValue(null));
                     } else {
                         getLogger().log(Level.SEVERE, "Name {0} is not a tuple name.", theTupleName);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case TYPE:
+                    if (someTuple != null) {
+                        try {
+                            Object value = someTuple.getValue();
+                            if (value == null) {
+                                put(value);
+                            } else {
+                                put(value.getClass());
+                            }
+
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Couldn't put tuple class name in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No tuple found for -typename in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
