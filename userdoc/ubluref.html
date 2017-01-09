@@ -5,11 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 6 Jan 2017 18:02:19 UTC">
+  "Mon, 9 Jan 2017 02:59:37 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-01-06</p>
+  Last edit: 2017-01-08</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4580,7 +4579,8 @@ Type help for help. Type license for license. Type bye to exit.
     operator and then exercises the operator on its one or more
     operands. The operator and all operands may each be a plain
     word or may be a tuple referencing the desired operator or
-    operand. The result is put to the destination <a href=
+    operand. The operands are treated as <code>Long</code>. The
+    result is put to the destination <a href=
     "#Datasinks">datasink</a>, often a <a href=
     "#Tuple_Variables">tuple variable</a>.<br>
     <br>
@@ -13181,11 +13181,11 @@ PF
 
   <blockquote>
     <tt>/0 [-delete @tuplename | -exists @tuplename | -istuplename
-    @tuplename | -null @tuplename | -true @tuplename | -false
-    @tuplename | -name @tuplename | -realname @tuplename | -value
-    ~@tuplename | -sub ~@{subname} @tuple | -typename ~@tuplename |
-    -map | -autonome @tuplename | -autonomic @tuplename |
-    -autonomes ] : operations on tuple variables</tt><br>
+    @tuplename | -null ~@tuplename | -true ~@tuplename | -false
+    ~@tuplename | -name @tuplename | -realname @tuplename | -value
+    ~@tuplename | -sub ~@{subname} @tuple | -type ~@tuple |
+    -typename ~@tuple | -map | -autonome ~@tuple | -autonomic
+    ~@tuple | -autonomes ] : operations on tuple variables</tt><br>
     <br>
     Operations on <a href="#Tuple_Variables">tuple
     variables</a>.<br>
@@ -13209,7 +13209,7 @@ PF
 
       <li>
         <tt>-istuplename @tuplename</tt> puts true iff
-        <i>@tuplename</i> is a valid tuplename
+        <i>@tuplename</i> is a valid tuplename.
 
         <ul>
           <li>useful in <a href="#FUNC"><tt>FUNC</tt></a>s for
@@ -13218,11 +13218,19 @@ PF
         </ul>
       </li>
 
-      <li><tt>-true</tt> <tt>@tuplename</tt> sets <i>@tuplename</i>
-      to the boolean <tt>true</tt> value</li>
+      <li><tt>-true</tt> <tt>~@tuplename</tt> sets
+      <i>~@tuplename</i> to the boolean <tt>true</tt> value. If the
+      tuplename does not yet exist, it springs into existence. If
+      the tuplename is the tuple stack symbol <code>~</code>, the
+      top tuple stack entry is popped, set to <code>true</code>,
+      and pushed back to the tuple stack.</li>
 
       <li>-<tt>false</tt> <tt>@tuplename</tt> sets
-      <i>@tuplename</i> to the boolean <tt>false</tt> value</li>
+      <i>@tuplename</i> to the boolean <tt>false</tt> value. If the
+      tuplename does not yet exist, it springs into existence. If
+      the tuplename is the tuple stack symbol <code>~</code>, the
+      top tuple stack entry is popped, set to <code>false</code>,
+      and pushed back to the tuple stack.</li>
 
       <li>
         <tt>-name</tt> <tt>@tuplename</tt> puts the name of the
@@ -13266,7 +13274,11 @@ PF
       represented by the tuple named <i>@tuplename</i>.</li>
 
       <li><tt>-null</tt> <tt>@tuplename</tt> sets <i>@tuplename</i>
-      to <tt>null</tt></li>
+      to <tt>null</tt>. If the tuplename does not yet exist, it
+      springs into existence. If the tuplename is the tuple stack
+      symbol <code>~</code>, the top tuple stack entry is popped,
+      set to <code>null</code>, and pushed back to the tuple
+      stack.</li>
 
       <li><tt>-map</tt> shows all tuple names</li>
 
