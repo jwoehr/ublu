@@ -41,14 +41,15 @@ public class ParamSubTuple extends Tuple {
     }
 
     @Override
-    public void setValue(Object value) {
+    public Tuple setValue(Object value) {
         if (boundTuple != null) {
             boundTuple.setValue(value);
         } else {
-           // /* debug */ System.err.println("ParamSubTuple " + getKey() + " ready to be instanced with key " + getProposedKey());
+            // /* debug */ System.err.println("ParamSubTuple " + getKey() + " ready to be instanced with key " + getProposedKey());
             boundTuple = new Tuple(proposedKey, value);
-           // /* debug */ System.err.println("ParamSubTuple " + getKey() + " instanced with key " + getProposedKey() + " to value " + getValue());
+            // /* debug */ System.err.println("ParamSubTuple " + getKey() + " instanced with key " + getProposedKey() + " to value " + getValue());
         }
+        return this;
     }
 
     @Override

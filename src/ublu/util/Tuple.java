@@ -83,9 +83,11 @@ public class Tuple {
      * Set the object value
      *
      * @param value the object value
+     * @return the tuple self
      */
-    public void setValue(Object value) {
+    public Tuple setValue(Object value) {
         this.value = value;
+        return this;
     }
 
     /**
