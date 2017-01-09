@@ -72,8 +72,8 @@ public class CmdEval extends Command {
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
                 String opr = argArray.nextMaybeTupleString();
-                int lopr;
-                int ropr;
+                Long lopr;
+                Long ropr;
 
                 switch (opr) {
 
@@ -82,8 +82,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr + ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -97,8 +97,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr - ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -112,8 +112,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr * ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -127,8 +127,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr / ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -142,8 +142,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr % ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -173,8 +173,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr & ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -188,8 +188,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr << ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -203,8 +203,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr >> ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -218,8 +218,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr | ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -233,8 +233,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr ^ ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -278,8 +278,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr == ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -293,8 +293,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr < ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -308,8 +308,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr > ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -323,8 +323,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr <= ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -338,8 +338,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr >= ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -353,8 +353,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put(lopr != ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -368,8 +368,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            lopr = argArray.nextIntMaybeQuotationTuplePopString();
-                            ropr = argArray.nextIntMaybeQuotationTuplePopString();
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put((lopr * 100) / ropr);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {

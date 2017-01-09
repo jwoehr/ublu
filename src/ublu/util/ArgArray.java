@@ -692,6 +692,22 @@ public class ArgArray extends ArrayList<String> {
 
     /**
      * Check if the next element in the ArgArray is a tuplename or the symbol
+     * POPTUPLE ("~"), and if so, return the Long value of the tuple. If it's not
+     * a tuple (popped or otherwise), look for the the openquote and if so
+     * assimilate the quotation before returning the next element in the
+     * ArgArray whether it was a quotation or just a plain word and return it
+     * parsed as an int.
+     *
+     * @return int whose value was represented either by the next lex in the arg
+     * array or by the tuple popped or whose name was the next lex in the arg
+     * array.
+     */
+    public Long nextLongMaybeQuotationTuplePopString() {
+        return Long.decode(nextMaybeQuotationTuplePopStringTrim());
+    }
+
+    /**
+     * Check if the next element in the ArgArray is a tuplename or the symbol
      * POPTUPLE ("~"), and if so, return the int value of the tuple. If it's not
      * a tuple (popped or otherwise), look for the the openquote and if so
      * assimilate the quotation before returning the next element in the
@@ -703,7 +719,7 @@ public class ArgArray extends ArrayList<String> {
      * array.
      */
     public int nextIntMaybeQuotationTuplePopString() {
-        return Long.decode(nextMaybeQuotationTuplePopStringTrim()).intValue();
+        return nextLongMaybeQuotationTuplePopString().intValue();
     }
 
     /**
