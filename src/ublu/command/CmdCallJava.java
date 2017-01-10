@@ -46,7 +46,7 @@ import java.util.logging.Level;
 public class CmdCallJava extends Command {
 
     {
-        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java method");
+        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object] [-class classname] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java method");
     }
 
     /**
@@ -77,6 +77,7 @@ public class CmdCallJava extends Command {
         MethodArgPairList margs = new MethodArgPairList();
         String methodName = null;
         String newClassName = null;
+        String className = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -86,6 +87,15 @@ public class CmdCallJava extends Command {
                 case "--":
                 case "-obj":
                     object = argArray.nextTupleOrPop().getValue();
+                    break;
+                case "-class":
+                    try {
+                        className = argArray.nextMaybeQuotationTuplePopStringTrim();
+                        object = Class.forName(className);
+                    } catch (ClassNotFoundException ex) {
+                        getLogger().log(Level.SEVERE, "No such class " + className + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 case "-method":
                     methodName = argArray.nextMaybeQuotationTuplePopString();
@@ -109,7 +119,8 @@ public class CmdCallJava extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
+        }
+        if (getCommandResult() != COMMANDRESULT.FAILURE) {
             JavaCallHelper jch = null;
             Object callResult = null;
             switch (op) {
@@ -162,7 +173,6 @@ public class CmdCallJava extends Command {
                     }
                     break;
             }
-
         }
         return argArray;
     }

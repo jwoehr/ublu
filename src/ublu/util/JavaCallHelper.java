@@ -152,7 +152,7 @@ public class JavaCallHelper {
      * @throws NoSuchMethodException
      */
     public JavaCallHelper(Object o, String methodName, MethodArgPairList margs) throws NoSuchMethodException {
-        this(o, getMethod(o.getClass(), methodName, margs.toClassArray()), margs.toArgList());
+        this(o, getMethod(o instanceof Class ? (Class) o : o.getClass(), methodName, margs.toClassArray()), margs.toArgList());
         this.margs = margs;
     }
 
