@@ -48,7 +48,7 @@ import java.util.logging.Level;
 public class CmdCallJava extends Command {
 
     {
-        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object] [-class ~@{classname}] [-field ~@{fieldName}] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
+        setNameAndDescription("calljava", "/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] | --,-obj ~@object [field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
     }
 
     /**
@@ -59,6 +59,10 @@ public class CmdCallJava extends Command {
          * field
          */
         FIELD,
+        /**
+         * return Class object
+         */
+        FORNAME,
         /**
          * method
          */
@@ -94,14 +98,10 @@ public class CmdCallJava extends Command {
                 case "-obj":
                     object = argArray.nextTupleOrPop().getValue();
                     break;
+                case "-forname":
+                    op = OPERATIONS.FORNAME; // falls thru into -class
                 case "-class":
-                    try {
-                        className = argArray.nextMaybeQuotationTuplePopStringTrim();
-                        object = Class.forName(className);
-                    } catch (ClassNotFoundException ex) {
-                        getLogger().log(Level.SEVERE, "No such class " + className + " in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
+                    object = forName(argArray.nextMaybeQuotationTuplePopStringTrim());
                     break;
                 case "-field":
                     op = OPERATIONS.FIELD;
@@ -135,14 +135,29 @@ public class CmdCallJava extends Command {
             Object callResult = null;
             switch (op) {
                 case FIELD:
-                    Class c = object instanceof Class ? (Class) object : object.getClass();
-                    try {
-                        put(c.getField(fieldName));
-                    } catch (SQLException | NoSuchFieldException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error getting or putting Field in " + getNameAndDescription(), ex);
+                    if (object != null) {
+                        Class c = object instanceof Class ? (Class) object : object.getClass();
+                        try {
+                            put(c.getField(fieldName));
+                        } catch (SQLException | NoSuchFieldException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting Field in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No object provided for field in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+
+                case FORNAME:
+                    try {
+                        put(object);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error getting or putting Class object in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                    
                 case METHOD:
                     try {
                         jch = new JavaCallHelper(object, methodName, margs);
@@ -169,6 +184,7 @@ public class CmdCallJava extends Command {
                         }
                     }
                     break;
+                    
                 case NEW:
                     try {
                         jch = new JavaCallHelper(Class.forName(newClassName), margs);
@@ -196,8 +212,21 @@ public class CmdCallJava extends Command {
         return argArray;
     }
 
+    Class forName(String className
+    ) {
+        Class c = null;
+        try {
+            c = Class.forName(className);
+        } catch (ClassNotFoundException ex) {
+            getLogger().log(Level.SEVERE, "No such class " + className + " in " + getNameAndDescription(), ex);
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        return c;
+    }
+
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return cmdCallJava(args);
     }
