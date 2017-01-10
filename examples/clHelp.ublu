@@ -1,0 +1,38 @@
+# clHelp.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# clHelp ( lib cmd s u p ) 
+# Generate HTML help for a CL command
+# args are library commandname system user password
+# example: clHelp ( QSYS WRKUSRPRF MY400 MYID ******** )
+# a file is generated in the current directory QSYS_WRKUSRPRF.html
+FUNC clHelp ( lib cmd s u p ) $[
+    LOCAL @start LOCAL @end
+    put -to ~ java.lang.String
+    calljava -to ~ -class java.lang.Class -method forName -arg ~
+    num -to ~ -int 10
+    lifo -swap
+    calljava -to @L[String -class java.lang.reflect.Array -method newInstance -arg ~ -primarg ~ 
+    \\ ${ calljava -to ~ -obj @L[String -field length }$
+    \\ ${ calljava -class java.lang.reflect.Array -method getLength -arg @L[String }$
+    string -to ~ -trim @@lib
+    string -to ~ -trim ${ -l }$
+    string -to ~ -trim @@cmd
+    string -to ~ -trim ${ -c }$
+    string -to ~ -trim @@s
+    string -to ~ -trim ${ -s }$
+    string -to ~ -trim @@u
+    string -to ~ -trim ${ -u }$
+    string -to ~ -trim @@p
+    string -to ~ -trim ${ -p }$
+    put -to @start 0
+    put -to @end 10
+    DO @start @end $[
+        calljava  -class java.lang.reflect.Array -method set -arg @L[String -primarg @start -arg ~
+    ]$
+    calljava -class com.ibm.as400.util.CommandHelpRetriever -method main -arg @L[String
+]$
+# end

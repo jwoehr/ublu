@@ -46,14 +46,17 @@ import java.util.logging.Level;
 public class CmdCallJava extends Command {
 
     {
-        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object] [-class classname] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java method");
+        setNameAndDescription("calljava", "/0 [-to @datasink] [-new ~@{classname}] [--,-obj ~@object] [-class classname] [-field fieldName] [-method ~@{methodname}] [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java method");
     }
 
     /**
      * Our operations
      */
     protected static enum OPERATIONS {
-
+        /**
+         * field
+         */
+        FIELD,
         /**
          * method
          */
@@ -78,6 +81,7 @@ public class CmdCallJava extends Command {
         String methodName = null;
         String newClassName = null;
         String className = null;
+        String fieldName = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -97,8 +101,12 @@ public class CmdCallJava extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case "-field":
+                    op = OPERATIONS.FIELD;
+                    fieldName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
                 case "-method":
-                    methodName = argArray.nextMaybeQuotationTuplePopString();
+                    methodName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-arg":
                     marg = new MethodArgPair(argArray.nextTupleOrPop().getValue());
@@ -111,7 +119,7 @@ public class CmdCallJava extends Command {
                     break;
                 case "-new":
                     op = OPERATIONS.NEW;
-                    newClassName = argArray.nextMaybeQuotationTuplePopString();
+                    newClassName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -124,6 +132,15 @@ public class CmdCallJava extends Command {
             JavaCallHelper jch = null;
             Object callResult = null;
             switch (op) {
+                case FIELD:
+                    Class c = object instanceof Class ? (Class) object : object.getClass();
+                    try {
+                        put(c.getField(fieldName));
+                    } catch (SQLException | NoSuchFieldException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error getting or putting Field in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case METHOD:
                     try {
                         jch = new JavaCallHelper(object, methodName, margs);
