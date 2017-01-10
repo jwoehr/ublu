@@ -16,8 +16,6 @@ FUNC clHelp ( lib cmd s u p ) $[
     num -to ~ -int 10
     lifo -swap
     calljava -to @L[String -class java.lang.reflect.Array -method newInstance -arg ~ -primarg ~ 
-    \\ ${ calljava -to ~ -obj @L[String -field length }$
-    \\ ${ calljava -class java.lang.reflect.Array -method getLength -arg @L[String }$
     string -to ~ -trim @@lib
     string -to ~ -trim ${ -l }$
     string -to ~ -trim @@cmd
