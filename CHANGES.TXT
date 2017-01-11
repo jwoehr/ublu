@@ -5,6 +5,9 @@ All rights reserved.
 1.1.6
 -----
 Commands
+* calljava
+	* -class
+	* -forname
 * eval
 	* now does it as Long
 * ftp command rewritten, new specifications
@@ -12,6 +15,9 @@ Commands
 * tuple
 	* -type returns class object
 	* handle the tuple stack on -true -false -null
+	
+Examples
+* clHelp.ublu
 
 1.1.5 2016-12-31
 -----
