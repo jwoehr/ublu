@@ -11,10 +11,8 @@
 # a file is generated in the current directory QSYS_WRKUSRPRF.html
 FUNC clHelp ( lib cmd s u p ) $[
     LOCAL @start LOCAL @end
-    put -to ~ java.lang.String
-    calljava -to ~ -class java.lang.Class -method forName -arg ~
     num -to ~ -int 10
-    lifo -swap
+    calljava -to ~ -forname java.lang.String
     calljava -to @L[String -class java.lang.reflect.Array -method newInstance -arg ~ -primarg ~ 
     string -to ~ -trim @@lib
     string -to ~ -trim ${ -l }$
