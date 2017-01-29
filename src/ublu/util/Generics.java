@@ -62,8 +62,10 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
+import javax.cim.CIMObjectPath;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
+import javax.wbem.CloseableIterator;
 import org.tn5250j.Session5250;
 
 /**
@@ -1350,6 +1352,28 @@ public class Generics {
                 result[i] = get(i);
             }
             return result;
+        }
+    }
+
+    /**
+     *
+     */
+    public static class CIMObjectPathArrayList extends ArrayList<CIMObjectPath> {
+
+        /**
+         *
+         */
+        public CIMObjectPathArrayList() {
+        }
+
+        /**
+         *
+         * @param ci
+         */
+        public CIMObjectPathArrayList(CloseableIterator<CIMObjectPath> ci) {
+            while (ci.hasNext()) {
+                add(ci.next());
+            }
         }
     }
 }

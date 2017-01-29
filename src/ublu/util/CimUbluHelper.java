@@ -32,6 +32,7 @@ import java.net.URL;
 // import java.util.Enumeration;
 import java.util.Locale;
 import javax.cim.CIMObjectPath;
+import javax.cim.CIMProperty;
 import javax.security.auth.Subject;
 import javax.wbem.CloseableIterator;
 import javax.wbem.WBEMException;
@@ -41,14 +42,142 @@ import javax.wbem.client.WBEMClient;
 import javax.wbem.client.WBEMClientConstants;
 import javax.wbem.client.WBEMClientFactory;
 import org.sblim.cimclient.WBEMClientSBLIM;
+import ublu.util.Generics.CIMObjectPathArrayList;
 
 /**
  * Helper class for an Ublu 'cim' command
  *
  * @author jax
  */
-public class CimHelper {
+public class CimUbluHelper {
 
+    private WBEMClient client;
+    private CIMObjectPath path;
+    private Subject subject;
+
+    /**
+     *
+     * @throws WBEMException
+     */
+    public final void initClient() throws WBEMException {
+        client = WBEMClientFactory.getClient(WBEMClientConstants.PROTOCOL_CIMXML);
+    }
+
+    /**
+     *
+     */
+    public final void initSubject() {
+        subject = new Subject();
+    }
+
+    /**
+     *
+     * @param url
+     * @param pNamespace
+     * @param pObjectName
+     * @param pKeys
+     * @param pXmlSchemaName
+     */
+    public final void initPath(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) {
+        path = new CIMObjectPath(url == null ? null : url.getProtocol(),
+                url == null ? null : url.getHost(),
+                url == null ? null : String.valueOf(url.getPort()),
+                pNamespace, pObjectName, pKeys, pXmlSchemaName);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public WBEMClient getClient() {
+        return client;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public WBEMClientSBLIM getClientAsSBLIM() {
+        return WBEMClientSBLIM.class.cast(client);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public CIMObjectPath getPath() {
+        return path;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Subject getSubject() {
+        return subject;
+    }
+
+    /**
+     *
+     * @throws WBEMException
+     */
+    public CimUbluHelper() throws WBEMException {
+        initClient();
+        initSubject();
+    }
+
+    /**
+     *
+     * @param url
+     * @param pNamespace
+     * @param pObjectName
+     * @param pKeys
+     * @param pXmlSchemaName
+     * @throws WBEMException
+     */
+    public CimUbluHelper(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) throws WBEMException {
+        this();
+        initPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
+    }
+
+    /**
+     *
+     * @throws IllegalArgumentException
+     * @throws WBEMException
+     */
+    public void initialize() throws IllegalArgumentException, WBEMException {
+        getClient().initialize(path, subject, getHackedLocaleArray());
+    }
+
+    /**
+     *
+     * @return @throws WBEMException
+     */
+    public CIMObjectPathArrayList enumerateInstanceNames() throws WBEMException {
+        return new CIMObjectPathArrayList(client.enumerateInstanceNames(getPath()));
+    }
+
+    /**
+     * Return a Locale array that has the default locale as the first element.
+     * The SBLIM CIM Client library make a buggy assumption in it that the first
+     * Locale in the array is the default Locale.
+     *
+     * @return Locale array that has the default locale as the first element.
+     */
+    public static Locale[] getHackedLocaleArray() {
+        Locale[] locales = Locale.getAvailableLocales();
+        Locale[] hacked_locales = new Locale[locales.length + 1];
+        System.arraycopy(locales, 0, hacked_locales, 1, locales.length);
+        hacked_locales[0] = Locale.getDefault();
+        return hacked_locales;
+    }
+
+    /**
+     *
+     * @param args
+     * @throws WBEMException
+     * @throws MalformedURLException
+     */
     public static void main(String[] args) throws WBEMException, MalformedURLException {
 
         if (args.length < 3) {
@@ -64,7 +193,6 @@ public class CimHelper {
 //            System.out.println(s);
 //        }
         WBEMClient client = WBEMClientFactory.getClient(WBEMClientConstants.PROTOCOL_CIMXML);
-        WBEMClientSBLIM clientSBLIM = WBEMClientSBLIM.class.cast(client);
 
 //        Enumeration en = clientSBLIM.getProperties().elements();
 //        while (en.hasMoreElements()) {
@@ -79,13 +207,8 @@ public class CimHelper {
 //        for (Locale l : Locale.getAvailableLocales()) {
 //            System.err.println(l);
 //        }
-        // The library has a buggy assumption in it that the first Locale in the array is the default Locale.
-        Locale[] locales = Locale.getAvailableLocales();
-        Locale[] hacked_locales = new Locale[locales.length + 1];
-        System.arraycopy(locales, 0, hacked_locales, 1, locales.length);
-        hacked_locales[0] = Locale.getDefault();
         try {
-            client.initialize(path, subject, hacked_locales);
+            client.initialize(path, subject, getHackedLocaleArray());
         } catch (Exception e) {
             e.printStackTrace();
         }

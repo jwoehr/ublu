@@ -67,6 +67,8 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.cim.CIMObjectPath;
+import ublu.util.Generics.CIMObjectPathArrayList;
 
 /**
  * A class to render data as string
@@ -215,6 +217,8 @@ public class Renderer {
             s = stringFrom(RecordFormat.class.cast(theObject));
         } else if (theObject instanceof FieldDescription) {
             s = stringFrom(FieldDescription.class.cast(theObject));
+        } else if (theObject instanceof CIMObjectPathArrayList) {
+            s = stringFrom(CIMObjectPathArrayList.class.cast(theObject));
         } else if (theObject instanceof byte[]) {
             s = stringFrom(byte[].class.cast(theObject));
         } else if (theObject instanceof Byte[]) {
@@ -966,6 +970,20 @@ public class Renderer {
                 .append(olle.getLockType()).append('|')
                 .append(olle.getShare()).append('|')
                 .append(olle.getThreadID());
+        return sb.toString();
+    }
+
+    /**
+     * Make an output string from a CIMObjectPathArrayList
+     *
+     * @param cpal CIMObjectPathArrayList
+     * @return string representation
+     */
+    public String stringFrom(CIMObjectPathArrayList cpal) {
+        StringBuilder sb = new StringBuilder();
+        for (CIMObjectPath cop : cpal) {
+            sb.append(cop).append('\n');
+        }
         return sb.toString();
     }
 

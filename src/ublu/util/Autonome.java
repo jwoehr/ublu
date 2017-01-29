@@ -89,6 +89,7 @@ public class Autonome {
         AUTONOMY.put(AS400Extender.class, "as400");
         AUTONOMY.put(SecureAS400Extender.class, "as400");
         AUTONOMY.put(CallableStatement.class, "cs");
+        AUTONOMY.put(CimUbluHelper.class, "cim");
         AUTONOMY.put(Db.class, "db");
         AUTONOMY.put(SysShepHelper.class, "dpoint");
         AUTONOMY.put(DataQueue.class, "dq");
