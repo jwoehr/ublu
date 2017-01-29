@@ -28,8 +28,8 @@
 package ublu;
 
 import java.util.logging.Logger;
+import org.sblim.cimclient.internal.cim.CIMVersion;
 import ublu.util.Generics.StringArrayList;
-
 import ublu.util.Interpreter;
 import ublu.util.InterpreterLogger;
 
@@ -124,6 +124,14 @@ public class Ublu {
                 .append("\n---\n")
                 .append("tn5250j http://tn5250j.sourceforge.net/\n")
                 .append("NO WARRANTY (GPL) see the file tn5250_LICENSE")
+                .append("\n---\n")
+                .append(CIMVersion.getProductName()).append(' ')
+                .append(CIMVersion.getVersion()).append(' ')
+                .append(CIMVersion.getBuildDate()).append(' ')
+                .append(CIMVersion.getBuildTime()).append('\n')
+                .append("http://sblim.cvs.sourceforge.net/viewvc/sblim/jsr48-client/").append('\n')
+                .append(CIMVersion.getCopyright()).append('\n')
+                .append("Eclipse Public License https://opensource.org/licenses/eclipse-1.0.php")
                 .append("\n---\n")
                 .append(com.softwoehr.pigiron.Version.getVersion())
                 .append(" http://pigiron.sourceforge.net\n")
