@@ -52,24 +52,31 @@ import ublu.util.Generics.CIMObjectPathArrayList;
 public class CimUbluHelper {
 
     private WBEMClient client;
-    private CIMObjectPath path;
+//    private CIMObjectPath path;
     private Subject subject;
 
-    /**
-     *
-     * @throws WBEMException
-     */
-    public final void initClient() throws WBEMException {
+    private void initClient() throws WBEMException {
         client = WBEMClientFactory.getClient(WBEMClientConstants.PROTOCOL_CIMXML);
     }
 
-    /**
-     *
-     */
-    public final void initSubject() {
+    private void initSubject() {
         subject = new Subject();
     }
 
+//    /**
+//     *
+//     * @param url
+//     * @param pNamespace
+//     * @param pObjectName
+//     * @param pKeys
+//     * @param pXmlSchemaName
+//     */
+//    public final void initPath(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) {
+//        path = new CIMObjectPath(url == null ? null : url.getProtocol(),
+//                url == null ? null : url.getHost(),
+//                url == null ? null : String.valueOf(url.getPort()),
+//                pNamespace, pObjectName, pKeys, pXmlSchemaName);
+//    }
     /**
      *
      * @param url
@@ -77,9 +84,10 @@ public class CimUbluHelper {
      * @param pObjectName
      * @param pKeys
      * @param pXmlSchemaName
+     * @return
      */
-    public final void initPath(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) {
-        path = new CIMObjectPath(url == null ? null : url.getProtocol(),
+    public static CIMObjectPath newPath(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) {
+        return new CIMObjectPath(url == null ? null : url.getProtocol(),
                 url == null ? null : url.getHost(),
                 url == null ? null : String.valueOf(url.getPort()),
                 pNamespace, pObjectName, pKeys, pXmlSchemaName);
@@ -101,14 +109,13 @@ public class CimUbluHelper {
         return WBEMClientSBLIM.class.cast(client);
     }
 
-    /**
-     *
-     * @return
-     */
-    public CIMObjectPath getPath() {
-        return path;
-    }
-
+//    /**
+//     *
+//     * @return
+//     */
+//    public CIMObjectPath getPath() {
+//        return path;
+//    }
     /**
      *
      * @return
@@ -126,35 +133,55 @@ public class CimUbluHelper {
         initSubject();
     }
 
-    /**
-     *
-     * @param url
-     * @param pNamespace
-     * @param pObjectName
-     * @param pKeys
-     * @param pXmlSchemaName
-     * @throws WBEMException
-     */
-    public CimUbluHelper(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) throws WBEMException {
-        this();
-        initPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
+    public void close() {
+        getClient().close();
     }
-
+    
+//    /**
+//     *
+//     * @param url
+//     * @param pNamespace
+//     * @param pObjectName
+//     * @param pKeys
+//     * @param pXmlSchemaName
+//     * @throws WBEMException
+//     */
+//    public CimUbluHelper(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) throws WBEMException {
+//        this();
+//        initPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
+//    }
+//    /**
+//     *
+//     * @throws IllegalArgumentException
+//     * @throws WBEMException
+//     */
+//    public void initialize() throws IllegalArgumentException, WBEMException {
+//        getClient().initialize(path, subject, getHackedLocaleArray());
+//    }
     /**
      *
+     * @param objectPath
      * @throws IllegalArgumentException
      * @throws WBEMException
      */
-    public void initialize() throws IllegalArgumentException, WBEMException {
-        getClient().initialize(path, subject, getHackedLocaleArray());
+    public void initialize(CIMObjectPath objectPath) throws IllegalArgumentException, WBEMException {
+        getClient().initialize(objectPath, subject, getHackedLocaleArray());
     }
 
+//    /**
+//     *
+//     * @return @throws WBEMException
+//     */
+//    public CIMObjectPathArrayList enumerateInstanceNames() throws WBEMException {
+//        return new CIMObjectPathArrayList(client.enumerateInstanceNames(getPath()));
+//    }
     /**
      *
+     * @param cop
      * @return @throws WBEMException
      */
-    public CIMObjectPathArrayList enumerateInstanceNames() throws WBEMException {
-        return new CIMObjectPathArrayList(client.enumerateInstanceNames(getPath()));
+    public CIMObjectPathArrayList enumerateInstanceNames(CIMObjectPath cop) throws WBEMException {
+        return new CIMObjectPathArrayList(client.enumerateInstanceNames(cop));
     }
 
     /**
