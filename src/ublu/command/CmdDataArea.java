@@ -66,7 +66,7 @@ public class CmdDataArea extends Command {
      */
     protected enum OPS {
         /**
-         * Create the Object Description
+         * Create the Data Area instance
          */
         INSTANCE,
         /**
