@@ -53,7 +53,7 @@ import ublu.util.Generics.CIMObjectPathArrayList;
 public class CmdCim extends Command {
 
     {
-        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-url ~@{https://server:port} [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ei  ~@cimobjectpath] : CIM client");
+        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ei  ~@cimobjectpath] : CIM client");
 
     }
 
