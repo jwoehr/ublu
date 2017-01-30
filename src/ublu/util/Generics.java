@@ -1356,7 +1356,7 @@ public class Generics {
     }
 
     /**
-     *
+     *  Wrapper for object path array
      */
     public static class CIMObjectPathArrayList extends ArrayList<CIMObjectPath> {
 
