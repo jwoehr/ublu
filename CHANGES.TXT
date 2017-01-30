@@ -5,6 +5,7 @@ All rights reserved.
 1.1.6
 -----
 Commands
+* cim for Common Information Model (added)
 * calljava
 	* -class
 	* -forname
@@ -18,6 +19,7 @@ Commands
 	
 Examples
 * clHelp.ublu
+* delspoolfafter.ublu
 
 1.1.5 2016-12-31
 -----
