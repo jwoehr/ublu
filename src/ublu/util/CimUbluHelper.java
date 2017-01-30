@@ -136,7 +136,7 @@ public class CimUbluHelper {
     public void close() {
         getClient().close();
     }
-    
+
 //    /**
 //     *
 //     * @param url
@@ -182,6 +182,16 @@ public class CimUbluHelper {
      */
     public CIMObjectPathArrayList enumerateInstanceNames(CIMObjectPath cop) throws WBEMException {
         return new CIMObjectPathArrayList(client.enumerateInstanceNames(cop));
+    }
+
+    /**
+     *
+     * @param cop
+     * @param pDeep
+     * @return @throws WBEMException
+     */
+    public CIMObjectPathArrayList enumerateClasses(CIMObjectPath cop, boolean pDeep) throws WBEMException {
+        return new CIMObjectPathArrayList(client.enumerateClassNames(cop, pDeep));
     }
 
     /**
