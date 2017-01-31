@@ -1200,6 +1200,20 @@ public class Generics {
         public ThingArrayList(int initialCapacity) {
             super(initialCapacity);
         }
+
+        /**
+         * Dump as array of strings
+         *
+         * @return an array of strings
+         */
+        public String[] toStringArray() {
+            String[] result = new String[this.size()];
+            int offset = 0;
+            for (Object i : this) {
+                result[offset++] = i.toString();
+            }
+            return result;
+        }
     }
 
     /**
@@ -1356,19 +1370,20 @@ public class Generics {
     }
 
     /**
-     *  Wrapper for object path array
+     * Wrapper for object path array
      */
     public static class CIMObjectPathArrayList extends ArrayList<CIMObjectPath> {
 
         /**
-         *
+         * ctor/0
          */
         public CIMObjectPathArrayList() {
         }
 
         /**
+         * ctor/1
          *
-         * @param ci
+         * @param ci iterator on object paths
          */
         public CIMObjectPathArrayList(CloseableIterator<CIMObjectPath> ci) {
             while (ci.hasNext()) {

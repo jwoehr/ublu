@@ -35,7 +35,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
+import javax.cim.CIMInstance;
 import javax.cim.CIMObjectPath;
 import javax.cim.CIMProperty;
 import javax.security.auth.Subject;
@@ -53,7 +55,7 @@ import ublu.util.Generics.CIMObjectPathArrayList;
 public class CmdCim extends Command {
 
     {
-        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath] : CIM client");
+        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath] : CIM client");
 
     }
 
@@ -82,9 +84,17 @@ public class CmdCim extends Command {
          */
         INIT,
         /**
-         * Enumerate classes, instance names
+         * Enumerate instance names
          */
-        EC, EI
+        EC,
+        /**
+         * Enumerate instance names
+         */
+        EI,
+        /**
+         * Get instance
+         */
+        GI
     }
 
     public ArgArray doCim(ArgArray argArray) {
@@ -98,7 +108,10 @@ public class CmdCim extends Command {
         CimUbluHelper cimUbluHelper = null;
         String user = null;
         String password = null;
+        ArrayList pPropertyList = null;
         Boolean pDeep = false;
+        Boolean pLocalOnly = false;
+        Boolean pIncludeClassOrigin = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -126,6 +139,12 @@ public class CmdCim extends Command {
                     break;
                 case "-keys":
                     pKeys = argArray.nextTupleOrPop().value(CIMProperty[].class);
+                    break;
+                case "-plist":
+                    pPropertyList = argArray.nextTupleOrPop().value(ArrayList.class);
+                    if (pPropertyList == null) {
+                        getLogger().log(Level.WARNING, "-plist received a non-ArrayList in {0}", getNameAndDescription());
+                    }
                     break;
                 case "-url": {
                     try {
@@ -160,6 +179,12 @@ public class CmdCim extends Command {
                     op = OPS.EI;
                     objectPath = argArray.nextTupleOrPop().value(CIMObjectPath.class);
                     break;
+                case "-gi":
+                    op = OPS.GI;
+                    objectPath = argArray.nextTupleOrPop().value(CIMObjectPath.class);
+                    pLocalOnly = argArray.nextBooleanTupleOrPop();
+                    pIncludeClassOrigin = argArray.nextBooleanTupleOrPop();
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -168,6 +193,9 @@ public class CmdCim extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
+            CIMInstance instance = null;
+            CIMObjectPath cop = null;
+            CIMObjectPathArrayList arrayList = null;
             switch (op) {
                 case INSTANCE:
                     try {
@@ -194,7 +222,7 @@ public class CmdCim extends Command {
                     }
                     break;
                 case PATH:
-                    CIMObjectPath cop = CimUbluHelper.newPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
+                    cop = CimUbluHelper.newPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
                     try {
                         put(cop);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -230,7 +258,6 @@ public class CmdCim extends Command {
                         getLogger().log(Level.SEVERE, "Null instance in {0} for -ec", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        CIMObjectPathArrayList arrayList = null;
                         try {
                             arrayList = cimUbluHelper.enumerateClasses(objectPath, pDeep);
                         } catch (WBEMException ex) {
@@ -252,7 +279,6 @@ public class CmdCim extends Command {
                         getLogger().log(Level.SEVERE, "Null instance in {0} for -ei", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        CIMObjectPathArrayList arrayList = null;
                         try {
                             arrayList = cimUbluHelper.enumerateInstanceNames(objectPath);
                         } catch (WBEMException ex) {
@@ -264,6 +290,27 @@ public class CmdCim extends Command {
                                 put(arrayList);
                             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                                 getLogger().log(Level.SEVERE, "Error putting instance names in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                    }
+                    break;
+                case GI:
+                    if (cimUbluHelper == null) {
+                        getLogger().log(Level.SEVERE, "Null instance in {0} for -gi", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            instance = cimUbluHelper.getInstance(objectPath, pLocalOnly, pIncludeClassOrigin, pPropertyList);
+                        } catch (WBEMException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting instance in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+                                put(arrayList);
+                            } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting instance in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }

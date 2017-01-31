@@ -29,8 +29,10 @@ package ublu.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 // import java.util.Enumeration;
 import java.util.Locale;
+import javax.cim.CIMInstance;
 import javax.cim.CIMObjectPath;
 import javax.cim.CIMProperty;
 import javax.security.auth.Subject;
@@ -43,6 +45,8 @@ import javax.wbem.client.WBEMClientConstants;
 import javax.wbem.client.WBEMClientFactory;
 import org.sblim.cimclient.WBEMClientSBLIM;
 import ublu.util.Generics.CIMObjectPathArrayList;
+import ublu.util.Generics.StringArrayList;
+import ublu.util.Generics.ThingArrayList;
 
 /**
  * Helper class for an Ublu 'cim' command
@@ -133,6 +137,9 @@ public class CimUbluHelper {
         initSubject();
     }
 
+    /**
+     *
+     */
     public void close() {
         getClient().close();
     }
@@ -168,13 +175,6 @@ public class CimUbluHelper {
         getClient().initialize(objectPath, subject, getHackedLocaleArray());
     }
 
-//    /**
-//     *
-//     * @return @throws WBEMException
-//     */
-//    public CIMObjectPathArrayList enumerateInstanceNames() throws WBEMException {
-//        return new CIMObjectPathArrayList(client.enumerateInstanceNames(getPath()));
-//    }
     /**
      *
      * @param cop
@@ -192,6 +192,34 @@ public class CimUbluHelper {
      */
     public CIMObjectPathArrayList enumerateClasses(CIMObjectPath cop, boolean pDeep) throws WBEMException {
         return new CIMObjectPathArrayList(client.enumerateClassNames(cop, pDeep));
+    }
+
+    /**
+     *
+     * @param pName
+     * @param pLocalOnly
+     * @param pIncludeClassOrigin
+     * @param pPropertyList
+     * @return
+     * @throws WBEMException
+     */
+    public CIMInstance getInstance(CIMObjectPath pName,
+            boolean pLocalOnly,
+            boolean pIncludeClassOrigin,
+            ArrayList pPropertyList) throws WBEMException {
+        return getClient().getInstance(pName, pLocalOnly, pIncludeClassOrigin, arrayListToStringArray(pPropertyList));
+    }
+
+    private String[] arrayListToStringArray(ArrayList al) {
+        String[] result = null;
+        if (al != null) {
+            if (al instanceof StringArrayList) {
+                result = StringArrayList.class.cast(al).toStringArray();
+            } else if (al instanceof ThingArrayList) {
+                result = ThingArrayList.class.cast(al).toStringArray();
+            }
+        }
+        return result;
     }
 
     /**
