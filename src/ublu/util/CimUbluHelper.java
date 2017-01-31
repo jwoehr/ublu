@@ -32,6 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 // import java.util.Enumeration;
 import java.util.Locale;
+import java.util.logging.Level;
 import javax.cim.CIMInstance;
 import javax.cim.CIMObjectPath;
 import javax.cim.CIMProperty;
@@ -43,6 +44,8 @@ import javax.wbem.client.UserPrincipal;
 import javax.wbem.client.WBEMClient;
 import javax.wbem.client.WBEMClientConstants;
 import javax.wbem.client.WBEMClientFactory;
+import org.sblim.cimclient.CIMXMLTraceListener;
+import org.sblim.cimclient.LogAndTraceManager;
 import org.sblim.cimclient.WBEMClientSBLIM;
 import ublu.util.Generics.CIMObjectPathArrayList;
 import ublu.util.Generics.StringArrayList;
@@ -54,6 +57,19 @@ import ublu.util.Generics.ThingArrayList;
  * @author jax
  */
 public class CimUbluHelper {
+
+   /* public void trace() */ {
+        LogAndTraceManager manager = LogAndTraceManager.getManager();
+
+        manager.addCIMXMLTraceListener(new CIMXMLTraceListener() {
+
+            public void traceCIMXML(Level pLevel, String pMessage, boolean pOutgoing) {
+                System.out.println("CIM-XML " + (pOutgoing ? "sent" : "received")
+                        + " by client at level " + pLevel + ": " + pMessage);
+            }
+        });
+
+    }
 
     private WBEMClient client;
 //    private CIMObjectPath path;
@@ -109,8 +125,10 @@ public class CimUbluHelper {
      *
      * @return
      */
-    public WBEMClientSBLIM getClientAsSBLIM() {
-        return WBEMClientSBLIM.class.cast(client);
+    public WBEMClientSBLIM
+            getClientAsSBLIM() {
+        return WBEMClientSBLIM.class
+                .cast(client);
     }
 
 //    /**
@@ -212,11 +230,15 @@ public class CimUbluHelper {
 
     private String[] arrayListToStringArray(ArrayList al) {
         String[] result = null;
+
         if (al != null) {
             if (al instanceof StringArrayList) {
-                result = StringArrayList.class.cast(al).toStringArray();
+                result = StringArrayList.class
+                        .cast(al).toStringArray();
+
             } else if (al instanceof ThingArrayList) {
-                result = ThingArrayList.class.cast(al).toStringArray();
+                result = ThingArrayList.class
+                        .cast(al).toStringArray();
             }
         }
         return result;
