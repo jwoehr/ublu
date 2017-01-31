@@ -249,7 +249,7 @@ public class CmdCim extends Command {
                     break;
                 case EI:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -ein", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null instance in {0} for -ei", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         CIMObjectPathArrayList arrayList = null;
@@ -269,6 +269,8 @@ public class CmdCim extends Command {
                         }
                     }
                     break;
+                default:
+                    throw new UnsupportedOperationException("Not supported yet.");
             }
         }
         return argArray;
