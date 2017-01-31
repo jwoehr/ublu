@@ -227,7 +227,7 @@ public class CmdCim extends Command {
                     break;
                 case EC:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -ein", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null instance in {0} for -ec", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         CIMObjectPathArrayList arrayList = null;
