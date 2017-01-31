@@ -63,6 +63,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
 import javax.cim.CIMObjectPath;
+import javax.cim.CIMProperty;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
 import javax.wbem.CloseableIterator;
@@ -1389,6 +1390,35 @@ public class Generics {
             while (ci.hasNext()) {
                 add(ci.next());
             }
+        }
+    }
+
+    /**
+     * Wrapper for property array
+     */
+    public static class CIMPropertyArrayList extends ArrayList<CIMProperty> {
+
+        /**
+         * ctor/0
+         */
+        public CIMPropertyArrayList() {
+        }
+
+        /**
+         * ctor/1
+         *
+         * @param cIMPropertys array of properties
+         */
+        public CIMPropertyArrayList(CIMProperty[] cIMPropertys) {
+            addAll(Arrays.asList(cIMPropertys));
+        }
+
+        public String[] toStringArray() {
+            StringArrayList sal = new StringArrayList();
+            for (CIMProperty c : this) {
+                sal.add(c.toString());
+            }
+            return sal.toStringArray();
         }
     }
 }

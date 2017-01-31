@@ -37,6 +37,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.cim.CIMDataType;
 import javax.cim.CIMInstance;
 import javax.cim.CIMObjectPath;
 import javax.cim.CIMProperty;
@@ -46,7 +48,10 @@ import javax.wbem.client.PasswordCredential;
 import javax.wbem.client.UserPrincipal;
 import ublu.util.ArgArray;
 import ublu.util.CimUbluHelper;
+import ublu.util.Generics;
 import ublu.util.Generics.CIMObjectPathArrayList;
+import ublu.util.Generics.CIMPropertyArrayList;
+import ublu.util.Generics.StringArrayList;
 
 /**
  *
@@ -55,7 +60,7 @@ import ublu.util.Generics.CIMObjectPathArrayList;
 public class CmdCim extends Command {
 
     {
-        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath] : CIM client");
+        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath | -trace ~@tf] : CIM client");
 
     }
 
@@ -94,7 +99,11 @@ public class CmdCim extends Command {
         /**
          * Get instance
          */
-        GI
+        GI,
+        /**
+         * Trace
+         */
+        TRACE
     }
 
     public ArgArray doCim(ArgArray argArray) {
@@ -103,16 +112,17 @@ public class CmdCim extends Command {
         String pNamespace = null;
         String pObjectName = null;
         CIMObjectPath objectPath = null;
-        CIMProperty<?>[] pKeys = null;
         String pXmlSchemaName = null;
         CimUbluHelper cimUbluHelper = null;
         String user = null;
         String password = null;
-        ArrayList pPropertyList = null;
+        CIMPropertyArrayList pPropertyList = null;
+        StringArrayList stringPropertyList = null;
         Boolean pDeep = false;
         Boolean pLocalOnly = false;
         Boolean pIncludeClassOrigin = false;
-        while (argArray.hasDashCommand()) {
+        Boolean traceTF = false;
+        while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-as400":
@@ -138,23 +148,35 @@ public class CmdCim extends Command {
                     pObjectName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-keys":
-                    pKeys = argArray.nextTupleOrPop().value(CIMProperty[].class);
+                    pPropertyList = new CIMPropertyArrayList(argArray.nextTupleOrPop().value(CIMProperty[].class));
+                    break;
+                case "-key":
+                    if (pPropertyList == null) {
+                        pPropertyList = new CIMPropertyArrayList();
+                    }
+                    pPropertyList.add(new CIMProperty(
+                            argArray.nextMaybeQuotationTuplePopStringTrim(),
+                            // CimUbluHelper.toDataType(argArray.nextMaybeQuotationTuplePopStringTrim()),
+                            new CIMDataType("STRING"),
+                            argArray.nextMaybeQuotationTuplePopStringTrim(), true, true, null));
                     break;
                 case "-plist":
-                    pPropertyList = argArray.nextTupleOrPop().value(ArrayList.class);
-                    if (pPropertyList == null) {
-                        getLogger().log(Level.WARNING, "-plist received a non-ArrayList in {0}", getNameAndDescription());
-                    }
+                    pPropertyList = argArray.nextTupleOrPop().value(CIMPropertyArrayList.class);
                     break;
-                case "-url": {
+                case "-prop":
+                    if (stringPropertyList == null) {
+                        stringPropertyList = new StringArrayList();
+                    }
+                    stringPropertyList.add(argArray.nextMaybeQuotationTuplePopStringTrim());
+                    break;
+                case "-url":
                     try {
                         url = new URL(argArray.nextMaybeQuotationTuplePopStringTrim());
                     } catch (MalformedURLException ex) {
                         getLogger().log(Level.SEVERE, "Error parsing URL in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-                }
-                break;
+                    break;
                 case "-xmlschema":
                     pXmlSchemaName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
@@ -185,6 +207,10 @@ public class CmdCim extends Command {
                     pLocalOnly = argArray.nextBooleanTupleOrPop();
                     pIncludeClassOrigin = argArray.nextBooleanTupleOrPop();
                     break;
+                case "-trace":
+                    op = OPS.TRACE;
+                    traceTF = argArray.nextBooleanTupleOrPop();
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -193,9 +219,8 @@ public class CmdCim extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
-            CIMInstance instance = null;
-            CIMObjectPath cop = null;
             CIMObjectPathArrayList arrayList = null;
+            CIMInstance instance = null;
             switch (op) {
                 case INSTANCE:
                     try {
@@ -222,9 +247,9 @@ public class CmdCim extends Command {
                     }
                     break;
                 case PATH:
-                    cop = CimUbluHelper.newPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
+                    objectPath = CimUbluHelper.newPath(url, pNamespace, pObjectName, pPropertyList, pXmlSchemaName);
                     try {
-                        put(cop);
+                        put(objectPath);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Error putting CIMObjectPath in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -301,19 +326,27 @@ public class CmdCim extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
-                            instance = cimUbluHelper.getInstance(objectPath, pLocalOnly, pIncludeClassOrigin, pPropertyList);
+                            instance = cimUbluHelper.getInstance(objectPath, pLocalOnly, pIncludeClassOrigin, stringPropertyList);
                         } catch (WBEMException ex) {
                             getLogger().log(Level.SEVERE, "Error getting instance in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
                             try {
-                                put(arrayList);
+                                put(instance);
                             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                                 getLogger().log(Level.SEVERE, "Error putting instance in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
+                    }
+                    break;
+                case TRACE:
+                    if (cimUbluHelper == null) {
+                        getLogger().log(Level.SEVERE, "Null instance in {0} for -trace", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        cimUbluHelper.trace(traceTF);
                     }
                     break;
                 default:

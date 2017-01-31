@@ -27,12 +27,13 @@
  */
 package ublu.util;
 
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 // import java.util.Enumeration;
 import java.util.Locale;
 import java.util.logging.Level;
+import javax.cim.CIMDataType;
 import javax.cim.CIMInstance;
 import javax.cim.CIMObjectPath;
 import javax.cim.CIMProperty;
@@ -48,8 +49,7 @@ import org.sblim.cimclient.CIMXMLTraceListener;
 import org.sblim.cimclient.LogAndTraceManager;
 import org.sblim.cimclient.WBEMClientSBLIM;
 import ublu.util.Generics.CIMObjectPathArrayList;
-import ublu.util.Generics.StringArrayList;
-import ublu.util.Generics.ThingArrayList;
+import ublu.util.Generics.CIMPropertyArrayList;
 
 /**
  * Helper class for an Ublu 'cim' command
@@ -58,17 +58,24 @@ import ublu.util.Generics.ThingArrayList;
  */
 public class CimUbluHelper {
 
-   /* public void trace() */ {
+    private CIMXMLTraceListener cIMXMLTraceListener = null;
+
+    public void trace(Boolean tf) {
         LogAndTraceManager manager = LogAndTraceManager.getManager();
-
-        manager.addCIMXMLTraceListener(new CIMXMLTraceListener() {
-
-            public void traceCIMXML(Level pLevel, String pMessage, boolean pOutgoing) {
-                System.out.println("CIM-XML " + (pOutgoing ? "sent" : "received")
-                        + " by client at level " + pLevel + ": " + pMessage);
+        if (tf) {
+            cIMXMLTraceListener
+                    = new CIMXMLTraceListener() {
+                public void traceCIMXML(Level pLevel, String pMessage, boolean pOutgoing) {
+                    System.out.println("CIM-XML " + (pOutgoing ? "sent" : "received")
+                            + " by client at level " + pLevel + ": " + pMessage);
+                }
+            };
+            manager.addCIMXMLTraceListener(cIMXMLTraceListener);
+        } else {
+            if (cIMXMLTraceListener != null) {
+                manager.removeCIMXMLTraceListener(cIMXMLTraceListener);
             }
-        });
-
+        }
     }
 
     private WBEMClient client;
@@ -83,20 +90,6 @@ public class CimUbluHelper {
         subject = new Subject();
     }
 
-//    /**
-//     *
-//     * @param url
-//     * @param pNamespace
-//     * @param pObjectName
-//     * @param pKeys
-//     * @param pXmlSchemaName
-//     */
-//    public final void initPath(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) {
-//        path = new CIMObjectPath(url == null ? null : url.getProtocol(),
-//                url == null ? null : url.getHost(),
-//                url == null ? null : String.valueOf(url.getPort()),
-//                pNamespace, pObjectName, pKeys, pXmlSchemaName);
-//    }
     /**
      *
      * @param url
@@ -106,11 +99,13 @@ public class CimUbluHelper {
      * @param pXmlSchemaName
      * @return
      */
-    public static CIMObjectPath newPath(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) {
+    public static CIMObjectPath newPath(URL url, String pNamespace, String pObjectName, CIMPropertyArrayList pKeys, String pXmlSchemaName) {
         return new CIMObjectPath(url == null ? null : url.getProtocol(),
                 url == null ? null : url.getHost(),
                 url == null ? null : String.valueOf(url.getPort()),
-                pNamespace, pObjectName, pKeys, pXmlSchemaName);
+                pNamespace, pObjectName,
+                pKeys == null ? null : pKeys.toArray(new CIMProperty[pKeys.size()]),
+                pXmlSchemaName);
     }
 
     /**
@@ -131,13 +126,6 @@ public class CimUbluHelper {
                 .cast(client);
     }
 
-//    /**
-//     *
-//     * @return
-//     */
-//    public CIMObjectPath getPath() {
-//        return path;
-//    }
     /**
      *
      * @return
@@ -162,27 +150,6 @@ public class CimUbluHelper {
         getClient().close();
     }
 
-//    /**
-//     *
-//     * @param url
-//     * @param pNamespace
-//     * @param pObjectName
-//     * @param pKeys
-//     * @param pXmlSchemaName
-//     * @throws WBEMException
-//     */
-//    public CimUbluHelper(URL url, String pNamespace, String pObjectName, CIMProperty<?>[] pKeys, String pXmlSchemaName) throws WBEMException {
-//        this();
-//        initPath(url, pNamespace, pObjectName, pKeys, pXmlSchemaName);
-//    }
-//    /**
-//     *
-//     * @throws IllegalArgumentException
-//     * @throws WBEMException
-//     */
-//    public void initialize() throws IllegalArgumentException, WBEMException {
-//        getClient().initialize(path, subject, getHackedLocaleArray());
-//    }
     /**
      *
      * @param objectPath
@@ -217,31 +184,16 @@ public class CimUbluHelper {
      * @param pName
      * @param pLocalOnly
      * @param pIncludeClassOrigin
-     * @param pPropertyList
+     * @param stringPropertyList
      * @return
      * @throws WBEMException
      */
     public CIMInstance getInstance(CIMObjectPath pName,
             boolean pLocalOnly,
             boolean pIncludeClassOrigin,
-            ArrayList pPropertyList) throws WBEMException {
-        return getClient().getInstance(pName, pLocalOnly, pIncludeClassOrigin, arrayListToStringArray(pPropertyList));
-    }
-
-    private String[] arrayListToStringArray(ArrayList al) {
-        String[] result = null;
-
-        if (al != null) {
-            if (al instanceof StringArrayList) {
-                result = StringArrayList.class
-                        .cast(al).toStringArray();
-
-            } else if (al instanceof ThingArrayList) {
-                result = ThingArrayList.class
-                        .cast(al).toStringArray();
-            }
-        }
-        return result;
+            Generics.StringArrayList stringPropertyList) throws WBEMException {
+        return getClient().getInstance(pName, pLocalOnly, pIncludeClassOrigin,
+                stringPropertyList == null ? null : stringPropertyList.toStringArray());
     }
 
     /**
@@ -257,6 +209,11 @@ public class CimUbluHelper {
         System.arraycopy(locales, 0, hacked_locales, 1, locales.length);
         hacked_locales[0] = Locale.getDefault();
         return hacked_locales;
+    }
+
+    public static CIMDataType toDataType(String dtname) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Field f = CIMDataType.class.getField(dtname);
+        return (CIMDataType) f.get(CIMDataType.class);
     }
 
     /**
