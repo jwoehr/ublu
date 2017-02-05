@@ -374,9 +374,10 @@ public class CmdString extends Command {
                                         break;
                                     default:
                                         throw new UnsupportedOperationException("character " + str.charAt(index + 1) + " not allowed for an escape");
-                                        }
+                                }
+
                                 str = str.substring(index + skip);
-                                    }
+                            }
                         }
                         opresult = output.toString();
                     }
