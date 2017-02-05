@@ -9,8 +9,8 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta content="text/html; charset=us-ascii" http-equiv=
-  "Content-Type">
+  <meta content="text/html; charset=UTF-8" http-equiv= "Content-Type">
+  <meta charset="UTF-8">
   <meta http-equiv="Last-Modified" content=
   "Tue, 20 Dec 2016 04:33:14 UTC">
 
@@ -21,7 +21,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="content-type" content=
-  "text/html; charset=us-ascii">
+  "text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -11905,7 +11905,7 @@ Type help for help. Type license for license. Type bye to exit.
       </li>
     </ul>
 
-    <p><i>Example<br>
+    <p><i>Examples<br>
     <br></i> <tt>&gt; string -uchar 0x09 -to @tab</tt><tt><br></tt>
     <tt>&gt; put -to @a ${ a string and some tabs
     }$</tt><tt><br></tt> <tt>&gt; string -to @z -cat @a
@@ -11914,7 +11914,25 @@ Type help for help. Type license for license. Type bye to exit.
     arf_arf</tt><tt><br></tt> <tt>&gt; put @z</tt><tt><br></tt>
     <i><tt>a string and some
     tabs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    arf_arf</tt></i><br></p>
+    arf_arf</tt></i><br><br>
+    <tt>&gt; string -to @string -unescape ${ This\tis\na\    test \ .  }$</tt><tt><br/></tt>
+    <tt>&gt; put @string</tt><tt><br/></tt>
+    <tt><i>This	is</i></tt><tt><br/></tt>
+    <tt><i>a test  .</i></tt><tt><br/></tt>
+    <tt>&gt; @string -to @newstring -escape</tt><tt><br/></tt>
+    <tt>&gt; put @newstring</tt><tt><br/></tt>
+    <tt><i>This\tis\na\ test\ \ .\</i></tt><tt><br/></tt>
+    <tt>&gt; @newstring -unescape</tt><tt><br/></tt>
+    <tt><i>This	is</i></tt><tt><br/></tt>
+    <tt><i>a test  .</i></tt><tt><br/></tt>
+    <tt>&gt;</tt><tt><br/></tt>
+    <tt>&gt; string -unescape ${ this\Tisatest }$</tt><tt><br/></tt>
+    <tt><i>Ublu:1:UbluInterpreter.Thread[main,5,main]:SEVERE:ublu.util.Interpreter.loop():Command &quot;string&quot; threw exception</i></tt><tt><br/></tt>
+    <tt><i>character T not allowed for an escape</i></tt><tt><br/></tt>
+    <tt><i>java.lang.UnsupportedOperationException: character T not allowed for an escape</i></tt><tt><br/></tt>
+    <tt>&gt; string -unescape ${ This is a unicode escape: &quot;\u2665&quot; }$</tt><tt><br/></tt>
+    <tt><i>This is a unicode escape: &quot;♥&quot;</i></tt><tt><br/></tt>
+  </p>
   </blockquote>
 
   <h4><a name="subsys" id="subsys"></a> <tt>subsys</tt></h4>
