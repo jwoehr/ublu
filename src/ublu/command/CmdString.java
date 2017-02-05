@@ -53,7 +53,7 @@ public class CmdString extends Command {
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, EQ, FROMBYTES, LEN, NEW, NL, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400
+        UCHAR, BL, BLS, CAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE
     }
 
     /**
@@ -106,6 +106,10 @@ public class CmdString extends Command {
                     operation = OPERATIONS.EQ;
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ropr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-escape":
+                    operation = OPERATIONS.ESCAPE;
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 case "-frombytes":
                     operation = OPERATIONS.FROMBYTES;
@@ -170,6 +174,10 @@ public class CmdString extends Command {
                     setAs400FromTuple(argArray.nextTupleOrPop());
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ccsid = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-unescape":
+                    operation = OPERATIONS.UNESCAPE;
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
