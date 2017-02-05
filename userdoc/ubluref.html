@@ -11726,16 +11726,15 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="string" id="string"></a> <tt>string</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????
-    0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat
-    ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} |
-    -frombytes ~@byte_array | -len ~@{string} | -new | -nl
-    ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1
-    ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string}
-    ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} |
-    -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} |
-    -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400
-    ~@bytes ~@{ccsid} |-trim ~@{string}] : string
+    <tt>/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...}
+      | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq
+      ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array |
+      -len ~@{string} | -new | -nl ~@{string} -repl ~@{string} ~@{target}
+      ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx
+      ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} |
+      -substr ~@{string} ~@intoffset ~@intlen | -tobytes ~@{string} | -toas400
+      ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim
+      ~@{string} | -unescape ~@{string}] : string
     operations</tt><br>
     <br>
     The <tt>string</tt> command performs string operations and
@@ -11782,6 +11781,33 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-eq ~@{string1} ~@{string2}</tt> puts <tt>true</tt>
       if <i>string1</i> equals <i>string2</i>, <tt>false</tt>
       otherwise.</li>
+
+      <li><tt>-escape ~@{string}</tt> escapes common character sequences.  This
+        is the inverse operation of <tt>-unescape</tt>.  Not all things that
+        <tt>-unescape</tt> translates are inversely translated with this
+        function, and some things that this translates are only done for safety
+        and clarity (such as <tt>${</tt> and <tt>}$</tt>, which is escaped to
+        <tt>\$\{</tt> and <tt>\}\$</tt> instead of the minimally necessary
+        <tt>\${</tt> and <tt>\}$</tt>).  Other things that aren't translated
+        back are <tt>&quot;</tt> to <tt>\&quot;</tt>, because that translation
+        isn't necessary because double-quotes aren't special in Ublu.  That
+        escape is only supported by <tt>-unescape</tt> as a mild convenience.
+        Note that running <tt>-escape</tt> and then <tt>-unescape</tt> in
+        sequence is guaranteed to give the source string, but not the inverse.
+        Sequences escaped by <tt>-escape</tt> are:
+        <ul>
+          <li><tt>\</tt> to <tt>\\</tt></li>
+          <li><tt>$</tt> to <tt>\$</tt></li>
+          <li><tt>}</tt> to <tt>\}</tt></li>
+          <li><tt>{</tt> to <tt>\{</tt></li>
+          <li><tt> (space)</tt> to <tt>\ (space)</tt></li>
+          <li><tt>BS (ascii 8)</tt> to <tt>\b</tt></li>
+          <li><tt>TAB (ascii 9)</tt> to <tt>\t</tt></li>
+          <li><tt>LF (ascii 10)</tt> to <tt>\n</tt></li>
+          <li><tt>FF (ascii 12)</tt> to <tt>\f</tt></li>
+          <li><tt>CR (ascii 13)</tt> to <tt>\r</tt></li>
+        </ul>
+      </li>
 
       <li><tt>-frombytes ~@byte_array</tt> puts a string built from
       the char values of the bytes in
@@ -11848,6 +11874,33 @@ Type help for help. Type license for license. Type bye to exit.
           <li>a quoted string of hexval(s) separated by spaces</li>
 
           <li>a plain word consisting of one hexval.</li>
+        </ul>
+      </li>
+
+      <li><tt>-unescape ~@{string}</tt> turns common escape sequences into their
+        character values.  This is the inverse operation of <tt>-escape</tt>It
+        can also be used on any unicode codepoint.  Unsupported sequences raise
+        an exception in order to be open to later extension if ever needed.
+        Note that running <tt>-escape</tt> and then <tt>-unescape</tt> in
+        sequence is guaranteed to give the source string, but not the inverse.
+        Sequences unescaped by <tt>-unescape</tt> are:
+        <ul>
+          <li><tt>\\</tt> to <tt>\</tt></li>
+          <li><tt>\$</tt> to <tt>$</tt></li>
+          <li><tt>\}</tt> to <tt>}</tt></li>
+          <li><tt>\{</tt> to <tt>{</tt></li>
+          <li><tt>\"</tt> to <tt>"</tt></li>
+          <li><tt>\ (space)</tt> to <tt> (space)</tt></li>
+          <li><tt>\b</tt> to <tt>BS (ascii 8)</tt></li>
+          <li><tt>\t</tt> to <tt>TAB (ascii 9)</tt></li>
+          <li><tt>\n</tt> to <tt>LF (ascii 10)</tt></li>
+          <li><tt>\f</tt> to <tt>FF (ascii 12)</tt></li>
+          <li><tt>\r</tt> to <tt>CR (ascii 13)</tt></li>
+          <li><tt>\u####</tt> to the unicode codepoint specified by the given
+            number.  The numbers must be exactly 4 hexidecimal characters in
+            length.  Case is not sensitive (this is parsed by java's
+            Integer.parseInt directly, and then passed into Characters.toChars
+            to get the codepoint), so all those rules apply.</li>
         </ul>
       </li>
     </ul>
