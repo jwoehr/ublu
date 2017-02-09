@@ -668,7 +668,7 @@ public class CmdFile extends Command {
                         try {
                             switch (readCommand) {
                                 case "CURR":
-                                    put(aS400File.readFirst());
+                                    put(aS400File.read());
                                     break;
                                 case "PREV":
                                     put(aS400File.readPrevious());
