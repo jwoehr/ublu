@@ -47,10 +47,10 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdSaveF extends Command {
-    
+
     {
         setNameAndDescription("savef",
-                "/2? [-as400 ~@as400] [-to datasink] [--,-savef ~@savef] [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] [-create | -delete | -exists | -list | -new | -restore | -save ] ~@{libraryname} ~@{savefilename} : instance and perform various savefile operations");
+                "/2? [-as400 ~@as400] [-to datasink] [--,-savef ~@savef] [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] [-tolib ~@{libname}] [-create | -delete | -exists | -list | -new | -restore | -save ] ~@{libraryname} ~@{savefilename} : instance and perform various savefile operations");
     }
 
     /**
@@ -240,6 +240,7 @@ public class CmdSaveF extends Command {
                                     if (toLibName == null) {
                                         toLibName = savedLibName;
                                     }
+                                    // System.out.println("saveFile.restore(" + savedLibName + ", " + objectList.toStringArray() + "," + toLibName + ")");
                                     saveFile.restore(savedLibName, objectList.toStringArray(), toLibName);
                                 }
                             }
@@ -278,18 +279,18 @@ public class CmdSaveF extends Command {
                         }
                         break;
                 }
-                
+
             }
         }
         return args;
     }
-    
+
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return savef(args);
     }
-    
+
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
