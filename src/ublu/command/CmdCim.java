@@ -35,9 +35,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.cim.CIMDataType;
 import javax.cim.CIMInstance;
 import javax.cim.CIMObjectPath;
@@ -48,12 +46,12 @@ import javax.wbem.client.PasswordCredential;
 import javax.wbem.client.UserPrincipal;
 import ublu.util.ArgArray;
 import ublu.util.CimUbluHelper;
-import ublu.util.Generics;
 import ublu.util.Generics.CIMObjectPathArrayList;
 import ublu.util.Generics.CIMPropertyArrayList;
 import ublu.util.Generics.StringArrayList;
 
 /**
+ * Common Information Model (e.g. SNMP) support
  *
  * @author jax
  */
@@ -106,6 +104,12 @@ public class CmdCim extends Command {
         TRACE
     }
 
+    /**
+     * Perform CIM operations
+     *
+     * @param argArray
+     * @return the remainder of the arg array
+     */
     public ArgArray doCim(ArgArray argArray) {
         OPS op = OPS.INSTANCE;
         URL url = null;
