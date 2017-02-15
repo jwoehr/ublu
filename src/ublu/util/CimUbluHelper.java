@@ -60,6 +60,11 @@ public class CimUbluHelper {
 
     private CIMXMLTraceListener cIMXMLTraceListener = null;
 
+    /**
+     * Toggle tracing of CIM activity
+     *
+     * @param tf true to trace, false to stop tracing
+     */
     public void trace(Boolean tf) {
         LogAndTraceManager manager = LogAndTraceManager.getManager();
         if (tf) {
@@ -109,16 +114,18 @@ public class CimUbluHelper {
     }
 
     /**
+     * Get the client
      *
-     * @return
+     * @return the client
      */
     public WBEMClient getClient() {
         return client;
     }
 
     /**
+     * Get the client as a more manipulable class
      *
-     * @return
+     * @return the client as a more manipulable class
      */
     public WBEMClientSBLIM
             getClientAsSBLIM() {
@@ -127,14 +134,16 @@ public class CimUbluHelper {
     }
 
     /**
+     * Get the subject
      *
-     * @return
+     * @return the subject
      */
     public Subject getSubject() {
         return subject;
     }
 
     /**
+     * Ctor/0
      *
      * @throws WBEMException
      */
@@ -144,7 +153,7 @@ public class CimUbluHelper {
     }
 
     /**
-     *
+     * Close connection
      */
     public void close() {
         getClient().close();
@@ -211,6 +220,14 @@ public class CimUbluHelper {
         return hacked_locales;
     }
 
+    /**
+     *
+     * @param dtname
+     * @return
+     * @throws NoSuchFieldException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     */
     public static CIMDataType toDataType(String dtname) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         Field f = CIMDataType.class.getField(dtname);
         return (CIMDataType) f.get(CIMDataType.class);

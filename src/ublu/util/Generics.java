@@ -1413,6 +1413,11 @@ public class Generics {
             addAll(Arrays.asList(cIMPropertys));
         }
 
+        /**
+         * Export CIMPropertyArrayList to a string array list
+         *
+         * @return CIMPropertyArrayList as a string array list
+         */
         public String[] toStringArray() {
             StringArrayList sal = new StringArrayList();
             for (CIMProperty c : this) {
