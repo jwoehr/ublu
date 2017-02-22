@@ -123,6 +123,7 @@ public class Autonome {
         AUTONOMY.put(Socket.class, "sock");
         AUTONOMY.put(SpooledFile.class, "spoolf");
         AUTONOMY.put(SpooledFileList.class, "spoolflist");
+        AUTONOMY.put(StreamFileHelper.class, "streamf");
         AUTONOMY.put(String.class, "string");
         AUTONOMY.put(Subsystem.class, "subsys");
         AUTONOMY.put(SysValHelper.class, "sysval");
