@@ -31,9 +31,11 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.StreamFileHelper;
@@ -47,7 +49,7 @@ import ublu.util.StreamFileHelper;
 public class CmdStreamFile extends Command {
 
     {
-        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode} | -close | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
+        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|WB|WC} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
 
     }
 
@@ -60,27 +62,34 @@ public class CmdStreamFile extends Command {
          *
          */
         OPEN,
-
         /**
          *
          */
         CLOSE,
-
         /**
          *
          */
         QUERY,
-
         /**
          *
          */
         READ,
-
         /**
          *
          */
         WRITE,
-
+        /**
+         *
+         */
+        RBALL,
+        /**
+         *
+         */
+        RCALL,
+        /**
+         *
+         */
+        RLINE,
         /**
          *
          */
@@ -97,7 +106,8 @@ public class CmdStreamFile extends Command {
         OPS op = OPS.NEW;
         StreamFileHelper streamFileHelper = null;
         String fqp = null;
-        while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
+        String openMode = null;
+        while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
@@ -120,6 +130,7 @@ public class CmdStreamFile extends Command {
                     break;
                 case "-open":
                     op = OPS.OPEN;
+                    openMode = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-close":
                     op = OPS.CLOSE;
@@ -130,61 +141,117 @@ public class CmdStreamFile extends Command {
                 case "-write":
                     op = OPS.WRITE;
                     break;
+                case "-rball":
+                    op = OPS.RBALL;
+                    break;
+                case "-rcall":
+                    op = OPS.RCALL;
+                    break;
+                case "-rline":
+                    op = OPS.RLINE;
+                    break;
                 case "-query":
                     op = OPS.QUERY;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
             }
-            if (havingUnknownDashCommand()) {
-                setCommandResult(COMMANDRESULT.FAILURE);
-            }
-            if (getCommandResult() != COMMANDRESULT.FAILURE) {
-                switch (op) {
-                    case CLOSE:
-                        break;
-                    case NEW:
-                        if (fqp == null) {
-                            getLogger().log(Level.SEVERE, "No path for -new in {0}", getNameAndDescription());
+        }
+        if (havingUnknownDashCommand()) {
+            setCommandResult(COMMANDRESULT.FAILURE);
+        }
+        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+            switch (op) {
+                case CLOSE:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            streamFileHelper.close();
+                        } catch (IOException ex) {
+                            getLogger().log(Level.SEVERE, "Error closing in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } else {
-                            streamFileHelper = new StreamFileHelper(fqp);
-                            try {
-                                put(streamFileHelper);
-                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting StreamFileHelper in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
-                            }
                         }
-                        break;
-                    case OPEN:
-                        if (streamFileHelper == null) {
-                            noInstance();
-                        } else {
+                    }
+                    break;
+                case NEW:
+                    if (fqp == null) {
+                        fqp = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    }
+                    streamFileHelper = new StreamFileHelper(fqp);
+                    try {
+                        put(streamFileHelper);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting StreamFileHelper in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case OPEN:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            streamFileHelper.open(StreamFileHelper.MODE.valueOf(openMode));
+                        } catch (FileNotFoundException ex) {
+                            getLogger().log(Level.SEVERE, "Error opening " + openMode + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                        break;
-                    case QUERY:
-                        if (streamFileHelper == null) {
-                            noInstance();
-                        } else {
+                    }
+                    break;
+                case QUERY:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                    }
+                    break;
+                case READ:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                    }
+                    break;
+                case WRITE:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                    }
+                    break;
+                case RBALL:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.readAllBytes());
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error -rball in " + getNameAndDescription(), ex);
                         }
-                        break;
-                    case READ:
-                        if (streamFileHelper == null) {
-                            noInstance();
-                        } else {
+                    }
+                    break;
+                case RCALL:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.readAllLines());
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error -rcall in " + getNameAndDescription(), ex);
                         }
-                        break;
-                    case WRITE:
-                        if (streamFileHelper == null) {
-                            noInstance();
-                        } else {
+                    }
+                    break;
+                case RLINE:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.readLine());
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error -rball in " + getNameAndDescription(), ex);
                         }
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Not supported yet.");
 
-                }
             }
         }
         return argArray;

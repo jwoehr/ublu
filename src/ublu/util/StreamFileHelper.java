@@ -27,8 +27,16 @@
  */
 package ublu.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import ublu.util.Generics.ByteArrayList;
+import ublu.util.Generics.StringArrayList;
 
 /**
  * Manage local stream files assisting CmdStreamFile
@@ -37,10 +45,55 @@ import ublu.util.Generics.ByteArrayList;
  */
 public class StreamFileHelper {
 
+    /**
+     *
+     */
+    public enum MODE {
+
+        /**
+         *
+         */
+        RB,
+        /**
+         *
+         */
+        RC,
+        /**
+         *
+         */
+        WB,
+        /**
+         *
+         */
+        WC
+    }
+
     private File file;
+    private FileInputStream fileInputStream;
+    private BufferedInputStream bufferedInputStream;
+    private FileReader fileReader;
+    private BufferedReader bufferedReader;
 
     /**
      *
+     * @throws FileNotFoundException
+     */
+    public void setUpToReadBinary() throws FileNotFoundException {
+        fileInputStream = new FileInputStream(file);
+        bufferedInputStream = new BufferedInputStream(fileInputStream);
+    }
+
+    /**
+     *
+     * @throws FileNotFoundException
+     */
+    public void setUpToReadCharacter() throws FileNotFoundException {
+        fileReader = new FileReader(file);
+        bufferedReader = new BufferedReader(fileReader);
+    }
+
+    /**
+     * Ctor/0
      */
     public StreamFileHelper() {
     }
@@ -77,27 +130,54 @@ public class StreamFileHelper {
     /**
      *
      * @param mode
-     * @return
+     * @throws java.io.FileNotFoundException
      */
-    public Object open(String mode) {
-        Object result = null;
-
-        return result;
+    public void open(MODE mode) throws FileNotFoundException {
+        switch (mode) {
+            case RB:
+                setUpToReadBinary();
+                break;
+            case RC:
+                setUpToReadCharacter();
+                break;
+            case WB:
+                break;
+            case WC:
+                break;
+        }
     }
 
     /**
      *
+     * @throws java.io.IOException
      */
-    public void close() {
+    public void close() throws IOException {
+        if (bufferedInputStream != null) {
+            bufferedInputStream.close();
+            bufferedInputStream = null;
+        }
+        if (fileInputStream != null) {
+            fileInputStream.close();
+            fileInputStream = null;
+        }
+        if (bufferedReader != null) {
+            bufferedReader.close();
+            bufferedReader = null;
+        }
+        if (fileReader != null) {
+            fileReader.close();
+            fileReader = null;
+        }
     }
 
     /**
      *
      * @param bal
+     * @param offset
      * @param length
      * @return
      */
-    public Object write(ByteArrayList bal, int length) {
+    public Object write(ByteArrayList bal, int offset, int length) {
         Object result = null;
 
         return result;
@@ -113,5 +193,47 @@ public class StreamFileHelper {
         ByteArrayList bal = null;
 
         return bal;
+    }
+
+    /**
+     *
+     * @return @throws IOException
+     */
+    public String readLine() throws IOException {
+        String result = bufferedReader.readLine();
+        return result;
+    }
+
+    /**
+     *
+     * @return @throws IOException
+     */
+    public StringArrayList readAllLines() throws IOException {
+        return new StringArrayList(Files.readAllLines(file.toPath()));
+    }
+
+    /**
+     *
+     * @return @throws IOException
+     */
+    public ByteArrayList readAllBytes() throws IOException {
+        return new ByteArrayList(Files.readAllBytes(file.toPath()));
+    }
+
+    /**
+     *
+     * @throws IOException
+     */
+    public void reset() throws IOException {
+        bufferedReader.reset();
+    }
+
+    /**
+     *
+     * @param readAheadLimit
+     * @throws IOException
+     */
+    public void mark(int readAheadLimit) throws IOException {
+        bufferedReader.mark(readAheadLimit);
     }
 }

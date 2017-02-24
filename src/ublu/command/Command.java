@@ -684,4 +684,13 @@ public abstract class Command implements CommandInterface {
         }
         return a;
     }
+
+    /**
+     * Output a message to stderr
+     *
+     * @param message message
+     */
+    public void dbugmsg(String message) {
+        getInterpreter().outputerrln(message);
+    }
 }
