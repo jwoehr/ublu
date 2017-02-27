@@ -32,6 +32,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -61,6 +62,10 @@ public class StreamFileHelper {
         /**
          *
          */
+        W,
+        /**
+         *
+         */
         WB,
         /**
          *
@@ -73,6 +78,7 @@ public class StreamFileHelper {
     private BufferedInputStream bufferedInputStream;
     private FileReader fileReader;
     private BufferedReader bufferedReader;
+    private FileOutputStream fileOutputStream;
 
     /**
      *
@@ -90,6 +96,10 @@ public class StreamFileHelper {
     public void setUpToReadCharacter() throws FileNotFoundException {
         fileReader = new FileReader(file);
         bufferedReader = new BufferedReader(fileReader);
+    }
+
+    public void setUpToWrite() throws FileNotFoundException {
+        fileOutputStream = new FileOutputStream(file);
     }
 
     /**
@@ -140,10 +150,13 @@ public class StreamFileHelper {
             case RC:
                 setUpToReadCharacter();
                 break;
-            case WB:
+            case W:
+                setUpToWrite();
                 break;
-            case WC:
-                break;
+//            case WB:
+//                break;
+//            case WC:
+//                break;
         }
     }
 
@@ -168,6 +181,10 @@ public class StreamFileHelper {
             fileReader.close();
             fileReader = null;
         }
+        if (fileOutputStream != null) {
+            fileOutputStream.close();
+            fileOutputStream = null;
+        }
     }
 
     /**
@@ -175,12 +192,19 @@ public class StreamFileHelper {
      * @param bal
      * @param offset
      * @param length
-     * @return
      */
-    public Object write(ByteArrayList bal, int offset, int length) {
-        Object result = null;
+    public void write(ByteArrayList bal, int offset, int length) throws IOException {
+        fileOutputStream.write(bal.byteArray(), offset, length);
+    }
 
-        return result;
+    /**
+     *
+     * @param b
+     * @param offset
+     * @param length
+     */
+    public void write(byte[] b, int offset, int length) throws IOException {
+        fileOutputStream.write(b, offset, length);
     }
 
     /**
@@ -235,5 +259,14 @@ public class StreamFileHelper {
      */
     public void mark(int readAheadLimit) throws IOException {
         bufferedReader.mark(readAheadLimit);
+    }
+
+    /**
+     *
+     * @param n
+     * @throws IOException
+     */
+    public void skip(long n) throws IOException {
+        bufferedReader.skip(n);
     }
 }

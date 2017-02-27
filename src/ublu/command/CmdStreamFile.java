@@ -38,7 +38,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
+import ublu.util.Generics.ByteArrayList;
 import ublu.util.StreamFileHelper;
+import ublu.util.Tuple;
 
 /**
  * Handle local file system stream files mostly for character stream files to
@@ -49,7 +51,8 @@ import ublu.util.StreamFileHelper;
 public class CmdStreamFile extends Command {
 
     {
-        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|WB|WC} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
+//        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|WB|WC} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
+        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
 
     }
 
@@ -107,6 +110,9 @@ public class CmdStreamFile extends Command {
         StreamFileHelper streamFileHelper = null;
         String fqp = null;
         String openMode = null;
+        Tuple dataToWriteTuple = null;
+        Integer offset = null;
+        Integer length = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -140,6 +146,9 @@ public class CmdStreamFile extends Command {
                     break;
                 case "-write":
                     op = OPS.WRITE;
+                    dataToWriteTuple = argArray.nextTupleOrPop();
+                    offset = argArray.nextIntMaybeQuotationTuplePopString();
+                    length = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-rball":
                     op = OPS.RBALL;
@@ -214,6 +223,28 @@ public class CmdStreamFile extends Command {
                     if (streamFileHelper == null) {
                         noInstance();
                     } else {
+
+                        if (dataToWriteTuple != null) {
+                            Object o = dataToWriteTuple.getValue();
+                            try {
+                                if (o instanceof String) {
+                                    streamFileHelper.write(String.class.cast(o).getBytes(), 0, 0);
+                                } else if (o instanceof ByteArrayList) {
+                                    streamFileHelper.write(ByteArrayList.class.cast(o), 0, 0);
+                                } else if (o instanceof byte[]) {
+                                    streamFileHelper.write((byte[]) o, 0, 0);
+                                } else {
+                                    getLogger().log(Level.SEVERE, "Unsupported object for write in {0}", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            } catch (IOException ex) {
+                                getLogger().log(Level.SEVERE, "Exception writing in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "Null object for write in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
                 case RBALL:
@@ -224,6 +255,7 @@ public class CmdStreamFile extends Command {
                             put(streamFileHelper.readAllBytes());
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                             getLogger().log(Level.SEVERE, "Error -rball in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
@@ -235,6 +267,7 @@ public class CmdStreamFile extends Command {
                             put(streamFileHelper.readAllLines());
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                             getLogger().log(Level.SEVERE, "Error -rcall in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
@@ -246,6 +279,7 @@ public class CmdStreamFile extends Command {
                             put(streamFileHelper.readLine());
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                             getLogger().log(Level.SEVERE, "Error -rball in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
