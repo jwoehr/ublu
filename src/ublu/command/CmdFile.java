@@ -200,7 +200,7 @@ public class CmdFile extends Command {
         RecordFormat recFormat = null;
         RecordArrayList recordArrayList = null;
         String lockLevel = null;
-        String lockTypeString = null;
+        String lockTypeString;
         Integer lockType = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
