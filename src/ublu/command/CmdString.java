@@ -64,7 +64,7 @@ public class CmdString extends Command {
      * @return rest of arg array
      */
     public ArgArray cmdString(ArgArray argArray) {
-        OPERATIONS operation = OPERATIONS.NOOP;
+        OPERATIONS operation = OPERATIONS.NEW;
         String lopr = null;
         String ropr = "";
         String regex = "";
@@ -130,6 +130,7 @@ public class CmdString extends Command {
                     break;
                 case "-pad":
                     operation = OPERATIONS.PAD;
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     fillchar = argArray.nextMaybeQuotationTuplePopString().charAt(0);
                     fillcount = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
