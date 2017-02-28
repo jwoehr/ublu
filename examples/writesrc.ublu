@@ -1,0 +1,82 @@
+# writesrc.ublu ... write program to source member of a record file
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Given
+# ... an as400 object
+# ... a fully qualified IFS path to a source member
+# ... a path to a local stream file
+# ... a pad/truncate length
+# write the contents of the local file to the remote physical source file member
+# padded/truncated line by padded/truncated line
+# E.g.
+#   writesrc ( @mysys @streamfile /QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR len)
+# where @mysys is .# Each line is padded with blanks to 80 chars or truncated
+FUNC writesrc ( sys streamfile recordfile padlen ) $[
+   LOCAL @streamfiletuple
+   LOCAL @recordfiletuple LOCAL @arraytuple LOCAL @formattuple
+   getSourceStream ( @@streamfile @streamfiletuple )
+   getTargetMember ( @@sys @@recordfile @recordfiletuple @arraytuple @formattuple )
+   writeData ( @streamfiletuple @arraytuple @formattuple )
+   streamf -- @streamfiletuple -close
+   file -- @recordfiletuple -close
+]$
+
+# Get an record file handle, the records in an array, and the format of target  
+FUNC getTargetMember ( sys fqp filetuple arraytuple formattuple ) $[
+    file -as400 @@sys -to @@filetuple -sequential @@fqp
+    file -- @@filetuple -to @@arraytuple -read ALL
+    file -- @@filetuple -open  RW
+    file -- @@filetuple -to @@formattuple -getfmt
+]$
+
+# Get stream file  
+FUNC getSourceStream ( fqp streamftuple ) $[
+    streamf -to @@streamftuple -new @@fqp
+    @@streamftuple -open RC
+]$
+
+FUNC writeData ( streamfiletuple arraytuple formattuple ) $[
+    LOCAL @thisline LOCAL @thisrec
+    LOCAL @numrecords LOCAL @recordslist
+    LOCAL @currrecnum LOCAL @nullline
+    put -to @currrecnum 0
+    list -to @recordslist -source @@arraytuple
+    list -- @recordslist -to @numrecords -size
+    streamf -- @@streamfiletuple -to @thisline -readline
+    test -to @nnullline -nnull @thisline
+    eval -to ~ > @numrecords @currrecnum
+    eval -to ~ && ~ @nnullline
+    WHILE ~ $[       
+        eval -to @currrecnum + @currrecnum 1
+        streamf -- @@streamfiletuple -to @thisline -readline
+        \\ ${ pad current line to current record and update in file }$
+        test -to @nnullline -nnull @thisline
+        eval -to ~ > @numrecords @currrecnum
+        eval -to ~ && ~ @nnullline
+    ]$
+    WHILE @nnullline $[
+    \\ ${ create a record and pad the current line to it and write to file }$    
+    streamf -- @@streamfiletuple -to @thisline -readline
+    test -to @nnullline -nnull @thisline    
+    ]$    
+]$
+  
+# push bl-padded string or truncated if longer than padlen (e.g., 100 chars)
+FUNC padOrTrunc ( str padlen ) $[
+    LOCAL @tmp LOCAL @mystr LOCAL @mypadlen    
+    string -to @tmp -new
+    @tmp -to @tmp -bl
+    put -to @mystr @@str
+    put -to @mypadlen @@padlen
+    string -to ~ -len @mystr
+    eval -to ~ > ~ @mypadlen
+    IF ~ THEN $[
+        string -to ~ -substr @mystr 0 @mypadlen
+    ]$ ELSE $[
+        string -to ~ -pad @mystr @tmp @mypadlen
+    ]$
+]$
+
+

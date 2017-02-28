@@ -120,6 +120,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>smapi</KEYWORD2>
         <KEYWORD2>spoolf</KEYWORD2>
         <KEYWORD2>spoolflist</KEYWORD2>
+        <KEYWORD2>streamf</KEYWORD2>
         <KEYWORD2>string</KEYWORD2>
         <KEYWORD2>subsys</KEYWORD2>
         <KEYWORD1>SWITCH</KEYWORD1>
