@@ -98,6 +98,10 @@ public class StreamFileHelper {
         bufferedReader = new BufferedReader(fileReader);
     }
 
+    /**
+     *
+     * @throws FileNotFoundException
+     */
     public void setUpToWrite() throws FileNotFoundException {
         fileOutputStream = new FileOutputStream(file);
     }
@@ -133,8 +137,37 @@ public class StreamFileHelper {
      */
     public Object query(String q) {
         Object result = null;
-
+        switch (q) {
+            case "length":
+                result = file.length();
+                break;
+            case "x":
+                result = file.canExecute();
+                break;
+            case "r":
+                result = file.canRead();
+                break;
+            case "w":
+                result = file.canWrite();
+                break;
+        }
         return result;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean mkdir() {
+        return file.mkdir();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean mkdirs() {
+        return file.mkdirs();
     }
 
     /**
@@ -192,6 +225,7 @@ public class StreamFileHelper {
      * @param bal
      * @param offset
      * @param length
+     * @throws java.io.IOException
      */
     public void write(ByteArrayList bal, int offset, int length) throws IOException {
         fileOutputStream.write(bal.byteArray(), offset, length);
@@ -202,6 +236,7 @@ public class StreamFileHelper {
      * @param b
      * @param offset
      * @param length
+     * @throws java.io.IOException
      */
     public void write(byte[] b, int offset, int length) throws IOException {
         fileOutputStream.write(b, offset, length);
@@ -269,4 +304,5 @@ public class StreamFileHelper {
     public void skip(long n) throws IOException {
         bufferedReader.skip(n);
     }
+
 }
