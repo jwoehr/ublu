@@ -34,7 +34,6 @@ import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.lang.UnsupportedOperationException;
 import java.util.logging.Level;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.StringArrayList;
