@@ -49,12 +49,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intend | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] : string operations");
+                "/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intend | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] : string operations");
     }
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE
+        UCHAR, BL, BLS, CAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, PAD, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE
     }
 
     /**
@@ -73,6 +73,7 @@ public class CmdString extends Command {
         int beginindex = 0;
         int endindex = 0;
         int fillcount = 0;
+        Character fillchar = null;
         int ccsid = -1;
         Tuple fromBytesTuple = null;
         while (argArray.hasDashCommand()) {
@@ -126,6 +127,11 @@ public class CmdString extends Command {
                 case "-nl":
                     operation = OPERATIONS.NL;
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
+                    break;
+                case "-pad":
+                    operation = OPERATIONS.PAD;
+                    fillchar = argArray.nextMaybeQuotationTuplePopString().charAt(0);
+                    fillcount = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-repl":
                     operation = OPERATIONS.REPL;
@@ -207,48 +213,47 @@ public class CmdString extends Command {
                 case CAT:
                     opresult = lopr + ropr;
                     break;
-                case ESCAPE:
-                    {
-                        StringBuilder output = new StringBuilder();
-                        for (char c: lopr.toCharArray()) {
-                            switch (c) {
-                                case '\\':
-                                    output.append("\\\\");
-                                    break;
-                                case '$':
-                                    output.append("\\$");
-                                    break;
-                                case '}':
-                                    output.append("\\}");
-                                    break;
-                                case '{':
-                                    output.append("\\{");
-                                    break;
-                                case ' ':
-                                    output.append("\\ ");
-                                    break;
-                                case '\b':
-                                    output.append("\\b");
-                                    break;
-                                case '\f':
-                                    output.append("\\f");
-                                    break;
-                                case '\n':
-                                    output.append("\\n");
-                                    break;
-                                case '\r':
-                                    output.append("\\r");
-                                    break;
-                                case '\t':
-                                    output.append("\\t");
-                                    break;
-                                default:
-                                    output.append(c);
-                                }
+                case ESCAPE: {
+                    StringBuilder output = new StringBuilder();
+                    for (char c : lopr.toCharArray()) {
+                        switch (c) {
+                            case '\\':
+                                output.append("\\\\");
+                                break;
+                            case '$':
+                                output.append("\\$");
+                                break;
+                            case '}':
+                                output.append("\\}");
+                                break;
+                            case '{':
+                                output.append("\\{");
+                                break;
+                            case ' ':
+                                output.append("\\ ");
+                                break;
+                            case '\b':
+                                output.append("\\b");
+                                break;
+                            case '\f':
+                                output.append("\\f");
+                                break;
+                            case '\n':
+                                output.append("\\n");
+                                break;
+                            case '\r':
+                                output.append("\\r");
+                                break;
+                            case '\t':
+                                output.append("\\t");
+                                break;
+                            default:
+                                output.append(c);
                         }
-                        opresult = output.toString();
                     }
-                    break;
+                    opresult = output.toString();
+                }
+                break;
                 case EQ:
                     opresult = lopr.equals(ropr);
                     break;
@@ -270,6 +275,9 @@ public class CmdString extends Command {
                     break;
                 case NL:
                     opresult = lopr + '\n';
+                    break;
+                case PAD:
+                    opresult = lopr + Utils.fillString(fillchar, fillcount - lopr.length());
                     break;
                 case STARTSWITH:
                     opresult = lopr.startsWith(ropr);
@@ -315,68 +323,67 @@ public class CmdString extends Command {
                     }
                     opresult = new AS400Text(lopr.length(), ccsid, getAs400()).toBytes(lopr);
                     break;
-                case UNESCAPE:
-                    {
-                        StringBuilder output = new StringBuilder();
-                        String str = lopr;
-                        while (!str.isEmpty()) {
-                            int index = str.indexOf("\\");
-                            if (index == -1) {
-                                output.append(str);
-                                break;
-                            } else {
-                                int skip = 2;
-                                output.append(str.substring(0, index));
-                                switch (str.charAt(index + 1)) {
-                                    case '\\':
-                                        output.append('\\');
-                                        break;
-                                    case '$':
-                                        output.append('$');
-                                        break;
-                                    case '}':
-                                        output.append('}');
-                                        break;
-                                    case '{':
-                                        output.append('{');
-                                        break;
-                                    case ' ':
-                                        output.append(' ');
-                                        break;
-                                    case '"':
-                                        output.append('"');
-                                        break;
-                                    case 'b':
-                                        output.append('\b');
-                                        break;
-                                    case 'f':
-                                        output.append('\f');
-                                        break;
-                                    case 'n':
-                                        output.append('\n');
-                                        break;
-                                    case 'r':
-                                        output.append('\r');
-                                        break;
-                                    case 't':
-                                        output.append('\t');
-                                        break;
-                                    case 'u':
-                                        skip = 6;
-                                        String chars = str.substring(index + 2, index + 6);
-                                        int codepoint = Integer.parseInt(chars, 16);
-                                        output.append(Character.toChars(codepoint));
-                                        break;
-                                    default:
-                                        throw new UnsupportedOperationException("character " + str.charAt(index + 1) + " not allowed for an escape");
-                                }
-
-                                str = str.substring(index + skip);
+                case UNESCAPE: {
+                    StringBuilder output = new StringBuilder();
+                    String str = lopr;
+                    while (!str.isEmpty()) {
+                        int index = str.indexOf("\\");
+                        if (index == -1) {
+                            output.append(str);
+                            break;
+                        } else {
+                            int skip = 2;
+                            output.append(str.substring(0, index));
+                            switch (str.charAt(index + 1)) {
+                                case '\\':
+                                    output.append('\\');
+                                    break;
+                                case '$':
+                                    output.append('$');
+                                    break;
+                                case '}':
+                                    output.append('}');
+                                    break;
+                                case '{':
+                                    output.append('{');
+                                    break;
+                                case ' ':
+                                    output.append(' ');
+                                    break;
+                                case '"':
+                                    output.append('"');
+                                    break;
+                                case 'b':
+                                    output.append('\b');
+                                    break;
+                                case 'f':
+                                    output.append('\f');
+                                    break;
+                                case 'n':
+                                    output.append('\n');
+                                    break;
+                                case 'r':
+                                    output.append('\r');
+                                    break;
+                                case 't':
+                                    output.append('\t');
+                                    break;
+                                case 'u':
+                                    skip = 6;
+                                    String chars = str.substring(index + 2, index + 6);
+                                    int codepoint = Integer.parseInt(chars, 16);
+                                    output.append(Character.toChars(codepoint));
+                                    break;
+                                default:
+                                    throw new UnsupportedOperationException("character " + str.charAt(index + 1) + " not allowed for an escape");
                             }
+
+                            str = str.substring(index + skip);
                         }
-                        opresult = output.toString();
                     }
-                    break;
+                    opresult = output.toString();
+                }
+                break;
             }
             try {
                 put(opresult);

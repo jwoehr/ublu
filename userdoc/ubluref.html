@@ -2,12 +2,14 @@
 
 <html>
 <head>
-  <meta name="generator" content="Bluefish 2.2.7" >
-  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content=
+  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 10 Feb 2017 15:03:02 UTC">
+  "Thu, 28 Feb 2017 15:03:02 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -59,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-02-10</p>
+  Last edit: 2017-02-28</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -5122,9 +5124,9 @@ cim -to @path -namespace root/cimv2 -objectname CIM_LogicalIdentity -path
     follows:<br>
 
     <ol>
-      <li>Instance a <tt>file</tt> object via
-      <code>-new</code> providing the <tt>-keyed</tt> or
-      <tt>-sequential</tt> dash-command.</li>
+      <li>Instance a <tt>file</tt> object via <code>-new</code>
+      providing the <tt>-keyed</tt> or <tt>-sequential</tt>
+      dash-command.</li>
 
       <li>Open the <tt>file</tt> object with <tt>-open</tt>
       optionally indicating which record format to use via the <tt>
@@ -12603,13 +12605,14 @@ PF
     0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat
     ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -escape
     ~@{string} | -frombytes ~@byte_array | -len ~@{string} | -new |
-    -nl ~@{string} -repl ~@{string} ~@{target} ~@{replacement} |
-    -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx
-    ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string}
-    ~@{substr} | -substr ~@{string} ~@intoffset ~@intend | -tobytes
-    ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii
-    ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape
-    ~@{string}] : string operations</tt><br>
+    -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} |
+    -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string}
+    ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex}
+    ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr
+    ~@{string} ~@intoffset ~@intend | -tobytes ~@{string} |
+    -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400
+    ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] :
+    string operations</tt><br>
     <br>
     The <tt>string</tt> command performs string operations and
     <a href="#put">put</a>s the result to the destination <a href=
@@ -12709,6 +12712,11 @@ PF
 
       <li><tt>-nl</tt> <tt>~@{string}</tt> appends a newline to
       <i>string</i> and puts the result to the destination
+      datasink.</li>
+
+      <li><tt>-pad ~@{string} ~@{fillchar} ~@{fillcount}</tt> pads
+      <em>string</em> with <em>fillchar</em> out to a total length
+      of <em>fillcount</em> and puts the result to the destination
       datasink.</li>
 
       <li><tt>-repl ~@{string}</tt> <tt>~@{target}
