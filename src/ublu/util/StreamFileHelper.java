@@ -66,11 +66,11 @@ public class StreamFileHelper {
         /**
          *
          */
-        WB,
+//        WB,
         /**
          *
          */
-        WC
+//        WC
     }
 
     private File file;
