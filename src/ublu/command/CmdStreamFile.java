@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.util.ArgArray;
 import ublu.util.DataSink;
 import ublu.util.Generics.ByteArrayList;
@@ -51,7 +52,7 @@ public class CmdStreamFile extends Command {
 
     {
 //        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|WB|WC} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
-        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
+        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -q,-query ~@{qstring} : manipulate stream files");
 
     }
 
@@ -60,6 +61,10 @@ public class CmdStreamFile extends Command {
      */
     protected enum OPS {
 
+        /**
+         *
+         */
+        CREATE,
         /**
          *
          */
@@ -112,6 +117,7 @@ public class CmdStreamFile extends Command {
         Tuple dataToWriteTuple = null;
         Integer offset = null;
         Integer length = null;
+        String queryString = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -133,9 +139,12 @@ public class CmdStreamFile extends Command {
                         fqp = argArray.nextMaybeQuotationTuplePopStringTrim();
                     }
                     break;
+                case "-create":
+                    op = OPS.CREATE;
+                    break;
                 case "-open":
                     op = OPS.OPEN;
-                    openMode = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    openMode = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
                     break;
                 case "-close":
                     op = OPS.CLOSE;
@@ -158,8 +167,10 @@ public class CmdStreamFile extends Command {
                 case "-rline":
                     op = OPS.RLINE;
                     break;
+                case "-q":
                 case "-query":
                     op = OPS.QUERY;
+                    queryString = argArray.nextMaybeQuotationTuplePopStringTrim().toLowerCase();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -170,6 +181,18 @@ public class CmdStreamFile extends Command {
         }
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
             switch (op) {
+                case CREATE:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            streamFileHelper.create();
+                        } catch (IOException ex) {
+                            getLogger().log(Level.SEVERE, "Error creating " + streamFileHelper.getFile() + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 case CLOSE:
                     if (streamFileHelper == null) {
                         noInstance();
@@ -210,6 +233,12 @@ public class CmdStreamFile extends Command {
                     if (streamFileHelper == null) {
                         noInstance();
                     } else {
+                        try {
+                            put(streamFileHelper.query(queryString));
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error querying " + queryString + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
                 case READ:
@@ -222,16 +251,15 @@ public class CmdStreamFile extends Command {
                     if (streamFileHelper == null) {
                         noInstance();
                     } else {
-
                         if (dataToWriteTuple != null) {
                             Object o = dataToWriteTuple.getValue();
                             try {
                                 if (o instanceof String) {
-                                    streamFileHelper.write(String.class.cast(o).getBytes(), 0, 0);
+                                    streamFileHelper.write(String.class.cast(o).getBytes(), offset, length);
                                 } else if (o instanceof ByteArrayList) {
-                                    streamFileHelper.write(ByteArrayList.class.cast(o), 0, 0);
+                                    streamFileHelper.write(ByteArrayList.class.cast(o), offset, length);
                                 } else if (o instanceof byte[]) {
-                                    streamFileHelper.write((byte[]) o, 0, 0);
+                                    streamFileHelper.write((byte[]) o, offset, length);
                                 } else {
                                     getLogger().log(Level.SEVERE, "Unsupported object for write in {0}", getNameAndDescription());
                                     setCommandResult(COMMANDRESULT.FAILURE);

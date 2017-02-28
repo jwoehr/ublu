@@ -82,6 +82,22 @@ public class StreamFileHelper {
 
     /**
      *
+     * @return
+     */
+    public File getFile() {
+        return file;
+    }
+
+    /**
+     *
+     * @return @throws IOException
+     */
+    public Boolean create() throws IOException {
+        return file.createNewFile();
+    }
+
+    /**
+     *
      * @throws FileNotFoundException
      */
     public void setUpToReadBinary() throws FileNotFoundException {
@@ -134,21 +150,46 @@ public class StreamFileHelper {
      *
      * @param q
      * @return
+     * @throws java.io.IOException
      */
-    public Object query(String q) {
+    public Object query(String q) throws IOException {
         Object result = null;
         switch (q) {
+            case "af":
+                result = file.getAbsoluteFile();
+                break;
+            case "ap":
+                result = file.getAbsolutePath();
+                break;
+            case "c":
+                result = file.getCanonicalPath();
+                break;
+            case "d":
+                result = file.isDirectory();
+                break;
+            case "e":
+                result = file.exists();
+                break;
+            case "f":
+                result = file.isFile();
+                break;
             case "length":
                 result = file.length();
                 break;
-            case "x":
-                result = file.canExecute();
+            case "n":
+                result = file.getName();
+                break;
+            case "p":
+                result = file.getPath();
                 break;
             case "r":
                 result = file.canRead();
                 break;
             case "w":
                 result = file.canWrite();
+                break;
+            case "x":
+                result = file.canExecute();
                 break;
         }
         return result;
