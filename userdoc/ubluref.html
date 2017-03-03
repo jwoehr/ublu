@@ -8,6 +8,7 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -12608,11 +12609,11 @@ PF
   <blockquote>
     <tt>/0 [-to datasink] [-from datasink] [--,-streamf
     @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode
-    RB|RC|W} | -close | -create | -mkdirs | -rball | -rcall |
-    -rline | -read ~@{offset} ~@{length} | -write ~@{data}
-    ~@{offset} ~@{length} | -q,-query ~@{qstring
-    [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream
-    files</tt>
+    RB|RC|W} | -close | -create | -delete | -rename ~@streamf |
+    -mkdirs | -rball | -rcall | -rline | -read ~@{offset}
+    ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query
+    ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate
+    stream files</tt>
 
     <p>The <tt>streamf</tt> command manipulates local file system
     stream files and directories.</p>
@@ -12651,6 +12652,12 @@ PF
 
       <li><code>-create</code> creates the file specified by the
       instance.</li>
+
+      <li><code>-delete</code> deletes the file specified by the
+      instance.</li>
+
+      <li><code>-rename ~@streamf</code> renames the instance to
+      the name specified by the instance <em>streamf</em>.</li>
 
       <li><code>-mkdirs</code> creates the directory specified by
       the instance and all necessary parent directories.</li>

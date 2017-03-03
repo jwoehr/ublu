@@ -51,7 +51,7 @@ public class CmdStreamFile extends Command {
 
     {
 //        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|WB|WC} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
-        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files");
+        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -delete | -rename ~@streamf | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files");
     }
 
     /**
@@ -63,6 +63,10 @@ public class CmdStreamFile extends Command {
          *
          */
         CREATE,
+        /**
+         *
+         */
+        DELETE,
         /**
          *
          */
@@ -106,7 +110,11 @@ public class CmdStreamFile extends Command {
         /**
          *
          */
-        NEW
+        NEW,
+        /**
+         *
+         */
+        RENAME
     }
 
     /**
@@ -124,6 +132,7 @@ public class CmdStreamFile extends Command {
         Integer offset = null;
         Integer length = null;
         String queryString = null;
+        StreamFileHelper renTarg = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -147,6 +156,13 @@ public class CmdStreamFile extends Command {
                     break;
                 case "-create":
                     op = OPS.CREATE;
+                    break;
+                case "-delete":
+                    op = OPS.DELETE;
+                    break;
+                case "-rename":
+                    op = OPS.RENAME;
+                    renTarg = argArray.nextTupleOrPop().value(StreamFileHelper.class);
                     break;
                 case "-list":
                     op = OPS.LIST;
@@ -205,6 +221,30 @@ public class CmdStreamFile extends Command {
                         }
                     }
                     break;
+                case DELETE:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.delete());
+                        } catch (IOException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error deleting " + streamFileHelper.getFile() + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case RENAME:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.rename(renTarg));
+                        } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error renaming " + streamFileHelper.getFile() + " in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 case CLOSE:
                     if (streamFileHelper == null) {
                         noInstance();
@@ -221,7 +261,7 @@ public class CmdStreamFile extends Command {
                     if (streamFileHelper == null) {
                         noInstance();
                     } else {
-                         try {
+                        try {
                             put(streamFileHelper.list());
                         } catch (SQLException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error listing dir in " + getNameAndDescription(), ex);

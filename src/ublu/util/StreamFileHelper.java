@@ -354,4 +354,20 @@ public class StreamFileHelper {
         bufferedReader.skip(n);
     }
 
+    /**
+     *
+     * @return
+     */
+    public Boolean delete() {
+        return file.delete();
+    }
+
+    /**
+     *
+     * @param sh
+     * @return
+     */
+    public Boolean rename(StreamFileHelper sh) {
+        return file.renameTo(sh.getFile());
+    }
 }
