@@ -6,6 +6,7 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -15,7 +16,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 20 Nov 2016 06:41:07 UTC">
+  "Fri, 3 Mar 2017 16:24:30 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -3014,6 +3015,76 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
 <span class="gutter">28 </span>
 </span>
+</pre>
+
+  <h3><a name="TupleStackPopFuncArgs">Tuple Stack Pop in Function
+  Arguments</a></h3>
+
+  <p>Using the <code>~</code> symbol for a tuple stack pop as an
+  argument to a function can lead to unexpected results.</p>
+
+  <p>Function arguments are passed by token pasting as discussed
+  above (<a href="mozTocId56861"></a>How are arguments passed?). So
+  when a function body references the argument, it sees precisely
+  what you provided as the runtime argument. Ergo, in an example
+  like:</p>
+  <pre>
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-KEYWORD1">FUNC</span> foo <span class=
+"syntax-OPERATOR">(</span> bar <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">   2 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL4">@@bar</span>
+<span class="gutter">   3 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL4">@@bar</span>
+<span class="gutter">   4 </span><span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutterH">   5 </span>  
+<span class="gutter">   6 </span><span class=
+"syntax-KEYWORD1">FUNC</span> foo1 <span class=
+"syntax-OPERATOR">(</span> bar <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">   7 </span>    <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@bar1</span>
+<span class="gutter">   8 </span>    <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@bar1</span> <span class=
+"syntax-LITERAL4">@@bar</span>
+<span class="gutter">   9 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@bar1</span>
+<span class="gutterH">  10 </span>    <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@bar1</span>
+<span class="gutter">  11 </span><span class=
+"syntax-OPERATOR">]$</span>
+</span>
+</pre>
+
+  <p>the function <code>foo ( bar )</code> is incorrect, because
+  the second reference to <code>@@bar</code> will find an empty
+  stack:</p>
+  <pre>
+&gt; put -to ~ woof
+&gt; foo ( ~ )
+<em>woof
+Ublu:1:UbluInterpreter.Thread[main,5,main]:SEVERE:ublu.util.Interpreter.loop():Command "put" threw exception null
+java.util.EmptyStackException
+        ...</em>
+</pre>
+
+  <p>whereas <code>foo1 ( bar )</code> is correct:</p>
+  <pre>
+   
+&gt;  put -to ~ woof
+&gt; foo1 ( ~ )
+<em>woof
+woof</em>
 </pre>
 
   <h2><a name="Calling_Java"></a>Calling Java</h2>

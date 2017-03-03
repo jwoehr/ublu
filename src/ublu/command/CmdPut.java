@@ -201,7 +201,7 @@ public class CmdPut extends Command {
                     }
                     break;
                 default:
-                    getLogger().log(Level.SEVERE, "Unsuppoted data source in {0}", getNameAndDescription());
+                    getLogger().log(Level.SEVERE, "Unsupported data source in {0}", getNameAndDescription());
                     setCommandResult(COMMANDRESULT.FAILURE);
 
             }
