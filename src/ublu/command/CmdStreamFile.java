@@ -51,8 +51,7 @@ public class CmdStreamFile extends Command {
 
     {
 //        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|WB|WC} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{offset} ~@{length} | -query ~@{qstring} : manipulate stream files");
-        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]} : manipulate stream files");
-
+        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files");
     }
 
     /**
@@ -72,6 +71,14 @@ public class CmdStreamFile extends Command {
          *
          */
         CLOSE,
+        /**
+         *
+         */
+        LIST,
+        /**
+         *
+         */
+        MKDIRS,
         /**
          *
          */
@@ -141,6 +148,12 @@ public class CmdStreamFile extends Command {
                 case "-create":
                     op = OPS.CREATE;
                     break;
+                case "-list":
+                    op = OPS.LIST;
+                    break;
+                case "-mkdirs":
+                    op = OPS.MKDIRS;
+                    break;
                 case "-open":
                     op = OPS.OPEN;
                     openMode = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
@@ -200,6 +213,30 @@ public class CmdStreamFile extends Command {
                             streamFileHelper.close();
                         } catch (IOException ex) {
                             getLogger().log(Level.SEVERE, "Error closing in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case LIST:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                         try {
+                            put(streamFileHelper.list());
+                        } catch (SQLException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error listing dir in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case MKDIRS:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.mkdirs());
+                        } catch (SQLException | AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error making dirs in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }

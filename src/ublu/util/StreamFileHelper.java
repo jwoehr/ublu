@@ -199,7 +199,15 @@ public class StreamFileHelper {
      *
      * @return
      */
-    public boolean mkdir() {
+    public StringArrayList list() {
+        return new StringArrayList(file.list());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Boolean mkdir() {
         return file.mkdir();
     }
 
@@ -207,7 +215,7 @@ public class StreamFileHelper {
      *
      * @return
      */
-    public boolean mkdirs() {
+    public Boolean mkdirs() {
         return file.mkdirs();
     }
 

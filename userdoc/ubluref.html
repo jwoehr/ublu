@@ -7,10 +7,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 2 Mar 2017 22:04:48 UTC">
+  "Fri, 3 Mar 2017 16:24:30 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -62,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-03-02</p>
+  Last edit: 2017-03-03</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -12606,10 +12607,11 @@ PF
 
   <blockquote>
     <tt>/0 [-to datasink] [-from datasink] [--,-streamf
-    @streamfileinstance] [ -new ~@{fqp} | -open ~@{mode RB|RC|W} |
-    -close | -rball | -rcall | -rline | -read ~@{offset} ~@{length}
-    | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring
-    [af|ap|c|d|e|f|length|n|p|r|w|x]} : manipulate stream
+    @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode
+    RB|RC|W} | -close | -create | -mkdirs | -rball | -rcall |
+    -rline | -read ~@{offset} ~@{length} | -write ~@{data}
+    ~@{offset} ~@{length} | -q,-query ~@{qstring
+    [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream
     files</tt>
 
     <p>The <tt>streamf</tt> command manipulates local file system
@@ -12623,10 +12625,13 @@ PF
     <p><code>streamf</code> instances stored in tuples are <a href=
     "#Autonomic_Tuple_Variables">autonomic</a>.</p>
 
-    <p>The <a href="#Dash_Command">dash-commands</a>are as
+    <p>The <a href="#Dash_Command">dash-commands</a> are as
     follows:</p>
 
     <ul>
+      <li><code>-list</code> puts an array of strings listing the
+      directory specified by the instance.</li>
+
       <li><code>-new ~@{fqp}</code> creates a new instance but does
       not open the instance.</li>
 
@@ -12643,6 +12648,12 @@ PF
       </li>
 
       <li><code>-close</code> closes the instance.</li>
+
+      <li><code>-create</code> creates the file specified by the
+      instance.</li>
+
+      <li><code>-mkdirs</code> creates the directory specified by
+      the instance and all necessary parent directories.</li>
 
       <li><code>-rball</code> reads all bytes as binary and puts
       them as a byte array and closes the file.</li>
@@ -12695,6 +12706,18 @@ PF
         </ul>
       </li>
     </ul>
+
+    <p><em>Example</em></p>
+    <pre>
+&gt; streamf -to @sd -new /usr/bin
+&gt; @sd -list
+<em>grub-mkfont
+sha1sum
+diff
+pbmtoatk
+ciptool
+...</em> 
+</pre>
   </blockquote>
 
   <h4><a name="string" id="string"></a> <tt>string</tt></h4>
