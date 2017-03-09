@@ -3,16 +3,18 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
+# writesrc ( sys streamfile recordfile padlen )
 # Given
-# ... an as400 object
-# ... a fully qualified IFS path to a source member
-# ... a path to a local stream file
-# ... a pad/truncate length
+#   sys ... an as400 object
+#   streamfile ... a fully qualified IFS path to a source member
+#   recordfile ... a path to a local stream file
+#   padlen ... a pad/truncate length
 # write the contents of the local file to the remote physical source file member
 # padded/truncated line by padded/truncated line
 # E.g.
 #   writesrc ( @mysys @streamfile /QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR len)
-# where @mysys is .# Each line is padded with blanks to 80 chars or truncated
+#
+# Each line is padded with blanks to padlen chars or truncated
 FUNC writesrc ( sys streamfile recordfile padlen ) $[
    LOCAL @streamfiletuple
    LOCAL @recordfiletuple LOCAL @arraytuple LOCAL @formattuple
@@ -23,6 +25,7 @@ FUNC writesrc ( sys streamfile recordfile padlen ) $[
    file -- @recordfiletuple -close
 ]$
 
+# getTargetMember ( sys fqp filetuple arraytuple formattuple )
 # Get an record file handle, the records in an array, and the format of target  
 FUNC getTargetMember ( sys fqp filetuple arraytuple formattuple ) $[
     file -as400 @@sys -to @@filetuple -sequential @@fqp
@@ -31,12 +34,13 @@ FUNC getTargetMember ( sys fqp filetuple arraytuple formattuple ) $[
     file -- @@filetuple -to @@formattuple -getfmt
 ]$
 
-# Get stream file  
+# Get stream file
 FUNC getSourceStream ( fqp streamftuple ) $[
     streamf -to @@streamftuple -new @@fqp
     @@streamftuple -open RC
 ]$
 
+# writeData ( streamfiletuple arraytuple formattuple )
 FUNC writeData ( streamfiletuple arraytuple formattuple ) $[
     LOCAL @thisline LOCAL @thisrec
     LOCAL @numrecords LOCAL @recordslist
@@ -63,6 +67,7 @@ FUNC writeData ( streamfiletuple arraytuple formattuple ) $[
     ]$    
 ]$
   
+# padOrTrunc ( str padlen )
 # push bl-padded string or truncated if longer than padlen (e.g., 100 chars)
 FUNC padOrTrunc ( str padlen ) $[
     LOCAL @tmp LOCAL @mystr LOCAL @mypadlen    
@@ -80,3 +85,4 @@ FUNC padOrTrunc ( str padlen ) $[
 ]$
 
 
+# end
