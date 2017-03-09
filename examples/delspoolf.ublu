@@ -17,14 +17,15 @@
 #   DD
 # So delSpoolFBefore ( s u p *ALL 1160000 ) deletes all spoolfiles on the system
 # starting from the first one and all thereafter created prior to 2016-01-01
-FUNC delSpoolFBefore ( mysys myid mypasswd target targdate )
-as400 -to ~ @@mysys @@myid @@mypasswd
-spoolflist -to ~ -as400 ~ @@target
-list -to ~ -source ~
-FOR @i in ~ $[
-    @i -to ~ -get createdate
-    eval -to ~ < ~ @@targdate
-    IF ~ THEN $[ @i -delete ]$
+FUNC delSpoolFBefore ( mysys myid mypasswd target targdate ) $[
+    as400 -to ~ @@mysys @@myid @@mypasswd
+    spoolflist -to ~ -as400 ~ @@target
+    list -to ~ -source ~
+    FOR @i in ~ $[
+        @i -to ~ -get createdate
+        eval -to ~ < ~ @@targdate
+        IF ~ THEN $[ @i -delete ]$
+    ]$
 ]$
 
 # delSpoolFAfter ( mysys myid mypasswd target targdate )
@@ -38,14 +39,15 @@ FOR @i in ~ $[
 #   DD
 # So delSpoolFAfter ( s u p *ALL 1160000 ) deletes all spoolfiles on the system
 # starting from the first one on 2016-01-01 and all thereafter.
-FUNC delSpoolFAfter ( mysys myid mypasswd target targdate )
-as400 -to ~ @@mysys @@myid @@mypasswd
-spoolflist -to ~ -as400 ~ @@target
-list -to ~ -source ~
-FOR @i in ~ $[
-    @i -to ~ -get createdate
-    eval -to ~ > ~ @@targdate
-    IF ~ THEN $[ @i -delete ]$
+FUNC delSpoolFAfter ( mysys myid mypasswd target targdate ) $[
+    as400 -to ~ @@mysys @@myid @@mypasswd
+    spoolflist -to ~ -as400 ~ @@target
+    list -to ~ -source ~
+    FOR @i in ~ $[
+        @i -to ~ -get createdate
+        eval -to ~ > ~ @@targdate
+        IF ~ THEN $[ @i -delete ]$
+    ]$
 ]$
 
 #end
