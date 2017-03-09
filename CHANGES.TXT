@@ -13,13 +13,15 @@ Commands
 	* now does it as Long
 * ftp command rewritten, new specifications
 	* previous ftp command is now called 'oldftp'
+* streamf new command for stream files on local system
+* string -pad
 * tuple
 	* -type returns class object
 	* handle the tuple stack on -true -false -null
 	
 Examples
 * clHelp.ublu
-* delspoolfafter.ublu
+* delspoolf.ublu
 
 1.1.5 2016-12-31
 -----

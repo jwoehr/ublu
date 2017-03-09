@@ -1,8 +1,31 @@
-# delspoolfafter.ublu
+# delspoolf.ublu
 # Example from Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
+
+# Delete spooled files by criteria
+
+# delSpoolFBefore ( mysys myid mypasswd target targdate )
+# Delete all spoolfiles on mysys with credentials myid mypasswd for target
+# (e.g., a profile SOMEUID or *ALL) created before a given targdate.
+# Date is AS400 style:
+#   CYYMMDD
+#   C 0 = 20th century, 1 = 21st century
+#   YY two-digit year
+#   MM month
+#   DD
+# So delSpoolFBefore ( s u p *ALL 1160000 ) deletes all spoolfiles on the system
+# starting from the first one and all thereafter created prior to 2016-01-01
+FUNC delSpoolFBefore ( mysys myid mypasswd target targdate )
+as400 -to ~ @@mysys @@myid @@mypasswd
+spoolflist -to ~ -as400 ~ @@target
+list -to ~ -source ~
+FOR @i in ~ $[
+    @i -to ~ -get createdate
+    eval -to ~ < ~ @@targdate
+    IF ~ THEN $[ @i -delete ]$
+]$
 
 # delSpoolFAfter ( mysys myid mypasswd target targdate )
 # Delete all spoolfiles on mysys with credentials myid mypasswd for target
@@ -21,7 +44,7 @@ spoolflist -to ~ -as400 ~ @@target
 list -to ~ -source ~
 FOR @i in ~ $[
     @i -to ~ -get createdate
-    eval -to ~ < ~ @@targdate
+    eval -to ~ > ~ @@targdate
     IF ~ THEN $[ @i -delete ]$
 ]$
 
