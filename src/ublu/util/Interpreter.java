@@ -1037,10 +1037,17 @@ public class Interpreter {
     public COMMANDRESULT executeBlock(String block) {
         COMMANDRESULT rc;
         pushFrame();
+        int deep = frameDepth();
         Parser p = new Parser(this, block);
         setArgArray(p.parseAnArgArray());
         rc = loop();
-        popFrame();
+        if (deep <= frameDepth()) {
+            // /* debug */ outputerrln("about to pop frame in executeBlock");
+            popFrame();
+            // /* debug */ outputerrln("popped frame in executeBlock");
+        }
+
+        // }
         return rc;
     }
 
@@ -1079,11 +1086,17 @@ public class Interpreter {
         } else {
             // rc = executeBlock(f.bind(tupleNames.delifoize(this)));
             // getTupleMap().pushLocal();
+
             pushFrame();
             String block = f.bindWithSubstitutes(this, tupleNames/*.delifoize(this)*/);
             rc = executeBlock(block);
             // getTupleMap().popLocal();
+            // /* debug */ outputerrln("about to pop frame in executeFunctor");
+            // /* debug */ outputerrln("Frame depth in executeFunctor : " + frameDepth());
+            // if (frameDepth() > 0) {
             popFrame();
+            //  }
+            // /* debug */ outputerrln("popped frame in executeFunctor");
         }
         return rc;
     }
@@ -1241,8 +1254,7 @@ public class Interpreter {
 
         // First order of business is to search the search paths
         if (!filepath.isAbsolute()) {
-            for (String searchPart: getProperty("ublu.includepath").split(":"))
-            {
+            for (String searchPart : getProperty("ublu.includepath").split(":")) {
                 Path searchPath = FileSystems.getDefault().getPath(searchPart).resolve(filepath);
                 if (searchPath.toFile().exists()) {
                     foundPath = true;

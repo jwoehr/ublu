@@ -40,10 +40,13 @@ public class CmdBreak extends Command {
 
     ArgArray performBreak(ArgArray argArray) {
         while (getInterpreter().frameDepth() > 0 && !getInterpreter().isForBlock()) {
+            // /* debug */ getInterpreter().outputerrln("Frame depth : " + getInterpreter().frameDepth());
+            // /* debug */ getInterpreter().outputerrln("is FOR block? : " + getInterpreter().isForBlock());
+            // /* debug */ getInterpreter().outputerrln("popping non-FOR");
             getInterpreter().popFrame();
-            getInterpreter().setBreakIssued(true);
+            // /* debug */ getInterpreter().outputerrln("popped non-FOR");
         }
-        getInterpreter().setForBlock(false);
+        getInterpreter().setBreakIssued(true);
         return new ArgArray(getInterpreter());
     }
 

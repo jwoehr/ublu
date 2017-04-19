@@ -90,11 +90,9 @@ public class CmdFor extends Command {
                     getInterpreter().setForBlock(true);
                     walkFor(iteratedTuple.getValue(), aa, iteratorTuple);
                     if (getInterpreter().isBreakIssued()) {
-                        // If a BREAK then the frame was already popped
                         getInterpreter().setBreakIssued(false);
-                    } else {
-                        getInterpreter().popFrame();
                     }
+                    getInterpreter().popFrame();
                 }
             }
         }
