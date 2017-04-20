@@ -22,7 +22,8 @@ Commands
     * -pad
     * escape and unescape allow java-like string escapes
 * tuple
-	* -type returns class object
+	* -assign
+        * -type returns class object
 	* handle the tuple stack on -true -false -null
 	
 Examples
