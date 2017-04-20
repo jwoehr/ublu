@@ -43,7 +43,7 @@ import ublu.util.ArgArray;
 public class CmdInterpreter extends Command {
 
     {
-        setNameAndDescription("Interpreter", "/0 : info on Ublu interpreter");
+        setNameAndDescription("interpreter", "/0 : info on Ublu interpreter at the level this command is invoked");
     }
 
     enum OPS {
@@ -70,6 +70,10 @@ public class CmdInterpreter extends Command {
                     try {
                         put("Frame depth : " + getInterpreter().frameDepth());
                         put("FOR block : " + getInterpreter().isForBlock());
+                        put("Break issued : " + getInterpreter().isBreakIssued());
+                        put("History filename : " + getInterpreter().getHistoryFileName());
+                        put("History manager : " + getInterpreter().getHistory());
+
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception putting interpreter info in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
