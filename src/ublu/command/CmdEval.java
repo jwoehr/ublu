@@ -32,6 +32,7 @@ import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.logging.Level;
 
 /**
@@ -43,7 +44,7 @@ public class CmdEval extends Command {
 
     {
         setNameAndDescription("eval",
-                "/2/3 [-to @var] ~@[+ - * / % << >> ! & | ^ && || == > < <= >= !=  pct] ~@operand [~@operand] : arithmetic ");
+                "/2/3 [-to @var] ~@[inc dec + - * / % << >> ! & | ^ && || == > < <= >= != pct] ~@operand [~@operand] : arithmetic ");
     }
 
     /**
@@ -54,7 +55,8 @@ public class CmdEval extends Command {
      */
     public ArgArray eval(ArgArray argArray) {
 
-        while (argArray.hasDashCommand()) {
+        while (argArray.hasDashCommand() && !argArray.get(0).trim().equals("-")) {
+            // don't let minus be confused with a dash command
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
@@ -71,12 +73,39 @@ public class CmdEval extends Command {
                 logArgArrayTooShortError(argArray);
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
-                String opr = argArray.nextMaybeTupleString();
+                String opr = argArray.nextMaybeQuotationTuplePopStringTrim();
                 Long lopr;
                 Long ropr;
 
                 switch (opr) {
-
+                    case "inc":
+                        if (argArray.size() < 1) {
+                            logArgArrayTooShortError(argArray);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            try {
+                                put(++lopr);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case "dec":
+                        if (argArray.size() < 1) {
+                            logArgArrayTooShortError(argArray);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            try {
+                                put(--lopr);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
                     case "+":
                         if (argArray.size() < 2) {
                             logArgArrayTooShortError(argArray);
@@ -356,7 +385,7 @@ public class CmdEval extends Command {
                             lopr = argArray.nextLongMaybeQuotationTuplePopString();
                             ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
-                                put(lopr != ropr);
+                                put(!Objects.equals(lopr, ropr));
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                                 getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);

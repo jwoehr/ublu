@@ -5,16 +5,22 @@ All rights reserved.
 1.1.6
 -----
 Commands
+* BREAK - bug fixed, didn't work with nested blocks > 1
 * cim for Common Information Model (added)
 * calljava
 	* -class
 	* -forname
 * eval
 	* now does it as Long
+        * added inc and dec
+        * fixed bug where - mistaken for dash-command
 * ftp command rewritten, new specifications
 	* previous ftp command is now called 'oldftp'
+* interpreter new command for interperter debugging
 * streamf new command for stream files on local system
-* string -pad
+* string
+    * -pad
+    * escape and unescape allow java-like string escapes
 * tuple
 	* -type returns class object
 	* handle the tuple stack on -true -false -null
