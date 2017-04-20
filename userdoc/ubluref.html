@@ -9,10 +9,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 3 Mar 2017 16:24:30 UTC">
+  "Thu, 20 Apr 2017 21:03:02 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -64,7 +65,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-03-03</p>
+  Last edit: 2017-04-20</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -4978,9 +4979,9 @@ cim -to @path -namespace root/cimv2 -objectname CIM_LogicalIdentity -path
   <h4><a name="eval" id="eval"></a> <tt>eval</tt></h4>
 
   <blockquote>
-    <tt>/2/3 [-to @var] ~@[+ - * / % &lt;&lt; &gt;&gt; ! &amp; | ^
-    &amp;&amp; || == &gt; &lt; &lt;= &gt;= != pct] ~@operand
-    [~@operand] : arithmetic</tt><br>
+    <tt>/2/3 [-to @var] ~@[inc dec + - * / % &lt;&lt; &gt;&gt; !
+    &amp; | ^ &amp;&amp; || == &gt; &lt; &lt;= &gt;= != pct]
+    ~@operand [~@operand] : arithmetic</tt><br>
     <br>
     <tt>eval</tt> performs arithmetic and logical operations on
     <a href="#Numbers">numbers</a>. <tt>eval</tt> evalutes its
@@ -4995,6 +4996,12 @@ cim -to @path -namespace root/cimv2 -objectname CIM_LogicalIdentity -path
     The operators and their operands are:<br>
 
     <ul>
+      <li><code>inc</code> <em>opr</em> increments <em>opr</em> by
+      one (1)</li>
+
+      <li><code>dec</code> <em>opr</em> decrements <em>opr</em> by
+      one (1)</li>
+
       <li><tt>+</tt> <i>lopr ropr</i> adds <i>lopr</i> to
       <i>ropr</i></li>
 
@@ -13825,17 +13832,25 @@ ciptool
   <h4><a name="tuple" id="tuple"></a><tt>tuple</tt></h4>
 
   <blockquote>
-    <tt>/0 [-delete @tuplename | -exists @tuplename | -istuplename
-    @tuplename | -null ~@tuplename | -true ~@tuplename | -false
-    ~@tuplename | -name @tuplename | -realname @tuplename | -value
-    ~@tuplename | -sub ~@{subname} @tuple | -type ~@tuple |
-    -typename ~@tuple | -map | -autonome ~@tuple | -autonomic
-    ~@tuple | -autonomes ] : operations on tuple variables</tt><br>
+    <tt>/0 [-assign targetname ~@valuesource | -delete @tuplename |
+    -exists @tuplename | -istuplename @tuplename | -null
+    ~@tuplename | -true ~@tuplename | -false ~@tuplename | -name
+    @tuplename | -realname @tuplename | -value ~@tuplename | -sub
+    ~@{subname} @tuple | -type ~@tuple | -typename ~@tuple | -map |
+    -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] :
+    operations on tuple variables</tt><br>
     <br>
     Operations on <a href="#Tuple_Variables">tuple
     variables</a>.<br>
 
     <ul>
+      <li><code>-assign targetname ~@valuesource</code> assigns to
+      the tuple specified by <em>targetname</em> (or pushes an
+      anonymous tuple to the stack if <em>targetname</em> is the
+      stack push symbol <code><strong>~</strong></code>) the value
+      of the tuple or stack pop represented by
+      <em>~@valuesource</em></li>
+
       <li>-<tt>delete</tt> <tt>@tuplename</tt> deletes
       <i>@tuplename</i>
 
