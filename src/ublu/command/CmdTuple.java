@@ -48,7 +48,7 @@ import ublu.util.Autonome;
 public class CmdTuple extends Command {
 
     {
-        setNameAndDescription("tuple", "/0 [-delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null ~@tuplename | -true ~@tuplename | -false ~@tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple |  -type ~@tuple | -typename ~@tuple | -map | -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on tuple variables");
+        setNameAndDescription("tuple", "/0 [-assign targetname ~@valuesource | -delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null ~@tuplename | -true ~@tuplename | -false ~@tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub ~@{subname} @tuple |  -type ~@tuple | -typename ~@tuple | -map | -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on tuple variables");
     }
 
     /**
@@ -66,6 +66,10 @@ public class CmdTuple extends Command {
          * set null
          */
         NULL,
+        /**
+         * Assign the value of one tuple to another
+         */
+        ASSIGN,
         /**
          * is the argument a valid tuple name
          */
@@ -174,6 +178,11 @@ public class CmdTuple extends Command {
                 //    srcName = argArray.next();
                 //    setDataSrc(DataSink.fromSinkName(srcName));
                 //    break;
+                case "-assign":
+                    setFunction(FUNCTIONS.ASSIGN);
+                    someName = argArray.next();
+                    someTuple = argArray.nextTupleOrPop();
+                    break;
                 case "-delete":
                     setFunction(FUNCTIONS.DELETE);
                     someName = argArray.next();
@@ -248,6 +257,17 @@ public class CmdTuple extends Command {
             Tuple t;
             String autonome = null;
             switch (getFunction()) {
+                case ASSIGN:
+                    if (Tuple.isTupleName(someName)) {
+                        setTuple(someName, someTuple.getValue());
+                    } else if (ArgArray.isPopTupleSign(someName)) {
+                        pushTuple(new Tuple(null, someTuple.getValue()));
+                    } else {
+                        getLogger().log(Level.SEVERE, "Name {0} is not a tuple name.", someName);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+
                 case DELETE:
                     theTupleName = someName;
                     t = getTuple(theTupleName);
