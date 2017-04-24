@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -16,7 +17,7 @@
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 3 Mar 2017 16:24:30 UTC">
+  "Mon, 24 Apr 2017 00:40:38 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 
@@ -135,6 +136,9 @@
             thingies after Ublu commands?</a></li>
 
             <li><a href="#mozTocId58628">What is a put ?</a></li>
+
+            <li><a href="#tuple-assign"><code>tuple -assign</code>
+            instead of <code>put</code></a></li>
 
             <li>
               <a href="#mozTocId56861">How are arguments
@@ -2194,6 +2198,18 @@ message queue instance."<br>
   <p>The full discussion of <tt>put</tt> requires an understanding
   of <a href="ubluref.html#Datasinks">Data Sinks</a> discussed in
   the Ublu Reference.<br></p>
+
+  <h3><a name="tuple-assign"></a><code>tuple -assign</code> instead
+  of <code>put</code></h3>
+
+  <p>Once an object is assigned to a tuple variable,
+  <code>put</code> tends to have the sometimes-undesirable effect
+  of turning the value it puts into a string.</p>
+
+  <p>To assign an object from one tuple or another (including from
+  the tuple stack), use <code><a href="./ubluref.html#tuple">tuple
+  -assign</a></code> <em>@destination-tuple
+  ~@value-source</em>.</p>
 
   <h3><a class="mozTocH2" name="mozTocId56861"></a>How are
   arguments passed?</h3>
