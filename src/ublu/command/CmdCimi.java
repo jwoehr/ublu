@@ -87,7 +87,7 @@ public class CmdCimi extends Command {
      * @param argArray
      * @return the remainder of the arg array
      */
-    public ArgArray doCim(ArgArray argArray) {
+    public ArgArray doCimi(ArgArray argArray) {
         OPS op = OPS.KEYS;
         CIMInstance cIMInstance = null;
         String keyName = null;
@@ -177,7 +177,7 @@ public class CmdCimi extends Command {
     public ArgArray cmd(ArgArray args
     ) {
         reinit();
-        return doCim(args);
+        return doCimi(args);
     }
 
     @Override
