@@ -123,7 +123,7 @@ public class CmdCimi extends Command {
 //                case "-url":
 //                    break;
 //                case "-xmlschema":
-//                    break;
+                    break;
                 case "-path":
                     op = OPS.PATH;
                     break;
