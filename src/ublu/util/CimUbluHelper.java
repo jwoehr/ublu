@@ -206,6 +206,32 @@ public class CimUbluHelper {
     }
 
     /**
+     *
+     * @param cimi
+     * @return
+     */
+    public static CIMPropertyArrayList getKeys(CIMInstance cimi) {
+        return new CIMPropertyArrayList(cimi.getKeys());
+    }
+
+    /**
+     *
+     * @param list
+     * @param name
+     * @return
+     */
+    public static CIMProperty getKeyByName(CIMPropertyArrayList list, String name) {
+        CIMProperty result = null;
+        for (CIMProperty cimp : list) {
+            if (cimp.getName().equals(name)) {
+                result = cimp;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Return a Locale array that has the default locale as the first element.
      * The SBLIM CIM Client library make a buggy assumption in it that the first
      * Locale in the array is the default Locale.
