@@ -58,6 +58,7 @@ import java.sql.CallableStatement;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import javax.cim.CIMInstance;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ublu.AS400Extender;
@@ -90,6 +91,7 @@ public class Autonome {
         AUTONOMY.put(SecureAS400Extender.class, "as400");
         AUTONOMY.put(CallableStatement.class, "cs");
         AUTONOMY.put(CimUbluHelper.class, "cim");
+        AUTONOMY.put(CIMInstance.class, "cimi");
         AUTONOMY.put(Db.class, "db");
         AUTONOMY.put(SysShepHelper.class, "dpoint");
         AUTONOMY.put(DataQueue.class, "dq");

@@ -51,14 +51,14 @@ import ublu.util.Generics.CIMPropertyArrayList;
 import ublu.util.Generics.StringArrayList;
 
 /**
- * Common Information Model (e.g. SNMP) support
+ * Common Information Model Client (e.g. SNMP) support
  *
  * @author jax
  */
 public class CmdCim extends Command {
 
     {
-        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @ciminstance] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath | -trace ~@tf] : CIM client");
+        setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @cimclient] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath | -trace ~@tf] : CIM client");
 
     }
 
@@ -69,7 +69,7 @@ public class CmdCim extends Command {
         /**
          * Create the CIM Helper
          */
-        INSTANCE,
+        NEW,
         /**
          * Set path
          */
@@ -111,7 +111,7 @@ public class CmdCim extends Command {
      * @return the remainder of the arg array
      */
     public ArgArray doCim(ArgArray argArray) {
-        OPS op = OPS.INSTANCE;
+        OPS op = OPS.NEW;
         URL url = null;
         String pNamespace = null;
         String pObjectName = null;
@@ -140,7 +140,7 @@ public class CmdCim extends Command {
                     cimUbluHelper = argArray.nextTupleOrPop().value(CimUbluHelper.class);
                     break;
                 case "-new":
-                    op = OPS.INSTANCE;
+                    op = OPS.NEW;
                     break;
                 case "-close":
                     op = OPS.CLOSE;
@@ -222,7 +222,7 @@ public class CmdCim extends Command {
             CIMObjectPathArrayList arrayList = null;
             CIMInstance instance = null;
             switch (op) {
-                case INSTANCE:
+                case NEW:
                     try {
                         cimUbluHelper = new CimUbluHelper();
                     } catch (WBEMException ex) {
@@ -240,7 +240,7 @@ public class CmdCim extends Command {
                     break;
                 case CLOSE:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -close", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null client in {0} for -close", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         cimUbluHelper.close();
@@ -257,7 +257,7 @@ public class CmdCim extends Command {
                     break;
                 case CRED:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -cred", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null client in {0} for -cred", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         Subject subject = cimUbluHelper.getSubject();
@@ -267,7 +267,7 @@ public class CmdCim extends Command {
                     break;
                 case INIT:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -init", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null client in {0} for -init", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
@@ -280,7 +280,7 @@ public class CmdCim extends Command {
                     break;
                 case EC:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -ec", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null client in {0} for -ec", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
@@ -343,7 +343,7 @@ public class CmdCim extends Command {
                     break;
                 case TRACE:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null instance in {0} for -trace", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Null client in {0} for -trace", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         cimUbluHelper.trace(traceTF);
