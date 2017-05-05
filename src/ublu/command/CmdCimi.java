@@ -32,24 +32,11 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.cim.CIMDataType;
 import javax.cim.CIMInstance;
-import javax.cim.CIMObjectPath;
-import javax.cim.CIMProperty;
-import javax.security.auth.Subject;
-import javax.wbem.WBEMException;
-import javax.wbem.client.PasswordCredential;
-import javax.wbem.client.UserPrincipal;
 import ublu.util.ArgArray;
 import ublu.util.CimUbluHelper;
-import ublu.util.Generics.CIMObjectPathArrayList;
-import ublu.util.Generics.CIMPropertyArrayList;
-import ublu.util.Generics.StringArrayList;
 
 /**
  * Common Information Model Instance (e.g. SNMP) support
@@ -59,7 +46,7 @@ import ublu.util.Generics.StringArrayList;
 public class CmdCimi extends Command {
 
     {
-        setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-keys | -key ~@{keyname} | -path] : process CIM Instances");
+        setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-keys | -key ~@{keyname} | -path] : manipulate CIM Instances");
 
     }
 
