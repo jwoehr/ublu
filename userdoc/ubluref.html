@@ -5,15 +5,10 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 20 Apr 2017 21:03:02 UTC">
+  "Fri, 5 May 2017 19:10:31 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -65,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-04-20</p>
+  Last edit: 2017-05-05</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2874,10 +2869,9 @@ Type help for help. Type license for license. Type bye to exit.
     ~@{password} | -init ~@cimobjectpath | -ei ~@cimobjectpath] :
     CIM client</code>
 
-    <p>The <code>cim</code> command creates and employs instances
-    of a <a href=
+    <p>The <code>cim</code> command creates and employs <a href=
     "http://www.ibm.com/support/knowledgecenter/ssw_ibm_i_73/rzatl/rzatlprintthis.htm">
-    Common Information Model</a> client. To do so it uses the
+    Common Information Model</a> clients. To do so it uses the
     <a href=
     "http://sblim.sourceforge.net/wiki/index.php/CimClient">SBLIM
     JSR-48 CimClient</a> library available under the <a href=
@@ -2899,14 +2893,238 @@ Type help for help. Type license for license. Type bye to exit.
     </ol>
 
     <p>This is illustrated as follows:</p>
+
+    <p><em>Example</em></p>
     <pre>
-cim -to @client
-@client -cred myprofile mypassword
-cim -to @path -url https://myserver:5989 -path
-@client -init @path
-cim -to @path -namespace root/cimv2 -objectname CIM_LogicalIdentity -path
-@client -ei @path
+<span class="syntax0"><span class="gutter"> 1 </span><span class=
+"syntax-KEYWORD2">cim</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@client</span>
+<span class="gutter"> 2 </span><span class=
+"syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cred</span> someuserid somepassword
+<span class="gutter"> 3 </span>
+<span class="gutter"> 4 </span><span class=
+"syntax-KEYWORD2">cim</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@path</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-url</span> https://mysystem:5989<span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-path</span>
+<span class="gutterH"> 5 </span><span class=
+"syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-init</span> <span class=
+"syntax-MARKUP">@path</span>
+<span class="gutter"> 6 </span>
+<span class="gutter"> 7 </span><span class=
+"syntax-KEYWORD2">cim</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@path</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-objectname</span> CIM_LogicalIdentity<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-path</span>
+<span class="gutter"> 8 </span><span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Enumerate</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Instances</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@path</span>
+<span class="gutter"> 9 </span><span class=
+"syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-ei</span> <span class=
+"syntax-MARKUP">@path</span>
+<span class="gutterH">10 </span>
+<span class="gutter">11 </span><span class=
+"syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-new</span>
+<span class="gutter">12 </span><span class=
+"syntax-KEYWORD2">cim</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@path</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-objectname</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-path</span>
+<span class="gutter">13 </span><span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Enumerate</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Classes</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@path</span>
+<span class="gutter">14 </span><span class=
+"syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-ec</span> <span class=
+"syntax-MARKUP">@path</span> <span class=
+"syntax-MARKUP">@true</span>
+<span class="gutterH">15 </span>
+<span class="gutter">16 </span><span class=
+"syntax-KEYWORD2">cim</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@path</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-objectname</span> IBMOS400_NetworkPort<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-path</span> 
+<span class="gutter">17 </span><span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Get</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Instances</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@path</span>
+<span class="gutter">18 </span><span class=
+"syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@instances</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-ei</span> <span class=
+"syntax-MARKUP">@path</span>
+<span class="gutter">19 </span><span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@i</span> in <span class=
+"syntax-MARKUP">@instances</span> <span class=
+"syntax-OPERATOR">$[</span>
+<span class="gutterH">20 </span>   <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">((</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Instance</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">looks</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">like</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">this</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">))</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-from</span> <span class=
+"syntax-MARKUP">@i</span>   
+<span class="gutter">21 </span>   <span class=
+"syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-gi</span> <span class=
+"syntax-MARKUP">@i</span> <span class=
+"syntax-MARKUP">@false</span> <span class=
+"syntax-MARKUP">@false</span>
+<span class="gutter">22 </span>   <span class=
+"syntax-KEYWORD2">lifo</span><span class=
+"syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-dup</span>
+<span class="gutter">23 </span>   <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">24 </span>   <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">***</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Putting</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">keys</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">instance</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">***</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutterH">25 </span>   <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-keys</span>
+<span class="gutter">26 </span><span class=
+"syntax-OPERATOR">]$</span>
+</span>
 </pre>
+  </blockquote>
+
+  <h4><a name="cimi"></a><code>cimi</code></h4>
+
+  <blockquote>
+    <p><code>/0 [-to datasink] [--,-cimi @ciminstance] [-keys |
+    -key ~@{keyname} | -path] : manipulate CIM Instances</code></p>
+
+    <p>The <code>cimi</code> command manipulates CIM instances
+    returned by the <a href="#cim"><code>cim</code></a> client. CIM
+    instances are autonomic or can be provided to the
+    <code>cimi</code> command via <code>--,-cimi
+    @ciminstance</code>.</p>
+
+    <p>The <a href="#Dash_Command">dash-command</a>s are as
+    follows:</p>
+
+    <ul>
+      <li><code>-keys</code> puts a collection of keys possessed by
+      the instance.</li>
+
+      <li><code>-key ~@{keyname}</code> puts the key named
+      <em>keyname</em> for the instance.</li>
+
+      <li><code>-path</code> puts the path of the instance.</li>
+    </ul>
   </blockquote>
 
   <h4><a name="collection" id=
