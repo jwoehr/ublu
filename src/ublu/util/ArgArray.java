@@ -85,6 +85,7 @@ public class ArgArray extends ArrayList<String> {
 
     /**
      * Return true if is the pop tuple sign ~
+     *
      * @param s string to test
      * @return true if is the pop tuple sign ~
      */
@@ -520,6 +521,21 @@ public class ArgArray extends ArrayList<String> {
      */
     public boolean isNextElse() {
         return peekNext().equals("ELSE");
+    }
+
+    /**
+     * Test if next is a number
+     *
+     * @return true iff next is decodable as a long
+     */
+    public boolean isNextLong() {
+        boolean result = true;
+        try {
+            Long.decode(peekNext());
+        } catch (NumberFormatException ex) {
+            result = false;
+        }
+        return result;
     }
 
     /**
