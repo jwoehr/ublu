@@ -1,0 +1,45 @@
+# ux.cim.property.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Push to the stack the class in which this CIM Property was defined or overridden.
+FUNC ux.cim.property.getOriginClass ( cimProperty ) $[
+    calljava -to ~ -- @@cimProperty -method getOriginClass
+]$
+
+# Push to the stack the name of a CIM Property
+FUNC ux.cim.property.getName ( cimProperty ) $[
+    calljava -to ~ -- @@cimProperty -method getName
+]$
+  
+# Push to the stack the value of a CIM Property
+FUNC ux.cim.property.getValue ( cimProperty ) $[
+    calljava -to ~ -- @@cimProperty -method getValue
+]$
+
+# Push to the stack the hash of a CIM Property
+FUNC ux.cim.property.hashCode ( cimProperty ) $[
+    calljava -to ~ -- @@cimProperty -method hashCode
+]$ 
+
+# Push to the stack true .IFF. CIM Property 1 equals CIM Property 2.
+# False otherwise.
+FUNC ux.cim.property.equals ( cimProperty1 cimProperty2 ) $[
+    calljava -to ~ -- @@cimProperty1 -arg @@cimProperty2 -method equals
+]$
+
+# Push to the stack true .IFF. CIM Property is a key.
+# False otherwise.
+FUNC ux.cim.property.isKey ( cimProperty ) $[
+    calljava -to ~ -- @@cimProperty -method isKey
+]$  
+
+# Push to the stack true .IFF. CIM Property is propagated.
+# False otherwise.
+FUNC ux.cim.property.isPropagated ( cimProperty ) $[
+    calljava -to ~ -- @@cimProperty -method isPropagated
+]$  
+
+# end
