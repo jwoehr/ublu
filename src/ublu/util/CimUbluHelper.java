@@ -206,21 +206,16 @@ public class CimUbluHelper {
     }
 
     /**
+     * Get list of keys for instance
      *
-     * @param cimi
-     * @return
+     * @param cimi instance
+     * @return list of keys for instance
      */
     public static CIMPropertyArrayList getKeys(CIMInstance cimi) {
         return new CIMPropertyArrayList(cimi.getKeys());
     }
 
-    /**
-     *
-     * @param list
-     * @param name
-     * @return
-     */
-    public static CIMProperty getKeyByName(CIMPropertyArrayList list, String name) {
+    public static CIMProperty getEntryByName(CIMPropertyArrayList list, String name) {
         CIMProperty result = null;
         for (CIMProperty cimp : list) {
             if (cimp.getName().equals(name)) {
@@ -231,6 +226,71 @@ public class CimUbluHelper {
         return result;
     }
 
+    /**
+     * Get key by name for instance
+     *
+     * @param cimi instance
+     * @param name
+     * @return key by name for instance
+     */
+    public static CIMProperty getKeyByName(CIMInstance cimi, String name) {
+        CIMProperty result = null;
+        CIMPropertyArrayList list = getKeys(cimi);
+        for (CIMProperty cimp : list) {
+            if (cimp.getName().equals(name)) {
+                result = cimp;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get property list for instance
+     *
+     * @param cimi
+     * @return property list for instance
+     */
+    public static CIMPropertyArrayList getProps(CIMInstance cimi) {
+        return new CIMPropertyArrayList(cimi.getProperties());
+    }
+
+    /**
+     * Get key by name for instance
+     *
+     * @param cimi instance
+     * @param name
+     * @return key by name for instance
+     */
+    public static CIMProperty getPropByName(CIMInstance cimi, String name) {
+        CIMProperty result = null;
+        CIMPropertyArrayList list = getProps(cimi);
+        for (CIMProperty cimp : list) {
+            if (cimp.getName().equals(name)) {
+                result = cimp;
+                break;
+            }
+        }
+        return result;
+    }
+ /**
+     * Get key by name for instance
+     *
+     * @param cimi instance
+     * @param index
+     * @return key by name for instance
+     */
+    public static CIMProperty getPropByInt(CIMInstance cimi, int index) {
+        CIMProperty result = null;
+        CIMPropertyArrayList list = getProps(cimi);
+        for (CIMProperty cimp : list) {
+            if (cimp.getName().equals(index)) {
+                result = cimp;
+                break;
+            }
+        }
+        return result;
+    }
     /**
      * Return a Locale array that has the default locale as the first element.
      * The SBLIM CIM Client library make a buggy assumption in it that the first

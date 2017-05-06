@@ -46,7 +46,7 @@ import ublu.util.CimUbluHelper;
 public class CmdCimi extends Command {
 
     {
-        setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-keys | -key ~@{keyname} | -path] : manipulate CIM Instances");
+        setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-keys | -key ~@{keyname} | -properties | -propint ~@{intindex} | -propname ~@{name} | -path] : manipulate CIM Instances");
 
     }
 
@@ -65,7 +65,20 @@ public class CmdCimi extends Command {
         /**
          * Get path of instance
          */
-        PATH
+        PATH,
+        /**
+         * get property by int index
+         */
+        PROPINT,
+        /**
+         * get property by string name
+         */
+        PROP,
+        /**
+         * get prop array
+         */
+        PROPS
+
     }
 
     /**
@@ -78,12 +91,8 @@ public class CmdCimi extends Command {
         OPS op = OPS.KEYS;
         CIMInstance cIMInstance = null;
         String keyName = null;
-//        URL url = null;
-//        String pNamespace = null;
-//        String pObjectName = null;
-//        CIMObjectPath objectPath = null;
-//        String pXmlSchemaName = null;
-//        CIMPropertyArrayList pPropertyList = null;
+        String propName = null;
+        Integer propInt = null;
         while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -103,16 +112,19 @@ public class CmdCimi extends Command {
                 case "-key":
                     op = OPS.KEY;
                     keyName = argArray.nextMaybeQuotationTuplePopStringTrim();
-//                case "-plist":
-//                    break;
-//                case "-prop": // This is wrong
-//                    break;
-//                case "-url":
-//                    break;
-//                case "-xmlschema":
                     break;
                 case "-path":
                     op = OPS.PATH;
+                    break;
+                case "-properties":
+                    break;
+                case "-propname":
+                    op = OPS.PROP;
+                    propName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-propint":
+                    op = OPS.PROPINT;
+                    propInt = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -124,28 +136,51 @@ public class CmdCimi extends Command {
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
             if (cIMInstance != null) {
                 switch (op) {
-                    case KEYS: {
+                    case KEYS:
                         try {
                             put(CimUbluHelper.getKeys(cIMInstance));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error getting or putting keys in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                    }
-                    break;
-                    case PATH: {
+                        break;
+                    case KEY:
+                        try {
+                            put(CimUbluHelper.getKeyByName(cIMInstance, keyName));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting key by name in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case PATH:
                         try {
                             put(cIMInstance.getObjectPath());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error getting or putting object path in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                    }
-                    case KEY:
+                        break;
+                    case PROP:
                         try {
-                            put(CimUbluHelper.getKeyByName(CimUbluHelper.getKeys(cIMInstance), keyName));
+                            put(CimUbluHelper.getPropByName(cIMInstance, propName));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting key by name in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error getting or putting prop by name in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case PROPINT:
+                        try {
+                            put(CimUbluHelper.getPropByInt(cIMInstance, propInt));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting prop by int in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case PROPS:
+                        try {
+                            put(CimUbluHelper.getProps(cIMInstance));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting props in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;

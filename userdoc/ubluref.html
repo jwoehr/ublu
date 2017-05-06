@@ -6,6 +6,7 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -3114,7 +3115,9 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <p><code>/0 [-to datasink] [--,-cimi @ciminstance] [-keys |
-    -key ~@{keyname} | -path] : manipulate CIM Instances</code></p>
+    -key ~@{keyname} | -properties | -propint ~@{intindex} |
+    -propname ~@{name} | -path] : manipulate CIM
+    Instances</code></p>
 
     <p>The <code>cimi</code> command manipulates CIM instances
     returned by the <a href="#cim"><code>cim</code></a> client. CIM
@@ -3133,6 +3136,15 @@ Type help for help. Type license for license. Type bye to exit.
       <em>keyname</em> for the instance.</li>
 
       <li><code>-path</code> puts the path of the instance.</li>
+
+      <li><code>-properties</code> puts a collection of properties
+      possessed by the instance.</li>
+
+      <li><code>-propint ~@{intindex}</code> puts the property at
+      <em>index</em>.</li>
+
+      <li><code>-propname ~@{name}</code> puts the property with
+      name <em>name</em>.</li>
     </ul>
 
     <p>See also: <a href="#cim"><code>cim</code></a></p>
