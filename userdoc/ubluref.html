@@ -8,10 +8,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 5 May 2017 19:10:31 UTC">
+  "Sun, 7 May 2017 17:50:27 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-05-05</p>
+  Last edit: 2017-05-07</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2907,32 +2908,35 @@ Type help for help. Type license for license. Type bye to exit.
 
     <p><em>Example</em></p>
     <pre>
-<span class="syntax0"><span class="gutter"> 1 </span><span class=
+<span class="syntax0"><span class="gutter">   1 </span><span class=
+"syntax-KEYWORD2">include</span> /opt/ublu/extensions/ux.<span class="syntax-KEYWORD2">cim</span>.property.ublu
+<span class="gutter">   2 </span>
+<span class="gutter">   3 </span><span class=
 "syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@client</span>
-<span class="gutter"> 2 </span><span class=
+<span class="gutter">   4 </span><span class=
 "syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-cred</span> someuserid somepassword
-<span class="gutter"> 3 </span>
-<span class="gutter"> 4 </span><span class=
+"syntax-KEYWORD3">-cred</span> myuserid ********
+<span class="gutterH">   5 </span>
+<span class="gutter">   6 </span><span class=
 "syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@path</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-url</span> https://mysystem:5989<span class=
+"syntax-KEYWORD3">-url</span> https://myserver:5989<span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-path</span>
-<span class="gutterH"> 5 </span><span class=
+<span class="gutter">   7 </span><span class=
 "syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-init</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter"> 6 </span>
-<span class="gutter"> 7 </span><span class=
+<span class="gutter">   8 </span>
+<span class="gutter">   9 </span><span class=
 "syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
@@ -2941,7 +2945,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-objectname</span> CIM_LogicalIdentity<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-path</span>
-<span class="gutter"> 8 </span><span class=
+<span class="gutterH">  10 </span><span class=
 "syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
@@ -2958,19 +2962,19 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter"> 9 </span><span class=
+<span class="gutter">  11 </span><span class=
 "syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-ei</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutterH">10 </span>
-<span class="gutter">11 </span><span class=
+<span class="gutter">  12 </span>
+<span class="gutter">  13 </span><span class=
 "syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-new</span>
-<span class="gutter">12 </span><span class=
+<span class="gutter">  14 </span><span class=
 "syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
@@ -2982,7 +2986,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-path</span>
-<span class="gutter">13 </span><span class=
+<span class="gutterH">  15 </span><span class=
 "syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
@@ -2999,14 +3003,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">14 </span><span class=
+<span class="gutter">  16 </span><span class=
 "syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-ec</span> <span class=
 "syntax-MARKUP">@path</span> <span class=
 "syntax-MARKUP">@true</span>
-<span class="gutterH">15 </span>
-<span class="gutter">16 </span><span class=
+<span class="gutter">  17 </span>
+<span class="gutter">  18 </span><span class=
 "syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
@@ -3015,7 +3019,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-objectname</span> IBMOS400_NetworkPort<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-path</span> 
-<span class="gutter">17 </span><span class=
+<span class="gutter">  19 </span><span class=
 "syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
@@ -3032,7 +3036,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">18 </span><span class=
+<span class="gutterH">  20 </span><span class=
 "syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
@@ -3040,12 +3044,12 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-ei</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">19 </span><span class=
+<span class="gutter">  21 </span><span class=
 "syntax-KEYWORD1">FOR</span> <span class=
 "syntax-MARKUP">@i</span> in <span class=
 "syntax-MARKUP">@instances</span> <span class=
 "syntax-OPERATOR">$[</span>
-<span class="gutterH">20 </span>   <span class=
+<span class="gutter">  22 </span>   <span class=
 "syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
@@ -3071,7 +3075,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-from</span> <span class=
 "syntax-MARKUP">@i</span>   
-<span class="gutter">21 </span>   <span class=
+<span class="gutter">  23 </span>   <span class=
 "syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
@@ -3081,12 +3085,38 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-MARKUP">@i</span> <span class=
 "syntax-MARKUP">@false</span> <span class=
 "syntax-MARKUP">@false</span>
-<span class="gutter">22 </span>   <span class=
+<span class="gutter">  24 </span>   <span class=
+"syntax-KEYWORD2">lifo</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-dup</span> <span class=
+"syntax-KEYWORD2">lifo</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-dup</span> <span class=
 "syntax-KEYWORD2">lifo</span><span class=
 "syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-dup</span>
-<span class="gutter">23 </span>   <span class=
+<span class="gutterH">  25 </span>   <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">24 </span>   <span class=
+<span class="gutter">  26 </span>   <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">***</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Putting</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">path</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">instance</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">***</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  27 </span>   <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-path</span>
+<span class="gutter">  28 </span>   <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
@@ -3102,11 +3132,171 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutterH">25 </span>   <span class=
+<span class="gutter">  29 </span>   <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-keys</span>
-<span class="gutter">26 </span><span class=
+<span class="gutterH">  30 </span>   <span class=
+"syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">***</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">Putting</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">properties</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">instance</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">***</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="gutter">  31 </span>   <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-properties</span>
+<span class="gutter">  32 </span>   <span class=
+"syntax-KEYWORD2">lifo</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-dup</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">  33 </span>   <span class=
+"syntax-KEYWORD1">FOR</span> <span class=
+"syntax-MARKUP">@i</span> in  <span class=
+"syntax-LITERAL4">~</span> <span class="syntax-OPERATOR">$[</span>
+<span class="gutter">  34 </span>       <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*****</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">property</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-MARKUP">@i</span>
+<span class="gutterH">  35 </span>       ux.<span class=
+"syntax-KEYWORD2">cim</span>.property.getName <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutter">  36 </span>       <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*****</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">property</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">name</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">  37 </span>       ux.<span class=
+"syntax-KEYWORD2">cim</span>.property.getValue <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutter">  38 </span>       <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*****</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">property</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">value</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">  39 </span>       ux.<span class=
+"syntax-KEYWORD2">cim</span>.property.hashCode <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutterH">  40 </span>       <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*****</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">property</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">hashcode</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">  41 </span>       ux.<span class=
+"syntax-KEYWORD2">cim</span>.property.isKey <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutter">  42 </span>       <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*****</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">property</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">key?</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutter">  43 </span>       ux.<span class=
+"syntax-KEYWORD2">cim</span>.property.isPropagated <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
+<span class="gutter">  44 </span>       <span class=
+"syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-s</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">*****</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">property</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">propagated?</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
+<span class="gutterH">  45 </span>   <span class=
+"syntax-OPERATOR">]$</span>
+<span class="gutter">  46 </span><span class=
 "syntax-OPERATOR">]$</span>
 </span>
 </pre>
@@ -3115,10 +3305,10 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="cimi"></a><code>cimi</code></h4>
 
   <blockquote>
-    <p><code>/0 [-to datasink] [--,-cimi @ciminstance] [-keys |
-    -key ~@{keyname} | -properties | -propint ~@{intindex} |
-    -propname ~@{name} | -path] : manipulate CIM
-    Instances</code></p>
+    <p><code>/0 [-to datasink] [--,-cimi @ciminstance] [-class |
+    -classname | -hashcode | -keys | -key ~@{keyname} | -properties
+    | -propint ~@{intindex} | -propname ~@{name} | -path] :
+    manipulate CIM Instances</code></p>
 
     <p>The <code>cimi</code> command manipulates CIM instances
     returned by the <a href="#cim"><code>cim</code></a> client. CIM
@@ -3130,6 +3320,14 @@ Type help for help. Type license for license. Type bye to exit.
     follows:</p>
 
     <ul>
+      <li><code>-class</code> puts the class of the instance.</li>
+
+      <li><code>-classname</code> puts the classname of the
+      instance.</li>
+
+      <li><code>-hashcode</code> puts the hashcode of the
+      instance.</li>
+
       <li><code>-keys</code> puts a collection of keys possessed by
       the instance.</li>
 

@@ -46,7 +46,7 @@ import ublu.util.CimUbluHelper;
 public class CmdCimi extends Command {
 
     {
-        setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-keys | -key ~@{keyname} | -properties | -propint ~@{intindex} | -propname ~@{name} | -path] : manipulate CIM Instances");
+        setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-class | -classname | -hashcode | -keys | -key ~@{keyname} | -properties | -propint ~@{intindex} | -propname ~@{name} | -path] : manipulate CIM Instances");
 
     }
 
@@ -54,6 +54,18 @@ public class CmdCimi extends Command {
      * the operations we know
      */
     protected enum OPS {
+        /**
+         * get class
+         */
+        CLASS,
+        /**
+         * get classname
+         */
+        CLASSNAME,
+        /**
+         * get hashcode
+         */
+        HASHCODE,
         /**
          * Get array of keys
          */
@@ -106,6 +118,15 @@ public class CmdCimi extends Command {
                 case "-cimi":
                     cIMInstance = argArray.nextTupleOrPop().value(CIMInstance.class);
                     break;
+                case "-class":
+                    op = OPS.CLASS;
+                    break;
+                case "-classname":
+                    op = OPS.CLASSNAME;
+                    break;
+                case "-hashcode":
+                    op = OPS.HASHCODE;
+                    break;
                 case "-keys":
                     op = OPS.KEYS;
                     break;
@@ -136,6 +157,30 @@ public class CmdCimi extends Command {
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
             if (cIMInstance != null) {
                 switch (op) {
+                    case CLASS:
+                        try {
+                            put(cIMInstance.getClass());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting class in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case CLASSNAME:
+                        try {
+                            put(cIMInstance.getClassName());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting classname in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case HASHCODE:
+                        try {
+                            put(cIMInstance.hashCode());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Error getting or putting hashcode in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
                     case KEYS:
                         try {
                             put(CimUbluHelper.getKeys(cIMInstance));
