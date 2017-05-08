@@ -32,6 +32,7 @@ import org.sblim.cimclient.internal.cim.CIMVersion;
 import ublu.util.Generics.StringArrayList;
 import ublu.util.Interpreter;
 import ublu.util.InterpreterLogger;
+import ublu.util.JVMHelper;
 
 /**
  * Main class of the interpretive application. Application controller.
@@ -39,6 +40,15 @@ import ublu.util.InterpreterLogger;
  * @author jwoehr
  */
 public class Ublu {
+
+    private JVMHelper jVMHelper = null;
+
+    public JVMHelper getJVMHelper() {
+        if (jVMHelper == null) {
+            jVMHelper = new JVMHelper();
+        }
+        return jVMHelper;
+    }
 
     /**
      * Our special logging instance that no, does NOT conform to Java design

@@ -50,12 +50,12 @@ public class CmdJVM extends Command {
     /**
      * Our operations
      */
-    protected static enum OPERATIONS {
+    protected static enum OPS {
 
         /**
-         * Create an instance of the JVMHelper
+         * Put the singleton instance of the JVMHelper
          */
-        INSTANCE,
+        GET_SINGLETON,
         /**
          * Do nothing
          */
@@ -69,6 +69,7 @@ public class CmdJVM extends Command {
      * @return the remainder of the arg array
      */
     public ArgArray cmdJvm(ArgArray argArray) {
+        OPS op = OPS.GET_SINGLETON;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -83,12 +84,16 @@ public class CmdJVM extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            JVMHelper jvmh = new JVMHelper();
-            try {
-                put(jvmh);
-            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                getLogger().log(Level.SEVERE, "Error putting JVMHelper instance in " + getNameAndDescription(), ex);
-                setCommandResult(COMMANDRESULT.FAILURE);
+            JVMHelper jvmh = getUblu().getJVMHelper();
+            switch (op) {
+                case GET_SINGLETON:
+                    try {
+                        put(jvmh);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting JVMHelper instance in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
             }
         }
         return argArray;

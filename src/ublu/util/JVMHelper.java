@@ -45,15 +45,15 @@ import java.util.Set;
  */
 public class JVMHelper {
 
-    private Set<Class<? extends PlatformManagedObject>> managementInterfaces;
+    private final Set<Class<? extends PlatformManagedObject>> MANAGEMENT_INTERFACES;
 
     /**
      * Display factors about JVM on which this program is running.
      */
     public JVMHelper() {
-        managementInterfaces = ManagementFactory.getPlatformManagementInterfaces();
+        MANAGEMENT_INTERFACES = ManagementFactory.getPlatformManagementInterfaces();
     }
-
+ 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -80,7 +80,7 @@ public class JVMHelper {
 
     private String displayManagementInterfaces() {
         StringBuilder sb = new StringBuilder();
-        Iterator it = managementInterfaces.iterator();
+        Iterator it = MANAGEMENT_INTERFACES.iterator();
         while (it.hasNext()) {
             Object pmo = it.next();
             sb.append(pmo.toString()).append('\n');
@@ -126,7 +126,7 @@ public class JVMHelper {
             sb.append(mxBean.getName());
             sb.append('\n').append(mxBean.getObjectName().toString()).append('\n');
             sb.append("Architecture:\t").append(mxBean.getArch()).append('\n');
-            sb.append("Operating System:\t").append(mxBean.getName()).append('\n');;
+            sb.append("Operating System:\t").append(mxBean.getName()).append('\n');
             sb.append("Version:\t").append(mxBean.getVersion()).append('\n');
             sb.append("Available Processors:\t").append(mxBean.getAvailableProcessors()).append('\n');
             sb.append("System Load Average:\t").append(mxBean.getSystemLoadAverage()).append('\n');
