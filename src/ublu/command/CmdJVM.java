@@ -44,7 +44,10 @@ import java.util.logging.Level;
 public class CmdJVM extends Command {
 
     {
-        setNameAndDescription("jvm", "/0 [-to @datasink] : display copious information on the Java platform on which this program is executing");
+        setNameAndDescription("jvm", "/0 [-to @datasink] [ -new | -gc ] : do gc or put an object "
+                + "whose string value is a display of copious information on the "
+                + "Java platform on which this program is "
+                + "executing");
     }
 
     /**
@@ -56,6 +59,10 @@ public class CmdJVM extends Command {
          * Put the singleton instance of the JVMHelper
          */
         GET_SINGLETON,
+        /**
+         * gc
+         */
+        GC,
         /**
          * Do nothing
          */
@@ -77,6 +84,12 @@ public class CmdJVM extends Command {
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
+                case "-new":
+                    op = OPS.GET_SINGLETON;
+                    break;
+                case "-gc":
+                    op = OPS.GC;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -86,6 +99,9 @@ public class CmdJVM extends Command {
         } else {
             JVMHelper jvmh = getUblu().getJVMHelper();
             switch (op) {
+                case GC:
+                    System.gc();
+                    break;
                 case GET_SINGLETON:
                     try {
                         put(jvmh);
