@@ -215,6 +215,13 @@ public class CimUbluHelper {
         return new CIMPropertyArrayList(cimi.getKeys());
     }
 
+    /**
+     * Find property by name
+     *
+     * @param list prop list
+     * @param name sought name
+     * @return prop or null
+     */
     public static CIMProperty getEntryByName(CIMPropertyArrayList list, String name) {
         CIMProperty result = null;
         for (CIMProperty cimp : list) {
@@ -273,7 +280,8 @@ public class CimUbluHelper {
         }
         return result;
     }
- /**
+
+    /**
      * Get key by name for instance
      *
      * @param cimi instance
@@ -291,6 +299,7 @@ public class CimUbluHelper {
         }
         return result;
     }
+
     /**
      * Return a Locale array that has the default locale as the first element.
      * The SBLIM CIM Client library make a buggy assumption in it that the first

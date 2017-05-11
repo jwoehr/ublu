@@ -47,7 +47,7 @@ import ublu.util.Generics.StringArrayList;
 public class StreamFileHelper {
 
     /**
-     *
+     * open mode
      */
     public enum MODE {
 

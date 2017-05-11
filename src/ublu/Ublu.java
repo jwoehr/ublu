@@ -43,6 +43,11 @@ public class Ublu {
 
     private JVMHelper jVMHelper = null;
 
+    /**
+     * Return singleton JVMHelper
+     *
+     * @return singleton
+     */
     public JVMHelper getJVMHelper() {
         if (jVMHelper == null) {
             jVMHelper = new JVMHelper();
