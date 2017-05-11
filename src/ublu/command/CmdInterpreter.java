@@ -32,7 +32,6 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import ublu.util.ArgArray;
 
 /**
@@ -43,20 +42,43 @@ import ublu.util.ArgArray;
 public class CmdInterpreter extends Command {
 
     {
-        setNameAndDescription("interpreter", "/0 : info on Ublu interpreter at the level this command is invoked");
+        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} : info on and control of Ublu interpreter at the level this command is invoked");
     }
 
     enum OPS {
-        ALL
+        ALL,
+        GET_LOCALE,
+        SET_LOCALE,
+        GET_MESSAGE
     }
 
     ArgArray doInterpreter(ArgArray argArray) {
         OPS op = OPS.ALL;
+        String language = null;
+        String country = null;
+        String messagekey = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
                     setDataDestfromArgArray(argArray);
+                    break;
+                case "-all":
+                    op = OPS.ALL;
+                    break;
+                case "":
+                    break;
+                case "-getlocale":
+                    op = OPS.GET_LOCALE;
+                    break;
+                case "-setlocale":
+                    op = OPS.SET_LOCALE;
+                    language = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    country = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-getmessage":
+                    op = OPS.GET_MESSAGE;
+                    messagekey = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -73,6 +95,7 @@ public class CmdInterpreter extends Command {
                         put("Break issued : " + getInterpreter().isBreakIssued());
                         put("History filename : " + getInterpreter().getHistoryFileName());
                         put("History manager : " + getInterpreter().getHistory());
+                        put("Local info : " + getLocaleHelper());
 
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception putting interpreter info in " + getNameAndDescription(), ex);
@@ -80,6 +103,27 @@ public class CmdInterpreter extends Command {
                     }
                 }
                 break;
+                case GET_LOCALE:
+                    try {
+                        put(getLocaleHelper().getCurrentLocale());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting locale info in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case GET_MESSAGE:
+                    try {
+                        put(getLocaleHelper().getString(messagekey));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting locale info in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+
+                    break;
+                case SET_LOCALE:
+                    setLocale(language, country);
+                    
+                    break;
             }
         }
         return argArray;

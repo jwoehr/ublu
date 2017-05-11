@@ -75,6 +75,23 @@ public class Interpreter {
     private Props props;
     private long paramSubIndex = 0;
     private int instanceDepth = 0;
+    private LocaleHelper localeHelper;
+
+    /**
+     *
+     * @return
+     */
+    public final LocaleHelper getLocaleHelper() {
+        return localeHelper;
+    }
+
+    /**
+     *
+     * @param localeHelper
+     */
+    public final void setLocaleHelper(LocaleHelper localeHelper) {
+        this.localeHelper = localeHelper;
+    }
 
     /**
      * Get the const map
@@ -870,6 +887,7 @@ public class Interpreter {
         props = new Props();
         myDBug = new DBug(this);
         constMap = new ConstMap();
+        setLocaleHelper(new LocaleHelper(null, null, "ublu.resource.MessageBundle"));
     }
 
     /**

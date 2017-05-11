@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ublu.util.LocaleHelper;
 
 /**
  * Superclass of all commands the interpreter understands.
@@ -692,5 +693,15 @@ public abstract class Command implements CommandInterface {
      */
     public void dbugmsg(String message) {
         getInterpreter().outputerrln(message);
+    }
+
+    public LocaleHelper getLocaleHelper() {
+        return getInterpreter().getLocaleHelper();
+    }
+
+    public void setLocale(String language, String country) {
+        LocaleHelper lh = getLocaleHelper();
+        lh.setLocale(language, country);
+        lh.resetMessageBundle();
     }
 }
