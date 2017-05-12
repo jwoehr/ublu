@@ -41,42 +41,47 @@ public class LocaleHelper {
     private ResourceBundle messages;
 
     /**
+     * get language
      *
-     * @return
+     * @return language
      */
     public String getLanguage() {
         return currentLocale.getLanguage();
     }
 
     /**
+     * get country
      *
-     * @return
+     * @return country
      */
     public String getCountry() {
         return currentLocale.getCountry();
     }
 
     /**
+     * get current locale
      *
-     * @return
+     * @return current locale
      */
     public Locale getCurrentLocale() {
         return currentLocale;
     }
 
     /**
+     * Get msg res bundle
      *
-     * @return
+     * @return msg res bundle
      */
     public ResourceBundle getMessages() {
         return messages;
     }
 
     /**
+     * Ctor/3
      *
-     * @param language
-     * @param country
-     * @param messageResourcePath
+     * @param language language
+     * @param country country
+     * @param messageResourcePath messageResourcePath
      */
     public LocaleHelper(String language, String country, String messageResourcePath) {
         setLocale(language, country);
@@ -84,9 +89,10 @@ public class LocaleHelper {
     }
 
     /**
+     * Get message for key
      *
-     * @param key
-     * @return
+     * @param key key
+     * @return message
      */
     public String getString(String key) {
         String result = null;
@@ -97,24 +103,26 @@ public class LocaleHelper {
     }
 
     /**
+     * set locale
      *
-     * @param language
-     * @param country
+     * @param language language
+     * @param country country
      */
     public final void setLocale(String language, String country) {
         currentLocale = new Locale(language == null ? "en" : language, country == null ? "US" : country);
     }
 
     /**
+     * instance active message bundle for given locale
      *
-     * @param messageResourcePath
+     * @param messageResourcePath path to messages
      */
     public final void setMessageBundle(String messageResourcePath) {
         this.messages = ResourceBundle.getBundle(messageResourcePath, currentLocale);
     }
 
     /**
-     *
+     * reinstance active message bundle for current locale
      */
     public final void resetMessageBundle() {
         setMessageBundle(getMessages().getBaseBundleName());
