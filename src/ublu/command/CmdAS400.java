@@ -261,7 +261,7 @@ public class CmdAS400 extends Command {
                             put(getAs400());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception putting the AS400 object " + getAs400() + " to the destination datasink in " + getNameAndDescription(), ex);
+                                    locMsg("Encountered_an_exception") + " " +  locMsg("putting_the_AS400_object") + " "  + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
@@ -275,7 +275,7 @@ public class CmdAS400 extends Command {
                             put(getAs400());
                         } catch (PropertyVetoException | RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception putting the AS400 object " + getAs400() + " to the destination datasink in " + getNameAndDescription(), ex);
+                                    locMsg("Encountered_an_exception") + " " +  locMsg("putting_the_AS400_object") + " "  + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -286,7 +286,7 @@ public class CmdAS400 extends Command {
                             put(getAs400().isConnectionAlive());
                         } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception putting the connection alive state of AS400 object " + getAs400() + " to the destination datasink in " + getNameAndDescription(), ex);
+                                    "Encountered an exception putting the connection alive state of AS400 object " + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
@@ -357,11 +357,11 @@ public class CmdAS400 extends Command {
                             put(getAs400().isConnected());
                         } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception putting the connected state of AS400 object " + getAs400() + " to the destination datasink in " + getNameAndDescription(), ex);
+                                    "Encountered an exception putting the connected state of AS400 object " + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of AS400 object {0}", inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
