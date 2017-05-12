@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -256,12 +256,12 @@ public class CmdAS400 extends Command {
             switch (operation) {
                 case INSTANCE:
                     if (getAs400() != null) {
-                        getLogger().log(Level.INFO, "AS400 object {0} already instanced.", getAs400());
+                        getLogger().log(Level.INFO, locMsg("AS400_object") + " {0} already instanced.", getAs400());
                         try {
                             put(getAs400());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE,
-                                    locMsg("Encountered_an_exception") + " " +  locMsg("putting_the_AS400_object") + " "  + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
+                                    locMsg("Encountered_an_exception") + " " + locMsg("putting_the_AS400_object") + " " + getAs400() + " " + locMsg("to_the_destination_datasink") + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
@@ -275,7 +275,7 @@ public class CmdAS400 extends Command {
                             put(getAs400());
                         } catch (PropertyVetoException | RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
-                                    locMsg("Encountered_an_exception") + " " +  locMsg("putting_the_AS400_object") + " "  + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
+                                    locMsg("Encountered_an_exception") + " " + locMsg("putting_the_AS400_object") + " " + getAs400() + " " + locMsg("to_the_destination_datasink") + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -286,11 +286,11 @@ public class CmdAS400 extends Command {
                             put(getAs400().isConnectionAlive());
                         } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception putting the connection alive state of AS400 object " + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
+                                    locMsg("Encountered_an_exception") + " " + locMsg("putting") + " the connection alive state of " + locMsg("AS400_object") + " " + getAs400() + " " + locMsg("to_the_destination_datasink") + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -301,15 +301,15 @@ public class CmdAS400 extends Command {
                             try {
                                 put(getAs400().isConnectionAlive(serviceInteger));
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Exception querying connection to service " + serviceName + " in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE,  locMsg("Encountered_an_exception") + " " + "querying connection to service " + serviceName + " in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "No AS400 object provided to query live connection to service in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to query live connection to service " + inNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to  query live connection to service in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to query live connection to service " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -320,15 +320,16 @@ public class CmdAS400 extends Command {
                             try {
                                 getAs400().connectService(serviceInteger);
                             } catch (AS400SecurityException | IOException ex) {
-                                getLogger().log(Level.SEVERE, "Exception connecting to service in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Exception connecting to service " + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "No AS400 object provided to connect service in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to connect service " + inNameAndDescription()
+                            );
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to connect service in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to connect service " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -343,11 +344,11 @@ public class CmdAS400 extends Command {
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "No AS400 object provided to query connection to service in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to query connection to service " + inNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to  query connection to service in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to  query connection to service " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -357,11 +358,11 @@ public class CmdAS400 extends Command {
                             put(getAs400().isConnected());
                         } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception putting the connected state of AS400 object " + getAs400() + " " + locMsg("to_the_destination_datasink") +  inNameAndDescription(), ex);
+                                    "Encountered an exception putting the connected state of " + locMsg("AS400_object") + getAs400() + " " + locMsg("to_the_destination_datasink") + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object {0}", inNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of" + locMsg("AS400_object") + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -369,7 +370,7 @@ public class CmdAS400 extends Command {
                     if (getAs400() != null) {
                         getAs400().disconnectAllServices();
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -379,11 +380,11 @@ public class CmdAS400 extends Command {
                         if (getAs400() != null) {
                             getAs400().disconnectService(serviceInteger);
                         } else {
-                            getLogger().log(Level.SEVERE, "No AS400 object provided to disconnect service in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to disconnect service " + inNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to disconnect service in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to disconnect service " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -392,11 +393,11 @@ public class CmdAS400 extends Command {
                         try {
                             put(getAs400().isLocal());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't put result of -local in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE, "Couldn't put result of -local " + inNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -local in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " for -local " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -411,11 +412,11 @@ public class CmdAS400 extends Command {
                         try {
                             put(jping.ping());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't put result of AS400 ping in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE, "Couldn't put result of AS400 ping " + inNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to ping service in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to ping service " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -429,11 +430,12 @@ public class CmdAS400 extends Command {
                                 getLogger().log(Level.SEVERE, "Exception putting service port number", ex);
                             }
                         } else {
-                            getLogger().log(Level.SEVERE, "No instance of AS400 object to set service port in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " to set service port " + inNameAndDescription()
+                            );
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to service port in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to service port " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -443,11 +445,11 @@ public class CmdAS400 extends Command {
                         try {
                             getAs400().setIASPGroup(aspGroup, curLib, libListArray.toStringArray());
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Error setting ASP group / current library / library list in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error setting ASP group / current library / library list " + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object to set ASP group / current library / library list in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " to set ASP group / current library / library list " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -457,11 +459,11 @@ public class CmdAS400 extends Command {
                         if (getAs400() != null) {
                             getAs400().setServicePort(serviceInteger, servicePort);
                         } else {
-                            getLogger().log(Level.SEVERE, "No instance of AS400 object to set service port in {0}", getNameAndDescription());
+                            getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " to set service port " + inNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "Unknown service name provided to service port in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "Unknown service name provided to service port " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -469,7 +471,7 @@ public class CmdAS400 extends Command {
                     if (getAs400() != null) {
                         getAs400().setServicePortsToDefault();
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object to set service ports to default in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " to set service ports to default " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -478,11 +480,11 @@ public class CmdAS400 extends Command {
                         try {
                             getAs400().setProxyServer(proxyServer);
                         } catch (PropertyVetoException ex) {
-                            getLogger().log(Level.SEVERE, "Couldn't set proxy server in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Couldn't set proxy server " + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No AS400 object provided to proxy in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to proxy " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -490,15 +492,16 @@ public class CmdAS400 extends Command {
                     if (getAs400() != null) {
                         getAs400().setMustUseSockets(useSockets);
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -sockets in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " for -sockets " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+
                 case USENETSOCKETS:
                     if (getAs400() != null) {
                         getAs400().setMustUseNetSockets(useNetSockets);
                     } else {
-                        getLogger().log(Level.SEVERE, "No instance of AS400 object for -netsockets in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, "No instance of " + locMsg("AS400_object") + " for -netsockets " + inNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -511,7 +514,8 @@ public class CmdAS400 extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No AS400 object provided to validate login in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to validate login " + inNameAndDescription()
+                        );
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -524,7 +528,8 @@ public class CmdAS400 extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
-                        getLogger().log(Level.SEVERE, "No AS400 object provided to VRM in {0}", getNameAndDescription());
+                        getLogger().log(Level.SEVERE,  locMsg("No") + " " + locMsg("AS400_object") + " provided to VRM " + inNameAndDescription()
+                        );
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
