@@ -695,13 +695,34 @@ public abstract class Command implements CommandInterface {
         getInterpreter().outputerrln(message);
     }
 
+    /**
+     * Get the singleton Ublu locale helper
+     *
+     * @return the singleton Ublu locale helper
+     */
     public LocaleHelper getLocaleHelper() {
         return getInterpreter().getLocaleHelper();
     }
 
+    /**
+     * Set locale for the singleton Ublu locale helper
+     *
+     * @param language e.g "en"
+     * @param country e.g., "US"
+     */
     public void setLocale(String language, String country) {
         LocaleHelper lh = getLocaleHelper();
         lh.setLocale(language, country);
         lh.resetMessageBundle();
+    }
+
+    /**
+     * Get a localized message from the resource bundle
+     *
+     * @param key msg key
+     * @return msg
+     */
+    public String locMsg(String key) {
+        return getLocaleHelper().getString(key);
     }
 }

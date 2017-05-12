@@ -161,7 +161,7 @@ public class CmdCimi extends Command {
                         try {
                             put(cIMInstance.getClass());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting class in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " class in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -169,7 +169,7 @@ public class CmdCimi extends Command {
                         try {
                             put(cIMInstance.getClassName());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting classname in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " classname in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -177,7 +177,7 @@ public class CmdCimi extends Command {
                         try {
                             put(cIMInstance.hashCode());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting hashcode in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " hashcode in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -185,7 +185,7 @@ public class CmdCimi extends Command {
                         try {
                             put(CimUbluHelper.getKeys(cIMInstance));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting keys in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " keys in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -193,7 +193,7 @@ public class CmdCimi extends Command {
                         try {
                             put(CimUbluHelper.getKeyByName(cIMInstance, keyName));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting key by name in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " key by name in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -201,7 +201,7 @@ public class CmdCimi extends Command {
                         try {
                             put(cIMInstance.getObjectPath());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting object path in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " object path in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -209,7 +209,7 @@ public class CmdCimi extends Command {
                         try {
                             put(CimUbluHelper.getPropByName(cIMInstance, propName));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting prop by name in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " prop by name in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -217,7 +217,7 @@ public class CmdCimi extends Command {
                         try {
                             put(CimUbluHelper.getPropByInt(cIMInstance, propInt));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting prop by int in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " prop by int in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -225,7 +225,7 @@ public class CmdCimi extends Command {
                         try {
                             put(CimUbluHelper.getProps(cIMInstance));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting or putting props in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting_or_putting") + " props in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;

@@ -225,21 +225,21 @@ public class CmdCim extends Command {
                     try {
                         cimUbluHelper = new CimUbluHelper();
                     } catch (WBEMException ex) {
-                        getLogger().log(Level.SEVERE, "Error creating CimUbluHelper in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, locMsg("Error_creating") + " CimUbluHelper in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     if (getCommandResult() != COMMANDRESULT.FAILURE) {
                         try {
                             put(cimUbluHelper);
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting CimUbluHelper in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_putting") + " CimUbluHelper in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
                 case CLOSE:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -close", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -close in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         cimUbluHelper.close();
@@ -250,13 +250,13 @@ public class CmdCim extends Command {
                     try {
                         put(objectPath);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error putting CIMObjectPath in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, locMsg("Error_putting") + " CIMObjectPath in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case CRED:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -cred", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -cred  in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         Subject subject = cimUbluHelper.getSubject();
@@ -266,7 +266,7 @@ public class CmdCim extends Command {
                     break;
                 case INIT:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -init", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -init in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
@@ -279,20 +279,20 @@ public class CmdCim extends Command {
                     break;
                 case EC:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -ec", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -ec in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
                             arrayList = cimUbluHelper.enumerateClasses(objectPath, pDeep);
                         } catch (WBEMException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting instance names in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting") + " instance names in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
                             try {
                                 put(arrayList);
                             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting instance names in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, locMsg("Error_putting") + " instance names in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
@@ -300,20 +300,20 @@ public class CmdCim extends Command {
                     break;
                 case EI:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -ei", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -ei in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
                             arrayList = cimUbluHelper.enumerateInstanceNames(objectPath);
                         } catch (WBEMException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting CIM instance names in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting") + " CIM instance names in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
                             try {
                                 put(arrayList);
                             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting CIM instance names in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, locMsg("Error_putting") + " CIM instance names in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
@@ -321,20 +321,20 @@ public class CmdCim extends Command {
                     break;
                 case GI:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -gi", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -gi  in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         try {
                             instance = cimUbluHelper.getInstance(objectPath, pLocalOnly, pIncludeClassOrigin, stringPropertyList);
                         } catch (WBEMException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting CIM instance in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, locMsg("Error_getting") + " CIM instance in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
                             try {
                                 put(instance);
                             } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting CIM instance in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, locMsg("Error_putting") + " CIM instance in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
@@ -342,7 +342,7 @@ public class CmdCim extends Command {
                     break;
                 case TRACE:
                     if (cimUbluHelper == null) {
-                        getLogger().log(Level.SEVERE, "Null client in {0} for -trace", getNameAndDescription());
+                        getLogger().log(Level.SEVERE, locMsg("Null_client") + " for -trace in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         cimUbluHelper.trace(traceTF);
