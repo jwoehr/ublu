@@ -374,6 +374,15 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
+     * String " in " +  commandName and commandDescription
+     *
+     * @return String " in " +  commandName and commandDescription
+     */
+    public final String inNameAndDescription() {
+        return " in " + getNameAndDescription();
+    }
+
+    /**
      * Set up the Command's instance data for command instance use.
      * <p>
      * Originally in the code the instances were re-used. So {@code reinit()} is
