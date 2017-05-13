@@ -2,11 +2,15 @@
 
 <html>
 <head>
-  <meta name="generator" content="Bluefish 2.2.7" >
+  <meta name="generator" content=
+  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 8 May 2017 15:46:03 UTC">
+  "Mon, 15 May 2017 5:46:03 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -58,7 +62,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-05-08</p>
+  Last edit: 2017-05-14</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -311,6 +315,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <li><a href="#ifs"><tt>ifs<br></tt></a></li>
 
             <li><tt><a href="#interpret">interpret</a></tt></li>
+
+            <li><tt><a href=
+            "#interpreter_cmd">interpreter</a></tt></li>
 
             <li><a href="#include"><tt>include</tt></a></li>
 
@@ -1878,6 +1885,7 @@ Type help for help. Type license for license. Type bye to exit.
         "#IF">IF</a></tt><tt><br></tt> <tt><a href=
         "#include">include</a></tt><tt><br></tt> <tt><a href=
         "#interpret">interpret</a></tt><tt><br></tt> <tt><a href=
+        "#interpreter_cmd">interpreter</a></tt> <tt><a href=
         "#LOCAL">LOCAL</a></tt><tt><br></tt> <tt><a href=
         "#lifo">lifo</a></tt><tt><br></tt> <tt><a href=
         "#list">list</a></tt><tt><br></tt> <tt><a href=
@@ -7978,6 +7986,35 @@ PF
     bye</tt><br>
   </blockquote>
 
+  <h4><a name="interpreter_cmd" id=
+  "interpreter_cmd"></a><tt>interpreter</tt></h4>
+
+  <blockquote>
+    <code>/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} |
+    -getmessage ~@{key} : info on and control of Ublu interpreter
+    at the level this command is invoked</code>
+
+    <p>The <code>interpreter</code> command relates to the current
+    level of the Ublu <a href="#Interpreter">interpreter</a>.</p>
+
+    <ul>
+      <li><code>-all</code> displays general information about the
+      current level of the interpreter.</li>
+
+      <li><code>-getlocale</code> puts the locale object for the
+      current level of interpreter.</li>
+
+      <li><code>-setlocale ~@{lang} ~@{country}</code> sets the
+      locale for the current level of interpreter. This is
+      inherited by subsequently instanced more deeply nested levels
+      of the interpreter.</li>
+
+      <li><code>-getmessage ~@{key}</code> returns the
+      local-specifc message for the given key, useful in testing
+      the Ublu interpreter during development of Ublu itself.</li>
+    </ul>
+  </blockquote>
+
   <h4><a name="include" id="include"></a><tt>include</tt></h4>
 
   <blockquote>
@@ -9711,8 +9748,8 @@ PF
 
       <li><tt>-drop</tt> removes TOS</li>
 
-      <li><tt>-show</tt> shows the tuple names (possibly null) of all entries
-      on the stack. This is the default operation</li>
+      <li><tt>-show</tt> shows the tuple names (possibly null) of
+      all entries on the stack. This is the default operation</li>
 
       <li><tt>-true</tt> pushes <tt>true</tt> to the stack.</li>
 
