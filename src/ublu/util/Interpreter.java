@@ -848,6 +848,7 @@ public class Interpreter {
         setMyUblu(i.getMyUblu());
         setProps(i.getProps());
         constMap = new ConstMap(i.constMap);
+        setLocaleHelper(new LocaleHelper(i.localeHelper));
     }
 
     /**

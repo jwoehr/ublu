@@ -77,6 +77,12 @@ public class LocaleHelper {
     }
 
     /**
+     * not used
+     */
+    private LocaleHelper() {
+    }
+
+    /**
      * Ctor/3
      *
      * @param language language
@@ -86,6 +92,16 @@ public class LocaleHelper {
     public LocaleHelper(String language, String country, String messageResourcePath) {
         setLocale(language, country);
         setMessageBundle(messageResourcePath);
+    }
+
+    /**
+     * Copy Ctor
+     *
+     * @param lh model
+     */
+    public LocaleHelper(LocaleHelper lh) {
+        setLocale(lh.currentLocale.getLanguage(), lh.currentLocale.getCountry());
+        setMessageBundle(lh.messages.getBaseBundleName());
     }
 
     /**
@@ -125,7 +141,7 @@ public class LocaleHelper {
      * reinstance active message bundle for current locale
      */
     public final void resetMessageBundle() {
-        setMessageBundle(getMessages().getBaseBundleName());
+        setMessageBundle(messages.getBaseBundleName());
     }
 
     @Override
