@@ -113,7 +113,6 @@ public class CmdOutQ extends Command {
         OutputQueue outQ = null;
         String clearOptName = "";
         String clearOptValue = "";
-        String infoparm = "";
         String attributeName = null;
         Integer attr_int = null;
         while (argArray.hasDashCommand()) {
