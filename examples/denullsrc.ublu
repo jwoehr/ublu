@@ -1,0 +1,57 @@
+# denullsrc.ublu ... type out a program source member of a record file
+# Example from Ublu https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Given a server and a fully qualified IFS path to a source member
+# remove nulls and PC control characters from a source physical file member,
+# e.g., 
+#   denullsrc ( @mysys /QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR 92 )
+# where ...
+#       ... @mysys is an as400 object.
+#       ... /QSYS.LIB/etc. is the IFS path to a source physical file member
+#       ... 92 is the src pf record length (whatever)
+# Actually, nulls turn to 0x20 on reading to and writing from an ASCII machine.
+# Typically the problem is removing any CR or LF.
+# This denulling won't work if run natively on IBM i.
+FUNC denullsrc ( sys fqp reclen ) $[
+    LOCAL @f LOCAL @rec LOCAL @field
+    LOCAL @CR LOCAL @BL LOCAL @LF LOCAL @CTRL-Z   
+    string -to @CR -unescape \r
+    string -to @BL -unescape \u0020
+    string -to @CTRL-Z -unescape \u001a
+    string -to @LF -unescape \n
+    
+    file -as400 @@sys -to @f -keyed @@fqp
+    @f -open  RW
+    
+    TRY $[
+        @f -pos B
+        @f -to @rec -read NEXT
+    
+        test -to ~ -nnull @rec
+        WHILE ~ $[
+            @rec -to ~ -getfieldbyname SRCDTA
+            lifo -dup
+            ~ -to ~ -startswith @CTRL-Z
+            IF ~ THEN $[  
+                lifo -to NULL: -pop
+                string -to ~
+                ~ -to ~ -bls @@reclen
+                @rec -setfieldbyname SRCDTA ~
+                @f -update @rec
+                BREAK
+            ]$
+              ~ -to ~ -repl1 @CR @BL
+              ~ -to ~ -repl1 @LF @BL
+              @rec -setfieldbyname SRCDTA ~
+              @f -update @rec
+              @f -to @rec -read NEXT
+              test -to ~ -nnull @rec
+        ]$
+    ]$ CATCH $[
+        put ${ An error occurred, file will close. }$
+    ]$
+      
+    @f -close
+]$
