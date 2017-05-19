@@ -1,6 +1,6 @@
 # denullsrc.ublu ... type out a program source member of a record file
 # Example from Ublu https://github.com/jwoehr/ublu
-# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
 # Given a server and a fully qualified IFS path to a source member
