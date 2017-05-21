@@ -49,12 +49,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} n | -cat ~@{string1} ~@{string2} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@intoffset ~@intend | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] : string operations");
+                "/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} ~@{n} | -cat ~@{string1} ~@{string2} | -charat ~@{intoffset} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@{intoffset} ~@{intend} | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] : string operations");
     }
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, PAD, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE
+        UCHAR, BL, BLS, CAT, CHARAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, PAD, REPL, REPL1, REPLREGX, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE
     }
 
     /**
@@ -97,12 +97,17 @@ public class CmdString extends Command {
                 case "-bls":
                     operation = OPERATIONS.BLS;
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
-                    fillcount = argArray.nextIntMaybeTupleString();
+                    fillcount = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-cat":
                     operation = OPERATIONS.CAT;
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     ropr = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-charat":
+                    operation = OPERATIONS.CHARAT;
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
+                    beginindex = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-eq":
                     operation = OPERATIONS.EQ;
@@ -160,8 +165,8 @@ public class CmdString extends Command {
                 case "-substr":
                     operation = OPERATIONS.SUBSTR;
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
-                    beginindex = argArray.nextInt();
-                    endindex = argArray.nextInt();
+                    beginindex = argArray.nextIntMaybeQuotationTuplePopString();
+                    endindex = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-tobytes":
                     operation = OPERATIONS.TOBYTES;
@@ -213,6 +218,9 @@ public class CmdString extends Command {
                     break;
                 case CAT:
                     opresult = lopr + ropr;
+                    break;
+                case CHARAT:
+                    opresult = lopr.charAt(beginindex);
                     break;
                 case ESCAPE: {
                     StringBuilder output = new StringBuilder();

@@ -143,6 +143,11 @@ FUNC ux.format.getRecordFormatType ( fmt ) $[
 ]$
 
 # Sets the delimiter.
+FUNC ux.format.setDelimiter ( delim )
+    @@delim -to ~ -substring 0 1
+    calljava -to ~ -- @@fmt -method setDelimiter
+]$
+  
 # Sets the field on which a dependent field depends.
 # Sets the field on which a dependent field depends.
 # Sets the name of this record format.

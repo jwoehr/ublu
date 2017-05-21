@@ -1,0 +1,64 @@
+int 	getIndexOfFieldName(String name)
+Pushes to tuple stack the index of the field description named name.
+int 	getIndexOfKeyFieldName(String name)
+Pushes to tuple stack the index of the field description of the key field named name.
+FieldDescription 	getKeyFieldDescription(int index)
+Pushes to tuple stack the field description of the key field at the specified index.
+FieldDescription 	getKeyFieldDescription(String name)
+Pushes to tuple stack the field description of the key field with the specified name.
+FieldDescription[] 	getKeyFieldDescriptions()
+Pushes to tuple stack the key field descriptions that make up this object.
+String[] 	getKeyFieldNames()
+Pushes to tuple stack the names of the field descriptions of the keys that make up this record format.
+int 	getLengthDependency(int index)
+Pushes to tuple stack the index of the field description on which the field description at the specified index depends.
+int 	getLengthDependency(String name)
+Pushes to tuple stack the index of the field description on which the field description with the specified name depends.
+String 	getName()
+Pushes to tuple stack the name of this record format.
+Record 	getNewRecord()
+Pushes to tuple stack a new record based on this record format, which contains default values for the contents of the fields.
+Record 	getNewRecord(byte[] contents)
+Pushes to tuple stack a new record based on this record format, which contains data from the specified byte array.
+Record 	getNewRecord(byte[] contents, int offset)
+Pushes to tuple stack a new record based on this record format, which contains data from the specified byte array.
+Record 	getNewRecord(byte[] contents, int offset, String recordName)
+Pushes to tuple stack a new record based on this record format, which contains data from the specified byte array.
+Record 	getNewRecord(byte[] contents, String recordName)
+Pushes to tuple stack a new record based on this record format, which contains data from the specified byte array.
+Record 	getNewRecord(String recordName)
+Pushes to tuple stack a new record based on this record format, which contains default values for the contents of the fields.
+int 	getNumberOfFields()
+Pushes to tuple stack the number of field descriptions in this record format.
+int 	getNumberOfKeyFields()
+Pushes to tuple stack the number of key field descriptions in this record format.
+int 	getOffsetDependency(int index)
+Pushes to tuple stack the index of the field description on which the field description at the specified index depends.
+int 	getOffsetDependency(String name)
+Pushes to tuple stack the index of the field description on which the field description with the specified name depends.
+String 	getRecordFormatID()
+Pushes to tuple stack the record format ID.
+int 	getRecordFormatType()
+Pushes to tuple stack the record format type.
+void 	removePropertyChangeListener(PropertyChangeListener listener)
+Removes a listener from the change list.
+void 	removeRecordDescriptionListener(RecordDescriptionListener listener)
+Removes a listener from the record description listeners list.
+void 	removeVetoableChangeListener(VetoableChangeListener listener)
+Removes a listener from the veto change listeners list.
+void 	setDelimiter(char delimiter)
+Sets the delimiter.
+void 	setLengthDependency(int dependentField, int fieldDependedOn)
+Sets the field on which a dependent field depends.
+void 	setLengthDependency(String dependentField, String fieldDependedOn)
+Sets the field on which a dependent field depends.
+void 	setName(String name)
+Sets the name of this record format.
+void 	setOffsetDependency(int dependentField, int fieldDependedOn)
+Sets the field on which a dependent field depends.
+void 	setOffsetDependency(String dependentField, String fieldDependedOn)
+Sets the field on which a dependent field depends.
+void 	setRecordFormatID(String id)
+Sets the record format ID.
+void 	setRecordFormatType(int type)
+Sets the record format type. }$

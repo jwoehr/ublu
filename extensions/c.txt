@@ -1,0 +1,128 @@
+# int getIndexOfFieldName ( String
+FUNC ux.format.getIndexOfFieldName ( String $[
+    calljava -to ~ -- @@fmt -method getIndexOfFieldName ( String
+]$
+# int getIndexOfKeyFieldName ( String
+FUNC ux.format.getIndexOfKeyFieldName ( String $[
+    calljava -to ~ -- @@fmt -method getIndexOfKeyFieldName ( String
+]$
+# FieldDescription getKeyFieldDescription ( int
+FUNC ux.format.getKeyFieldDescription ( int $[
+    calljava -to ~ -- @@fmt -method getKeyFieldDescription ( int
+]$
+# FieldDescription getKeyFieldDescription ( String
+FUNC ux.format.getKeyFieldDescription ( String $[
+    calljava -to ~ -- @@fmt -method getKeyFieldDescription ( String
+]$
+# FieldDescription[] getKeyFieldDescriptions ( )
+FUNC ux.format.getKeyFieldDescriptions ( ) $[
+    calljava -to ~ -- @@fmt -method getKeyFieldDescriptions ( )
+]$
+# String[] getKeyFieldNames ( )
+FUNC ux.format.getKeyFieldNames ( ) $[
+    calljava -to ~ -- @@fmt -method getKeyFieldNames ( )
+]$
+# int getLengthDependency ( int
+FUNC ux.format.getLengthDependency ( int $[
+    calljava -to ~ -- @@fmt -method getLengthDependency ( int
+]$
+# int getLengthDependency ( String
+FUNC ux.format.getLengthDependency ( String $[
+    calljava -to ~ -- @@fmt -method getLengthDependency ( String
+]$
+# String getName ( )
+FUNC ux.format.getName ( ) $[
+    calljava -to ~ -- @@fmt -method getName ( )
+]$
+# Record getNewRecord ( )
+FUNC ux.format.getNewRecord ( ) $[
+    calljava -to ~ -- @@fmt -method getNewRecord ( )
+]$
+# Record getNewRecord ( byte[]
+FUNC ux.format.getNewRecord ( byte[] $[
+    calljava -to ~ -- @@fmt -method getNewRecord ( byte[]
+]$
+# Record getNewRecord ( byte[]
+FUNC ux.format.getNewRecord ( byte[] $[
+    calljava -to ~ -- @@fmt -method getNewRecord ( byte[]
+]$
+# Record getNewRecord ( byte[]
+FUNC ux.format.getNewRecord ( byte[] $[
+    calljava -to ~ -- @@fmt -method getNewRecord ( byte[]
+]$
+# Record getNewRecord ( byte[]
+FUNC ux.format.getNewRecord ( byte[] $[
+    calljava -to ~ -- @@fmt -method getNewRecord ( byte[]
+]$
+# Record getNewRecord ( String
+FUNC ux.format.getNewRecord ( String $[
+    calljava -to ~ -- @@fmt -method getNewRecord ( String
+]$
+# int getNumberOfFields ( )
+FUNC ux.format.getNumberOfFields ( ) $[
+    calljava -to ~ -- @@fmt -method getNumberOfFields ( )
+]$
+# int getNumberOfKeyFields ( )
+FUNC ux.format.getNumberOfKeyFields ( ) $[
+    calljava -to ~ -- @@fmt -method getNumberOfKeyFields ( )
+]$
+# int getOffsetDependency ( int
+FUNC ux.format.getOffsetDependency ( int $[
+    calljava -to ~ -- @@fmt -method getOffsetDependency ( int
+]$
+# int getOffsetDependency ( String
+FUNC ux.format.getOffsetDependency ( String $[
+    calljava -to ~ -- @@fmt -method getOffsetDependency ( String
+]$
+# String getRecordFormatID ( )
+FUNC ux.format.getRecordFormatID ( ) $[
+    calljava -to ~ -- @@fmt -method getRecordFormatID ( )
+]$
+# int getRecordFormatType ( )
+FUNC ux.format.getRecordFormatType ( ) $[
+    calljava -to ~ -- @@fmt -method getRecordFormatType ( )
+]$
+# void removePropertyChangeListener ( PropertyChangeListener
+FUNC ux.format.removePropertyChangeListener ( PropertyChangeListener $[
+    calljava -to ~ -- @@fmt -method removePropertyChangeListener ( PropertyChangeListener
+]$
+# void removeRecordDescriptionListener ( RecordDescriptionListener
+FUNC ux.format.removeRecordDescriptionListener ( RecordDescriptionListener $[
+    calljava -to ~ -- @@fmt -method removeRecordDescriptionListener ( RecordDescriptionListener
+]$
+# void removeVetoableChangeListener ( VetoableChangeListener
+FUNC ux.format.removeVetoableChangeListener ( VetoableChangeListener $[
+    calljava -to ~ -- @@fmt -method removeVetoableChangeListener ( VetoableChangeListener
+]$
+# void setDelimiter ( char
+FUNC ux.format.setDelimiter ( char $[
+    calljava -to ~ -- @@fmt -method setDelimiter ( char
+]$
+# void setLengthDependency ( int
+FUNC ux.format.setLengthDependency ( int $[
+    calljava -to ~ -- @@fmt -method setLengthDependency ( int
+]$
+# void setLengthDependency ( String
+FUNC ux.format.setLengthDependency ( String $[
+    calljava -to ~ -- @@fmt -method setLengthDependency ( String
+]$
+# void setName ( String
+FUNC ux.format.setName ( String $[
+    calljava -to ~ -- @@fmt -method setName ( String
+]$
+# void setOffsetDependency ( int
+FUNC ux.format.setOffsetDependency ( int $[
+    calljava -to ~ -- @@fmt -method setOffsetDependency ( int
+]$
+# void setOffsetDependency ( String
+FUNC ux.format.setOffsetDependency ( String $[
+    calljava -to ~ -- @@fmt -method setOffsetDependency ( String
+]$
+# void setRecordFormatID ( String
+FUNC ux.format.setRecordFormatID ( String $[
+    calljava -to ~ -- @@fmt -method setRecordFormatID ( String
+]$
+# void setRecordFormatType ( int
+FUNC ux.format.setRecordFormatType ( int $[
+    calljava -to ~ -- @@fmt -method setRecordFormatType ( int
+]$
