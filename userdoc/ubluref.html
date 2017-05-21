@@ -8,6 +8,7 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -3315,8 +3316,9 @@ Type help for help. Type license for license. Type bye to exit.
 
     <p>The <code>cimi</code> command manipulates CIM instances
     returned by the <a href="#cim"><code>cim</code></a> client. CIM
-    instances are autonomic or can be provided to the
-    <code>cimi</code> command via <code>--,-cimi
+    instances are <a href=
+    "#Autonomic_Tuple_Variables">autonomic</a> or can be provided
+    to the <code>cimi</code> command via <code>--,-cimi
     @ciminstance</code>.</p>
 
     <p>The <a href="#Dash_Command">dash-command</a>s are as
@@ -11920,9 +11922,13 @@ PF
     <br>
     Once instanced, the record is reference via the <tt>--</tt> or
     <tt>-record</tt> dash-command.<br>
-    <br>
-    The <a href="#Dash_Command">dash-command</a> operations are as
-    follows:<br>
+
+    <p><code>record</code> objects are <a href=
+    "#Autonomic_Tuple_Variables">autonomic</a>.</p>
+
+    <p>Ublu provides extensions to handle record formats in the
+    file <code>extensions/ux.format.ublu</code></p>The <a href=
+    "#Dash_Command">dash-command</a> operations are as follows:<br>
 
     <ul>
       <li><tt>-new</tt> instances a new record. This is the
