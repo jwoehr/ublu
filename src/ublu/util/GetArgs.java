@@ -301,7 +301,7 @@ public class GetArgs {
      * @return An Iterator on the array of Argument objects representing
      * dash-introduced options
      */
-    public Iterator optionIterator() {
+    public Iterator<Argument> optionIterator() {
         return optList.iterator();
     }
 
@@ -312,8 +312,21 @@ public class GetArgs {
      * @return An Iterator on the array of Argument objects representing plain
      * arguments
      */
-    public Iterator argumentIterator() {
+    public Iterator<Argument> argumentIterator() {
         return argList.iterator();
+    }
+
+    public Boolean containsOpt(String optname) {
+        Boolean result = null;
+        Iterator<Argument> it = optionIterator();
+        while (it.hasNext()) {
+            Argument a = it.next();
+            if (a.getOption().equals(optname)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -376,13 +389,10 @@ public class GetArgs {
                     if (a.argument != null) {
                         g.setOptionIntroducers(a.argument);
                     }
-                    /* End if*/
                 }
-                /* End if*/
             }
-            /* End for*/
 
- /* Now show the arguments. */
+            /* Now show the arguments. */
             System.out.println("Arguments");
             System.out.println("---------");
             for (i = 0; i < g.argumentCount(); i++) {
@@ -391,18 +401,18 @@ public class GetArgs {
                 System.out.println("  position is " + a.position);
                 System.out.println("---------");
             }
-            /* End for*/
 
- /* Get another line from user if we're not done. */
+            /* Did options contain the -x option? */
+            System.out.println("Contains -x option was " + g.containsOpt("-x"));
+            /* Get another line from user if we're not done. */
             if (!quitFlag) {
                 /* Get a new line. */
                 try {
                     st = new StringTokenizer(br.readLine());
-                } /* End try*/ catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace(System.err);
                 }
-                /* End catch*/
- /* Process the line/ */
+                /* Process the line/ */
                 ss = new String[st.countTokens()];
                 for (int j = 0; j < ss.length; j++) {
                     ss[j] = st.nextToken();
@@ -410,19 +420,13 @@ public class GetArgs {
                 g.reinit(ss);
                 /* arg-ize new input*/
             }
-            /* End if*/
         }
-        /* End while*/
- /* We're done, clean up. */
+
+        /* We're done, clean up. */
         try {
             br.close();
         } /* End try*/ catch (Exception e) {
             e.printStackTrace(System.err);
         }
-        /* End catch*/
     }
-    /* End of main*/
 }
-/* End of GetArgs class*/
-
- /* End of GetArgs.java */
