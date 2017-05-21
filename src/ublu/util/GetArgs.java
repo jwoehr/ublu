@@ -68,9 +68,9 @@ import java.util.*;
  * @author jax
  * @see ublu.util.Argument
  */
-public class GetArgs  {
+public class GetArgs {
 
-      /**
+    /**
      * Holds the Argument objects, as many as parsed.
      */
     private Vector optList, argList;
@@ -117,8 +117,8 @@ public class GetArgs  {
             for (i = 0; i < argv.length; i++) {
                 tempOpt = argv[i].trim();
                 if (isOptionIntroducer(tempOpt.charAt(0))) /* Is this an option?*/ {
-                    theOpt
-                            =/* Record option, introducer plus second char, if any.*/ tempOpt.substring(0, Math.min(2, tempOpt.length()));
+                    theOpt = tempOpt.substring(0, Math.min(2, tempOpt.length()));
+                    /* Record option, introducer plus second char, if any.*/
 
                     if (tempOpt.length() > 2) /* Is the optarg in the option itself?*/ {/* If so, extract that option argument.*/
                         tempArg = tempOpt.substring(2, tempOpt.length());
@@ -126,19 +126,22 @@ public class GetArgs  {
                         if ((i + 1) < argv.length) /* Do we have another lex elem left?*/ {
                             tempArg = argv[i + 1].trim();/* Next lex an option on its own?*/
                             if (isOptionIntroducer(tempArg.charAt(0))) {
-                                tempArg = null;/* Yup, so previous option is null-arged.*/
+                                if (tempArg.length() > 1 && isOptionIntroducer(tempArg.charAt(1))) /* is this a double-introducer? */ {
+                                    i++;
+                                    /* indicates null option arg, so hop past */
+                                }
+                                tempArg = null;/* In any case, previous option is null-arged.*/
+
                             } else /* No, it's not an option, so must be arg to previous opt.*/ {/* (We already read it into tempArg.)*/
                                 i++;
                                 /* Bump index past this lexical element.*/
                             }
-                            /* End if*/
                         } else /* Command line is exhausted.*/ {
                             tempArg = null;
                             /* No arg to the opt.*/
                         }
-                        /* End if*/
                     }
-                    /*  Done looking for argument to option. */ /* End if*/
+                    /*  Done looking for argument to option. */
 
  /* We can now store our option and its argument (if any). */
                     optList.addElement(new Argument(theOpt, tempArg, position));
@@ -158,7 +161,6 @@ public class GetArgs  {
     }
 
     /* End of constructor*/
-
     /**
      * Return a string of all the options and arguments, options first, then
      * arguments, but otherwise in order.
@@ -340,10 +342,10 @@ public class GetArgs  {
         System.out.println("under certain conditions enumerated in COPYING and/or COPYING.LIB.");
 
         if (0 == argv.length) {
-           System.out.println("Usage: GetArgs [-options args args -options args ...]");
-           System.out.println(" ... Just analyzes the options, but there are two special");
-           System.out.println(" ... options, -o and -q. -q quits. -o takes its argument");
-           System.out.println(" ... and makes it the option introducers string.");
+            System.out.println("Usage: GetArgs [-options args args -options args ...]");
+            System.out.println(" ... Just analyzes the options, but there are two special");
+            System.out.println(" ... options, -o and -q. -q quits. -o takes its argument");
+            System.out.println(" ... and makes it the option introducers string.");
             return;
         }
         /* End if*/
