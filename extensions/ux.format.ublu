@@ -5,7 +5,7 @@
 # See the Ublu license (BSD-2 open source)
 
 # Record formats -- see the Ublu 'file' and 'record' commands
-# Especially record -getformat
+# Especially record -getfmt
 
 # Pushes to tuple stack the delimiter for var-len layouts
 FUNC ux.format.getDelimiter ( fmt ) $[
