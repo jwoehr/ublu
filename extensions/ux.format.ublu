@@ -143,7 +143,7 @@ FUNC ux.format.getRecordFormatType ( fmt ) $[
 ]$
 
 # Sets the delimiter.
-FUNC ux.format.setDelimiter ( delim )
+FUNC ux.format.setDelimiter ( delim ) $[
     @@delim -to ~ -charat 0
     calljava -to ~ -- @@fmt -primarg ~ -method setDelimiter
 ]$
