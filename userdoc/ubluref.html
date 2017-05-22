@@ -6,17 +6,10 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 21 May 2017 18:19:26 UTC">
+  "Mon, 22 May 2017 18:19:26 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -68,7 +61,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-05-21</p>
+  Last edit: 2017-05-22</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -689,19 +682,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h2><a name="Invocation" id="Invocation"></a>Invocation</h2>
 
   <blockquote>
-    <p><b><tt>java ublu.Ublu [args ...]</tt></b> <i>(set classpath
-    first)</i><br>
-    <i>or</i><br>
-    <b><tt>java -jar ublu.jar</tt></b> <b><tt>[args ...]</tt></b>
-    <i>(for use if the lib directory containing open source support
-    jars is a subdirectory of the directory containing</i>
-    <i>ublu.jar)</i></p>
+    <p><code><strong>Ublu invocation: java [ java options .. ] -jar
+    ublu.jar [ ublu options .. ] [ ublu commands .. ]<br>
+    Ublu options:<br>
+    -i filename [-i filename ..] include all indicated source
+    files<br>
+    -s if including, include silently, otherwise startup
+    interpreter silently<br>
+    -t [filename, --] open history file filename or default if
+    --<br>
+    -h display this help and then exit</strong></code></p>
 
     <p>If the <tt>lib</tt> directory is a subdirectory of the
     directory in which <tt>ublu.jar</tt> resides, Ublu can be
     invoked via <tt>java -jar</tt> as shown. Otherwise, prior to
-    invocation the CLASSPATH must be set to include each of the
-    supporting .jar files found in the lib directory.<br></p>
+    invocation the <strong><code>CLASSPATH</code></strong> must be
+    set to include each of the supporting .jar files found in the
+    lib directory.<br></p>
   </blockquote>
 
   <ul>
@@ -711,9 +708,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
       <ul>
         <li>Any arguments starting with the dash character (
-        <tt>-</tt> ) are taken to be switches to the Ublu
-        invocation. Switches may have objects, e.g., <code>-i
-        myfile.ublu</code> which means "include myfile.ublu"
+        <tt>-</tt>, e.g., <tt>-s</tt> ) are taken to be options to
+        the Ublu invocation. Options may have objects, e.g., <code>
+          -i myfile.ublu</code> which means "include myfile.ublu"
 
           <ul>
             <li>If an option starting with the dash character has
@@ -725,22 +722,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           </ul>
         </li>
 
+        <li>The first option which is simply <code>--</code>
+        terminates option processing. All further elements are of
+        the command line are taken to be input to the Ublu
+        interpreter.</li>
+
         <li>The first non-option seen in the invocation command
         line terminates option processing. All further elements are
         of the command line are taken to be input to the Ublu
-        interpreter. Each invocation argument after option
-        processing terminates on the first non option is passed in
+        interpreter.</li>
+
+        <li>Each argument after option processing terminates on
+        <code>--</code> or on the first non-option is passed in
         order to the initial input line of the interpreter.</li>
       </ul>
     </li>
 
-    <li>When invoked with no non-switch command line arguments,
-    Ublu prints to standard error information about the build
-    including time/date stamp, open source usage and copyright
-    before the main interpreter prompts. Then the main interpreter
-    prompts and awaits interactive input.</li>
-
-    <li>The switches to Ublu invocation are as follows:
+    <li>The options to Ublu invocation are as follows:
 
       <ul>
         <li>
@@ -768,12 +766,35 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         the command line will be parsed and executed as Ublu
         commands by the main interpreter, after which the main
         interpreter will take normal interactive input.</li>
+
+        <li><tt>-t [ historyfilename ]</tt> sets the Ublu history
+        mechanism on, either on the default history filename, or on
+        the optional argument to the <code>-t</code>option.</li>
+
+        <li><code>-h</code> displays Ublu information and
+        invocation help and exits 0.</li>
       </ul>
     </li>
 
-    <li>When invoked with non-switch arguments and none of the
-    switches were <tt>-i</tt>, Ublu will execute the arguments as
-    if one line of commands were issued to the main interpreter and
+    <li>When invoked with no non-option command line arguments, all
+    options are processed first.
+
+      <ul>
+        <li>If one or more <code>-i includefilename</code> options
+        are present, Ublu performs all includes, then prompts and
+        awaits interactive input.</li>
+
+        <li>If no <code>-i includefilename</code> options are
+        present, Ublu prints to standard error information about
+        the build including time/date stamp, open source usage and
+        copyright and then the main interpreter prompts and awaits
+        interactive input.</li>
+      </ul>
+    </li>
+
+    <li>When invoked with non-option arguments and none of the
+    options were <tt>-i</tt>, Ublu will execute the arguments as if
+    one line of commands were issued to the main interpreter and
     then exit.
 
       <ul>

@@ -131,31 +131,35 @@ public class GetArgs {
                 if (!lastOptionSeen && isOptionIntroducer(tempOpt.charAt(0))) /* Is this an option?*/ {
                     theOpt = tempOpt.substring(0, Math.min(2, tempOpt.length()));
                     /* Record option, introducer plus second char, if any.*/
+                    if (theOpt.equals("--")) {
+                        lastOptionSeen = true;
+                    } else {
+                        /* Is the optarg in the option itself? If so, extract that option argument.*/
+                        if (tempOpt.length() > 2) {
+                            tempArg = tempOpt.substring(2, tempOpt.length());
+                        } else /* No, optarg not included directly in opt string.*/ {
+                            /* Look for it in next lexical element*/
+                            if ((i + 1) < argv.length) /* Do we have another lex elem left?*/ {
+                                tempArg = argv[i + 1].trim();/* Next lex an option on its own?*/
+                                if (isOptionIntroducer(tempArg.charAt(0))) {
+                                    if (tempArg.length() > 1 && isOptionIntroducer(tempArg.charAt(1))) /* is this a double-introducer? */ {
+                                        i++;
+                                        /* indicates null option arg, so hop past */
+                                    }
+                                    tempArg = null;/* In any case, previous option is null-arged.*/
 
-                    if (tempOpt.length() > 2) /* Is the optarg in the option itself?*/ {/* If so, extract that option argument.*/
-                        tempArg = tempOpt.substring(2, tempOpt.length());
-                    } else /* No, optarg not included directly in opt string.*/ {/* Look for it in next lexical element*/
-                        if ((i + 1) < argv.length) /* Do we have another lex elem left?*/ {
-                            tempArg = argv[i + 1].trim();/* Next lex an option on its own?*/
-                            if (isOptionIntroducer(tempArg.charAt(0))) {
-                                if (tempArg.length() > 1 && isOptionIntroducer(tempArg.charAt(1))) /* is this a double-introducer? */ {
+                                } else /* No, it's not an option, so must be arg to previous opt.*/ {/* (We already read it into tempArg.)*/
                                     i++;
-                                    /* indicates null option arg, so hop past */
+                                    /* Bump index past this lexical element.*/
                                 }
-                                tempArg = null;/* In any case, previous option is null-arged.*/
-
-                            } else /* No, it's not an option, so must be arg to previous opt.*/ {/* (We already read it into tempArg.)*/
-                                i++;
-                                /* Bump index past this lexical element.*/
+                            } else /* Command line is exhausted.*/ {
+                                tempArg = null;
+                                /* No arg to the opt.*/
                             }
-                        } else /* Command line is exhausted.*/ {
-                            tempArg = null;
-                            /* No arg to the opt.*/
                         }
+                        /*  Done looking for argument to option. We can now store our option and its argument (if any). */
+                        optList.add(new Argument(theOpt, tempArg, position));
                     }
-                    /*  Done looking for argument to option. */
- /* We can now store our option and its argument (if any). */
-                    optList.add(new Argument(theOpt, tempArg, position));
                 } else {
                     lastOptionSeen = true;
                     /* first non-option ends option processing */

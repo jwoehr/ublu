@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -51,7 +51,7 @@ public class Ublu {
      *
      * @return singleton
      */
-    public JVMHelper getJVMHelper() {
+    public final JVMHelper getJVMHelper() {
         if (jVMHelper == null) {
             jVMHelper = new JVMHelper();
         }
@@ -73,7 +73,7 @@ public class Ublu {
      *
      * @return main interpreter instance
      */
-    public static Interpreter getMainInterpreter() {
+    public final static Interpreter getMainInterpreter() {
         return mainInterpreter;
     }
 
@@ -82,7 +82,7 @@ public class Ublu {
      *
      * @param interpreter main interpreter instance
      */
-    protected static void setMainInterpreter(Interpreter interpreter) {
+    protected final static void setMainInterpreter(Interpreter interpreter) {
         mainInterpreter = interpreter;
     }
 
@@ -91,7 +91,7 @@ public class Ublu {
      *
      * @return the user.name from System.properties
      */
-    public static String getUser() {
+    public final static String getUser() {
         return System.getProperty("user.name");
     }
 
@@ -109,7 +109,7 @@ public class Ublu {
      *
      * @return String describing the Ublu version
      */
-    public static String ubluVersion() {
+    public final static String ubluVersion() {
         return Version.ubluVersion;
     }
 
@@ -118,7 +118,7 @@ public class Ublu {
      *
      * @return String describing the build
      */
-    public static String compileDateTime() {
+    public final static String compileDateTime() {
         return Version.compileDateTime;
     }
 
@@ -131,7 +131,7 @@ public class Ublu {
      * @return a string enumerating the open source projects used by
      * Interpreter.
      */
-    public static String openSourceList() {
+    public final static String openSourceList() {
         StringBuilder sb = new StringBuilder();
         return sb.append(utilities.AboutToolbox.getVersionDescription())
                 .append("\n---\n")
@@ -166,7 +166,7 @@ public class Ublu {
      *
      * @return a string introducing the program.
      */
-    public final String startupMessage() {
+    public final static String startupMessage() {
         StringBuilder sb = new StringBuilder("Ublu ");
         return sb.append(ubluVersion())
                 .append(" build of ").append(compileDateTime()).append("\n")
@@ -181,6 +181,17 @@ public class Ublu {
                 .append(openSourceList())
                 .append("\n***")
                 .toString();
+    }
+
+    public final static String invocationHelp() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Ublu invocation: java [ java options .. ] -jar ublu.jar [ ublu options .. ] [ ublu commands .. ]\n");
+        sb.append("Ublu options:\n");
+        sb.append("  -i filename [-i filename ..]\tinclude all indicated source files\n");
+        sb.append("  -s\t\t\t\tif including, include silently, otherwise startup interpreter silently\n");
+        sb.append("  -t [filename, --]\t\topen history file filename or default if --\n");
+        sb.append("  -h\t\t\t\tdisplay this help and then exit\n");
+        return sb.toString();
     }
 
     /**
@@ -212,64 +223,78 @@ public class Ublu {
      */
     public int runMainInterpreter() {
         Interpreter interpreter = getMainInterpreter();
-        if (myGetArgs.containsOpt("-i")) {
-            for (String i : myGetArgs.getAllIdenticalOptionArguments("-i")) {
-                interpreter.getArgArray().add(0, "include");
-                interpreter.getArgArray().add(1, i);
-                if (myGetArgs.containsOpt("-s")) {
-                    interpreter.getArgArray().add(1, "-s");
-                }
-            }
-            interpreter.loop();
-            interpreter.interpret();
-        } else if (interpreter.getArgArray().isEmpty()) {
-            if (!myGetArgs.containsOpt("-s")) {
-                if (interpreter.isConsole()) {
-                    interpreter.outputerrln(startupMessage());
-                    interpreter.outputerrln(HELPLINE);
-                }
-            }
-            interpreter.interpret();
+        if (myGetArgs.containsOpt("-h")) {
+            interpreter.outputerrln(startupMessage());
+            interpreter.outputerrln(invocationHelp());
         } else {
-            interpreter.loop();
+            if (myGetArgs.containsOpt("-t")) { // Instance history (with filename, if provided)
+                StringArrayList sal = myGetArgs.getAllIdenticalOptionArguments("-t");
+                if (!sal.isEmpty()) {
+                    String hfilename = sal.get(0);
+                    if (hfilename != null) {
+                        interpreter.setHistoryFileName(hfilename);
+                    }
+                }
+                interpreter.instanceHistory();
+            }
+            if (myGetArgs.containsOpt("-i")) {
+                for (String i : myGetArgs.getAllIdenticalOptionArguments("-i")) {
+                    interpreter.getArgArray().add(0, "include");
+                    interpreter.getArgArray().add(1, i);
+                    if (myGetArgs.containsOpt("-s")) {
+                        interpreter.getArgArray().add(1, "-s");
+                    }
+                }
+                interpreter.loop();
+                interpreter.interpret();
+            } else if (interpreter.getArgArray().isEmpty()) {
+                if (!myGetArgs.containsOpt("-s")) {
+                    if (interpreter.isConsole()) {
+                        interpreter.outputerrln(startupMessage());
+                        interpreter.outputerrln(HELPLINE);
+                    }
+                }
+                interpreter.interpret();
+            } else {
+                interpreter.loop();
+            }
+            interpreter.closeHistory();
+            interpreter.getErroutStream().flush();
+            interpreter.getOutputStream().flush();
         }
-        interpreter.closeHistory();
-        interpreter.getErroutStream().flush();
-        interpreter.getOutputStream().flush();
         return interpreter.getGlobal_ret_val();
     }
-
-//    /**
-//     * Run the singleton main interpreter
-//     *
-//     * @return the global return value
-//     */
-//    public int oldRunMainInterpreter() {
-//        Interpreter interpreter = getMainInterpreter();
-//        if (interpreter.getArgArray().isEmpty()) {
-//            if (!getSwitches().contains("-s")) {
-//                if (interpreter.isConsole()) {
-//                    interpreter.outputerrln(startupMessage());
-//                    interpreter.outputerrln(HELPLINE);
-//                }
-//            }
-//            interpreter.interpret();
-//        } else if (getSwitches().contains("-include")
-//                || getSwitches().contains("-i")) {
-//            interpreter.getArgArray().add(0, "include");
-//            if (getSwitches().contains("-s")) {
-//                interpreter.getArgArray().add(1, "-s");
-//            }
-//            interpreter.loop();
-//            interpreter.interpret();
-//        } else {
-//            interpreter.loop();
-//        }
-//        interpreter.closeHistory();
-//        interpreter.getErroutStream().flush();
-//        interpreter.getOutputStream().flush();
-//        return interpreter.getGlobal_ret_val();
-//    }
+    //    /**
+    //     * Run the singleton main interpreter
+    //     *
+    //     * @return the global return value
+    //     */
+    //    public int oldRunMainInterpreter() {
+    //        Interpreter interpreter = getMainInterpreter();
+    //        if (interpreter.getArgArray().isEmpty()) {
+    //            if (!getSwitches().contains("-s")) {
+    //                if (interpreter.isConsole()) {
+    //                    interpreter.outputerrln(startupMessage());
+    //                    interpreter.outputerrln(HELPLINE);
+    //                }
+    //            }
+    //            interpreter.interpret();
+    //        } else if (getSwitches().contains("-include")
+    //                || getSwitches().contains("-i")) {
+    //            interpreter.getArgArray().add(0, "include");
+    //            if (getSwitches().contains("-s")) {
+    //                interpreter.getArgArray().add(1, "-s");
+    //            }
+    //            interpreter.loop();
+    //            interpreter.interpret();
+    //        } else {
+    //            interpreter.loop();
+    //        }
+    //        interpreter.closeHistory();
+    //        interpreter.getErroutStream().flush();
+    //        interpreter.getOutputStream().flush();
+    //        return interpreter.getGlobal_ret_val();
+    //    }
 
     /**
      * Run a command or run the interpreter. This is the main() of the Main
@@ -364,7 +389,6 @@ public class Ublu {
 //        }
 //        return remainderArgs.toStringArray();
 //    }
-
     private String[] processArgs(String[] args) {
         // /* Debug */ System.err.println("args are " + Arrays.toString(args));
         myGetArgs = new GetArgs(args);
