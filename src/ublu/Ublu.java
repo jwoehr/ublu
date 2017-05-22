@@ -172,7 +172,7 @@ public class Ublu {
                 .append(" build of ").append(compileDateTime()).append("\n")
                 .append("Author: Jack J. Woehr.\n")
                 .append("Copyright 2015, Absolute Performance, Inc., http://www.absolute-performance.com\n")
-                .append("Copyright 2016, Jack J. Woehr, http://www.softwoehr.com\n")
+                .append("Copyright 2017, Jack J. Woehr, http://www.softwoehr.com\n")
                 .append("All Rights Reserved\n")
                 .append("Ublu is Open Source Software under the BSD 2-clause license.\n")
                 .append("THERE IS NO WARRANTY and NO GUARANTEE OF CORRECTNESS NOR APPLICABILITY.\n")
