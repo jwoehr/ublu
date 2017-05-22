@@ -9,6 +9,9 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -706,13 +709,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     arguments to the invocation.
 
       <ul>
-        <li>Any initial arguments starting with the dash character
-        ( <tt>-</tt> ) are taken to be switches to the Ublu
-        invocation itself and are processed immediately.</li>
+        <li>Any arguments starting with the dash character (
+        <tt>-</tt> ) are taken to be switches to the Ublu
+        invocation. Switches may have objects, e.g., <code>-i
+        myfile.ublu</code> which means "include myfile.ublu"
 
-        <li>Any remaining arguments beginning with the first
-        argument which does not start with a dash are passed as the
-        initial input line to the interpreter.</li>
+          <ul>
+            <li>If an option starting with the dash character has
+            no object and is followed by a regular argument not
+            meant to be its object, the option should be followed
+            by two dashes -- so the following argument is not taken
+            for the object of that option, e.g. <code>-i
+            myfile.ublu -s -- put ${ some string }$</code></li>
+          </ul>
+        </li>
+
+        <li>Each argument which does not start with a dash is
+        passed in order to the initial input line of the
+        interpreter.</li>
       </ul>
     </li>
 
@@ -741,22 +755,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           </ul>
         </li>
 
-        <li><tt>-include</tt> or <tt>-i</tt> means that the first
-        non-switch item in the command line is the name of an Ublu
-        source file to <a href="#include">include</a>. If
-        <tt>-s</tt> is also one of the switches passed to Ublu,
-        then the include will be a silent include. After the
-        include, the rest of the command line will be parsed and
-        executed as Ublu commands by the main interpreter, after
-        which the main interpreter will take normal interactive
-        input.</li>
+        <li><tt>-i</tt> <em>filename</em> <code><a href=
+        "#include">include</a></code>s an Ublu source file. Any
+        number of files may be included in order in this fashion.
+        If the <tt>-s</tt> is also present anywhere in the
+        invocation command line, then all -i includes will be
+        silent. After all includes, the rest of the command line
+        will be parsed and executed as Ublu commands by the main
+        interpreter, after which the main interpreter will take
+        normal interactive input.</li>
       </ul>
     </li>
 
     <li>When invoked with non-switch arguments and none of the
-    switches were <tt>-include</tt>, Ublu will execute the
-    arguments as if one line of commands were issued to the main
-    interpreter and then exit.
+    switches were <tt>-i</tt>, Ublu will execute the arguments as
+    if one line of commands were issued to the main interpreter and
+    then exit.
 
       <ul>
         <li>To continue in interpretive mode after invoking Ublu
