@@ -12,6 +12,7 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
@@ -724,9 +725,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           </ul>
         </li>
 
-        <li>Each argument which does not start with a dash is
-        passed in order to the initial input line of the
-        interpreter.</li>
+        <li>The first non-option seen in the invocation command
+        line terminates option processing. All further elements are
+        of the command line are taken to be input to the Ublu
+        interpreter. Each invocation argument after option
+        processing terminates on the first non option is passed in
+        order to the initial input line of the interpreter.</li>
       </ul>
     </li>
 
@@ -758,12 +762,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <li><tt>-i</tt> <em>filename</em> <code><a href=
         "#include">include</a></code>s an Ublu source file. Any
         number of files may be included in order in this fashion.
-        If the <tt>-s</tt> is also present anywhere in the
-        invocation command line, then all -i includes will be
-        silent. After all includes, the rest of the command line
-        will be parsed and executed as Ublu commands by the main
-        interpreter, after which the main interpreter will take
-        normal interactive input.</li>
+        If the <tt>-s</tt> is also present anywhere in the options
+        portion of the invocation command line, then all -i
+        includes will be silent. After all includes, the rest of
+        the command line will be parsed and executed as Ublu
+        commands by the main interpreter, after which the main
+        interpreter will take normal interactive input.</li>
       </ul>
     </li>
 
