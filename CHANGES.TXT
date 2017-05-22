@@ -4,9 +4,12 @@ All rights reserved.
 
 1.1.6
 -----
+System
+* Option processing improved
+
 Commands
 * BREAK - bug fixed, didn't work with nested blocks > 1
-* cim for Common Information Model (added)
+* cim and cimi for Common Information Model (added)
 * calljava
 	* -class
 	* -forname
@@ -14,9 +17,11 @@ Commands
 	* now does it as Long
         * added inc and dec
         * fixed bug where - mistaken for dash-command
+* file enhanced
 * ftp command rewritten, new specifications
 	* previous ftp command is now called 'oldftp'
 * interpreter new command for interperter debugging
+* record enhanced
 * streamf new command for stream files on local system
 * string
     * -pad
@@ -29,6 +34,11 @@ Commands
 Examples
 * clHelp.ublu
 * delspoolf.ublu
+
+Extensions
+* ux.format.ublu
+* ux.cim.property.ublu
+* ux.objectlock.ublu
 
 1.1.5 2016-12-31
 -----
