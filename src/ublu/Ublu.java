@@ -183,6 +183,11 @@ public class Ublu {
                 .toString();
     }
 
+    /**
+     * String describing invocation usage
+     *
+     * @return String describing invocation usage
+     */
     public final static String invocationHelp() {
         StringBuilder sb = new StringBuilder();
         sb.append("Ublu invocation: java [ java options .. ] -jar ublu.jar [ ublu options .. ] [ ublu commands .. ]\n");
