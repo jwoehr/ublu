@@ -108,7 +108,7 @@ public class GetArgs {
      *
      * @param argv Arg string
      */
-    public void reinit(String argv[]) {
+    public final void reinit(String argv[]) {
         optList = new ArgumentArrayList(); // Create in any circumstance.
         argList = new ArgumentArrayList(); // Create in any circumstance.
 
@@ -125,9 +125,10 @@ public class GetArgs {
             int position = 0;
             /* nthness in line		   */
 
+            boolean lastOptionSeen = false;
             for (i = 0; i < argv.length; i++) {
                 tempOpt = argv[i].trim();
-                if (isOptionIntroducer(tempOpt.charAt(0))) /* Is this an option?*/ {
+                if (!lastOptionSeen && isOptionIntroducer(tempOpt.charAt(0))) /* Is this an option?*/ {
                     theOpt = tempOpt.substring(0, Math.min(2, tempOpt.length()));
                     /* Record option, introducer plus second char, if any.*/
 
@@ -153,10 +154,11 @@ public class GetArgs {
                         }
                     }
                     /*  Done looking for argument to option. */
-
  /* We can now store our option and its argument (if any). */
                     optList.add(new Argument(theOpt, tempArg, position));
-                } /* Done processing found option. */ /* End if*/ else /* Wasn't an option, must be just a plain argument.*/ {
+                } else {
+                    lastOptionSeen = true;
+                    /* first non-option ends option processing */
                     tempArg = tempOpt;
                     /* Already have it in hand.*/
                     tempOpt = null;
@@ -164,7 +166,6 @@ public class GetArgs {
  /* Add to list of plain arguments */
                     argList.add(new Argument(tempOpt, tempArg, position));
                 }
-                /* End if*/
                 position++;
             }
             /* Done looping through string array of command line. *//* End for*/
