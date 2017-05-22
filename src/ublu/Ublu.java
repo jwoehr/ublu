@@ -30,6 +30,7 @@ package ublu;
 import java.util.logging.Logger;
 import org.sblim.cimclient.internal.cim.CIMVersion;
 import ublu.util.Generics.StringArrayList;
+import ublu.util.GetArgs;
 import ublu.util.Interpreter;
 import ublu.util.InterpreterLogger;
 import ublu.util.JVMHelper;
@@ -41,6 +42,8 @@ import ublu.util.JVMHelper;
  */
 public class Ublu {
 
+    private GetArgs myGetArgs;
+    private StringArrayList originalArgs;
     private JVMHelper jVMHelper = null;
 
     /**
@@ -119,7 +122,7 @@ public class Ublu {
         return Version.compileDateTime;
     }
 
-    static String EXITLINE
+    static String HELPLINE
             = "Type help for help. Type license for license. Type bye to exit.";
 
     /**
@@ -190,6 +193,8 @@ public class Ublu {
     public Ublu(String[] args) {
         this();
         args = processArgs(args);
+        // /* Debug */ System.err.println("Args processed are " + new StringArrayList(args));
+        // /* Debug */ System.err.println("GetArgs processed are " + myGetArgs);
         setMainInterpreter(new Interpreter(args, this));
         LOG = new InterpreterLogger("UbluInterpreter." + Thread.currentThread().toString(), Logger.getLogger(Ublu.class.getName()), getMainInterpreter().getErroutStream());
     }
@@ -207,21 +212,23 @@ public class Ublu {
      */
     public int runMainInterpreter() {
         Interpreter interpreter = getMainInterpreter();
-        if (interpreter.getArgArray().isEmpty()) {
-            if (!getSwitches().contains("-s")) {
-                if (interpreter.isConsole()) {
-                    interpreter.outputerrln(startupMessage());
-                    interpreter.outputerrln(EXITLINE);
+        if (myGetArgs.containsOpt("-i")) {
+            for (String i : myGetArgs.getAllIdenticalOptionArguments("-i")) {
+                interpreter.getArgArray().add(0, "include");
+                interpreter.getArgArray().add(1, i);
+                if (myGetArgs.containsOpt("-s")) {
+                    interpreter.getArgArray().add(1, "-s");
                 }
             }
-            interpreter.interpret();
-        } else if (getSwitches().contains("-include")
-                || getSwitches().contains("-i")) {
-            interpreter.getArgArray().add(0, "include");
-            if (getSwitches().contains("-s")) {
-                interpreter.getArgArray().add(1, "-s");
-            }
             interpreter.loop();
+            interpreter.interpret();
+        } else if (interpreter.getArgArray().isEmpty()) {
+            if (!myGetArgs.containsOpt("-s")) {
+                if (interpreter.isConsole()) {
+                    interpreter.outputerrln(startupMessage());
+                    interpreter.outputerrln(HELPLINE);
+                }
+            }
             interpreter.interpret();
         } else {
             interpreter.loop();
@@ -231,6 +238,38 @@ public class Ublu {
         interpreter.getOutputStream().flush();
         return interpreter.getGlobal_ret_val();
     }
+
+//    /**
+//     * Run the singleton main interpreter
+//     *
+//     * @return the global return value
+//     */
+//    public int oldRunMainInterpreter() {
+//        Interpreter interpreter = getMainInterpreter();
+//        if (interpreter.getArgArray().isEmpty()) {
+//            if (!getSwitches().contains("-s")) {
+//                if (interpreter.isConsole()) {
+//                    interpreter.outputerrln(startupMessage());
+//                    interpreter.outputerrln(HELPLINE);
+//                }
+//            }
+//            interpreter.interpret();
+//        } else if (getSwitches().contains("-include")
+//                || getSwitches().contains("-i")) {
+//            interpreter.getArgArray().add(0, "include");
+//            if (getSwitches().contains("-s")) {
+//                interpreter.getArgArray().add(1, "-s");
+//            }
+//            interpreter.loop();
+//            interpreter.interpret();
+//        } else {
+//            interpreter.loop();
+//        }
+//        interpreter.closeHistory();
+//        interpreter.getErroutStream().flush();
+//        interpreter.getOutputStream().flush();
+//        return interpreter.getGlobal_ret_val();
+//    }
 
     /**
      * Run a command or run the interpreter. This is the main() of the Main
@@ -272,8 +311,6 @@ public class Ublu {
         return api.runMainInterpreter();
     }
 
-    private StringArrayList originalArgs;
-
     /**
      * Get the value of originalArgs
      *
@@ -312,19 +349,27 @@ public class Ublu {
         this.originalArgs = originalArgs;
     }
 
+//    private String[] oldProcessArgs(String[] args) {
+//        StringArrayList remainderArgs = new StringArrayList(args);
+//        setOriginalArgs(new StringArrayList(args));
+//        for (String s : getOriginalArgs()) {
+//            if (s.startsWith("-")) {
+//                getSwitches().add(s);
+//            } else {
+//                break;
+//            }
+//        }
+//        for (String switche : getSwitches()) {
+//            remainderArgs.remove(0);
+//        }
+//        return remainderArgs.toStringArray();
+//    }
+
     private String[] processArgs(String[] args) {
-        StringArrayList remainderArgs = new StringArrayList(args);
-        setOriginalArgs(new StringArrayList(args));
-        for (String s : getOriginalArgs()) {
-            if (s.startsWith("-")) {
-                getSwitches().add(s);
-            } else {
-                break;
-            }
-        }
-        for (String switche : getSwitches()) {
-            remainderArgs.remove(0);
-        }
-        return remainderArgs.toStringArray();
+        // /* Debug */ System.err.println("args are " + Arrays.toString(args));
+        myGetArgs = new GetArgs(args);
+        // /* Debug */ System.err.println("myGetArgs is " + myGetArgs);
+        return myGetArgs.getArgumentsAsStringArray();
     }
+
 }
