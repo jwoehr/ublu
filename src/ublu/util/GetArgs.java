@@ -26,8 +26,13 @@
  */
 package ublu.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import ublu.util.Generics.StringArrayList;
 
 /**
  * Parses arguments and options from a string e.g., from a command line. GetArgs
@@ -70,10 +75,13 @@ import java.util.*;
  */
 public class GetArgs {
 
+    public static class ArgumentArrayList extends ArrayList<Argument> {
+    }
+
     /**
      * Holds the Argument objects, as many as parsed.
      */
-    private Vector optList, argList;
+    private ArgumentArrayList optList, argList;
 
     /**
      * Option introducers.
@@ -98,8 +106,8 @@ public class GetArgs {
      * @param argv Arg string
      */
     public void reinit(String argv[]) {
-        optList = new Vector(); // Create in any circumstance.
-        argList = new Vector(); // Create in any circumstance.
+        optList = new ArgumentArrayList(); // Create in any circumstance.
+        argList = new ArgumentArrayList(); // Create in any circumstance.
 
         if (argv != null) { // Don't do any processing if nothing there!
             int i;
@@ -144,14 +152,14 @@ public class GetArgs {
                     /*  Done looking for argument to option. */
 
  /* We can now store our option and its argument (if any). */
-                    optList.addElement(new Argument(theOpt, tempArg, position));
+                    optList.add(new Argument(theOpt, tempArg, position));
                 } /* Done processing found option. */ /* End if*/ else /* Wasn't an option, must be just a plain argument.*/ {
                     tempArg = tempOpt;
                     /* Already have it in hand.*/
                     tempOpt = null;
                     /* No option*/
  /* Add to list of plain arguments */
-                    argList.addElement(new Argument(tempOpt, tempArg, position));
+                    argList.add(new Argument(tempOpt, tempArg, position));
                 }
                 /* End if*/
                 position++;
@@ -253,7 +261,7 @@ public class GetArgs {
     public Argument nthOption(int n) {
         Argument a = null;
         if (n < optList.size()) {
-            a = (Argument) (optList.elementAt(n));
+            a = (Argument) (optList.get(n));
         }
         return a;
     }
@@ -268,7 +276,7 @@ public class GetArgs {
     public Argument nthArgument(int n) {
         Argument a = null;
         if (n < argList.size()) {
-            a = (Argument) (argList.elementAt(n));
+            a = (Argument) (argList.get(n));
         }
         return a;
     }
@@ -316,8 +324,8 @@ public class GetArgs {
         return argList.iterator();
     }
 
-    public Boolean containsOpt(String optname) {
-        Boolean result = null;
+    public boolean containsOpt(String optname) {
+        boolean result = false;
         Iterator<Argument> it = optionIterator();
         while (it.hasNext()) {
             Argument a = it.next();
@@ -327,6 +335,27 @@ public class GetArgs {
             }
         }
         return result;
+    }
+
+    public String[] getArgumentsAsStringArray() {
+        String[] result = new String[argList.size()];
+        int index = 0;
+        for (Argument a : argList) {
+            result[index++] = a.getArgument();
+        }
+        return result;
+    }
+
+    public StringArrayList getAllIdenticalOptionArguments(String optname) {
+        StringArrayList sal = new StringArrayList();
+        Iterator<Argument> it = optionIterator();
+        while (it.hasNext()) {
+            Argument a = it.next();
+            if (a.getOption().equals(optname)) {
+                sal.add(a.argument);
+            }
+        }
+        return sal;
     }
 
     /**
@@ -365,6 +394,7 @@ public class GetArgs {
 
  /* Loop taking arguments. */
         while (!quitFlag) {
+            System.out.println("Args as string array " + Arrays.toString(g.getArgumentsAsStringArray()));
             System.out.println("Entire command line, \"normalized\":\n");
             System.out.println(g.toString() + "\n");
             System.out.println("Options:");
