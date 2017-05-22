@@ -75,6 +75,9 @@ import ublu.util.Generics.StringArrayList;
  */
 public class GetArgs {
 
+    /**
+     * Typedef
+     */
     public static class ArgumentArrayList extends ArrayList<Argument> {
     }
 
@@ -324,6 +327,12 @@ public class GetArgs {
         return argList.iterator();
     }
 
+    /**
+     * Do options include the given option?
+     *
+     * @param optname an option with introducer, e.g., -x
+     * @return true .IFF. at least one instance of option is found
+     */
     public boolean containsOpt(String optname) {
         boolean result = false;
         Iterator<Argument> it = optionIterator();
@@ -337,6 +346,11 @@ public class GetArgs {
         return result;
     }
 
+    /**
+     * Return all non-option arguments as string array
+     *
+     * @return all non-option arguments as string array
+     */
     public String[] getArgumentsAsStringArray() {
         String[] result = new String[argList.size()];
         int index = 0;
@@ -346,6 +360,13 @@ public class GetArgs {
         return result;
     }
 
+    /**
+     * Get all arguments for identical options matching optname, e.g., -x foo -x
+     * bar
+     *
+     * @param optname optname with introducer e.g. -x
+     * @return list of arguments for options matching that optname
+     */
     public StringArrayList getAllIdenticalOptionArguments(String optname) {
         StringArrayList sal = new StringArrayList();
         Iterator<Argument> it = optionIterator();
