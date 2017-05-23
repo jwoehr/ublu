@@ -1,0 +1,62 @@
+# cimtest.ublu ... exercise Common Information Model support in Ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+include /opt/ublu/extensions/ux.cim.property.ublu
+
+# cimtest ( url uid passwd namespc )
+# ... url is something like https://myserver.foo.org:5989
+# ... namespc is something like root/cimv2
+FUNC cimtest ( url uid passwd namespc ) $[
+    LOCAL @client LOCAL @path
+    
+    cim -to @client
+    @client -cred @@uid @@passwd
+    
+    cim -to @path -url @@url -path
+    @client -init @path
+
+    cim -to @path -namespace @@namespc -objectname CIM_LogicalIdentity -path
+    put -n -s ${ Enumerate Instances for }$ put @path
+    @client -ei @path
+
+    string -to ~ -new
+    cim -to @path -namespace @@namespc -objectname ~ -path
+    put -n -s ${ Enumerate Classes for }$ put @path
+    @client -ec @path @true
+
+    cim -to @path -namespace @@namespc -objectname IBMOS400_NetworkPort -path 
+    put -n -s ${ Get Instances for }$ put @path
+    @client -to @instances -ei @path
+    
+    FOR @i in @instances $[
+        put -n -s ${ (( Instance looks like this ))  }$ put -from @i
+        @client -to ~ -gi @i @false @false
+        lifo -dup lifo -dup lifo -dup
+        put ~
+        put ${ *** Putting path for instance *** }$
+        ~ -path
+        put ${ *** Putting keys for instance *** }$
+        ~ -keys
+        put ${ *** Putting properties for instance *** }$
+        ~ -to ~ -properties
+        lifo -dup put ~
+        FOR @i in  ~ $[
+            put -n -s ${ ***** property is }$ put @i
+            ux.cim.property.getName ( @i )
+            put -n -s ${ ***** property name is }$ put ~
+            ux.cim.property.getValue ( @i )
+            put -n -s ${ ***** property value is }$ put ~
+            ux.cim.property.hashCode ( @i )
+            put -n -s ${ ***** property hashcode is }$ put ~
+            ux.cim.property.isKey ( @i )
+            put -n -s ${ ***** property is key? }$ put ~
+            ux.cim.property.isPropagated ( @i )
+            put -n -s ${ ***** property is propagated? }$ put ~
+        ]$
+    ]$
+    @client -close
+]$
+# end

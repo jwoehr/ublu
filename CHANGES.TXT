@@ -34,6 +34,7 @@ Commands
 Examples
 * clHelp.ublu
 * delspoolf.ublu
+* test/cimtest.ublu
 
 Extensions
 * ux.format.ublu
