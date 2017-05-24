@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +54,8 @@ public class CmdBang extends Command {
     /**
      * Repeat execution of a numbered command in the history file.
      *
-     * <p> The numbers are ones-based but the history object in memory is
+     * <p>
+     * The numbers are ones-based but the history object in memory is
      * zeroes-based.</p>
      *
      * @param args The passed-in arg array
