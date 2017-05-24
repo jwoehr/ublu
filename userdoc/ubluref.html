@@ -6,10 +6,11 @@
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 22 May 2017 18:19:26 UTC">
+  "Wed, 24 May 2017 09:33:26 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -61,7 +62,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-05-22</p>
+  Last edit: 2017-05-24</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2949,47 +2950,168 @@ Type help for help. Type license for license. Type bye to exit.
 
     <p>This is illustrated as follows:</p>
 
-    <p><em>Example</em></p>
+    <p><em>Example</em>
+    (<code>examples/test/cimtest.ublu</code>)</p>
     <pre>
-<span class="syntax0"><span class="gutter">   1 </span><span class=
+<span class="syntax0"><span class=
+"syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">cimtest.ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">exercise</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Common</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Information</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Model</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">support</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">in</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">Ublu</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Example</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">from</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Midrange</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Mainframe</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Life</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Cycle</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Extension</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">language</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Copyright</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(C)</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">2017</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Jack</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">J.</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Woehr</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">http://www.softwoehr.com</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Ublu</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">license</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(BSD-2</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">source)</span>
+
+<span class=
 "syntax-KEYWORD2">include</span> /opt/ublu/extensions/ux.<span class="syntax-KEYWORD2">cim</span>.property.ublu
-<span class="gutter">   2 </span>
-<span class="gutter">   3 </span><span class=
-"syntax-KEYWORD2">cim</span><span class=
+
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">cimtest</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">url</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">uid</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">passwd</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">namespc</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">url</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">something</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">like</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">https://myserver.foo.org:5989</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">namespc</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">something</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">like</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">root/cimv2</span>
+<span class="syntax-KEYWORD1">FUNC</span> cimtest <span class=
+"syntax-OPERATOR">(</span> url uid passwd namespc <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+    <span class="syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@client</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@path</span>
+    
+    <span class="syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@client</span>
-<span class="gutter">   4 </span><span class=
-"syntax-MARKUP">@client</span><span class=
+    <span class="syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-cred</span> myuserid ********
-<span class="gutterH">   5 </span>
-<span class="gutter">   6 </span><span class=
-"syntax-KEYWORD2">cim</span><span class=
+"syntax-KEYWORD3">-cred</span> <span class=
+"syntax-LITERAL4">@@uid</span> <span class=
+"syntax-LITERAL4">@@passwd</span>
+    
+    <span class="syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@path</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-url</span> https://myserver:5989<span class=
+"syntax-KEYWORD3">-url</span> <span class=
+"syntax-LITERAL4">@@url</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-path</span>
-<span class="gutter">   7 </span><span class=
-"syntax-MARKUP">@client</span><span class=
+    <span class="syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-init</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">   8 </span>
-<span class="gutter">   9 </span><span class=
-"syntax-KEYWORD2">cim</span><span class=
+
+    <span class="syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@path</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
+"syntax-KEYWORD3">-namespace</span> <span class=
+"syntax-LITERAL4">@@namespc</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-objectname</span> CIM_LogicalIdentity<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-path</span>
-<span class="gutterH">  10 </span><span class=
-"syntax-KEYWORD2">put</span><span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3005,32 +3127,29 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">  11 </span><span class=
-"syntax-MARKUP">@client</span><span class=
+    <span class="syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-ei</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">  12 </span>
-<span class="gutter">  13 </span><span class=
-"syntax-KEYWORD2">string</span><span class=
+
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-new</span>
-<span class="gutter">  14 </span><span class=
-"syntax-KEYWORD2">cim</span><span class=
+    <span class="syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@path</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
+"syntax-KEYWORD3">-namespace</span> <span class=
+"syntax-LITERAL4">@@namespc</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-objectname</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-path</span>
-<span class="gutterH">  15 </span><span class=
-"syntax-KEYWORD2">put</span><span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3046,24 +3165,22 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">  16 </span><span class=
-"syntax-MARKUP">@client</span><span class=
+    <span class="syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-ec</span> <span class=
 "syntax-MARKUP">@path</span> <span class=
 "syntax-MARKUP">@true</span>
-<span class="gutter">  17 </span>
-<span class="gutter">  18 </span><span class=
-"syntax-KEYWORD2">cim</span><span class=
+
+    <span class="syntax-KEYWORD2">cim</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@path</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-KEYWORD3">-namespace</span> root/cimv2<span class=
+"syntax-KEYWORD3">-namespace</span> <span class=
+"syntax-LITERAL4">@@namespc</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-objectname</span> IBMOS400_NetworkPort<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-path</span> 
-<span class="gutter">  19 </span><span class=
-"syntax-KEYWORD2">put</span><span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3079,21 +3196,19 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutterH">  20 </span><span class=
-"syntax-MARKUP">@client</span><span class=
+    <span class="syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@instances</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-ei</span> <span class=
 "syntax-MARKUP">@path</span>
-<span class="gutter">  21 </span><span class=
-"syntax-KEYWORD1">FOR</span> <span class=
+    
+    <span class="syntax-KEYWORD1">FOR</span> <span class=
 "syntax-MARKUP">@i</span> in <span class=
 "syntax-MARKUP">@instances</span> <span class=
 "syntax-OPERATOR">$[</span>
-<span class="gutter">  22 </span>   <span class=
-"syntax-KEYWORD2">put</span><span class=
+        <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3117,9 +3232,8 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-from</span> <span class=
-"syntax-MARKUP">@i</span>   
-<span class="gutter">  23 </span>   <span class=
-"syntax-MARKUP">@client</span><span class=
+"syntax-MARKUP">@i</span>
+        <span class="syntax-MARKUP">@client</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
@@ -3128,8 +3242,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-MARKUP">@i</span> <span class=
 "syntax-MARKUP">@false</span> <span class=
 "syntax-MARKUP">@false</span>
-<span class="gutter">  24 </span>   <span class=
-"syntax-KEYWORD2">lifo</span><span class=
+        <span class="syntax-KEYWORD2">lifo</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-dup</span> <span class=
 "syntax-KEYWORD2">lifo</span><span class=
@@ -3137,10 +3250,9 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3">-dup</span> <span class=
 "syntax-KEYWORD2">lifo</span><span class=
 "syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-dup</span>
-<span class="gutterH">  25 </span>   <span class=
-"syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">  26 </span>   <span class=
-"syntax-KEYWORD2">put</span> <span class=
+        <span class="syntax-KEYWORD2">put</span> <span class=
+"syntax-LITERAL4">~</span>
+        <span class="syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
@@ -3155,12 +3267,10 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  27 </span>   <span class=
-"syntax-LITERAL4">~</span><span class=
+        <span class="syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-path</span>
-<span class="gutter">  28 </span>   <span class=
-"syntax-KEYWORD2">put</span> <span class=
+        <span class="syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
@@ -3175,12 +3285,10 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  29 </span>   <span class=
-"syntax-LITERAL4">~</span><span class=
+        <span class="syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-keys</span>
-<span class="gutterH">  30 </span>   <span class=
-"syntax-KEYWORD2">put</span> <span class=
+        <span class="syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
@@ -3195,24 +3303,20 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">***</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  31 </span>   <span class=
-"syntax-LITERAL4">~</span><span class=
+        <span class="syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-properties</span>
-<span class="gutter">  32 </span>   <span class=
-"syntax-KEYWORD2">lifo</span><span class=
+        <span class="syntax-KEYWORD2">lifo</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-dup</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">  33 </span>   <span class=
-"syntax-KEYWORD1">FOR</span> <span class=
+        <span class="syntax-KEYWORD1">FOR</span> <span class=
 "syntax-MARKUP">@i</span> in  <span class=
 "syntax-LITERAL4">~</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  34 </span>       <span class=
-"syntax-KEYWORD2">put</span><span class=
+            <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3227,12 +3331,11 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-MARKUP">@i</span>
-<span class="gutterH">  35 </span>       ux.<span class=
+            ux.<span class=
 "syntax-KEYWORD2">cim</span>.property.getName <span class=
 "syntax-OPERATOR">(</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
-<span class="gutter">  36 </span>       <span class=
-"syntax-KEYWORD2">put</span><span class=
+            <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3249,12 +3352,11 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">  37 </span>       ux.<span class=
+            ux.<span class=
 "syntax-KEYWORD2">cim</span>.property.getValue <span class=
 "syntax-OPERATOR">(</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
-<span class="gutter">  38 </span>       <span class=
-"syntax-KEYWORD2">put</span><span class=
+            <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3271,12 +3373,11 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">  39 </span>       ux.<span class=
+            ux.<span class=
 "syntax-KEYWORD2">cim</span>.property.hashCode <span class=
 "syntax-OPERATOR">(</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
-<span class="gutterH">  40 </span>       <span class=
-"syntax-KEYWORD2">put</span><span class=
+            <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3293,12 +3394,11 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">  41 </span>       ux.<span class=
+            ux.<span class=
 "syntax-KEYWORD2">cim</span>.property.isKey <span class=
 "syntax-OPERATOR">(</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
-<span class="gutter">  42 </span>       <span class=
-"syntax-KEYWORD2">put</span><span class=
+            <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3315,12 +3415,11 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutter">  43 </span>       ux.<span class=
+            ux.<span class=
 "syntax-KEYWORD2">cim</span>.property.isPropagated <span class=
 "syntax-OPERATOR">(</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">)</span>
-<span class="gutter">  44 </span>       <span class=
-"syntax-KEYWORD2">put</span><span class=
+            <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3337,10 +3436,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">}$</span> <span class=
 "syntax-KEYWORD2">put</span> <span class="syntax-LITERAL4">~</span>
-<span class="gutterH">  45 </span>   <span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  46 </span><span class=
-"syntax-OPERATOR">]$</span>
+        <span class="syntax-OPERATOR">]$</span>
+    <span class="syntax-OPERATOR">]$</span>
+    <span class="syntax-MARKUP">@client</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-close</span>
+<span class="syntax-OPERATOR">]$</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
 </span>
 </pre>
   </blockquote>
@@ -3538,12 +3641,11 @@ Type help for help. Type license for license. Type bye to exit.
 
     <p><i>Example</i> (<tt>examples/test/consttest.ublu</tt>)</p>
     <pre>
-<span class="syntax0"><span class="gutter">   1 </span><span class=
+<span class="syntax0"><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">consttest.ublu</span>
-<span class="gutter">   2 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Example</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -3564,12 +3666,10 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Extension</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">language</span>
-<span class="gutter">   3 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
-<span class="gutter">   4 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Copyright</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -3584,8 +3684,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Woehr</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">http://www.softwoehr.com</span>
-<span class="gutterH">   5 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">See</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -3600,9 +3699,8 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">open</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">source)</span>
-<span class="gutter">   6 </span>
-<span class="gutter">   7 </span><span class=
-"syntax-KEYWORD2">const</span> <span class=
+
+<span class="syntax-KEYWORD2">const</span> <span class=
 "syntax-LITERAL2">*foo</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
@@ -3614,42 +3712,35 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">test</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">   8 </span><span class=
-"syntax-KEYWORD2">put</span> <span class=
+<span class="syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL2">*foo</span>
-<span class="gutter">   9 </span><span class=
-"syntax-KEYWORD2">const</span> <span class=
+<span class="syntax-KEYWORD2">const</span> <span class=
 "syntax-LITERAL2">*arf</span> <span class="syntax-DIGIT">111</span>
-<span class="gutterH">  10 </span><span class=
-"syntax-KEYWORD2">num</span><span class=
+<span class="syntax-KEYWORD2">num</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@n</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-long</span> <span class=
 "syntax-LITERAL2">*arf</span>
-<span class="gutter">  11 </span><span class=
-"syntax-KEYWORD2">put</span> <span class="syntax-MARKUP">@n</span>
-<span class="gutter">  12 </span><span class=
-"syntax-KEYWORD2">interpret</span><span class=
+<span class="syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@n</span>
+<span class="syntax-KEYWORD2">interpret</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-block</span> <span class=
 "syntax-OPERATOR">$[</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL2">*arf</span> <span class=
 "syntax-OPERATOR">]$</span>
-<span class="gutter">  13 </span><span class=
-"syntax-KEYWORD2">put</span><span class=
+<span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-DIGIT">1</span>
-<span class="gutter">  14 </span><span class=
-"syntax-KEYWORD2">put</span><span class=
+<span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@limit</span> <span class="syntax-DIGIT">10</span>
-<span class="gutterH">  15 </span><span class=
-"syntax-KEYWORD1">DO</span> <span class=
+<span class="syntax-KEYWORD1">DO</span> <span class=
 "syntax-MARKUP">@i</span> to <span class=
 "syntax-MARKUP">@limit</span> <span class=
 "syntax-OPERATOR">$[</span> <span class=
@@ -3661,42 +3752,34 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL2">*arf</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@i</span> <span class="syntax-OPERATOR">]$</span>
-<span class="gutter">  16 </span><span class=
-"syntax-KEYWORD1">FUNC</span> woo <span class=
+<span class="syntax-KEYWORD1">FUNC</span> woo <span class=
 "syntax-OPERATOR">(</span> toput <span class=
 "syntax-OPERATOR">)</span> <span class=
 "syntax-OPERATOR">$[</span> <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-LITERAL4">@@toput</span> <span class=
 "syntax-OPERATOR">]$</span>
-<span class="gutter">  17 </span>woo <span class=
-"syntax-OPERATOR">(</span> <span class=
+woo <span class="syntax-OPERATOR">(</span> <span class=
 "syntax-LITERAL2">*arf</span> <span class=
 "syntax-OPERATOR">)</span>
-<span class="gutter">  18 </span>woo <span class=
-"syntax-OPERATOR">(</span> <span class=
+woo <span class="syntax-OPERATOR">(</span> <span class=
 "syntax-LITERAL2">*foo</span> <span class=
 "syntax-OPERATOR">)</span>
-<span class="gutter">  19 </span><span class=
-"syntax-KEYWORD2">const</span><span class=
+<span class="syntax-KEYWORD2">const</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-list</span>
-<span class="gutterH">  20 </span><span class=
-"syntax-KEYWORD2">const</span><span class=
+<span class="syntax-KEYWORD2">const</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@bar</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-list</span>
-<span class="gutter">  21 </span><span class=
-"syntax-KEYWORD2">put</span><span class=
+<span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-from</span> <span class=
 "syntax-MARKUP">@bar</span>
-<span class="gutter">  22 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
-<span class="gutter">  23 </span>
 </span>
 </pre>
   </blockquote>
@@ -3966,12 +4049,11 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>stuff/mssql</tt> .<br></p><i>Example</i>
     (<tt>examples/dbexample.ublu</tt>)
     <pre>
-<span class="syntax0"><span class="gutter">   1 </span><span class=
+<span class="syntax0"><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">dbexample.ublu</span>
-<span class="gutter">   2 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Example</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -3992,12 +4074,10 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Extension</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">language</span>
-<span class="gutter">   3 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
-<span class="gutter">   4 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Copyright</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4012,8 +4092,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Woehr</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">http://www.softwoehr.com</span>
-<span class="gutterH">   5 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">See</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4028,9 +4107,8 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">open</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">source)</span>
-<span class="gutter">   6 </span>
-<span class="gutter">   7 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">NOTE:</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4059,8 +4137,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">is</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">currently</span>
-<span class="gutter">   8 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">being</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4069,15 +4146,13 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">/</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">reworked.</span>
-<span class="gutter">   9 </span> 
-<span class="gutterH">  10 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+ 
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Example</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">session:</span>
-<span class="gutter">  11 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">&gt;</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4087,8 +4162,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">@dbinst</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  12 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">&gt;</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4106,8 +4180,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Lane</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
-<span class="gutter">  13 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">&gt;</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4127,8 +4200,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">golden</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  14 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Query:</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4149,8 +4221,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Lane</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">','golden')</span>
-<span class="gutterH">  15 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">&gt;</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4170,8 +4241,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">gotham</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  16 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Query:</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4186,8 +4256,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">(</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">'2','sillyperson','monty','123_skidoo_street','gotham')</span>
-<span class="gutter">  17 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">&gt;</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4197,8 +4266,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">@dbinst</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  18 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">PERSONID</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4208,8 +4276,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">ADDRESS</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">CITY</span>
-<span class="gutter">  19 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">woehr</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4225,8 +4292,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">golden</span>
-<span class="gutterH">  20 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">sillyperson</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4235,8 +4301,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">123_skidoo_street</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">gotham</span>
-<span class="gutter">  21 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">&gt;</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4246,16 +4311,13 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">@dbinst</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  22 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">PERSONID,LASTNAME,FIRSTNAME,ADDRESS,CITY</span>
-<span class="gutter">  23 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">INTEGER,VARCHAR,VARCHAR,VARCHAR,VARCHAR</span>
-<span class="gutter">  24 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">jdbc</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4277,8 +4339,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">type</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">12</span>
-<span class="gutterH">  25 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">1,woehr,jack,1313</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4287,13 +4348,11 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Lane</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">,golden</span>
-<span class="gutter">  26 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">2,sillyperson,monty,123_skidoo_street,gotham</span>
-<span class="gutter">  27 </span>
-<span class="gutter">  28 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Get</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4302,8 +4361,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">DB</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">instance</span>
-<span class="gutter">  29 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">E.g.,</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4323,25 +4381,24 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">@dbinst</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutterH">  30 </span><span class=
-"syntax-KEYWORD1">FUNC</span> myDb <span class=
+<span class="syntax-KEYWORD1">FUNC</span> myDb <span class=
 "syntax-OPERATOR">(</span> sys type coll uid passwd dbinst <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  31 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-db</span> <span class=
-"syntax-LITERAL4">@@type</span> <span class=
+"syntax-LITERAL4">@@type</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-connect</span> <span class=
 "syntax-LITERAL4">@@sys</span> <span class=
 "syntax-LITERAL4">@@coll</span> <span class=
 "syntax-LITERAL4">@@uid</span> <span class=
 "syntax-LITERAL4">@@passwd</span>
-<span class="gutter">  32 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  33 </span>
-<span class="gutter">  34 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Create</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4363,15 +4420,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">exists</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1"> </span>
-<span class="gutterH">  35 </span><span class=
-"syntax-KEYWORD1">FUNC</span> createPersons <span class=
-"syntax-OPERATOR">(</span> dbinst <span class=
-"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  36 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+<span class=
+"syntax-KEYWORD1">FUNC</span> createPersons <span class="syntax-OPERATOR">(</span> dbinst <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-query_nors</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
@@ -4380,62 +4436,53 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1">TABLE</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">Persons</span>
-<span class="gutter">  37 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">(</span>
-<span class="gutter">  38 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">PersonID</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">int,</span>
-<span class="gutter">  39 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">LastName</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">varchar(255),</span>
-<span class="gutterH">  40 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">FirstName</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">varchar(255),</span>
-<span class="gutter">  41 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">Address</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">varchar(255),</span>
-<span class="gutter">  42 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">City</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">varchar(255)</span>
-<span class="gutter">  43 </span><span class=
-"syntax-LITERAL1"> </span><span class=
+<span class="syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">)</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  44 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutterH">  45 </span>
-<span class="gutter">  46 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Create</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4460,8 +4507,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">time,</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">e.g.,</span>
-<span class="gutter">  47 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">put</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4477,8 +4523,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">St.</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">}$</span>
-<span class="gutter">  48 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">addRowToPersons</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4496,14 +4541,13 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Gotham</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  49 </span><span class=
+<span class=
 "syntax-KEYWORD1">FUNC</span> addRowToPersons <span class=
 "syntax-OPERATOR">(</span> dbinst id_int lastname firstname addr city <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutterH">  50 </span>    <span class=
-"syntax-KEYWORD1">LOCAL</span> <span class=
+    <span class="syntax-KEYWORD1">LOCAL</span> <span class=
 "syntax-MARKUP">@query</span>
-<span class="gutter">  51 </span>    <span class=
-"syntax-KEYWORD2">put</span> <span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@query</span> <span class=
 "syntax-LITERAL1">${</span><span class=
@@ -4518,117 +4562,127 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">(</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  52 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> '
-<span class="gutter">  53 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> <span class=
 "syntax-LITERAL4">@@id_int</span>
-<span class="gutter">  54 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> ','
-<span class="gutterH">  55 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> <span class=
 "syntax-LITERAL4">@@lastname</span>
-<span class="gutter">  56 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> ','
-<span class="gutter">  57 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> <span class=
 "syntax-LITERAL4">@@firstname</span>
-<span class="gutter">  58 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> ','
-<span class="gutter">  59 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> <span class=
 "syntax-LITERAL4">@@addr</span>
-<span class="gutterH">  60 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> ','
-<span class="gutter">  61 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> <span class=
 "syntax-LITERAL4">@@city</span>
-<span class="gutter">  62 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@query</span> <span class=
+"syntax-MARKUP">@query</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-MARKUP">@query</span> '<span class=
 "syntax-OPERATOR">)</span>
-<span class="gutter">  63 </span>    <span class=
-"syntax-KEYWORD2">put</span> <span class=
-"syntax-KEYWORD3">-n</span> <span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-s</span> Query: <span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@query</span>
-<span class="gutter">  64 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-query_nors</span> <span class=
 "syntax-MARKUP">@query</span>
-<span class="gutterH">  65 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  66 </span>  
-<span class="gutter">  67 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+  
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">List</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">the</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">table</span>
-<span class="gutter">  68 </span><span class=
+<span class=
 "syntax-KEYWORD1">FUNC</span> starFromPersons <span class=
 "syntax-OPERATOR">(</span> dbinst <span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  69 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-star</span> PERSONS
-<span class="gutterH">  70 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  71 </span>
-<span class="gutter">  72 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Get</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4641,21 +4695,20 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">the</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">table</span>
-<span class="gutter">  73 </span><span class=
+<span class=
 "syntax-KEYWORD1">FUNC</span> starCSVFromPersons <span class=
 "syntax-OPERATOR">(</span> dbinst <span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  74 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-csv</span> PERSONS
-<span class="gutterH">  75 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  76 </span>
-<span class="gutter">  77 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Get</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4669,21 +4722,20 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">table</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1"> </span>
-<span class="gutter">  78 </span><span class=
+<span class=
 "syntax-KEYWORD1">FUNC</span> starJSONfromPersons <span class=
 "syntax-OPERATOR">(</span> dbinst <span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  79 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-json</span> PERSONS
-<span class="gutterH">  80 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  81 </span>
-<span class="gutter">  82 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Get</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4703,12 +4755,12 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">table</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1"> </span>
-<span class="gutter">  83 </span><span class=
+<span class=
 "syntax-KEYWORD1">FUNC</span> oneJSONfromPersons <span class=
 "syntax-OPERATOR">(</span> dbinst lastname <span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  84 </span>    <span class=
-"syntax-KEYWORD2">put</span> <span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span> <span class=
 "syntax-LITERAL1">${</span><span class=
@@ -4727,46 +4779,50 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">=</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutterH">  85 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-LITERAL4">~</span> '
-<span class="gutter">  86 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-LITERAL4">~</span> <span class=
 "syntax-LITERAL4">@@lastname</span>
-<span class="gutter">  87 </span>    <span class=
-"syntax-KEYWORD2">string</span> <span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-cat</span> <span class=
 "syntax-LITERAL4">~</span> '
-<span class="gutter">  88 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-query</span> <span class=
 "syntax-LITERAL4">~</span>
-<span class="gutter">  89 </span>    <span class=
-"syntax-KEYWORD2">rs</span> <span class=
+    <span class="syntax-KEYWORD2">rs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-json</span> <span class=
 "syntax-LITERAL4">@@dbinst</span> PERSONS
-<span class="gutterH">  90 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  91 </span>  
-<span class="gutter">  92 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+  
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Delete</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -4775,15 +4831,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">PERSONS</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">table</span>
-<span class="gutter">  93 </span><span class=
-"syntax-KEYWORD1">FUNC</span> deletePersons <span class=
-"syntax-OPERATOR">(</span> dbinst <span class=
-"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  94 </span>    <span class=
-"syntax-KEYWORD2">db</span> <span class=
+<span class=
+"syntax-KEYWORD1">FUNC</span> deletePersons <span class="syntax-OPERATOR">(</span> dbinst <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+    <span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-LITERAL4">@@dbinst</span> <span class=
+"syntax-LITERAL4">@@dbinst</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-query_nors</span> <span class=
 "syntax-LITERAL1">${</span><span class=
 "syntax-LITERAL1"> </span><span class=
@@ -4793,13 +4848,10 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">PERSONS</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutterH">  95 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  96 </span>
-<span class="gutter">  97 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">End</span>
-<span class="gutter">  98 </span>
 </span>
 </pre>
   </blockquote>
@@ -5822,7 +5874,7 @@ Type help for help. Type license for license. Type bye to exit.
     <tt>file -- @f -write @newrec</tt><tt><br></tt> <tt>file -- @f
     -close</tt><br>
     <pre>
-<span class="syntax0"><span class="gutter">   1 </span><span class=
+<span class="syntax0"><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">listsrc.ublu</span><span class=
@@ -5847,8 +5899,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">record</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">file</span>
-<span class="gutter">   2 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Example</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5857,8 +5908,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Ublu</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
-<span class="gutter">   3 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Copyright</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5873,8 +5923,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Woehr</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">http://www.softwoehr.com</span>
-<span class="gutter">   4 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">See</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5889,9 +5938,8 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">open</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">source)</span>
-<span class="gutterH">   5 </span>
-<span class="gutter">   6 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Given</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5918,8 +5966,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">source</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">member</span>
-<span class="gutter">   7 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">type</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5940,8 +5987,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">out,</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">e.g.,</span>
-<span class="gutter">   8 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5952,8 +5998,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">@mysys</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">/QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR</span><span class="syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">   9 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">where</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -5966,57 +6011,57 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">as400</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">object.</span>
-<span class="gutterH">  10 </span><span class=
-"syntax-KEYWORD1">FUNC</span> listsrc <span class=
+<span class="syntax-KEYWORD1">FUNC</span> listsrc <span class=
 "syntax-OPERATOR">(</span> sys fqp <span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  11 </span>    <span class=
-"syntax-KEYWORD1">LOCAL</span> <span class=
+    <span class="syntax-KEYWORD1">LOCAL</span> <span class=
 "syntax-MARKUP">@f</span> <span class=
 "syntax-KEYWORD1">LOCAL</span> <span class=
 "syntax-MARKUP">@lines</span> <span class=
 "syntax-KEYWORD1">LOCAL</span> <span class=
 "syntax-MARKUP">@recordarray</span>
-<span class="gutter">  12 </span>    <span class=
-"syntax-KEYWORD2">file</span> <span class=
+    <span class="syntax-KEYWORD2">file</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-as400</span> <span class=
-"syntax-LITERAL4">@@sys</span> <span class=
+"syntax-LITERAL4">@@sys</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@f</span> <span class=
+"syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-keyed</span> <span class=
 "syntax-LITERAL4">@@fqp</span>
-<span class="gutter">  13 </span>    <span class=
-"syntax-KEYWORD2">file</span> <span class=
+    <span class="syntax-KEYWORD2">file</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-MARKUP">@f</span> <span class=
+"syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-open</span>  R
-<span class="gutter">  14 </span>    <span class=
-"syntax-KEYWORD2">file</span> <span class=
+    <span class="syntax-KEYWORD2">file</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-MARKUP">@f</span> <span class=
+"syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-close</span>
-<span class="gutterH">  15 </span>    <span class=
-"syntax-KEYWORD2">file</span> <span class=
+    <span class="syntax-KEYWORD2">file</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">--</span><span class=
 "syntax-KEYWORD3"> </span><span class=
-"syntax-MARKUP">@f</span> <span class=
+"syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@recordarray</span> <span class=
+"syntax-MARKUP">@recordarray</span><span class=
+"syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-read</span> ALL
-<span class="gutter">  16 </span>    <span class=
-"syntax-KEYWORD1">FOR</span> <span class=
+    <span class="syntax-KEYWORD1">FOR</span> <span class=
 "syntax-MARKUP">@i</span> in <span class=
 "syntax-MARKUP">@recordarray</span> <span class=
 "syntax-OPERATOR">$[</span>
-<span class="gutter">  17 </span>        <span class=
-"syntax-KEYWORD2">put</span> <span class="syntax-MARKUP">@i</span>
-<span class="gutter">  18 </span>    <span class=
-"syntax-OPERATOR">]$</span>    
-<span class="gutter">  19 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutterH">  20 </span>
+        <span class="syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@i</span>
+    <span class="syntax-OPERATOR">]$</span>    
+<span class="syntax-OPERATOR">]$</span>
 </span>
 </pre>
   </blockquote>

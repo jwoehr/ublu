@@ -17,7 +17,9 @@ FUNC test.all ( test_defaults_filepath ) $[
     \\ ${ include t.BREAK.ublu t.BREAK ( ) }$     \\ ${ test BREAK }$		
     \\ ${ include t.bye.ublu t.bye ( ) }$     \\ ${ test bye }$		
     \\ ${ include t.CALL.ublu t.CALL ( ) }$     \\ ${ test CALL }$		
-    \\ ${ include t.calljava.ublu t.calljava ( ) }$     \\ ${ test calljava }$		
+    \\ ${ include t.calljava.ublu t.calljava ( ) }$     \\ ${ test calljava }$
+    \\ ${ include t.cim.ublu t.cim ( ) }$     \\ ${ test cim }$
+    \\ ${ include t.cimi.ublu t.cimi ( ) }$     \\ ${ test cimi }$
     \\ ${ include t.collection.ublu t.collection ( ) }$     \\ ${ test collection }$		
     \\ ${ include t.commandcall.ublu t.commandcall ( ) }$     \\ ${ test commandcall }$		
     \\ ${ include t.const.ublu t.const ( ) }$     \\ ${ test const }$		
