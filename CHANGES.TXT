@@ -17,11 +17,11 @@ Commands
 	* now does it as Long
         * added inc and dec
         * fixed bug where - mistaken for dash-command
-* file enhanced
+* file greatly enhanced
 * ftp command rewritten, new specifications
 	* previous ftp command is now called 'oldftp'
 * interpreter new command for interperter debugging
-* record enhanced
+* record greatly enhanced
 * streamf new command for stream files on local system
 * string
     * -pad
