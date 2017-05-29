@@ -7,10 +7,11 @@
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 24 May 2017 09:33:26 UTC">
+  "Tue, 30 May 2017 19:33:26 UTC">
 
   <title>Ublu Midrange and Mainframe Life Cycle Extension
   Language</title>
@@ -62,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-05-24</p>
+  Last edit: 2017-05-30</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -5636,10 +5637,11 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
   <h4><a name="file"></a> <tt>file</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed
-    | -sequential] [-new | -create ~@{recordLength}
-    ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds
-    ~@{ddsPath} ~@{textDescription} | -createfmt ~@recFormat
+    <tt>/4? [-to datasink ] [--,-file ~@file] [-as400 ~@as400]
+    [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -create
+    ~@{recordLength} ~@{fileType([*DATA|*SOURCE])}
+    ~@{textDescription} | -createdds ~@{ddsPath}
+    ~@{textDescription} | -createfmt ~@recFormat
     ~@{textDescription} | -commitstart
     ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback |
     -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} |
@@ -5647,7 +5649,7 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     ~@format | -open ~@{R|W|RW} | -close | -list | -pos
     ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write
-    ~@record | -writeall ~@recordarray ] [-to datasink]
+    ~@record | -writeall ~@recordarray | -refresh]
     ~@{/fully/qualified/ifspathname} ~@{system} ~@{user}
     ~@{password} : record file access</tt><br>
     <br>
@@ -5682,7 +5684,8 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
       <li>Open the <tt>file</tt> object with <tt>-open</tt>
       optionally indicating which record format to use via the <tt>
-        -recfmt# ~@{int}</tt> dash-command
+        -recfmt# ~@{int}</tt> dash-command and a blocking factor
+        via <code>-blocking</code>.
 
         <ul>
           <li>Alternatively, create the file first and then open
@@ -5699,6 +5702,18 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     </ol>The operations of the dash-commands are as follows:<br>
 
     <ul>
+      <li><code>-blocking ~@{numrecs}</code> indicates number of
+      records (default 0) to retrieve or to write during a read or
+      write operation if the file is opened R or W. This
+      dash-command only has effect if used during an
+      <code>-open</code>. If opened RW, a blocking factor of 1 will
+      be used for data integrity reasons. If 0 is specified, the
+      default value is the integer result of dividing 2048 by the
+      byte length of the record plus 16. If the blocking factor is
+      greater than 1 or is 0, do a <code>-refresh</code> prior to
+      reading a record to cause the object to read from the system
+      if stale records are a problem.</li>
+
       <li><tt>[-keyed | -sequential]</tt> one of which must be
       provided when initially instancing the <tt>file</tt>
       object.</li>
@@ -5831,6 +5846,9 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
           <li><tt>ALL</tt> all</li>
         </ul>
       </li>
+
+      <li><code>-refresh</code> causes the record cache to be
+      updated to avoid stale records.</li>
 
       <li><tt>-update ~@record</tt> writes the record (often
       created via the <a href="#record"><tt>record</tt></a>

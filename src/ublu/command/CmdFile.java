@@ -55,7 +55,7 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray ] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray | -refresh] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
@@ -151,6 +151,10 @@ public class CmdFile extends Command {
          */
         READ,
         /**
+         * Refresh record cache
+         */
+        REFRESH,
+        /**
          * Update a record
          */
         UPDATE,
@@ -218,6 +222,9 @@ public class CmdFile extends Command {
                         getLogger().log(Level.SEVERE, "Encountered an exception getting a file instance from the supplied command arguments in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
+                    break;
+                case "-blocking":
+                    blockingFactor = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-keyed":
                     keyedNotSequential = true;
@@ -333,6 +340,9 @@ public class CmdFile extends Command {
                 case "-writeall":
                     function = FUNCTIONS.WRITE;
                     recordArrayList = argArray.nextTupleOrPop().value(RecordArrayList.class);
+                    break;
+                case "-refresh":
+                    function = FUNCTIONS.REFRESH;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -798,6 +808,21 @@ public class CmdFile extends Command {
                         getLogger().log(Level.SEVERE, "No file instance from the supplied command arguments for set format in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                         break;
+                    }
+                    break;
+
+                case REFRESH:
+                    if (aS400File == null) {
+                        getLogger().log(Level.SEVERE, "No AS400File instance provided to refresh in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            aS400File.refreshRecordCache();
+                        } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception refreshing record cache for AS400File  " + aS400File + "in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
             }
