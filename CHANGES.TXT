@@ -13,6 +13,7 @@ Commands
 * calljava
 	* -class
 	* -forname
+* dq now uses wait on -peek and -read
 * eval
 	* now does it as Long
         * added inc and dec

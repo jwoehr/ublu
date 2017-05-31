@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,9 +47,9 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdDq extends Command {
-
+    
     {
-        setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] -clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write} ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
+        setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
     }
 
     /**
@@ -107,6 +109,7 @@ public class CmdDq extends Command {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
         Tuple dqTuple = null;
         int dqMaxLen = 0;
+        int waitSeconds = 0;
         String theQuery = null;
         String dataToWrite = null;
         while (argArray.hasDashCommand()) {
@@ -159,6 +162,9 @@ public class CmdDq extends Command {
                 case "-write":
                     function = FUNCTIONS.WRITE;
                     dataToWrite = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-wait":
+                    waitSeconds = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -244,7 +250,7 @@ public class CmdDq extends Command {
                         break;
                     case PEEK:
                         try {
-                            put(myDq.peek());
+                            put(myDq.peek(waitSeconds));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
                             getLogger().log(Level.SEVERE, "Error peeking dataqueue instance " + myDq.getName() + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -292,7 +298,7 @@ public class CmdDq extends Command {
                         break;
                     case READ:
                         try {
-                            put(myDq.read());
+                            put(myDq.read(waitSeconds));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
                             getLogger().log(Level.SEVERE, "Error peeking reading instance " + myDq.getName() + " in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -316,13 +322,13 @@ public class CmdDq extends Command {
         }
         return argArray;
     }
-
+    
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return dq(args);
     }
-
+    
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
