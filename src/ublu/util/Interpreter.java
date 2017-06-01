@@ -242,6 +242,15 @@ public class Interpreter {
     }
 
     /**
+     * True if command-line switch told us we're running under Goublu.
+     *
+     * @return True if command-line switch told us we're running under Goublu
+     */
+    public boolean isGoubluing() {
+        return getMyUblu().isGoubluing();
+    }
+
+    /**
      * Return the logger for this interpreter
      *
      * @return the logger for this interpreter
@@ -1374,7 +1383,7 @@ public class Interpreter {
             prompt();
             readAndParse();
             loop();
-            if (isGoodBye() && isConsole() && instanceDepth == 0) {
+            if (isGoodBye() && (isConsole() || isGoubluing()) && instanceDepth == 0) {
                 outputerrln("Goodbye!");
             }
         }
@@ -1403,6 +1412,8 @@ public class Interpreter {
             }
             if (isConsole()) {
                 outputerr(thePrompt);
+            } else if (isGoubluing()) {
+                outputln(thePrompt);
             }
         }
     }
