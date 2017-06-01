@@ -42,7 +42,7 @@ import ublu.util.Generics.StringArrayList;
  * <p>
  * GetArgs breaks up the passed-in string into two lists, one of the plain
  * arguments, and one of the option-argument pairs. GetArgs creates
- * com.SoftWoehr.util.Argument objects of each of these entities.
+ * Argument objects of each of these entities.
  *
  * <p>
  * Each option is identified by a single character preceded by an option
@@ -217,16 +217,6 @@ public class GetArgs {
         /* End for*/
 
         return result;
-    }
-
-    /**
-     * shutdown() here does nothing.
-     *
-     * @see com.SoftWoehr.SoftWoehr#shutdown
-     * @return 0
-     */
-    public int shutdown() {
-        return 0;
     }
 
     /**
