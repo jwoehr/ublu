@@ -9,8 +9,8 @@ See file LICENSE for license information.
 * <a href="#quickstart">Quickstart instructions</a>
 * <a href="#discussion">Discussion of Ublu</a>
 
-<a name="general">
-## General information</a>
+<a name="general"></a>
+## General information
 
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows. It
@@ -33,15 +33,15 @@ in Ublu. Whatever works!
 
 Ublu is Open Source Software under the BSD-2 license.
 
-The user's guide is [userdoc/ubluguide.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html)
+The user's guide is [userdoc/ubluguide.html](http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html)
 
-The full reference is [userdoc/ubluref.html] (http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluref.html)
+The full reference is [userdoc/ubluref.html](http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluref.html)
 
-Here's an [example of Ublu code] (http://www.softwoehr.com/softwoehr/oss/ubludoc/jobstuff-example.html)
+Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/jobstuff-example.html)
 
-The example is syntax-colored using a [jEdit] (http://jedit.org) edit mode provided with Ublu.
+The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is [version 1.1.6] (https://github.com/jwoehr/ublu/releases/tag/v1.1.6).
+The latest release version of Ublu is [version 1.1.6](https://github.com/jwoehr/ublu/releases/tag/v1.1.6).
 
 The tip of the master branch calls itself 1.1.6+ as we head for 1.1.7
 
@@ -51,8 +51,8 @@ files which permit such distribution.
 Ublu is already a stable and useful tool which has seen much use in the real
 world. It is neither complete nor perfect, but what is in this world?
 
-<a name="quickstart">
-## Quick start instructions</a>
+<a name="quickstart"></a>
+## Quick start instructions
 
 Download the release and <code>java -jar ublu.jar</code> to run Ublu.
 
@@ -70,19 +70,18 @@ Or clone, build and run:
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
 
-<a name="discussion">
-## Discussion of Ublu</a>
+<a name="discussion"></a>
+## Discussion of Ublu
 
-Report bugs or make feature requests in the [Issue Tracker] (https://github.com/jwoehr/ublu/issues)
+Report bugs or make feature requests in the [Issue Tracker](https://github.com/jwoehr/ublu/issues)
 
-There is some more information in the [Ublu Wiki] (https://github.com/jwoehr/ublu/wiki)
+There is some more information in the [Ublu Wiki](https://github.com/jwoehr/ublu/wiki)
 
-Ublu was noted August 17, 2016 in the IT Jungle article
-[Ublu: A Modern Band-Aid for Legacy i Ills] (http://www.itjungle.com/tfh/tfh081716-story01.html)
+Ublu was noted August 17, 2016 in the IT Jungle article [Ublu A Modern Band-Aid for Legacy i Ills](http://www.itjungle.com/tfh/tfh081716-story01.html)
 
-Discuss Ublu in the [IBMiOSS Ublu forum on Ryver] (https://ibmioss.ryver.com/index.html#forums/1057363).
+Discuss Ublu in the [IBMiOSS Ublu forum on Ryver](https://ibmioss.ryver.com/index.html#forums/1057363).
 
-Here is the [signup page for the free Open Source Software on IBM i (IBMiOSS) organization on Ryver] (https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
+Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
 
 Jack Woehr 2017-06-01
