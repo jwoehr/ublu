@@ -45,6 +45,16 @@ public class Ublu {
     private GetArgs myGetArgs;
     private StringArrayList originalArgs;
     private JVMHelper jVMHelper = null;
+    private boolean goubluing = false;
+
+    /**
+     * True if command-line switch told us we're running under Goublu.
+     *
+     * @return True if command-line switch told us we're running under Goublu
+     */
+    public boolean isGoubluing() {
+        return goubluing;
+    }
 
     /**
      * Return singleton JVMHelper
@@ -232,6 +242,9 @@ public class Ublu {
             interpreter.outputerrln(startupMessage());
             interpreter.outputerrln(invocationHelp());
         } else {
+            if (myGetArgs.containsOpt("-g")) {
+                goubluing = true;
+            }
             if (myGetArgs.containsOpt("-t")) { // Instance history (with filename, if provided)
                 StringArrayList sal = myGetArgs.getAllIdenticalOptionArguments("-t");
                 if (!sal.isEmpty()) {
@@ -254,7 +267,7 @@ public class Ublu {
                 interpreter.interpret();
             } else if (interpreter.getArgArray().isEmpty()) {
                 if (!myGetArgs.containsOpt("-s")) {
-                    if (interpreter.isConsole()) {
+                    if (interpreter.isConsole() || isGoubluing()) {
                         interpreter.outputerrln(startupMessage());
                         interpreter.outputerrln(HELPLINE);
                     }
