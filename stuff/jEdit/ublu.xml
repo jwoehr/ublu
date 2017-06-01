@@ -86,6 +86,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>ifs</KEYWORD2>
         <KEYWORD2>include</KEYWORD2>
         <KEYWORD2>interpret</KEYWORD2>
+        <KEYWORD2>interpreter</KEYWORD2>
         <KEYWORD2>jmx</KEYWORD2>
         <KEYWORD2>job</KEYWORD2>
         <KEYWORD2>joblist</KEYWORD2>
