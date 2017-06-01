@@ -2,7 +2,7 @@ CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
 Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved.
 
-1.1.6
+1.1.6 2017-06-01
 -----
 System
 * Option processing improved
@@ -21,7 +21,7 @@ Commands
 * file greatly enhanced
 * ftp command rewritten, new specifications
 	* previous ftp command is now called 'oldftp'
-* interpreter new command for interperter debugging
+* interpreter new command for interpreter debugging
 * record greatly enhanced
 * streamf new command for stream files on local system
 * string

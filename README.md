@@ -1,7 +1,7 @@
 # ublu
 Ublu Midrange and Mainframe Life Cycle Extension Language<br>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com<br>
-Copyright (c) 2016, Jack J. Woehr http://www.softwoehr.com<br>
+Copyright (c) 2017, Jack J. Woehr http://www.softwoehr.com<br>
 All rights reserved.<br>
 See file LICENSE for license information.
 
@@ -43,7 +43,7 @@ The example is syntax-colored using a [jEdit] (http://jedit.org) edit mode provi
 
 The latest release version of Ublu is [version 1.1.3] (https://github.com/jwoehr/ublu/releases/tag/v1.1.3).
 
-The tip of the master branch calls itself 1.1.3+ as we head for 1.1.4
+The tip of the master branch calls itself 1.1.6+ as we head for 1.1.7
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -64,7 +64,8 @@ Or clone, build and run:
 <ul>
     <li> Of course you have <a href="http://ant.apache.org/">Apache Ant</a>
         installed, right?!</li>
-</ul></li>
+</ul>
+</li>
 <li> ./dist/ublu.jar and its necessary ./dist/lib directory are the runtime system.</li>
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
@@ -84,4 +85,4 @@ Discuss Ublu in the [IBMiOSS Ublu forum on Ryver] (https://ibmioss.ryver.com/ind
 Here is the [signup page for the free Open Source Software on IBM i (IBMiOSS) organization on Ryver] (https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
 
-Jack Woehr 2016-10-14
+Jack Woehr 2017-06-01
