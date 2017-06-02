@@ -91,6 +91,7 @@ public class CmdInterpreter extends Command {
                 case ALL: {
                     try {
                         put("Instance depth : " + getInterpreter().getInstanceDepth());
+                        put("Frame depth : " + getInterpreter().getFrameDepth());
                         put("FOR block : " + getInterpreter().isForBlock());
                         put("Break issued : " + getInterpreter().isBreakIssued());
                         put("History filename : " + getInterpreter().getHistoryFileName());

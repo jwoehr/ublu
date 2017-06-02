@@ -1016,7 +1016,7 @@ public class Interpreter {
      *
      * @return How many frames have been pushed
      */
-    public int frameDepth() {
+    public int getFrameDepth() {
         return interpreterFrameStack.size();
     }
 
@@ -1065,11 +1065,11 @@ public class Interpreter {
     public COMMANDRESULT executeBlock(String block) {
         COMMANDRESULT rc;
         pushFrame();
-        int deep = frameDepth();
+        int deep = getFrameDepth();
         Parser p = new Parser(this, block);
         setArgArray(p.parseAnArgArray());
         rc = loop();
-        if (deep <= frameDepth()) {
+        if (deep <= getFrameDepth()) {
             // /* debug */ outputerrln("about to pop frame in executeBlock");
             popFrame();
             // /* debug */ outputerrln("popped frame in executeBlock");
