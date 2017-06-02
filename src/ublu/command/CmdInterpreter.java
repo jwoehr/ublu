@@ -95,7 +95,7 @@ public class CmdInterpreter extends Command {
                         put("Break issued : " + getInterpreter().isBreakIssued());
                         put("History filename : " + getInterpreter().getHistoryFileName());
                         put("History manager : " + getInterpreter().getHistory());
-                        put("Local info : " + getLocaleHelper());
+                        put("Locale info : " + getLocaleHelper());
 
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception putting interpreter info in " + getNameAndDescription(), ex);
