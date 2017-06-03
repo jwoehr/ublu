@@ -27,6 +27,7 @@
  */
 package ublu;
 
+import java.io.PrintStream;
 import java.util.logging.Logger;
 import org.sblim.cimclient.internal.cim.CIMVersion;
 import ublu.util.Generics.StringArrayList;
@@ -46,6 +47,7 @@ public class Ublu {
     private StringArrayList originalArgs;
     private JVMHelper jVMHelper = null;
     private boolean goubluing = false;
+    private boolean windowing = false;
 
     /**
      * True if command-line switch told us we're running under Goublu.
@@ -54,6 +56,24 @@ public class Ublu {
      */
     public boolean isGoubluing() {
         return goubluing;
+    }
+
+    /**
+     * True if we're running as UbluWin.
+     *
+     * @return True if we're running as UbluWin.
+     */
+    public boolean isWindowing() {
+        return windowing;
+    }
+
+    /**
+     * True if we're running in as UbluWin.
+     *
+     * @param windowing True if we're running as UbluWin.
+     */
+    public void setWindowing(boolean windowing) {
+        this.windowing = windowing;
     }
 
     /**
@@ -73,6 +93,7 @@ public class Ublu {
      * recommendations.
      */
     protected Logger LOG;
+
     /**
      * Singleton main interpreter
      */
@@ -207,6 +228,13 @@ public class Ublu {
         sb.append("  -t [filename, --]\t\topen history file filename or default if --\n");
         sb.append("  -h\t\t\t\tdisplay this help and then exit\n");
         return sb.toString();
+    }
+
+    /**
+     * Reinit logger e.g., after creating windowing
+     */
+    public void reinitLogger(PrintStream out) {
+        LOG = new InterpreterLogger("UbluInterpreter." + Thread.currentThread().toString(), Logger.getLogger(Ublu.class.getName()), out);
     }
 
     /**
