@@ -4,6 +4,9 @@ All rights reserved.
 
 1.1.7
 -----
+System
+* Windowed Ublu supported but not compiled by default
+* Goublu support for Go language Ublu console (https://github.com/jwoehr/goublu)
 
 1.1.6 2017-06-01
 -----
