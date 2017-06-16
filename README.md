@@ -7,6 +7,7 @@ See file LICENSE for license information.
 
 * <a href="#general">General information</a>
 * <a href="#quickstart">Quickstart instructions</a>
+* <a href="goublu">Goublu console support for Ublu</a>
 * <a href="#discussion">Discussion of Ublu</a>
 
 <a name="general"></a>
@@ -70,18 +71,28 @@ Or clone, build and run:
 <li> java -jar ublu.jar to run Ublu.</li>
 </ul>
 
+<a name="goublu"></a>
+## Goublu console support for Ublu
+
+Ublu's interpreter relies on Java's console support, which is very weak.
+So I have coded [Goublu](https://github.com/jwoehr/goublu) in [Go language](https://golang.org/).
+
+Goublu is a console front-end that provides an editable Ublu command line. The go command
+
+`go get github.com/jwoehr/goublu`
+
+will fetch the source to your `$GOPATH/src` directory to build for your architecture.
+
 <a name="discussion"></a>
 ## Discussion of Ublu
 
 Report bugs or make feature requests in the [Issue Tracker](https://github.com/jwoehr/ublu/issues)
 
-There is some more information in the [Ublu Wiki](https://github.com/jwoehr/ublu/wiki)
-
-Ublu was noted August 17, 2016 in the IT Jungle article [Ublu A Modern Band-Aid for Legacy i Ills](http://www.itjungle.com/tfh/tfh081716-story01.html)
+There is some more information in the [Ublu Wiki](https://github.com/jwoehr/ublu/wiki) including zine article references.
 
 Discuss Ublu in the [IBMiOSS Ublu forum on Ryver](https://ibmioss.ryver.com/index.html#forums/1057363).
 
 Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
 
-Jack Woehr 2017-06-01
+Jack Woehr 2017-06-16
