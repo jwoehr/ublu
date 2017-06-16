@@ -7,7 +7,7 @@ See file LICENSE for license information.
 
 * <a href="#general">General information</a>
 * <a href="#quickstart">Quickstart instructions</a>
-* <a href="goublu">Goublu console support for Ublu</a>
+* <a href="#goublu">Goublu console support for Ublu</a>
 * <a href="#discussion">Discussion of Ublu</a>
 
 <a name="general"></a>
