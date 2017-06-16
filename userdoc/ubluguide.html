@@ -5,9 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -16,9 +13,9 @@
   <meta content=
   "Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language"
   name="description">
-  <meta http-equiv="Last-Modified" content=
-  "Mon, 24 Apr 2017 00:40:38 UTC">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
+  <meta http-equiv="Last-Modified" content=
+  "Fri, 16 Jun 2017 16:02:22 UTC">
 </head>
 
 <body>
@@ -2089,7 +2086,7 @@ message queue instance."<br>
   language".<br></p>
 
   <p>Ublu is a form of interpretive Java that hides as much as
-  possible about object usage.<br></p>There are basically three
+  possible about object usage.<br></p>There are basically five (5)
   data types in the Ublu language:<br>
 
   <ol>
@@ -2113,33 +2110,37 @@ message queue instance."<br>
     <li><tt>99999</tt></li>
 
     <li><tt>supercalifra$gilist$ticexpialifoobar..**(())</tt></li>
-  </ul>An <b>object</b> represents something or other, often a
+  </ul>
+
+  <p>An <b>object</b> represents something or other, often a
   something-or-other on a remote server but it's pretty opaque and
   you just have to know which&nbsp; objects you have in hand go
   with which Ublu commands. It's mostly simple to do because the
   same commands that use the objects typically provide the objects
-  in the first place.<br>
-  <br>
-  Objects are passed around in <b>variables</b> ("tuple variables"
-  or "tuples") marked with the <tt>@</tt> sign. Variables come into
-  existence by being mentioned. If they're in an execution block
-  between <tt>$[</tt> and <tt>]$</tt> they can be marked
-  <tt>LOCAL</tt> and disappear at the end of the block. Otherwise,
-  they persist until expressly deleted or until the interpreter in
-  whose context they reside exits.<br>
-  <br>
-  A string in Ublu is parsed from a sequence of plainwords wrapped
-  by&nbsp; <tt>${</tt> and <tt>}$</tt> e.g. <tt>${ hi there }$</tt>
-  Many commands in Ublu will take either a string, a plainword, or
-  a variable as an argument. This is symbolized in the command
-  descriptions in the Ublu Reference by <tt>~@{something}</tt>.
-  <small><i>The ~ means also that the argument to the dash-command
-  can be popped from Ublu's LIFO stack.<br></i></small><br>
-  An execution block is a body of Ublu program text wrapped in
-  <tt>$[</tt> and <tt>]$</tt> . Execution blocks are used as the
-  body of control constructs, such as <tt>IF</tt> ... <tt>THEN</tt>
-  ... <tt>ELSE</tt> , function definitions and <tt>TRY</tt> ...
-  <tt>CATCH</tt> , e.g.<br>
+  in the first place.</p>
+
+  <p>Objects are passed around in <b>variables</b> ("tuple
+  variables" or "tuples") marked with the <tt>@</tt> sign.
+  Variables come into existence by being mentioned. If they're in
+  an execution block between <tt>$[</tt> and <tt>]$</tt> they can
+  be marked <tt>LOCAL</tt> and disappear at the end of the block.
+  Otherwise, they persist until expressly deleted or until the
+  interpreter in whose context they reside exits.</p>
+
+  <p>A <strong>string</strong> in Ublu is parsed from a sequence of
+  plainwords wrapped by <tt>${</tt> and <tt>}$</tt> e.g. <tt>${ hi
+  there }$</tt> Many commands in Ublu will take either a string, a
+  plainword, or a variable as an argument. This is symbolized in
+  the command descriptions in the Ublu Reference by
+  <tt>~@{something}</tt>. <small><i>The ~ means also that the
+  argument to the dash-command can be popped from Ublu's LIFO
+  stack.<br></i></small></p>
+
+  <p>An <strong>execution block</strong> is a body of Ublu program
+  text wrapped in <tt>$[</tt> and <tt>]$</tt> . Execution blocks
+  are used as the body of control constructs, such as <tt>IF</tt>
+  ... <tt>THEN</tt> ... <tt>ELSE</tt> , function definitions and
+  <tt>TRY</tt> ... <tt>CATCH</tt> , e.g.</p>
 
   <blockquote>
     <tt>IF @trueorfalse THEN $[ joblist -as400 @myserver -to @jl
