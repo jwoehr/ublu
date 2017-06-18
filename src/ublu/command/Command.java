@@ -374,9 +374,9 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
-     * String " in " +  commandName and commandDescription
+     * String " in " + commandName and commandDescription
      *
-     * @return String " in " +  commandName and commandDescription
+     * @return String " in " + commandName and commandDescription
      */
     public final String inNameAndDescription() {
         return " in " + getNameAndDescription();
@@ -733,5 +733,14 @@ public abstract class Command implements CommandInterface {
      */
     public String locMsg(String key) {
         return getLocaleHelper().getString(key);
+    }
+
+    /**
+     * True if command-line switch told us we're running under Goublu.
+     *
+     * @return True if command-line switch told us we're running under Goublu
+     */
+    public boolean isGoubluing() {
+        return getInterpreter().isGoubluing();
     }
 }

@@ -109,7 +109,8 @@ public class CmdAsk extends Command {
                 }
             } else { // Not console
                 if (prompt != null) {
-                    getInterpreter().output(prompt.trim() + " : ");
+                    prompt = prompt.trim() + (isGoubluing() ? " : \n" : " : ");
+                    getInterpreter().output(prompt);
                 }
                 try {
                     put(getInterpreter().getInputStreamBufferedReader().readLine());
