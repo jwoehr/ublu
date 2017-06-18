@@ -232,6 +232,7 @@ public class Ublu {
 
     /**
      * Reinit logger e.g., after creating windowing
+     *
      * @param out logging stream
      */
     public void reinitLogger(PrintStream out) {
@@ -255,9 +256,15 @@ public class Ublu {
     }
 
     /**
-     * Not really used
+     * Singleton instance
+     */
+    public static Ublu ubluSingleton;
+
+    /**
+     * Saves singleton instance
      */
     protected Ublu() {
+        ubluSingleton = this;
     }
 
     /**
