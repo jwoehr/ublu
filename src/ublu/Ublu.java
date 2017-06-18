@@ -232,6 +232,7 @@ public class Ublu {
 
     /**
      * Reinit logger e.g., after creating windowing
+     * @param out logging stream
      */
     public void reinitLogger(PrintStream out) {
         LOG = new InterpreterLogger("UbluInterpreter." + Thread.currentThread().toString(), Logger.getLogger(Ublu.class.getName()), out);
