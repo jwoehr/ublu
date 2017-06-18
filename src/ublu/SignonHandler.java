@@ -32,7 +32,9 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.SignonEvent;
 import com.ibm.as400.access.SignonHandlerAdapter;
 import java.beans.PropertyVetoException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -110,7 +112,18 @@ public class SignonHandler extends SignonHandlerAdapter {
      */
     protected boolean pollForPassword(AS400 as400) throws IOException {
         boolean result = false;
-        char[] password = System.console().readPassword("Please enter a valid password for %1$s (will not echo):", as400.getSystemName());
+        String passwordPrompt = "Please enter a valid password for " + as400.getSystemName() + " (will not echo):";
+        char[] password;
+        if (System.console() != null) {
+            password = System.console().readPassword(passwordPrompt);
+        } else {
+            if (Ublu.ubluSingleton.isGoubluing()) {
+                System.out.println(passwordPrompt);
+            } else {
+                System.out.print(passwordPrompt);
+            }
+            password = new BufferedReader(new InputStreamReader(System.in)).readLine().trim().toCharArray();
+        }
         String pString = new String(password).trim();
         if (!pString.isEmpty()) {
             as400.setPassword(pString);
@@ -129,7 +142,12 @@ public class SignonHandler extends SignonHandlerAdapter {
      */
     protected boolean pollForUserId(AS400 as400) throws IOException, PropertyVetoException {
         boolean result = false;
-        System.out.print("Please enter a valid userid for " + as400.getSystemName() + ": ");
+        String useridPrompt = "Please enter a valid userid for " + as400.getSystemName() + ": ";
+        if (Ublu.ubluSingleton.isGoubluing()) {
+            System.out.println(useridPrompt);
+        } else {
+            System.out.print(useridPrompt);
+        }
         byte[] userid = new byte[16]; // longer than real userid swallows lf
         int numRead = System.in.read(userid);
         if (numRead > 0) {
