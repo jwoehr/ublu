@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,22 +110,22 @@ public class CmdUsage extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else if (cmdName == null) {
-            getInterpreter().outputerrln(usageMessage(getInterpreter().getCmdMap(), longmsg));
+            getInterpreter().outputln(usageMessage(getInterpreter().getCmdMap(), longmsg));
         } else if (cmdName.equals("version")) {
-            getInterpreter().outputerrln(getInterpreter().getMyUblu().startupMessage());
+            getInterpreter().outputln(Ublu.startupMessage());
         } else {
             CommandInterface c = getInterpreter().getCmd(getInterpreter(), cmdName);
             if (c != null) {
                 if (c instanceof Command) {
                     Command command = Command.class.cast(c);
-                    getInterpreter().outputerrln(formatSingleCommand(command));
+                    getInterpreter().outputln(formatSingleCommand(command));
                 }
             } else {
                 Functor f = getInterpreter().getFunctor(cmdName);
                 if (f != null) {
-                    getInterpreter().outputerrln(Utils.breakLines(cmdName + " " + f.toString(), linelength, 0, 0));
+                    getInterpreter().outputln(Utils.breakLines(cmdName + " " + f.toString(), linelength, 0, 0));
                 } else {
-                    getInterpreter().outputerrln("No such command or functor: " + cmdName);
+                    getInterpreter().outputln("No such command or functor: " + cmdName);
                 }
             }
         }
@@ -131,7 +133,7 @@ public class CmdUsage extends Command {
     }
 
     private String formatSingleCommand(Command cmd) {
-        StringBuffer sb = new StringBuffer(cmd.getCommandName());
+        StringBuilder sb = new StringBuilder(cmd.getCommandName());
         sb.append('\t')
                 .append(Utils.breakLines(cmd.getCommandDescription(), linelength, 1, 0));
         return sb.toString();
