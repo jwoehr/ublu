@@ -1413,7 +1413,7 @@ public class Interpreter {
             if (isConsole()) {
                 outputerr(thePrompt);
             } else if (isGoubluing()) {
-                outputerrln(thePrompt);
+                outputln(thePrompt);
             }
         }
     }
