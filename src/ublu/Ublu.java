@@ -303,9 +303,12 @@ public class Ublu {
                 interpreter.interpret();
             } else if (interpreter.getArgArray().isEmpty()) {
                 if (!myGetArgs.containsOpt("-s")) {
-                    if (interpreter.isConsole() || isGoubluing()) {
+                    if (interpreter.isConsole()) {
                         interpreter.outputerrln(startupMessage());
                         interpreter.outputerrln(HELPLINE);
+                    } else if (isGoubluing()) {
+                        interpreter.outputln(startupMessage());
+                        interpreter.outputln(HELPLINE);
                     }
                 }
                 interpreter.interpret();
