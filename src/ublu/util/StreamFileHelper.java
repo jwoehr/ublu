@@ -296,11 +296,12 @@ public class StreamFileHelper {
      * @param offset
      * @param length
      * @return
+     * @throws java.io.IOException
      */
-    public ByteArrayList read(int offset, int length) {
-        ByteArrayList bal = null;
-
-        return bal;
+    public ByteArrayList read(int offset, int length) throws IOException {
+        byte[] b = new byte[length];
+        fileInputStream.read(b, offset, length);
+        return new ByteArrayList(b);
     }
 
     /**

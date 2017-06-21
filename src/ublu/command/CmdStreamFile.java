@@ -179,6 +179,7 @@ public class CmdStreamFile extends Command {
                     break;
                 case "-read":
                     op = OPS.READ;
+                    length = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-write":
                     op = OPS.WRITE;
@@ -321,6 +322,12 @@ public class CmdStreamFile extends Command {
                     if (streamFileHelper == null) {
                         noInstance();
                     } else {
+                        try {
+                            put(streamFileHelper.read(0, length));
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error -read in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
                     }
                     break;
                 case WRITE:
