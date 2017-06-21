@@ -79,7 +79,7 @@ So I have coded [Goublu](https://github.com/jwoehr/goublu) in [Go language](http
 
 Goublu is a console front-end that provides an editable Ublu command line. The go command
 
-`go get github.com/jwoehr/goublu`
+`go get -u github.com/jwoehr/goublu`
 
 will fetch the source to your `$GOPATH/src` directory to build for your architecture.
 
