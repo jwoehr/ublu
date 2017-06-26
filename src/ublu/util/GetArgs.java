@@ -65,6 +65,10 @@ import ublu.util.Generics.StringArrayList;
  * the command line following the option is regarded as the option argument
  * <b>UNLESS</b> that next lexeme is itself an option, i.e., a string headed by
  * a member of the current set of option introducers.
+ * 
+ * <p>
+ * An empty option argument can be denoted by <code>--</code>. A <code>--</code>
+ * in the option position ends option parsing for the command line.
  *
  * <p>
  * The position in which the command line argument or option-argument pair
