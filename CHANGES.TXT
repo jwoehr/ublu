@@ -9,6 +9,13 @@ System
 * Goublu support for Go language Ublu console (https://github.com/jwoehr/goublu)
 
 Commands
+* interpreter
+    * -args
+    * -opts
+    * -arg 
+    * -opt 
+    * -optarg 
+    * -allargs   
 * streamf -read (byte reads)
 
 1.1.6 2017-06-01

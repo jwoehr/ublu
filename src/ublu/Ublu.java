@@ -50,6 +50,15 @@ public class Ublu {
     private boolean windowing = false;
 
     /**
+     * Return Ublu's GetArgs object
+     *
+     * @return Ublu's GetArgs object
+     */
+    public GetArgs getMyGetArgs() {
+        return myGetArgs;
+    }
+
+    /**
      * True if command-line switch told us we're running under Goublu.
      *
      * @return True if command-line switch told us we're running under Goublu

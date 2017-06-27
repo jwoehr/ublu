@@ -42,14 +42,20 @@ import ublu.util.ArgArray;
 public class CmdInterpreter extends Command {
 
     {
-        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} : info on and control of Ublu interpreter at the level this command is invoked");
+        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs] : info on and control of Ublu and the interpreter at the level this command is invoked");
     }
 
     enum OPS {
         ALL,
         GET_LOCALE,
         SET_LOCALE,
-        GET_MESSAGE
+        GET_MESSAGE,
+        OPT,
+        OPTARG,
+        ARG,
+        ARGS,
+        OPTS,
+        ALLARGS
     }
 
     ArgArray doInterpreter(ArgArray argArray) {
@@ -57,6 +63,7 @@ public class CmdInterpreter extends Command {
         String language = null;
         String country = null;
         String messagekey = null;
+        Integer nth = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -79,6 +86,27 @@ public class CmdInterpreter extends Command {
                 case "-getmessage":
                     op = OPS.GET_MESSAGE;
                     messagekey = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-args":
+                    op = OPS.ARGS;
+                    break;
+                case "-opts":
+                    op = OPS.OPTS;
+                    break;
+                case "-opt":
+                    op = OPS.OPT;
+                    nth = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-optarg":
+                    op = OPS.OPTARG;
+                    nth = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-arg":
+                    op = OPS.ARG;
+                    nth = argArray.nextIntMaybeQuotationTuplePopString();
+                    break;
+                case "-allargs":
+                    op = OPS.ALLARGS;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -123,7 +151,48 @@ public class CmdInterpreter extends Command {
                     break;
                 case SET_LOCALE:
                     setLocale(language, country);
-                    
+                    break;
+                case ARGS:
+                    try {
+                        put(getUbluArgs().argumentCount());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting num args in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case OPTS:
+                    try {
+                        put(getUbluArgs().optionCount());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting num opts in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case ARG:
+                    try {
+                        put(getUbluArgs().nthArgument(nth));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting " + nth + " argument in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case OPT:
+                    try {
+                        put(getUbluArgs().nthOption(nth).option);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting " + nth + " option in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case OPTARG:
+                    try {
+                        put(getUbluArgs().nthOption(nth).argument);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting " + nth + " option argument in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case ALLARGS:
+                    try {
+                        put(getUbluArgs().getArgumentsAsStringArray());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting all args in " + getNameAndDescription(), ex);
+                    }
                     break;
             }
         }

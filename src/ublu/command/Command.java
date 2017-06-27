@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ublu.util.GetArgs;
 import ublu.util.LocaleHelper;
 
 /**
@@ -742,5 +743,14 @@ public abstract class Command implements CommandInterface {
      */
     public boolean isGoubluing() {
         return getInterpreter().isGoubluing();
+    }
+
+    /**
+     * Return Ublu's arg object
+     *
+     * @return Ublu's arg object
+     */
+    public GetArgs getUbluArgs() {
+        return getUblu().getMyGetArgs();
     }
 }
