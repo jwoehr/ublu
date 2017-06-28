@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@ public class License {
         " * Ublu Midrange and Mainframe Life Cycle Extension Language",
         " * Author : Jack J. Woehr jwoehr@softwoehr.com",
         " * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com",
-        " * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com",
+        " * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com",
         " * All rights reserved.",
         " *",
         " * Redistribution and use in source and binary forms, with or without",
