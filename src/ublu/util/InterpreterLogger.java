@@ -69,6 +69,7 @@ public class InterpreterLogger extends Logger {
     public InterpreterLogger(String name, Logger parent, PrintStream errOutStream) {
         super(name, null);
         setParent(parent);
+        setErrOutStream(errOutStream);
     }
 
     @Override
