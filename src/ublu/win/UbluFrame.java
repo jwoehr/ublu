@@ -40,26 +40,51 @@ public class UbluFrame extends javax.swing.JFrame {
 
     private UbluWinController ubluWinController;
 
+    /**
+     *
+     * @return
+     */
     protected UbluWinController getUbluWinController() {
         return ubluWinController;
     }
 
+    /**
+     *
+     * @param ubluWinController
+     */
     protected void setUbluWinController(UbluWinController ubluWinController) {
         this.ubluWinController = ubluWinController;
     }
 
+    /**
+     *
+     * @return
+     */
     protected UbluPanel getUbluPanel() {
         return ubluPanel;
     }
 
+    /**
+     *
+     * @return
+     */
     protected JEditorPane getUbluEditorPane() {
         return getUbluPanel().getUbluEditorPane();
     }
 
+    /**
+     *
+     * @return
+     */
     protected UbluWinInputStream getUbluWinInputStream() {
         return getUbluWinController().getUbluIS();
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     protected CommandInterface.COMMANDRESULT interpretText(String input) {
         return getUbluWinController().interpretText(input);
     }
@@ -71,6 +96,9 @@ public class UbluFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     *
+     */
     protected void runMe() {
         ubluPanel.setUbluFrame(this);
         SINGLETON = this;
@@ -85,7 +113,7 @@ public class UbluFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UbluFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

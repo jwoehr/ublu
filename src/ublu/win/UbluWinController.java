@@ -41,42 +41,94 @@ import ublu.util.Parser;
  */
 public class UbluWinController {
 
+    /**
+     *
+     */
     protected UbluFrame ubluFrame;
+
+    /**
+     *
+     */
     protected Interpreter interpreter;
+
+    /**
+     *
+     */
     protected Ublu ublu;
+
+    /**
+     *
+     */
     protected EditorPaneOutputStream ubluSOE;
+
+    /**
+     *
+     */
     protected UbluWinInputStream ubluIS;
 
+    /**
+     *
+     * @return
+     */
     public Ublu getUblu() {
         return ublu;
     }
 
+    /**
+     *
+     * @return
+     */
     public UbluFrame getUbluFrame() {
         return ubluFrame;
     }
 
+    /**
+     *
+     * @return
+     */
     public Interpreter getInterpreter() {
         return interpreter;
     }
 
+    /**
+     *
+     * @return
+     */
     protected EditorPaneOutputStream getUbluSOE() {
         return ubluSOE;
     }
 
+    /**
+     *
+     * @return
+     */
     protected UbluWinInputStream getUbluIS() {
         return ubluIS;
     }
 
+    /**
+     *
+     * @param interpreter
+     */
     public UbluWinController(Interpreter interpreter) {
         this.interpreter = interpreter;
     }
 
+    /**
+     *
+     * @param ublu
+     */
     public UbluWinController(Ublu ublu) {
         this.ublu = ublu;
         this.interpreter = Ublu.getMainInterpreter();
         this.ublu.setWindowing(true);
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     protected COMMANDRESULT interpretText(String input) {
         COMMANDRESULT result;
         input = input.trim();
@@ -85,6 +137,9 @@ public class UbluWinController {
         return result;
     }
 
+    /**
+     *
+     */
     public void startup() {
         ubluFrame = new UbluFrame();
         ubluFrame.setUbluWinController(this);
@@ -96,6 +151,6 @@ public class UbluWinController {
         interpreter.setErroutStream(new PrintStream(ubluSOE));
         ublu.reinitLogger(new PrintStream(ubluSOE));
         ubluFrame.runMe();
-        ubluFrame.getUbluEditorPane().setText(Ublu.startupMessage()+'\n');
+        ubluFrame.getUbluEditorPane().setText(Ublu.startupMessage() + '\n');
     }
 }

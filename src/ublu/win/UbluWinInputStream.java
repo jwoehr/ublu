@@ -41,6 +41,9 @@ public class UbluWinInputStream extends InputStream {
 
     private final ArrayBlockingQueue<Character> abq;
 
+    /**
+     *
+     */
     public UbluWinInputStream() {
         abq = new ArrayBlockingQueue<>(8192);
     }
@@ -57,6 +60,10 @@ public class UbluWinInputStream extends InputStream {
         return result;
     }
 
+    /**
+     *
+     * @param s
+     */
     public void fill(String s) {
         boolean wasAdded;
         for (Character c : s.toCharArray()) {

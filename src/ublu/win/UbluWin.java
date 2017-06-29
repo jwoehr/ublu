@@ -37,18 +37,33 @@ public class UbluWin {
 
     private final UbluWinController uwc;
 
+    /**
+     *
+     * @param ublu
+     */
     public UbluWin(Ublu ublu) {
         uwc = new UbluWinController(ublu);
     }
 
+    /**
+     *
+     * @param args
+     */
     public UbluWin(String[] args) {
         uwc = new UbluWinController(new Ublu(args));
     }
 
+    /**
+     *
+     */
     public void go() {
         uwc.startup();
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         UbluWin uw = new UbluWin(args);
         uw.go();

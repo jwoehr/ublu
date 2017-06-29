@@ -39,6 +39,10 @@ public class UbluPanel extends javax.swing.JPanel {
     private final EditorPaneOutputStream jEPOS;
     private UbluFrame ubluFrame;
 
+    /**
+     *
+     * @param ubluFrame
+     */
     protected void setUbluFrame(UbluFrame ubluFrame) {
         this.ubluFrame = ubluFrame;
     }
@@ -51,6 +55,10 @@ public class UbluPanel extends javax.swing.JPanel {
         jEPOS = new EditorPaneOutputStream(ubluEditorPane);
     }
 
+    /**
+     *
+     * @return
+     */
     protected JEditorPane getUbluEditorPane() {
         return ubluEditorPane;
     }
