@@ -30,11 +30,13 @@ package ublu;
 import java.io.PrintStream;
 import java.util.logging.Logger;
 import org.sblim.cimclient.internal.cim.CIMVersion;
+import ublu.command.CommandInterface;
 import ublu.util.Generics.StringArrayList;
 import ublu.util.GetArgs;
 import ublu.util.Interpreter;
 import ublu.util.InterpreterLogger;
 import ublu.util.JVMHelper;
+import ublu.win.UbluWin;
 
 /**
  * Main class of the interpretive application. Application controller.
@@ -47,7 +49,7 @@ public class Ublu {
     private StringArrayList originalArgs;
     private JVMHelper jVMHelper = null;
     private boolean goubluing = false;
-    private boolean windowing = false;
+    private static boolean windowing = false;
 
     /**
      * Return Ublu's GetArgs object
@@ -379,7 +381,11 @@ public class Ublu {
      * the interpreter.
      */
     public static void main(String[] args) {
-        System.exit(niam(args));
+        // System.exit(niam(args));
+        int result = niam(args);
+        if (!windowing) {
+            System.exit(result);
+        }
     }
 
     /**
@@ -398,8 +404,14 @@ public class Ublu {
      * {@link ublu.command.CommandInterface.COMMANDRESULT#FAILURE} (1).
      */
     public static int niam(String[] args) {
-        Ublu api = new Ublu(args);
-        return api.runMainInterpreter();
+        int result = 0;
+        Ublu ublu = new Ublu(args);
+        if (ublu.myGetArgs.containsOpt("-w")) {
+            new UbluWin(ublu).go();
+        } else {
+            result = ublu.runMainInterpreter();
+        }
+        return result;
     }
 
     /**
