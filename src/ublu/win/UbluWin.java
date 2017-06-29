@@ -37,6 +37,10 @@ public class UbluWin {
 
     private final UbluWinController uwc;
 
+    public UbluWin(Ublu ublu) {
+        uwc = new UbluWinController(ublu);
+    }
+
     public UbluWin(String[] args) {
         uwc = new UbluWinController(new Ublu(args));
     }
