@@ -64,5 +64,4 @@ public class UbluWinInputStream extends InputStream {
             /* Debug */ System.err.println(this + ".fill == " + c + " " + wasAdded);
         }
     }
-
 }
