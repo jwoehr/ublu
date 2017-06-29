@@ -54,8 +54,15 @@ public class CmdBye extends Command {
      * @return the remainder of the command stream
      */
     public ArgArray bye(ArgArray args) {
+        if (getUblu().isWindowing()) {
+            getInterpreter().closeHistory();
+            getInterpreter().getErroutStream().flush();
+            getInterpreter().getOutputStream().flush();
+            // !! Nonlocal return
+            System.exit(getInterpreter().getGlobal_ret_val());
+        }
         getInterpreter().setGoodBye(true);
-        return new ArgArray(getInterpreter()); // so we fall out of loop()
+        return new ArgArray(getInterpreter()); // so we fall out of loop() at current nest level of interpreter, possibly exiting.
     }
 
     @Override

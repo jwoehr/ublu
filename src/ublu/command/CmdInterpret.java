@@ -35,7 +35,7 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdInterpret extends Command {
-    
+
     {
         setNameAndDescription("interpret", "/0 [-block $[ block ...]$] : run the interpreter, possibly on a provided block");
     }
@@ -75,18 +75,22 @@ public class CmdInterpret extends Command {
             if (block != null) {
                 setCommandResult(i.executeBlock(block));
             } else {
-                setCommandResult(i.interpret() == 0 ? COMMANDRESULT.SUCCESS : COMMANDRESULT.FAILURE);
+                if (getUblu().isWindowing()) {
+                    getLogger().log(Level.SEVERE, "Nested interpreters not supported in windowing environment.", getNameAndDescription());
+                } else {
+                    setCommandResult(i.interpret() == 0 ? COMMANDRESULT.SUCCESS : COMMANDRESULT.FAILURE);
+                }
             }
         }
         return argArray;
     }
-    
+
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return doInterpret(args);
     }
-    
+
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
