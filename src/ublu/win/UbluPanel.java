@@ -29,6 +29,7 @@ package ublu.win;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JEditorPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -61,6 +62,14 @@ public class UbluPanel extends javax.swing.JPanel {
      */
     protected JEditorPane getUbluEditorPane() {
         return ubluEditorPane;
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected JTextField getUbluTextField() {
+        return ubluTextField;
     }
 
     /**

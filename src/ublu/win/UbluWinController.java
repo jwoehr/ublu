@@ -152,5 +152,6 @@ public class UbluWinController {
         ublu.reinitLogger(new PrintStream(ubluSOE));
         ubluFrame.runMe();
         ubluFrame.getUbluEditorPane().setText(Ublu.startupMessage() + '\n');
+        ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
     }
 }
