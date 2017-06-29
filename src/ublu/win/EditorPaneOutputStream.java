@@ -27,7 +27,6 @@
 package ublu.win;
 
 import java.io.*;
-import java.util.Arrays;
 import javax.swing.JEditorPane;
 
 /**
