@@ -15,7 +15,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 16 Jun 2017 16:02:22 UTC">
+  "Thu, 29 Jun 2017 17:36:18 UTC">
 </head>
 
 <body>
@@ -186,6 +186,9 @@
         <li><a href="#TupleStack">The Tuple Stack</a></li>
 
         <li><a href="#Calling_Java">Calling Java</a></li>
+
+        <li><a href="#Goublu">Goublu, the experimental enhanced
+        Ublu console</a></li>
 
         <li>
           <a href="#mozTocId722916">Notes</a>
@@ -3134,11 +3137,30 @@ woof</em>
   Ublu's <tt>joblog -qm</tt> is returning a collection of
   <tt>com.ibm.as400.access.QueuedMessage</tt> instances.</p>
 
+  <h2><a name="Goublu">Goublu</a>, the experimental enhanced Ublu
+  console</h2>
+
+  <p>Goublu is a <a href="http://golang.org/">Go language</a> front
+  end that provides a better console interface to Ublu than the
+  console support provided by Java.</p>
+
+  <p>On most platforms, the Java console does not provide command
+  line editing nor command line recall. Goublu provides both, along
+  with other features. Goublu is a more congenial environment for
+  interactive Ublu usage. Goublu has some limitations, and "plain"
+  Ublu is better for running Ublu applications.</p>
+
+  <p>Goublu must be compiled on the specific platform. You can
+  install the Go language development environment and follow the
+  <a href="https://github.com/jwoehr/goublu">instructions to get
+  Goublu and build it</a> on your machine.</p>
+
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
   <h3><a class="mozTocH3" name="mozTocId810320"></a><a name=
   "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>Here
-  is the Java code for the interpretive loop.
+  is the Java code (or some fairly recent version of same, consult
+  the source) for the interpretive loop.
   <pre>
 <span class="syntax0"><span class=
 "gutter">1122 </span>    <span class="syntax-COMMENT3">/**</span>
