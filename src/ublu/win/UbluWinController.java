@@ -93,8 +93,8 @@ public class UbluWinController {
         interpreter.setInputStream(ubluIS);
         interpreter.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(interpreter.getInputStream())));
         interpreter.setOutputStream(new PrintStream(ubluSOE));
-        interpreter.setErroutStream(interpreter.getOutputStream());
-        ublu.reinitLogger(interpreter.getOutputStream());
+        interpreter.setErroutStream(new PrintStream(ubluSOE));
+        ublu.reinitLogger(new PrintStream(ubluSOE));
         ubluFrame.runMe();
         ubluFrame.getUbluEditorPane().setText(Ublu.startupMessage()+'\n');
     }
