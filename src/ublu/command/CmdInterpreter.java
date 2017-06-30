@@ -127,7 +127,7 @@ public class CmdInterpreter extends Command {
                             .append("History manager : ").append(getInterpreter().getHistory()).append("\n")
                             .append("Locale info : ").append(getLocaleHelper()).append("\n")
                             .append("Running under Goublu: ").append(getInterpreter().isGoubluing()).append("\n")
-                            .append("Running as a Swing Window: ").append(getInterpreter().isWindowing());
+                            .append("Running as a Window: ").append(getInterpreter().isWindowing());
                     try {
                         put(sb.toString());
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
