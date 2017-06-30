@@ -167,7 +167,7 @@ public class UbluFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ubluPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                .addComponent(ubluPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 

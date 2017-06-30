@@ -95,10 +95,13 @@ public class UbluPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ubluTextField = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        ubluTextField = new javax.swing.JTextField();
+
+        jTextArea1.setDoubleBuffered(true);
+        jTextArea1.setName(""); // NOI18N
+        jScrollPane1.setViewportView(jTextArea1);
 
         ubluTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -106,30 +109,23 @@ public class UbluPanel extends javax.swing.JPanel {
             }
         });
 
-        jTextArea1.setDoubleBuffered(true);
-        jTextArea1.setName(""); // NOI18N
-        jScrollPane1.setViewportView(jTextArea1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ubluTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
-            .addComponent(jSeparator1)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(543, 543, 543)
-                .addComponent(ubluTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(565, Short.MAX_VALUE)
+                .addComponent(ubluTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 30, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 38, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -147,7 +143,6 @@ public class UbluPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField ubluTextField;
     // End of variables declaration//GEN-END:variables
