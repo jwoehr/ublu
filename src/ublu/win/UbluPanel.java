@@ -99,34 +99,20 @@ public class UbluPanel extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         ubluTextField = new javax.swing.JTextField();
 
+        setLayout(new java.awt.BorderLayout());
+
         jTextArea1.setDoubleBuffered(true);
         jTextArea1.setName(""); // NOI18N
         jScrollPane1.setViewportView(jTextArea1);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         ubluTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 ubluTextFieldKeyReleased(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ubluTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(565, Short.MAX_VALUE)
-                .addComponent(ubluTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 38, Short.MAX_VALUE)))
-        );
+        add(ubluTextField, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ubluTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ubluTextFieldKeyReleased
