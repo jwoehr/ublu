@@ -56,10 +56,15 @@ public class UbluWinController {
      */
     protected Ublu ublu;
 
-    /**
-     *
-     */
-    protected EditorPaneOutputStream ubluSOE;
+    protected TextAreaOutputStream ubluTAOS;
+
+    public TextAreaOutputStream getUbluTAOS() {
+        return ubluTAOS;
+    }
+
+    public void setUbluTAOS(TextAreaOutputStream ubluTAOS) {
+        this.ubluTAOS = ubluTAOS;
+    }
 
     /**
      *
@@ -88,14 +93,6 @@ public class UbluWinController {
      */
     public Interpreter getInterpreter() {
         return interpreter;
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected EditorPaneOutputStream getUbluSOE() {
-        return ubluSOE;
     }
 
     /**
@@ -143,15 +140,16 @@ public class UbluWinController {
     public void startup() {
         ubluFrame = new UbluFrame();
         ubluFrame.setUbluWinController(this);
-        ubluSOE = new EditorPaneOutputStream(ubluFrame.getUbluEditorPane());
+        // ubluSOE = new EditorPaneOutputStream(ubluFrame.getUbluTextArea());
+        ubluTAOS = ubluFrame.getUbluPanel().getjTAOS();
         ubluIS = new UbluWinInputStream();
         interpreter.setInputStream(ubluIS);
         interpreter.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(interpreter.getInputStream())));
-        interpreter.setOutputStream(new PrintStream(ubluSOE));
-        interpreter.setErroutStream(new PrintStream(ubluSOE));
-        ublu.reinitLogger(new PrintStream(ubluSOE));
+        interpreter.setOutputStream(new PrintStream(ubluTAOS));
+        interpreter.setErroutStream(new PrintStream(ubluTAOS));
+        ublu.reinitLogger(new PrintStream(ubluTAOS));
         ubluFrame.runMe();
-        ubluFrame.getUbluEditorPane().setText(Ublu.startupMessage() + '\n');
+        ubluFrame.getUbluTextArea().setText(Ublu.startupMessage() + '\n');
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
     }
 }

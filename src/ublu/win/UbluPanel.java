@@ -28,7 +28,8 @@
 package ublu.win;
 
 import java.awt.event.KeyEvent;
-import javax.swing.JEditorPane;
+// import javax.swing.JEditorPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -37,8 +38,13 @@ import javax.swing.JTextField;
  */
 public class UbluPanel extends javax.swing.JPanel {
 
-    private final EditorPaneOutputStream jEPOS;
+    // private final EditorPaneOutputStream jEPOS;
+    private final TextAreaOutputStream jTAOS;
     private UbluFrame ubluFrame;
+
+    public TextAreaOutputStream getjTAOS() {
+        return jTAOS;
+    }
 
     /**
      *
@@ -53,15 +59,23 @@ public class UbluPanel extends javax.swing.JPanel {
      */
     public UbluPanel() {
         initComponents();
-        jEPOS = new EditorPaneOutputStream(ubluEditorPane);
+        // jEPOS = new EditorPaneOutputStream(ubluEditorPane);
+        jTAOS = new TextAreaOutputStream(jTextArea1);
     }
 
+//    /**
+//     *
+//     * @return
+//     */
+//    protected JEditorPane getUbluTextArea() {
+//        return ubluEditorPane;
+//    }
     /**
      *
      * @return
      */
-    protected JEditorPane getUbluEditorPane() {
-        return ubluEditorPane;
+    protected JTextArea getUbluTextArea() {
+        return jTextArea1;
     }
 
     /**
@@ -83,8 +97,8 @@ public class UbluPanel extends javax.swing.JPanel {
 
         ubluTextField = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ubluEditorPane = new javax.swing.JEditorPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         ubluTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -92,24 +106,32 @@ public class UbluPanel extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane2.setViewportView(ubluEditorPane);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setDoubleBuffered(true);
+        jTextArea1.setName(""); // NOI18N
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ubluTextField)
+            .addComponent(ubluTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
             .addComponent(jSeparator1)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(549, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ubluTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 30, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -117,7 +139,8 @@ public class UbluPanel extends javax.swing.JPanel {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_ENTER:
                 String ubluText = ubluTextField.getText() + "\n";
-                jEPOS.write((ubluText).getBytes());
+                // jEPOS.write((ubluText).getBytes());
+                jTAOS.write((ubluText).getBytes());
                 ubluTextField.setText("");
                 ubluFrame.interpretText(ubluText);
         }
@@ -125,9 +148,9 @@ public class UbluPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JEditorPane ubluEditorPane;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField ubluTextField;
     // End of variables declaration//GEN-END:variables
 }

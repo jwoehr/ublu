@@ -27,7 +27,7 @@
  */
 package ublu.win;
 
-import javax.swing.JEditorPane;
+import javax.swing.JTextArea;
 import ublu.command.CommandInterface;
 
 /**
@@ -68,8 +68,8 @@ public class UbluFrame extends javax.swing.JFrame {
      *
      * @return
      */
-    protected JEditorPane getUbluEditorPane() {
-        return getUbluPanel().getUbluEditorPane();
+    protected JTextArea getUbluTextArea() {
+        return getUbluPanel().getUbluTextArea();
     }
 
     /**
@@ -142,6 +142,12 @@ public class UbluFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ublu");
 
+        ubluPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                ubluPanelComponentResized(evt);
+            }
+        });
+
         fileMenu.setText("File");
         ubluMenuBar.add(fileMenu);
 
@@ -155,18 +161,22 @@ public class UbluFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ubluPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1056, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(ubluPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ubluPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(ubluPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ubluPanelComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ubluPanelComponentResized
+        // ubluPanel.setSize(WIDTH, HEIGHT);
+    }//GEN-LAST:event_ubluPanelComponentResized
 
     /**
      * @param args the command line arguments
