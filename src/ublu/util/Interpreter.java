@@ -251,6 +251,15 @@ public class Interpreter {
     }
 
     /**
+     * True if we're running in a Swing Window.
+     *
+     * @return True if we're running in a Swing Window.
+     */
+    public boolean isWindowing() {
+        return getMyUblu().isWindowing();
+    }
+
+    /**
      * Return the logger for this interpreter
      *
      * @return the logger for this interpreter
