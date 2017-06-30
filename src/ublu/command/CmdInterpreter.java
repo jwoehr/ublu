@@ -118,15 +118,18 @@ public class CmdInterpreter extends Command {
         } else {
             switch (op) {
                 case ALL: {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Instance depth : ").append(getInterpreter().getInstanceDepth()).append("\n")
+                            .append("Frame depth : ").append(getInterpreter().getFrameDepth()).append("\n")
+                            .append("FOR block : ").append(getInterpreter().isForBlock()).append("\n")
+                            .append("Break issued : ").append(getInterpreter().isBreakIssued()).append("\n")
+                            .append("History filename : ").append(getInterpreter().getHistoryFileName()).append("\n")
+                            .append("History manager : ").append(getInterpreter().getHistory()).append("\n")
+                            .append("Locale info : ").append(getLocaleHelper()).append("\n")
+                            .append("Running under Goublu: ").append(getInterpreter().isGoubluing()).append("\n")
+                            .append("Running as a Swing Window: ").append(getInterpreter().isWindowing());
                     try {
-                        put("Instance depth : " + getInterpreter().getInstanceDepth());
-                        put("Frame depth : " + getInterpreter().getFrameDepth());
-                        put("FOR block : " + getInterpreter().isForBlock());
-                        put("Break issued : " + getInterpreter().isBreakIssued());
-                        put("History filename : " + getInterpreter().getHistoryFileName());
-                        put("History manager : " + getInterpreter().getHistory());
-                        put("Locale info : " + getLocaleHelper());
-
+                        put(sb.toString());
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Exception putting interpreter info in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
