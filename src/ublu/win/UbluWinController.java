@@ -193,8 +193,8 @@ public class UbluWinController {
         interpreter.setErroutStream(new PrintStream(ubluTAOS));
         ublu.reinitLogger(new PrintStream(ubluTAOS));
         ubluFrame.runMe();
-        ubluFrame.getUbluTextArea().setText(Ublu.startupMessage() + '\n');
-        interpreter.prompt();
+        interpreter.outputln(Ublu.startupMessage());
+        interpreter.prompt();              
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
     }
 
