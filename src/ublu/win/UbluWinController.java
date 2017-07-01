@@ -31,7 +31,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -75,6 +74,9 @@ public class UbluWinController {
      */
     protected File fileSaveSession;
 
+    /**
+     *
+     */
     protected File lastOpened;
 
     /**
@@ -238,8 +240,13 @@ public class UbluWinController {
     }
 
     private void writeToFile(File f, String s) throws FileNotFoundException, IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(f);
-        fileOutputStream.write(s.getBytes());
+        try (FileOutputStream fileOutputStream = new FileOutputStream(f)) {
+            if (s == null) {
+                JOptionPane.showMessageDialog(null, "Null text -- nothing saved");
+            } else {
+                fileOutputStream.write(s.getBytes());
+            }
+        }
     }
 
     /**
@@ -336,6 +343,11 @@ public class UbluWinController {
         return result;
     }
 
+    /**
+     *
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     protected void loadFile() throws FileNotFoundException, IOException {
         File f = dialogForLoadFile();
         if (f != null) {

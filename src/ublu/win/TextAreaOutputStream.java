@@ -34,6 +34,10 @@ public class TextAreaOutputStream extends java.io.OutputStream {
         set_text_area(jta);
     }
 
+    /**
+     *
+     * @param ubluPanel
+     */
     public TextAreaOutputStream(UbluPanel ubluPanel) {
         this(ubluPanel.getUbluTextArea());
         myUbluPanel = ubluPanel;
