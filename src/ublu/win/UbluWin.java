@@ -27,6 +27,8 @@
  */
 package ublu.win;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import ublu.Ublu;
 
 /**
@@ -43,6 +45,8 @@ public class UbluWin {
      */
     public UbluWin(Ublu ublu) {
         uwc = new UbluWinController(ublu);
+        setLookAndFeel();
+
     }
 
     /**
@@ -51,6 +55,7 @@ public class UbluWin {
      */
     public UbluWin(String[] args) {
         uwc = new UbluWinController(new Ublu(args));
+        setLookAndFeel();
     }
 
     /**
@@ -67,5 +72,18 @@ public class UbluWin {
     public static void main(String[] args) {
         UbluWin uw = new UbluWin(args);
         uw.go();
+    }
+
+    /**
+     * Apparently needed or Mac starts throwing null ptr exceptions in redraws.
+     */
+    public final void setLookAndFeel() {
+        try {
+            // Set cross-platform Java L&F (also called "Metal")
+            UIManager.setLookAndFeel(
+                    UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            // handle exception
+        }
     }
 }

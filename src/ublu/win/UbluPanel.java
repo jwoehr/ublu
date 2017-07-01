@@ -42,6 +42,10 @@ public class UbluPanel extends javax.swing.JPanel {
     private final TextAreaOutputStream jTAOS;
     private UbluFrame ubluFrame;
 
+    /**
+     *
+     * @return
+     */
     public TextAreaOutputStream getjTAOS() {
         return jTAOS;
     }

@@ -56,12 +56,23 @@ public class UbluWinController {
      */
     protected Ublu ublu;
 
+    /**
+     *
+     */
     protected TextAreaOutputStream ubluTAOS;
 
+    /**
+     *
+     * @return
+     */
     public TextAreaOutputStream getUbluTAOS() {
         return ubluTAOS;
     }
 
+    /**
+     *
+     * @param ubluTAOS
+     */
     public void setUbluTAOS(TextAreaOutputStream ubluTAOS) {
         this.ubluTAOS = ubluTAOS;
     }
