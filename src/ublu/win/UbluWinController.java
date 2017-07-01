@@ -141,6 +141,7 @@ public class UbluWinController {
         input = input.trim();
         interpreter.setArgArray(new Parser(interpreter, input).parseAnArgArray());
         result = interpreter.loop();
+        interpreter.prompt();
         return result;
     }
 
@@ -160,6 +161,7 @@ public class UbluWinController {
         ublu.reinitLogger(new PrintStream(ubluTAOS));
         ubluFrame.runMe();
         ubluFrame.getUbluTextArea().setText(Ublu.startupMessage() + '\n');
+        interpreter.prompt();
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
     }
 }

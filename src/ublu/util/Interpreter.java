@@ -1421,7 +1421,7 @@ public class Interpreter {
             }
             if (isConsole()) {
                 outputerr(thePrompt);
-            } else if (isGoubluing()) {
+            } else if (isGoubluing() || isWindowing()) {
                 outputln(thePrompt);
             }
         }
