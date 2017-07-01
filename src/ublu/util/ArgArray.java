@@ -416,7 +416,7 @@ public class ArgArray extends ArrayList<String> {
      */
     public void assimilateFullQuotation() {
         while (findCloseQuote(0) == -1) {
-            if (getInterpreter().isWindowing()) {
+            if (getInterpreter().isWindowing() && !getInterpreter().isIncluding()) {
                 throw new Error("Multiline quotations not supported on windowing input line");
             }
             getInterpreter().setParsingString(true);
@@ -437,7 +437,7 @@ public class ArgArray extends ArrayList<String> {
         int searchStartIndex = 0;
         // /* Debug */ System.err.println("block depth before " + getInterpreter().getParsingBlockDepth());
         while (findCloseBlock(searchStartIndex) == -1) {
-            if (getInterpreter().isWindowing()) {
+            if (getInterpreter().isWindowing() && !getInterpreter().isIncluding()) {
                 getInterpreter().setParsingBlock(false);
                 throw new Error("Multiline blocks not supported on windowing input line");
             }
