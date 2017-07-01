@@ -30,7 +30,6 @@ package ublu;
 import java.io.PrintStream;
 import java.util.logging.Logger;
 import org.sblim.cimclient.internal.cim.CIMVersion;
-import ublu.command.CommandInterface;
 import ublu.util.Generics.StringArrayList;
 import ublu.util.GetArgs;
 import ublu.util.Interpreter;
@@ -49,7 +48,24 @@ public class Ublu {
     private StringArrayList originalArgs;
     private JVMHelper jVMHelper = null;
     private boolean goubluing = false;
+    private UbluWin myUbluWin = null;
     private static boolean windowing = false;
+
+    /**
+     *
+     * @param myUbluWin
+     */
+    protected void setMyUbluWin(UbluWin myUbluWin) {
+        this.myUbluWin = myUbluWin;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public UbluWin getMyUbluWin() {
+        return myUbluWin;
+    }
 
     /**
      * Return Ublu's GetArgs object
@@ -76,15 +92,6 @@ public class Ublu {
      */
     public boolean isWindowing() {
         return windowing;
-    }
-
-    /**
-     * True if we're running in as UbluWin.
-     *
-     * @param windowing True if we're running as UbluWin.
-     */
-    public void setWindowing(boolean windowing) {
-        this.windowing = windowing;
     }
 
     /**
@@ -407,7 +414,9 @@ public class Ublu {
         int result = 0;
         Ublu ublu = new Ublu(args);
         if (ublu.myGetArgs.containsOpt("-w")) {
-            new UbluWin(ublu).go();
+            windowing = true;
+            ublu.setMyUbluWin(new UbluWin(ublu));
+            ublu.getMyUbluWin().go();
         } else {
             result = ublu.runMainInterpreter();
         }

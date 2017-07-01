@@ -129,7 +129,6 @@ public class UbluWinController {
     public UbluWinController(Ublu ublu) {
         this.ublu = ublu;
         this.interpreter = Ublu.getMainInterpreter();
-        this.ublu.setWindowing(true);
     }
 
     /**
