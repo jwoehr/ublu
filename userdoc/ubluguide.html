@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -15,7 +16,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 29 Jun 2017 17:36:18 UTC">
+  "Thu, 02 Jul 2017 17:36:18 UTC">
 </head>
 
 <body>
@@ -189,6 +190,9 @@
 
         <li><a href="#Goublu">Goublu, the experimental enhanced
         Ublu console</a></li>
+
+        <li><a href="#Ublu_as_window">Running Ublu as a
+        window</a></li>
 
         <li>
           <a href="#mozTocId722916">Notes</a>
@@ -3154,6 +3158,47 @@ woof</em>
   install the Go language development environment and follow the
   <a href="https://github.com/jwoehr/goublu">instructions to get
   Goublu and build it</a> on your machine.</p>
+
+  <div align="center"><img src="images/goublu_screenshot.png"
+  width="912" height="659" alt=""></div>
+
+  <h2><a name="Ublu_as_window">Running Ublu as a window</a></h2>
+
+  <p>The <code>-w</code> switch on the Ublu command line starts
+  Ublu as a windowing application. This is useful if you want to
+  paste in and save out swatches of text. In other modes of
+  development, it may be less congenial an environment that plain
+  Ublu or the Goublu console front end for Ublu.</p>
+
+  <p>When Ublu is started in windowing mode:</p>
+
+  <ul>
+    <li>No other command line options are processed.</li>
+
+    <li>There is a large text area at the top.</li>
+
+    <li>There is an Ublu input line at the bottom. Pressing enter
+    on the input line will interpret the input.</li>
+
+    <li>The entered input and Ublu output appear in the large text
+    area.</li>
+
+    <li>You can select text in the text area and choose the menu
+    item <strong>Ublu-&gt;Interpret Selected</strong> and the
+    selected text becomes input to Ublu.</li>
+
+    <li>Multi-line input doesn't work in the input area. Functions,
+    strings, blocks extending over multiple lines should be entered
+    in the text area above, selected, and passed to Ublu via the
+    menu item <strong>Ublu-&gt;Interpret Selected</strong>.</li>
+
+    <li>You can save the contents of the text area or load a file
+    into it at any time using the menu items of the
+    <strong>File</strong> menu.</li>
+  </ul>
+
+  <div align="center"><img src="images/ubluwin.jpg" width="1058"
+  height="664" alt=""></div>
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
