@@ -32,6 +32,7 @@ import javax.swing.JScrollBar;
 // import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import ublu.util.Generics.StringArrayList;
 
 /**
  *
@@ -42,6 +43,36 @@ public class UbluPanel extends javax.swing.JPanel {
     // private final EditorPaneOutputStream jEPOS;
     private final TextAreaOutputStream jTAOS;
     private UbluFrame ubluFrame;
+    private final StringArrayList commands;
+    private int pointer = 0;
+
+    private int decPointer() {
+        pointer = Math.max(0, --pointer);
+        return pointer;
+    }
+
+    private int incPointer() {
+        pointer = Math.min(commands.size() - 1, ++pointer);
+        return pointer;
+    }
+
+    private String foreCommand() {
+        String result = "";
+        if (commands.size() > 0) {
+            result = commands.get(pointer);
+            incPointer();
+        }
+        return result;
+    }
+
+    private String backCommand() {
+        String result = "";
+        if (commands.size() > 0) {
+            result = commands.get(pointer);
+            decPointer();
+        }
+        return result;
+    }
 
     /**
      *
@@ -63,6 +94,7 @@ public class UbluPanel extends javax.swing.JPanel {
      * Creates new form UbluPanel
      */
     public UbluPanel() {
+        this.commands = new StringArrayList();
         initComponents();
         // jEPOS = new EditorPaneOutputStream(ubluEditorPane);
         // jTAOS = new TextAreaOutputStream(jTextArea1);
@@ -138,12 +170,21 @@ public class UbluPanel extends javax.swing.JPanel {
     private void ubluTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ubluTextFieldKeyReleased
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_ENTER:
-                String ubluText = ubluTextField.getText() + "\n";
+                String ubluText = ubluTextField.getText();
+                commands.add(ubluText);
+                pointer = commands.size() - 1;
+                ubluText = ubluText + '\n';
                 // jEPOS.write((ubluText).getBytes());
                 jTAOS.write((ubluText).getBytes());
                 ubluTextField.setText("");
                 ubluFrame.interpretText(ubluText);
                 scrollToEnd();
+                break;
+            case KeyEvent.VK_UP:
+                ubluTextField.setText(backCommand());
+                break;
+            case KeyEvent.VK_DOWN:
+                ubluTextField.setText(foreCommand());
         }
     }//GEN-LAST:event_ubluTextFieldKeyReleased
 
