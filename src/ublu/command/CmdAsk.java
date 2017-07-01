@@ -40,6 +40,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import javax.swing.JOptionPane;
 
 /**
  * Ask the user and get a response
@@ -108,15 +109,24 @@ public class CmdAsk extends Command {
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
             } else { // Not console
-                if (prompt != null) {
-                    prompt = prompt.trim() + (isGoubluing() ? " : \n" : " : ");
-                    getInterpreter().output(prompt);
-                }
-                try {
-                    put(getInterpreter().getInputStreamBufferedReader().readLine());
-                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                    getLogger().log(Level.SEVERE, "Could not either get or put response with prompt " + prompt + " in " + getNameAndDescription(), ex);
-                    setCommandResult(COMMANDRESULT.FAILURE);
+                if (getInterpreter().isWindowing()) {
+                    try {
+                        put(JOptionPane.showInputDialog(null, prompt));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Could not either get or put response with prompt " + prompt + " windowing in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                } else {
+                    if (prompt != null) {
+                        prompt = prompt.trim() + (isGoubluing() ? " : \n" : " : ");
+                        getInterpreter().output(prompt);
+                    }
+                    try {
+                        put(getInterpreter().getInputStreamBufferedReader().readLine());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Could not either get or put response with prompt " + prompt + " in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                 }
             }
         }
