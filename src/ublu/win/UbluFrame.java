@@ -140,6 +140,8 @@ public class UbluFrame extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
+        ubluMenu = new javax.swing.JMenu();
+        ubluSelectedMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ublu");
@@ -156,6 +158,11 @@ public class UbluFrame extends javax.swing.JFrame {
         saveMenuItem.setText("Save");
         saveMenuItem.setToolTipText("Save the output");
         saveMenuItem.setActionCommand("SaveMenuItem");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -173,6 +180,21 @@ public class UbluFrame extends javax.swing.JFrame {
 
         editMenu.setText("Edit");
         ubluMenuBar.add(editMenu);
+
+        ubluMenu.setActionCommand("ubluMenu");
+        ubluMenu.setLabel("Ublu");
+
+        ubluSelectedMenuItem.setText("Interpret Selected");
+        ubluSelectedMenuItem.setToolTipText("Interpret selected code in text pane");
+        ubluSelectedMenuItem.setActionCommand("InterpretSelected");
+        ubluSelectedMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ubluSelectedMenuItemActionPerformed(evt);
+            }
+        });
+        ubluMenu.add(ubluSelectedMenuItem);
+
+        ubluMenuBar.add(ubluMenu);
 
         setJMenuBar(ubluMenuBar);
 
@@ -201,6 +223,16 @@ public class UbluFrame extends javax.swing.JFrame {
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
+    private void ubluSelectedMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubluSelectedMenuItemActionPerformed
+        String s = ubluPanel.getUbluTextArea().getSelectedText();
+        interpretText(s);
+        ubluPanel.scrollToEnd();
+    }//GEN-LAST:event_ubluSelectedMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,7 +275,9 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenu ubluMenu;
     private javax.swing.JMenuBar ubluMenuBar;
     private ublu.win.UbluPanel ubluPanel;
+    private javax.swing.JMenuItem ubluSelectedMenuItem;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,6 +18,9 @@
                 <Property name="toolTipText" type="java.lang.String" value="Save the output"/>
                 <Property name="actionCommand" type="java.lang.String" value="SaveMenuItem"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="saveAsMenuItem">
               <Properties>
@@ -38,6 +41,24 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="ubluMenu">
+          <Properties>
+            <Property name="actionCommand" type="java.lang.String" value="ubluMenu"/>
+            <Property name="label" type="java.lang.String" value="Ublu"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="ubluSelectedMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Interpret Selected"/>
+                <Property name="toolTipText" type="java.lang.String" value="Interpret selected code in text pane"/>
+                <Property name="actionCommand" type="java.lang.String" value="InterpretSelected"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ubluSelectedMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
