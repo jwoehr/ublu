@@ -7,15 +7,27 @@
         <Menu class="javax.swing.JMenu" name="fileMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="toolTipText" type="java.lang.String" value="Open a file in the text area"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="OpenMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+O"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Open"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OpenMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save"/>
-                <Property name="toolTipText" type="java.lang.String" value="Save the output"/>
+                <Property name="toolTipText" type="java.lang.String" value="Save the output to last chosen output save file"/>
                 <Property name="actionCommand" type="java.lang.String" value="SaveMenuItem"/>
               </Properties>
               <Events>
@@ -28,7 +40,7 @@
                   <KeyStroke key="Ctrl+A"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save As"/>
-                <Property name="toolTipText" type="java.lang.String" value="Save Output As"/>
+                <Property name="toolTipText" type="java.lang.String" value="Save output to specific file"/>
                 <Property name="actionCommand" type="java.lang.String" value="SaveAsMenuItem"/>
               </Properties>
               <Events>
@@ -40,6 +52,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+L"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Save selected text to a file"/>
                 <Property name="actionCommand" type="java.lang.String" value="SaveSelectedAs"/>
                 <Property name="label" type="java.lang.String" value="Save Selected As"/>
               </Properties>

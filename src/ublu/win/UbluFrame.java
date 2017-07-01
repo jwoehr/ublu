@@ -141,6 +141,7 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluPanel = new ublu.win.UbluPanel();
         ubluMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        OpenMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         saveSelectedAsMenuItem = new javax.swing.JMenuItem();
@@ -151,10 +152,20 @@ public class UbluFrame extends javax.swing.JFrame {
         setTitle("Ublu");
 
         fileMenu.setText("File");
+        fileMenu.setToolTipText("Open a file in the text area");
+
+        OpenMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        OpenMenuItem.setText("Open");
+        OpenMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(OpenMenuItem);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Save");
-        saveMenuItem.setToolTipText("Save the output");
+        saveMenuItem.setToolTipText("Save the output to last chosen output save file");
         saveMenuItem.setActionCommand("SaveMenuItem");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,7 +176,7 @@ public class UbluFrame extends javax.swing.JFrame {
 
         saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         saveAsMenuItem.setText("Save As");
-        saveAsMenuItem.setToolTipText("Save Output As");
+        saveAsMenuItem.setToolTipText("Save output to specific file");
         saveAsMenuItem.setActionCommand("SaveAsMenuItem");
         saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +186,7 @@ public class UbluFrame extends javax.swing.JFrame {
         fileMenu.add(saveAsMenuItem);
 
         saveSelectedAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        saveSelectedAsMenuItem.setToolTipText("Save selected text to a file");
         saveSelectedAsMenuItem.setActionCommand("SaveSelectedAs");
         saveSelectedAsMenuItem.setLabel("Save Selected As");
         saveSelectedAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -255,6 +267,14 @@ public class UbluFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveSelectedAsMenuItemActionPerformed
 
+    private void OpenMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenMenuItemActionPerformed
+        try {
+            ubluWinController.loadFile();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_OpenMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -292,6 +312,7 @@ public class UbluFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

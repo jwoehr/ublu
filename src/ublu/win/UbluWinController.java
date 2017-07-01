@@ -31,13 +31,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import ublu.Ublu;
 import ublu.command.CommandInterface.COMMANDRESULT;
+import ublu.util.Generics;
 import ublu.util.Interpreter;
 import ublu.util.Parser;
 
@@ -71,6 +74,8 @@ public class UbluWinController {
      *
      */
     protected File fileSaveSession;
+
+    protected File lastOpened;
 
     /**
      *
@@ -310,5 +315,35 @@ public class UbluWinController {
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return response;
 
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected File dialogForLoadFile() {
+        File result = null;
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (lastOpened != null) {
+            fc.setSelectedFile(lastOpened);
+        }
+        fc.setMultiSelectionEnabled(false);
+        int returnVal = fc.showDialog(ubluFrame, "Open File");
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            result = fc.getSelectedFile();
+        }
+        return result;
+    }
+
+    protected void loadFile() throws FileNotFoundException, IOException {
+        File f = dialogForLoadFile();
+        if (f != null) {
+            lastOpened = f;
+            for (String s : new Generics.StringArrayList(Files.readAllLines(lastOpened.toPath()))) {
+                getUbluFrame().getUbluTextArea().append(s + "\n");
+            }
+            getUbluFrame().getUbluPanel().scrollToEnd();
+        }
     }
 }
