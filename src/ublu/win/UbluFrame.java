@@ -146,6 +146,7 @@ public class UbluFrame extends javax.swing.JFrame {
         saveAsMenuItem = new javax.swing.JMenuItem();
         saveSelectedAsMenuItem = new javax.swing.JMenuItem();
         ubluMenu = new javax.swing.JMenu();
+        includeMenuItem = new javax.swing.JMenuItem();
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -200,6 +201,16 @@ public class UbluFrame extends javax.swing.JFrame {
 
         ubluMenu.setActionCommand("ubluMenu");
         ubluMenu.setLabel("Ublu");
+
+        includeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        includeMenuItem.setText("Include");
+        includeMenuItem.setToolTipText("Include an Ublu source file");
+        includeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                includeMenuItemActionPerformed(evt);
+            }
+        });
+        ubluMenu.add(includeMenuItem);
 
         ubluSelectedMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         ubluSelectedMenuItem.setText("Interpret Selected");
@@ -275,6 +286,14 @@ public class UbluFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_OpenMenuItemActionPerformed
 
+    private void includeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_includeMenuItemActionPerformed
+        try {
+            ubluWinController.includeFile();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_includeMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -314,6 +333,7 @@ public class UbluFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem includeMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem saveSelectedAsMenuItem;

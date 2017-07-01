@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -78,6 +79,8 @@ public class UbluWinController {
      *
      */
     protected File lastOpened;
+    
+    protected File lastIncluded;
 
     /**
      *
@@ -237,7 +240,7 @@ public class UbluWinController {
         }
         return result;
     }
-
+    
     private void writeToFile(File f, String s) throws FileNotFoundException, IOException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(f)) {
             if (s == null) {
@@ -262,7 +265,7 @@ public class UbluWinController {
             result = saveSessionAs();
         }
         return result;
-
+        
     }
 
     /**
@@ -315,12 +318,12 @@ public class UbluWinController {
         }
         return result;
     }
-
+    
     private int confirmOverwrite() {
         int response = JOptionPane.showConfirmDialog(null, "File exists, overwrite?", "Confirm overwrite extant file",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return response;
-
+        
     }
 
     /**
@@ -354,6 +357,39 @@ public class UbluWinController {
             for (String s : new Generics.StringArrayList(Files.readAllLines(lastOpened.toPath()))) {
                 getUbluFrame().getUbluTextArea().append(s + "\n");
             }
+            getUbluFrame().getUbluPanel().scrollToEnd();
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected File dialogForIncludeFile() {
+        File result = null;
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (lastIncluded != null) {
+            fc.setSelectedFile(lastIncluded);
+        }
+        fc.setMultiSelectionEnabled(false);
+        int returnVal = fc.showDialog(ubluFrame, "Open File");
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            result = fc.getSelectedFile();
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    protected void includeFile() throws FileNotFoundException, IOException {
+        File f = dialogForLoadFile();
+        if (f != null) {
+            lastIncluded = f;
+            interpreter.include(FileSystems.getDefault().getPath(f.getAbsolutePath()));
             getUbluFrame().getUbluPanel().scrollToEnd();
         }
     }
