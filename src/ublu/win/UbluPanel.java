@@ -99,14 +99,20 @@ public class UbluPanel extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         ubluTextField = new javax.swing.JTextField();
 
+        setDoubleBuffered(false);
         setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
+
+        jTextArea1.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
         jTextArea1.setDoubleBuffered(true);
         jTextArea1.setName(""); // NOI18N
         jScrollPane1.setViewportView(jTextArea1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        ubluTextField.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
+        ubluTextField.setDragEnabled(false);
         ubluTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 ubluTextFieldKeyReleased(evt);
