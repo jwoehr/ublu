@@ -171,8 +171,10 @@ public class UbluPanel extends javax.swing.JPanel {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_ENTER:
                 String ubluText = ubluTextField.getText();
-                commands.add(ubluText);
-                pointer = commands.size() - 1;
+                if (!ubluText.equals("")) {
+                    commands.add(ubluText);
+                    pointer = commands.size() - 1;
+                }
                 ubluText = ubluText + '\n';
                 // jEPOS.write((ubluText).getBytes());
                 jTAOS.write((ubluText).getBytes());
