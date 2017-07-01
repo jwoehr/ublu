@@ -416,6 +416,9 @@ public class ArgArray extends ArrayList<String> {
      */
     public void assimilateFullQuotation() {
         while (findCloseQuote(0) == -1) {
+            if (getInterpreter().isWindowing()) {
+                throw new Error("Multiline quotations not supported on windowing input line");
+            }
             getInterpreter().setParsingString(true);
             getInterpreter().prompt();
             addAll(getInterpreter().readAndParse());
@@ -434,6 +437,10 @@ public class ArgArray extends ArrayList<String> {
         int searchStartIndex = 0;
         // /* Debug */ System.err.println("block depth before " + getInterpreter().getParsingBlockDepth());
         while (findCloseBlock(searchStartIndex) == -1) {
+            if (getInterpreter().isWindowing()) {
+                getInterpreter().setParsingBlock(false);
+                throw new Error("Multiline blocks not supported on windowing input line");
+            }
             searchStartIndex = size();
             // /* Debug */ System.err.println("block depth at begin loop " + getInterpreter().getParsingBlockDepth());
             getInterpreter().prompt();
