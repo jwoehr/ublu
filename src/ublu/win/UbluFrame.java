@@ -226,8 +226,10 @@ public class UbluFrame extends javax.swing.JFrame {
 
     private void ubluSelectedMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubluSelectedMenuItemActionPerformed
         String s = ubluPanel.getUbluTextArea().getSelectedText();
-        interpretText(s);
-        ubluPanel.scrollToEnd();
+        if (s != null) {
+            interpretText(s);
+            ubluPanel.scrollToEnd();
+        }
     }//GEN-LAST:event_ubluSelectedMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
