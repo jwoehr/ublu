@@ -27,6 +27,10 @@
  */
 package ublu.win;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import ublu.command.CommandInterface;
 
@@ -139,18 +143,13 @@ public class UbluFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
+        saveSelectedAsMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         ubluMenu = new javax.swing.JMenu();
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ublu");
-
-        ubluPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                ubluPanelComponentResized(evt);
-            }
-        });
 
         fileMenu.setText("File");
 
@@ -176,6 +175,11 @@ public class UbluFrame extends javax.swing.JFrame {
         });
         fileMenu.add(saveAsMenuItem);
 
+        saveSelectedAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        saveSelectedAsMenuItem.setActionCommand("SaveSelectedAs");
+        saveSelectedAsMenuItem.setLabel("Save Selected As");
+        fileMenu.add(saveSelectedAsMenuItem);
+
         ubluMenuBar.add(fileMenu);
 
         editMenu.setText("Edit");
@@ -184,6 +188,7 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluMenu.setActionCommand("ubluMenu");
         ubluMenu.setLabel("Ublu");
 
+        ubluSelectedMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         ubluSelectedMenuItem.setText("Interpret Selected");
         ubluSelectedMenuItem.setToolTipText("Interpret selected code in text pane");
         ubluSelectedMenuItem.setActionCommand("InterpretSelected");
@@ -216,24 +221,29 @@ public class UbluFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ubluPanelComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ubluPanelComponentResized
-        // ubluPanel.setSize(WIDTH, HEIGHT);
-    }//GEN-LAST:event_ubluPanelComponentResized
-
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
-        // TODO add your handling code here:
+        try {
+            ubluWinController.saveSessionAs();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void ubluSelectedMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubluSelectedMenuItemActionPerformed
         String s = ubluPanel.getUbluTextArea().getSelectedText();
         if (s != null) {
+            ubluPanel.scrollToEnd();
             interpretText(s);
             ubluPanel.scrollToEnd();
         }
     }//GEN-LAST:event_ubluSelectedMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        // TODO add your handling code here:
+        try {
+            ubluWinController.saveSession();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     /**
@@ -277,6 +287,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenuItem saveSelectedAsMenuItem;
     private javax.swing.JMenu ubluMenu;
     private javax.swing.JMenuBar ubluMenuBar;
     private ublu.win.UbluPanel ubluPanel;

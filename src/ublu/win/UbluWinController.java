@@ -28,8 +28,14 @@
 package ublu.win;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import ublu.Ublu;
 import ublu.command.CommandInterface.COMMANDRESULT;
 import ublu.util.Interpreter;
@@ -60,6 +66,27 @@ public class UbluWinController {
      *
      */
     protected TextAreaOutputStream ubluTAOS;
+
+    /**
+     *
+     */
+    protected File fileSaveSession;
+
+    /**
+     *
+     * @return
+     */
+    public File getSaveSessionFile() {
+        return fileSaveSession;
+    }
+
+    /**
+     *
+     * @param saveSessionFile
+     */
+    public void setSaveSessionFile(File saveSessionFile) {
+        this.fileSaveSession = saveSessionFile;
+    }
 
     /**
      *
@@ -162,5 +189,101 @@ public class UbluWinController {
         ubluFrame.getUbluTextArea().setText(Ublu.startupMessage() + '\n');
         interpreter.prompt();
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected File dialogForSaveFile() {
+        File result = null;
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (fileSaveSession != null) {
+            fc.setSelectedFile(fileSaveSession);
+        }
+        fc.setMultiSelectionEnabled(false);
+        int returnVal = fc.showDialog(ubluFrame, "Save Session As");
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            result = fc.getSelectedFile();
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @param f
+     * @param s
+     * @return
+     * @throws java.io.FileNotFoundException
+     * @throws java.io.IOException
+     */
+    protected boolean saveToFile(File f, String s) throws FileNotFoundException, IOException {
+        boolean result = true;
+        if (!f.exists()) {
+            if (f.createNewFile()) {
+                writeToFile(f, s);
+            } else {
+                result = false;
+            }
+        } else {
+            writeToFile(f, s);
+        }
+        return result;
+    }
+
+    private void writeToFile(File f, String s) throws FileNotFoundException, IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(f);
+        fileOutputStream.write(s.getBytes());
+    }
+
+    /**
+     *
+     * @return @throws java.io.FileNotFoundException
+     * @throws java.io.IOException
+     */
+    public boolean saveSession() throws FileNotFoundException, IOException {
+        boolean result;
+        String s = getUbluFrame().getUbluTextArea().getText();
+        if (fileSaveSession != null) {
+            result = saveToFile(fileSaveSession, s);
+        } else {
+            result = saveSessionAs();
+        }
+        return result;
+
+    }
+
+    /**
+     *
+     * @return @throws FileNotFoundException
+     * @throws IOException
+     */
+    public boolean saveSessionAs() throws FileNotFoundException, IOException {
+        boolean result = false;
+        String s = getUbluFrame().getUbluTextArea().getText();
+        File f = dialogForSaveFile();
+        if (f != null) {
+            fileSaveSession = f;
+            if (f.exists()) {
+                switch (confirmOverwrite()) {
+                    case JOptionPane.YES_OPTION:
+                        result = saveToFile(fileSaveSession, s);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Session not saved");
+                }
+            } else {
+                result = saveToFile(fileSaveSession, s);
+            }
+        }
+        return result;
+    }
+
+    private int confirmOverwrite() {
+        int response = JOptionPane.showConfirmDialog(null, "File exists, overwrite?", "Confirm overwrite extant file",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return response;
+
     }
 }
