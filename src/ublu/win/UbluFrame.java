@@ -137,8 +137,8 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluPanel = new ublu.win.UbluPanel();
         ubluMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        SaveAsMenuItem = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -152,22 +152,22 @@ public class UbluFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        SaveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        SaveAsMenuItem.setText("Save");
-        SaveAsMenuItem.setToolTipText("Save the output");
-        SaveAsMenuItem.setActionCommand("SaveMenuItem");
-        fileMenu.add(SaveAsMenuItem);
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setText("Save");
+        saveMenuItem.setToolTipText("Save the output");
+        saveMenuItem.setActionCommand("SaveMenuItem");
+        fileMenu.add(saveMenuItem);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Save As");
-        jMenuItem2.setToolTipText("Save Output As");
-        jMenuItem2.setActionCommand("SaveAsMenuItem");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        saveAsMenuItem.setText("Save As");
+        saveAsMenuItem.setToolTipText("Save Output As");
+        saveAsMenuItem.setActionCommand("SaveAsMenuItem");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                saveAsMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem2);
+        fileMenu.add(saveAsMenuItem);
 
         ubluMenuBar.add(fileMenu);
 
@@ -198,9 +198,9 @@ public class UbluFrame extends javax.swing.JFrame {
         // ubluPanel.setSize(WIDTH, HEIGHT);
     }//GEN-LAST:event_ubluPanelComponentResized
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,10 +239,10 @@ public class UbluFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem SaveAsMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem saveAsMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuBar ubluMenuBar;
     private ublu.win.UbluPanel ubluPanel;
     // End of variables declaration//GEN-END:variables
