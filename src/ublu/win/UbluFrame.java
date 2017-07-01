@@ -144,7 +144,6 @@ public class UbluFrame extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         saveSelectedAsMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
         ubluMenu = new javax.swing.JMenu();
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
 
@@ -178,12 +177,14 @@ public class UbluFrame extends javax.swing.JFrame {
         saveSelectedAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         saveSelectedAsMenuItem.setActionCommand("SaveSelectedAs");
         saveSelectedAsMenuItem.setLabel("Save Selected As");
+        saveSelectedAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveSelectedAsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveSelectedAsMenuItem);
 
         ubluMenuBar.add(fileMenu);
-
-        editMenu.setText("Edit");
-        ubluMenuBar.add(editMenu);
 
         ubluMenu.setActionCommand("ubluMenu");
         ubluMenu.setLabel("Ublu");
@@ -246,6 +247,14 @@ public class UbluFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    private void saveSelectedAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSelectedAsMenuItemActionPerformed
+        try {
+            ubluWinController.saveSelectedAs();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_saveSelectedAsMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -283,7 +292,6 @@ public class UbluFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

@@ -280,6 +280,31 @@ public class UbluWinController {
         return result;
     }
 
+    /**
+     *
+     * @return @throws FileNotFoundException
+     * @throws IOException
+     */
+    public boolean saveSelectedAs() throws FileNotFoundException, IOException {
+        boolean result = false;
+        String s = getUbluFrame().getUbluTextArea().getSelectedText();
+        File f = dialogForSaveFile();
+        if (f != null) {
+            if (f.exists()) {
+                switch (confirmOverwrite()) {
+                    case JOptionPane.YES_OPTION:
+                        result = saveToFile(f, s);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Selection not saved");
+                }
+            } else {
+                result = saveToFile(f, s);
+            }
+        }
+        return result;
+    }
+
     private int confirmOverwrite() {
         int response = JOptionPane.showConfirmDialog(null, "File exists, overwrite?", "Confirm overwrite extant file",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

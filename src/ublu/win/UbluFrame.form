@@ -43,13 +43,11 @@
                 <Property name="actionCommand" type="java.lang.String" value="SaveSelectedAs"/>
                 <Property name="label" type="java.lang.String" value="Save Selected As"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveSelectedAsMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="editMenu">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
-          </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="ubluMenu">
           <Properties>
