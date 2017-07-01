@@ -28,6 +28,7 @@
 package ublu.win;
 
 import java.awt.event.KeyEvent;
+import javax.swing.JScrollBar;
 // import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -64,7 +65,16 @@ public class UbluPanel extends javax.swing.JPanel {
     public UbluPanel() {
         initComponents();
         // jEPOS = new EditorPaneOutputStream(ubluEditorPane);
-        jTAOS = new TextAreaOutputStream(jTextArea1);
+        // jTAOS = new TextAreaOutputStream(jTextArea1);
+        jTAOS = new TextAreaOutputStream(this);
+    }
+
+    /**
+     *
+     */
+    public void scrollToEnd() {
+        JScrollBar jsb = jScrollPane1.getVerticalScrollBar();
+        jsb.setValue(jsb.getMaximum());
     }
 
 //    /**
@@ -133,6 +143,7 @@ public class UbluPanel extends javax.swing.JPanel {
                 jTAOS.write((ubluText).getBytes());
                 ubluTextField.setText("");
                 ubluFrame.interpretText(ubluText);
+                scrollToEnd();
         }
     }//GEN-LAST:event_ubluTextFieldKeyReleased
 

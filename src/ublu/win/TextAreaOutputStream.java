@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 public class TextAreaOutputStream extends java.io.OutputStream {
 
     private JTextArea my_text_area;
+    private UbluPanel myUbluPanel = null;
 
     /**
      * Create without instancing text area
@@ -31,6 +32,11 @@ public class TextAreaOutputStream extends java.io.OutputStream {
      */
     public TextAreaOutputStream(JTextArea jta) {
         set_text_area(jta);
+    }
+
+    public TextAreaOutputStream(UbluPanel ubluPanel) {
+        this(ubluPanel.getUbluTextArea());
+        myUbluPanel = ubluPanel;
     }
 
     /**
@@ -81,6 +87,9 @@ public class TextAreaOutputStream extends java.io.OutputStream {
          */
         if (null != get_text_area()) {
             my_text_area.append(s);
+            if (myUbluPanel != null) {
+                myUbluPanel.scrollToEnd();
+            }
         } else {
             System.err.println(no_text_area_message());
         }
@@ -100,6 +109,9 @@ public class TextAreaOutputStream extends java.io.OutputStream {
          */
         if (null != get_text_area()) {
             my_text_area.append(s);
+            if (myUbluPanel != null) {
+                myUbluPanel.scrollToEnd();
+            }
         } else {
             System.err.println(no_text_area_message());
         }
@@ -121,6 +133,9 @@ public class TextAreaOutputStream extends java.io.OutputStream {
          */
         if (null != get_text_area()) {
             my_text_area.append(s);
+            if (myUbluPanel != null) {
+                myUbluPanel.scrollToEnd();
+            }
         } else {
             System.err.println(no_text_area_message());
         }

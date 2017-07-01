@@ -151,7 +151,6 @@ public class UbluWinController {
     public void startup() {
         ubluFrame = new UbluFrame();
         ubluFrame.setUbluWinController(this);
-        // ubluSOE = new EditorPaneOutputStream(ubluFrame.getUbluTextArea());
         ubluTAOS = ubluFrame.getUbluPanel().getjTAOS();
         ubluIS = new UbluWinInputStream();
         interpreter.setInputStream(ubluIS);
