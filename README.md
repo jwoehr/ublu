@@ -84,6 +84,11 @@ Goublu is a console front-end that provides an editable Ublu command line. The g
 will fetch the source to your `$GOPATH/src` directory to build for your architecture.
 
 <a name="discussion"></a>
+
+## Ublu in a Window
+You can start Ublu in a window with the `-w` switch.
+![Ublu in a Window](https://user-images.githubusercontent.com/4604036/27767687-6a77c374-5ebc-11e7-8170-51a4e1c3931a.jpg)
+
 ## Discussion of Ublu
 
 Report bugs or make feature requests in the [Issue Tracker](https://github.com/jwoehr/ublu/issues)
