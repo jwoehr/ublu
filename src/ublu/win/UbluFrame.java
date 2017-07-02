@@ -27,13 +27,13 @@
  */
 package ublu.win;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import ublu.Ublu;
+import javax.swing.JTextField;
 import ublu.command.CommandInterface;
 
 /**
@@ -76,6 +76,14 @@ public class UbluFrame extends javax.swing.JFrame {
      */
     protected JTextArea getUbluTextArea() {
         return getUbluPanel().getUbluTextArea();
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected JTextField getUbluInputArea() {
+        return getUbluPanel().getUbluTextField();
     }
 
     /**
@@ -153,6 +161,8 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluMenu = new javax.swing.JMenu();
         includeMenuItem = new javax.swing.JMenuItem();
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
+        settingsMenu = new javax.swing.JMenu();
+        fontMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         helpMenuItem = new javax.swing.JMenuItem();
@@ -247,6 +257,19 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluMenu.add(ubluSelectedMenuItem);
 
         ubluMenuBar.add(ubluMenu);
+
+        settingsMenu.setText("Settings");
+
+        fontMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        fontMenuItem.setText("Font");
+        fontMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fontMenuItemActionPerformed(evt);
+            }
+        });
+        settingsMenu.add(fontMenuItem);
+
+        ubluMenuBar.add(settingsMenu);
 
         helpMenu.setText("Help");
         helpMenu.setToolTipText("Help and info");
@@ -354,6 +377,22 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluWinController.aboutUblu();
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
+    private void fontMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontMenuItemActionPerformed
+        FontChooser fc = new FontChooser(this);
+        fc.setVisible(true);
+        Font font = fc.getNewFont();
+        if (font != null) {
+            getUbluTextArea().setFont(font);
+            getUbluInputArea().setFont(font);
+        }
+        Color color = fc.getNewColor();
+        if (color != null) {
+            getUbluTextArea().setForeground(color);
+            getUbluInputArea().setForeground(color);
+        }
+        this.revalidate();
+    }//GEN-LAST:event_fontMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -394,6 +433,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem fontMenuItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JMenuItem includeMenuItem;
@@ -403,6 +443,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem saveSelectedAsMenuItem;
+    private javax.swing.JMenu settingsMenu;
     private javax.swing.JMenu ubluMenu;
     private javax.swing.JMenuBar ubluMenuBar;
     private ublu.win.UbluPanel ubluPanel;
