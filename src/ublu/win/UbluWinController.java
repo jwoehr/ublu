@@ -598,7 +598,10 @@ public class UbluWinController {
                 .append("You can edit the input line or move through previous input lines with the up and down arrow keys.\n")
                 .append("Multi-line input such as extended blocks or strings does not work in the input line. Instead, type one or more lines\n")
                 .append("of input into the upper text area, select those lines with keys or the mouse, and choose Ublu->Interpret Selected.\n\n")
-                .append("Ctrl-TAB toggles between the Ublu input line and the Ublu text area.\n");
+                .append("Ctrl-TAB toggles between the Ublu input line and the Ublu text area.\n\n")
+                .append("The Settings menu allows you change settings and save them to a properties file.\n")
+                .append("You can later load these settings from the Settings menu or by providing the properties file path\n")
+                .append("to Ublu as an argument to the -w switch which launches Ublu windowing.");
 
         return sb.toString();
     }
