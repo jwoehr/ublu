@@ -31,7 +31,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import ublu.Ublu;
 import ublu.command.CommandInterface;
 
 /**
@@ -142,29 +144,35 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         OpenMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         saveSelectedAsMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        quitMenuItem = new javax.swing.JMenuItem();
         ubluMenu = new javax.swing.JMenu();
         includeMenuItem = new javax.swing.JMenuItem();
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
         helpMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ublu");
 
         fileMenu.setText("File");
-        fileMenu.setToolTipText("Open a file in the text area");
+        fileMenu.setToolTipText("File operations in the text area and exiting the application");
 
         OpenMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         OpenMenuItem.setText("Open");
+        OpenMenuItem.setToolTipText("Read a file into the text area");
         OpenMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OpenMenuItemActionPerformed(evt);
             }
         });
         fileMenu.add(OpenMenuItem);
+        fileMenu.add(jSeparator2);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Save");
@@ -198,9 +206,21 @@ public class UbluFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveSelectedAsMenuItem);
+        fileMenu.add(jSeparator1);
+
+        quitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        quitMenuItem.setText("Quit");
+        quitMenuItem.setToolTipText("Tell Ublu bye to exit the application");
+        quitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(quitMenuItem);
 
         ubluMenuBar.add(fileMenu);
 
+        ubluMenu.setToolTipText("Ublu interpreting and including");
         ubluMenu.setActionCommand("ubluMenu");
         ubluMenu.setLabel("Ublu");
 
@@ -216,7 +236,7 @@ public class UbluFrame extends javax.swing.JFrame {
 
         ubluSelectedMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         ubluSelectedMenuItem.setText("Interpret Selected");
-        ubluSelectedMenuItem.setToolTipText("Interpret selected code in text pane");
+        ubluSelectedMenuItem.setToolTipText("Interpret selected text in text area");
         ubluSelectedMenuItem.setActionCommand("InterpretSelected");
         ubluSelectedMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,9 +248,21 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluMenuBar.add(ubluMenu);
 
         helpMenu.setText("Help");
+        helpMenu.setToolTipText("Help and info");
+
+        aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        aboutMenuItem.setText("About");
+        aboutMenuItem.setToolTipText("About Ublu");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(aboutMenuItem);
 
         helpMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         helpMenuItem.setText("Help");
+        helpMenuItem.setToolTipText("Display Ublu windowing help");
         helpMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 helpMenuItemActionPerformed(evt);
@@ -313,6 +345,14 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluWinController.help();
     }//GEN-LAST:event_helpMenuItemActionPerformed
 
+    private void quitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitMenuItemActionPerformed
+        ubluWinController.interpretText("bye\n");
+    }//GEN-LAST:event_quitMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        JOptionPane.showMessageDialog(null, Ublu.startupMessage());
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -351,10 +391,14 @@ public class UbluFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem OpenMenuItem;
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JMenuItem includeMenuItem;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem saveSelectedAsMenuItem;
