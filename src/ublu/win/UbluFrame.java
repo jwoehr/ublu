@@ -350,7 +350,7 @@ public class UbluFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_quitMenuItemActionPerformed
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-        JOptionPane.showMessageDialog(null, Ublu.startupMessage());
+        ubluWinController.aboutUblu();
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     /**

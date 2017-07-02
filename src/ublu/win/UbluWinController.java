@@ -51,6 +51,12 @@ import ublu.util.Parser;
  */
 public class UbluWinController {
 
+    public static final String productName = "Ublu Midrange and Mainframe Life Cycle Extension Language";
+
+    public final void aboutUblu() {
+        JOptionPane.showMessageDialog(ubluFrame, Ublu.startupMessage(), productName, JOptionPane.PLAIN_MESSAGE, ubluIcon);
+    }
+
     /**
      *
      */
@@ -82,6 +88,8 @@ public class UbluWinController {
     protected File lastOpened;
 
     protected File lastIncluded;
+
+    protected ImageIcon ubluIcon;
 
     /**
      *
@@ -152,11 +160,16 @@ public class UbluWinController {
         return ubluIS;
     }
 
+    public UbluWinController() {
+        ubluIcon = createImageIcon("/ublu/resource/Candlespace.gif", "NASA candle in space");
+    }
+
     /**
      *
      * @param interpreter
      */
     public UbluWinController(Interpreter interpreter) {
+        this();
         this.interpreter = interpreter;
     }
 
@@ -165,6 +178,7 @@ public class UbluWinController {
      * @param ublu
      */
     public UbluWinController(Ublu ublu) {
+        this();
         this.ublu = ublu;
         this.interpreter = Ublu.getMainInterpreter();
     }
@@ -198,7 +212,7 @@ public class UbluWinController {
         ublu.reinitLogger(new PrintStream(ubluTAOS));
         ubluFrame.runMe();
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
-        JOptionPane.showMessageDialog(null, Ublu.startupMessage());
+        aboutUblu();
     }
 
     /**
@@ -402,7 +416,7 @@ public class UbluWinController {
      * @param description
      * @return
      */
-    protected ImageIcon createImageIcon(String path,
+    protected final ImageIcon createImageIcon(String path,
             String description) {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
@@ -414,7 +428,7 @@ public class UbluWinController {
     }
 
     protected void help() {
-        JOptionPane.showMessageDialog(null, windowingHelp(), "Ublu Windowing Help", JOptionPane.PLAIN_MESSAGE, createImageIcon("/ublu/resource/Candlespace.gif", "NASA candle in space"));
+        JOptionPane.showMessageDialog(null, windowingHelp(), "Ublu Windowing Help", JOptionPane.PLAIN_MESSAGE, ubluIcon);
     }
 
     protected String windowingHelp() {
