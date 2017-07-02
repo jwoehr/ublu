@@ -148,6 +148,7 @@ public class UbluFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         ubluPanel = new ublu.win.UbluPanel();
         ubluMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -163,9 +164,12 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
         settingsMenu = new javax.swing.JMenu();
         fontMenuItem = new javax.swing.JMenuItem();
+        saveSettingsMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         helpMenuItem = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ublu/win/Bundle"); // NOI18N
@@ -260,7 +264,6 @@ public class UbluFrame extends javax.swing.JFrame {
 
         settingsMenu.setText("Settings");
 
-        fontMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         fontMenuItem.setText("Font");
         fontMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,6 +271,14 @@ public class UbluFrame extends javax.swing.JFrame {
             }
         });
         settingsMenu.add(fontMenuItem);
+
+        saveSettingsMenuItem.setText("Save Settings");
+        saveSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveSettingMenuItemActionPerformed(evt);
+            }
+        });
+        settingsMenu.add(saveSettingsMenuItem);
 
         ubluMenuBar.add(settingsMenu);
 
@@ -385,6 +396,12 @@ public class UbluFrame extends javax.swing.JFrame {
         if (font != null) {
             getUbluTextArea().setFont(font);
             getUbluInputArea().setFont(font);
+            ubluWinController.myWinProps.set("UbluTextAreaFont", getUbluTextArea().getFont().getName());
+            ubluWinController.myWinProps.set("UbluInputAreaFont", getUbluInputArea().getFont().getName());
+            ubluWinController.myWinProps.set("UbluTextAreaFontStyle", Integer.toString(getUbluTextArea().getFont().getStyle()));
+            ubluWinController.myWinProps.set("UbluInputAreaFontStyle", Integer.toString(getUbluInputArea().getFont().getStyle()));
+            ubluWinController.myWinProps.set("UbluTextAreaFontSize", Integer.toString(getUbluTextArea().getFont().getSize()));
+            ubluWinController.myWinProps.set("UbluInputAreaFontSize", Integer.toString(getUbluInputArea().getFont().getSize()));
         }
         Color color = fc.getNewColor();
         if (color != null) {
@@ -393,6 +410,14 @@ public class UbluFrame extends javax.swing.JFrame {
         }
         this.revalidate();
     }//GEN-LAST:event_fontMenuItemActionPerformed
+
+    private void saveSettingMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingMenuItemActionPerformed
+        try {
+            ubluWinController.saveSettingsAs();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_saveSettingMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -438,12 +463,14 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JMenuItem includeMenuItem;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem saveSelectedAsMenuItem;
+    private javax.swing.JMenuItem saveSettingsMenuItem;
     private javax.swing.JMenu settingsMenu;
     private javax.swing.JMenu ubluMenu;
     private javax.swing.JMenuBar ubluMenuBar;
