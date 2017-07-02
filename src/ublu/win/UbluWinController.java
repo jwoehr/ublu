@@ -51,8 +51,14 @@ import ublu.util.Parser;
  */
 public class UbluWinController {
 
+    /**
+     *
+     */
     public static final String PRODUCT_NAME = java.util.ResourceBundle.getBundle("ublu/win/Bundle").getString("productName");
 
+    /**
+     *
+     */
     public final void aboutUblu() {
         JOptionPane.showMessageDialog(ubluFrame, Ublu.startupMessage(), PRODUCT_NAME, JOptionPane.PLAIN_MESSAGE, ubluIcon);
     }
@@ -87,12 +93,24 @@ public class UbluWinController {
      */
     protected File lastOpened;
 
+    /**
+     *
+     */
     protected File lastIncluded;
 
+    /**
+     *
+     */
     protected File lastSavedSettings;
 
+    /**
+     *
+     */
     protected ImageIcon ubluIcon;
 
+    /**
+     *
+     */
     protected WinProps myWinProps;
 
     /**
@@ -164,6 +182,9 @@ public class UbluWinController {
         return ubluIS;
     }
 
+    /**
+     *
+     */
     public UbluWinController() {
         myWinProps = new WinProps(this);
         ubluIcon = createImageIcon("/ublu/resource/Candlespace.gif", "NASA candle in space");
@@ -477,10 +498,17 @@ public class UbluWinController {
         }
     }
 
+    /**
+     *
+     */
     protected void help() {
         JOptionPane.showMessageDialog(null, windowingHelp(), "Ublu Windowing Help", JOptionPane.PLAIN_MESSAGE, ubluIcon);
     }
 
+    /**
+     *
+     * @return
+     */
     protected String windowingHelp() {
         StringBuilder sb = new StringBuilder();
         sb.append("Welcome to windowing Ublu.\n\n")
