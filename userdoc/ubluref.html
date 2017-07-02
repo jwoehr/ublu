@@ -5,8 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
 
@@ -2360,15 +2358,21 @@ Type help for help. Type license for license. Type bye to exit.
   <blockquote>
     <tt>/0 [-to datasink] [-from datasink] [-say ~@{prompt string}]
     : get input from user</tt><br>
-    <br>
-    <tt>ask</tt> prompts the user (if a prompt string is provided)
-    and puts the response from the user, who must press [enter]
-    after entering reponse text.<br>
-    <br>
-    If the user simply presses [enter] without inputing any text, a
-    zero-length string is put. If the <tt>-from</tt> <a href=
+
+    <p><tt>ask</tt> prompts the user (if a prompt string is
+    provided) and puts the response from the user, who must press
+    [enter] after entering reponse text.</p>
+
+    <p>If Ublu is windowing, <code>ask</code> puts up a requester
+    dialog instead of prompting in the text area.</p>
+
+    <p>If the user simply presses [enter] or [OK] without inputing
+    any text, a zero-length string is put. In windowing mode, if
+    the user presses [Cancel], null is put.</p>
+
+    <p>If the <tt>-from</tt> <a href=
     "#Dash_Command">dash-command</a> is set, the prompt comes
-    from<br>
+    from</p>
 
     <ul>
       <li>The first line of any file datasource</li>
