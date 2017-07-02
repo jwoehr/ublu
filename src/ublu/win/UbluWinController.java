@@ -51,7 +51,7 @@ import ublu.util.Parser;
  */
 public class UbluWinController {
 
-    public static final String productName = "Ublu Midrange and Mainframe Life Cycle Extension Language";
+    public static final String productName = java.util.ResourceBundle.getBundle("ublu/win/Bundle").getString("productName");
 
     public final void aboutUblu() {
         JOptionPane.showMessageDialog(ubluFrame, Ublu.startupMessage(), productName, JOptionPane.PLAIN_MESSAGE, ubluIcon);

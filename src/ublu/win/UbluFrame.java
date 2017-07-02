@@ -158,7 +158,8 @@ public class UbluFrame extends javax.swing.JFrame {
         helpMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Ublu");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ublu/win/Bundle"); // NOI18N
+        setTitle(bundle.getString("productName")); // NOI18N
 
         fileMenu.setText("File");
         fileMenu.setToolTipText("File operations in the text area and exiting the application");
