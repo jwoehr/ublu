@@ -51,7 +51,7 @@ public class FontChooser extends JDialog implements ActionListener {
     Font newFont;
     Color newColor;
 
-    public FontChooser(Frame parent) {
+    public FontChooser(Frame parent, Font initialFont, Color initialFGColor) {
         super(parent, "Font Chooser", true);
         setSize(450, 450);
         attributes = new SimpleAttributeSet();
@@ -71,13 +71,14 @@ public class FontChooser extends JDialog implements ActionListener {
 //            "Helvetica", "Courier"});
         fontName = new JComboBox(getAllFontNames());
         // fontName.setSelectedItem(whatever current font is);
-        fontName.setSelectedIndex(1);
+        // fontName.setSelectedIndex(1);
+        fontName.setSelectedItem(initialFont.getFontName());
         fontName.addActionListener(this);
-        fontSize = new JTextField("12", 4);
+        fontSize = new JTextField(new Integer(initialFont.getSize()).toString(), 4);
         fontSize.setHorizontalAlignment(SwingConstants.RIGHT);
         fontSize.addActionListener(this);
         fontBold = new JCheckBox("Bold");
-        fontBold.setSelected(true);
+        fontBold.setSelected(false);
         fontBold.addActionListener(this);
         fontItalic = new JCheckBox("Italic");
         fontItalic.addActionListener(this);
@@ -92,7 +93,7 @@ public class FontChooser extends JDialog implements ActionListener {
 
         // Set up the color chooser panel and attach a change listener so that color
         // updates get reflected in our preview label.
-        colorChooser = new JColorChooser(Color.black);
+        colorChooser = new JColorChooser(initialFGColor);
         colorChooser.getSelectionModel()
                 .addChangeListener(new ChangeListener() {
                     public void stateChanged(ChangeEvent e) {
@@ -103,8 +104,11 @@ public class FontChooser extends JDialog implements ActionListener {
 
         JPanel previewPanel = new JPanel(new BorderLayout());
         previewLabel = new JLabel("Here's a sample of this font.");
+        previewLabel.setFont(initialFont);
         previewLabel.setForeground(colorChooser.getColor());
         previewPanel.add(previewLabel, BorderLayout.CENTER);
+        previewPanel.setFont(initialFont);
+        previewPanel.setForeground(initialFGColor);
 
         // Add in the Ok and Cancel buttons for our dialog box
         JButton okButton = new JButton("Ok");
@@ -157,6 +161,7 @@ public class FontChooser extends JDialog implements ActionListener {
         }
         // and update our preview label
         updatePreviewFont();
+        this.revalidate();
     }
 
     // Get the appropriate font from our attributes object and update
