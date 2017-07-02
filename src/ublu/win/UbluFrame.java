@@ -165,6 +165,7 @@ public class UbluFrame extends javax.swing.JFrame {
         settingsMenu = new javax.swing.JMenu();
         fontMenuItem = new javax.swing.JMenuItem();
         saveSettingsMenuItem = new javax.swing.JMenuItem();
+        loadSettingjMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         helpMenuItem = new javax.swing.JMenuItem();
@@ -275,10 +276,18 @@ public class UbluFrame extends javax.swing.JFrame {
         saveSettingsMenuItem.setText("Save Settings");
         saveSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveSettingMenuItemActionPerformed(evt);
+                saveSettingsMenuItemActionPerformed(evt);
             }
         });
         settingsMenu.add(saveSettingsMenuItem);
+
+        loadSettingjMenuItem.setText("Load Settings");
+        loadSettingjMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadSettingsMenuItemActionPerformed(evt);
+            }
+        });
+        settingsMenu.add(loadSettingjMenuItem);
 
         ubluMenuBar.add(settingsMenu);
 
@@ -399,25 +408,35 @@ public class UbluFrame extends javax.swing.JFrame {
             ubluWinController.myWinProps.set("UbluTextAreaFont", getUbluTextArea().getFont().getName());
             ubluWinController.myWinProps.set("UbluInputAreaFont", getUbluInputArea().getFont().getName());
             ubluWinController.myWinProps.set("UbluTextAreaFontStyle", Integer.toString(getUbluTextArea().getFont().getStyle()));
-            ubluWinController.myWinProps.set("UbluInputAreaFontStyle", Integer.toString(getUbluInputArea().getFont().getStyle()));
-            ubluWinController.myWinProps.set("UbluTextAreaFontSize", Integer.toString(getUbluTextArea().getFont().getSize()));
-            ubluWinController.myWinProps.set("UbluInputAreaFontSize", Integer.toString(getUbluInputArea().getFont().getSize()));
+            ubluWinController.myWinProps.set("UbluInputAreaFontStyle", Long.toString(getUbluInputArea().getFont().getStyle()));
+            ubluWinController.myWinProps.set("UbluTextAreaFontSize", Long.toString(getUbluTextArea().getFont().getSize()));
+            ubluWinController.myWinProps.set("UbluInputAreaFontSize", Long.toString(getUbluInputArea().getFont().getSize()));
         }
         Color color = fc.getNewColor();
         if (color != null) {
             getUbluTextArea().setForeground(color);
+            ubluWinController.myWinProps.set("UbluTextAreaFGColor", Integer.toHexString(color.getRGB()));
             getUbluInputArea().setForeground(color);
+            ubluWinController.myWinProps.set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
         }
         this.revalidate();
     }//GEN-LAST:event_fontMenuItemActionPerformed
 
-    private void saveSettingMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingMenuItemActionPerformed
+    private void saveSettingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsMenuItemActionPerformed
         try {
             ubluWinController.saveSettingsAs();
         } catch (IOException ex) {
             Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_saveSettingMenuItemActionPerformed
+    }//GEN-LAST:event_saveSettingsMenuItemActionPerformed
+
+    private void loadSettingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSettingsMenuItemActionPerformed
+        try {
+            ubluWinController.loadSettingsAs();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loadSettingsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,6 +485,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem loadSettingjMenuItem;
     private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

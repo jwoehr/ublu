@@ -157,6 +157,8 @@ public class WinProps {
         set("UbluTextAreaFontStyle", "0");
         set("UbluTextAreaFontSize", "13");
         set("UbluInputAreaFontStyle", "0");
+        set("UbluTextAreaFGColor", "ff333333");
+        set("UbluInputAreaFGColor", "ff333333");
     }
 
     /**

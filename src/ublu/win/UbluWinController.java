@@ -27,6 +27,8 @@
  */
 package ublu.win;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,12 +38,15 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import ublu.Ublu;
 import ublu.command.CommandInterface.COMMANDRESULT;
 import ublu.util.Generics;
+import ublu.util.Generics.StringArrayList;
 import ublu.util.Interpreter;
 import ublu.util.Parser;
 
@@ -236,6 +241,11 @@ public class UbluWinController {
         interpreter.setOutputStream(new PrintStream(ubluTAOS));
         interpreter.setErroutStream(new PrintStream(ubluTAOS));
         ublu.reinitLogger(new PrintStream(ubluTAOS));
+        try {
+            getPropsFromGetArgs();
+        } catch (IOException ex) {
+            Logger.getLogger(UbluWinController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ubluFrame.runMe();
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
         aboutUblu();
@@ -476,6 +486,71 @@ public class UbluWinController {
                 myWinProps.writeWindowingProperties(f.getAbsolutePath());
                 lastSavedSettings = f;
             }
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected File dialogForLoadSettings() {
+        File result = null;
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (lastSavedSettings != null) {
+            fc.setSelectedFile(lastSavedSettings);
+        }
+        fc.setMultiSelectionEnabled(false);
+        int returnVal = fc.showDialog(ubluFrame, "Load Settings");
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            result = fc.getSelectedFile();
+        }
+        return result;
+    }
+
+    /**
+     *
+     */
+    public void restoreSettingsFromProps() {
+        Integer ubluTextAreaFontStyle = Integer.parseInt(myWinProps.get("UbluTextAreaFontStyle", "0"));
+        Integer ubluInputAreaFontStyle = Integer.parseInt(myWinProps.get("UbluInputAreaFontStyle", "0"));
+        String ubluTextAreaFont = myWinProps.get("UbluTextAreaFont", "Lucida Sans Typewriter");
+        String ubluInputAreaFont = myWinProps.get("UbluInputAreaFont", "Lucida Sans Typewriter");
+        Integer ubluTextAreaFontSize = Integer.parseInt(myWinProps.get("UbluTextAreaFontSize", "13"));
+        Integer ubluInputAreaFontSize = Integer.parseInt(myWinProps.get("UbluInputAreaFontSize", "13"));
+        Integer ubluTextAreaFGColor = (int) Long.parseLong(myWinProps.get("UbluTextAreaFGColor", "ff333333"), 16);
+        Integer ubluInputAreaFGColor = (int) Long.parseLong(myWinProps.get("UbluInputAreaFGColor", "ff333333"), 16);
+        ubluFrame.getUbluTextArea().setFont(new Font(ubluTextAreaFont, ubluTextAreaFontStyle, ubluTextAreaFontSize));
+        ubluFrame.getUbluInputArea().setFont(new Font(ubluInputAreaFont, ubluInputAreaFontStyle, ubluInputAreaFontSize));
+        ubluFrame.getUbluTextArea().setForeground(new Color(ubluTextAreaFGColor));
+        ubluFrame.getUbluInputArea().setForeground(new Color(ubluInputAreaFGColor));
+        ubluFrame.revalidate();
+    }
+
+    public void getPropsFromGetArgs() throws IOException {
+        StringArrayList sal = ublu.getMyGetArgs().getAllIdenticalOptionArguments("-w");
+        if (!sal.isEmpty()) {
+            String filepath = sal.get(0);
+            if (filepath != null) {
+                myWinProps.readIn(filepath);
+                restoreSettingsFromProps();
+            }
+        }
+    }
+
+    /**
+     *
+     * @return @throws FileNotFoundException
+     * @throws IOException
+     */
+    public boolean loadSettingsAs() throws FileNotFoundException, IOException {
+        boolean result = false;
+        File f = dialogForLoadSettings();
+        if (f != null) {
+            myWinProps.readIn(f.getAbsolutePath());
+            restoreSettingsFromProps();
+            result = true;
         }
         return result;
     }
