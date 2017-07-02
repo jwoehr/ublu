@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import ublu.Ublu;
@@ -79,7 +80,7 @@ public class UbluWinController {
      *
      */
     protected File lastOpened;
-    
+
     protected File lastIncluded;
 
     /**
@@ -240,7 +241,7 @@ public class UbluWinController {
         }
         return result;
     }
-    
+
     private void writeToFile(File f, String s) throws FileNotFoundException, IOException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(f)) {
             if (s == null) {
@@ -265,7 +266,7 @@ public class UbluWinController {
             result = saveSessionAs();
         }
         return result;
-        
+
     }
 
     /**
@@ -318,12 +319,12 @@ public class UbluWinController {
         }
         return result;
     }
-    
+
     private int confirmOverwrite() {
         int response = JOptionPane.showConfirmDialog(null, "File exists, overwrite?", "Confirm overwrite extant file",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return response;
-        
+
     }
 
     /**
@@ -392,5 +393,44 @@ public class UbluWinController {
             interpreter.include(FileSystems.getDefault().getPath(f.getAbsolutePath()));
             getUbluFrame().getUbluPanel().scrollToEnd();
         }
+    }
+
+    /**
+     * Returns an ImageIcon, or null if the path was invalid.
+     *
+     * @param path
+     * @param description
+     * @return
+     */
+    protected ImageIcon createImageIcon(String path,
+            String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+
+    protected void help() {
+        JOptionPane.showMessageDialog(null, windowingHelp(), "Ublu Windowing Help", JOptionPane.PLAIN_MESSAGE, createImageIcon("/ublu/resource/Candlespace.gif", "NASA candle in space"));
+    }
+
+    protected String windowingHelp() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Welcome to windowing Ublu.\n\n")
+                .append("Information about Ublu itself is found in two documents:\n\n")
+                .append("   * The Ublu Reference (userdoc/ubluref.html)\n")
+                .append("   * The Ublu Guide (userdoc/ubluguide.html)\n\n")
+                .append("This informational dialog is about windowing Ublu.\n\n")
+                .append("The top larger area is the text area. Ublu output appears in the text area.\n")
+                .append("You can edit that area, save it, save selections, or cause Ublu to interpret selections.\n")
+                .append("See the File menu and Ublu menu options.\n\n")
+                .append("The bottom area is the Ublu input line. Hitting Enter there causes input text to be interpreted.\n")
+                .append("You can edit the input line or move through previous input lines with the up and down arrow keys.\n\n")
+                .append("Multi-line input such as extended blocks or strings does not work in the input area. Instead, type lines\n")
+                .append("of input into the upper text area, select them with keys or the mouse, and choose Ublu->Interpret Selected.");
+        return sb.toString();
     }
 }
