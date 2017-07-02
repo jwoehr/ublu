@@ -89,7 +89,11 @@ public class UbluWinController {
 
     protected File lastIncluded;
 
+    protected File lastSavedSettings;
+
     protected ImageIcon ubluIcon;
+
+    protected WinProps myWinProps;
 
     /**
      *
@@ -161,6 +165,7 @@ public class UbluWinController {
     }
 
     public UbluWinController() {
+        myWinProps = new WinProps(this);
         ubluIcon = createImageIcon("/ublu/resource/Candlespace.gif", "NASA candle in space");
     }
 
@@ -407,6 +412,51 @@ public class UbluWinController {
             interpreter.include(FileSystems.getDefault().getPath(f.getAbsolutePath()));
             getUbluFrame().getUbluPanel().scrollToEnd();
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected File dialogForSaveSettings() {
+        File result = null;
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (lastSavedSettings != null) {
+            fc.setSelectedFile(lastSavedSettings);
+        }
+        fc.setMultiSelectionEnabled(false);
+        int returnVal = fc.showDialog(ubluFrame, "Save Settings");
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            result = fc.getSelectedFile();
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @return @throws FileNotFoundException
+     * @throws IOException
+     */
+    public boolean saveSettingsAs() throws FileNotFoundException, IOException {
+        boolean result = false;
+        File f = dialogForSaveSettings();
+        if (f != null) {
+            if (f.exists()) {
+                switch (confirmOverwrite()) {
+                    case JOptionPane.YES_OPTION:
+                        myWinProps.writeWindowingProperties(f.getAbsolutePath());
+                        lastSavedSettings = f;
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Selection not saved");
+                }
+            } else {
+                myWinProps.writeWindowingProperties(f.getAbsolutePath());
+                lastSavedSettings = f;
+            }
+        }
+        return result;
     }
 
     /**
