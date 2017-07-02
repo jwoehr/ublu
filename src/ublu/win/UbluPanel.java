@@ -121,7 +121,7 @@ public class UbluPanel extends javax.swing.JPanel {
      * @return
      */
     protected JTextArea getUbluTextArea() {
-        return jTextArea1;
+        return ubluTextArea;
     }
 
     /**
@@ -129,7 +129,7 @@ public class UbluPanel extends javax.swing.JPanel {
      * @return
      */
     protected JTextField getUbluTextField() {
-        return ubluTextField;
+        return ubluInputField;
     }
 
     /**
@@ -142,35 +142,39 @@ public class UbluPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        ubluTextField = new javax.swing.JTextField();
+        ubluTextArea = new javax.swing.JTextArea();
+        ubluInputField = new javax.swing.JTextField();
 
         setDoubleBuffered(false);
         setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
 
-        jTextArea1.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
-        jTextArea1.setDoubleBuffered(true);
-        jTextArea1.setName(""); // NOI18N
-        jScrollPane1.setViewportView(jTextArea1);
+        ubluTextArea.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
+        ubluTextArea.setDoubleBuffered(true);
+        ubluTextArea.setName(""); // NOI18N
+        ubluTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ubluTextAreaKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ubluTextArea);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        ubluTextField.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
-        ubluTextField.setDragEnabled(false);
-        ubluTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+        ubluInputField.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 13)); // NOI18N
+        ubluInputField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                ubluTextFieldKeyReleased(evt);
+                ubluInputFieldKeyReleased(evt);
             }
         });
-        add(ubluTextField, java.awt.BorderLayout.PAGE_END);
+        add(ubluInputField, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ubluTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ubluTextFieldKeyReleased
+    private void ubluInputFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ubluInputFieldKeyReleased
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_ENTER:
-                String ubluText = ubluTextField.getText();
+                String ubluText = ubluInputField.getText();
                 if (!ubluText.equals("")) {
                     commands.add(ubluText);
                     pointer = commands.size() - 1;
@@ -178,22 +182,38 @@ public class UbluPanel extends javax.swing.JPanel {
                 ubluText = ubluText + '\n';
                 // jEPOS.write((ubluText).getBytes());
                 jTAOS.write((ubluText).getBytes());
-                ubluTextField.setText("");
+                ubluInputField.setText("");
                 ubluFrame.interpretText(ubluText);
                 scrollToEnd();
                 break;
             case KeyEvent.VK_UP:
-                ubluTextField.setText(backCommand());
+                ubluInputField.setText(backCommand());
                 break;
             case KeyEvent.VK_DOWN:
-                ubluTextField.setText(foreCommand());
+                ubluInputField.setText(foreCommand());
+                break;
+            case KeyEvent.VK_TAB:
+                if (evt.isControlDown()) {
+                    ubluTextArea.requestFocus();
+                }
+                break;
         }
-    }//GEN-LAST:event_ubluTextFieldKeyReleased
+    }//GEN-LAST:event_ubluInputFieldKeyReleased
+
+    private void ubluTextAreaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ubluTextAreaKeyReleased
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_TAB:
+                if (evt.isControlDown()) {
+                    ubluInputField.requestFocus();
+                }
+                break;
+        }
+    }//GEN-LAST:event_ubluTextAreaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField ubluTextField;
+    private javax.swing.JTextField ubluInputField;
+    private javax.swing.JTextArea ubluTextArea;
     // End of variables declaration//GEN-END:variables
 }

@@ -424,13 +424,15 @@ public class UbluWinController {
                 .append("   * The Ublu Reference (userdoc/ubluref.html)\n")
                 .append("   * The Ublu Guide (userdoc/ubluguide.html)\n\n")
                 .append("This informational dialog is about windowing Ublu.\n\n")
-                .append("The top larger area is the text area. Ublu output appears in the text area.\n")
+                .append("The top larger area is the Ublu text area. Ublu output appears in the text area.\n")
                 .append("You can edit that area, save it, save selections, or cause Ublu to interpret selections.\n")
                 .append("See the File menu and Ublu menu options.\n\n")
                 .append("The bottom area is the Ublu input line. Hitting Enter there causes input text to be interpreted.\n")
-                .append("You can edit the input line or move through previous input lines with the up and down arrow keys.\n\n")
-                .append("Multi-line input such as extended blocks or strings does not work in the input area. Instead, type lines\n")
-                .append("of input into the upper text area, select them with keys or the mouse, and choose Ublu->Interpret Selected.");
+                .append("You can edit the input line or move through previous input lines with the up and down arrow keys.\n")
+                .append("Multi-line input such as extended blocks or strings does not work in the input line. Instead, type one or more lines\n")
+                .append("of input into the upper text area, select those lines with keys or the mouse, and choose Ublu->Interpret Selected.\n\n")
+                .append("Ctrl-TAB toggles between the Ublu input line and the Ublu text area.\n");
+
         return sb.toString();
     }
 }
