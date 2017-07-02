@@ -521,13 +521,22 @@ public class UbluWinController {
         Integer ubluInputAreaFontSize = Integer.parseInt(myWinProps.get("UbluInputAreaFontSize", "13"));
         Integer ubluTextAreaFGColor = (int) Long.parseLong(myWinProps.get("UbluTextAreaFGColor", "ff333333"), 16);
         Integer ubluInputAreaFGColor = (int) Long.parseLong(myWinProps.get("UbluInputAreaFGColor", "ff333333"), 16);
+        Integer ubluTextAreaBGColor = (int) Long.parseLong(myWinProps.get("UbluTextAreaBGColor", "ffffff"), 16);
+        Integer ubluInputAreaBGColor = (int) Long.parseLong(myWinProps.get("UbluInputAreaBGColor", "ffffff"), 16);
+
         ubluFrame.getUbluTextArea().setFont(new Font(ubluTextAreaFont, ubluTextAreaFontStyle, ubluTextAreaFontSize));
         ubluFrame.getUbluInputArea().setFont(new Font(ubluInputAreaFont, ubluInputAreaFontStyle, ubluInputAreaFontSize));
         ubluFrame.getUbluTextArea().setForeground(new Color(ubluTextAreaFGColor));
         ubluFrame.getUbluInputArea().setForeground(new Color(ubluInputAreaFGColor));
+        ubluFrame.getUbluTextArea().setBackground(new Color(ubluTextAreaBGColor));
+        ubluFrame.getUbluInputArea().setBackground(new Color(ubluInputAreaBGColor));
         ubluFrame.revalidate();
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void getPropsFromGetArgs() throws IOException {
         StringArrayList sal = ublu.getMyGetArgs().getAllIdenticalOptionArguments("-w");
         if (!sal.isEmpty()) {
@@ -535,6 +544,7 @@ public class UbluWinController {
             if (filepath != null) {
                 myWinProps.readIn(filepath);
                 restoreSettingsFromProps();
+                lastSavedSettings = new File(filepath);
             }
         }
     }

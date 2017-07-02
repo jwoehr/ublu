@@ -164,6 +164,7 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
         settingsMenu = new javax.swing.JMenu();
         fontMenuItem = new javax.swing.JMenuItem();
+        backgroundMenuItem = new javax.swing.JMenuItem();
         saveSettingsMenuItem = new javax.swing.JMenuItem();
         loadSettingjMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -272,6 +273,14 @@ public class UbluFrame extends javax.swing.JFrame {
             }
         });
         settingsMenu.add(fontMenuItem);
+
+        backgroundMenuItem.setText("Background");
+        backgroundMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backgroundMenuItemActionPerformed(evt);
+            }
+        });
+        settingsMenu.add(backgroundMenuItem);
 
         saveSettingsMenuItem.setText("Save Settings");
         saveSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -438,6 +447,20 @@ public class UbluFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loadSettingsMenuItemActionPerformed
 
+    private void backgroundMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backgroundMenuItemActionPerformed
+        ColorChooser cc = new ColorChooser(this, true);
+        cc.setVisible(true);
+
+        if (cc.ok) {
+            Color color = cc.getColor();
+            getUbluTextArea().setBackground(color);
+            ubluWinController.myWinProps.set("UbluTextAreaBGColor", Integer.toHexString(color.getRGB()));
+            getUbluInputArea().setBackground(color);
+            ubluWinController.myWinProps.set("UbluInputAreaBGColor", Integer.toHexString(color.getRGB()));
+        }
+
+    }//GEN-LAST:event_backgroundMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -477,6 +500,7 @@ public class UbluFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JMenuItem backgroundMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem fontMenuItem;
     private javax.swing.JMenu helpMenu;
