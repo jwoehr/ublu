@@ -528,6 +528,8 @@ public class UbluWinController {
         ubluFrame.getUbluInputArea().setFont(new Font(ubluInputAreaFont, ubluInputAreaFontStyle, ubluInputAreaFontSize));
         ubluFrame.getUbluTextArea().setForeground(new Color(ubluTextAreaFGColor));
         ubluFrame.getUbluInputArea().setForeground(new Color(ubluInputAreaFGColor));
+        ubluFrame.getUbluTextArea().setCaretColor(new Color(ubluTextAreaFGColor));
+        ubluFrame.getUbluInputArea().setCaretColor(new Color(ubluInputAreaFGColor));
         ubluFrame.getUbluTextArea().setBackground(new Color(ubluTextAreaBGColor));
         ubluFrame.getUbluInputArea().setBackground(new Color(ubluInputAreaBGColor));
         ubluFrame.revalidate();

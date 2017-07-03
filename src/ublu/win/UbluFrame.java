@@ -41,9 +41,9 @@ import ublu.command.CommandInterface;
  * @author jax
  */
 public class UbluFrame extends javax.swing.JFrame {
-
+    
     private static UbluFrame SINGLETON;
-
+    
     private UbluWinController ubluWinController;
 
     /**
@@ -421,7 +421,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private void fontMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontMenuItemActionPerformed
         FontChooser fc = new FontChooser(this, getUbluInputArea().getFont(), getUbluInputArea().getForeground());
         fc.setVisible(true);
-
+        
         Font font = fc.getNewFont();
         if (font != null) {
             getUbluTextArea().setFont(font);
@@ -439,6 +439,8 @@ public class UbluFrame extends javax.swing.JFrame {
             ubluWinController.myWinProps.set("UbluTextAreaFGColor", Integer.toHexString(color.getRGB()));
             getUbluInputArea().setForeground(color);
             ubluWinController.myWinProps.set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
+            getUbluTextArea().setCaretColor(color);
+            getUbluInputArea().setCaretColor(color);
         }
         revalidate();
     }//GEN-LAST:event_fontMenuItemActionPerformed
@@ -463,7 +465,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private void backgroundMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backgroundMenuItemActionPerformed
         ColorChooser cc = new ColorChooser(this, true);
         cc.setVisible(true);
-
+        
         if (cc.ok) {
             Color color = cc.getColor();
             getUbluTextArea().setBackground(color);
