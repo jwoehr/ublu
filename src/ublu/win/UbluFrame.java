@@ -149,6 +149,7 @@ public class UbluFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         ubluPanel = new ublu.win.UbluPanel();
         ubluMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -167,11 +168,14 @@ public class UbluFrame extends javax.swing.JFrame {
         backgroundMenuItem = new javax.swing.JMenuItem();
         saveSettingsMenuItem = new javax.swing.JMenuItem();
         loadSettingjMenuItem = new javax.swing.JMenuItem();
+        defaultsMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         helpMenuItem = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ublu/win/Bundle"); // NOI18N
@@ -297,6 +301,14 @@ public class UbluFrame extends javax.swing.JFrame {
             }
         });
         settingsMenu.add(loadSettingjMenuItem);
+
+        defaultsMenuItem.setText("Restore Defaults");
+        defaultsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                defaultsMenuItemActionPerformed(evt);
+            }
+        });
+        settingsMenu.add(defaultsMenuItem);
 
         ubluMenuBar.add(settingsMenu);
 
@@ -428,7 +440,7 @@ public class UbluFrame extends javax.swing.JFrame {
             getUbluInputArea().setForeground(color);
             ubluWinController.myWinProps.set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
         }
-        this.revalidate();
+        revalidate();
     }//GEN-LAST:event_fontMenuItemActionPerformed
 
     private void saveSettingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsMenuItemActionPerformed
@@ -445,6 +457,7 @@ public class UbluFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(UbluFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        revalidate();
     }//GEN-LAST:event_loadSettingsMenuItemActionPerformed
 
     private void backgroundMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backgroundMenuItemActionPerformed
@@ -458,8 +471,14 @@ public class UbluFrame extends javax.swing.JFrame {
             getUbluInputArea().setBackground(color);
             ubluWinController.myWinProps.set("UbluInputAreaBGColor", Integer.toHexString(color.getRGB()));
         }
-
+        revalidate();
     }//GEN-LAST:event_backgroundMenuItemActionPerformed
+
+    private void defaultsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultsMenuItemActionPerformed
+        ubluWinController.myWinProps.setDefaultWindowingProperties();
+        ubluWinController.restoreSettingsFromProps();
+        revalidate();
+    }//GEN-LAST:event_defaultsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,12 +520,14 @@ public class UbluFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem backgroundMenuItem;
+    private javax.swing.JMenuItem defaultsMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem fontMenuItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JMenuItem includeMenuItem;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem loadSettingjMenuItem;

@@ -149,7 +149,7 @@ public class WinProps {
     /**
      *
      */
-    public final void setDefaultWindowingProperties() {
+    public final WinProps setDefaultWindowingProperties() {
         set("UbluTextAreaFont", "Lucida Sans Typewriter");
         set("UbluInputAreaFont", "Lucida Sans Typewriter");
         set("UbluInputAreaFontSize", "13");
@@ -158,6 +158,9 @@ public class WinProps {
         set("UbluInputAreaFontStyle", "0");
         set("UbluTextAreaFGColor", "ff333333");
         set("UbluInputAreaFGColor", "ff333333");
+        set("UbluTextAreaBGColor", "ffffff");
+        set("UbluInputAreaBGColor", "ffffff");
+        return this;
     }
 
     /**
