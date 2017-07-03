@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
+  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
 
@@ -14475,12 +14476,12 @@ ciptool
 
   <blockquote>
     <tt>/0 [-assign targetname ~@valuesource | -delete @tuplename |
-    -exists @tuplename | -istuplename @tuplename | -null
-    ~@tuplename | -true ~@tuplename | -false ~@tuplename | -name
-    @tuplename | -realname @tuplename | -value ~@tuplename | -sub
-    ~@{subname} @tuple | -type ~@tuple | -typename ~@tuple | -map |
-    -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] :
-    operations on tuple variables</tt><br>
+    -exists @tuplename | -istuplename @tuplename | -null @tuplename
+    | -true @tuplename | -false @tuplename | -name @tuplename |
+    -realname @tuplename | -value ~@tuplename | -sub @subname
+    ~@tuple | -type ~@tuple | -typename ~@tuple | -map | -autonome
+    ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on
+    tuple variables</tt><br>
     <br>
     Operations on <a href="#Tuple_Variables">tuple
     variables</a>.<br>
@@ -14565,7 +14566,7 @@ ciptool
         </ul>
       </li>
 
-      <li><tt>-sub ~@{subname} @tuple</tt> creates a parameter
+      <li><tt>-sub @subname ~@tuple</tt> creates a parameter
       substitution tuple, an alias tuple used in function parameter
       substitution. Only useful for testing Ublu itself.</li>
 
