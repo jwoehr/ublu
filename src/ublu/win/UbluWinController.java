@@ -613,7 +613,10 @@ public class UbluWinController {
                 .append("Ctrl-TAB toggles between the Ublu input line and the Ublu text area.\n\n")
                 .append("The Settings menu allows you change settings and save them to a properties file.\n")
                 .append("You can later load these settings from the Settings menu or by providing the properties file path\n")
-                .append("to Ublu as an argument to the -w switch which launches Ublu windowing.");
+                .append("to Ublu as an argument to the -w switch which launches Ublu windowing.\n\n")
+                .append("You may wish to set:\n\n")
+                .append("   props -set signon.handler.type BUILTIN\n\n")
+                .append("so that on a password or username error Ublu prompts graphically instead of to the console.");
 
         return sb.toString();
     }
