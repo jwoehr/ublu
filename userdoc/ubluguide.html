@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -16,7 +15,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 3 Jul 2017 03:09:17 UTC">
+  "Tue, 4 Jul 2017 00:49:08 UTC">
 </head>
 
 <body>
@@ -188,8 +187,8 @@
 
         <li><a href="#Calling_Java">Calling Java</a></li>
 
-        <li><a href="#Goublu">Goublu, the experimental enhanced
-        Ublu console</a></li>
+        <li><a href="#Goublu">Goublu, the enhanced Ublu
+        console</a></li>
 
         <li><a href="#Ublu_as_window">Running Ublu as a
         window</a></li>
@@ -3141,8 +3140,7 @@ woof</em>
   Ublu's <tt>joblog -qm</tt> is returning a collection of
   <tt>com.ibm.as400.access.QueuedMessage</tt> instances.</p>
 
-  <h2><a name="Goublu">Goublu</a>, the experimental enhanced Ublu
-  console</h2>
+  <h2><a name="Goublu">Goublu</a>, the enhanced Ublu console</h2>
 
   <p>Goublu is a <a href="http://golang.org/">Go language</a> front
   end that provides a better console interface to Ublu than the
@@ -3204,6 +3202,33 @@ woof</em>
 
   <div align="center"><img src="images/ubluwin.jpg" width="1058"
   height="455" alt="Windowing Ublu"></div>
+
+  <p>I use the following properties file
+  <code>$HOME/.config/ublu/ubluwin.properties</code> on Ubuntu:</p>
+
+  <blockquote>
+    <pre>
+<code>#Ublu Windowing Properties
+#Sun Jul 02 18:00:59 MDT 2017
+UbluTextAreaBGColor=ff000000
+UbluTextAreaFGColor=e3e90000
+UbluTextAreaFont=Lucida Sans Typewriter Bold
+UbluInputAreaFontSize=16
+UbluInputAreaFontStyle=0
+UbluTextAreaFontStyle=0
+UbluInputAreaBGColor=ff000000
+UbluInputAreaFont=Lucida Sans Typewriter Bold
+UbluTextAreaFontSize=16
+UbluInputAreaFGColor=ff36b80b</code>
+</pre>
+  </blockquote>
+
+  <p>When I start Ublu <code>java -jar /opt/ublu/ublu.jar -w
+  $HOME/.config/ublu/ubluwin.properties</code> Ublu looks like
+  this:</p>
+
+  <div align="center"><img src="images/ubluprops.png" width="1057"
+  height="659" alt=""></div>
 
   <p><font size="+2"><strong>!!</strong></font> Windowing Ublu, you
   may wish to set <code>props -set signon.handler.type
