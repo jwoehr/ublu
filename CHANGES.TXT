@@ -9,6 +9,7 @@ System
 * Goublu support for Go language Ublu console (https://github.com/jwoehr/goublu)
 
 Commands
+* desktop
 * interpreter
     * -args
     * -opts
