@@ -67,8 +67,8 @@ Or clone, build and run:
         installed, right?!</li>
 </ul>
 </li>
-<li> ./dist/ublu.jar and its necessary ./dist/lib directory are the runtime system.</li>
-<li> java -jar ublu.jar to run Ublu.</li>
+<li> `./dist/ublu.jar` and its necessary `./dist/lib` directory are the runtime system.</li>
+<li> `java -jar ublu.jar` to run Ublu as a plain Java console application.</li>
 </ul>
 
 <a name="goublu"></a>
@@ -81,7 +81,7 @@ Goublu is a console front-end that provides an editable Ublu command line. The g
 
 `go get -u github.com/jwoehr/goublu`
 
-will fetch the source to your `$GOPATH/src` directory to build for your architecture.
+will fetch the source to your `$GOPATH/src` directory. Use `go build main\goublu.go` to build Goublu for your architecture.
 
 <a name="discussion"></a>
 
