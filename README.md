@@ -87,7 +87,7 @@ will fetch the source to your `$GOPATH/src` directory to build for your architec
 
 ## Ublu in a Window
 You can start Ublu in a window with the `-w` switch.
-![Ublu in a Window](http://softwoehr.com/softwoehr/oss/ubludoc/images/ubluwin.jpg)
+![Ublu in a Window](https://user-images.githubusercontent.com/4604036/27810879-ed42fa88-601c-11e7-9415-83437266c091.jpg)
 
 ## Discussion of Ublu
 
