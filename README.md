@@ -67,8 +67,8 @@ Or clone, build and run:
         installed, right?!</li>
 </ul>
 </li>
-<li> `./dist/ublu.jar` and its necessary `./dist/lib` directory are the runtime system.</li>
-<li> `java -jar ublu.jar` to run Ublu as a plain Java console application.</li>
+<li> <tt>./dist/ublu.jar</tt> and its necessary <tt>./dist/lib</tt> directory are the runtime system.</li>
+<li> <tt>java -jar ublu.jar</tt> to run Ublu as a plain Java console application.</li>
 </ul>
 
 <a name="goublu"></a>
