@@ -31,4 +31,31 @@ FUNC clHelp ( lib cmd s u p ) $[
     ]$
     calljava -class com.ibm.as400.util.CommandHelpRetriever -method main -arg @L[String
 ]$
+  
+# browseClHelp ( lib cmd s u p ) 
+# Generate HTML help for a CL command and open default browser on it.
+# args are library commandname system user password
+# example: clHelp ( QSYS WRKUSRPRF MY400 MYID ******** )
+# a file is generated in the current directory QSYS_WRKUSRPRF.html and it
+# is loaded into the user's default browser.
+FUNC browseClHelp ( lib cmd s u p ) $[
+    LOCAL @filename
+    put -n -to ~ ${ file:// }$
+    ~ -to ~ -trim
+    system -to ~ ${ pwd }$
+    \\ ${ system returns an ublu.util.SystemHelper.ProcessClosure object.
+    This calljava gets the output to concatenate to for the absolute URI. }$
+    calljava -to ~ -- ~ -method getOutput
+    lifo -swap
+    ~ -to ~ -cat ~
+    ~ -to ~ -cat /
+    ~ -to ~ -cat @@lib
+    ~ -to ~ -cat _
+    ~ -to ~ -cat @@cmd
+    ~ -to ~ -cat ${ .html }$
+    ~ -to @filename -trim
+    put @filename
+    clHelp ( @@lib @@cmd @@s @@u @@p )
+    desktop -browse @filename
+]$
 # end
