@@ -57,6 +57,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("db", CmdDb.class);
         put("dbug", CmdDbug.class);
         put("defun", CmdDefun.class);
+        put("desktop", CmdDesktop.class);
         put("dict", CmdDict.class);
         put("DO", CmdDo.class);
         put("dpoint", CmdDPoint.class);

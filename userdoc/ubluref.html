@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta content="text/html; charset=us-ascii" http-equiv=
   "Content-Type">
 
@@ -19,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 2 Jul 2017 22:47:43 UTC">
+  "Tue, 4 Jul 2017 17:10:11 UTC">
 </head>
 
 <body>
@@ -61,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-02</p>
+  Last edit: 2017-07-04</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -270,6 +269,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <li><tt><a href="#db">db</a></tt></li>
 
             <li><tt><a href="#defun">defun</a></tt></li>
+
+            <li><a href="#desktop"><code>desktop</code></a></li>
 
             <li><tt><a href="#dict">dict</a><br></tt></li>
 
@@ -2006,10 +2007,11 @@ Type help for help. Type license for license. Type bye to exit.
         "#user">user</a></tt><tt><br></tt> <tt><a href=
         "#userlist">userlist</a></tt><tt><br></tt></td>
 
-        <td valign="top"><tt><a href=
-        "#dpoint">dpoint</a></tt><tt><br></tt> <tt><a href=
-        "#gensh">gensh</a></tt><tt><br></tt> <tt><a href=
-        "#json">json</a></tt><tt><br></tt> <tt><a href=
+        <td valign="top"><code><a href=
+        "#desktop"><code>desktop</code></a></code><br>
+        <tt><a href="#dpoint">dpoint</a></tt><tt><br></tt>
+        <tt><a href="#gensh">gensh</a></tt><tt><br></tt>
+        <tt><a href="#json">json</a></tt><tt><br></tt> <tt><a href=
         "#license">license</a></tt></td>
 
         <td valign="top"><tt><a href=
@@ -5056,7 +5058,36 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     "#FUNC"><tt>FUNC</tt></a><br>
   </blockquote>
 
-  <h4><a name="dict" id="dict"></a> <tt>dict</tt></h4>
+  <h4><a name="desktop"><code>desktop</code></a></h4>
+
+  <blockquote>
+    <p><code>/0 [-browse ~@{uri} | -mail | -mailto ~@{uri} |
+    -supported] : desktop browser or mail</code></p>
+
+    <p>The <code>desktop</code> command launches the user's default
+    mailer or browser.</p>
+
+    <p>The <a href="#Dash_Command">dash-commands</a> are as
+    follows:</p>
+
+    <ul>
+      <li><code>-browse ~@{uri}</code> opens the default browser on
+      <em>uri</em>, e.g., <code>http://www.example.com</code>.</li>
+
+      <li><code>-mail</code> opens the default mailer.</li>
+
+      <li><code>-mailto ~@{uri}</code> opens the default mailer on
+      <em>uri</em>, e.g.,
+      <code>mailto:fred@fonebone.org</code>.</li>
+
+      <li><code>-supported</code> puts <code>true</code> if desktop
+      operations are supported, <code>false</code> otherwise.</li>
+    </ul>
+
+    <p>The default operation is <code>-supported</code>.</p>
+  </blockquote>
+
+  <h4><a name="dict" id="dict"></a><tt>dict</tt></h4>
 
   <blockquote>
     <tt>/0 [-to datasink] [-from datasink] [-list | -save | -peek |
