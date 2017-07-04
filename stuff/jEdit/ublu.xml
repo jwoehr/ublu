@@ -62,6 +62,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>db</KEYWORD2>
         <KEYWORD2>dbug</KEYWORD2>
         <KEYWORD2>defun</KEYWORD2>
+        <KEYWORD2>desktop</KEYWORD2>
         <KEYWORD2>dict</KEYWORD2>
         <KEYWORD1>DO</KEYWORD1>
         <KEYWORD2>dpoint</KEYWORD2>
