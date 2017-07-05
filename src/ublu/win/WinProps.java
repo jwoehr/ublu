@@ -88,7 +88,11 @@ public class WinProps {
     public void readIn(String filepath) throws FileNotFoundException, IOException {
         Properties p = new Properties();
         try (InputStream is = new FileInputStream(filepath)) {
-            p.load(new InputStreamReader(is));
+            InputStreamReader isr = new InputStreamReader(is);
+            p.load(isr);
+            isr.close();
+            is.close();
+
         }
         myProperties.putAll(p);
     }
@@ -102,8 +106,9 @@ public class WinProps {
      * @throws IOException
      */
     public void writeOut(String filepath, String comment) throws FileNotFoundException, IOException {
-        FileOutputStream os = new FileOutputStream(filepath);
-        myProperties.store(os, comment);
+        FileOutputStream fos = new FileOutputStream(filepath);
+        myProperties.store(fos, comment);
+        fos.close();
     }
 
     /**
@@ -148,6 +153,7 @@ public class WinProps {
 
     /**
      *
+     * @return @return
      */
     public final WinProps setDefaultWindowingProperties() {
         set("UbluTextAreaFont", "Lucida Sans Typewriter");

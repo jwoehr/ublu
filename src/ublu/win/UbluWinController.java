@@ -298,6 +298,7 @@ public class UbluWinController {
                 JOptionPane.showMessageDialog(null, "Null text -- nothing saved");
             } else {
                 fileOutputStream.write(s.getBytes());
+                fileOutputStream.close();
             }
         }
     }

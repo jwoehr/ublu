@@ -51,6 +51,12 @@ public class FontChooser extends JDialog implements ActionListener {
     Font newFont;
     Color newColor;
 
+    /**
+     *
+     * @param parent
+     * @param initialFont
+     * @param initialFGColor
+     */
     public FontChooser(Frame parent, Font initialFont, Color initialFGColor) {
         super(parent, "Font Chooser", true);
         setSize(450, 450);
@@ -166,6 +172,9 @@ public class FontChooser extends JDialog implements ActionListener {
 
     // Get the appropriate font from our attributes object and update
     // the preview label
+    /**
+     *
+     */
     protected void updatePreviewFont() {
         String name = StyleConstants.getFontFamily(attributes);
         boolean bold = StyleConstants.isBold(attributes);
@@ -179,24 +188,42 @@ public class FontChooser extends JDialog implements ActionListener {
     }
 
     // Get the appropriate color from our chooser and update previewLabel
+    /**
+     *
+     */
     protected void updatePreviewColor() {
         previewLabel.setForeground(colorChooser.getColor());
         // Manually force the label to repaint
         previewLabel.repaint();
     }
 
+    /**
+     *
+     * @return
+     */
     public Font getNewFont() {
         return newFont;
     }
 
+    /**
+     *
+     * @return
+     */
     public Color getNewColor() {
         return newColor;
     }
 
+    /**
+     *
+     * @return
+     */
     public AttributeSet getAttributes() {
         return attributes;
     }
 
+    /**
+     *
+     */
     public void closeAndSave() {
         // Save font & color information
         newFont = previewLabel.getFont();
@@ -206,6 +233,9 @@ public class FontChooser extends JDialog implements ActionListener {
         setVisible(false);
     }
 
+    /**
+     *
+     */
     public void closeAndCancel() {
         // Erase any font information and then close the window
         newFont = null;
@@ -213,6 +243,10 @@ public class FontChooser extends JDialog implements ActionListener {
         setVisible(false);
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] getAllFontNames() {
         StringArrayList sal = new StringArrayList();
         GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
