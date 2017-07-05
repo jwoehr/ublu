@@ -52,10 +52,11 @@ public class FontChooser extends JDialog implements ActionListener {
     Color newColor;
 
     /**
+     * Show chooser and choose.
      *
-     * @param parent
-     * @param initialFont
-     * @param initialFGColor
+     * @param parent parent frame
+     * @param initialFont current font
+     * @param initialFGColor current color
      */
     public FontChooser(Frame parent, Font initialFont, Color initialFGColor) {
         super(parent, "Font Chooser", true);
@@ -198,31 +199,34 @@ public class FontChooser extends JDialog implements ActionListener {
     }
 
     /**
+     * get new font
      *
-     * @return
+     * @return new font
      */
     public Font getNewFont() {
         return newFont;
     }
 
     /**
+     * get new color
      *
-     * @return
+     * @return new color
      */
     public Color getNewColor() {
         return newColor;
     }
 
     /**
+     * get font attribs
      *
-     * @return
+     * @return font attribs
      */
     public AttributeSet getAttributes() {
         return attributes;
     }
 
     /**
-     *
+     * close and save choices
      */
     public void closeAndSave() {
         // Save font & color information
@@ -234,7 +238,7 @@ public class FontChooser extends JDialog implements ActionListener {
     }
 
     /**
-     *
+     * like it sez
      */
     public void closeAndCancel() {
         // Erase any font information and then close the window
@@ -244,8 +248,9 @@ public class FontChooser extends JDialog implements ActionListener {
     }
 
     /**
+     * All available fonts
      *
-     * @return
+     * @return All available fonts
      */
     public String[] getAllFontNames() {
         StringArrayList sal = new StringArrayList();

@@ -51,6 +51,7 @@ import ublu.util.Interpreter;
 import ublu.util.Parser;
 
 /**
+ * Controller for windowing Ublu
  *
  * @author jax
  */

@@ -151,6 +151,7 @@ public class WinProps {
     }
 
     /**
+     * Set things back to an interesting default.
      *
      * @return
      */

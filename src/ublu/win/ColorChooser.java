@@ -30,13 +30,14 @@ package ublu.win;
 import java.awt.Color;
 
 /**
+ * Easy color chooser
  *
  * @author jax
  */
 public class ColorChooser extends javax.swing.JDialog {
 
     /**
-     *
+     * User hit ok
      */
     public boolean ok = false;
 
@@ -52,8 +53,9 @@ public class ColorChooser extends javax.swing.JDialog {
     }
 
     /**
+     * Get chosen color
      *
-     * @return
+     * @return color
      */
     public Color getColor() {
         return jColorChooser1.getColor();

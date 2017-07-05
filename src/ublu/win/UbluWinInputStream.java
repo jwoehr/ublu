@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Input stream to fill for Ublu interpreter
  *
  * @author jax
  */
