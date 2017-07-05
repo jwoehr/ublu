@@ -42,9 +42,9 @@ Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/
 
 The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is [version 1.1.6](https://github.com/jwoehr/ublu/releases/tag/v1.1.6).
+The latest release version of Ublu is [version 1.1.7](https://github.com/jwoehr/ublu/releases/tag/v1.1.7).
 
-The tip of the master branch calls itself 1.1.6+ as we head for 1.1.7
+The tip of the master branch calls itself 1.1.7+ as we head for 1.1.8
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -86,7 +86,7 @@ will fetch the source to your `$GOPATH/src` directory. Use `go build main\goublu
 <a name="discussion"></a>
 
 ## Ublu in a Window
-You can start Ublu in a window with the `-w` switch.
+You can start Ublu in a window with the `-w [propsfilepath]` switch.
 ![Ublu in a Window](https://user-images.githubusercontent.com/4604036/27810879-ed42fa88-601c-11e7-9415-83437266c091.jpg)
 
 ## Discussion of Ublu
@@ -100,4 +100,4 @@ Discuss Ublu in the [IBMiOSS Ublu forum on Ryver](https://ibmioss.ryver.com/inde
 Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
 
-Jack Woehr 2017-06-16
+Jack Woehr 2017-07-05
