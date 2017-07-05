@@ -15,7 +15,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 4 Jul 2017 00:49:08 UTC">
+  "Wed, 5 Jul 2017 17:28:21 UTC">
 </head>
 
 <body>
@@ -85,9 +85,20 @@
         Online</a></li>
 
         <li>
-          <a href="#Discussing_Ublu"></a><a href=
-          "#Discussing_Ublu"></a><a href="#mozTocId723509">Quick
-          Tour of the Ublu Language</a>
+          <a href="#Typical_Installation">A Typical
+          Installation</a>
+
+          <ul>
+            <li><a href=
+            "#Starnix_Installation">Linux/Mac/OpenBSD</a></li>
+
+            <li><a href="#Windows_Installation">Windows</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#mozTocId723509">Quick Tour of the Ublu
+          Language</a>
 
           <ul>
             <li><a href="#mozTocId190571">Overview</a></li>
@@ -362,31 +373,120 @@
   "https://ibmioss.ryver.com/index.html" target="_blank">OSS on IBM
   i Ryver team</a>.</p>
 
-  <h2><a class="mozTocH2" name="mozTocId723509"></a>Quick Tour of
-  the Ublu Language</h2>
+  <h2><a name="Typical_Installation">A Typical
+  Installation</a></h2>
 
-  <h3><a class="mozTocH3" name="mozTocId190571"></a>Overview</h3>
+  <h3><a name="Starnix_Installation">Linux/Mac/OpenBSD</a></h3>
 
-  <p>Ublu is mostly composed of commands and a language
-  interpreter. There are also are other Ublu features such as
-  server mode and the tasker, but commands and the language
-  interpreter are the nexus.<br></p>
+  <ul>
+    <li>Unzip in <code>/opt/ublu/</code></li>
 
-  <h3><a class="mozTocH4" name="mozTocId994066"></a>Commands</h3>
+    <li>Create config files (like these samples or altered to your
+    needs) in <code>~/.config/ublu/</code>
+      <pre>
+<em>.config/ublu/goublu.properties</em>
+<code>
+BgColorIn=ColorBlack
+FgColorIn=ColorGreen
+BgColorOut=ColorBlack
+FgColorOut=ColorRed
+UbluDir=/opt/ublu
+SaveOutDir=.
+</code>
+<em>.config/ublu/ubluwin.properties</em>
+<code>
+#Ublu Windowing Properties
+#Sun Jul 02 18:00:59 MDT 2017
+UbluTextAreaBGColor=ff000000
+UbluTextAreaFGColor=e3e90000
+UbluTextAreaFont=Liberation Mono
+UbluInputAreaFontSize=18
+UbluInputAreaFontStyle=0
+UbluTextAreaFontStyle=0
+UbluInputAreaBGColor=ff000000
+UbluInputAreaFont=Liberation Mono
+UbluTextAreaFontSize=18
+UbluInputAreaFGColor=ff36b80b
+</code>
+</pre>
+    </li>
 
-  <p>Ublu commands are like individual application programs which
-  are invoked with their arguments under the language interpreter.
-  Command arguments are often references to objects which have been
-  created by other commands. You usually don't have to know much
-  about objects passed from command to command other than what
-  they're supposed to represent.<br></p>
+    <li>Create aliases e.g., in <code>~/.bash_aliases</code>
+      <pre>
+<code>alias ublu='java -jar /opt/ublu/ublu.jar $*'
+alias gu='/home/jax/work/gopath/src/github.com/jwoehr/goublu/main/goublu -g PropsFile=/home/jax/.config/ublu/goublu.properties $*'
+alias gw='ublu -w /home/jax/.config/ublu/ubluwin.properties $*'</code>
+</pre>
+    </li>
 
-  <p>Most arguments are passed to the <a href=
-  "ubluref.html#Dash_Command">dash-commands</a> associated with the
-  command, e.g.<br></p>
+    <li style="list-style: none; display: inline">
+      <p>Now you can run Ublu:</p>
 
-  <blockquote>
-    <pre>
+      <ul>
+        <li>In a default console (<code>ublu arg arg
+        ...</code>)</li>
+
+        <li>In a <a href="#Goublu">goublu</a> console (<code>gu arg
+        arg ...</code>)</li>
+
+        <li><a href="#Ublu_as_window">In a window</a> (<code>gw arg
+        arg ...</code>)</li>
+      </ul>
+
+      <p>Of course the config files are entirely optional and can
+      be added later, or reference to them omitted entirely from
+      the aliases you create to invoke Ublu.</p>
+
+      <h3><a name="Windows_Installation">Windows</a></h3>
+
+      <ul>
+        <li>Unzip in <code>C:\Ublu</code>, and create Ublu
+        Windowing Properties config file as above in
+        <code>C:\Users\YourLogin</code></li>
+
+        <li>Create a shortcut with the Target
+        <code>C:\Ublu\ublu.jar -w
+        C:\Users\YourLogin\ubluwin.properties</code></li>
+      </ul>
+
+      <p>Now you can run Ublu <a href="#Ublu_as_window">in
+      windowing mode</a>. Alternatively, you can just <code>java
+      -jar C:\Ublu\ublu.jar</code> to run Ublu in a Windows command
+      console, which works well.</p>
+
+      <p>Here's a 256x256 Windows icon for your Ublu shortcut, save
+      as <code>Ublu.ico</code> and assign to the
+      shortcut:</p><img src="images/Ublu.ico" alt=
+      "A windows icon for Ublu">
+
+      <h2><a class="mozTocH2" name="mozTocId723509"></a>Quick Tour
+      of the Ublu Language</h2>
+
+      <h3><a class="mozTocH3" name=
+      "mozTocId190571"></a>Overview</h3>
+
+      <p>Ublu is mostly composed of commands and a language
+      interpreter. There are also are other Ublu features such as
+      server mode and the tasker, but commands and the language
+      interpreter are the nexus.<br></p>
+
+      <h3><a class="mozTocH4" name=
+      "mozTocId994066"></a>Commands</h3>
+
+      <p>Ublu commands are like individual application programs
+      which are invoked with their arguments under the language
+      interpreter. Command arguments are often references to
+      objects which have been created by other commands. You
+      usually don't have to know much about objects passed from
+      command to command other than what they're supposed to
+      represent.<br></p>
+
+      <p>Most arguments are passed to the <a href=
+      "ubluref.html#Dash_Command">dash-commands</a> associated with
+      the command, e.g.<br></p>
+
+      <blockquote>
+        <pre>
 <font color="#000000"><font color=
 "#009966"><strong>ask</strong></font> <font color=
 "#0099FF"><strong>-to</strong></font> <font color=
@@ -404,116 +504,121 @@
 "#FF00CC">(y/n)</font><font color="#FF00CC"> </font><font color=
 "#FF00CC">}$</font></font>
 </pre>
-  </blockquote>
+      </blockquote>
 
-  <p>The <tt>ask</tt> command here has two dash-commands,
-  <tt>-to</tt> and <tt>-say</tt>. <tt>-to</tt> has an argument
-  which says to which <a href=
-  "ubluref.html#Tuple_Variables">variable</a> to put the answer to
-  the question about to be asked the user, and <tt>-say</tt> takes
-  a <a href="ubluref.html#Quoted_strings">quoted string</a> which
-  is the prompt to the user.</p>
+      <p>The <tt>ask</tt> command here has two dash-commands,
+      <tt>-to</tt> and <tt>-say</tt>. <tt>-to</tt> has an argument
+      which says to which <a href=
+      "ubluref.html#Tuple_Variables">variable</a> to put the answer
+      to the question about to be asked the user, and <tt>-say</tt>
+      takes a <a href="ubluref.html#Quoted_strings">quoted
+      string</a> which is the prompt to the user.</p>
 
-  <p>Here is a link to the Ublu Reference's list of <a href=
-  "ubluref.html#Commands_by_Category">commands by
-  category</a>.<br></p>
+      <p>Here is a link to the Ublu Reference's list of <a href=
+      "ubluref.html#Commands_by_Category">commands by
+      category</a>.<br></p>
 
-  <h3><a class="mozTocH4" name="mozTocId117788"></a>Language
-  Interpreter<br></h3>The heart of the Ublu language is a text
-  interpreter loop. There can be multiple nested or branching
-  interpreter instances with different variable spaces in one Ublu
-  session, but basically they're all doing the same sort of thing:
-  an outer input loop is getting input and running an inner
-  interpretive <a href="#ublu.util.Interpreter.loop">loop</a> to
-  interpret a single line of text.<br>
-  <br>
-  <small><i>There are actually several different but very similar
-  loops, e.g., the debugger interpreter loop is different from the
-  normal runtime intepreter loop.</i></small><br>
-  <br>
-  Parsing is very simplistic. The parse parses, and having parsed,
-  moves on, <a href=
-  "https://www.google.com/search?q=nor+can+all+your+piety+and+wit"
-  target="_blank"><i>nor can all your piety and wit</i></a> make it
-  go back one <i>lex</i> (unit of parsing).<br>
-  <br>
-  The text interpreter loop parses the next whitespace-delimited
-  element (a lex) and tries to locate it as an Ublu command or as a
-  defined function. Matching is case-sensitive.<br>
-  <br>
-  If no match is found, the loop falls out to the outer input loop
-  with an error. The outer loop then waits for more input to pass
-  to the inner interpretive loop.<br>
-  <br>
-  If the interpretive loop succeeds in finding the next lex in the
-  input as a command or function, it passes the rest of the line to
-  the command or to the function interpreter. Both do their work
-  then pass back the remnant of the input line that wasn't consumed
-  in their work.<br>
-  <br>
-  Thus, line processing is a relay: the loop hands off to the
-  command/function, which then hands back to loop, and on to next
-  command/function ... until the line is consumed or an error is
-  encountered.<br>
-  <br>
-  If an error is encountered, the rest of the input is discarded.
-  Typically the interpretive loop will fall out to the outer
-  parsing loop. However, there is a <tt>TRY CATCH THROW</tt>
-  exception facility in Ublu allowing the program to catch errors
-  without losing its place in the executing program.<br>
-  <br>
-  While the interpretive loop is line-oriented, certain constructs
-  can span lines, particularly a delimited string or an execution
-  block. Strings are delimited<br>
+      <h3><a class="mozTocH4" name="mozTocId117788"></a>Language
+      Interpreter<br></h3>The heart of the Ublu language is a text
+      interpreter loop. There can be multiple nested or branching
+      interpreter instances with different variable spaces in one
+      Ublu session, but basically they're all doing the same sort
+      of thing: an outer input loop is getting input and running an
+      inner interpretive <a href=
+      "#ublu.util.Interpreter.loop">loop</a> to interpret a single
+      line of text.<br>
+      <br>
+      <small><i>There are actually several different but very
+      similar loops, e.g., the debugger interpreter loop is
+      different from the normal runtime intepreter
+      loop.</i></small><br>
+      <br>
+      Parsing is very simplistic. The parse parses, and having
+      parsed, moves on, <a href=
+      "https://www.google.com/search?q=nor+can+all+your+piety+and+wit"
+      target="_blank"><i>nor can all your piety and wit</i></a>
+      make it go back one <i>lex</i> (unit of parsing).<br>
+      <br>
+      The text interpreter loop parses the next
+      whitespace-delimited element (a lex) and tries to locate it
+      as an Ublu command or as a defined function. Matching is
+      case-sensitive.<br>
+      <br>
+      If no match is found, the loop falls out to the outer input
+      loop with an error. The outer loop then waits for more input
+      to pass to the inner interpretive loop.<br>
+      <br>
+      If the interpretive loop succeeds in finding the next lex in
+      the input as a command or function, it passes the rest of the
+      line to the command or to the function interpreter. Both do
+      their work then pass back the remnant of the input line that
+      wasn't consumed in their work.<br>
+      <br>
+      Thus, line processing is a relay: the loop hands off to the
+      command/function, which then hands back to loop, and on to
+      next command/function ... until the line is consumed or an
+      error is encountered.<br>
+      <br>
+      If an error is encountered, the rest of the input is
+      discarded. Typically the interpretive loop will fall out to
+      the outer parsing loop. However, there is a <tt>TRY CATCH
+      THROW</tt> exception facility in Ublu allowing the program to
+      catch errors without losing its place in the executing
+      program.<br>
+      <br>
+      While the interpretive loop is line-oriented, certain
+      constructs can span lines, particularly a delimited string or
+      an execution block. Strings are delimited<br>
 
-  <blockquote>
-    <tt>${ like this }$</tt><br>
-  </blockquote>and execution blocks<br>
+      <blockquote>
+        <tt>${ like this }$</tt><br>
+      </blockquote>and execution blocks<br>
 
-  <blockquote>
-    <tt>$[ like this ]$</tt><br>
-  </blockquote>so it is easy for the loop to identify them and
-  demand another line from the outer loop if the closing delimiter
-  hasn't been found yet.<br>
-  <br>
-  Language control flow constructs are just a form of command.
-  Typically they consume execution blocks from the input:<br>
+      <blockquote>
+        <tt>$[ like this ]$</tt><br>
+      </blockquote>so it is easy for the loop to identify them and
+      demand another line from the outer loop if the closing
+      delimiter hasn't been found yet.<br>
+      <br>
+      Language control flow constructs are just a form of command.
+      Typically they consume execution blocks from the input:<br>
 
-  <blockquote>
-    <tt>IF @truefalse THEN $[ command arg arg command arg arg
-    command arg ... ]$ ELSE $[ command arg ... ]$<br></tt>
-  </blockquote>As noted, these execution blocks can span multiple
-  lines.<br>
+      <blockquote>
+        <tt>IF @truefalse THEN $[ command arg arg command arg arg
+        command arg ... ]$ ELSE $[ command arg ... ]$<br></tt>
+      </blockquote>As noted, these execution blocks can span
+      multiple lines.<br>
 
-  <h2><a class="mozTocH2" name="mozTocId185354"></a> A Full Ublu
-  Program</h2>Here is a full Ublu program. It uses <a href=
-  "./ubluref.html#FUNC">FUNC</a> to define a number of functions
-  allowing the user to checks a message queue on an i Series OS
-  server and lists the messages, asking the user on each if s/he
-  would like to reply, and parsing the reply if one is given.&nbsp;
-  Take a look at the program (and its associate shell script given
-  here) and then we will <a href=
-  "#Understanding_examplesautoreply.ublu">discuss the program
-  line-by-line</a> below.<br>
-  <br>
-  <i><small>The Ublu codes samples are shown in this document with
-  syntax coloring from a <a href="http://www.jedit.org/" target=
-  "_blank">jEdit</a> mode</small></i>
-  <small><tt>ublu.xml</tt></small> <i><small>reproduced here via
-  <a href="https://www.palfrader.org/code/code2html/" target=
-  "_blank">Code2HTML.</a><br>
-  The jEdit mode is in</small></i> <small><tt>stuff/jEdit</tt>
-  <i>with instructions how to install it at the head of the mode
-  file.</i><br></small> <i><small>There is also a <a href=
-  "http://www.vim.org/" target="_blank">Vim</a> mode for Ublu
-  in</small></i> <small><tt>stuff/ublu-vimfiles-master</tt></small>
-  <i><small>. Just copy the dir structure under that directory to
-  your</small></i> <small><tt>$HOME/.vim</tt>
-  <i>directory</i></small><i><small>.</small></i><br>
+      <h2><a class="mozTocH2" name="mozTocId185354"></a> A Full
+      Ublu Program</h2>Here is a full Ublu program. It uses
+      <a href="./ubluref.html#FUNC">FUNC</a> to define a number of
+      functions allowing the user to checks a message queue on an i
+      Series OS server and lists the messages, asking the user on
+      each if s/he would like to reply, and parsing the reply if
+      one is given.&nbsp; Take a look at the program (and its
+      associate shell script given here) and then we will <a href=
+      "#Understanding_examplesautoreply.ublu">discuss the program
+      line-by-line</a> below.<br>
+      <br>
+      <i><small>The Ublu codes samples are shown in this document
+      with syntax coloring from a <a href="http://www.jedit.org/"
+      target="_blank">jEdit</a> mode</small></i>
+      <small><tt>ublu.xml</tt></small> <i><small>reproduced here
+      via <a href="https://www.palfrader.org/code/code2html/"
+      target="_blank">Code2HTML.</a><br>
+      The jEdit mode is in</small></i> <small><tt>stuff/jEdit</tt>
+      <i>with instructions how to install it at the head of the
+      mode file.</i><br></small> <i><small>There is also a <a href=
+      "http://www.vim.org/" target="_blank">Vim</a> mode for Ublu
+      in</small></i>
+      <small><tt>stuff/ublu-vimfiles-master</tt></small>
+      <i><small>. Just copy the dir structure under that directory
+      to your</small></i> <small><tt>$HOME/.vim</tt>
+      <i>directory</i></small><i><small>.</small></i><br>
 
-  <h3><a class="mozTocH3" name=
-  "mozTocId152770"></a><tt>examples/autoreply.ublu</tt></h3>
-  <pre>
+      <h3><a class="mozTocH3" name=
+      "mozTocId152770"></a><tt>examples/autoreply.ublu</tt></h3>
+      <pre>
 <span class="syntax0"><span class="gutter">   1 </span><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -778,10 +883,10 @@
 </span>
 </pre>
 
-  <h3><a class="mozTocH3" name="mozTocId987283"></a><a name=
-  "Understanding_examplesautoreply.ublu"></a>Understanding
-  <tt>examples/autoreply.ublu</tt></h3>
-  <pre>
+      <h3><a class="mozTocH3" name="mozTocId987283"></a><a name=
+      "Understanding_examplesautoreply.ublu"></a>Understanding
+      <tt>examples/autoreply.ublu</tt></h3>
+      <pre>
 <span class="syntax0"><span class="gutter">   1 </span><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -831,18 +936,20 @@
 </span>
 </pre>These lines are, of course, comments. Comments go to the end
 of the line.<br>
-  <br>
-  As we discussed above, execution blocks (e.g., the body of a
-  function) delimited by <tt>$[</tt> and <tt>]$</tt> can span
-  lines. The way the interpretive loop does this is that it keeps
-  calling for input from the outer parsing loop until it finds the
-  closing delimiter. Effectively, the entire execution block is one
-  line. So line comments (those commented by the <a href=
-  "ubluref.html#comment_introducer"><tt>#</tt></a> command) should
-  not be placed inside function bodies or they will comment out the
-  entire function body! Instead, inside functions use the <a href=
-  "ubluref.html#comment_quote"><tt>\\</tt></a> command.<br>
-  <pre>
+      <br>
+      As we discussed above, execution blocks (e.g., the body of a
+      function) delimited by <tt>$[</tt> and <tt>]$</tt> can span
+      lines. The way the interpretive loop does this is that it
+      keeps calling for input from the outer parsing loop until it
+      finds the closing delimiter. Effectively, the entire
+      execution block is one line. So line comments (those
+      commented by the <a href=
+      "ubluref.html#comment_introducer"><tt>#</tt></a> command)
+      should not be placed inside function bodies or they will
+      comment out the entire function body! Instead, inside
+      functions use the <a href=
+      "ubluref.html#comment_quote"><tt>\\</tt></a> command.<br>
+      <pre>
 <span class="gutter">   6 </span><span class=
 "syntax-KEYWORD1">FUNC</span> getMsgQ <span class=
 "syntax-OPERATOR">(</span> <span class=
@@ -876,64 +983,65 @@ whatever will appear in that position inside the parentheses when
 the function is invoked. Inside the body of the function these
 arguments will be referenced by prefixing them with <tt>@@</tt>
 e.g., <tt>@@password</tt>.<br>
-  <br>
-  <b>Note</b> that the parentheses are separated from both the
-  function name and from the argument list!!<br>
-  <br>
-  <small><i>In the example, I happened to use the bad style of
-  naming arguments the same name as Ublu commands
-  (</i><i><tt>system</tt></i> <i><tt>user</tt></i> <i>and
-  <tt>msgq</tt>) which, of course, the editor then syntax-colored,
-  mistaking them for keywords. This is entirely legal in Ublu but,
-  again, it's bad style.<br></i></small><br>
-  The function body is the execution block between <tt>$[</tt> and
-  <tt>]$</tt><br>
-  <br>
-  On line 7, a local variable is declared. All variables ("tuple
-  variables" as they are called, or just "tuples") are identified
-  by the <tt>@</tt> prefix, whether they are <tt>LOCAL</tt> or
-  global (or interpreter-level-local).<br>
-  <br>
-  Tuple variables come into existence just by being mentioned.
-  Arguments to a function may be tuples or plain words, Ublu
-  commands typically know what to do with either when passed them
-  as arguments.<br>
-  <br>
-  The LOCAL declaration <tt>LOCAL @as400</tt> serves to says that
-  there will be a local tuple variable which will hide any other
-  variables of the same name in the program while in this execution
-  block and then disappear at the end of the execution block, i.e.,
-  at the end of function execution. Equally, the variable name
-  <tt>@as400</tt> could have been used without declaration, but
-  then it would persist beyond the end of the function, and
-  further, if there happened to already exist such a variable in
-  the program, it would be referencing that same variable, possibly
-  unintentionally.<br>
-  <br>
-  Lines 8 and 9 are Ublu commands.<br>
-  <br>
-  Line 8 says, "Create a remote server instance for the system
-  function argument using the user and password function arguments.
-  Store that instance in the declared local variable
-  <tt>@as400</tt>".<br>
-  <br>
-  Line 9 says, "Create an object referencing the message queue on
-  the server represented by <tt>@as400</tt> and identified by the
-  IFS path represented by the function argument <tt>ifspath</tt>
-  and store that object to the function argument <tt>msgq</tt> ,
-  presumably a variable, with an error resulting if a variable was
-  not provided in that position in the function argument list."<br>
-  <br>
-  The variable named which is provided in the function argument
-  list in that position does not have to be named anything like the
-  declaring argument list named it. It could be called
-  <tt>@fred</tt> for instance. It does not even have to have been
-  previously declared. It comes into global existence by being
-  named. It can later be deleted via the <tt><a href=
-  "ubluref.html#tuple">tuple</a> -delete @fred</tt> command, if so
-  desired. Or, it might be a LOCAL variable from a calling
-  function.<br>
-  <pre>
+      <br>
+      <b>Note</b> that the parentheses are separated from both the
+      function name and from the argument list!!<br>
+      <br>
+      <small><i>In the example, I happened to use the bad style of
+      naming arguments the same name as Ublu commands
+      (</i><i><tt>system</tt></i> <i><tt>user</tt></i> <i>and
+      <tt>msgq</tt>) which, of course, the editor then
+      syntax-colored, mistaking them for keywords. This is entirely
+      legal in Ublu but, again, it's bad style.<br></i></small><br>
+      The function body is the execution block between <tt>$[</tt>
+      and <tt>]$</tt><br>
+      <br>
+      On line 7, a local variable is declared. All variables
+      ("tuple variables" as they are called, or just "tuples") are
+      identified by the <tt>@</tt> prefix, whether they are
+      <tt>LOCAL</tt> or global (or interpreter-level-local).<br>
+      <br>
+      Tuple variables come into existence just by being mentioned.
+      Arguments to a function may be tuples or plain words, Ublu
+      commands typically know what to do with either when passed
+      them as arguments.<br>
+      <br>
+      The LOCAL declaration <tt>LOCAL @as400</tt> serves to says
+      that there will be a local tuple variable which will hide any
+      other variables of the same name in the program while in this
+      execution block and then disappear at the end of the
+      execution block, i.e., at the end of function execution.
+      Equally, the variable name <tt>@as400</tt> could have been
+      used without declaration, but then it would persist beyond
+      the end of the function, and further, if there happened to
+      already exist such a variable in the program, it would be
+      referencing that same variable, possibly unintentionally.<br>
+      <br>
+      Lines 8 and 9 are Ublu commands.<br>
+      <br>
+      Line 8 says, "Create a remote server instance for the system
+      function argument using the user and password function
+      arguments. Store that instance in the declared local variable
+      <tt>@as400</tt>".<br>
+      <br>
+      Line 9 says, "Create an object referencing the message queue
+      on the server represented by <tt>@as400</tt> and identified
+      by the IFS path represented by the function argument
+      <tt>ifspath</tt> and store that object to the function
+      argument <tt>msgq</tt> , presumably a variable, with an error
+      resulting if a variable was not provided in that position in
+      the function argument list."<br>
+      <br>
+      The variable named which is provided in the function argument
+      list in that position does not have to be named anything like
+      the declaring argument list named it. It could be called
+      <tt>@fred</tt> for instance. It does not even have to have
+      been previously declared. It comes into global existence by
+      being named. It can later be deleted via the <tt><a href=
+      "ubluref.html#tuple">tuple</a> -delete @fred</tt> command, if
+      so desired. Or, it might be a LOCAL variable from a calling
+      function.<br>
+      <pre>
 <span class="gutter">  13 </span><span class=
 "syntax-KEYWORD1">FUNC</span> getReplyMsgs <span class=
 "syntax-OPERATOR">(</span> <span class=
@@ -955,7 +1063,7 @@ message queue instance and a variable name in which to store the
 result of this function, create a list of messages needing reply
 waiting on the remoted i Series OS message queue represented by the
 message queue instance."<br>
-  <pre>
+      <pre>
 <span class="gutter">  18 </span><span class=
 "syntax-KEYWORD1">FUNC</span> autoreply <span class=
 "syntax-OPERATOR">(</span> <span class=
@@ -1080,67 +1188,69 @@ message queue instance."<br>
 "syntax-OPERATOR">]$</span>
 <span class="gutterH">  35 </span>
 </pre><br>
-  These lines declare <tt>autoreply</tt> which is the top-level
-  function in the file. Note that we declared these functions from
-  low-level to top level. This is not necessary, since the
-  functions are not interpreted until called, but it's easier to
-  understand this way.<br>
-  <br>
-  <small><i>Ublu function definitions offer almost no compiler
-  security. They are simply parsed and stored as execution blocks
-  associated with a call specification and no validation of their
-  runtime action is performed.</i></small><br>
-  <br>
-  <tt>autoreply</tt> takes as its arguments a system name, user id,
-  password and IFS path. Arguments to the function, whether they
-  are plainwords or variables are referenced inside the function by
-  their declared name decorated with <tt>@@</tt> . If a function is
-  declared:<br>
+      These lines declare <tt>autoreply</tt> which is the top-level
+      function in the file. Note that we declared these functions
+      from low-level to top level. This is not necessary, since the
+      functions are not interpreted until called, but it's easier
+      to understand this way.<br>
+      <br>
+      <small><i>Ublu function definitions offer almost no compiler
+      security. They are simply parsed and stored as execution
+      blocks associated with a call specification and no validation
+      of their runtime action is performed.</i></small><br>
+      <br>
+      <tt>autoreply</tt> takes as its arguments a system name, user
+      id, password and IFS path. Arguments to the function, whether
+      they are plainwords or variables are referenced inside the
+      function by their declared name decorated with <tt>@@</tt> .
+      If a function is declared:<br>
 
-  <blockquote>
-    <tt>FUNC foo ( bar )</tt><br>
-  </blockquote>then the argument <tt>bar</tt> is referenced inside
-  the body of the function as <tt>@@bar</tt><br>
+      <blockquote>
+        <tt>FUNC foo ( bar )</tt><br>
+      </blockquote>then the argument <tt>bar</tt> is referenced
+      inside the body of the function as <tt>@@bar</tt><br>
 
-  <blockquote>
-    <tt>FUNC foo ( bar ) $[ put -from @@bar ]$</tt><br>
-  </blockquote><tt>autoreply</tt>&nbsp; also declares a few local
-  variables that will hide global and more outer local variables of
-  the same name and then disappear at the end of the execution
-  block in which they are declared.<br>
-  <br>
-  <tt>autoreply</tt>&nbsp; calls the function <tt>getMsgQ</tt> to
-  get the message queue instance.<br>
-  <br>
-  <tt>autoreply</tt> then calls <tt>getReplyMsgs</tt> to get a list
-  messages awaiting a reply.<br>
-  <br>
-  <tt>autoreply</tt> then loops in a <tt>FOR</tt> loop through the
-  list and uses <tt>ask</tt> command to ask the user if the user
-  wishes to reply each individual message. It does <tt>test</tt> on
-  the response against the character <tt>y</tt> and <tt>IF</tt> the
-  result of that test is true, gets a reply via <tt>ask</tt> and
-  replies to the message queue, informing the user via <tt>put</tt>
-  that the reply was sent.<br>
+      <blockquote>
+        <tt>FUNC foo ( bar ) $[ put -from @@bar ]$</tt><br>
+      </blockquote><tt>autoreply</tt>&nbsp; also declares a few
+      local variables that will hide global and more outer local
+      variables of the same name and then disappear at the end of
+      the execution block in which they are declared.<br>
+      <br>
+      <tt>autoreply</tt>&nbsp; calls the function <tt>getMsgQ</tt>
+      to get the message queue instance.<br>
+      <br>
+      <tt>autoreply</tt> then calls <tt>getReplyMsgs</tt> to get a
+      list messages awaiting a reply.<br>
+      <br>
+      <tt>autoreply</tt> then loops in a <tt>FOR</tt> loop through
+      the list and uses <tt>ask</tt> command to ask the user if the
+      user wishes to reply each individual message. It does
+      <tt>test</tt> on the response against the character
+      <tt>y</tt> and <tt>IF</tt> the result of that test is true,
+      gets a reply via <tt>ask</tt> and replies to the message
+      queue, informing the user via <tt>put</tt> that the reply was
+      sent.<br>
 
-  <h2><a class="mozTocH2" name="mozTocId10736"></a>Generating
-  launcher scripts for Ublu programs via <tt>gensh</tt></h2>The
-  <tt>autoreply</tt> program would still require understanding of
-  Ublu to load and execute, but our help desk operator doesn't have
-  to deal with that. As noted above, the Ublu <a href=
-  "ubluref.html#gensh"><tt>gensh</tt></a> command can generate a
-  shell script so that <tt>autoreply</tt> can become effectively a
-  shell command that takes options to identify system and queue.
-  <i><small><big><tt>gensh</tt></big> shell scripts allow the
-  designer to turn Ublu functions into closures.</small></i><br>
-  <br>
-  Here is the <tt>gensh</tt>-generated&nbsp; shell script to run
-  the top-level function <tt>autoreply</tt> from the program
-  <tt>autoreply.ublu</tt><br>
+      <h2><a class="mozTocH2" name="mozTocId10736"></a>Generating
+      launcher scripts for Ublu programs via <tt>gensh</tt></h2>The
+      <tt>autoreply</tt> program would still require understanding
+      of Ublu to load and execute, but our help desk operator
+      doesn't have to deal with that. As noted above, the Ublu
+      <a href="ubluref.html#gensh"><tt>gensh</tt></a> command can
+      generate a shell script so that <tt>autoreply</tt> can become
+      effectively a shell command that takes options to identify
+      system and queue. <i><small><big><tt>gensh</tt></big> shell
+      scripts allow the designer to turn Ublu functions into
+      closures.</small></i><br>
+      <br>
+      Here is the <tt>gensh</tt>-generated&nbsp; shell script to
+      run the top-level function <tt>autoreply</tt> from the
+      program <tt>autoreply.ublu</tt><br>
 
-  <h3><a class="mozTocH3" name=
-  "mozTocId850587"></a><tt>examples/autoreply.sh</tt></h3>
-  <pre>
+      <h3><a class="mozTocH3" name=
+      "mozTocId850587"></a><tt>examples/autoreply.sh</tt></h3>
+      <pre>
 <span class="syntax0"><span class="gutter">   1 </span><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2069,205 +2179,211 @@ message queue instance."<br>
 </span>
 </pre>
 
-  <h2><a class="mozTocH2" name="mozTocId625051"></a> Some Obvious
-  Questions about Ublu</h2>The above explanations raise several new
-  questions:
+      <h2><a class="mozTocH2" name="mozTocId625051"></a> Some
+      Obvious Questions about Ublu</h2>The above explanations raise
+      several new questions:
 
-  <ul>
-    <li>What are the data types in Ublu?</li>
+      <ul>
+        <li>What are the data types in Ublu?</li>
 
-    <li>What are those dash thingies after Ublu commands?</li>
+        <li>What are those dash thingies after Ublu commands?</li>
 
-    <li>What is a <tt>put</tt> ?</li>
+        <li>What is a <tt>put</tt> ?</li>
 
-    <li>How are arguments passed?</li>
-  </ul>
+        <li>How are arguments passed?</li>
+      </ul>
 
-  <p>We'll answer those questions next.<br></p>
+      <p>We'll answer those questions next.<br></p>
 
-  <h3><a class="mozTocH2" name="mozTocId772969"></a>What are the
-  data types in Ublu?</h3>
+      <h3><a class="mozTocH2" name="mozTocId772969"></a>What are
+      the data types in Ublu?</h3>
 
-  <p>Ublu can be described as an "object-disoriented
-  language".<br></p>
+      <p>Ublu can be described as an "object-disoriented
+      language".<br></p>
 
-  <p>Ublu is a form of interpretive Java that hides as much as
-  possible about object usage.<br></p>There are basically five (5)
-  data types in the Ublu language:<br>
+      <p>Ublu is a form of interpretive Java that hides as much as
+      possible about object usage.<br></p>There are basically five
+      (5) data types in the Ublu language:<br>
 
-  <ol>
-    <li>plainword</li>
+      <ol>
+        <li>plainword</li>
 
-    <li>object</li>
+        <li>object</li>
 
-    <li>variable</li>
+        <li>variable</li>
 
-    <li>string</li>
+        <li>string</li>
 
-    <li>execution block<br></li>
-  </ol>
+        <li>execution block<br></li>
+      </ol>
 
-  <p>A <b>plainword</b> is a single whitespace-delimited
-  lex<br></p>
+      <p>A <b>plainword</b> is a single whitespace-delimited
+      lex<br></p>
 
-  <ul>
-    <li><tt>arthur</tt></li>
+      <ul>
+        <li><tt>arthur</tt></li>
 
-    <li><tt>99999</tt></li>
+        <li><tt>99999</tt></li>
 
-    <li><tt>supercalifra$gilist$ticexpialifoobar..**(())</tt></li>
-  </ul>
+        <li>
+        <tt>supercalifra$gilist$ticexpialifoobar..**(())</tt></li>
+      </ul>
 
-  <p>An <b>object</b> represents something or other, often a
-  something-or-other on a remote server but it's pretty opaque and
-  you just have to know which&nbsp; objects you have in hand go
-  with which Ublu commands. It's mostly simple to do because the
-  same commands that use the objects typically provide the objects
-  in the first place.</p>
+      <p>An <b>object</b> represents something or other, often a
+      something-or-other on a remote server but it's pretty opaque
+      and you just have to know which&nbsp; objects you have in
+      hand go with which Ublu commands. It's mostly simple to do
+      because the same commands that use the objects typically
+      provide the objects in the first place.</p>
 
-  <p>Objects are passed around in <b>variables</b> ("tuple
-  variables" or "tuples") marked with the <tt>@</tt> sign.
-  Variables come into existence by being mentioned. If they're in
-  an execution block between <tt>$[</tt> and <tt>]$</tt> they can
-  be marked <tt>LOCAL</tt> and disappear at the end of the block.
-  Otherwise, they persist until expressly deleted or until the
-  interpreter in whose context they reside exits.</p>
+      <p>Objects are passed around in <b>variables</b> ("tuple
+      variables" or "tuples") marked with the <tt>@</tt> sign.
+      Variables come into existence by being mentioned. If they're
+      in an execution block between <tt>$[</tt> and <tt>]$</tt>
+      they can be marked <tt>LOCAL</tt> and disappear at the end of
+      the block. Otherwise, they persist until expressly deleted or
+      until the interpreter in whose context they reside exits.</p>
 
-  <p>A <strong>string</strong> in Ublu is parsed from a sequence of
-  plainwords wrapped by <tt>${</tt> and <tt>}$</tt> e.g. <tt>${ hi
-  there }$</tt> Many commands in Ublu will take either a string, a
-  plainword, or a variable as an argument. This is symbolized in
-  the command descriptions in the Ublu Reference by
-  <tt>~@{something}</tt>. <small><i>The ~ means also that the
-  argument to the dash-command can be popped from Ublu's LIFO
-  stack.<br></i></small></p>
+      <p>A <strong>string</strong> in Ublu is parsed from a
+      sequence of plainwords wrapped by <tt>${</tt> and <tt>}$</tt>
+      e.g. <tt>${ hi there }$</tt> Many commands in Ublu will take
+      either a string, a plainword, or a variable as an argument.
+      This is symbolized in the command descriptions in the Ublu
+      Reference by <tt>~@{something}</tt>. <small><i>The ~ means
+      also that the argument to the dash-command can be popped from
+      Ublu's LIFO stack.<br></i></small></p>
 
-  <p>An <strong>execution block</strong> is a body of Ublu program
-  text wrapped in <tt>$[</tt> and <tt>]$</tt> . Execution blocks
-  are used as the body of control constructs, such as <tt>IF</tt>
-  ... <tt>THEN</tt> ... <tt>ELSE</tt> , function definitions and
-  <tt>TRY</tt> ... <tt>CATCH</tt> , e.g.</p>
+      <p>An <strong>execution block</strong> is a body of Ublu
+      program text wrapped in <tt>$[</tt> and <tt>]$</tt> .
+      Execution blocks are used as the body of control constructs,
+      such as <tt>IF</tt> ... <tt>THEN</tt> ... <tt>ELSE</tt> ,
+      function definitions and <tt>TRY</tt> ... <tt>CATCH</tt> ,
+      e.g.</p>
 
-  <blockquote>
-    <tt>IF @trueorfalse THEN $[ joblist -as400 @myserver -to @jl
-    ]$</tt><br>
-  </blockquote>
+      <blockquote>
+        <tt>IF @trueorfalse THEN $[ joblist -as400 @myserver -to
+        @jl ]$</tt><br>
+      </blockquote>
 
-  <h3><a class="mozTocH2" name="mozTocId379708"></a>What are those
-  dash thingies after Ublu commands?</h3>The dash-commands after
-  Ublu commands pass arguments to the command, often objects being
-  kept in variables.
+      <h3><a class="mozTocH2" name="mozTocId379708"></a>What are
+      those dash thingies after Ublu commands?</h3>The
+      dash-commands after Ublu commands pass arguments to the
+      command, often objects being kept in variables.
 
-  <blockquote>
-    <p><tt>as400 -to @myServer somehostname.com someuserid
-    somepassword</tt><tt><br></tt><tt>joblist -as400
-    @myServer</tt><br></p>
-  </blockquote>would retrieve a joblist from
-  <tt>somehostname.com</tt> provided <tt>someuserid</tt> had
-  authorization to request it.<br>
-  <br>
-  One special dash-command is double-dash <tt>--</tt> the
-  "eponymous dash-command" which represents an object identified in
-  the command description with same name as the command itself. For
-  example, the <tt>as400</tt> command instances and operates on
-  objects representing a connection to a remote i Series OS server.
-  Once you have instanced such an object and stored it <tt>-to
-  @someServer</tt> you can use it and then later test if it is
-  still connected by passing the same variable back to the
-  <tt>as400</tt> command like this:<br>
+      <blockquote>
+        <p><tt>as400 -to @myServer somehostname.com someuserid
+        somepassword</tt><tt><br></tt><tt>joblist -as400
+        @myServer</tt><br></p>
+      </blockquote>would retrieve a joblist from
+      <tt>somehostname.com</tt> provided <tt>someuserid</tt> had
+      authorization to request it.<br>
+      <br>
+      One special dash-command is double-dash <tt>--</tt> the
+      "eponymous dash-command" which represents an object
+      identified in the command description with same name as the
+      command itself. For example, the <tt>as400</tt> command
+      instances and operates on objects representing a connection
+      to a remote i Series OS server. Once you have instanced such
+      an object and stored it <tt>-to @someServer</tt> you can use
+      it and then later test if it is still connected by passing
+      the same variable back to the <tt>as400</tt> command like
+      this:<br>
 
-  <blockquote>
-    <tt>as400 -as400 @someServer -connected</tt><br>
-  </blockquote>which will <tt>put</tt> either <tt>true</tt> or
-  <tt>false</tt>. But you could also have simply used the eponymous
-  dash-command:<br>
+      <blockquote>
+        <tt>as400 -as400 @someServer -connected</tt><br>
+      </blockquote>which will <tt>put</tt> either <tt>true</tt> or
+      <tt>false</tt>. But you could also have simply used the
+      eponymous dash-command:<br>
 
-  <blockquote>
-    <tt>as400 -- @someServer -connected</tt><br>
-  </blockquote>since, for the as400 command, <tt>--</tt> represents
-  <tt>-as400</tt>.<br>
+      <blockquote>
+        <tt>as400 -- @someServer -connected</tt><br>
+      </blockquote>since, for the as400 command, <tt>--</tt>
+      represents <tt>-as400</tt>.<br>
 
-  <h3><a class="mozTocH2" name="mozTocId58628"></a>What is a
-  <tt>put</tt> ?</h3>&nbsp;The <tt>as400</tt> command stored
-  <tt>-to @myServer</tt> which variable was then passed to joblist
-  command as <tt>-as400 @myServer<br></tt>
+      <h3><a class="mozTocH2" name="mozTocId58628"></a>What is a
+      <tt>put</tt> ?</h3>&nbsp;The <tt>as400</tt> command stored
+      <tt>-to @myServer</tt> which variable was then passed to
+      joblist command as <tt>-as400 @myServer<br></tt>
 
-  <p><tt>-to</tt> is a dash-command to almost every Ublu command.
-  It says where the <tt>put</tt> is to go.<br></p>
+      <p><tt>-to</tt> is a dash-command to almost every Ublu
+      command. It says where the <tt>put</tt> is to go.<br></p>
 
-  <p>Most Ublu commands <tt>put</tt> a result. That result could be
-  text or an object. If no <tt>-to</tt> destination is specified,
-  then the <tt>put</tt> goes to standard out. If the result is an
-  object and the <tt>put</tt> is to standard out,&nbsp; the object
-  is rendered in text. Ublu knows how to render objects in text in
-  a useful fashion.<br></p>
+      <p>Most Ublu commands <tt>put</tt> a result. That result
+      could be text or an object. If no <tt>-to</tt> destination is
+      specified, then the <tt>put</tt> goes to standard out. If the
+      result is an object and the <tt>put</tt> is to standard
+      out,&nbsp; the object is rendered in text. Ublu knows how to
+      render objects in text in a useful fashion.<br></p>
 
-  <p>The full discussion of <tt>put</tt> requires an understanding
-  of <a href="ubluref.html#Datasinks">Data Sinks</a> discussed in
-  the Ublu Reference.<br></p>
+      <p>The full discussion of <tt>put</tt> requires an
+      understanding of <a href="ubluref.html#Datasinks">Data
+      Sinks</a> discussed in the Ublu Reference.<br></p>
 
-  <h3><a name="tuple-assign"></a><code>tuple -assign</code> instead
-  of <code>put</code></h3>
+      <h3><a name="tuple-assign"></a><code>tuple -assign</code>
+      instead of <code>put</code></h3>
 
-  <p>Once an object is assigned to a tuple variable,
-  <code>put</code> tends to have the sometimes-undesirable effect
-  of turning the value it puts into a string.</p>
+      <p>Once an object is assigned to a tuple variable,
+      <code>put</code> tends to have the sometimes-undesirable
+      effect of turning the value it puts into a string.</p>
 
-  <p>To assign an object from one tuple or another (including from
-  the tuple stack), use <code><a href="./ubluref.html#tuple">tuple
-  -assign</a></code> <em>@destination-tuple
-  ~@value-source</em>.</p>
+      <p>To assign an object from one tuple or another (including
+      from the tuple stack), use <code><a href=
+      "./ubluref.html#tuple">tuple -assign</a></code>
+      <em>@destination-tuple ~@value-source</em>.</p>
 
-  <h3><a class="mozTocH2" name="mozTocId56861"></a>How are
-  arguments passed?</h3>
+      <h3><a class="mozTocH2" name="mozTocId56861"></a>How are
+      arguments passed?</h3>
 
-  <p>Arguments in Ublu are passed by reference, not of by
-  value.<br></p>
+      <p>Arguments in Ublu are passed by reference, not of by
+      value.<br></p>
 
-  <p>When you pass a variable as an argument to a command or
-  function, that variable is accessible to the function and any
-  changes the function makes to that argument are changes to the
-  variable itself.<br></p>
+      <p>When you pass a variable as an argument to a command or
+      function, that variable is accessible to the function and any
+      changes the function makes to that argument are changes to
+      the variable itself.<br></p>
 
-  <p>Arguments in function argument lists are actually <a href=
-  "./ubluref.html#Function_Parameter_Binding">token-pasted</a> into
-  the execution block which is the body of the function.</p>
+      <p>Arguments in function argument lists are actually <a href=
+      "./ubluref.html#Function_Parameter_Binding">token-pasted</a>
+      into the execution block which is the body of the
+      function.</p>
 
-  <p>Token pasting in function argument marshalling allows some
-  unusual programming techniques as we'll see later, e.g., in the
-  section on the <a href="#TupleStack">Tuple Stack</a>.</p>
+      <p>Token pasting in function argument marshalling allows some
+      unusual programming techniques as we'll see later, e.g., in
+      the section on the <a href="#TupleStack">Tuple Stack</a>.</p>
 
-  <h4><a class="mozTocH4" name="mozTocId154189"></a>Local variables
-  as arguments</h4>
+      <h4><a class="mozTocH4" name="mozTocId154189"></a>Local
+      variables as arguments</h4>
 
-  <p>Local variables only are accessible within the execution block
-  in which they are declared. This encompassed nested blocks within
-  the declaring block (unless a local of the same name is declared
-  in the inner block, thus hiding the outer block's local).<br></p>
+      <p>Local variables only are accessible within the execution
+      block in which they are declared. This encompassed nested
+      blocks within the declaring block (unless a local of the same
+      name is declared in the inner block, thus hiding the outer
+      block's local).<br></p>
 
-  <p>This means you can pass a local as a positional argument to a
-  function called within a block and that function can reference
-  the provided value normally.<br></p>
+      <p>This means you can pass a local as a positional argument
+      to a function called within a block and that function can
+      reference the provided value normally.<br></p>
 
-  <blockquote>
-    <p><tt>FUNC bar ( myarg ) $[ put -from @@myarg
-    ]$</tt><tt><br></tt><tt>FUNC foo ( ) $[ LOCAL @a put -to @a 17
-    bar ( @a ) ]$</tt><br></p>
-  </blockquote>
+      <blockquote>
+        <p><tt>FUNC bar ( myarg ) $[ put -from @@myarg
+        ]$</tt><tt><br></tt><tt>FUNC foo ( ) $[ LOCAL @a put -to @a
+        17 bar ( @a ) ]$</tt><br></p>
+      </blockquote>
 
-  <p><tt>foo ( )</tt> when invoked will display the number
-  17.<br></p>
+      <p><tt>foo ( )</tt> when invoked will display the number
+      17.<br></p>
 
-  <h5><a class="mozTocH5" name="mozTocId856951"></a><big>A limit on
-  local variables as arguments</big></h5>
+      <h5><a class="mozTocH5" name="mozTocId856951"></a><big>A
+      limit on local variables as arguments</big></h5>
 
-  <p>Because calls are by reference and locals have only block
-  scope, there exist cases where it appears you can pass a local to
-  a function but you really cannot. Here's an instance of that:</p>
+      <p>Because calls are by reference and locals have only block
+      scope, there exist cases where it appears you can pass a
+      local to a function but you really cannot. Here's an instance
+      of that:</p>
 
-  <h6><a class="mozTocH6" name=
-  "mozTocId334710"></a><big><big><big><tt>examples/test/localvarthread.ublu</tt></big></big></big></h6>
-  <pre>
+      <h6><a class="mozTocH6" name=
+      "mozTocId334710"></a><big><big><big><tt>examples/test/localvarthread.ublu</tt></big></big></big></h6>
+      <pre>
 <span class="syntax0"><span class="gutter">   1 </span><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2557,144 +2673,155 @@ same execution block as the local variable declaration, the
 thread's runtime environment is not nested within the execution
 block, so a local variable cannot be passed to the thread.<br>
 
-  <h2><a class="mozTocH2" name="mozTocId241059"></a>The
-  <tt>examples</tt> directory</h2>Ublu is distributed with an
-  <tt>examples</tt> directory. Most of these are code actually used
-  in production, though of course <b>there is NO WARRANTY OR
-  GUARANTY of correctness or fitness for a given application (see
-  the LICENSE)</b>.<br>
-  <br>
-  Example files consist of definitions of functions embodying
-  factors of common operations, and of the shell scripts generated
-  by <tt>gensh</tt> used to launch the functions.&nbsp; Not all
-  examples are pristine examples of Ublu coding style, which is
-  evolving. Generally, the more parameterization, the better.<br>
 
-  <h3><a class="mozTocH3" name="mozTocId992046"></a>The test
-  directory</h3>Under the <tt>examples</tt> directory is the
-  <tt>test</tt> directory which are fairly crude regression code
-  used to test the basic functionality of Ublu commands.<br>
+      <h2><a class="mozTocH2" name="mozTocId241059"></a>The
+      <tt>examples</tt> directory</h2>Ublu is distributed with an
+      <tt>examples</tt> directory. Most of these are code actually
+      used in production, though of course <b>there is NO WARRANTY
+      OR GUARANTY of correctness or fitness for a given application
+      (see the LICENSE)</b>.<br>
+      <br>
+      Example files consist of definitions of functions embodying
+      factors of common operations, and of the shell scripts
+      generated by <tt>gensh</tt> used to launch the
+      functions.&nbsp; Not all examples are pristine examples of
+      Ublu coding style, which is evolving. Generally, the more
+      parameterization, the better.<br>
 
-  <h2><a class="extensions" name="extensions"></a>The
-  <tt>extensions</tt> directory</h2>
+      <h3><a class="mozTocH3" name="mozTocId992046"></a>The test
+      directory</h3>Under the <tt>examples</tt> directory is the
+      <tt>test</tt> directory which are fairly crude regression
+      code used to test the basic functionality of Ublu
+      commands.<br>
 
-  <p>Ublu is distributed with an <tt>extensions</tt> directory
-  which contains extensions to the base Ublu system which are
-  written in Ublu itself.</p>
+      <h2><a class="extensions" name="extensions"></a>The
+      <tt>extensions</tt> directory</h2>
 
-  <p>As the IBM i system upon which Ublu primarily operates is so
-  feature-rich, it is impractical to put every useful utility in
-  the base system. Therefore, as Ublu evolves, more and more
-  features will likely be relegated to the <tt>extensions</tt>
-  directory to be loaded via <a href=
-  "./ubluref.html#include"><tt>include</tt></a> as needed by the
-  application programmer.</p>
+      <p>Ublu is distributed with an <tt>extensions</tt> directory
+      which contains extensions to the base Ublu system which are
+      written in Ublu itself.</p>
 
-  <p>Again, <b>there is NO WARRANTY OR GUARANTY of correctness or
-  fitness for a given application (see the LICENSE)</b>.</p>
+      <p>As the IBM i system upon which Ublu primarily operates is
+      so feature-rich, it is impractical to put every useful
+      utility in the base system. Therefore, as Ublu evolves, more
+      and more features will likely be relegated to the
+      <tt>extensions</tt> directory to be loaded via <a href=
+      "./ubluref.html#include"><tt>include</tt></a> as needed by
+      the application programmer.</p>
 
-  <h2><a class="mozTocH2" name=
-  "mozTocId163217"></a>Object-disoriented</h2>A few words about
-  "object-disoriented". Object languages associate methods with
-  specific data structures and define these relationships in
-  classes. Ublu began as a collection of single-purpose utilities
-  designed procedurally and then grew into a language when it
-  became necessary to pass objects from utility to utility in order
-  to get more useful work done.<br>
-  <br>
-  You have seen how Ublu works and <a href="#mozTocId58628">read
-  about the <tt>put</tt> command</a>. The <tt>put</tt> command was
-  the beginning of Ublu "object-disorientation". When Ublu emerged
-  from the need to pass objects rather than string values from one
-  utility to the next, the <tt>put</tt> command was an immediate
-  result of that change to an interpretive language. I needed to
-  see quickly what was going on.<br>
-  <br>
-  A lot of effort went into <tt>put</tt> so it would give useful
-  insight into anything passed around from command to command in
-  Ublu without demanding that the programmer remember what was
-  where. It is always safe to simply <tt>put @foo</tt> because a
-  useful string representation is returned. And <tt>put -to @bar
-  @foo</tt> put whatever is in <tt>@foo</tt> also into
-  <tt>@bar</tt> without worrying about object class.<br>
-  <br>
-  What Ublu's language structure comes down to is that:<br>
+      <p>Again, <b>there is NO WARRANTY OR GUARANTY of correctness
+      or fitness for a given application (see the LICENSE)</b>.</p>
 
-  <ul>
-    <li>commands are effectively <i>classes</i></li>
-
-    <li>dash-commands are effectively <i>methods</i></li>
-
-    <li>the object values passed in tuple vars to the commands are
-    the <i>object instances</i> multiply inheriting from the
-    <i>classes</i>.
+      <h2><a class="mozTocH2" name=
+      "mozTocId163217"></a>Object-disoriented</h2>A few words about
+      "object-disoriented". Object languages associate methods with
+      specific data structures and define these relationships in
+      classes. Ublu began as a collection of single-purpose
+      utilities designed procedurally and then grew into a language
+      when it became necessary to pass objects from utility to
+      utility in order to get more useful work done.<br>
+      <br>
+      You have seen how Ublu works and <a href=
+      "#mozTocId58628">read about the <tt>put</tt> command</a>. The
+      <tt>put</tt> command was the beginning of Ublu
+      "object-disorientation". When Ublu emerged from the need to
+      pass objects rather than string values from one utility to
+      the next, the <tt>put</tt> command was an immediate result of
+      that change to an interpretive language. I needed to see
+      quickly what was going on.<br>
+      <br>
+      A lot of effort went into <tt>put</tt> so it would give
+      useful insight into anything passed around from command to
+      command in Ublu without demanding that the programmer
+      remember what was where. It is always safe to simply <tt>put
+      @foo</tt> because a useful string representation is returned.
+      And <tt>put -to @bar @foo</tt> put whatever is in
+      <tt>@foo</tt> also into <tt>@bar</tt> without worrying about
+      object class.<br>
+      <br>
+      What Ublu's language structure comes down to is that:<br>
 
       <ul>
-        <li>Multiple inheritance because the <i>object
-        instances</i> respond to the <i>methods</i> of many
-        <i>classes</i><br></li>
+        <li>commands are effectively <i>classes</i></li>
+
+        <li>dash-commands are effectively <i>methods</i></li>
+
+        <li>the object values passed in tuple vars to the commands
+        are the <i>object instances</i> multiply inheriting from
+        the <i>classes</i>.
+
+          <ul>
+            <li>Multiple inheritance because the <i>object
+            instances</i> respond to the <i>methods</i> of many
+            <i>classes</i><br></li>
+          </ul>
+        </li>
       </ul>
-    </li>
-  </ul>
 
-  <p>E.g, in the example ...<br></p>
+      <p>E.g, in the example ...<br></p>
 
-  <blockquote>
-    <tt>as400 -to @sys mysys myuid mypwd</tt><tt><br></tt><tt>as400
-    -- @sys -alivesvc
-    CENTRAL</tt><tt><br></tt><i><tt>true</tt><br></i>
-  </blockquote>... effectively, an Ublu <tt>as400</tt> <i>class</i>
-  creates an <i>object instance</i> stored in <tt>@sys</tt>. That
-  object has a method <i>alivesvc(CENTRAL)</i> invoked on it.<br>
-  <br>
+      <blockquote>
+        <tt>as400 -to @sys mysys myuid
+        mypwd</tt><tt><br></tt><tt>as400 -- @sys -alivesvc
+        CENTRAL</tt><tt><br></tt><i><tt>true</tt><br></i>
+      </blockquote>... effectively, an Ublu <tt>as400</tt>
+      <i>class</i> creates an <i>object instance</i> stored in
+      <tt>@sys</tt>. That object has a method
+      <i>alivesvc(CENTRAL)</i> invoked on it.<br>
+      <br>
 
-  <p>Ublu's default "object-disoriented" syntax is wordier than a
-  true object language, in that the class is named each time (the
-  "command"), but it tends to be easy to use interpretively. It's
-  clunky, yet it is reminiscent of traditional "big iron"-style
-  command syntax and is pretty easy to remember.</p>
+      <p>Ublu's default "object-disoriented" syntax is wordier than
+      a true object language, in that the class is named each time
+      (the "command"), but it tends to be easy to use
+      interpretively. It's clunky, yet it is reminiscent of
+      traditional "big iron"-style command syntax and is pretty
+      easy to remember.</p>
 
-  <h3><a name="Autonomes">Autonomes</a> offer easier syntax</h3>
+      <h3><a name="Autonomes">Autonomes</a> offer easier
+      syntax</h3>
 
-  <p><a href=
-  "./ubluref.html#Autonomic_Tuple_Variables">Autonomes</a> simplify
-  Ublu syntax. An <em>autonome</em> is a tuple variable whose value
-  is of one of many recognized types allowed by Ublu to stand for
-  its most typical command and the <a href=
-  "./ubluref.html#Eponymous_dash-command__--_">eponymous
-  dash-command</a>.</p>
+      <p><a href=
+      "./ubluref.html#Autonomic_Tuple_Variables">Autonomes</a>
+      simplify Ublu syntax. An <em>autonome</em> is a tuple
+      variable whose value is of one of many recognized types
+      allowed by Ublu to stand for its most typical command and the
+      <a href=
+      "./ubluref.html#Eponymous_dash-command__--_">eponymous
+      dash-command</a>.</p>
 
-  <p>Thus, assuming that <code>@job</code> contains a valid
-  instance created by the <a href=
-  "./ubluref.html#job"><code>job</code> command</a>,</p>
+      <p>Thus, assuming that <code>@job</code> contains a valid
+      instance created by the <a href=
+      "./ubluref.html#job"><code>job</code> command</a>,</p>
 
-  <blockquote>
-    <code>job -- @job -info</code>
-  </blockquote>can be expressed
+      <blockquote>
+        <code>job -- @job -info</code>
+      </blockquote>can be expressed
 
-  <blockquote>
-    <code>@job -info</code>
-  </blockquote>
+      <blockquote>
+        <code>@job -info</code>
+      </blockquote>
 
-  <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
-  Stack</h2>The <a href=
-  "https://en.wikipedia.org/wiki/Forth_(programming_language)"
-  target="_blank">Forth programming language</a> taught me the use
-  of a LIFO stack in programming. The Ublu <a href=
-  "./ubluref.html#Tuple_stack">Tuple stack</a> allows some
-  interesting programming metaphors that allow coding functions
-  that get around some of the clunkiness of basic Ublu syntax.
-  Instead of stowing results in tuple variables, functions can push
-  their results to the stack to be popped as arguments by the next
-  function. Additionally, the <a href=
-  "./ubluref.html#Function_Parameter_Binding">token-pasting</a>
-  nature of Ublu <a href="./ubluref.html#FUNC"><tt>FUNC</tt></a>
-  arguments allow even dash-commands to be presented to an Ublu
-  command via the argument list to a function.<br>
-  <br>
-  Here is an example (<tt>examples/stringpush.ublu</tt>) of this
-  object-disoriented slackomorphic style of programming:<br>
-  <pre>
+      <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
+      Stack</h2>The <a href=
+      "https://en.wikipedia.org/wiki/Forth_(programming_language)"
+      target="_blank">Forth programming language</a> taught me the
+      use of a LIFO stack in programming. The Ublu <a href=
+      "./ubluref.html#Tuple_stack">Tuple stack</a> allows some
+      interesting programming metaphors that allow coding functions
+      that get around some of the clunkiness of basic Ublu syntax.
+      Instead of stowing results in tuple variables, functions can
+      push their results to the stack to be popped as arguments by
+      the next function. Additionally, the <a href=
+      "./ubluref.html#Function_Parameter_Binding">token-pasting</a>
+      nature of Ublu <a href=
+      "./ubluref.html#FUNC"><tt>FUNC</tt></a> arguments allow even
+      dash-commands to be presented to an Ublu command via the
+      argument list to a function.<br>
+      <br>
+      Here is an example (<tt>examples/stringpush.ublu</tt>) of
+      this object-disoriented slackomorphic style of
+      programming:<br>
+      <pre>
 <span class="syntax0"><span class="gutter"> 1 </span><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -3040,18 +3167,18 @@ block, so a local variable cannot be passed to the thread.<br>
 </span>
 </pre>
 
-  <h3><a name="TupleStackPopFuncArgs">Tuple Stack Pop in Function
-  Arguments</a></h3>
+      <h3><a name="TupleStackPopFuncArgs">Tuple Stack Pop in
+      Function Arguments</a></h3>
 
-  <p>Using the <code>~</code> symbol for a tuple stack pop as an
-  argument to a function can lead to unexpected results.</p>
+      <p>Using the <code>~</code> symbol for a tuple stack pop as
+      an argument to a function can lead to unexpected results.</p>
 
-  <p>Function arguments are passed by token pasting as discussed
-  above (<a href="mozTocId56861"></a>How are arguments passed?). So
-  when a function body references the argument, it sees precisely
-  what you provided as the runtime argument. Ergo, in an example
-  like:</p>
-  <pre>
+      <p>Function arguments are passed by token pasting as
+      discussed above (<a href="mozTocId56861"></a>How are
+      arguments passed?). So when a function body references the
+      argument, it sees precisely what you provided as the runtime
+      argument. Ergo, in an example like:</p>
+      <pre>
 <span class="syntax0"><span class="gutter">   1 </span><span class=
 "syntax-KEYWORD1">FUNC</span> foo <span class=
 "syntax-OPERATOR">(</span> bar <span class=
@@ -3089,10 +3216,10 @@ block, so a local variable cannot be passed to the thread.<br>
 </span>
 </pre>
 
-  <p>the function <code>foo ( bar )</code> is incorrect, because
-  the second reference to <code>@@bar</code> will find an empty
-  stack:</p>
-  <pre>
+      <p>the function <code>foo ( bar )</code> is incorrect,
+      because the second reference to <code>@@bar</code> will find
+      an empty stack:</p>
+      <pre>
 &gt; put -to ~ woof
 &gt; foo ( ~ )
 <em>woof
@@ -3101,8 +3228,8 @@ java.util.EmptyStackException
         ...</em>
 </pre>
 
-  <p>whereas <code>foo1 ( bar )</code> is correct:</p>
-  <pre>
+      <p>whereas <code>foo1 ( bar )</code> is correct:</p>
+      <pre>
    
 &gt;  put -to ~ woof
 &gt; foo1 ( ~ )
@@ -3110,21 +3237,22 @@ java.util.EmptyStackException
 woof</em>
 </pre>
 
-  <h2><a name="Calling_Java"></a>Calling Java</h2>
+      <h2><a name="Calling_Java"></a>Calling Java</h2>
 
-  <p>Ublu can call Java directly via the <a href=
-  "./ubluref.html#calljava"><tt>calljava</tt></a> command. This
-  allows the user to extend the language interpretively in nearly
-  any direction desired. This is useful, because as I continually
-  extend Ublu, it is not practical to support every option for
-  every object in the JTOpen library with Ublu sytax</p>
+      <p>Ublu can call Java directly via the <a href=
+      "./ubluref.html#calljava"><tt>calljava</tt></a> command. This
+      allows the user to extend the language interpretively in
+      nearly any direction desired. This is useful, because as I
+      continually extend Ublu, it is not practical to support every
+      option for every object in the JTOpen library with Ublu
+      sytax</p>
 
-  <p>For instance, at present writing, there is no Ublu
-  dash-command to fetch the reply status of a queued message. Maybe
-  I'll add that later, if I need it enough. For the present, if I
-  need that reply status, I <tt>calljava</tt> on the queued message
-  object easily obtainable from Ublu.</p>
-  <pre>
+      <p>For instance, at present writing, there is no Ublu
+      dash-command to fetch the reply status of a queued message.
+      Maybe I'll add that later, if I need it enough. For the
+      present, if I need that reply status, I <tt>calljava</tt> on
+      the queued message object easily obtainable from Ublu.</p>
+      <pre>
 &gt; <a href=
 "./ubluref.html#as400">as400</a> -to @mysys MYSYS.ORG MYPROFILE MYPASSWORD
 &gt; <a href=
@@ -3134,116 +3262,121 @@ woof</em>
 &gt; FOR @i in ~ $[ calljava -obj @i -method getReplyStatus -to @result put @result ]$
 </pre>
 
-  <p>Of course, in this sort of programming, downloading and
-  perusing the Ublu javadocs and JTOpen library javadocs is
-  essential. In the example above, one would have to know that
-  Ublu's <tt>joblog -qm</tt> is returning a collection of
-  <tt>com.ibm.as400.access.QueuedMessage</tt> instances.</p>
+      <p>Of course, in this sort of programming, downloading and
+      perusing the Ublu javadocs and JTOpen library javadocs is
+      essential. In the example above, one would have to know that
+      Ublu's <tt>joblog -qm</tt> is returning a collection of
+      <tt>com.ibm.as400.access.QueuedMessage</tt> instances.</p>
 
-  <h2><a name="Goublu">Goublu</a>, the enhanced Ublu console</h2>
+      <h2><a name="Goublu">Goublu</a>, the enhanced Ublu
+      console</h2>
 
-  <p>Goublu is a <a href="http://golang.org/">Go language</a> front
-  end that provides a better console interface to Ublu than the
-  console support provided by Java.</p>
+      <p>Goublu is a <a href="http://golang.org/">Go language</a>
+      front end that provides a better console interface to Ublu
+      than the console support provided by Java.</p>
 
-  <p>On most platforms, the Java console does not provide command
-  line editing nor command line recall. Goublu provides both, along
-  with other features. Goublu is a more congenial environment for
-  interactive Ublu usage. Goublu has some limitations, and "plain"
-  Ublu is better for running Ublu applications.</p>
+      <p>On most platforms, the Java console does not provide
+      command line editing nor command line recall. Goublu provides
+      both, along with other features. Goublu is a more congenial
+      environment for interactive Ublu usage. Goublu has some
+      limitations, and "plain" Ublu is better for running Ublu
+      applications.</p>
 
-  <p>Goublu must be compiled on the specific platform. You can
-  install the Go language development environment and follow the
-  <a href="https://github.com/jwoehr/goublu">instructions to get
-  Goublu and build it</a> on your machine.</p>
+      <p>Goublu must be compiled on the specific platform. You can
+      install the Go language development environment and follow
+      the <a href="https://github.com/jwoehr/goublu">instructions
+      to get Goublu and build it</a> on your machine.</p>
 
-  <div align="center"><img src="images/goublu_screenshot.png"
-  width="912" height="659" alt=""></div>
+      <div align="center"><img src="images/goublu_screenshot.png"
+      width="912" height="659" alt=""></div>
 
-  <h2><a name="Ublu_as_window">Running Ublu as a window</a></h2>
+      <h2><a name="Ublu_as_window">Running Ublu as a
+      window</a></h2>
 
-  <p>The <code>-w</code> switch on the Ublu command line starts
-  Ublu as a windowing application. This is useful if you want to
-  paste in and save out swatches of text. In other modes of
-  development, it may be less congenial an environment that plain
-  Ublu or the Goublu console front end for Ublu.</p>
+      <p>The <code>-w</code> switch on the Ublu command line starts
+      Ublu as a windowing application. This is useful if you want
+      to paste in and save out swatches of text. In other modes of
+      development, it may be less congenial an environment that
+      plain Ublu or the Goublu console front end for Ublu.</p>
 
-  <p>When Ublu is started in windowing mode:</p>
+      <p>When Ublu is started in windowing mode:</p>
 
-  <ul>
-    <li>No other command line options are processed.</li>
+      <ul>
+        <li>No other command line options are processed.</li>
 
-    <li>There is a large text area at the top.</li>
+        <li>There is a large text area at the top.</li>
 
-    <li>There is an Ublu input line at the bottom. Pressing enter
-    on the input line will interpret the input.</li>
+        <li>There is an Ublu input line at the bottom. Pressing
+        enter on the input line will interpret the input.</li>
 
-    <li>The entered input and Ublu output appear in the large text
-    area.</li>
+        <li>The entered input and Ublu output appear in the large
+        text area.</li>
 
-    <li>You can select text in the text area and choose the menu
-    item <strong>Ublu-&gt;Interpret Selected</strong> and the
-    selected text becomes input to Ublu.</li>
+        <li>You can select text in the text area and choose the
+        menu item <strong>Ublu-&gt;Interpret Selected</strong> and
+        the selected text becomes input to Ublu.</li>
 
-    <li>Multi-line input doesn't work in the input area. Functions,
-    strings, blocks extending over multiple lines should be entered
-    in the text area above, selected, and passed to Ublu via the
-    menu item <strong>Ublu-&gt;Interpret Selected</strong>.</li>
+        <li>Multi-line input doesn't work in the input area.
+        Functions, strings, blocks extending over multiple lines
+        should be entered in the text area above, selected, and
+        passed to Ublu via the menu item <strong>Ublu-&gt;Interpret
+        Selected</strong>.</li>
 
-    <li>You can save the contents of the text area or load a file
-    into it at any time using the menu items of the
-    <strong>File</strong> menu.</li>
+        <li>You can save the contents of the text area or load a
+        file into it at any time using the menu items of the
+        <strong>File</strong> menu.</li>
 
-    <li>You can change settings and save them in a property file.
-    This property file can be loaded at startup as the argument to
-    the <code>-w</code> switch that starts Ublu in windowing
-    mode.</li>
-  </ul>
+        <li>You can change settings and save them in a property
+        file. This property file can be loaded at startup as the
+        argument to the <code>-w</code> switch that starts Ublu in
+        windowing mode.</li>
+      </ul>
 
-  <div align="center"><img src="images/ubluwin.jpg" width="1058"
-  height="455" alt="Windowing Ublu"></div>
+      <div align="center"><img src="images/ubluwin.jpg" width=
+      "1058" height="455" alt="Windowing Ublu"></div>
 
-  <p>I use the following properties file
-  <code>$HOME/.config/ublu/ubluwin.properties</code> on Ubuntu:</p>
+      <p>I use the following properties file
+      <code>$HOME/.config/ublu/ubluwin.properties</code> on
+      Ubuntu:</p>
 
-  <blockquote>
-    <pre>
+      <blockquote>
+        <pre>
 <code>#Ublu Windowing Properties
 #Sun Jul 02 18:00:59 MDT 2017
 UbluTextAreaBGColor=ff000000
 UbluTextAreaFGColor=e3e90000
-UbluTextAreaFont=Lucida Sans Typewriter Bold
+UbluTextAreaFont=Liberation Mono
 UbluInputAreaFontSize=16
 UbluInputAreaFontStyle=0
 UbluTextAreaFontStyle=0
 UbluInputAreaBGColor=ff000000
-UbluInputAreaFont=Lucida Sans Typewriter Bold
+UbluInputAreaFont=Liberation Mono
 UbluTextAreaFontSize=16
 UbluInputAreaFGColor=ff36b80b</code>
 </pre>
-  </blockquote>
+      </blockquote>
 
-  <p>When I start Ublu <code>java -jar /opt/ublu/ublu.jar -w
-  $HOME/.config/ublu/ubluwin.properties</code> Ublu looks like
-  this:</p>
+      <p>When I start Ublu <code>java -jar /opt/ublu/ublu.jar -w
+      $HOME/.config/ublu/ubluwin.properties</code> Ublu looks like
+      this:</p>
 
-  <div align="center"><img src="images/ubluprops.png" width="1057"
-  height="659" alt=""></div>
+      <div align="center"><img src="images/ubluprops.png" width=
+      "1057" height="659" alt=""></div>
 
-  <p><font size="+2"><strong>!!</strong></font> Windowing Ublu, you
-  may wish to set <code>props -set signon.handler.type
-  BUILTIN</code> so that on a password or username error Ublu
-  prompts graphically instead of to the console. See the Ublu
-  Reference on the <a href="ubluref.html/#props">props</a>
-  command.</p>
+      <p><font size="+2"><strong>!!</strong></font> Windowing Ublu,
+      you may wish to set <code>props -set signon.handler.type
+      BUILTIN</code> so that on a password or username error Ublu
+      prompts graphically instead of to the console. See the Ublu
+      Reference on the <a href="ubluref.html/#props">props</a>
+      command.</p>
 
-  <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
+      <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
 
-  <h3><a class="mozTocH3" name="mozTocId810320"></a><a name=
-  "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>Here
-  is the Java code (or some fairly recent version of same, consult
-  the source) for the interpretive loop.
-  <pre>
+      <h3><a class="mozTocH3" name="mozTocId810320"></a><a name=
+      "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt></h3>Here
+      is the Java code (or some fairly recent version of same,
+      consult the source) for the interpretive loop.
+      <pre>
 <span class="syntax0"><span class=
 "gutter">1122 </span>    <span class="syntax-COMMENT3">/**</span>
 <span class="gutter">1123 </span><span class=
@@ -3870,5 +4003,7 @@ UbluInputAreaFGColor=ff36b80b</code>
 <span class="gutter">1202 </span>
 </span>
 </pre><i>This guide is a work in progress ... continued ...</i><br>
-  </body>
+      </li>
+  </ul>
+</body>
 </html>
