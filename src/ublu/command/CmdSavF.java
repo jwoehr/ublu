@@ -51,7 +51,7 @@ import java.util.logging.Level;
  */
 public class CmdSavF extends Command {
 
-    {
+    static {
         setNameAndDescription("savf",
                 "/5 -create | -delete | -exists | -list | -restore | -save  [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] ~@{system} ~@}library} ~@{savefilename} ~@{userid} ~@{password} : perform various savefile operations");
     }

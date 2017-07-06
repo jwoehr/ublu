@@ -37,7 +37,7 @@ import ublu.util.ArgArray;
  */
 public class CmdBye extends Command {
 
-    {
+    static {
         setNameAndDescription("bye", "/0 : terminate the session");
     }
 

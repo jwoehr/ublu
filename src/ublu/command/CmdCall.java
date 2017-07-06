@@ -41,7 +41,7 @@ import java.util.logging.Level;
  */
 public class CmdCall extends Command {
 
-    {
+    static {
         setNameAndDescription("CALL", "/? @tuple ( [@parm] .. ) : Call a functor");
     }
 

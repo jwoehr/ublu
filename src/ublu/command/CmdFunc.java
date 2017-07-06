@@ -26,7 +26,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import ublu.util.Functor;
 import ublu.util.Generics.FunctorParamList;
 import com.ibm.as400.access.AS400SecurityException;
@@ -44,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdFunc extends Command {
 
-    {
+    static {
         setNameAndDescription("FUNC", "/7?.. [-to datasink] [[-delete name] | [-list] | [-show name]] name ( parameter name list )  $[ an execution block possibly spanning lines ]$ : define a named function");
     }
 

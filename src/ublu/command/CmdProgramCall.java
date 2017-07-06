@@ -47,7 +47,7 @@ import java.util.logging.Level;
  */
 public class CmdProgramCall extends Command {
 
-    {
+    static {
         setNameAndDescription("programcall", "/3? [-as400 ~@as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout} ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
     }
 

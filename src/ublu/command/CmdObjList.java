@@ -44,7 +44,7 @@ import java.util.logging.Level;
  */
 public class CmdObjList extends Command {
 
-    {
+    static {
         setNameAndDescription("objlist", "/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist] [-lib libspec ] [-name objname] [-type objtype] [-new,-instance] [-list]  : retrieve a (filtered) object list");
 
     }

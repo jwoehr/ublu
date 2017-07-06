@@ -69,11 +69,11 @@ public abstract class Command implements CommandInterface {
     /**
      * Command commandName
      */
-    private String commandName;
+    private static String commandName;
     /**
      * Command commandDescription
      */
-    private String commandDescription;
+    private static String commandDescription;
     /**
      * Data source
      */
@@ -330,7 +330,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param name
      */
-    public final void setCommandName(String name) {
+    protected static final void setCommandName(String name) {
         commandName = name;
     }
 
@@ -340,7 +340,7 @@ public abstract class Command implements CommandInterface {
      * @return command commandDescription
      */
     @Override
-    public String getCommandDescription() {
+    public final String getCommandDescription() {
         return commandDescription;
     }
 
@@ -349,7 +349,7 @@ public abstract class Command implements CommandInterface {
      *
      * @param description
      */
-    protected final void setCommandDescription(String description) {
+    protected static final void setCommandDescription(String description) {
         commandDescription = description;
     }
 
@@ -358,7 +358,7 @@ public abstract class Command implements CommandInterface {
      * @param name
      * @param description
      */
-    protected void setNameAndDescription(String name, String description) {
+    protected static final void setNameAndDescription(String name, String description) {
         setCommandName(name);
         setCommandDescription(description);
     }
@@ -403,8 +403,6 @@ public abstract class Command implements CommandInterface {
      * 0-arity ctor
      */
     public Command() {
-        setCommandName("No command name set");
-        setCommandDescription("-No description was set for this command.");
     }
 
     /**

@@ -42,7 +42,7 @@ import java.util.logging.Level;
  */
 public class CmdEval extends Command {
 
-    {
+    static {
         setNameAndDescription("eval",
                 "/2/3 [-to @var] ~@[inc dec + - * / % << >> ! & | ^ && || == > < <= >= != pct] ~@operand [~@operand] : arithmetic ");
     }

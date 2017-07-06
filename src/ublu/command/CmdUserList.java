@@ -46,7 +46,7 @@ import java.util.logging.Level;
  */
 public class CmdUserList extends Command {
 
-    {
+    static {
         setNameAndDescription("userlist",
                 "/3? [-as400 ~@as400] [-to datasink] [-userinfo ~@{ALL|USER|GROUP|MEMBER}] [-groupinfo ~@{NONE|NOGROUP|profilename}] [-userprofile ~@{username|*ALL}] ~@{system} ~@{userid} ~@{password} : return a list of users");
     }

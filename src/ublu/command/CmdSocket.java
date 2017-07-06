@@ -49,7 +49,7 @@ import ublu.util.Generics.ByteArrayList;
  */
 public class CmdSocket extends Command {
 
-    {
+    static {
         setNameAndDescription("sock", "/0 [-to datasink] [--,-sock ~@sock] [-host ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr ~@{local_addr}] [-locport ~@{local_portnum}]  [-instance | -close | -avail | -read ~@{count} | -write ~@bytes] : create and manipulate sockets");
     }
 

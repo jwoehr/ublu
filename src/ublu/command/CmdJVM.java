@@ -43,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdJVM extends Command {
 
-    {
+    static {
         setNameAndDescription("jvm", "/0 [-to @datasink] [ -new | -gc ] : do gc or put an object "
                 + "whose string value is a display of copious information on the "
                 + "Java platform on which this program is "

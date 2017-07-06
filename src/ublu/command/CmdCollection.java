@@ -26,8 +26,8 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
-import ublu.util.Tuple;
+//import ublu.util.DataSink;
+//import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdCollection extends Command {
 
-    {
+    static {
         setNameAndDescription("collection", "/0? [--,-collection ~@collection] [-to datasink] [-show | -size]  : manipulate collections of objects");
     }
 

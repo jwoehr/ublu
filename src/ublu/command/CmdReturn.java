@@ -35,7 +35,7 @@ import ublu.util.ArgArray;
  */
 public class CmdReturn extends Command {
 
-    {
+    static {
         setNameAndDescription("RETURN", "/0 : return immediately from a FUNC");
     }
 

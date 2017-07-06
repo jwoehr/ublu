@@ -36,7 +36,7 @@ import java.util.logging.Level;
  */
 public class CmdSleep extends Command {
 
-    {
+    static {
         setNameAndDescription("sleep", "/0 [-m ~@{milliseconds}] [-n ~@{nanoseconds}] Sleep milliseconds (default 0) plus nanoseconds (default 0)");
     }
 

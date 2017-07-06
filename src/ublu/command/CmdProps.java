@@ -26,7 +26,6 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.DataSink;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
@@ -44,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdProps extends Command {
 
-    {
+    static {
         setNameAndDescription("props", "/0 [-to datasink] -set ~@${ name }$ ~@${ value }$ | -get ~@${ name }$ | -list | -read ~@${filepath}$ | -write ~@${filepath}$ ~@${comment}$ : manage properties");
     }
 

@@ -47,7 +47,7 @@ import java.util.logging.Level;
  */
 public class CmdDesktop extends Command {
 
-    {
+    static {
         setNameAndDescription("desktop",
                 "/0 [-browse ~@{uri} | -mail | -mailto ~@{uri} | -supported] : desktop browser or mail");
     }

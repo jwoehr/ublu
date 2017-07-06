@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdLifo extends Command {
 
-    {
+    static {
         setNameAndDescription("lifo", "/0 [-to datasink] -push @tuplevar | -pop | -popval  | -dup | -swap | -over | -pick ~@{0index} | -rot | -depth | -clear | -drop | -show | -true | -false | -null : operate on the tuple stack");
     }
 

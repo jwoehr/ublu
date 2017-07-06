@@ -42,7 +42,7 @@ import java.util.logging.Level;
  */
 public class CmdTest extends Command {
 
-    {
+    static {
         setNameAndDescription("test",
                 "/0 [-to @var] [[[-eq | -ne] @var @var] | [-null @var] | [-nnull @var ] | [-jcls @tuple full.javaclass.name]]: compare and return boolean result");
     }

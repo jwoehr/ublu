@@ -47,7 +47,7 @@ import ublu.util.Tuple;
  */
 public class CmdMonitor extends Command {
 
-    {
+    static {
         setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-worklib ~@{libname}] [-none|-diskstatus|-status|-version|-all] system userid passwd : fetch system monitor data and create System Shepherd [TM API] datapoints");
     }
 

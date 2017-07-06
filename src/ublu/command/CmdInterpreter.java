@@ -42,7 +42,7 @@ import ublu.util.ArgArray;
  */
 public class CmdInterpreter extends Command {
 
-    {
+    static {
         setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs] : info on and control of Ublu and the interpreter at the level this command is invoked");
     }
 

@@ -54,7 +54,7 @@ import ublu.util.Tuple;
  */
 public class CmdCs extends Command {
 
-    {
+    static {
         setNameAndDescription("cs",
                 "/4? [-to @var ] [--,-cs ~@cs] [-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }

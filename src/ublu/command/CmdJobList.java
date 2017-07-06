@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdJobList extends Command {
 
-    {
+    static {
         setNameAndDescription("joblist", "/3? [-as400 ~@as400] [-to datasink] [-username userfilter ] [-jobname jobfilter] [-jobnumber jobnumfilter] [-jobtype JOBTYPE] [-active [-disconnected]] system userid passwd : retrieve a (filtered) joblist");
 
     }

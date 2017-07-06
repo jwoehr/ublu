@@ -56,7 +56,7 @@ import ublu.util.Generics.StringArrayList;
  */
 public class CmdCim extends Command {
 
-    {
+    static {
         setNameAndDescription("cim", "/0 [-to datasink] [--,-cim @cimclient] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec  ~@cimobjectpath ~@deep_tf | -ei  ~@cimobjectpath | -trace ~@tf] : CIM client");
 
     }

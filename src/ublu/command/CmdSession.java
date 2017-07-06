@@ -46,7 +46,7 @@ import java.util.logging.Level;
  */
 public class CmdSession extends Command {
 
-    {
+    static {
         setNameAndDescription("session or sess",
                 "/0 --,-sess @sess [-to datasink] [-from datasink] [-nt] [[-? ~@${question}$] | [-close] | [-disconnect] | [-dump] | [-getcursor] | [-setcursor x y] | [-send [~@${ send string including [tab] metakeys etc. }$] ]  : interact with a tn5250 session");
     }

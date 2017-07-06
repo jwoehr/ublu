@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdFTP extends Command {
 
-    {
+    static {
         setNameAndDescription("ftp",
                 "/3? -cd path | -cmd ${ command string }$ | -disconnect | -get filepath | -list | -put filepath | -pwd | --,-session @session [ -as400 ] [ -from datasink ] [ -to datasink ]  [ -mode act/pas ] [ -port portnum ] [ -type asc/bin ] [ -tofile destfile ] ~@{system} ~@{userid} ~@{password} : FTP client with AS400-specific extensions");
     }

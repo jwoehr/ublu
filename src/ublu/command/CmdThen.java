@@ -35,7 +35,7 @@ import java.util.logging.Level;
  */
 public class CmdThen extends Command {
 
-    {
+    static {
         setNameAndDescription("THEN", "/3.. $[ an execution block possibly spanning lines ]$ : the THEN block for an IF");
     }
 

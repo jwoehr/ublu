@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdJournal extends Command {
 
-    {
+    static {
         setNameAndDescription("jrnl",
                 "/3? [-to datasink] [--,-jrnl ~@jrnl] [-as400 ~@as400 ] [-to @variable] [-new,-instance] [-lib ~@{libname}] [-journal ~@{journal}] [-get ~@###] [-size ~@intval (default 1024)]  : get journal entries");
     }

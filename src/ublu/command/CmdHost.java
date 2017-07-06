@@ -27,7 +27,6 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.smapi.Host;
-import ublu.util.DataSink;
 import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -44,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdHost extends Command {
 
-    {
+    static {
         setNameAndDescription("host",
                 "/3 [-to @var] [-new,-instance] [-port ~@{portnum}] [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} : instance a smapi host, default port 44444");
     }

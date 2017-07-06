@@ -34,7 +34,7 @@ import ublu.util.ArgArray;
  */
 public class CmdExit extends Command {
 
-    {
+    static {
         setNameAndDescription("exit",
                 "/0 [-rc ~@int] : perform System.exit()");
     }

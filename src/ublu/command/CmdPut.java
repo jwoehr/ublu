@@ -50,7 +50,7 @@ import java.util.logging.Level;
  */
 public class CmdPut extends Command {
 
-    {
+    static {
         setNameAndDescription("put", "/1? [-to datasink] [-tofile ~@filepath] [-from datasink ] [-fromfile ~@filepath] [-append] [ -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# number | ~@{object or a string}  | a single lex ] : put data from datasink to datasink, optionally translating charset if -toascii or -charset are set");
     }
 

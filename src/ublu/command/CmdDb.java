@@ -63,7 +63,7 @@ import ublu.db.Json;
  */
 public class CmdDb extends Command {
 
-    {
+    static {
         setNameAndDescription("db",
                 "/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
