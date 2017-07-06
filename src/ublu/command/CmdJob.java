@@ -107,7 +107,6 @@ public class CmdJob extends Command {
      */
     public ArgArray job(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
-        String jobTupleName = null;
         String query = null;
         Job myJob = null;
         int delay = -1;
