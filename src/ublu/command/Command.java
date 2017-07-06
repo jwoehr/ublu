@@ -140,14 +140,14 @@ public abstract class Command implements CommandInterface {
         // /* debug */ System.err.println(this.as400);
     }
 
-    /**
-     * Get the class of the instance so that static methods can be invoked
-     *
-     * @return the class of the instance
-     */
-    public Class<? extends Command> getCommandClass() {
-        return this.getClass();
-    }
+//    /**
+//     * Get the class of the instance so that static methods can be invoked
+//     *
+//     * @return the class of the instance
+//     */
+//    public Class<? extends Command> getCommandClass() {
+//        return this.getClass();
+//    }
 
     /**
      * Return result code
