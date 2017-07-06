@@ -48,7 +48,7 @@ import java.util.logging.Logger;
  */
 public class CmdDict extends Command {
 
-    static {
+    {
         setNameAndDescription("dict",
                 "/0 [-to datasink] [-from datasink] [-list | -save | -restore | -merge | -peek] : save and restore function dictionary");
     }

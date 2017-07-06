@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdObjDesc extends Command {
 
-    static {
+    {
         setNameAndDescription("objdesc", "/0 [-as400 ~@as400] [-to datasink] [--,-objdesc ~@objdesc] [-path ~@{ifspath}] [-new,-instance] | [-refresh}] | [-query exists | library | name | path | type] | [-valuestring ~@{attribute}] | -refresh | -locks] : examine an object description");
 
     }

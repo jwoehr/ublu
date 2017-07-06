@@ -41,7 +41,7 @@ import java.util.logging.Level;
  */
 public class CmdDbug extends Command {
 
-    static {
+    {
         setNameAndDescription("dbug", "/0 [-init] [-info] [-brk ~@opname] [-clr ~@opname] [[-step]|[-go]] [--,-dbug $[ execution block ]$] : dbug your program");
     }
 

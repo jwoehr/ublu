@@ -61,7 +61,7 @@ import ublu.util.Generics.ByteArrayList;
  */
 public class CmdIFS extends Command {
 
-    static {
+    {
         setNameAndDescription("ifs",
                 "/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink] [-tofile ~@filepath] [-from datasink] [-fromfile ~@{filepath}] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access");
     }

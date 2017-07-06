@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdMsg extends Command {
 
-    static {
+    {
         setNameAndDescription("msg", "/0 --,-msg ~@message [-to datasink] [-sender | -user | -key | -fromjob | -fromjobnumber | -fromprogram | -message | -queue] : examine queued messages");
     }
 

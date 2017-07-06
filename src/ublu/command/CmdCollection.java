@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdCollection extends Command {
 
-    static {
+    {
         setNameAndDescription("collection", "/0? [--,-collection ~@collection] [-to datasink] [-show | -size]  : manipulate collections of objects");
     }
 

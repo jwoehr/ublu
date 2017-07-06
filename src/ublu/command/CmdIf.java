@@ -38,7 +38,7 @@ import java.util.logging.Level;
  */
 public class CmdIf extends Command {
 
-    static {
+    {
         setNameAndDescription("IF", "/1 [-!] ~@var : IF tests boolean @var (inverted by -!) and executes THEN $[ cmd cmd .. ]$ if true, ELSE  $[ cmd cmd .. ]$ if false");
     }
 

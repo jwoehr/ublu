@@ -43,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdProps extends Command {
 
-    static {
+    {
         setNameAndDescription("props", "/0 [-to datasink] -set ~@${ name }$ ~@${ value }$ | -get ~@${ name }$ | -list | -read ~@${filepath}$ | -write ~@${filepath}$ ~@${comment}$ : manage properties");
     }
 

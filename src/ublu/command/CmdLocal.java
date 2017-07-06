@@ -37,7 +37,7 @@ import java.util.logging.Level;
  */
 public class CmdLocal extends Command {
 
-    static {
+    {
         setNameAndDescription("LOCAL", "/1 @localvar : declare local variable");
     }
 

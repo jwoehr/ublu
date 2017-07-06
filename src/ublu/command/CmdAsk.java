@@ -49,7 +49,7 @@ import javax.swing.JOptionPane;
  */
 public class CmdAsk extends Command {
 
-    static {
+    {
         setNameAndDescription("ask",
                 "/0 [-to datasink] [-from datasink] [-say ~@{prompt string}]  : get input from user");
     }

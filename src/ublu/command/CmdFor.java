@@ -46,7 +46,7 @@ import java.util.logging.Level;
  */
 public class CmdFor extends Command {
 
-    static {
+    {
         setNameAndDescription("FOR", "/5 @iteratorvar ~@valuevar $[ cmd .. ]$ : FOR enumerable @valuevar execute block instancing @iteratorvar");
     }
 

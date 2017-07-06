@@ -47,7 +47,7 @@ import java.util.logging.Level;
  */
 public class CmdHistory extends Command {
 
-    static {
+    {
         setNameAndDescription("history or h", "/0 [-on | -off | -onfile filename | -to datasink | -do linenum [-change expr1 expr2] | -show [-to datasink] | -head numlines | -tail numlines | -name | -range firstline lastline] : turns history file recording on to default, off, on to a filename, or does a numbered line again, shows history, head or tail numlines or a range or set history filename");
     }
 

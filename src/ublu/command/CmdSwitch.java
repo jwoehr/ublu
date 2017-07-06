@@ -36,7 +36,7 @@ import java.util.logging.Level;
  */
 public class CmdSwitch extends Command {
 
-    static {
+    {
         setNameAndDescription("SWITCH", " ~@stringselector [-case ~@${string}$ $[ block ]$ [[-case ~@${string}$ $[ block ]$] ...] [-default $[ block ]$] : language switch statement");
     }
 

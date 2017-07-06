@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdPpl extends Command {
 
-    static {
+    {
         setNameAndDescription("ppl", "/0 [--,-ppl ~@ppl] [-new,-instance] [-get[int|float|string] ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} : create and manipulate print parameter list");
     }
 

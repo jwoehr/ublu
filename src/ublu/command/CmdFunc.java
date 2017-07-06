@@ -43,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdFunc extends Command {
 
-    static {
+    {
         setNameAndDescription("FUNC", "/7?.. [-to datasink] [[-delete name] | [-list] | [-show name]] name ( parameter name list )  $[ an execution block possibly spanning lines ]$ : define a named function");
     }
 

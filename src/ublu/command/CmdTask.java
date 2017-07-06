@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdTask extends Command {
 
-    static {
+    {
         setNameAndDescription("TASK", "/1? [-from ~@datasink] [-to ~@datasink] [-start] $[ BLOCK TO EXECUTE ]$ : create a background thread to execute a block, putting the thread and starting the thread if specified");
     }
 

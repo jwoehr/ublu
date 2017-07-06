@@ -49,7 +49,7 @@ import ublu.util.Tuple;
  */
 public class CmdStreamFile extends Command {
 
-    static {
+    {
         setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -delete | -rename ~@streamf | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files");
     }
 

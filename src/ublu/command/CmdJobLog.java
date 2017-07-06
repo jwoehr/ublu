@@ -48,7 +48,7 @@ import ublu.util.Tuple;
  */
 public class CmdJobLog extends Command {
 
-    static {
+    {
         setNameAndDescription("joblog", "/0 [-as400 ~@as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -query ~@{dir|name|user|number|sys} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host");
     }
 

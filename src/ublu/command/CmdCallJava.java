@@ -47,7 +47,7 @@ import java.util.logging.Level;
  */
 public class CmdCallJava extends Command {
 
-    static {
+    {
         setNameAndDescription("calljava", "/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] | --,-obj ~@object [field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
     }
 

@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdTN5250 extends Command {
 
-    static {
+    {
         setNameAndDescription("tn5250",
                 "/0 [-tn5250 @tn5250] [-to datasink] [[-new,-instance] | [-my5250] | [-run] | [-session] | [-sessionlist]]  [-args ~@${ arg string }$] ~@system : instance a programmable or interactive tn5250j");
     }

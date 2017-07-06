@@ -49,7 +49,7 @@ import java.util.logging.Level;
  */
 public class CmdFTPNu extends Command {
 
-    static {
+    {
         setNameAndDescription("ftp",
                 "/3? [ -to datasink ] [ -tofile ~@destfile ] [ -pushrc ] -new  [ -as400 ] [ -mode ~@{act|pas} ] [ -port ~@{portnum} ] [ -type ~@{asc|bin} ] | --,-session ~@session [ -cd ~@{path} | -cmd ~@{ command string } | -connect | -disconnect | -get ~@{remotefilepath}  [-target ~@{localfilepath}] | -dir | -ls ~@{filespec} | -put ~@{localfilepath} [-target ~@{remotefilepath}] | -pwd ] ~@{system} ~@{userid} ~@{password} : FTP client with AS400-specific extensions");
     }

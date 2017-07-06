@@ -37,7 +37,7 @@ import java.util.logging.Level;
  */
 public class CmdTrace extends Command {
 
-    static {
+    {
         setNameAndDescription("trace",
                 "/0   [-tofile ~@{filename}] [-on] [-off] [-set ~@{all|conversion|datastream|diagnostic|error|info|jdbc|pcml|proxy|thread|warning} ~@{on|off}]: set JTOpen tracing");
     }

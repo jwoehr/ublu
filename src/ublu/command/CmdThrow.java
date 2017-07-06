@@ -35,7 +35,7 @@ import java.util.logging.Level;
  */
 public class CmdThrow extends Command {
 
-    static {
+    {
         setNameAndDescription("THROW", "/1  ~@{log string} : THROW from a TRY block");
     }
 

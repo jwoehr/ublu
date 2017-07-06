@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdPrinter extends Command {
 
-    static {
+    {
         setNameAndDescription("printer",
                 "/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [[-get ~@{attributename}] | [-getfloat ~@{attr_int}] [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] | [-new,-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes");
     }

@@ -41,7 +41,7 @@ import java.util.logging.Level;
  */
 public class CmdBang extends Command {
 
-    static {
+    {
         setNameAndDescription("!", "/1 linenumber | ! : repeat a command from the history list (short for history -do)");
     }
 

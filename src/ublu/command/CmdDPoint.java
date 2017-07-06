@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdDPoint extends Command {
 
-    static {
+    {
         setNameAndDescription("dpoint", "/0? [--,-dpoint @dpoint] [-to datasink] [[-dup] | [-dkey ~@{keytext}] [-addkey ~@{keytext}] [-type ~@{int|long|float} [-value ~@{value}] [-alertlevel ~@{alertlevel}] [-compare ~@{gt|gte|lt|lte|info|warn|crit}] [-msg ~@{msg}]]  : create and manipulate monitoring datapoints");
     }
 

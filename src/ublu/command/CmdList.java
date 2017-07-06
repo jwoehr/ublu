@@ -47,7 +47,7 @@ import ublu.util.Generics.StringArrayList;
  */
 public class CmdList extends Command {
 
-    static {
+    {
         setNameAndDescription("list",
                 "/0 [-to datasink] [--,-list ~@list] [[-new,-instance] | [-source ~@enumeration|~@collection|~@string|~@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and manage lists of objects");
     }

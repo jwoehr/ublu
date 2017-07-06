@@ -37,7 +37,7 @@ import java.util.logging.Level;
  */
 public class CmdTry extends Command {
 
-    static {
+    {
         setNameAndDescription("TRY", "/3 $[ try block ]$ CATCH $[ catch block ]$ : TRY and CATCH on error or THROW");
     }
 

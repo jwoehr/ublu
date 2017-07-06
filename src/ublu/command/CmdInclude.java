@@ -41,7 +41,7 @@ import java.util.logging.Level;
  */
 public class CmdInclude extends Command {
 
-    static {
+    {
         setNameAndDescription("include", "/0 /1 [-from datasink] [-s,-silent] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
     }
 

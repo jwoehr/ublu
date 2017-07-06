@@ -35,7 +35,7 @@ import java.util.logging.Level;
  */
 public class CmdElse extends Command {
 
-    static {
+    {
         setNameAndDescription("ELSE", "/1.. $[ an execution block possibly spanning lines ]$ : the ELSE block for an IF THEN");
     }
 

@@ -50,7 +50,7 @@ import java.util.logging.Level;
  */
 public class CmdMsgQ extends Command {
 
-    static {
+    {
         setNameAndDescription("msgq", "/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to datasink] [-new,-instance | -close | -query | -remove messagekey | -removeall | -sendinfo ~@{message text ...} | -sendinquiry ~@{message text} ~@replyqueueIFSpath | -sendreply messagekey ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send, retrieve, remove or reply messages");
     }
 

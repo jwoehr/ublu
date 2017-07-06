@@ -44,7 +44,7 @@ import java.util.logging.Level;
  */
 public class CmdThread extends Command {
 
-    static {
+    {
         setNameAndDescription("thread", "/0 [-from datasink] [-to datasink ] [--,-thread ~@thread] -new,-instance | -start | -stop : interpret in a background thread");
     }
 

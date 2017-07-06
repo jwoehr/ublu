@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdSaveF extends Command {
 
-    static {
+    {
         setNameAndDescription("savef",
                 "/2? [-as400 ~@as400] [-to datasink] [--,-savef ~@savef] [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] [-tolib ~@{libname}] [-create | -delete | -exists | -list | -new | -restore | -save ] ~@{libraryname} ~@{savefilename} : instance and perform various savefile operations");
     }

@@ -45,7 +45,7 @@ public class CmdUsage extends Command {
         "\tExecutes commands left to right.",
         "\tIf no command is present, interprets input until EOF or the 'bye' command is encountered."};
 
-    static {
+    {
         setNameAndDescription("help or usage", "/0 [[-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
     }
 

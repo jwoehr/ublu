@@ -34,7 +34,7 @@ import ublu.util.ArgArray;
  */
 public class CmdComment extends Command {
 
-    static {
+    {
         setNameAndDescription("# or #!", "/? discards the rest of the line as a comment");
     }
 

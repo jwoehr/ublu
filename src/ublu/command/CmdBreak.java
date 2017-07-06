@@ -36,7 +36,7 @@ import ublu.util.ArgArray;
  */
 public class CmdBreak extends Command {
 
-    static {
+    {
         setNameAndDescription("BREAK", "/0 : exit from innermost enclosing DO|FOR|WHILE block");
     }
 

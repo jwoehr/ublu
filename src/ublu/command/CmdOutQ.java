@@ -53,7 +53,7 @@ import java.util.logging.Level;
  */
 public class CmdOutQ extends Command {
 
-    static {
+    {
         setNameAndDescription("outq",
                 "/4? [-as400 @as400] [--,-outq ~@outqueue] [-to @var] [-from @qnamevar] [[-clear [[user jobuser] | [form formtype] | all]] | [-get ~@{attributename}] | [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] | [-hold] | [-new,-instance] | [-noop] | [-release]] outputqueuename system user password : operate on output queues");
     }

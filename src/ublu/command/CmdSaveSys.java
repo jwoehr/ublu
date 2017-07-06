@@ -47,7 +47,7 @@ import ublu.util.Generics.ConstMap;
  */
 public class CmdSaveSys extends Command {
 
-    static {
+    {
         setNameAndDescription("savesys",
                 "/0 [-to datasink] [-from datasink] [-merge] [-save | -restore] : save and restore compiled code");
     }

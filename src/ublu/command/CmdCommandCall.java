@@ -46,7 +46,7 @@ import ublu.util.Generics.AS400MessageList;
  */
 public class CmdCommandCall extends Command {
 
-    static {
+    {
         setNameAndDescription("commandcall", "/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{commandstring} : execute a CL command");
     }
 

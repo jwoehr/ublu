@@ -48,7 +48,7 @@ import java.util.logging.Level;
  */
 public class CmdSystem extends Command {
 
-    static {
+    {
         setNameAndDescription("system", "/1 [-to datasink] -from datasink | ~@{ system command } : execute a system command");
     }
 

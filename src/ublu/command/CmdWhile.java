@@ -38,7 +38,7 @@ import java.util.logging.Level;
  */
 public class CmdWhile extends Command {
 
-    static {
+    {
         setNameAndDescription("WHILE", "/4 ~@whiletrue $[ cmd .. ]$ : WHILE @whiletrue iterate over block");
     }
 

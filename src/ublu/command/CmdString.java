@@ -47,7 +47,7 @@ import ublu.util.Utils;
  */
 public class CmdString extends Command {
 
-    static {
+    {
         setNameAndDescription("string",
                 "/0 [-to datasink] [--,-string ~@{lopr}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} ~@{n} | -cat ~@{string1} ~@{string2} | -charat ~@{intoffset} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@{intoffset} ~@{intend} | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] : string operations");
     }

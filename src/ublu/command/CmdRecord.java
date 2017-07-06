@@ -50,7 +50,7 @@ import ublu.util.Tuple;
  */
 public class CmdRecord extends Command {
 
-    static {
+    {
         setNameAndDescription("record",
                 "/0 [-to @var] [--,-record ~@record] [ -getfmt | -getcontents | -getfield ~@{index} | -getfieldbyname ~@{fieldname} | -getfields | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.");
     }

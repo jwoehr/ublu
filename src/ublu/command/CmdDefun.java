@@ -43,7 +43,7 @@ import java.util.logging.Level;
  */
 public class CmdDefun extends Command {
 
-    static {
+    {
         setNameAndDescription("defun", "/2? [[-define] | [-list] | [-show name]] name tuplename | define a function from a name and a functor");
     }
 

@@ -53,7 +53,7 @@ import ublu.util.Tuple;
  */
 public class CmdFile extends Command {
 
-    static {
+    {
         setNameAndDescription("file",
                 "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray | -refresh] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }

@@ -44,7 +44,7 @@ import java.util.logging.Level;
  */
 public class CmdUser extends Command {
 
-    static {
+    {
         setNameAndDescription("user",
                 "/3? [-as400 @as400] [--,-user ~@user] [-to datasink]  [-userprofile ~@{username}] [-enable | -disable | -new,-instance | -query ~@{property} | -refresh ] system userid password : manipulate user profile");
     }

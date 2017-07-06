@@ -36,7 +36,7 @@ import java.util.logging.Level;
  */
 public class CmdInterpret extends Command {
 
-    static {
+    {
         setNameAndDescription("interpret", "/0 [-block $[ block ...]$] : run the interpreter, possibly on a provided block");
     }
 

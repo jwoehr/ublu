@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdSmapi extends Command {
 
-    static {
+    {
         setNameAndDescription("smapi",
                 "/2? [-to @var] ~@host ~@{funcname} [~@{parm} [~{@parm} ..]] : make a smapi call to a host");
     }

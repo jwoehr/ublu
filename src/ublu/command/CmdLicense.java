@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdLicense extends Command {
 
-    static {
+    {
         setNameAndDescription("license", "/0 : [-to (@)datasink] : show software license");
     }
 

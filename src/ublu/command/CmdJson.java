@@ -53,7 +53,7 @@ import ublu.util.Generics.ThingArrayList;
  */
 public class CmdJson extends Command {
 
-    static {
+    {
         setNameAndDescription("json",
                 "/0 [-from datasink] [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [-addkey ~@key ~@object] | [ -at ~@{index} ~@object] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index}] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] [-remove ~@{key}] : create and unpack JSON");
     }

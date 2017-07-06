@@ -60,7 +60,7 @@ import javax.management.openmbean.CompositeDataSupport;
  */
 public class CmdJMX extends Command {
 
-    static {
+    {
         setNameAndDescription("jmx",
                 "/0 [-from datasink] [-to datasink] [--,-jmx @jmx_instance] [-obj @obj_instance] [-protocol ~@rmi|iop|?] [-host ~@hostname|hostip] [-port ~@portnum] [-url ~@/remainder_of_url] [-role ~@${ rolename }$ ] [-password ~@${ password }$] [-connect | -close | -new,-instance | -get ~@${}domain ~@${}type ~@${}name | -attrib ~@${ attribute }$ | -attribs ~@${ attrib attrib ... }$ | -cdi ~@attribute | -datakey ~@attribute ~@key | -mbeaninfo |-query [ names | mbeans | class classname]] : perform JMX access to a JVM");
     }

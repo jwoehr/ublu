@@ -45,7 +45,7 @@ import ublu.util.CimUbluHelper;
  */
 public class CmdCimi extends Command {
 
-    static {
+    {
         setNameAndDescription("cimi", "/0 [-to datasink] [--,-cimi @ciminstance] [-class | -classname | -hashcode | -keys | -key ~@{keyname} | -properties | -propint ~@{intindex} | -propname ~@{name} | -path] : manipulate CIM Instances");
 
     }

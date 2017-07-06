@@ -52,7 +52,7 @@ import ublu.util.Tuple;
  */
 public class CmdConst extends Command {
 
-    static {
+    {
         setNameAndDescription("const",
                 "/2? [-to datasink] [-list | -create | -save | -restore | -merge ] *name ~@{value} : create a constant value");
     }

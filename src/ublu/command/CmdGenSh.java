@@ -45,7 +45,7 @@ import java.util.logging.Level;
  */
 public class CmdGenSh extends Command {
 
-    static {
+    {
         setNameAndDescription("gensh",
                 "/5+ [-to datasink] [-strictPosix] [[-path fullyqualifiedjarpath] [-includepath ~@${searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate launcher shell script");
     }

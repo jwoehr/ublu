@@ -47,7 +47,7 @@ import ublu.util.Autonome;
  */
 public class CmdTuple extends Command {
 
-    static {
+    {
         setNameAndDescription("tuple", "/0 [-assign targetname ~@valuesource | -delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub @subname ~@tuple |  -type ~@tuple | -typename ~@tuple | -map | -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on tuple variables");
     }
 
