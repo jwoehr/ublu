@@ -8,7 +8,6 @@ System
 * Optimization
 	* Commands
 		* setNameAndDescription() static
-		* inNameAndDescription() applied
 
 1.1.7 2017-07-05
 -----
