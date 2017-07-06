@@ -212,7 +212,7 @@ public class CmdDq extends Command {
                         try {
                             myDq.clear();
                         } catch (IllegalObjectTypeException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -220,7 +220,7 @@ public class CmdDq extends Command {
                         try {
                             myDq.create(dqMaxLen);
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectAlreadyExistsException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error creating dataqueue " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error creating dataqueue " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -228,7 +228,7 @@ public class CmdDq extends Command {
                         try {
                             myDq.delete();
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | IllegalObjectTypeException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error deleting dataqueue " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error deleting dataqueue " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -236,7 +236,7 @@ public class CmdDq extends Command {
                         try {
                             put(myDq.exists());
                         } catch (IllegalObjectTypeException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -244,7 +244,7 @@ public class CmdDq extends Command {
                         try {
                             put(myDq);
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting dataqueue instance " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error putting dataqueue instance " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -252,7 +252,7 @@ public class CmdDq extends Command {
                         try {
                             put(myDq.peek(waitSeconds));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
-                            getLogger().log(Level.SEVERE, "Error peeking dataqueue instance " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error peeking dataqueue instance " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -300,7 +300,7 @@ public class CmdDq extends Command {
                         try {
                             put(myDq.read(waitSeconds));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
-                            getLogger().log(Level.SEVERE, "Error peeking reading instance " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error peeking reading instance " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -308,7 +308,7 @@ public class CmdDq extends Command {
                         try {
                             myDq.write(dataToWrite);
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | IllegalObjectTypeException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error writing to data queue " + myDq.getName() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error writing to data queue " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;

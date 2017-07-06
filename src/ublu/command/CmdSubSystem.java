@@ -241,7 +241,7 @@ public class CmdSubSystem extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Error assigning private pool to subsystem " + subsystem + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error assigning private pool to subsystem " + subsystem + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -267,7 +267,7 @@ public class CmdSubSystem extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Error assigning shared pool to subsystem " + subsystem + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error assigning shared pool to subsystem " + subsystem + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -300,7 +300,7 @@ public class CmdSubSystem extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Error creating subsystem " + subsystem + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error creating subsystem " + subsystem + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -317,7 +317,7 @@ public class CmdSubSystem extends Command {
                                 subsystem.create();
                             }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectAlreadyExistsException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error creating subsystem " + subsystem + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error creating subsystem " + subsystem + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
@@ -333,7 +333,7 @@ public class CmdSubSystem extends Command {
                         try {
                             subsystem.delete();
                         } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Error deleting subsystem " + subsystem + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error deleting subsystem " + subsystem + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {

@@ -105,7 +105,7 @@ public class CmdAsk extends Command {
                 try {
                     put(s);
                 } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                    getLogger().log(Level.SEVERE, "Could not put response \"" + s + "\" in " + getNameAndDescription(), ex);
+                    getLogger().log(Level.SEVERE, "Could not put response \"" + s + "\"" + inNameAndDescription(), ex);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
             } else { // Not console
@@ -124,7 +124,7 @@ public class CmdAsk extends Command {
                     try {
                         put(getInterpreter().getInputStreamBufferedReader().readLine());
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Could not either get or put response with prompt " + prompt + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Could not either get or put response with prompt " + prompt + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                 }

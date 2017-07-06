@@ -397,7 +397,7 @@ public class CmdRs extends Command {
                         try {
                             put(myRs.getResultSet().getBytes(index));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or put bytes for column index " + index + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or put bytes for column index " + index + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -478,7 +478,7 @@ public class CmdRs extends Command {
                         try {
                             put(myRs.getResultSet().getObject(index));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + index + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + index + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -492,7 +492,7 @@ public class CmdRs extends Command {
                         try {
                             put(myRs.getResultSet().getObject(fieldLabel));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + fieldLabel + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not get or put Object for column index " + fieldLabel + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -522,7 +522,7 @@ public class CmdRs extends Command {
                                         if (getCommandResult() == COMMANDRESULT.FAILURE) {
                                             getLogger().log(Level.SEVERE, "Could not get or write Blob from "
                                                     + index == null ? ("label " + fieldLabel) : (" index " + index)
-                                                            + " in " + getNameAndDescription());
+                                                            + inNameAndDescription());
                                             setCommandResult(COMMANDRESULT.FAILURE);
                                         }
                                         break;
@@ -566,7 +566,7 @@ public class CmdRs extends Command {
 //                                }
 //                            }
 //                        } catch (SQLException | IOException ex) {
-//                            getLogger().log(Level.SEVERE, "Could not get or write Blob to file from index " + index + " in " + getNameAndDescription(), ex);
+//                            getLogger().log(Level.SEVERE, "Could not get or write Blob to file from index " + index + inNameAndDescription(), ex);
 //                            setCommandResult(COMMANDRESULT.FAILURE);
 //                        }
 //                    }

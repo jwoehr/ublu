@@ -218,7 +218,7 @@ public class CmdCallJava extends Command {
         try {
             c = Class.forName(className);
         } catch (ClassNotFoundException ex) {
-            getLogger().log(Level.SEVERE, "No such class " + className + " in " + getNameAndDescription(), ex);
+            getLogger().log(Level.SEVERE, "No such class " + className + inNameAndDescription(), ex);
             setCommandResult(COMMANDRESULT.FAILURE);
         }
         return c;

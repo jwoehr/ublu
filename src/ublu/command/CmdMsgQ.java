@@ -294,7 +294,7 @@ public class CmdMsgQ extends Command {
                             try {
                                 remove(mq, messageKey);
                             } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.SEVERE, "Error removing message " + messageKey + " in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Error removing message " + messageKey + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
@@ -307,7 +307,7 @@ public class CmdMsgQ extends Command {
                             try {
                                 mq.remove();
                             } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.SEVERE, "Error removing message " + messageKey + " in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Error removing message " + messageKey + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {

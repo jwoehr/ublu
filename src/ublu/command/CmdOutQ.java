@@ -254,10 +254,10 @@ public class CmdOutQ extends Command {
                     try {
                         outQ.clear(ppl);
                     } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception clearing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception clearing outq " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } catch (ErrorCompletingRequestException ex) {
-                        getLogger().log(Level.SEVERE, "Exception clearing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception clearing outq " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -276,7 +276,7 @@ public class CmdOutQ extends Command {
                     try {
                         put(outQ.getFloatAttribute(attr_int));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception getting float attribute of " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception getting float attribute of " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -284,7 +284,7 @@ public class CmdOutQ extends Command {
                     try {
                         put(outQ.getIntegerAttribute(attr_int));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception getting integer attribute of " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception getting integer attribute of " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -292,7 +292,7 @@ public class CmdOutQ extends Command {
                     try {
                         put(outQ.getStringAttribute(attr_int));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception getting string attribute of " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception getting string attribute of " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -300,10 +300,10 @@ public class CmdOutQ extends Command {
                     try {
                         outQ.hold();
                     } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception holding outq " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception holding outq " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } catch (ErrorCompletingRequestException ex) {
-                        getLogger().log(Level.SEVERE, "Exception holding outq " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception holding outq " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -311,7 +311,7 @@ public class CmdOutQ extends Command {
                     try {
                         put(outQ);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception holding putting " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception holding putting " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -321,10 +321,10 @@ public class CmdOutQ extends Command {
                     try {
                         outQ.release();
                     } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception releasing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception releasing outq " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } catch (ErrorCompletingRequestException ex) {
-                        getLogger().log(Level.SEVERE, "Exception releasing outq " + outQ + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception releasing outq " + outQ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;

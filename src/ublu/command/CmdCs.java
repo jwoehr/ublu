@@ -218,7 +218,7 @@ public class CmdCs extends Command {
                             cs = db.getConnection().prepareCall(sql);
                         } catch (SQLException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception preparing call of SQL " + sql + " in " + getNameAndDescription(), ex);
+                                    "Encountered an exception preparing call of SQL " + sql + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {

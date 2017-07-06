@@ -110,7 +110,7 @@ public class CmdDesktop extends Command {
                         try {
                             Desktop.getDesktop().browse(new URI(uri));
                         } catch (URISyntaxException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Exception launching browser on URI " + uri + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Exception launching browser on URI " + uri + inNameAndDescription(), ex);
                         }
                         break;
                     case MAIL:
@@ -124,7 +124,7 @@ public class CmdDesktop extends Command {
                         try {
                             Desktop.getDesktop().mail(new URI(uri));
                         } catch (URISyntaxException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Exception launching mailer on URI " + uri + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Exception launching mailer on URI " + uri + inNameAndDescription(), ex);
                         }
                         break;
                 }

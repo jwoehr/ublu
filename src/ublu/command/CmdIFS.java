@@ -764,7 +764,7 @@ public class CmdIFS extends Command {
             try {
                 ifsFile.renameTo(result);
             } catch (IOException | PropertyVetoException ex) {
-                getLogger().log(Level.SEVERE, "Exception renaming " + ifsFile.getAbsolutePath() + " in " + getNameAndDescription(), ex);
+                getLogger().log(Level.SEVERE, "Exception renaming " + ifsFile.getAbsolutePath() + inNameAndDescription(), ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
         }

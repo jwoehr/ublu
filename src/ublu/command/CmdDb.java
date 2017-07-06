@@ -413,7 +413,7 @@ public class CmdDb extends Command {
                         try {
                             getDb().connect(system, getPort(), database, getConnectionProperties(), userid, password);
                         } catch (ClassNotFoundException | SQLException ex) {
-                            getLogger().log(Level.SEVERE, "Could not connect to " + system + " " + database + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Could not connect to " + system + " " + database + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }

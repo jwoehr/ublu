@@ -580,7 +580,7 @@ public class CmdFile extends Command {
                             aS400File.open(openType, blockingFactor, commitLockLevel);
                         } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException | PropertyVetoException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception opening AS400File " + aS400File + " in " + getNameAndDescription(), ex);
+                                    "Encountered an exception opening AS400File " + aS400File + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -594,7 +594,7 @@ public class CmdFile extends Command {
                             aS400File.close();
                         } catch (AS400Exception | AS400SecurityException | InterruptedException | IOException ex) {
                             getLogger().log(Level.SEVERE,
-                                    "Encountered an exception closing AS400File " + aS400File + " in " + getNameAndDescription(), ex);
+                                    "Encountered an exception closing AS400File " + aS400File + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }

@@ -212,7 +212,7 @@ public class CmdJob extends Command {
                         try {
                             myJob.end(delay);
                         } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error ending Job " + myJob.getName() + " " + myJob.getNumber() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error ending Job " + myJob.getName() + " " + myJob.getNumber() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -228,7 +228,7 @@ public class CmdJob extends Command {
                         try {
                             put(myJob.getSystem());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error fetching system object from the job " + myJob + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error fetching system object from the job " + myJob + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -236,7 +236,7 @@ public class CmdJob extends Command {
                         try {
                             myJob.hold(holdSpooledFiles);
                         } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Error holding job " + myJob + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error holding job " + myJob + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -268,7 +268,7 @@ public class CmdJob extends Command {
                         try {
                             myJob.release();
                         } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Error holding job " + myJob + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error holding job " + myJob + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;

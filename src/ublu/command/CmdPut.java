@@ -133,7 +133,7 @@ public class CmdPut extends Command {
             try {
                 put(number);
             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                getLogger().log(Level.SEVERE, "Could not put number " + number + " in " + getNameAndDescription(), ex);
+                getLogger().log(Level.SEVERE, "Could not put number " + number + inNameAndDescription(), ex);
             }
         } else {
             switch (getDataSrc().getType()) {

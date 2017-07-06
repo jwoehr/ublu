@@ -149,7 +149,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Byte.toUnsignedInt(ba[0]));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -157,7 +157,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Integer.parseInt(theNumber, radix));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -165,7 +165,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Short.parseShort(theNumber, radix));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -173,7 +173,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Double.parseDouble(theNumber));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -181,7 +181,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Long.parseLong(theNumber, radix));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -189,7 +189,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Float.parseFloat(theNumber));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -197,7 +197,7 @@ public class CmdNumber extends Command {
                     try {
                         put(new BigDecimal(theNumber));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -205,7 +205,7 @@ public class CmdNumber extends Command {
                     try {
                         put(Byte.parseByte(theNumber, radix));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;

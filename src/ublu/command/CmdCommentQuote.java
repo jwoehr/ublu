@@ -77,7 +77,7 @@ public class CmdCommentQuote extends Command {
             try {
                 put(quote);
             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                getLogger().log(Level.SEVERE, "Could not put comment quote \"" + quote + "\" in " + getNameAndDescription(), ex);
+                getLogger().log(Level.SEVERE, "Could not put comment quote \"" + quote + "\"" + inNameAndDescription(), ex);
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
         }

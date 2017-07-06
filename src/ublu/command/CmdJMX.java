@@ -296,11 +296,11 @@ public class CmdJMX extends Command {
                             try {
                                 put(oi);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Error putting JMX object instance " + objInstName + " in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Error putting JMX object instance " + objInstName + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } catch (MalformedObjectNameException | InstanceNotFoundException | IOException ex) {
-                            getLogger().log(Level.SEVERE, "Error getting JMX object instance " + objInstName + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error getting JMX object instance " + objInstName + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;

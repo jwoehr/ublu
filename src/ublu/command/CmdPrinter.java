@@ -229,7 +229,7 @@ public class CmdPrinter extends Command {
                         try {
                             put(printer.getFloatAttribute(attr_int));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting float attribute of " + printer + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Exception getting float attribute of " + printer + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -237,7 +237,7 @@ public class CmdPrinter extends Command {
                         try {
                             put(printer.getIntegerAttribute(attr_int));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting integer attribute of " + printer + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Exception getting integer attribute of " + printer + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
@@ -245,7 +245,7 @@ public class CmdPrinter extends Command {
                         try {
                             put(printer.getStringAttribute(attr_int));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception getting string attribute of " + printer + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Exception getting string attribute of " + printer + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;

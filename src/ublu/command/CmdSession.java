@@ -113,7 +113,7 @@ public class CmdSession extends Command {
                     try {
                         sendString = getStringFromDataSrc(argArray);
                     } catch (IOException ex) {
-                        getLogger().log(Level.SEVERE, "Error reading send string from file " + getDataSrc().getName() + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error reading send string from file " + getDataSrc().getName() + inNameAndDescription(), ex);
                     }
                     break;
                 default:

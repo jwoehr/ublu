@@ -216,7 +216,7 @@ public class CmdStreamFile extends Command {
                         try {
                             streamFileHelper.create();
                         } catch (IOException ex) {
-                            getLogger().log(Level.SEVERE, "Error creating " + streamFileHelper.getFile() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error creating " + streamFileHelper.getFile() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -228,7 +228,7 @@ public class CmdStreamFile extends Command {
                         try {
                             put(streamFileHelper.delete());
                         } catch (IOException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error deleting " + streamFileHelper.getFile() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error deleting " + streamFileHelper.getFile() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -240,7 +240,7 @@ public class CmdStreamFile extends Command {
                         try {
                             put(streamFileHelper.rename(renTarg));
                         } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
-                            getLogger().log(Level.SEVERE, "Error renaming " + streamFileHelper.getFile() + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error renaming " + streamFileHelper.getFile() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -300,7 +300,7 @@ public class CmdStreamFile extends Command {
                         try {
                             streamFileHelper.open(StreamFileHelper.MODE.valueOf(openMode));
                         } catch (FileNotFoundException ex) {
-                            getLogger().log(Level.SEVERE, "Error opening " + openMode + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error opening " + openMode + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -312,7 +312,7 @@ public class CmdStreamFile extends Command {
                         try {
                             put(streamFileHelper.query(queryString));
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
-                            getLogger().log(Level.SEVERE, "Error querying " + queryString + " in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error querying " + queryString + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }

@@ -320,13 +320,13 @@ public class CmdSpoolF extends Command {
                                     SpoolFHelper splfh = new SpoolFHelper(mySpooledFile);
                                     remoteCopy = splfh.copy(remoteAS400, null, splfh.defaultPrinterFile(remoteAS400), splfh.defaultOutputQueue(remoteAS400));
                                 } catch (AS400Exception ex) {
-                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + " in " + getNameAndDescription(), ex);
+                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + inNameAndDescription(), ex);
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
-                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + " in " + getNameAndDescription(), ex);
+                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + inNameAndDescription(), ex);
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 } catch (ErrorCompletingRequestException ex) {
-                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + " in " + getNameAndDescription(), ex);
+                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + inNameAndDescription(), ex);
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 }
                                 if (remoteCopy != null) {
@@ -651,7 +651,7 @@ public class CmdSpoolF extends Command {
                     }
                     data = sb.toString().getBytes();
                 } catch (IOException ex) {
-                    getLogger().log(Level.SEVERE, "Exception opening file data source " + filepathspec + " in " + getNameAndDescription(), ex);
+                    getLogger().log(Level.SEVERE, "Exception opening file data source " + filepathspec + inNameAndDescription(), ex);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
                 break;

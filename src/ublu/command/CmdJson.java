@@ -279,7 +279,7 @@ public class CmdJson extends Command {
                                 setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } catch (JSONException ex) {
-                        getLogger().log(Level.SEVERE, "Error creating JSON array from datasrc " + getDataSrc().getName() + " in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error creating JSON array from datasrc " + getDataSrc().getName() + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     if (getCommandResult() != COMMANDRESULT.FAILURE) {

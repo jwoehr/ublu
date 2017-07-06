@@ -301,7 +301,7 @@ public class CmdAS400 extends Command {
                             try {
                                 put(getAs400().isConnectionAlive(serviceInteger));
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, locMsg("Encountered_an_exception") + " " + "querying connection to service " + serviceName + " in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, locMsg("Encountered_an_exception") + " " + "querying connection to service " + serviceName + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
@@ -339,7 +339,7 @@ public class CmdAS400 extends Command {
                             try {
                                 put(getAs400().isConnected(serviceInteger));
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                                getLogger().log(Level.SEVERE, "Exception querying connection to service " + serviceName + " in " + getNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Exception querying connection to service " + serviceName + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
