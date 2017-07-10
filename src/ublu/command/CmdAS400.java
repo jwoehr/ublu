@@ -39,6 +39,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import ublu.util.Generics.StringArrayList;
 
 /**
@@ -267,16 +268,24 @@ public class CmdAS400 extends Command {
                     } else {
                         try {
                             setAs400(instanceAS400(argArray, useSSL));
-                            // set to defaults because they aren't set by JTOpen
-                            // which apparently sets them when services are invoked
-                            // whereas we sometimes look at them in jtopenlite code
-                            // so as to feed redirected ports to CmdMonitor.
-                            getAs400().setServicePortsToDefault();
-                            put(getAs400());
-                        } catch (PropertyVetoException | RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        } catch (PropertyVetoException ex) {
                             getLogger().log(Level.SEVERE,
-                                    locMsg("Encountered_an_exception") + " " + locMsg("putting_the_AS400_object") + " " + getAs400() + " " + locMsg("to_the_destination_datasink") + inNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
+                                    locMsg("Encountered_an_exception") + " " + locMsg("instancing_the_AS400_object") + inNameAndDescription(), ex);
+                        }
+                        if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                            try {
+
+                                // set to defaults because they aren't set by JTOpen
+                                // which apparently sets them when services are invoked
+                                // whereas we sometimes look at them in jtopenlite code
+                                // so as to feed redirected ports to CmdMonitor.
+                                getAs400().setServicePortsToDefault();
+                                put(getAs400());
+                            } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                                getLogger().log(Level.SEVERE,
+                                        locMsg("Encountered_an_exception") + " " + locMsg("putting_the_AS400_object") + " " + getAs400() + " " + locMsg("to_the_destination_datasink") + inNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                     }
                     break;
