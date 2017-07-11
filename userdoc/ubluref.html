@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 5 Jul 2017 21:50:40 UTC">
+  "Tue, 11 Jul 2017 22:27:20 UTC">
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-05</p>
+  Last edit: 2017-07-11</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -241,7 +241,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           <ul>
             <li><a href="#Command_summary">Command summary</a></li>
 
-            <li><tt><a href="#as400">as400</a></tt></li>
+            <li>
+              <tt><a href="#as400">as400</a></tt>
+
+              <ul>
+                <li><a href="#NoteOnSSL">Note on SSL</a></li>
+              </ul>
+            </li>
 
             <li><tt><a href="#ask">ask</a></tt></li>
 
@@ -698,8 +704,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     arguments</em></strong></code></p>
 
     <blockquote>
-      <em><strong>Note</strong>: Windowing support via
-      <code>-w</code> is experimental.</em>
+      <strong>Note</strong>: SSL support for connections to the
+      server requires a slightly different invocation and is
+      discussed <a href="#NoteOnSSL">here</a>.
     </blockquote>
 
     <p>If the <tt>lib</tt> directory is a subdirectory of the
@@ -2111,7 +2118,7 @@ Type help for help. Type license for license. Type bye to exit.
     argument list the same as it was.<br></p>
   </blockquote>
 
-  <h4><a name="as400" id="as400"></a><tt>as400</tt><br></h4>
+  <h4><a name="as400" id="as400"></a><tt>as400</tt></h4>
 
   <blockquote>
     <tt>/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl
@@ -2141,7 +2148,34 @@ Type help for help. Type license for license. Type bye to exit.
     <a href="#Dash_Command">dash-command</a> to many commands so
     that the <i>system</i>, <i>userid</i> and <i>password</i> need
     not be repeated with various commands.<br>
-    <br>
+
+    <p><a name="NoteOnSSL"><strong>Note on SSL</strong>&gt;</a>:
+    Connection to the system can be encrypted via SSL via the
+    -usessl or -ssl dash-commands documented below.</p>
+
+    <ul>
+      <li>You will need to create a keystore and add any trusted
+      certificate to that keystore for any server to which you wish
+      to connect.
+
+        <ul>
+          <li>I use <code><a href=
+          "https://www.openssl.org/">openssl</a> -s_client</code>
+          to grab the certificate.</li>
+        </ul>
+      </li>
+
+      <li>You must launch Ublu with the appropriate Java property
+      pointing to the keystore, e.g <code>java
+      -Djavax.net.ssl.trustStore=/full/path/to/mykeystore -jar
+      /opt/ublu/ublu.jar</code> <em>arguments...</em></li>
+
+      <li>The setup of the keystore is discussed in the IBM Support
+      document <a href=
+      "https://www-304.ibm.com/support/entdocview.wss?uid=nas8N1014468">
+      Setup Instructions for Making Secure Sockets Layer (SSL)
+      Connections with the IBM Toolbox for Java</a>.</li>
+    </ul><br>
     When an <tt>as400</tt> instance is no longer in use but your
     program continues, it is often best to <tt>-disconnect</tt> or
     <tt>-disconnectsvc</tt>.<br>
