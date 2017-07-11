@@ -8,6 +8,8 @@ System
 * Optimization
 	* Commands
 		* inNameAndDescription()
+* Documentation
+	* Explained how to make SSL connection
 
 1.1.7 2017-07-05
 -----
