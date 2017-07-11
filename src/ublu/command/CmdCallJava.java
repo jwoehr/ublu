@@ -86,7 +86,6 @@ public class CmdCallJava extends Command {
         MethodArgPairList margs = new MethodArgPairList();
         String methodName = null;
         String newClassName = null;
-        String className = null;
         String fieldName = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
