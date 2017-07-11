@@ -102,9 +102,14 @@ public class CmdHost extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
             if (hostTuple == null) {
-                hostname = argArray.nextMaybeQuotationTuplePopString();
-                username = argArray.nextMaybeQuotationTuplePopString();
-                password = argArray.nextMaybeQuotationTuplePopString();
+                if (argArray.size() < 3) {
+                    logArgArrayTooShortError(argArray);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                } else {
+                    hostname = argArray.nextMaybeQuotationTuplePopString();
+                    username = argArray.nextMaybeQuotationTuplePopString();
+                    password = argArray.nextMaybeQuotationTuplePopString();
+                }
             } else {
                 host = getHostFromTuple(hostTuple);
                 if (host == null) {
