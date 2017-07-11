@@ -28,7 +28,9 @@
 package ublu;
 
 import com.ibm.as400.access.AS400;
+import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.SecureAS400;
+import java.io.IOException;
 
 /**
  * Extend so we can retrieve the password
@@ -80,4 +82,13 @@ public class SecureAS400Extender extends SecureAS400 {
         super(systemName, userId, password);
         setCachedPassword(password);
     }
+
+//    public static void main(String[] args) throws AS400SecurityException, IOException {
+//        String system = args[0];
+//        String user = args[1];
+//        String password = args[2];
+//        SecureAS400 sa = new SecureAS400(system, user, password);
+//        sa.connectService(AS400.CENTRAL);
+//        System.out.println("Result of connect CENTRAL is: " + sa.isConnected(AS400.CENTRAL));
+//    }
 }
