@@ -47,7 +47,7 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdDq extends Command {
-    
+
     {
         setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
     }
@@ -316,19 +316,19 @@ public class CmdDq extends Command {
                         break;
                 }
             } else {
-                getLogger().log(Level.SEVERE, "Unable to get Job instance in {0}", getNameAndDescription());
+                getLogger().log(Level.SEVERE, "Unable to get Dq instance in {0}", getNameAndDescription());
                 setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return argArray;
     }
-    
+
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return dq(args);
     }
-    
+
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();
