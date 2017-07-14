@@ -50,7 +50,7 @@ import ublu.util.Tuple;
 import ublu.util.Utils;
 
 /**
- * Manipulates an OS400 Object Description
+ * Manipulates an IBM i Data Area
  *
  * @author jwoehr
  */
@@ -106,7 +106,7 @@ public class CmdDataArea extends Command {
     }
 
     /**
-     * retrieve a (filtered) list of OS400 Objects on the system
+     * Operate on a data area
      *
      * @param argArray the remainder of the command stream
      * @return the new remainder of the command stream
