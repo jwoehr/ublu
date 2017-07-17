@@ -2488,9 +2488,9 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="CALL" id="CALL"></a> <tt>CALL</tt></h4>
 
   <blockquote>
-    <tt>/? @tuple ( [@parm] .. ) : Call a functor</tt><br>
+    <tt>/? ~@tuple ( [@parm] .. ) : Call a functor</tt><br>
     The functor to be called was created by <tt><a href=
-    "#FUN">FUN</a></tt> and is stored in <i>@tuple</i>. When the
+    "#FUN">FUN</a></tt> and is stored in <i>~@tuple</i>. When the
     functor was defined, a list of parameter names was provided.
     The substitution list of tuple names to substitute for the
     parameter names when encountered in the functor's <a href=
@@ -2514,7 +2514,7 @@ Type help for help. Type license for license. Type bye to exit.
     ]$</tt><tt><br></tt> <tt>CALL @fun ( )</tt><tt><br>
     <i>zero param functor</i><br></tt> <tt>put -from @fun</tt><br>
     <i><tt>ublu.util.Functor@67ba0609 ( ) $[ put ${ zero param
-    functor }$&nbsp; ]$</tt><br></i><br>
+    functor }$ ]$</tt><br></i><br>
     <i>See also</i> <tt><a href="#defun">defun</a> <a href=
     "#FUN">FUN</a></tt> <a href="#FUNC"><tt>FUNC</tt></a>
   </blockquote>
