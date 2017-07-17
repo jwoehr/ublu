@@ -42,7 +42,7 @@ import java.util.logging.Level;
 public class CmdCall extends Command {
 
     {
-        setNameAndDescription("CALL", "/? @tuple ( [@parm] .. ) : Call a functor");
+        setNameAndDescription("CALL", "/? ~@tuple ( [@parm] .. ) : Call a functor");
     }
 
     /**
@@ -52,30 +52,32 @@ public class CmdCall extends Command {
      * @return what's left of the args
      */
     public ArgArray doCall(ArgArray argArray) {
-        if (!argArray.isNextTupleName()) {
-            getLogger().log(Level.SEVERE, "Need a @tuple name in {0}", getNameAndDescription());
+        Tuple functorTuple = argArray.nextTupleOrPop();
+        if (functorTuple == null) {
+            getLogger().log(Level.SEVERE, "No functor tuple or pop in {0}", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            String tupleName = argArray.next();
-            if (!argArray.peekNext().equals("(")) {
-                getLogger().log(Level.SEVERE, "Need a  ( parameter list ) in {0}", getNameAndDescription());
+            Functor f = functorTuple.value(Functor.class);
+            if (f == null) {
+                getLogger().log(Level.SEVERE, "Can't get FUNctor from tuple {0} in {1}", new Object[]{functorTuple.getKey(), getNameAndDescription()});
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
-                argArray.next(); // discard "("
-                TupleNameList tnl = new Generics.TupleNameList();
-                while (!argArray.peekNext().equals(")")) {
-                    tnl.add(argArray.next());
-                }
-                argArray.next(); // discard ")"
-                Tuple functorTuple = getTuple(tupleName);
-                Object o = functorTuple.getValue();
-                if (!(o instanceof Functor)) {
-                    getLogger().log(Level.SEVERE, "Can''t get FUNctor from tuple {0} in {1}", new Object[]{tupleName, getNameAndDescription()});
+                if (argArray.size() < 2) {
+                    logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
-                    Functor f = Functor.class.cast(o);
-                    // /* Debug */ System.err.println("About to CALL functor " + f.toString());
-                    setCommandResult(getInterpreter().executeFunctor(Functor.class.cast(o), tnl));
+                    if (!argArray.peekNext().equals("(")) {
+                        getLogger().log(Level.SEVERE, "Need a ( parameter list ) in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        argArray.next(); // discard "("
+                        TupleNameList tnl = new Generics.TupleNameList();
+                        while (!argArray.peekNext().equals(")")) {
+                            tnl.add(argArray.next());
+                        }
+                        argArray.next(); // discard ")"
+                        setCommandResult(getInterpreter().executeFunctor(f, tnl));
+                    }
                 }
             }
         }
@@ -83,7 +85,8 @@ public class CmdCall extends Command {
     }
 
     @Override
-    public ArgArray cmd(ArgArray args) {
+    public ArgArray cmd(ArgArray args
+    ) {
         reinit();
         return doCall(args);
     }
