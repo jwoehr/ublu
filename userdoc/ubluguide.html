@@ -15,7 +15,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 5 Jul 2017 17:28:21 UTC">
+  "Mon, 17 Jul 2017 18:25:36 UTC">
 </head>
 
 <body>
@@ -379,23 +379,26 @@
   <h3><a name="Starnix_Installation">Linux/Mac/OpenBSD</a></h3>
 
   <ul>
-    <li>Unzip in <code>/opt/ublu/</code></li>
+    <li>Unzip the Ublu distribution in <code>/opt/ublu/</code></li>
 
     <li>Create config files (like these samples or altered to your
     needs) in <code>~/.config/ublu/</code>
       <pre>
-<em>.config/ublu/goublu.properties</em>
-<code>
+<em>.config/ublu/goublu.properties (assuming you have build and installed <a href="#Goublu">Goublu</a>)</em>
+<code>#Goublu properties
+#Colors, directories, keystores, macros
 BgColorIn=ColorBlack
 FgColorIn=ColorGreen
 BgColorOut=ColorBlack
 FgColorOut=ColorRed
 UbluDir=/opt/ublu
 SaveOutDir=.
-</code>
+JavaOpt=-Djavax.net.ssl.trustStore=/path_to/keystore
+Macro=mysys as400 -to @mysys -usessl MYSYS.COM MYPROFILE mYpAsSw0rD</code>
+<em>... etc.</em>
+
 <em>.config/ublu/ubluwin.properties</em>
-<code>
-#Ublu Windowing Properties
+<code>#Ublu Windowing Properties
 #Sun Jul 02 18:00:59 MDT 2017
 UbluTextAreaBGColor=ff000000
 UbluTextAreaFGColor=e3e90000
@@ -414,8 +417,8 @@ UbluInputAreaFGColor=ff36b80b
     <li>Create aliases e.g., in <code>~/.bash_aliases</code>
       <pre>
 <code>alias ublu='java -jar /opt/ublu/ublu.jar $*'
-alias gu='/home/jax/work/gopath/src/github.com/jwoehr/goublu/main/goublu -g PropsFile=/home/jax/.config/ublu/goublu.properties $*'
-alias gw='ublu -w /home/jax/.config/ublu/ubluwin.properties $*'</code>
+alias gu='$GOPATH/bin/goublu -g PropsFile=/home/me/.config/ublu/goublu.properties $*'
+alias gw='ublu -w /home/me/.config/ublu/ubluwin.properties $*'</code>
 </pre>
     </li>
 
@@ -3272,23 +3275,26 @@ woof</em>
       console</h2>
 
       <p>Goublu is a <a href="http://golang.org/">Go language</a>
-      front end that provides a better console interface to Ublu
-      than the console support provided by Java.</p>
+      front end that launches Ublu and provides a better console
+      interface to the running Ublu instance than the console
+      support provided by Java.</p>
 
       <p>On most platforms, the Java console does not provide
       command line editing nor command line recall. Goublu provides
-      both, along with other features. Goublu is a more congenial
-      environment for interactive Ublu usage. Goublu has some
-      limitations, and "plain" Ublu is better for running Ublu
-      applications.</p>
+      both, along with other features such as macro expansion for
+      commonly used command lines.</p>
+
+      <p>While "plain" Ublu may be better for running Ublu
+      applications, Goublu is a more congenial environment than
+      "plain" Ublu for interactive Ublu usage.</p>
 
       <p>Goublu must be compiled on the specific platform. You can
       install the Go language development environment and follow
       the <a href="https://github.com/jwoehr/goublu">instructions
       to get Goublu and build it</a> on your machine.</p>
 
-      <div align="center"><img src="images/goublu_screenshot.png"
-      width="912" height="659" alt=""></div>
+      <p><img src="images/goublu_screenshot.png" width="1013"
+      height="559" alt="Goublu Screenshot"></p>
 
       <h2><a name="Ublu_as_window">Running Ublu as a
       window</a></h2>
@@ -3332,8 +3338,8 @@ woof</em>
         windowing mode.</li>
       </ul>
 
-      <div align="center"><img src="images/ubluwin.jpg" width=
-      "1058" height="455" alt="Windowing Ublu"></div>
+      <p><img src="images/ubluwin.jpg" width="1058" height="455"
+      alt="Windowing Ublu"></p>
 
       <p>I use the following properties file
       <code>$HOME/.config/ublu/ubluwin.properties</code> on
@@ -3360,8 +3366,8 @@ UbluInputAreaFGColor=ff36b80b</code>
       $HOME/.config/ublu/ubluwin.properties</code> Ublu looks like
       this:</p>
 
-      <div align="center"><img src="images/ubluprops.png" width=
-      "1057" height="659" alt=""></div>
+      <p><img src="images/ubluprops.png" width="1057" height="659"
+      alt=""></p>
 
       <p><font size="+2"><strong>!!</strong></font> Windowing Ublu,
       you may wish to set <code>props -set signon.handler.type
