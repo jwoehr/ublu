@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 14 Jul 2017 05:03:09 UTC">
+  "Mon, 17 Jul 2017 16:32:20 UTC">
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-14</p>
+  Last edit: 2017-07-17</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2160,8 +2160,13 @@ Type help for help. Type license for license. Type bye to exit.
 
         <ul>
           <li>I use <code><a href=
-          "https://www.openssl.org/">openssl</a> -s_client</code>
-          to grab the certificate.</li>
+          "https://www.openssl.org/">openssl</a> s_client -connect
+          example.com</code> to display the certificate and
+          copy-and-paste it to <code>example.cer</code></li>
+
+          <li>I add the certificate to my keystore with
+          <code>keytool -import -alias EXAMPLE -file example.cer
+          -keystore /full/path/to/mykeystore</code></li>
         </ul>
       </li>
 
