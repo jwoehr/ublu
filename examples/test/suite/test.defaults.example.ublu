@@ -1,9 +1,13 @@
 # test.defaults.example.ublu
+# Configuration file
 # Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
-# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-put -to @t_default.system MYSYSTEM
-put -to @t_default.userprof MYUSERPROF
-put -to @t_default.password MYPASSWORD
+const *test_server MYSYSTEM
+const *test_userprof MYUSERPROF
+const *test_password MYPASSWORD
+const *test_library MYLIB
+const *test_record_file_1 RECFILE1
+const *test_record_file_2 RECFILE2

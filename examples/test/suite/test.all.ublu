@@ -1,12 +1,12 @@
 # test.all.ublu
 # Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
-# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
 # Main function
 # Takes filepath for defaults used in tests
-# See test.defaults.example.ublu and customize to your setu
+# See test.defaults.example.ublu and customize to your setup
 FUNC test.all ( test_defaults_filepath ) $[
     
     # Customize to your setup
