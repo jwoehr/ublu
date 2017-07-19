@@ -10,7 +10,7 @@
 
 # Assumes the parent dir of the examples and extensions directories
 # is in the include path e.g., java -Dublu.include.path=/opt/ublu ...
-include examples/listsrc.ublu
+include ../../../examples/listsrc.ublu
 
 # t.record ( @@work_dir @@outfile )
 # ... work_dir - where tests can create files and leave them
@@ -18,6 +18,5 @@ include examples/listsrc.ublu
 FUNC t.record ( work_dir outfile ) $[
     LOCAL @sys
     as400 -to @sys -ssl @ssl *t_server *t_userprof *t_userprof
-    
-    
+    put ${ that's as far as test goes for record! }$
 ]$

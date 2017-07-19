@@ -84,7 +84,7 @@ FUNC test.all ( test_defaults_filepath work_dir outfile ) $[
     \\ ${ include t.programcall.ublu t.programcall ( @@work_dir @@outfile ) }$     \\ ${ test programcall }$		
     \\ ${ include t.props.ublu t.props ( @@work_dir @@outfile ) }$     \\ ${ test props }$		
     \\ ${ include t.put.ublu t.put ( @@work_dir @@outfile ) }$     \\ ${ test put }$		
-    \\ ${ include t.record.ublu t.record ( @@work_dir @@outfile ) }$     \\ ${ test record }$		
+    include t.record.ublu t.record ( @@work_dir @@outfile )     \\ ${ test record }$		
     \\ ${ include t.rs.ublu t.rs ( @@work_dir @@outfile ) }$     \\ ${ test rs }$		
     \\ ${ include t.savf.ublu t.savf ( @@work_dir @@outfile ) }$     \\ ${ test savf }$		
     \\ ${ include t.savef.ublu t.savef ( @@work_dir @@outfile ) }$     \\ ${ test savef }$		
