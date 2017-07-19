@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 17 Jul 2017 16:32:20 UTC">
+  "Wed, 19 Jul 2017 04:25:11 UTC">
 </head>
 
 <body>
@@ -59,7 +59,7 @@
   </table>
 
   <p>Author: Jack J. Woehr<br>
-  Original date: 2013-07-11<br>
+  Original date: 2013-07-19<br>
   Last edit: 2017-07-17</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -7640,8 +7640,10 @@ PF
       length to <i>line_length</i>. The formatting applies to the
       help text from its initial indent onwards, so total line
       length for individual command help and for <tt>-all</tt>
-      output will be greater than the <i>line_length</i>
-      value.</li>
+      output will be greater than the <i>line_length</i> value. In
+      the absence of this dash-command, the line length is set by
+      the property <code>ublu.usage.linelength</code>. See <a href=
+      "#props">props</a>.</li>
     </ul>
 
     <p>Same as <a href="#usage"><tt>usage</tt></a>.</p>
@@ -11973,6 +11975,47 @@ PF
             <td valign="top"><tt>NONE</tt><br></td>
 
             <td valign="top"><tt>SSL</tt><br></td>
+          </tr>
+
+          <tr>
+            <td valign="top"><tt>ublu.includepath</tt><br></td>
+
+            <td valign="top">
+              <p>Consists of colon-separated path elements
+              indicating the path of included files which are
+              specified as relative paths.</p>
+
+              <p>This property is imported at startup from the
+              System properties provided by Java if it is set.</p>
+
+              <p>See <a href="#include"><tt>include</tt></a>.</p>
+            </td>
+
+            <td valign="top">none<br></td>
+
+            <td valign="top"><em>colon-separated paths such as</em>
+            <tt>/opt/ublu/examples:/opt/ublu/extensions</tt><br></td>
+          </tr>
+
+          <tr>
+            <td valign="top">
+            <tt>ublu.usage.linelength</tt><br></td>
+
+            <td valign="top">
+              <p>A value such as 80 which indicates the length at
+              which to break lines delivered by usage/help
+              descriptions of Ublu commands.</p>
+
+              <p>This property is imported at startup from the
+              System properties provided by Java if it is set.</p>
+
+              <p>See <a href="#usage"><tt>usage</tt></a>.</p>
+            </td>
+
+            <td valign="top"><tt>80</tt><br></td>
+
+            <td valign="top"><em>a reasonable value of character
+            width, e.g.,</em> <tt>100</tt><br></td>
           </tr>
         </tbody>
       </table><br>

@@ -5,11 +5,14 @@ All rights reserved.
 1.1.8
 -----
 System
-* Optimization
-	* Commands
-		* inNameAndDescription()
+* Optimizations
+    * various
 * Documentation
-	* Explained how to make SSL connection 
+    * Explained how to make SSL connection 
+    * Guide enhanced
+* Commands
+    * props picks up System property ublu.usage.linelength at startup
+    * usage/help honors property ublu.usage.linelength
 
 1.1.7 2017-07-05
 -----

@@ -32,6 +32,7 @@ import ublu.util.ArgArray;
 import ublu.util.Functor;
 import ublu.util.Generics;
 import java.util.Set;
+import java.util.logging.Level;
 import ublu.util.Utils;
 
 /**
@@ -49,12 +50,13 @@ public class CmdUsage extends Command {
         setNameAndDescription("help or usage", "/0 [[-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
     }
 
+    private int linelength;
+
     /**
      * 0-arity ctor
      */
     public CmdUsage() {
     }
-    int linelength = 80;
 
     /**
      * Create a string describing usage of the program.
@@ -86,6 +88,7 @@ public class CmdUsage extends Command {
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
+        setLineLength();
         String cmdName = null;
         boolean longmsg = false;
         while (args.hasDashCommand()) {
@@ -137,6 +140,15 @@ public class CmdUsage extends Command {
         sb.append('\t')
                 .append(Utils.breakLines(cmd.getCommandDescription(), linelength, 1, 0));
         return sb.toString();
+    }
+
+    private void setLineLength() {
+        try {
+            linelength = Integer.parseInt(getInterpreter().getProperty("ublu.usage.linelength", "80").trim());
+        } catch (NumberFormatException ex) {
+            getLogger().log(Level.WARNING, "Invalid value for property ublu.linelength");
+            linelength = 80;
+        }
     }
 
     @Override
