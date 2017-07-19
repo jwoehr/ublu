@@ -6,7 +6,7 @@
 # See the Ublu license (BSD-2 open source)
 
 # Assumes called from an includer of test_utils.ublu
-# e.g., test_all.ublu
+# e.g., test.all.ublu
 
 const *t_server MYSYSTEM
 const *t_userprof MYUSERPROF
