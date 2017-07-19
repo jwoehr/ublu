@@ -12,14 +12,17 @@
 # ... work_dir - where tests can create files and leave them
 # ... outfile - the report file from the tests
 
-
+# Assumes it is run from example/test/suite
       
 FUNC test.all ( test_defaults_filepath work_dir outfile ) $[
 
-    include -s test_utils.ublu
+    include test_utils.ublu
     
-    # Customize to your setup
-    include -s @@test_defaults_filepath
+    \\ ${ Customize to your setup }$
+    include @@test_defaults_filepath
+    
+    \\ ${ Display our consts }$
+    IF @showconst THEN $[ const -list ]$
     
     \\ ${ include t.as400.ublu t.as400 ( @@work_dir @@outfile ) }$     \\ ${ test as400 }$		
     \\ ${ include t.ask.ublu t.ask ( @@work_dir @@outfile ) }$     \\ ${ test ask }$		

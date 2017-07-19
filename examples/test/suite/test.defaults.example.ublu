@@ -15,8 +15,8 @@ const *t_library MYLIB
 const *t_sourcepf MYSRCPF
 const *t_sourcembr MYSRCMBR
 
+# Using ssl is of course the default.
 tuple -true @ssl 
-
 
 # FQP to a source pf mbr for t_record.ublu
 fqp_file ( *t_library *t_sourcepf )
@@ -25,3 +25,7 @@ const *t_record_source_mbr_fqp ~
 
 const *t_record_file_1 RECFILE1
 const *t_record_file_2 RECFILE2
+
+# Should we show all our consts?
+# Remember, this includes the password.
+tuple -false @showconst
