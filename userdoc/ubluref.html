@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 19 Jul 2017 04:25:11 UTC">
+  "Wed, 19 Jul 2017 14:20:05 UTC">
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-17</p>
+  Last edit: 2017-07-19</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -526,12 +526,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <p>The Java command line <tt>java ublu.Ublu</tt> [args ...]
   invokes an extensible object-disoriented interpretive language
-  named Ublu intended for interaction between any Java platform on
-  the one hand, and OS400 (IBM i Series OS &#174;) and IBM z/VM
-  &#174; SMAPI operations programming on the other. The language is
+  named Ublu intended for interaction between any Java platform
+  (<strong>Java 7</strong> and above) on the one hand, and OS400
+  (IBM i Series OS &#174; 5.4 and above) and/or IBM z/VM &#174;
+  SMAPI operations programming on the other. The language is
   <a href="#TASK">multithreaded</a> and offers a <a href=
   "#Server_mode">client-server</a> mode. It also possesses a
-  built-in single-step <a href="#Debugger">debugger</a>.<br></p>
+  built-in single-step <a href="#Debugger">debugger</a>.</p>
+
+  <p>"Any Java platform (<strong>Java 7</strong> and above)"
+  includes running natively on IBM i. When executing Ublu
+  interpretively on IBM i, a character set including the
+  <strong><code>@</code></strong> sign must be set, e.g., CCSID
+  37.</p>
 
   <ul>
     <li>Access to the i Series OS server is implemented via the
@@ -551,6 +558,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <a href="https://github.com/tn5250j">tn5250j</a> (see the
     <a href="#tn5250">tn5250</a> command).</li>
   </ul>
+
+  <p>Other open source software is used to provide other
+  facilities, see the <a href="#usage"><code>usage</code></a>
+  command and license files in the root directory of the
+  distribution.</p>
 
   <p>"<a name="Object-disoriented" id=
   "Object-disoriented"></a><b>Object-disoriented</b>" means that
@@ -574,8 +586,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <li>as an interpreter</li>
 
-    <li>as a text file program executor via the <tt><a href=
-    "#include">include</a></tt> command</li>
+    <li>as a text file program compiler/executor via the
+    <tt><a href="#include">include</a></tt> command</li>
 
     <li>As a TCP/IP port listening server</li>
   </ol>
