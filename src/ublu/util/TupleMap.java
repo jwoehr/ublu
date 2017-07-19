@@ -162,7 +162,7 @@ public class TupleMap extends LinkedHashMap<String, Tuple> {
         return result;
     }
 
-    Tuple putValueToNew(String key, Object value) {
+    private Tuple putValueToNew(String key, Object value) {
         Tuple t = new Tuple(key, value);
         put(key, t);
         return t;
