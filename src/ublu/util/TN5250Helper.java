@@ -117,7 +117,6 @@ public class TN5250Helper extends Thread {
     public void run() {
         StringArrayList sal = new StringArrayList(system);
         sal.addAll(args);
-        String sel = "Ublu";
         my5250 = new My5250();
         /* Debug */ System.out.println("args to tn5250 : " + args);
         LangTool.init();
