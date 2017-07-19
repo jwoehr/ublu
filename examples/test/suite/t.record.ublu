@@ -8,8 +8,7 @@
 # Assumes called from an includer of test.defaults.ublu
 # e.g., test_all.ublu
 
-# Assumes the parent dir of the examples and extensions directories
-# is in the include path e.g., java -Dublu.include.path=/opt/ublu ...
+# Assumes residing in examples/test/suite
 include ../../../examples/listsrc.ublu
 
 # t.record ( @@work_dir @@outfile )
