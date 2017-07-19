@@ -1,0 +1,23 @@
+# t.record.ublu
+# Component of test.all ( )
+# Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Assumes called from an includer of test.defaults.ublu
+# e.g., test_all.ublu
+
+# Assumes the parent dir of the examples and extensions directories
+# is in the include path e.g., java -Dublu.include.path=/opt/ublu ...
+include examples/listsrc.ublu
+
+# t.record ( @@work_dir @@outfile )
+# ... work_dir - where tests can create files and leave them
+# ... outfile - the report file from the tests
+FUNC t.record ( work_dir outfile ) $[
+    LOCAL @sys
+    as400 -to @sys -ssl @ssl *t_server *t_userprof *t_userprof
+    
+    
+]$

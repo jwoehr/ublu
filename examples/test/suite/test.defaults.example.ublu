@@ -5,9 +5,23 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-const *test_server MYSYSTEM
-const *test_userprof MYUSERPROF
-const *test_password MYPASSWORD
-const *test_library MYLIB
-const *test_record_file_1 RECFILE1
-const *test_record_file_2 RECFILE2
+# Assumes called from an includer of test_utils.ublu
+# e.g., test_all.ublu
+
+const *t_server MYSYSTEM
+const *t_userprof MYUSERPROF
+const *t_password MYPASSWORD
+const *t_library MYLIB
+const *t_sourcepf MYSRCPF
+const *t_sourcembr MYSRCMBR
+
+tuple -true @ssl 
+
+
+# FQP to a source pf mbr for t_record.ublu
+fqp_file ( *t_library *t_sourcepf )
+fqp_mbr ( ~ *t_sourcembr )
+const *t_record_source_mbr_fqp ~
+
+const *t_record_file_1 RECFILE1
+const *t_record_file_2 RECFILE2

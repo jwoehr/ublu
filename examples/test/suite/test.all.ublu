@@ -7,98 +7,107 @@
 # Main function
 # Takes filepath for defaults used in tests
 # See test.defaults.example.ublu and customize to your setup
-FUNC test.all ( test_defaults_filepath ) $[
+# test.all ( test_defaults_filepath work_dir outfile )
+# ... test_defaults_filepath - path to configuration file for tests
+# ... work_dir - where tests can create files and leave them
+# ... outfile - the report file from the tests
+
+
+      
+FUNC test.all ( test_defaults_filepath work_dir outfile ) $[
+
+    include -s test_utils.ublu
     
     # Customize to your setup
     include -s @@test_defaults_filepath
     
-    \\ ${ include t.as400.ublu t.as400 ( ) }$     \\ ${ test as400 }$		
-    \\ ${ include t.ask.ublu t.ask ( ) }$     \\ ${ test ask }$		
-    \\ ${ include t.BREAK.ublu t.BREAK ( ) }$     \\ ${ test BREAK }$		
-    \\ ${ include t.bye.ublu t.bye ( ) }$     \\ ${ test bye }$		
-    \\ ${ include t.CALL.ublu t.CALL ( ) }$     \\ ${ test CALL }$		
-    \\ ${ include t.calljava.ublu t.calljava ( ) }$     \\ ${ test calljava }$
-    \\ ${ include t.cim.ublu t.cim ( ) }$     \\ ${ test cim }$
-    \\ ${ include t.cimi.ublu t.cimi ( ) }$     \\ ${ test cimi }$
-    \\ ${ include t.collection.ublu t.collection ( ) }$     \\ ${ test collection }$		
-    \\ ${ include t.commandcall.ublu t.commandcall ( ) }$     \\ ${ test commandcall }$		
-    \\ ${ include t.const.ublu t.const ( ) }$     \\ ${ test const }$		
-    \\ ${ include t.cs.ublu t.cs ( ) }$     \\ ${ test cs }$		
-    \\ ${ include t.db.ublu t.db ( ) }$     \\ ${ test db }$		
-    \\ ${ include t.dbug.ublu t.dbug ( ) }$     \\ ${ test dbug }$		
-    \\ ${ include t.defun.ublu t.defun ( ) }$     \\ ${ test defun }$		
-    \\ ${ include t.dict.ublu t.dict ( ) }$     \\ ${ test dict }$		
-    \\ ${ include t.DO.ublu t.DO ( ) }$     \\ ${ test DO }$		
-    \\ ${ include t.dpoint.ublu t.dpoint ( ) }$     \\ ${ test dpoint }$		
-    \\ ${ include t.dq.ublu t.dq ( ) }$     \\ ${ test dq }$		
-    \\ ${ include t.dta.ublu t.dta ( ) }$     \\ ${ test dta }$		
-    \\ ${ include t.ELSE.ublu t.ELSE ( ) }$     \\ ${ test ELSE }$		
-    \\ ${ include t.eval.ublu t.eval ( ) }$     \\ ${ test eval }$		
-    \\ ${ include t.exit.ublu t.exit ( ) }$     \\ ${ test exit }$		
-    \\ ${ include t.file.ublu t.file ( ) }$     \\ ${ test file }$		
-    \\ ${ include t.FOR.ublu t.FOR ( ) }$     \\ ${ test FOR }$		
-    \\ ${ include t.ftp.ublu t.ftp ( ) }$     \\ ${ test ftp }$		
-    \\ ${ include t.FUN.ublu t.FUN ( ) }$     \\ ${ test FUN }$		
-    \\ ${ include t.FUNC.ublu t.FUNC ( ) }$     \\ ${ test FUNC }$		
-    \\ ${ include t.gensh.ublu t.gensh ( ) }$     \\ ${ test gensh }$		
-    \\ ${ include t.help.ublu t.help ( ) }$     \\ ${ test help }$
-    \\ ${ include t.histlog.ublu t.histlog ( ) }$     \\ ${ test histlog }$		
-    \\ ${ include t.history.ublu t.history ( ) }$     \\ ${ test history }$	
-    \\ ${ include t.host.ublu t.host ( ) }$     \\ ${ test host }$		
-    \\ ${ include t.IF.ublu t.IF ( ) }$     \\ ${ test IF }$		
-    \\ ${ include t.ifs.ublu t.ifs ( ) }$     \\ ${ test ifs }$		
-    \\ ${ include t.include.ublu t.include ( ) }$     \\ ${ test include }$		
-    \\ ${ include t.interpret.ublu t.interpret ( ) }$     \\ ${ test interpret }$		
-    \\ ${ include t.jmx.ublu t.jmx ( ) }$     \\ ${ test jmx }$		
-    \\ ${ include t.job.ublu t.job ( ) }$     \\ ${ test job }$		
-    \\ ${ include t.joblist.ublu t.joblist ( ) }$     \\ ${ test joblist }$		
-    \\ ${ include t.joblog.ublu t.joblog ( ) }$     \\ ${ test joblog }$		
-    \\ ${ include t.jrnl.ublu t.jrnl ( ) }$     \\ ${ test jrnl }$		
-    \\ ${ include t.json.ublu t.json ( ) }$     \\ ${ test json }$		
-    \\ ${ include t.jvm.ublu t.jvm ( ) }$     \\ ${ test jvm }$		
-    \\ ${ include t.LOCAL.ublu t.LOCAL ( ) }$     \\ ${ test LOCAL }$		
-    \\ ${ include t.license.ublu t.license ( ) }$     \\ ${ test license }$		
-    \\ ${ include t.lifo.ublu t.lifo ( ) }$     \\ ${ test lifo }$		
-    \\ ${ include t.list.ublu t.list ( ) }$     \\ ${ test list }$		
-    \\ ${ include t.monitor.ublu t.monitor ( ) }$     \\ ${ test monitor }$		
-    \\ ${ include t.msg.ublu t.msg ( ) }$     \\ ${ test msg }$		
-    \\ ${ include t.msgq.ublu t.msgq ( ) }$     \\ ${ test msgq }$		
-    \\ ${ include t.num.ublu t.num ( ) }$     \\ ${ test num }$		
-    \\ ${ include t.objlist.ublu t.objlist ( ) }$     \\ ${ test objlist }$		
-    \\ ${ include t.objdesc.ublu t.objdesc ( ) }$     \\ ${ test objdesc }$		
-    \\ ${ include t.outq.ublu t.outq ( ) }$     \\ ${ test outq }$		
-    \\ ${ include t.ppl.ublu t.ppl ( ) }$     \\ ${ test ppl }$		
-    \\ ${ include t.printer.ublu t.printer ( ) }$     \\ ${ test printer }$		
-    \\ ${ include t.programcall.ublu t.programcall ( ) }$     \\ ${ test programcall }$		
-    \\ ${ include t.props.ublu t.props ( ) }$     \\ ${ test props }$		
-    \\ ${ include t.put.ublu t.put ( ) }$     \\ ${ test put }$		
-    \\ ${ include t.record.ublu t.record ( ) }$     \\ ${ test record }$		
-    \\ ${ include t.rs.ublu t.rs ( ) }$     \\ ${ test rs }$		
-    \\ ${ include t.savf.ublu t.savf ( ) }$     \\ ${ test savf }$		
-    \\ ${ include t.savef.ublu t.savef ( ) }$     \\ ${ test savef }$		
-    \\ ${ include t.savesys.ublu t.savesys ( ) }$     \\ ${ test savesys }$		
-    \\ ${ include t.server.ublu t.server ( ) }$     \\ ${ test server }$		
-    \\ ${ include t.session.ublu t.session ( ) }$     \\ ${ test session }$
-    \\ ${ include t.sleep.ublu t.sleep ( ) }$     \\ ${ test sleep }$		
-    \\ ${ include t.smapi.ublu t.smapi ( ) }$     \\ ${ test smapi }$		
-    \\ ${ include t.sock.ublu t.sock ( ) }$     \\ ${ test sock }$		
-    \\ ${ include t.spoolf.ublu t.spoolf ( ) }$     \\ ${ test spoolf }$		
-    \\ ${ include t.spoolflist.ublu t.spoolflist ( ) }$     \\ ${ test spoolflist }$		
-    \\ ${ include t.string.ublu t.string ( ) }$     \\ ${ test string }$		
-    \\ ${ include t.subsys.ublu t.subsys ( ) }$     \\ ${ test subsys }$		
-    \\ ${ include t.SWITCH.ublu t.SWITCH ( ) }$     \\ ${ test SWITCH }$		
-    \\ ${ include t.system.ublu t.system ( ) }$     \\ ${ test system }$		
-    \\ ${ include t.sysval.ublu t.sysval ( ) }$     \\ ${ test sysval }$		
-    \\ ${ include t.TASK.ublu t.TASK ( ) }$     \\ ${ test TASK }$		
-    \\ ${ include t.test.ublu t.test ( ) }$     \\ ${ test test }$		
-    \\ ${ include t.thread.ublu t.thread ( ) }$     \\ ${ test thread }$		
-    \\ ${ include t.THEN.ublu t.THEN ( ) }$     \\ ${ test THEN }$		
-    \\ ${ include t.THROW.ublu t.THROW ( ) }$     \\ ${ test THROW }$		
-    \\ ${ include t.tn5250.ublu t.tn5250 ( ) }$     \\ ${ test tn5250 }$		
-    \\ ${ include t.trace.ublu t.trace ( ) }$     \\ ${ test trace }$		
-    \\ ${ include t.TRY.ublu t.TRY ( ) }$     \\ ${ test TRY }$		
-    \\ ${ include t.tuple.ublu t.tuple ( ) }$     \\ ${ test tuple }$		
-    \\ ${ include t.user.ublu t.user ( ) }$     \\ ${ test user }$		
-    \\ ${ include t.userlist.ublu t.userlist ( ) }$     \\ ${ test userlist }$		
-    \\ ${ include t.WHILE.ublu t.WHILE ( ) }$     \\ ${ test WHILE }$
+    \\ ${ include t.as400.ublu t.as400 ( @@work_dir @@outfile ) }$     \\ ${ test as400 }$		
+    \\ ${ include t.ask.ublu t.ask ( @@work_dir @@outfile ) }$     \\ ${ test ask }$		
+    \\ ${ include t.BREAK.ublu t.BREAK ( @@work_dir @@outfile ) }$     \\ ${ test BREAK }$		
+    \\ ${ include t.bye.ublu t.bye ( @@work_dir @@outfile ) }$     \\ ${ test bye }$		
+    \\ ${ include t.CALL.ublu t.CALL ( @@work_dir @@outfile ) }$     \\ ${ test CALL }$		
+    \\ ${ include t.calljava.ublu t.calljava ( @@work_dir @@outfile ) }$     \\ ${ test calljava }$
+    \\ ${ include t.cim.ublu t.cim ( @@work_dir @@outfile ) }$     \\ ${ test cim }$
+    \\ ${ include t.cimi.ublu t.cimi ( @@work_dir @@outfile ) }$     \\ ${ test cimi }$
+    \\ ${ include t.collection.ublu t.collection ( @@work_dir @@outfile ) }$     \\ ${ test collection }$		
+    \\ ${ include t.commandcall.ublu t.commandcall ( @@work_dir @@outfile ) }$     \\ ${ test commandcall }$		
+    \\ ${ include t.const.ublu t.const ( @@work_dir @@outfile ) }$     \\ ${ test const }$		
+    \\ ${ include t.cs.ublu t.cs ( @@work_dir @@outfile ) }$     \\ ${ test cs }$		
+    \\ ${ include t.db.ublu t.db ( @@work_dir @@outfile ) }$     \\ ${ test db }$		
+    \\ ${ include t.dbug.ublu t.dbug ( @@work_dir @@outfile ) }$     \\ ${ test dbug }$		
+    \\ ${ include t.defun.ublu t.defun ( @@work_dir @@outfile ) }$     \\ ${ test defun }$		
+    \\ ${ include t.dict.ublu t.dict ( @@work_dir @@outfile ) }$     \\ ${ test dict }$		
+    \\ ${ include t.DO.ublu t.DO ( @@work_dir @@outfile ) }$     \\ ${ test DO }$		
+    \\ ${ include t.dpoint.ublu t.dpoint ( @@work_dir @@outfile ) }$     \\ ${ test dpoint }$		
+    \\ ${ include t.dq.ublu t.dq ( @@work_dir @@outfile ) }$     \\ ${ test dq }$		
+    \\ ${ include t.dta.ublu t.dta ( @@work_dir @@outfile ) }$     \\ ${ test dta }$		
+    \\ ${ include t.ELSE.ublu t.ELSE ( @@work_dir @@outfile ) }$     \\ ${ test ELSE }$		
+    \\ ${ include t.eval.ublu t.eval ( @@work_dir @@outfile ) }$     \\ ${ test eval }$		
+    \\ ${ include t.exit.ublu t.exit ( @@work_dir @@outfile ) }$     \\ ${ test exit }$		
+    \\ ${ include t.file.ublu t.file ( @@work_dir @@outfile ) }$     \\ ${ test file }$		
+    \\ ${ include t.FOR.ublu t.FOR ( @@work_dir @@outfile ) }$     \\ ${ test FOR }$		
+    \\ ${ include t.ftp.ublu t.ftp ( @@work_dir @@outfile ) }$     \\ ${ test ftp }$		
+    \\ ${ include t.FUN.ublu t.FUN ( @@work_dir @@outfile ) }$     \\ ${ test FUN }$		
+    \\ ${ include t.FUNC.ublu t.FUNC ( @@work_dir @@outfile ) }$     \\ ${ test FUNC }$		
+    \\ ${ include t.gensh.ublu t.gensh ( @@work_dir @@outfile ) }$     \\ ${ test gensh }$		
+    \\ ${ include t.help.ublu t.help ( @@work_dir @@outfile ) }$     \\ ${ test help }$
+    \\ ${ include t.histlog.ublu t.histlog ( @@work_dir @@outfile ) }$     \\ ${ test histlog }$		
+    \\ ${ include t.history.ublu t.history ( @@work_dir @@outfile ) }$     \\ ${ test history }$	
+    \\ ${ include t.host.ublu t.host ( @@work_dir @@outfile ) }$     \\ ${ test host }$		
+    \\ ${ include t.IF.ublu t.IF ( @@work_dir @@outfile ) }$     \\ ${ test IF }$		
+    \\ ${ include t.ifs.ublu t.ifs ( @@work_dir @@outfile ) }$     \\ ${ test ifs }$		
+    \\ ${ include t.include.ublu t.include ( @@work_dir @@outfile ) }$     \\ ${ test include }$		
+    \\ ${ include t.interpret.ublu t.interpret ( @@work_dir @@outfile ) }$     \\ ${ test interpret }$		
+    \\ ${ include t.jmx.ublu t.jmx ( @@work_dir @@outfile ) }$     \\ ${ test jmx }$		
+    \\ ${ include t.job.ublu t.job ( @@work_dir @@outfile ) }$     \\ ${ test job }$		
+    \\ ${ include t.joblist.ublu t.joblist ( @@work_dir @@outfile ) }$     \\ ${ test joblist }$		
+    \\ ${ include t.joblog.ublu t.joblog ( @@work_dir @@outfile ) }$     \\ ${ test joblog }$		
+    \\ ${ include t.jrnl.ublu t.jrnl ( @@work_dir @@outfile ) }$     \\ ${ test jrnl }$		
+    \\ ${ include t.json.ublu t.json ( @@work_dir @@outfile ) }$     \\ ${ test json }$		
+    \\ ${ include t.jvm.ublu t.jvm ( @@work_dir @@outfile ) }$     \\ ${ test jvm }$		
+    \\ ${ include t.LOCAL.ublu t.LOCAL ( @@work_dir @@outfile ) }$     \\ ${ test LOCAL }$		
+    \\ ${ include t.license.ublu t.license ( @@work_dir @@outfile ) }$     \\ ${ test license }$		
+    \\ ${ include t.lifo.ublu t.lifo ( @@work_dir @@outfile ) }$     \\ ${ test lifo }$		
+    \\ ${ include t.list.ublu t.list ( @@work_dir @@outfile ) }$     \\ ${ test list }$		
+    \\ ${ include t.monitor.ublu t.monitor ( @@work_dir @@outfile ) }$     \\ ${ test monitor }$		
+    \\ ${ include t.msg.ublu t.msg ( @@work_dir @@outfile ) }$     \\ ${ test msg }$		
+    \\ ${ include t.msgq.ublu t.msgq ( @@work_dir @@outfile ) }$     \\ ${ test msgq }$		
+    \\ ${ include t.num.ublu t.num ( @@work_dir @@outfile ) }$     \\ ${ test num }$		
+    \\ ${ include t.objlist.ublu t.objlist ( @@work_dir @@outfile ) }$     \\ ${ test objlist }$		
+    \\ ${ include t.objdesc.ublu t.objdesc ( @@work_dir @@outfile ) }$     \\ ${ test objdesc }$		
+    \\ ${ include t.outq.ublu t.outq ( @@work_dir @@outfile ) }$     \\ ${ test outq }$		
+    \\ ${ include t.ppl.ublu t.ppl ( @@work_dir @@outfile ) }$     \\ ${ test ppl }$		
+    \\ ${ include t.printer.ublu t.printer ( @@work_dir @@outfile ) }$     \\ ${ test printer }$		
+    \\ ${ include t.programcall.ublu t.programcall ( @@work_dir @@outfile ) }$     \\ ${ test programcall }$		
+    \\ ${ include t.props.ublu t.props ( @@work_dir @@outfile ) }$     \\ ${ test props }$		
+    \\ ${ include t.put.ublu t.put ( @@work_dir @@outfile ) }$     \\ ${ test put }$		
+    \\ ${ include t.record.ublu t.record ( @@work_dir @@outfile ) }$     \\ ${ test record }$		
+    \\ ${ include t.rs.ublu t.rs ( @@work_dir @@outfile ) }$     \\ ${ test rs }$		
+    \\ ${ include t.savf.ublu t.savf ( @@work_dir @@outfile ) }$     \\ ${ test savf }$		
+    \\ ${ include t.savef.ublu t.savef ( @@work_dir @@outfile ) }$     \\ ${ test savef }$		
+    \\ ${ include t.savesys.ublu t.savesys ( @@work_dir @@outfile ) }$     \\ ${ test savesys }$		
+    \\ ${ include t.server.ublu t.server ( @@work_dir @@outfile ) }$     \\ ${ test server }$		
+    \\ ${ include t.session.ublu t.session ( @@work_dir @@outfile ) }$     \\ ${ test session }$
+    \\ ${ include t.sleep.ublu t.sleep ( @@work_dir @@outfile ) }$     \\ ${ test sleep }$		
+    \\ ${ include t.smapi.ublu t.smapi ( @@work_dir @@outfile ) }$     \\ ${ test smapi }$		
+    \\ ${ include t.sock.ublu t.sock ( @@work_dir @@outfile ) }$     \\ ${ test sock }$		
+    \\ ${ include t.spoolf.ublu t.spoolf ( @@work_dir @@outfile ) }$     \\ ${ test spoolf }$		
+    \\ ${ include t.spoolflist.ublu t.spoolflist ( @@work_dir @@outfile ) }$     \\ ${ test spoolflist }$		
+    \\ ${ include t.string.ublu t.string ( @@work_dir @@outfile ) }$     \\ ${ test string }$		
+    \\ ${ include t.subsys.ublu t.subsys ( @@work_dir @@outfile ) }$     \\ ${ test subsys }$		
+    \\ ${ include t.SWITCH.ublu t.SWITCH ( @@work_dir @@outfile ) }$     \\ ${ test SWITCH }$		
+    \\ ${ include t.system.ublu t.system ( @@work_dir @@outfile ) }$     \\ ${ test system }$		
+    \\ ${ include t.sysval.ublu t.sysval ( @@work_dir @@outfile ) }$     \\ ${ test sysval }$		
+    \\ ${ include t.TASK.ublu t.TASK ( @@work_dir @@outfile ) }$     \\ ${ test TASK }$		
+    \\ ${ include t.test.ublu t.test ( @@work_dir @@outfile ) }$     \\ ${ test test }$		
+    \\ ${ include t.thread.ublu t.thread ( @@work_dir @@outfile ) }$     \\ ${ test thread }$		
+    \\ ${ include t.THEN.ublu t.THEN ( @@work_dir @@outfile ) }$     \\ ${ test THEN }$		
+    \\ ${ include t.THROW.ublu t.THROW ( @@work_dir @@outfile ) }$     \\ ${ test THROW }$		
+    \\ ${ include t.tn5250.ublu t.tn5250 ( @@work_dir @@outfile ) }$     \\ ${ test tn5250 }$		
+    \\ ${ include t.trace.ublu t.trace ( @@work_dir @@outfile ) }$     \\ ${ test trace }$		
+    \\ ${ include t.TRY.ublu t.TRY ( @@work_dir @@outfile ) }$     \\ ${ test TRY }$		
+    \\ ${ include t.tuple.ublu t.tuple ( @@work_dir @@outfile ) }$     \\ ${ test tuple }$		
+    \\ ${ include t.user.ublu t.user ( @@work_dir @@outfile ) }$     \\ ${ test user }$		
+    \\ ${ include t.userlist.ublu t.userlist ( @@work_dir @@outfile ) }$     \\ ${ test userlist }$		
+    \\ ${ include t.WHILE.ublu t.WHILE ( @@work_dir @@outfile ) }$     \\ ${ test WHILE }$
 ]$

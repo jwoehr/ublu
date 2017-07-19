@@ -1,0 +1,23 @@
+# test_utils.ublu
+# Utilities for:
+# Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# fqp_file ( library filename )
+# push ifs fqp from library and filename
+FUNC fqp_file ( library filename ) $[
+  string -to ~ -cat /QSYS.LIB/ @@library
+  ~ -to ~ -cat .LIB/
+  ~ -to ~ -cat @@filename
+  ~ -to ~ -cat .FILE
+]$
+
+#  fqp_mbr ( fqp_file mbrname )
+# push ifs fqp from file fqp and membername 
+FUNC fqp_mbr ( fqp_file mbrname ) $[
+    string -to ~ -cat @@fqp_file /
+    ~ -to ~ -cat @@mbrname
+    ~ -to ~ -cat .MBR
+]$
