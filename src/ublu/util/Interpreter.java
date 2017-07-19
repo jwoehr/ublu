@@ -1352,7 +1352,11 @@ public class Interpreter {
                         input = getIncludeFileBufferedReader().readLine();
                         if (isParsingString() || isParsingBlock()) {
                             if (isPrompting()) {
-                                outputerrln(input);
+                                if (isGoubluing() || isWindowing()) {
+                                    outputln(input);
+                                } else {
+                                    outputerrln(input);
+                                }
                             }
                         }
                     }
