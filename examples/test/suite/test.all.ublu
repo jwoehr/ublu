@@ -16,10 +16,10 @@
       
 FUNC test.all ( test_defaults_filepath work_dir outfile ) $[
 
-    include test_utils.ublu
+    include -s test_utils.ublu
     
     \\ ${ Customize to your setup }$
-    include @@test_defaults_filepath
+    include -s @@test_defaults_filepath
     
     \\ ${ Display our consts }$
     IF @showconst THEN $[ const -list ]$
