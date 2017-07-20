@@ -247,6 +247,8 @@ public class GenSh {
     private String genUsageDescriptions() {
         StringBuilder sb = new StringBuilder();
         sb.append("echo \"\t").append("-h").append("\t\t").append("display this help message and exit 0").append("\"\n");
+        sb.append("echo \"\t").append("-D some.property=\"some value\"").append("\t").append("pass a property to the JVM (can be used many times)").append("\"\n");
+        sb.append("echo \"\t").append("-X xOpt").append("\t\t").append("pass a -X option to the JVM (can be used many times)").append("\"\n");
         for (Option option : optionArrayList) {
             sb.append("echo \"\t")
                     .append(option.optionAndParam())
@@ -306,7 +308,7 @@ public class GenSh {
             sb.append(option.getOptionChar())
                     .append(':');
         }
-        sb.append("h");
+        sb.append("D:X:h");
         sb.append(" the_opt");
         return sb.toString();
     }
@@ -320,7 +322,8 @@ public class GenSh {
         for (Option option : optionArrayList) {
             sb.append(option.getKshopt()).append('\n');
         }
-        sb.append("\t\th)\tusage;exit 0;;\n");
+        sb.append("\t\tD)\tJVMPROPS=\"${JVMPROPS} -D${OPTARG}\";;\n");
+        sb.append("\t\tX)\tJVMOPTS=\"${JVMOPTS} -X${OPTARG}\";;\n");
         sb.append("\t\t[?])\tusage;exit 2;;\n");
         return sb.toString();
     }
@@ -368,7 +371,8 @@ public class GenSh {
 
     private String genInvocation() {
         StringBuilder sb = new StringBuilder("# Invocation\n");
-        sb.append("java -Dublu.includepath=\"")
+        sb.append("java${JVMOPTS}${JVMPROPS} ")
+                .append("-Dublu.includepath=\"")
                 .append(includePath)
                 .append("\" -jar ")
                 .append(fqJarPath)
