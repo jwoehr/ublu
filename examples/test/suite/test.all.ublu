@@ -15,7 +15,8 @@
 # Assumes it is run from example/test/suite
       
 FUNC test.all ( test_defaults_filepath work_dir outfile ) $[
-
+    LOCAL @testsys
+    
     include -s test_utils.ublu
     
     \\ ${ Customize to your setup }$
@@ -23,7 +24,9 @@ FUNC test.all ( test_defaults_filepath work_dir outfile ) $[
     
     \\ ${ Display our consts }$
     IF @showconst THEN $[ const -list ]$
-    
+      
+    as400 -to @testsys -ssl @ssl *t_server *t_userprof *t_password   
+     
     \\ ${ include t.as400.ublu t.as400 ( @@work_dir @@outfile ) }$     \\ ${ test as400 }$		
     \\ ${ include t.ask.ublu t.ask ( @@work_dir @@outfile ) }$     \\ ${ test ask }$		
     \\ ${ include t.BREAK.ublu t.BREAK ( @@work_dir @@outfile ) }$     \\ ${ test BREAK }$		

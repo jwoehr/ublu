@@ -5,8 +5,7 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# Assumes called from an includer of test.defaults.ublu
-# e.g., test_all.ublu
+# Assumes called from test.all.ublu using the upper local @testsys
 
 # Assumes residing in examples/test/suite
 include ../../../examples/listsrc.ublu
@@ -15,7 +14,11 @@ include ../../../examples/listsrc.ublu
 # ... work_dir - where tests can create files and leave them
 # ... outfile - the report file from the tests
 FUNC t.record ( work_dir outfile ) $[
-    LOCAL @sys
-    as400 -to @sys -ssl @ssl *t_server *t_userprof *t_userprof
+    LOCAL @sys LOCAL @tmpfile
+    put -to ~ @@work_dir
+    ~ -to ~ -cat /t.record.listsrc.txt
+    put -to @tmpfile ~
+    put @tmpfile
+    listsrcToLocalFile ( @testsys *t_record_source_mbr_fqp @tmpfile )
     put ${ that's as far as test goes for record! }$
 ]$

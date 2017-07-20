@@ -8,6 +8,7 @@
 # Assumes called from an includer of test_utils.ublu
 # e.g., test.all.ublu
 
+const *t_paradigm /some/dir/path
 const *t_server MYSYSTEM
 const *t_userprof MYUSERPROF
 const *t_password MYPASSWORD
