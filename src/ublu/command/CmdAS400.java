@@ -50,7 +50,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-nodefault] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -152,6 +152,7 @@ public class CmdAS400 extends Command {
         String aspGroup = "";
         String curLib = "";
         String libList = "";
+        boolean defaultServicePorts = true;
         boolean useSSL = false;
         boolean useSockets = false;
         boolean useNetSockets = false;
@@ -217,6 +218,9 @@ public class CmdAS400 extends Command {
                 case "-svcportdefault":
                     operation = OPERATIONS.SVCPORTDEFAULT;
                     break;
+                case "-nodefault":
+                    defaultServicePorts = false;
+                    break;
                 case "-proxy":
                     operation = OPERATIONS.PROXY;
                     proxyServer = argArray.nextMaybeQuotationTuplePopString();
@@ -273,12 +277,16 @@ public class CmdAS400 extends Command {
                         }
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
                             try {
-
-                                // set to defaults because they aren't set by JTOpen
+                                if (defaultServicePorts) // defaults to true
+                                // Set to defaults because they aren't set by JTOpen
                                 // which apparently sets them when services are invoked
                                 // whereas we sometimes look at them in jtopenlite code
                                 // so as to feed redirected ports to CmdMonitor.
-                                getAs400().setServicePortsToDefault();
+                                // However, this is undesirable if application wants to set service ports
+                                // or use native access on IBM i.
+                                {
+                                    getAs400().setServicePortsToDefault();
+                                }
                                 put(getAs400());
                             } catch (RequestNotSupportedException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                                 getLogger().log(Level.SEVERE,

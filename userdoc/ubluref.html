@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 19 Jul 2017 14:20:05 UTC">
+  "Thu, 20 Jul 2017 16:46:59 UTC">
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-19</p>
+  Last edit: 2017-07-20</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -2134,7 +2134,7 @@ Type help for help. Type license for license. Type bye to exit.
 
   <blockquote>
     <tt>/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl
-    ~@tf] [-new,-instance | -alive | -alivesvc
+    ~@tf] [-nodefault] [-new,-instance | -alive | -alivesvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
     | -connectsvc
     ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
@@ -2161,7 +2161,7 @@ Type help for help. Type license for license. Type bye to exit.
     that the <i>system</i>, <i>userid</i> and <i>password</i> need
     not be repeated with various commands.<br>
 
-    <p><a name="NoteOnSSL"><strong>Note on SSL</strong>&gt;</a>:
+    <p><a name="NoteOnSSL"><strong>Note on SSL</strong></a>:
     Connection to the system can be encrypted via SSL via the
     -usessl or -ssl dash-commands documented below.</p>
 
@@ -2214,16 +2214,42 @@ Type help for help. Type license for license. Type bye to exit.
 
     <ul>
       <li><tt>-new,-instance</tt> instances and puts the
-      <tt>as400</tt> instance. <i><tt>-instance</tt> is deprecated,
-      use <tt>-new</tt> instead</i></li>
+      <tt>as400</tt> instance. This is the default operation.
+      <i><tt>-instance</tt> is deprecated, use <tt>-new</tt>
+      instead</i></li>
+
+      <li>
+        <code>-nodefault</code> at instancing time tells Ublu not
+        to set the service ports to defaults. This is necessary in
+        the following cases:
+
+        <ul>
+          <li>your code is running native on IBM i and you wish the
+          code to use local calls instead of socket
+          connectivity</li>
+
+          <li>your code is running native on IBM i and you wish to
+          cause the code to use Unix sockets by subsequently using
+          the dash-command <code>-usesockets</code></li>
+
+          <li>you wish to manually set the service ports (or use
+          the server's portmapper to find the service ports) via
+          the dash-command <code>-svcport</code></li>
+        </ul>Otherwise, the <code>as400</code> command
+        automatically sets the ports to their defaults, after which
+        invocations of <code>-usesockets</code> and
+        <code>-netsockets</code> will cause an exception.
+      </li>
 
       <li><tt>-usessl</tt> indicates connections will be made using
-      Secure Sockets Layer (SSL)</li>
+      Secure Sockets Layer (SSL). This dash-command can only be
+      used at instance creation time (<code>-new</code>).</li>
 
       <li><tt>-ssl ~@tf</tt> indicates connections will be made
       using Secure Sockets Layer (SSL) if the value of the tuple
       (or pop) <i>~@tf</i> is <tt>true</tt> ... any other value
-      means "no SSL".</li>
+      means "no SSL". This dash-command can only be used at
+      instance creation time (<code>-new</code>).</li>
 
       <li>
         <tt>-alive</tt> puts <tt>true</tt> if the as400 instance
@@ -2283,10 +2309,12 @@ Type help for help. Type license for license. Type bye to exit.
       instance from the specified service, one of
       <tt>CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON</tt></li>
 
-      <li><tt>-svcport</tt> sets the TCP port for the specified
-      service for when the port used is not the default port. A
-      value of <tt>-1</tt> for the port number means to use the
-      TCP/IP <tt>portmapper</tt> service to find the port.</li>
+      <li><tt>-svcport
+      ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]}
+      ~@portnum</tt> sets the TCP port for the specified service
+      for when the port used is not the default port. A value of
+      <tt>-1</tt> for the port number means to use the TCP/IP
+      <tt>portmapper</tt> service to find the port.</li>
 
       <li><tt>-setaspgrp</tt> resets the ASP group, the current
       library and the library list.</li>
