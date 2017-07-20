@@ -11,6 +11,7 @@ System
     * Explained how to make SSL connection 
     * Guide enhanced
 * Commands
+	* as400 -nodefault prevents setting service ports at instancing
     * props picks up System property ublu.usage.linelength at startup
     * usage/help honors property ublu.usage.linelength
 
