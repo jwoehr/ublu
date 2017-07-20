@@ -31,6 +31,6 @@ FUNC listsrcToLocalFile ( sys fqp localfqp ) $[
     FOR @i in @recordarray $[
         put -to ~ @i
         ~ -to ~ -nl
-        put -append -to @@localfqp ~
+        put -append -tofile @@localfqp ~
     ]$    
 ]$
