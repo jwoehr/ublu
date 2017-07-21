@@ -239,9 +239,16 @@ public class GenSh {
 
     private String genUsageOptions() {
         StringBuilder sb = new StringBuilder();
-        sb.append("-h").append(' ');
+        sb.append("[-h] [-X...] [-Dprop=val]");
         for (Option option : optionArrayList) {
-            sb.append(option.optionAndParam()).append(' ');
+            sb.append(' ');
+            if (!option.isRequired()) {
+                sb.append("[");
+            }
+            sb.append(option.optionAndParam());
+            if (!option.isRequired()) {
+                sb.append("]");
+            }
         }
         return sb.toString();
     }
@@ -249,8 +256,8 @@ public class GenSh {
     private String genUsageDescriptions() {
         StringBuilder sb = new StringBuilder();
         sb.append("echo \"\t").append("-h").append("\t\t").append("display this help message and exit 0").append("\"\n");
-        sb.append("echo \"\t").append("-D some.property=\\\"some value\\\"").append("\t").append("pass a property to the JVM (can be used many times)").append("\"\n");
         sb.append("echo \"\t").append("-X xOpt").append("\t\t").append("pass a -X option to the JVM (can be used many times)").append("\"\n");
+        sb.append("echo \"\t").append("-D some.property=\\\"some value\\\"").append("\t").append("pass a property to the JVM (can be used many times)").append("\"\n");
         for (Option option : optionArrayList) {
             sb.append("echo \"\t")
                     .append(option.optionAndParam())
@@ -324,6 +331,7 @@ public class GenSh {
         for (Option option : optionArrayList) {
             sb.append(option.getKshopt()).append('\n');
         }
+        sb.append("\t\th)\tusage;exit 0;;\n");
         sb.append("\t\tD)\tJVMPROPS=\"${JVMPROPS} -D${OPTARG}\";;\n");
         sb.append("\t\tX)\tJVMOPTS=\"${JVMOPTS} -X${OPTARG}\";;\n");
         sb.append("\t\t[?])\tusage;exit 2;;\n");
