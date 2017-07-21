@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 20 Jul 2017 23:27:04 UTC">
+  "Fri, 21 Jul 2017 05:33:00 UTC">
 </head>
 
 <body>
@@ -7014,8 +7014,8 @@ PF
     <tt>$ java -jar /opt/ublu/ublu.jar gensh -to foo.sh -optx x
     EXCLUDE @exclude \${ excludes 0 to many things }$ -opt f FIND
     @find \${ finds something }$ -path /opt/ublu/ublu.jar \${
-    myscript.sh ... do something }$ myFunc.ublu \${ myFunc \(
-    @exclude @find \) }$</tt><br>
+    foo.sh ... do something }$ myFunc.ublu \${ myFunc \( @exclude
+    @find \) }$</tt><br>
     <tt>$ ./foo.sh -x this -x that -f foo</tt><br>
     <tt>:: FUNC myFunc ( xclude fnd ) $[</tt><br>
     <tt>($[)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; put -n -s ${
@@ -7063,7 +7063,7 @@ PF
 <span class="syntax0"><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">myscript.sh</span><span class=
+"syntax-COMMENT1">foo.sh</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">...</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -7081,7 +7081,7 @@ PF
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">20</span><span class=
 "syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">17:23:09</span><span class=
+"syntax-COMMENT1">23:24:38</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">MDT</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -7146,7 +7146,7 @@ PF
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">${</span><span class=
 "syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">myscript.sh</span><span class=
+"syntax-COMMENT1">foo.sh</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">...</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -7178,7 +7178,7 @@ PF
 "syntax-COMMENT1">message</span>
 function usage {
 echo <span class="syntax-LITERAL1">"</span><span class=
-"syntax-LITERAL1">myscript</span><span class=
+"syntax-LITERAL1">foo</span><span class=
 "syntax-LITERAL1">.</span><span class=
 "syntax-LITERAL1">sh</span><span class=
 "syntax-LITERAL1"> </span><span class=
@@ -7207,11 +7207,11 @@ echo <span class="syntax-LITERAL1">"</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">20</span><span class=
 "syntax-LITERAL1"> </span><span class=
-"syntax-LITERAL1">17</span><span class=
-"syntax-LITERAL1">:</span><span class=
 "syntax-LITERAL1">23</span><span class=
 "syntax-LITERAL1">:</span><span class=
-"syntax-LITERAL1">09</span><span class=
+"syntax-LITERAL1">24</span><span class=
+"syntax-LITERAL1">:</span><span class=
+"syntax-LITERAL1">38</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">MDT</span><span class=
 "syntax-LITERAL1"> </span><span class=
@@ -7287,9 +7287,10 @@ echo <span class="syntax-LITERAL1">"</span><span class=
 "syntax-LITERAL1">.</span><span class=
 "syntax-LITERAL1">property</span><span class=
 "syntax-LITERAL1">=</span><span class=
-"syntax-LITERAL1">"</span>some value<span class=
-"syntax-LITERAL1">"</span><span class=
-"syntax-LITERAL1">   </span><span class=
+"syntax-LITERAL1">\"some</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">value\"</span><span class=
+"syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">pass</span><span class=
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">a</span><span class=
@@ -7753,7 +7754,7 @@ java<span class="syntax-KEYWORD2">${</span><span class=
 "syntax-KEYWORD2">}</span>myFunc.ublu myFunc \<span class=
 "syntax-OPERATOR">(</span> @exclude @find \<span class=
 "syntax-OPERATOR">)</span> 
-exit <span class="syntax-KEYWORD2">$?</span> </span>
+exit <span class="syntax-KEYWORD2">$?</span></span>
 </pre>
   </blockquote>
 

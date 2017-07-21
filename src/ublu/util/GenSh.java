@@ -247,7 +247,7 @@ public class GenSh {
     private String genUsageDescriptions() {
         StringBuilder sb = new StringBuilder();
         sb.append("echo \"\t").append("-h").append("\t\t").append("display this help message and exit 0").append("\"\n");
-        sb.append("echo \"\t").append("-D some.property=\"some value\"").append("\t").append("pass a property to the JVM (can be used many times)").append("\"\n");
+        sb.append("echo \"\t").append("-D some.property=\\\"some value\\\"").append("\t").append("pass a property to the JVM (can be used many times)").append("\"\n");
         sb.append("echo \"\t").append("-X xOpt").append("\t\t").append("pass a -X option to the JVM (can be used many times)").append("\"\n");
         for (Option option : optionArrayList) {
             sb.append("echo \"\t")
