@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1426,4 +1428,28 @@ public class Generics {
             return sal.toStringArray();
         }
     }
+
+    /**
+     * Map of associative memory objects for user use.
+     *
+     * @see Tuple
+     * @see TupleMap
+     * @author jwoehr
+     */
+    public static class UserTupleMap extends LinkedHashMap<String, Tuple> {
+
+        /**
+         * Display all tuple keys in the local map and global map
+         *
+         * @return string representation of all keys
+         */
+        public String keysAsDisplayString() {
+            StringBuilder sb = new StringBuilder();
+            for (String key : keySet()) {
+                sb.append(key).append(" ");
+            }
+            return sb.toString();
+        }
+    }
+
 }

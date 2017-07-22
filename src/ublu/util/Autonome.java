@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -68,6 +68,7 @@ import ublu.db.ResultSetClosure;
 import ublu.server.Listener;
 import ublu.smapi.Host;
 import ublu.util.Generics.ThingArrayList;
+import ublu.util.Generics.UserTupleMap;
 
 /**
  * Class to provide autonomization of tuple variables, that is, providing Ublu
@@ -133,6 +134,7 @@ public class Autonome {
         AUTONOMY.put(TN5250Helper.class, "tn5250");
         AUTONOMY.put(User.class, "user");
         AUTONOMY.put(UserList.class, "userlist");
+        AUTONOMY.put(UserTupleMap.class, "map");
     }
 
     /**
