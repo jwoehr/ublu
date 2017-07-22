@@ -116,7 +116,7 @@ public class CmdFunc extends Command {
                         logArgArrayTooShortError(argArray);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        String funcName = argArray.next();
+                        String funcName = argArray.nextMaybeQuotationTuplePopStringTrim();
                         FunctorParamList fpl = new FunctorParamList();
                         if (!argArray.peekNext().equals("(")) {
                             getLogger().log(Level.SEVERE, "No parameter list found for {0}", getNameAndDescription());
