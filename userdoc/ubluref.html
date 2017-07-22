@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 21 Jul 2017 05:33:00 UTC">
+  "Sun, 22 Jul 2017 07:33:00 UTC">
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-20</p>
+  Last edit: 2017-07-22</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -347,8 +347,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <li><tt><a href="#list">list</a><br></tt></li>
 
-            <li><a href=
-            "#LOCAL"><tt>LOCAL</tt></a><tt><br></tt></li>
+            <li><a href="#LOCAL"><tt>LOCAL</tt></a></li>
+
+            <li><a href="#usermap"><code>map</code></a></li>
 
             <li><tt><a href="#monitor">monitor</a></tt></li>
 
@@ -1963,7 +1964,8 @@ Type help for help. Type license for license. Type bye to exit.
         "#interpreter_cmd">interpreter</a></tt> <tt><a href=
         "#LOCAL">LOCAL</a></tt><tt><br></tt> <tt><a href=
         "#lifo">lifo</a></tt><tt><br></tt> <tt><a href=
-        "#list">list</a></tt><tt><br></tt> <tt><a href=
+        "#list">list</a></tt><tt><br></tt><a href=
+        "#usermap"><code>map</code></a><tt><br></tt><tt><a href=
         "#props">props</a></tt><tt><br></tt> <tt><a href=
         "#put">put</a></tt><tt><br>
         <!-- <a href="#RETURN">RETURN</a><br>--></tt> <a href=
@@ -10611,18 +10613,69 @@ exit <span class="syntax-KEYWORD2">$?</span>
 </pre>
   </blockquote>
 
+  <h4><a name="usermap"><code>map</code></a></h4>
+
+  <blockquote>
+    <p><code>/0? [--,-map ~@map] [-to datasink] [-new | -&gt;
+    ~@tuple | -clear | -add ~@{key} ~@tuple | -~,-push ~@{key} |
+    -.,-get ~@{key} | -drop ~@{key} | -keys | -size] : create and
+    manipulate maps of tuples</code></p>
+
+    <p>The <code>map</code> command creates and operates on
+    key-value maps of tuples.</p>
+
+    <p><code>map</code> objects are <a href=
+    "#Autonomic_Tuple_Variables">autonomic</a>.</p>
+
+    <p>The <a href="#Dash_Command">dash-commands</a> are as
+    follows:</p>
+
+    <ul>
+      <li><code>-new</code> puts a new tuple map. Store this value
+      in a tuple for later autonomic use or use with <code>map
+      --</code> etc.</li>
+
+      <li><code>-&gt; ~@tuple</code> stores the tuple to the map
+      using the tuple's own name as the key. If the tuple target is
+      an <a target="#Tuple_stack">anonymous tuple popped from the
+      tuple stack</a> this will cause an error.</li>
+
+      <li><code>-clear</code> empties the map.</li>
+
+      <li><code>-add ~@{key} ~@tuple</code> stores the tuple to the
+      map with the given <em>key</em></li>
+
+      <li><code>-~,-push ~@{key}</code> pushes the tuple associated
+      with key <em>key</em> to the tuple stack.</li>
+
+      <li><code>-.,-get ~@{key}</code> <code>put</code>s the tuple
+      associated with key <em>key</em>. The tuple itself, and not
+      its value, is the object of the <code>put</code>.</li>
+
+      <li><code>-drop ~@{key}</code> removes the tuple associated
+      with key <em>key</em> from the map. It does not delete the
+      tuple itself.</li>
+
+      <li><code>-keys</code> <code>put</code>s the Set of keys for
+      the map.</li>
+
+      <li><code>-size</code> <code>put</code>s the number keys in
+      the map.</li>
+    </ul>
+  </blockquote>
+
   <h4><a name="monitor" id="monitor"></a><tt>monitor</tt></h4>
 
   <blockquote>
     <p><tt>/3? [-as400 ~@as400] [-worklib ~@{libname}]
     [-none|-diskstatus|-status|-version|-all] system userid passwd
     : fetch system monitor data and create System Shepherd [TM API]
-    datapoints<br>
-    &nbsp;&nbsp;&nbsp;</tt><br>
-    performs one pass of gathering monitoring data on <i>system</i>
-    on behalf of <i>userid</i> with <i>password</i> and
-    <tt>put</tt>ting the data as System Shepherd [TM Absolute
-    Performance, Inc.] datapoints.<br></p>
+    datapoints</tt></p>
+
+    <p><code>monitor</code> performs one pass of gathering
+    monitoring data on <i>system</i> on behalf of <i>userid</i>
+    with <i>password</i> and <tt>put</tt>ting the data as System
+    Shepherd [TM Absolute Performance, Inc.] datapoints.<br></p>
 
     <ul>
       <li><tt>-none</tt> (we mean none!)</li>
