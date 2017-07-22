@@ -99,6 +99,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>license</KEYWORD2>
         <KEYWORD2>lifo</KEYWORD2>
         <KEYWORD2>list</KEYWORD2>
+        <KEYWORD2>map</KEYWORD2>
         <KEYWORD2>monitor</KEYWORD2>
         <KEYWORD2>msg</KEYWORD2>
         <KEYWORD2>msgq</KEYWORD2>
