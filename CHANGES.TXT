@@ -12,6 +12,7 @@ System
     * Guide enhanced
 * Commands
 	* as400 -nodefault prevents setting service ports at instancing
+	* map creates tuple maps
     * props picks up System property ublu.usage.linelength at startup
     * usage/help honors property ublu.usage.linelength
 
