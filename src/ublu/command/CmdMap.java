@@ -92,6 +92,10 @@ public class CmdMap extends Command {
                     key = argArray.nextMaybeQuotationTuplePopStringTrim();
                     tuple = argArray.nextTupleOrPop();
                     break;
+                case "-drop":
+                    op = OPS.DROP;
+                    key = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
                 case "->":
                     op = OPS.PUT;
                     tuple = argArray.nextTupleOrPop();
