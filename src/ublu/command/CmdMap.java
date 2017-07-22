@@ -48,7 +48,7 @@ import ublu.util.Tuple;
 public class CmdMap extends Command {
 
     {
-        setNameAndDescription("map", "/0? [--,-map ~@map] [-to datasink] [-new | -> ~@tuple | -clear | -add ~@key ~@tuple | -~,-push ~@key | -.,-get ~@key | -drop ~@key | -keys | -size]  : create and manipulate maps of tuples");
+        setNameAndDescription("map", "/0? [--,-map ~@map] [-to datasink] [-new | -> ~@tuple | -clear | -add ~@{key} ~@tuple | -~,-push ~@{key} | -.,-get ~@{key} | -drop ~@{key} | -keys | -size]  : create and manipulate maps of tuples");
     }
 
     private enum OPS {
