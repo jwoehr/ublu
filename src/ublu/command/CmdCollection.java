@@ -99,7 +99,7 @@ public class CmdCollection extends Command {
                     try {
                         put(size);
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Error putting member of Collection in " + getNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Error putting size of Collection in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -109,13 +109,13 @@ public class CmdCollection extends Command {
                         try {
                             put(it.next());
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Error putting member of Collection in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error showing Collection in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
                     break;
                 default:
-                    getLogger().log(Level.SEVERE, "Unahndled operation {0} in {1}", new Object[]{op, getNameAndDescription()});
+                    getLogger().log(Level.SEVERE, "Unhandled operation {0} in {1}", new Object[]{op, getNameAndDescription()});
                     setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
