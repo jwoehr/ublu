@@ -10662,6 +10662,38 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <li><code>-size</code> <code>put</code>s the number keys in
       the map.</li>
     </ul>
+
+    <p><em>Example</em></p>
+    <pre>
+&gt; map -to @m
+&gt; put -to @foo bar
+&gt; put -to @bar woof
+&gt; @m -&gt; @foo
+&gt; @m -&gt; @bar
+&gt; put @m
+<em>{foo=ublu.util.Tuple@4e515669 key="@foo" value="bar", bar=ublu.util.Tuple@17d10166 key="@bar" value="woof"}</em>
+&gt; @m -~ bar
+&gt; put ~
+<em>woof</em>
+&gt; @m -to @tupletuple -. bar
+&gt; put @tupletuple
+<em>ublu.util.Tuple@17d10166 key="@bar" value="woof"</em>
+&gt; put -to ~ @tupletuple
+&gt; put ~
+<em>ublu.util.Tuple@17d10166 key="@bar" value="woof"</em>
+&gt; put -to ~ @tupletuple
+&gt; tuple -value ~
+<em>ublu.util.Tuple@17d10166 key="@bar" value="woof"</em>
+&gt; tuple -to ~ -value @tupletuple
+&gt; put ~
+<em>woof</em>
+&gt; @m -drop foo
+&gt; put -to @xyz ${ this is a test }$
+&gt; @m -add zotz @xyz
+&gt; put @m
+<em>{zotz=ublu.util.Tuple@ee7d9f1 key="@xyz" value="this is a test ", bar=ublu.util.Tuple@17d10166 key="@bar" value="woof"}</em>
+    
+</pre>
   </blockquote>
 
   <h4><a name="monitor" id="monitor"></a><tt>monitor</tt></h4>
