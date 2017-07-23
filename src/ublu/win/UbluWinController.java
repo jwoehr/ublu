@@ -610,6 +610,7 @@ public class UbluWinController {
                 .append("This informational dialog is about windowing Ublu.\n\n")
                 .append("The top larger area is the Ublu text area. Ublu output appears in the text area.\n")
                 .append("You can edit that area, save it, save selections, or cause Ublu to interpret selections.\n")
+                .append("You can use menu items to load files into the text area or include them.\n")
                 .append("See the File menu and Ublu menu options.\n\n")
                 .append("The bottom area is the Ublu input line. Hitting Enter there causes input text to be interpreted.\n")
                 .append("You can edit the input line or move through previous input lines with the up and down arrow keys.\n")
