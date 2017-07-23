@@ -55,13 +55,17 @@ public class CmdFile extends Command {
 
     {
         setNameAndDescription("file",
-                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray | -refresh] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
+                "/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -add ~@{membername} ~@{description} | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds  ~@{ddsPath}  ~@{textDescription} | -createfmt ~@recFormat  ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray | -refresh] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access");
     }
 
     /**
      * The functions performed by the file command
      */
     protected static enum FUNCTIONS {
+        /**
+         * addpfm
+         */
+        ADD,
         /**
          * Instance file object
          */
@@ -206,6 +210,8 @@ public class CmdFile extends Command {
         String lockLevel = null;
         String lockTypeString;
         Integer lockType = null;
+        String pfmName = null;
+        String pfmDesc = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -231,6 +237,11 @@ public class CmdFile extends Command {
                     break;
                 case "-sequential":
                     keyedNotSequential = false;
+                    break;
+                case "-add":
+                    function=FUNCTIONS.ADD;
+                    pfmName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    pfmDesc = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
@@ -387,6 +398,20 @@ public class CmdFile extends Command {
                                     "Encountered an exception putting an AS400File in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
+                    }
+                    break;
+                case ADD:
+                    if (aS400File != null) {
+                        try {
+                            aS400File.addPhysicalFileMember(pfmName,pfmDesc);
+                        } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
+                            getLogger().log(Level.SEVERE,
+                                    "Encountered an exception adding member " + pfmName + " to AS400File in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No AS400File object in {0} to add member.", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
                 case CREATE:
