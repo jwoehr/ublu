@@ -249,6 +249,9 @@ public class UbluWinController {
         }
         ubluFrame.runMe();
         ubluFrame.getUbluPanel().getUbluTextField().requestFocusInWindow();
+        if (!interpreter.getArgArray().isEmpty()) {
+            interpretText(interpreter.getArgArray().toHistoryLine());
+        }
         aboutUblu();
     }
 
