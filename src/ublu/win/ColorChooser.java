@@ -47,9 +47,10 @@ public class ColorChooser extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public ColorChooser(java.awt.Frame parent, boolean modal) {
+    public ColorChooser(java.awt.Frame parent, boolean modal, Color color) {
         super(parent, modal);
         initComponents();
+        jColorChooser1.setColor(color);
     }
 
     /**
@@ -137,7 +138,7 @@ public class ColorChooser extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ColorChooser dialog = new ColorChooser(new javax.swing.JFrame(), true);
+                ColorChooser dialog = new ColorChooser(new javax.swing.JFrame(), true, Color.CYAN);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

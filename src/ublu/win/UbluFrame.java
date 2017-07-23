@@ -165,8 +165,12 @@ public class UbluFrame extends javax.swing.JFrame {
         includeMenuItem = new javax.swing.JMenuItem();
         ubluSelectedMenuItem = new javax.swing.JMenuItem();
         settingsMenu = new javax.swing.JMenu();
-        fontMenuItem = new javax.swing.JMenuItem();
-        backgroundMenuItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        FontsInputMenuItem = new javax.swing.JMenuItem();
+        FontsOutputMenuItem = new javax.swing.JMenuItem();
+        BackgroundsMenu = new javax.swing.JMenu();
+        BackgroundInputMenuItem = new javax.swing.JMenuItem();
+        BackgroundOutputMenuItem = new javax.swing.JMenuItem();
         saveSettingsMenuItem = new javax.swing.JMenuItem();
         loadSettingjMenuItem = new javax.swing.JMenuItem();
         defaultsMenuItem = new javax.swing.JMenuItem();
@@ -271,21 +275,45 @@ public class UbluFrame extends javax.swing.JFrame {
 
         settingsMenu.setText("Settings");
 
-        fontMenuItem.setText("Font");
-        fontMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fontMenuItemActionPerformed(evt);
-            }
-        });
-        settingsMenu.add(fontMenuItem);
+        jMenu1.setText("Fonts");
 
-        backgroundMenuItem.setText("Background");
-        backgroundMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        FontsInputMenuItem.setText("Input");
+        FontsInputMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backgroundMenuItemActionPerformed(evt);
+                FontsInputMenuItemActionPerformed(evt);
             }
         });
-        settingsMenu.add(backgroundMenuItem);
+        jMenu1.add(FontsInputMenuItem);
+
+        FontsOutputMenuItem.setText("Output");
+        FontsOutputMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FontsOutputMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(FontsOutputMenuItem);
+
+        settingsMenu.add(jMenu1);
+
+        BackgroundsMenu.setText("Backgrounds");
+
+        BackgroundInputMenuItem.setText("Input");
+        BackgroundInputMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackgroundInputMenuItemActionPerformed(evt);
+            }
+        });
+        BackgroundsMenu.add(BackgroundInputMenuItem);
+
+        BackgroundOutputMenuItem.setText("Output");
+        BackgroundOutputMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackgroundOutputMenuItemActionPerformed(evt);
+            }
+        });
+        BackgroundsMenu.add(BackgroundOutputMenuItem);
+
+        settingsMenu.add(BackgroundsMenu);
 
         saveSettingsMenuItem.setText("Save Settings");
         saveSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -419,33 +447,6 @@ public class UbluFrame extends javax.swing.JFrame {
         ubluWinController.aboutUblu();
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
-    private void fontMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontMenuItemActionPerformed
-        FontChooser fc = new FontChooser(this, getUbluInputArea().getFont(), getUbluInputArea().getForeground());
-        fc.setVisible(true);
-
-        Font font = fc.getNewFont();
-        if (font != null) {
-            getUbluTextArea().setFont(font);
-            getUbluInputArea().setFont(font);
-            ubluWinController.myWinProps.set("UbluTextAreaFont", getUbluTextArea().getFont().getName());
-            ubluWinController.myWinProps.set("UbluInputAreaFont", getUbluInputArea().getFont().getName());
-            ubluWinController.myWinProps.set("UbluTextAreaFontStyle", Integer.toString(getUbluTextArea().getFont().getStyle()));
-            ubluWinController.myWinProps.set("UbluInputAreaFontStyle", Long.toString(getUbluInputArea().getFont().getStyle()));
-            ubluWinController.myWinProps.set("UbluTextAreaFontSize", Long.toString(getUbluTextArea().getFont().getSize()));
-            ubluWinController.myWinProps.set("UbluInputAreaFontSize", Long.toString(getUbluInputArea().getFont().getSize()));
-        }
-        Color color = fc.getNewColor();
-        if (color != null) {
-            getUbluTextArea().setForeground(color);
-            ubluWinController.myWinProps.set("UbluTextAreaFGColor", Integer.toHexString(color.getRGB()));
-            getUbluInputArea().setForeground(color);
-            ubluWinController.myWinProps.set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
-            getUbluTextArea().setCaretColor(color);
-            getUbluInputArea().setCaretColor(color);
-        }
-        revalidate();
-    }//GEN-LAST:event_fontMenuItemActionPerformed
-
     private void saveSettingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsMenuItemActionPerformed
         try {
             ubluWinController.saveSettingsAs();
@@ -463,25 +464,75 @@ public class UbluFrame extends javax.swing.JFrame {
         revalidate();
     }//GEN-LAST:event_loadSettingsMenuItemActionPerformed
 
-    private void backgroundMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backgroundMenuItemActionPerformed
-        ColorChooser cc = new ColorChooser(this, true);
+    private void defaultsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultsMenuItemActionPerformed
+        ubluWinController.myWinProps.setDefaultWindowingProperties();
+        ubluWinController.restoreSettingsFromProps();
+        revalidate();
+    }//GEN-LAST:event_defaultsMenuItemActionPerformed
+
+    private void FontsInputMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontsInputMenuItemActionPerformed
+        FontChooser fc = new FontChooser(this, getUbluInputArea().getFont(), getUbluInputArea().getForeground());
+        fc.setVisible(true);
+
+        Font font = fc.getNewFont();
+        if (font != null) {
+            getUbluInputArea().setFont(font);
+            ubluWinController.myWinProps.set("UbluInputAreaFont", getUbluInputArea().getFont().getName());
+            ubluWinController.myWinProps.set("UbluInputAreaFontStyle", Long.toString(getUbluInputArea().getFont().getStyle()));
+            ubluWinController.myWinProps.set("UbluInputAreaFontSize", Long.toString(getUbluInputArea().getFont().getSize()));
+        }
+        Color color = fc.getNewColor();
+        if (color != null) {
+            getUbluInputArea().setForeground(color);
+            ubluWinController.myWinProps.set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
+            getUbluInputArea().setCaretColor(color);
+        }
+        revalidate();
+    }//GEN-LAST:event_FontsInputMenuItemActionPerformed
+
+    private void FontsOutputMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontsOutputMenuItemActionPerformed
+        FontChooser fc = new FontChooser(this, getUbluInputArea().getFont(), getUbluInputArea().getForeground());
+        fc.setVisible(true);
+
+        Font font = fc.getNewFont();
+        if (font != null) {
+            getUbluTextArea().setFont(font);
+            ubluWinController.myWinProps.set("UbluTextAreaFont", getUbluTextArea().getFont().getName());
+            ubluWinController.myWinProps.set("UbluTextAreaFontStyle", Integer.toString(getUbluTextArea().getFont().getStyle()));
+            ubluWinController.myWinProps.set("UbluTextAreaFontSize", Long.toString(getUbluTextArea().getFont().getSize()));
+        }
+        Color color = fc.getNewColor();
+        if (color != null) {
+            getUbluTextArea().setForeground(color);
+            ubluWinController.myWinProps.set("UbluTextAreaFGColor", Integer.toHexString(color.getRGB()));
+            getUbluTextArea().setCaretColor(color);
+        }
+        revalidate();
+    }//GEN-LAST:event_FontsOutputMenuItemActionPerformed
+
+    private void BackgroundInputMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackgroundInputMenuItemActionPerformed
+        ColorChooser cc = new ColorChooser(this, true, getUbluInputArea().getBackground());
+        cc.setVisible(true);
+
+        if (cc.ok) {
+            Color color = cc.getColor();
+            getUbluInputArea().setBackground(color);
+            ubluWinController.myWinProps.set("UbluInputAreaBGColor", Integer.toHexString(color.getRGB()));
+        }
+        revalidate();
+    }//GEN-LAST:event_BackgroundInputMenuItemActionPerformed
+
+    private void BackgroundOutputMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackgroundOutputMenuItemActionPerformed
+        ColorChooser cc = new ColorChooser(this, true, getUbluTextArea().getBackground());
         cc.setVisible(true);
 
         if (cc.ok) {
             Color color = cc.getColor();
             getUbluTextArea().setBackground(color);
             ubluWinController.myWinProps.set("UbluTextAreaBGColor", Integer.toHexString(color.getRGB()));
-            getUbluInputArea().setBackground(color);
-            ubluWinController.myWinProps.set("UbluInputAreaBGColor", Integer.toHexString(color.getRGB()));
         }
         revalidate();
-    }//GEN-LAST:event_backgroundMenuItemActionPerformed
-
-    private void defaultsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultsMenuItemActionPerformed
-        ubluWinController.myWinProps.setDefaultWindowingProperties();
-        ubluWinController.restoreSettingsFromProps();
-        revalidate();
-    }//GEN-LAST:event_defaultsMenuItemActionPerformed
+    }//GEN-LAST:event_BackgroundOutputMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -520,15 +571,19 @@ public class UbluFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem BackgroundInputMenuItem;
+    private javax.swing.JMenuItem BackgroundOutputMenuItem;
+    private javax.swing.JMenu BackgroundsMenu;
+    private javax.swing.JMenuItem FontsInputMenuItem;
+    private javax.swing.JMenuItem FontsOutputMenuItem;
     private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem backgroundMenuItem;
     private javax.swing.JMenuItem defaultsMenuItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem fontMenuItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JMenuItem includeMenuItem;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
