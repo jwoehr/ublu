@@ -244,7 +244,7 @@ public class Ublu {
         sb.append("  -i filename [-i filename ..]\tinclude all indicated source files\n");
         sb.append("  -s\t\t\t\tif including, include silently, otherwise startup interpreter silently\n");
         sb.append("  -t [filename, --]\t\topen history file filename or default if --\n");
-        sb.append("  -w [propsfilename]\t\tstart Ublu in a window loading properties from propsfile\n");
+        sb.append("  -w [propsfilename]\t\tstart Ublu in a window [loading properties from propsfile] and execute commands\n");
         sb.append("  -h\t\t\t\tdisplay this help and then exit\n");
         return sb.toString();
     }
