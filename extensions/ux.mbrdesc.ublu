@@ -1,0 +1,71 @@
+# ux.mbrdesc.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Get and explore record file member descriptions.
+
+# A member description list from a member list is pushed to the tuple stack. 
+# Get the member list via the command:
+#   file -- @f -list
+FUNC pushMemberDescriptionList ( memberlist ) $[
+    calljava -method refresh -obj @@memberlist
+    calljava -to ~ -method getMemberDescriptions -obj @@memberlist
+    list -to ~ -source ~
+]$
+
+# Push the value of the specified attribute for the member description.  
+FUNC pushMemberDescriptionValue ( memberdesc attr ) $[
+    LOCAL @intattr
+    num -to @intattr -int @@attr
+    calljava -to ~ -method getValue -obj @@memberdesc -primarg @intattr
+]$
+
+# These are the attributes for pushMemberDescriptionValue
+# Documented in JTOpen javadocs com/ibm/as400/access/MemberDescription.html
+const *ACCESS_PATH_MAINTENANCE  29
+const *ACCESS_PATH_SIZE  15
+const *ACCESS_PATH_SIZE_MULTIPLIER  25
+const *ALLOW_DELETE_OPERATION  34
+const *ALLOW_READ_OPERATION  31
+const *ALLOW_UPDATE_OPERATION  33
+const *ALLOW_WRITE_OPERATION  32
+const *CHANGE_DATE_AND_TIME  17
+const *CREATION_DATE_TIME  6
+const *CURRENT_NUMBER_OF_INCREMENTS  40
+const *CURRENT_NUMBER_OF_RECORDS  13
+const *DATA_SPACE_SIZE  14
+const *DATA_SPACE_SIZE_MULTIPLIER  24
+const *DATE_LAST_USED  22
+const *EXPIRATION_DATE  20
+const *FILE_ATTRIBUTE  4
+const *FILE_NAME  1
+const *INCREMENT_NUMBER_OF_RECORDS  38
+const *INITIAL_NUMBER_OF_RECORDS  37
+const *JOIN_MEMBER  28
+const *LAST_SOURCE_CHANGE_DATE  7
+const *LIBRARY_NAME  2
+const *LOGICAL_FILE  11
+const *MAXIMUM_NUMBER_OF_INCREMENTS  39
+const *MAXIMUM_PERCENT_DELETED_RECORDS_ALLOWED  36
+const *MEMBER_NAME  3
+const *MEMBER_TEXT_DESCRIPTION  8
+const *MEMBER_TEXT_DESCRIPTION_CCSID  26
+const *NUMBER_OF_BASED_ON_PHYICAL_FILE_MEMBERS  16
+const *NUMBER_OF_DAYS_USED  21
+const *NUMBER_OF_DELETED_RECORDS  27
+const *ODP_SHARING  12
+const *RECORD_CAPACITY  41
+const *RECORD_FORMAT_SELECTOR_LIBRARY_NAME  43
+const *RECORD_FORMAT_SELECTOR_PROGRAM_NAME  42
+const *RECORDS_TO_FORCE_A_WRITE  35
+const *REMOTE_FILE  10
+const *RESTORE_DATE_AND_TIME  19
+const *SAVE_DATE_AND_TIME  18
+const *SOURCE_FILE  9
+const *SOURCE_TYPE  5
+const *SQL_FILE_TYPE  30
+const *USE_RESET_DATE  23
+
+# End of file
