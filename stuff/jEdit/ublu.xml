@@ -59,6 +59,7 @@ DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8
         <KEYWORD2>collection</KEYWORD2>
         <KEYWORD2>commandcall</KEYWORD2>
         <KEYWORD2>const</KEYWORD2>
+        <KEYWORD2>cs</KEYWORD2>
         <KEYWORD2>db</KEYWORD2>
         <KEYWORD2>dbug</KEYWORD2>
         <KEYWORD2>defun</KEYWORD2>
