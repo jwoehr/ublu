@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 22 Jul 2017 07:33:00 UTC">
+  "Sun, 23 Jul 2017 22:20:43 UTC">
 </head>
 
 <body>
@@ -60,7 +60,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-22</p>
+  Last edit: 2017-07-23</p>
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
@@ -5787,11 +5787,11 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
   <h4><a name="file"></a> <tt>file</tt></h4>
 
   <blockquote>
-    <tt>/4? [-to datasink ] [--,-file ~@file] [-as400 ~@as400]
-    [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -create
-    ~@{recordLength} ~@{fileType([*DATA|*SOURCE])}
-    ~@{textDescription} | -createdds ~@{ddsPath}
-    ~@{textDescription} | -createfmt ~@recFormat
+    <p><code>/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400]
+    [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -add
+    ~@{membername} ~@{description} | -create ~@{recordLength}
+    ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds
+    ~@{ddsPath} ~@{textDescription} | -createfmt ~@recFormat
     ~@{textDescription} | -commitstart
     ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback |
     -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} |
@@ -5799,33 +5799,42 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     ~@format | -open ~@{R|W|RW} | -close | -list | -pos
     ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read
     ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write
-    ~@record | -writeall ~@recordarray | -refresh]
+    ~@record | -writeall ~@recordarray | -refresh] [-to datasink]
     ~@{/fully/qualified/ifspathname} ~@{system} ~@{user}
-    ~@{password} : record file access</tt><br>
-    <br>
-    The <tt>file</tt> command provides i Series OS record file
-    access.<br>
-    <br>
-    The <tt>/fully/qualified/ifspathname</tt> indicates a file or a
-    member, e.g<br>
+    ~@{password} : record file access</code></p>
+
+    <p>The <tt>file</tt> command provides i Series OS record file
+    access.</p>
+
+    <p>The <tt>/fully/qualified/ifspathname</tt> indicates a file
+    or a member, e.g</p>
 
     <ul>
       <li><tt>/QSYS.LIB/MYLIB.LIB/MYFILE.FILE</tt></li>
 
       <li>
-      <tt>/QSYS.LIB/MYLIB.LIB/MYFILE.FILE/MYMEMBER.MBR</tt></li>
-    </ul>If the <tt>-- @file</tt> or <tt>-file @file</tt> <a href=
+        <tt>/QSYS.LIB/MYLIB.LIB/MYFILE.FILE/MYMEMBR.MBR</tt>
+
+        <ul>
+          <li>The special member names <code>%FIRST%</code> and
+          <code>%LAST%</code> may be used for the member
+          component.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>If the <tt>-- @file</tt> or <tt>-file @file</tt> <a href=
     "#Dash_Command">dash-commands</a> are present, the
     <tt>~@{/fully/qualified/ifspathname} ~@{system} ~@{user}
-    ~@{password}</tt> arguments must be omitted.<br>
-    <br>
-    If the <tt>-- @file</tt> or <tt>-file @file</tt> dash-commands
-    are absent but the <tt>--as400 ~@as400</tt> dash-command is
-    present, the <tt>~@{system} ~@{user} ~@{password}</tt>
-    arguments must be omitted.<br>
-    <br>
-    The basic regimen of the <tt>file</tt> command is as
-    follows:<br>
+    ~@{password}</tt> arguments must be omitted.</p>
+
+    <p>If the <tt>-- @file</tt> or <tt>-file @file</tt>
+    dash-commands are absent but the <tt>--as400 ~@as400</tt>
+    dash-command is present, the <tt>~@{system} ~@{user}
+    ~@{password}</tt> arguments must be omitted.</p>
+
+    <p>The basic regimen of the <tt>file</tt> command is as
+    follows:</p>
 
     <ol>
       <li>Instance a <tt>file</tt> object via <code>-new</code>
@@ -5874,6 +5883,11 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
       command if no other operation is specified (other than
       <tt>[-keyed | -sequential]</tt>). Of course you will wish to
       use <tt>-to @var</tt> to store the resulting object.</li>
+
+      <li><code>-add ~@{membername} ~@{description}</code> adds
+      physical file member <em>membername</em> with description
+      <em>description</em>to the file. The file should not be open
+      at the time.</li>
 
       <li><tt>-create ~@{recordLength}
       ~@{fileType([*DATA|*SOURCE])} ~@{textDescription}</tt>

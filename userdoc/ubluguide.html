@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
   <meta name="generator" content="Bluefish 2.2.7">
-  <meta name="generator" content="Bluefish 2.2.7">
   <meta http-equiv="content-type" content=
   "text/html; charset=us-ascii">
 
@@ -16,7 +15,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 17 Jul 2017 18:25:36 UTC">
+  "Sun, 23 Jul 2017 22:21:06 UTC">
 </head>
 
 <body>
@@ -420,8 +419,19 @@ UbluInputAreaFGColor=ff36b80b
       <pre>
 <code>alias ublu='java -jar /opt/ublu/ublu.jar $*'
 alias gu='$GOPATH/bin/goublu -g PropsFile=/home/me/.config/ublu/goublu.properties $*'
-alias gw='ublu -w /home/me/.config/ublu/ubluwin.properties $*'</code>
+alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar /opt/ublu/ublu.jar -w /home/me/.config/ublu/ubluwin.properties $*'</code>
 </pre>
+
+      <ul>
+        <li><font size="-1">"So why," you ask, "is the keystore
+        path [for <a href="./ubluref.html#NoteOnSSL">SSL
+        connectivity</a>] in the properties file for Goublu and in
+        the alias for windowing Ublu?"<br>
+        The answer is that <a href="#Goublu">Goublu</a> invokes
+        Java to load Ublu internally, whereas the user is directly
+        invoking Java on Ublu in the case of windowing
+        Ublu.</font></li>
+      </ul>
     </li>
 
     <li style="list-style: none; display: inline">
