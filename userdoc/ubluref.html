@@ -10637,7 +10637,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
       <li><code>-&gt; ~@tuple</code> stores the tuple to the map
       using the tuple's own name as the key. If the tuple target is
-      an <a target="#Tuple_stack">anonymous tuple popped from the
+      an <a href="#Tuple_stack">anonymous tuple popped from the
       tuple stack</a> this will cause an error.</li>
 
       <li><code>-clear</code> empties the map.</li>
@@ -12106,14 +12106,14 @@ exit <span class="syntax-KEYWORD2">$?</span>
   <blockquote>
     <tt>/0 [-to datasink] -set ~@${ name }$ ~@${ value }$ | -get
     ~@${ name }$ | -list | -read ~@${filepath}$ | -write
-    ~@${filepath}$ ~@${comment}$ : manage properties</tt><br>
-    <br>
-    The <tt>props</tt> command set properties, lists them, and
-    reads or writes properties files.<br>
-    <br>
-    The interpreter recognizes certain properties and alters its
+    ~@${filepath}$ ~@${comment}$ : manage properties</tt>
+
+    <p>The <tt>props</tt> command set properties, lists them, and
+    reads or writes properties files.</p>
+
+    <p>The interpreter recognizes certain properties and alters its
     behavior accordingly. The list of properties currently
-    recognizes is as follow:<br>
+    recognizes is as follow:</p>
 
     <blockquote>
       <table border="1" width="75%" cellspacing="2" cellpadding=
@@ -12266,8 +12266,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
               <p>See <a href="#usage"><tt>usage</tt></a>.</p>
             </td>
 
-            <td valign="top"><tt>Loaded from system java
-            properties, otherwise 80</tt>.</td>
+            <td valign="top">Loaded from system java properties,
+            otherwise <tt>80</tt>.</td>
 
             <td valign="top"><em>a reasonable value of character
             width, e.g.,</em> <tt>100</tt></td>
