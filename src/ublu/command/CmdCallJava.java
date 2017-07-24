@@ -48,7 +48,7 @@ import java.util.logging.Level;
 public class CmdCallJava extends Command {
 
     {
-        setNameAndDescription("calljava", "/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] | --,-obj ~@object [field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
+        setNameAndDescription("calljava", "/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | --,-obj ~@object [field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
     }
 
     /**
@@ -82,11 +82,12 @@ public class CmdCallJava extends Command {
     public ArgArray cmdCallJava(ArgArray argArray) {
         OPERATIONS op = OPERATIONS.METHOD;
         Object object = null;
-        MethodArgPair marg;
+        MethodArgPair marg = null;
         MethodArgPairList margs = new MethodArgPairList();
         String methodName = null;
         String newClassName = null;
         String fieldName = null;
+        dashcommand:
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -116,6 +117,18 @@ public class CmdCallJava extends Command {
                 case "-primarg":
                     marg = new MethodArgPair(argArray.nextTupleOrPop().getValue());
                     marg.primitize();
+                    margs.add(marg);
+                    break;
+                case "-castarg":
+                    Object o = argArray.nextTupleOrPop().getValue();
+                    String classname = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    try {
+                        marg = new MethodArgPair(o, Class.forName(classname));
+                    } catch (ClassNotFoundException ex) {
+                        getLogger().log(Level.SEVERE, "Class not found: " + classname, ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                        break dashcommand;
+                    }
                     margs.add(marg);
                     break;
                 case "-new":
@@ -156,7 +169,7 @@ public class CmdCallJava extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
-                    
+
                 case METHOD:
                     try {
                         jch = new JavaCallHelper(object, methodName, margs);
@@ -183,7 +196,7 @@ public class CmdCallJava extends Command {
                         }
                     }
                     break;
-                    
+
                 case NEW:
                     try {
                         jch = new JavaCallHelper(Class.forName(newClassName), margs);

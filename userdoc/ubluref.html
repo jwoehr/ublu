@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 23 Jul 2017 22:20:43 UTC">
+  "Mon, 24 Jul 2017 02:05:30 UTC">
 </head>
 
 <body>
@@ -2577,13 +2577,15 @@ Type help for help. Type license for license. Type bye to exit.
   <h4><a name="calljava" id="calljava"></a> <tt>calljava</tt></h4>
 
   <blockquote>
-    <tt>/0 [-to @datasink] -forname ~@{classname} | -class
+    <p><code>/0 [-to @datasink] -forname ~@{classname} | -class
     ~@{classname} [-field ~@{fieldName} | -method ~@{methodname}
-    [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] |
-    -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj
-    [-primarg ..]] | --,-obj ~@object [field ~@{fieldName} |
-    -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg
-    ~@argobj [-primarg ..]] : call Java methods and fields</tt><br>
+    [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]]
+    [-castarg ~@argobj ~@{classname} [-castarg ..]] | -new
+    ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj
+    [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]]
+    | --,-obj ~@object [field ~@{fieldName} | -method
+    ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj
+    [-primarg ..]] : call Java methods and fields</code></p>
 
     <p>The <tt>calljava</tt> command invokes a method or
     constructor in the underlying Java virtual machine or accesses
@@ -2618,7 +2620,8 @@ Type help for help. Type license for license. Type bye to exit.
       instance of the class indicated by the fully-decorated
       classname (e.g., <tt>java.lang.String</tt>) for which a
       constructor is to be called. Provide necessary arguments if
-      any via <code>-arg</code> and/or <code>-primarg</code>.</li>
+      any via <code>-arg</code> and/or <code>-primarg</code> and/or
+      <code>-castarg</code>.</li>
 
       <li><code>-field ~@{fieldName}</code> puts the named field
       for the object or class specified. This
@@ -2648,6 +2651,24 @@ Type help for help. Type license for license. Type bye to exit.
       </li>
 
       <li>
+        <code>-castarg ~@argobj ~@{classname}</code> places an
+        object and an arbitrary class designation in the array to
+        be used in method invocation.
+
+        <ul>
+          <li>This is necessary when a class signature must match
+          exactly. Ublu handles most method calls searching back up
+          the implements/extends chain, but <code>-new</code>
+          expects an exact match, so a superclass or interface must
+          be called out in this fashion.</li>
+
+          <li>Multiple arguments are indicated by multiple usage of
+          <tt>-castarg</tt> in left-to-right order matching the
+          Java method specification.</li>
+        </ul>
+      </li>
+
+      <li>
         <tt>-primarg ~@argobj</tt> places an object and its class
         signature converted to a primitive type in the array to be
         used in method invocation.
@@ -2662,9 +2683,10 @@ Type help for help. Type license for license. Type bye to exit.
               specify that the method signature is for the
               primitive, not the wrapper class.</li>
 
-              <li>To create numbers of specific Java types to match
-              method signatures, use the <a href=
-              "#num"><tt>num</tt></a> command.</li>
+              <li>To create numbers of specific Java types to use
+              with <code>-primarg</code> to match method
+              signatures, use the <a href="#num"><tt>num</tt></a>
+              command.</li>
             </ul>
           </li>
 
@@ -2694,12 +2716,11 @@ Type help for help. Type license for license. Type bye to exit.
     args in order to invoke the <code>main(args [])</code> method
     of a utility class present in JTOpen.</p>
     <pre>
-<span class="syntax0"><span class="gutter">   1 </span><span class=
+<span class="syntax0"><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">clHelp.ublu</span>
-<span class="gutter">   2 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Example</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2720,12 +2741,10 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Extension</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">language</span>
-<span class="gutter">   3 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
-<span class="gutter">   4 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Copyright</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2740,8 +2759,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">Woehr</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">http://www.softwoehr.com</span>
-<span class="gutterH">   5 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">See</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2756,9 +2774,8 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">open</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">source)</span>
-<span class="gutter">   6 </span>
-<span class="gutter">   7 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">clHelp</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2775,8 +2792,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">p</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">)</span><span class="syntax-COMMENT1"> </span>
-<span class="gutter">   8 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">Generate</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2791,8 +2807,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">CL</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">command</span>
-<span class="gutter">   9 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">args</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2807,8 +2822,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">user</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">password</span>
-<span class="gutterH">  10 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">example:</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2826,8 +2840,7 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">********</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
-<span class="gutter">  11 </span><span class=
-"syntax-COMMENT1">#</span><span class=
+<span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">a</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -2846,31 +2859,26 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-COMMENT1">directory</span><span class=
 "syntax-COMMENT1"> </span><span class=
 "syntax-COMMENT1">QSYS_WRKUSRPRF.html</span>
-<span class="gutter">  12 </span><span class=
-"syntax-KEYWORD1">FUNC</span> clHelp <span class=
+<span class="syntax-KEYWORD1">FUNC</span> clHelp <span class=
 "syntax-OPERATOR">(</span> lib cmd s u p <span class=
 "syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">  13 </span>    <span class=
-"syntax-KEYWORD1">LOCAL</span> <span class=
+    <span class="syntax-KEYWORD1">LOCAL</span> <span class=
 "syntax-MARKUP">@start</span> <span class=
 "syntax-KEYWORD1">LOCAL</span> <span class=
 "syntax-MARKUP">@end</span>
-<span class="gutter">  14 </span>    <span class=
-"syntax-KEYWORD2">num</span><span class=
+    <span class="syntax-KEYWORD2">num</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-int</span> <span class="syntax-DIGIT">10</span>
-<span class="gutterH">  15 </span>    <span class=
-"syntax-KEYWORD2">calljava</span><span class=
+    <span class="syntax-KEYWORD2">calljava</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-forname</span> java.lang.String
-<span class="gutter">  16 </span>    <span class=
-"syntax-KEYWORD2">calljava</span><span class=
+    <span class="syntax-KEYWORD2">calljava</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@L[String</span><span class=
@@ -2884,16 +2892,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-primarg</span> <span class=
 "syntax-LITERAL4">~</span> 
-<span class="gutter">  17 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-trim</span> <span class=
 "syntax-LITERAL4">@@lib</span>
-<span class="gutter">  18 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
@@ -2903,16 +2909,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">-l</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  19 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-trim</span> <span class=
 "syntax-LITERAL4">@@cmd</span>
-<span class="gutterH">  20 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
@@ -2922,16 +2926,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">-c</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  21 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-trim</span> <span class=
 "syntax-LITERAL4">@@s</span>
-<span class="gutter">  22 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
@@ -2941,16 +2943,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">-s</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  23 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-trim</span> <span class=
 "syntax-LITERAL4">@@u</span>
-<span class="gutter">  24 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
@@ -2960,16 +2960,14 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">-u</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutterH">  25 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-trim</span> <span class=
 "syntax-LITERAL4">@@p</span>
-<span class="gutter">  26 </span>    <span class=
-"syntax-KEYWORD2">string</span><span class=
+    <span class="syntax-KEYWORD2">string</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-LITERAL4">~</span><span class=
@@ -2979,22 +2977,18 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-LITERAL1"> </span><span class=
 "syntax-LITERAL1">-p</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
-<span class="gutter">  27 </span>    <span class=
-"syntax-KEYWORD2">put</span><span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@start</span> <span class="syntax-DIGIT">0</span>
-<span class="gutter">  28 </span>    <span class=
-"syntax-KEYWORD2">put</span><span class=
+    <span class="syntax-KEYWORD2">put</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-to</span> <span class=
 "syntax-MARKUP">@end</span> <span class="syntax-DIGIT">10</span>
-<span class="gutter">  29 </span>    <span class=
-"syntax-KEYWORD1">DO</span> <span class=
+    <span class="syntax-KEYWORD1">DO</span> <span class=
 "syntax-MARKUP">@start</span> <span class=
 "syntax-MARKUP">@end</span> <span class="syntax-OPERATOR">$[</span>
-<span class="gutterH">  30 </span>        <span class=
-"syntax-KEYWORD2">calljava</span> <span class=
+        <span class="syntax-KEYWORD2">calljava</span> <span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-class</span> java.lang.reflect.Array<span class=
 "syntax-KEYWORD3"> </span><span class=
@@ -3008,20 +3002,271 @@ Type help for help. Type license for license. Type bye to exit.
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-arg</span> <span class=
 "syntax-LITERAL4">~</span>
-<span class="gutter">  31 </span>    <span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  32 </span>    <span class=
-"syntax-KEYWORD2">calljava</span><span class=
+    <span class="syntax-OPERATOR">]$</span>
+    <span class="syntax-KEYWORD2">calljava</span><span class=
 "syntax-KEYWORD3"> </span><span class=
 "syntax-KEYWORD3">-class</span> com.ibm.<span class=
 "syntax-KEYWORD2">as400</span>.util.CommandHelpRetriever<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-method</span> main<span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-arg</span> <span class="syntax-MARKUP">@L[String</span>
-<span class="gutter">  33 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  34 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
-<span class="gutterH">  35 </span>
-</span>
+<span class="syntax-OPERATOR">]$</span>
+  
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">browseClHelp</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">lib</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">cmd</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">s</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">u</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">p</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">)</span><span class="syntax-COMMENT1"> </span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Generate</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">HTML</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">help</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">for</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">CL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">command</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">default</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">browser</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">on</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">it.</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">args</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">are</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">library</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">commandname</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">system</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">user</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">password</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">example:</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">clHelp</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">QSYS</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">WRKUSRPRF</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MY400</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">MYID</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">********</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">file</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">generated</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">in</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">current</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">directory</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">QSYS_WRKUSRPRF.html</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">and</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">it</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">loaded</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">into</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">user's</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">default</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">browser.</span>
+<span class="syntax-KEYWORD1">FUNC</span> browseClHelp <span class=
+"syntax-OPERATOR">(</span> lib cmd s u p <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+    <span class="syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@filename</span>
+    <span class="syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">file://</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-trim</span>
+    <span class="syntax-KEYWORD2">system</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">pwd</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+    <span class="syntax-KEYWORD1">\\</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">system</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">returns</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">an</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">ublu.util.SystemHelper.ProcessClosure</span><span class="syntax-LITERAL1"> </span><span class="syntax-LITERAL1">object.</span>
+<span class="syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">This</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">calljava</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">gets</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">the</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">output</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">concatenate</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">to</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">for</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">the</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">absolute</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">URI.</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+    <span class="syntax-KEYWORD2">calljava</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">--</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-method</span> getOutput
+    <span class="syntax-KEYWORD2">lifo</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-swap</span>
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL4">~</span>
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cat</span> /
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL4">@@lib</span>
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cat</span> _
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL4">@@cmd</span>
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-cat</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">.html</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+    <span class="syntax-LITERAL4">~</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@filename</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-trim</span>
+    <span class="syntax-KEYWORD2">put</span> <span class=
+"syntax-MARKUP">@filename</span>
+    clHelp <span class="syntax-OPERATOR">(</span> <span class=
+"syntax-LITERAL4">@@lib</span> <span class=
+"syntax-LITERAL4">@@cmd</span> <span class=
+"syntax-LITERAL4">@@s</span> <span class=
+"syntax-LITERAL4">@@u</span> <span class=
+"syntax-LITERAL4">@@p</span> <span class="syntax-OPERATOR">)</span>
+    <span class="syntax-KEYWORD2">desktop</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-browse</span> <span class=
+"syntax-MARKUP">@filename</span>
+<span class="syntax-OPERATOR">]$</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">end</span></span>
 </pre>
   </blockquote>
 

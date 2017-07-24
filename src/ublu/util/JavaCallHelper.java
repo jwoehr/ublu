@@ -266,6 +266,17 @@ public class JavaCallHelper {
         }
 
         /**
+         * Instance ready to be cast to a given class type
+         *
+         * @param argObject arg object for method call
+         * @param classType class which is the exact classtype needed for call
+         */
+        public MethodArgPair(Object argObject, Class classType) {
+            this.argObject = argObject;
+            this.classType = classType;
+        }
+
+        /**
          * Indicate the class type as primitive of a wrapper object, e.g., int
          * for Integer, to resolve the method signature for the call.
          */
