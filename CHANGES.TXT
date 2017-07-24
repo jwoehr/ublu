@@ -4,17 +4,27 @@ All rights reserved.
 
 1.1.8
 -----
-System
 * Optimizations
     * various
 * Documentation
     * Explained how to make SSL connection 
     * Guide enhanced
 * Commands
-	* as400 -nodefault prevents setting service ports at instancing
-	* map creates tuple maps
-    * props picks up System property ublu.usage.linelength at startup
-    * usage/help honors property ublu.usage.linelength
+	* `as400 -nodefault` prevents setting service ports at instancing
+    * `file -addmbr`
+    * `FUNC` can take func name from tuple pop or string
+    	* this makes it easier for FUNCs to define FUNCs
+	* `map` creates user tuple maps
+	* `props` picks up System property ublu.usage.linelength at startup
+	* `usage/help` honors property `ublu.usage.linelength`
+* Extensions
+	* `ux.mbrdesc.ublu`
+* Windowing
+	* now executes rest of command line
+	* set colors separately for input and output from menu
+* Testing
+	* progress on the framework
+	* Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
 
 1.1.7 2017-07-05
 -----
