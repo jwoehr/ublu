@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2015, Jack J. Woehr jax@well.com po box 51 golden co 80402-0051
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -106,9 +108,9 @@ public class CmdHost extends Command {
                     logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
-                    hostname = argArray.nextMaybeQuotationTuplePopString();
-                    username = argArray.nextMaybeQuotationTuplePopString();
-                    password = argArray.nextMaybeQuotationTuplePopString();
+                    hostname = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    username = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    password = argArray.nextMaybeQuotationTuplePopStringTrim();
                 }
             } else {
                 host = getHostFromTuple(hostTuple);
