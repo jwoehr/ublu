@@ -28,9 +28,9 @@
 package ublu;
 
 import com.ibm.as400.access.AS400;
-import com.ibm.as400.access.AS400SecurityException;
+// import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.SecureAS400;
-import java.io.IOException;
+// import java.io.IOException;
 
 /**
  * Extend so we can retrieve the password
