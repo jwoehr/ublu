@@ -485,7 +485,7 @@ public class UbluFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_FontsInputMenuItemActionPerformed
 
     private void FontsOutputMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FontsOutputMenuItemActionPerformed
-        FontChooser fc = new FontChooser(this, getUbluInputArea().getFont(), getUbluInputArea().getForeground());
+        FontChooser fc = new FontChooser(this, getUbluTextArea().getFont(), getUbluTextArea().getForeground());
         fc.setVisible(true);
 
         Font font = fc.getNewFont();
