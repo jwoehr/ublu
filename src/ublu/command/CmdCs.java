@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -134,23 +134,9 @@ public class CmdCs extends Command {
                 case "--":
                 case "-cs":
                     cs = argArray.nextTupleOrPop().value(CallableStatement.class);
-//                    o = csTuple.getValue();
-//                    if (o instanceof CallableStatement) {
-//                        cs = CallableStatement.class.cast(o);
-//                    } else {
-//                        getLogger().log(Level.SEVERE, "Supplied tuple is not a Callable Statement instance in {0}", getNameAndDescription());
-//                        setCommandResult(COMMANDRESULT.FAILURE);
-//                    }
                     break;
                 case "-dbconnected":
                     db = argArray.nextTupleOrPop().value(Db.class);
-//                    o = dbTuple.getValue();
-//                    if (o instanceof Db) {
-//                        db = Db.class.cast(o);
-//                    } else {
-//                        getLogger().log(Level.SEVERE, "Supplied tuple is not a Database instance in {0}", getNameAndDescription());
-//                        setCommandResult(COMMANDRESULT.FAILURE);
-//                    }
                     break;
                 case "-new":
                     function = FUNCTIONS.INSTANCE;
