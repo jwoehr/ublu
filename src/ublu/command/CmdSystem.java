@@ -48,14 +48,17 @@ import java.util.logging.Level;
  */
 public class CmdSystem extends Command {
 
+    boolean silent;
+
     {
-        setNameAndDescription("system", "/1 [-to datasink] -from datasink | ~@{ system command } : execute a system command");
+        setNameAndDescription("system", "/1 [-to datasink] [-from datasink] [-s] ~@{ system command } : execute a system command");
     }
 
     /**
      * 0-arity ctor
      */
     public CmdSystem() {
+        silent = false;
     }
 
     /**
@@ -87,7 +90,9 @@ public class CmdSystem extends Command {
             ProcessClosure pc = SystemHelper.sysCmd(command);
             if (getDataDest().getType() == DataSink.SINKTYPE.TUPLE) {
                 put(pc);
-                getLogger().log(Level.INFO, "return code: {0}", pc.getRc());
+                if (!silent) {
+                    getLogger().log(Level.INFO, "return code: {0}", pc.getRc());
+                }
             } else {
                 put(pc);
             }
@@ -104,6 +109,7 @@ public class CmdSystem extends Command {
      * @return what's left of the argument array
      */
     public ArgArray system(ArgArray argArray) {
+
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -114,6 +120,9 @@ public class CmdSystem extends Command {
                 case "-from":
                     String srcName = argArray.next();
                     setDataSrc(DataSink.fromSinkName(srcName));
+                    break;
+                case "-s":
+                    silent = true;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -133,7 +142,7 @@ public class CmdSystem extends Command {
                         command = readCommandFromFile(getDataSrc().getName());
                         executeCommand(command);
                     } catch (IOException ex) {
-                        getLogger().log(Level.SEVERE, "Error reading command line from file {0} in {1}", new Object[]{getDataSrc().getName(), getNameAndDescription()});
+                        getLogger().log(Level.SEVERE, "Error reading command line from file {0} in {1}, exception {3}", new Object[]{getDataSrc().getName(), getNameAndDescription(), ex});
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
