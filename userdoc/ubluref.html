@@ -18,7 +18,7 @@
   "text/html; charset=us-ascii">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 24 Jul 2017 02:05:30 UTC">
+  "Tue, 25 Jul 2017 02:50:17 UTC">
 </head>
 
 <body>
@@ -14628,37 +14628,50 @@ ciptool
   <h4><a name="system" id="system"></a><tt>system</tt></h4>
 
   <blockquote>
-    <tt>/1 [-to datasink] [-from datasink] | ~@{ system command } :
-    execute a system command</tt><br>
-    <br>
-    executes a system command<br>
-    <br>
-    The command string can be provided as a <a href=
+    <p><code>/1 [-to datasink] [-from datasink] [-s] ~@{ system
+    command } : execute a system command</code></p>
+
+    <p>Execute a system command.</p>
+
+    <p>The command string can be provided as a <a href=
     "#Quoted_strings">quoted string</a>, <a href=
     "#Tuple_Variables">tuple variable</a>, pop from the <a href=
     "#Tuple_stack">tuple stack</a>, or from a file if so indicated
     by the <tt>-from</tt> <a href=
-    "#Dash_Command">dash-command</a>.<br>
-    <br>
-    If input is from a file, only the first line of the file is
-    read.<br>
-    <br>
-    The output of the command is displayed or put to a <a href=
-    "#Datasinks">datasink</a> specified by the -to dash-command. If
-    the destination datasink is standard out (<tt>STD:</tt>), an
-    extra line is put indicating the return code of the command
-    execution<br>
-    <br>
-    <tt>system</tt> is only good for one-time commands, not
-    interactive programs such as telnet.<br>
-    <i><br></i> <i>Example</i><br>
-    <br>
-    <tt>&gt; system ${ cat syscmd.txt }$</tt><tt><br></tt> <tt>ls
-    -al /Users/jwoehr</tt><tt><br></tt> <tt><br></tt> <tt>return
-    code: 0</tt><tt><br></tt> <tt>&gt; system -from
-    syscmd.txt</tt><tt><br></tt> <tt>total 240</tt><tt><br></tt>
-    <tt>drwxr-xr-x+ 46 jwoehr&nbsp; staff&nbsp;&nbsp; 1564
-    Aug&nbsp; 1 00:44 .</tt><tt><br></tt>
+    "#Dash_Command">dash-command</a>.</p>
+
+    <p>If input is from a file, only the first line of the file is
+    read.</p>
+
+    <p>The result of the command is a process closure which is
+    <code>put</code> to a <a href="#Datasinks">datasink</a>
+    specified by the -to dash-command. If the destination datasink
+    is standard out (<tt>STD:</tt>, the default), the textual
+    result of the command and its return code are displayed.</p>
+
+    <p>If the datasink is a tuple, the process closure itself is
+    put to the tuple. The output of the command and its return code
+    can be obtained from such a tuple <code>@pc</code></p>
+
+    <ul>
+      <li><code>calljava -method getOutput -obj @pc</code></li>
+
+      <li><code>calljava -method getRc -obj @pc</code></li>
+    </ul>respectively.
+
+    <p>If the destination is a tuple, an info logging line is put
+    indicating the return code of the command execution unless the
+    -s dash-command ("silent") was provided.</p>
+
+    <p><strong>Note:</strong> <tt>system</tt> is only good for
+    one-time commands, not interactive programs such as telnet.</p>
+
+    <p><i>Example</i></p><tt>&gt; system ${ cat syscmd.txt
+    }$</tt><tt><br></tt> <tt>ls -al /Users/jwoehr</tt><tt><br></tt>
+    <tt><br></tt> <tt>return code: 0</tt><tt><br></tt> <tt>&gt;
+    system -from syscmd.txt</tt><tt><br></tt> <tt>total
+    240</tt><tt><br></tt> <tt>drwxr-xr-x+ 46 jwoehr&nbsp;
+    staff&nbsp;&nbsp; 1564 Aug&nbsp; 1 00:44 .</tt><tt><br></tt>
     <tt>drwxr-xr-x&nbsp;&nbsp; 6 root&nbsp;&nbsp;&nbsp;
     admin&nbsp;&nbsp;&nbsp; 204 Jun 11 09:30 ..</tt><tt><br></tt>
     <tt>-rw-------&nbsp;&nbsp; 1 jwoehr&nbsp;
@@ -14671,10 +14684,12 @@ ciptool
     <i>... etc.<br></i> <tt>return code: 0</tt><tt><i><br></i></tt>
     <tt>&gt; put -to @myCommand -from syscmd.txt</tt><tt><br></tt>
     <tt>&gt; system -from @myCommand -to
-    @myOutput</tt><tt><br></tt> <tt>&gt; put -from
-    @myOutput</tt><tt><br></tt> <tt>total 240</tt><tt><br></tt>
-    <tt>drwxr-xr-x+ 46 jwoehr&nbsp; staff&nbsp;&nbsp; 1564
-    Aug&nbsp; 1 00:44 .</tt><tt><br></tt>
+    @myOutput</tt><tt><br></tt>
+    <code>Ublu:1:UbluInterpreter.Thread[main,5,main]:INFO:ublu.command.CmdSystem.executeCommand():return
+    code: 0</code><br>
+    <tt>&gt; put -from @myOutput</tt><tt><br></tt> <tt>total
+    240</tt><tt><br></tt> <tt>drwxr-xr-x+ 46 jwoehr&nbsp;
+    staff&nbsp;&nbsp; 1564 Aug&nbsp; 1 00:44 .</tt><tt><br></tt>
     <tt>drwxr-xr-x&nbsp;&nbsp; 6 root&nbsp;&nbsp;&nbsp;
     admin&nbsp;&nbsp;&nbsp; 204 Jun 11 09:30 ..</tt><tt><br></tt>
     <tt>-rw-------&nbsp;&nbsp; 1 jwoehr&nbsp;
@@ -14684,7 +14699,9 @@ ciptool
     .DS_Store</tt><tt><br></tt> <tt>drwx------&nbsp;&nbsp; 2
     jwoehr&nbsp; staff&nbsp;&nbsp;&nbsp;&nbsp; 68 Jul 29 10:49
     .Trash</tt><br>
-    <i>... etc.<br></i> <tt>return code: 0</tt>
+    <i>... etc.<br></i> <tt>return code: 0</tt><br>
+    <code>&gt; calljava -method getRc -obj @myOutput</code><br>
+    <code>0</code>
   </blockquote>
 
   <h4><a name="sysval" id="sysval"></a><tt>sysval</tt></h4>
