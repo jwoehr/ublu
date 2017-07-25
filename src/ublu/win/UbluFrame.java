@@ -112,7 +112,7 @@ public class UbluFrame extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * Run the frame
      */
     protected void runMe() {
         ubluPanel.setUbluFrame(this);
@@ -459,7 +459,7 @@ public class UbluFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_loadSettingsMenuItemActionPerformed
 
     private void defaultsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultsMenuItemActionPerformed
-        ubluWinController.myWinProps.setDefaultWindowingProperties();
+        ubluWinController.getWinProps().setDefaultWindowingProperties();
         ubluWinController.restoreSettingsFromProps();
         revalidate();
     }//GEN-LAST:event_defaultsMenuItemActionPerformed
@@ -471,14 +471,14 @@ public class UbluFrame extends javax.swing.JFrame {
         Font font = fc.getNewFont();
         if (font != null) {
             getUbluInputArea().setFont(font);
-            ubluWinController.myWinProps.set("UbluInputAreaFont", getUbluInputArea().getFont().getName());
-            ubluWinController.myWinProps.set("UbluInputAreaFontStyle", Long.toString(getUbluInputArea().getFont().getStyle()));
-            ubluWinController.myWinProps.set("UbluInputAreaFontSize", Long.toString(getUbluInputArea().getFont().getSize()));
+            ubluWinController.getWinProps().set("UbluInputAreaFont", getUbluInputArea().getFont().getName());
+            ubluWinController.getWinProps().set("UbluInputAreaFontStyle", Long.toString(getUbluInputArea().getFont().getStyle()));
+            ubluWinController.getWinProps().set("UbluInputAreaFontSize", Long.toString(getUbluInputArea().getFont().getSize()));
         }
         Color color = fc.getNewColor();
         if (color != null) {
             getUbluInputArea().setForeground(color);
-            ubluWinController.myWinProps.set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
+            ubluWinController.getWinProps().set("UbluInputAreaFGColor", Integer.toHexString(color.getRGB()));
             getUbluInputArea().setCaretColor(color);
         }
         revalidate();
@@ -491,14 +491,14 @@ public class UbluFrame extends javax.swing.JFrame {
         Font font = fc.getNewFont();
         if (font != null) {
             getUbluTextArea().setFont(font);
-            ubluWinController.myWinProps.set("UbluTextAreaFont", getUbluTextArea().getFont().getName());
-            ubluWinController.myWinProps.set("UbluTextAreaFontStyle", Integer.toString(getUbluTextArea().getFont().getStyle()));
-            ubluWinController.myWinProps.set("UbluTextAreaFontSize", Long.toString(getUbluTextArea().getFont().getSize()));
+            ubluWinController.getWinProps().set("UbluTextAreaFont", getUbluTextArea().getFont().getName());
+            ubluWinController.getWinProps().set("UbluTextAreaFontStyle", Integer.toString(getUbluTextArea().getFont().getStyle()));
+            ubluWinController.getWinProps().set("UbluTextAreaFontSize", Long.toString(getUbluTextArea().getFont().getSize()));
         }
         Color color = fc.getNewColor();
         if (color != null) {
             getUbluTextArea().setForeground(color);
-            ubluWinController.myWinProps.set("UbluTextAreaFGColor", Integer.toHexString(color.getRGB()));
+            ubluWinController.getWinProps().set("UbluTextAreaFGColor", Integer.toHexString(color.getRGB()));
             getUbluTextArea().setCaretColor(color);
         }
         revalidate();
@@ -511,7 +511,7 @@ public class UbluFrame extends javax.swing.JFrame {
         if (cc.ok) {
             Color color = cc.getColor();
             getUbluInputArea().setBackground(color);
-            ubluWinController.myWinProps.set("UbluInputAreaBGColor", Integer.toHexString(color.getRGB()));
+            ubluWinController.getWinProps().set("UbluInputAreaBGColor", Integer.toHexString(color.getRGB()));
         }
         revalidate();
     }//GEN-LAST:event_BackgroundInputMenuItemActionPerformed
@@ -523,7 +523,7 @@ public class UbluFrame extends javax.swing.JFrame {
         if (cc.ok) {
             Color color = cc.getColor();
             getUbluTextArea().setBackground(color);
-            ubluWinController.myWinProps.set("UbluTextAreaBGColor", Integer.toHexString(color.getRGB()));
+            ubluWinController.getWinProps().set("UbluTextAreaBGColor", Integer.toHexString(color.getRGB()));
         }
         revalidate();
     }//GEN-LAST:event_BackgroundOutputMenuItemActionPerformed

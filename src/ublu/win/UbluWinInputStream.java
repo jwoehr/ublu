@@ -43,7 +43,7 @@ public class UbluWinInputStream extends InputStream {
     private final ArrayBlockingQueue<Character> abq;
 
     /**
-     *
+     * Input stream to feed ublu from gui
      */
     public UbluWinInputStream() {
         abq = new ArrayBlockingQueue<>(8192);
@@ -61,15 +61,15 @@ public class UbluWinInputStream extends InputStream {
         return result;
     }
 
-    /**
-     *
-     * @param s
-     */
-    public void fill(String s) {
-        boolean wasAdded;
-        for (Character c : s.toCharArray()) {
-            wasAdded = abq.add(c);
-            /* Debug */ System.err.println(this + ".fill == " + c + " " + wasAdded);
-        }
-    }
+//    /**
+//     *
+//     * @param s
+//     */
+//    public void fill(String s) {
+//        boolean wasAdded;
+//        for (Character c : s.toCharArray()) {
+//            wasAdded = abq.add(c);
+//            /* Debug */ System.err.println(this + ".fill == " + c + " " + wasAdded);
+//        }
+//    }
 }

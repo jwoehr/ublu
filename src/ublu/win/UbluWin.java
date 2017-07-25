@@ -59,7 +59,7 @@ public class UbluWin {
     }
 
     /**
-     *
+     * Let's do it
      */
     public void go() {
         uwc.startup();

@@ -46,6 +46,7 @@ public class ColorChooser extends javax.swing.JDialog {
      *
      * @param parent
      * @param modal
+     * @param color
      */
     public ColorChooser(java.awt.Frame parent, boolean modal, Color color) {
         super(parent, modal);

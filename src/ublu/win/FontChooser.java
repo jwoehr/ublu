@@ -40,7 +40,7 @@ import ublu.util.Generics.StringArrayList;
  * provided by a JColorChooser pane. This dialog builds an AttributeSet suitable
  * for use with JTextPane.
  */
-public class FontChooser extends JDialog implements ActionListener {
+public final class FontChooser extends JDialog implements ActionListener {
 
     JColorChooser colorChooser;
     JComboBox fontName;
@@ -65,6 +65,7 @@ public class FontChooser extends JDialog implements ActionListener {
 
         // Make sure that any way the user cancels the window does the right thing
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 closeAndCancel();
             }
@@ -81,7 +82,7 @@ public class FontChooser extends JDialog implements ActionListener {
         // fontName.setSelectedIndex(1);
         fontName.setSelectedItem(initialFont.getFontName());
         fontName.addActionListener(this);
-        fontSize = new JTextField(new Integer(initialFont.getSize()).toString(), 4);
+        fontSize = new JTextField(Integer.toString(initialFont.getSize()), 4);
         fontSize.setHorizontalAlignment(SwingConstants.RIGHT);
         fontSize.addActionListener(this);
         fontBold = new JCheckBox("Bold");
@@ -120,12 +121,14 @@ public class FontChooser extends JDialog implements ActionListener {
         // Add in the Ok and Cancel buttons for our dialog box
         JButton okButton = new JButton("Ok");
         okButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 closeAndSave();
             }
         });
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 closeAndCancel();
             }
@@ -145,6 +148,7 @@ public class FontChooser extends JDialog implements ActionListener {
     // Ok, something in the font changed, so figure that out and make a
     // new font for the preview label
 
+    @Override
     public void actionPerformed(ActionEvent ae) {
         // Check the name of the font
         if (!StyleConstants.getFontFamily(attributes)
@@ -171,12 +175,11 @@ public class FontChooser extends JDialog implements ActionListener {
         this.revalidate();
     }
 
-    // Get the appropriate font from our attributes object and update
-    // the preview label
     /**
-     *
+     * Get the appropriate font from our attributes object and update the
+     * preview label
      */
-    protected void updatePreviewFont() {
+    private void updatePreviewFont() {
         String name = StyleConstants.getFontFamily(attributes);
         boolean bold = StyleConstants.isBold(attributes);
         boolean ital = StyleConstants.isItalic(attributes);

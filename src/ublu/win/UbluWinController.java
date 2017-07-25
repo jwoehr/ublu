@@ -69,55 +69,35 @@ public class UbluWinController {
         JOptionPane.showMessageDialog(ubluFrame, Ublu.startupMessage(), PRODUCT_NAME, JOptionPane.PLAIN_MESSAGE, ubluIcon);
     }
 
-    /**
-     *
-     */
-    protected UbluFrame ubluFrame;
+    private UbluFrame ubluFrame;
+
+    private Interpreter interpreter;
+
+    private Ublu ublu;
+    
+    private UbluWinInputStream ubluIS;
+
+    private TextAreaOutputStream ubluTAOS;
+
+    private File fileSaveSession;
+
+    private File lastOpened;
+
+    private File lastIncluded;
+
+    private File lastSavedSettings;
+
+    private ImageIcon ubluIcon;
+
+    private WinProps myWinProps;
 
     /**
      *
+     * @return
      */
-    protected Interpreter interpreter;
-
-    /**
-     *
-     */
-    protected Ublu ublu;
-
-    /**
-     *
-     */
-    protected TextAreaOutputStream ubluTAOS;
-
-    /**
-     *
-     */
-    protected File fileSaveSession;
-
-    /**
-     *
-     */
-    protected File lastOpened;
-
-    /**
-     *
-     */
-    protected File lastIncluded;
-
-    /**
-     *
-     */
-    protected File lastSavedSettings;
-
-    /**
-     *
-     */
-    protected ImageIcon ubluIcon;
-
-    /**
-     *
-     */
-    protected WinProps myWinProps;
+    public WinProps getWinProps() {
+        return myWinProps;
+    }
 
     /**
      *
@@ -150,11 +130,6 @@ public class UbluWinController {
     public void setUbluTAOS(TextAreaOutputStream ubluTAOS) {
         this.ubluTAOS = ubluTAOS;
     }
-
-    /**
-     *
-     */
-    protected UbluWinInputStream ubluIS;
 
     /**
      *
