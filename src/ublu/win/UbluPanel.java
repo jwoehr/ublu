@@ -40,7 +40,6 @@ import ublu.util.Generics.StringArrayList;
  */
 public class UbluPanel extends javax.swing.JPanel {
 
-    // private final EditorPaneOutputStream jEPOS;
     private final TextAreaOutputStream jTAOS;
     private UbluFrame ubluFrame;
     private final StringArrayList commands;
@@ -74,6 +73,24 @@ public class UbluPanel extends javax.swing.JPanel {
         return result;
     }
 
+    private String firstCommand() {
+        String result = "";
+        if (commands.size() > 0) {
+            pointer = 0;
+            result = commands.get(pointer);
+        }
+        return result;
+    }
+
+    private String lastCommand() {
+        String result = "";
+        if (commands.size() > 0) {
+            pointer = commands.size() - 1;
+            result = commands.get(pointer);
+        }
+        return result;
+    }
+
     /**
      *
      * @return
@@ -96,8 +113,6 @@ public class UbluPanel extends javax.swing.JPanel {
     public UbluPanel() {
         this.commands = new StringArrayList();
         initComponents();
-        // jEPOS = new EditorPaneOutputStream(ubluEditorPane);
-        // jTAOS = new TextAreaOutputStream(jTextArea1);
         jTAOS = new TextAreaOutputStream(this);
     }
 
@@ -109,13 +124,6 @@ public class UbluPanel extends javax.swing.JPanel {
         jsb.setValue(jsb.getMaximum());
     }
 
-//    /**
-//     *
-//     * @return
-//     */
-//    protected JEditorPane getUbluTextArea() {
-//        return ubluEditorPane;
-//    }
     /**
      *
      * @return
@@ -191,6 +199,12 @@ public class UbluPanel extends javax.swing.JPanel {
                 break;
             case KeyEvent.VK_DOWN:
                 ubluInputField.setText(foreCommand());
+                break;
+            case KeyEvent.VK_PAGE_UP:
+                ubluInputField.setText(firstCommand());
+                break;
+            case KeyEvent.VK_PAGE_DOWN:
+                ubluInputField.setText(lastCommand());
                 break;
             case KeyEvent.VK_TAB:
                 if (evt.isControlDown()) {
