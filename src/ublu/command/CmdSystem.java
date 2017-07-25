@@ -86,7 +86,7 @@ public class CmdSystem extends Command {
         try {
             ProcessClosure pc = SystemHelper.sysCmd(command);
             if (getDataDest().getType() == DataSink.SINKTYPE.TUPLE) {
-                put(pc.getOutput());
+                put(pc);
                 getLogger().log(Level.INFO, "return code: {0}", pc.getRc());
             } else {
                 put(pc);
