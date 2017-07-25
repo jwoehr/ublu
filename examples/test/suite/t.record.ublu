@@ -15,10 +15,24 @@ include ../../../examples/listsrc.ublu
 # ... work_dir - where tests can create files and leave them
 # ... outfile - the report file from the tests
 FUNC t.record ( work_dir outfile ) $[
-    LOCAL @sys LOCAL @tmpfile
+    LOCAL @sys LOCAL @tmpfile LOCAL @result LOCAL @results
+    map -to @results
     cat_fp ( @@work_dir t.record.listsrc.txt )
     put -to @tmpfile ~
-    put @tmpfile
+    cat_fp ( *t_paradigm t.record.listsrc.txt )
+    put -to @paradigm ~
     listsrcToLocalFile ( @testsys *t_record_source_mbr_fqp @tmpfile )
+    string -to ~ -cat ${ diff -u }$ @tmpfile
+    ~ -to ~ -bl
+    ~ -to ~ -cat @paradigm
+    lifo -dup put ~
+    system -to ~ ~
+    map -to @result
+    lifo -dup
+    calljava -to ~ -method getOutput -obj ~
+    @result -add diff_text ~
+    calljava -to ~ -method getRc -obj ~
+    @result -add diff_rc ~
+    put @result
     put ${ that's as far as test goes for record! }$
 ]$
