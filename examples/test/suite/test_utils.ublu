@@ -21,3 +21,10 @@ FUNC fqp_mbr ( fqp_file mbrname ) $[
     ~ -to ~ -cat @@mbrname
     ~ -to ~ -cat .MBR
 ]$
+
+# cat_fp ( fqdirpath filename )
+# Push a local filepath from a directory and a filename
+FUNC cat_fp ( fqdirpath filename ) $[
+    string -to ~ -cat @@fqdirpath /
+     ~ -to ~ -cat @@filename
+]$

@@ -6,7 +6,8 @@
 # See the Ublu license (BSD-2 open source)
 
 # Assumes called from test.all.ublu using the upper local @testsys
-
+# include -s test_utils.ublu
+# Already included from test.all.ublu
 # Assumes residing in examples/test/suite
 include ../../../examples/listsrc.ublu
 
@@ -15,8 +16,7 @@ include ../../../examples/listsrc.ublu
 # ... outfile - the report file from the tests
 FUNC t.record ( work_dir outfile ) $[
     LOCAL @sys LOCAL @tmpfile
-    put -to ~ @@work_dir
-    ~ -to ~ -cat /t.record.listsrc.txt
+    cat_fp ( @@work_dir t.record.listsrc.txt )
     put -to @tmpfile ~
     put @tmpfile
     listsrcToLocalFile ( @testsys *t_record_source_mbr_fqp @tmpfile )
