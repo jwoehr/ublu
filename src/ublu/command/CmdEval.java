@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -310,7 +312,7 @@ public class CmdEval extends Command {
                             lopr = argArray.nextLongMaybeQuotationTuplePopString();
                             ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
-                                put(lopr == ropr);
+                                put(Objects.equals(lopr, ropr));
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                                 getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
@@ -415,16 +417,6 @@ public class CmdEval extends Command {
         }
         return argArray;
     }
-//
-//    Long longFromObject(Object o) {
-//        Long result;
-//        if (o instanceof Long) {
-//            result = Long.class.cast(o);
-//        } else {
-//            result = Long.decode(o.toString());
-//        }
-//        return result;
-//    }
 
     @Override
     public ArgArray cmd(ArgArray args) {
