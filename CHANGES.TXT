@@ -17,6 +17,8 @@ All rights reserved.
 	* `map` creates user tuple maps
 	* `props` picks up System property ublu.usage.linelength at startup
 	* `usage/help` honors property `ublu.usage.linelength`
+* Examples
+	* `createFileFromRecFormat.ublu`
 * Extensions
 	* `ux.mbrdesc.ublu`
 * Windowing
