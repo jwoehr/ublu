@@ -1,0 +1,79 @@
+# createFileFromRecFormat.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Based on the example in the JTOpen javadocs com/ibm/as400/access/doc-files/recordxmp.html
+
+# Create our record format which will persist and can be reused.
+string -to ~ -trim msgnum
+calljava -to ~ -new com.ibm.as400.access.AS400Bin4
+calljava -to @fld_msgNumber -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
+
+string -to ~ -trim sender
+num -to ~ -int 50
+calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+calljava -to @fld_sender -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+string -to ~ -trim timesent
+num -to ~ -int 8
+calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+calljava -to @fld_timeSent -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+string -to ~ -trim msgtext
+num -to ~ -int 1024
+calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+calljava -to @fld_msgText -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+string -to ~ -trim replyreq
+num -to ~ -int 1
+calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+calljava -to @fld_replyRequired -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+string -to ~ -trim XAMPL
+calljava -to @fmt_msgEntry -new com.ibm.as400.access.RecordFormat -primarg ~
+
+calljava -method addFieldDescription -obj @fmt_msgEntry -arg @fld_msgNumber
+calljava -method addFieldDescription -obj @fmt_msgEntry -arg @fld_sender
+calljava -method addFieldDescription -obj @fmt_msgEntry -arg @fld_timeSent
+calljava -method addFieldDescription -obj @fmt_msgEntry -arg @fld_msgText
+calljava -method addFieldDescription -obj @fmt_msgEntry -arg @fld_replyRequired
+
+string -to ~ -trim msgnum
+calljava -method addKeyFieldDescription -obj @fmt_msgEntry -primarg ~
+
+# createExampleFile ( sys ifspath desc )
+# Create the file with example format @fmt_msgEntry on the system;
+# provide as400 instance, fqp ifspath and a description.
+# Leaves the file instance on top of tuple stack
+FUNC createExampleFile ( sys ifspath desc ) $[
+    file -to ~ -as400 @@sys -new -keyed @@ifspath
+    lifo -dup
+    ~ -createfmt @fmt_msgEntry @@desc
+]$
+
+# writeExampleRecord ( f msgnum sender timesent msgtext replyreq )
+# ... fill in the fields of a new record and write to the file we just created.
+# Assuming that there is now on the tuple stack the file object we just created
+# (pushed there by createExampleFile) we can do the following:
+#   tuple -assign @f ~ 
+#   writeExampleRecord ( @f 1 ${ Fred W. Foobar }$ 12345678 ${ this is a silly message }$ n )
+FUNC writeExampleRecord ( f msgnum sender timesent msgtext replyreq ) $[
+    LOCAL @rec
+    calljava -to @rec -method getNewRecord -obj @fmt_msgEntry
+    num -to ~ -int @@msgnum
+    @rec -setfieldbyname msgnum ~
+    string -to ~ -trim @@sender
+    @rec -setfieldbyname sender ~
+    string -to ~ -trim @@timesent
+    @rec -setfieldbyname timesent ~
+    string -to ~ -trim @@msgtext
+    @rec -setfieldbyname msgtext ~
+    string -to ~ -trim @@replyreq
+    @rec -setfieldbyname replyreq ~
+    @@f -open W
+    @@f -pos A
+    @@f -write @rec
+    @@f -close
+]$
