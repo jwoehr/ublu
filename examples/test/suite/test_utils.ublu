@@ -28,3 +28,62 @@ FUNC cat_fp ( fqdirpath filename ) $[
     string -to ~ -cat @@fqdirpath /
      ~ -to ~ -cat @@filename
 ]$
+  
+# Push current time in milliseconds since 1970  
+FUNC currentTimeMillis ( ) $[
+    calljava -to ~ -class java.lang.System -method currentTimeMillis
+]$
+  
+# Push record format for testing. Format will persist and can be reused to create records
+FUNC createTestRecordFormat ( ) $[
+    LOCAL @fmt LOCAL @filnam LOCAL @tmstrt LOCAL @tmend LOCAL @desc LOCAL @xpfail
+    
+    string -to ~ -trim FILNAM
+    num -to ~ -int 50
+    calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+    calljava -to @filnam -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+    string -to ~ -trim TMSTRT
+    calljava -to ~ -new com.ibm.as400.access.AS400Bin8
+    calljava -to @tmstrt -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
+    
+    string -to ~ -trim TMEND
+    calljava -to ~ -new com.ibm.as400.access.AS400Bin8
+    calljava -to @tmend -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
+
+    string -to ~ -trim DESC
+    num -to ~ -int 1024
+    calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+    calljava -to @desc -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+    string -to ~ -trim XPFAIL
+    num -to ~ -int 2
+    calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
+    calljava -to @xpfail -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+
+    string -to ~ -trim UBLUTST
+    calljava -to @fmt -new com.ibm.as400.access.RecordFormat -primarg ~
+
+    calljava -method addFieldDescription -obj @fmt -arg @filnam
+    calljava -method addFieldDescription -obj @fmt -arg @tmstrt
+    calljava -method addFieldDescription -obj @fmt -arg @tmend
+    calljava -method addFieldDescription -obj @fmt -arg @desc
+    calljava -method addFieldDescription -obj @fmt -arg @xpfail
+
+    string -to ~ -trim FILNAM
+    calljava -method addKeyFieldDescription -obj @fmt -primarg ~
+    string -to ~ -trim TMSTRT
+    calljava -method addKeyFieldDescription -obj @fmt -primarg ~
+    
+    tuple -assign ~ @fmt    
+]$
+  
+# createPF ( sys ifspath fmt desc )
+# Create physical file at ifspath with format fmt on system sys
+# with description desc.
+# Leaves the file instance on top of tuple stack.
+FUNC createPF ( sys ifspath fmt desc ) $[
+    file -to ~ -as400 @@sys -new -keyed @@ifspath
+    lifo -dup
+    ~ -createfmt @@fmt @@desc
+]$
