@@ -16,6 +16,7 @@ All rights reserved.
     	* this makes it easier for FUNCs to define FUNCs
 	* `map` creates user tuple maps
 	* `props` picks up System property ublu.usage.linelength at startup
+	* `tuple -assign` to non-existent tuple was failing
 	* `usage/help` honors property `ublu.usage.linelength`
 * Examples
 	* `createFileFromRecFormat.ublu`
