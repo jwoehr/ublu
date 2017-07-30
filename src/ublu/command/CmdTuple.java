@@ -259,7 +259,7 @@ public class CmdTuple extends Command {
             switch (getFunction()) {
                 case ASSIGN:
                     if (Tuple.isTupleName(someName)) {
-                        getTuple(someName).setValue(someTuple.getValue());
+                        setTuple(someName, someTuple.getValue());
                     } else if (ArgArray.isPopTupleSign(someName)) {
                         pushTuple(new Tuple(null, someTuple.getValue()));
                     } else {
