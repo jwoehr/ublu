@@ -5,23 +5,27 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# Assumes called from test.all.ublu using the upper local @testsys
+# Assumes called from test.all.ublu so
+# ... so defaults are already included
+#
 # include -s test_utils.ublu
-# Already included from test.all.ublu
-# Assumes residing in examples/test/suite
+# ... is already included from test.all.ublu
+#
+# Assumes the present file is residing in examples/test/suite 
 include ../../../examples/listsrc.ublu
 
-# t.record ( @@work_dir @@outfile )
+# t.record ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them
-# ... outfile - the report file from the tests
-FUNC t.record ( work_dir outfile ) $[
+# ... testsys - the server against which tests to be run
+# ... testrptpf - open pf to write test report records
+FUNC t.record ( work_dir testsys testrptpf ) $[
     LOCAL @sys LOCAL @tmpfile LOCAL @result LOCAL @results
     map -to @results
     cat_fp ( @@work_dir t.record.listsrc.txt )
     put -to @tmpfile ~
     cat_fp ( *t_paradigm t.record.listsrc.txt )
     put -to @paradigm ~
-    listsrcToLocalFile ( @testsys *t_record_source_mbr_fqp @tmpfile )
+    listsrcToLocalFile ( @@testsys *t_record_source_mbr_fqp @tmpfile )
     string -to ~ -cat ${ diff -u }$ @tmpfile
     ~ -to ~ -bl
     ~ -to ~ -cat @paradigm
