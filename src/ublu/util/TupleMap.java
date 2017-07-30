@@ -217,19 +217,30 @@ public class TupleMap extends LinkedHashMap<String, Tuple> {
     }
 
     /**
-     * Update a tuple to the local map if its name already exists therein or
-     * create or updated it in the global map otherwise
+     * Update a tuple to the local-est map in which its name already exists therein or
+     * create or updated it in the global map if not found in any local map.
      *
      * @param key string name
      * @param value value object
      * @return the tuple set or created
      */
     public Tuple setTuple(String key, Object value) {
-        Tuple tuple;
+        Tuple tuple = null;
+        Stack<TupleMap> tupleMapStack = new Stack<>();
         TupleMap lMap = getLocalMap();
-        if (lMap != null && lMap.containsKey(key)) {
-            tuple = localSetTuple(key, value);
-        } else {
+        while (lMap != null) {
+            tupleMapStack.push(lMap);
+            lMap = lMap.getLocalMap();
+        }
+        while (!tupleMapStack.empty()) {
+            lMap = tupleMapStack.pop();
+            if (lMap.containsKey(key)) {
+                tuple = lMap.get(key);
+                tuple.setValue(value);
+                break;
+            }
+        }
+        if (tuple == null) {
             tuple = setTupleNoLocal(key, value);
         }
         return tuple;
