@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +49,7 @@ public class CmdGenSh extends Command {
 
     {
         setNameAndDescription("gensh",
-                "/5+ [-to datasink] [-strictPosix] [[-path fullyqualifiedjarpath] [-includepath ~@${searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..]] ~@${scriptname} ~@${includename}$ ~@${ functionCall ( @a @b ... ) }$ : generate launcher shell script");
+                "/5+ [-to datasink] [-strictPosix] [ [-path ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$ ..] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname} ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate launcher shell script");
     }
 
     /**
@@ -59,7 +61,7 @@ public class CmdGenSh extends Command {
     public ArgArray cmdGenSh(ArgArray argArray) {
         GenSh genSh = new GenSh();
         Option o;
-        boolean strictPosix=false;
+        boolean strictPosix = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             genSh.accumulateCommand(dashCommand);
@@ -84,15 +86,19 @@ public class CmdGenSh extends Command {
                     genSh.addOption(o);
                     break;
                 case "-strictPosix":
-                    strictPosix=true;
+                    strictPosix = true;
                     break;
                 case "-path":
-                    genSh.setFqJarPath(argArray.next());
+                    genSh.setFqJarPath(argArray.nextMaybeQuotationTuplePopStringTrim());
                     genSh.accumulateCommand(genSh.getFqJarPath());
                     break;
                 case "-includepath":
-                    genSh.setIncludePath(argArray.nextMaybeQuotationTuplePopString());
+                    genSh.setIncludePath(argArray.nextMaybeQuotationTuplePopStringTrim());
                     genSh.accumulateCommand(genSh.getIncludePath());
+                    break;
+                case "-prelude":
+                    genSh.addPreludeCommand(argArray.nextMaybeQuotationTuplePopStringTrim());
+                    genSh.accumulateCommandQuoted(genSh.getPreludeCommandList().get(genSh.getPreludeCommandList().size() - 1));
                     break;
                 default:
                     unknownDashCommand(dashCommand);

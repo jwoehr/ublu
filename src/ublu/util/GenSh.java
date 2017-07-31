@@ -30,6 +30,7 @@ package ublu.util;
 import ublu.Ublu;
 import java.util.ArrayList;
 import java.util.Calendar;
+import ublu.util.Generics.StringArrayList;
 
 /**
  * Shell launch script generator. Scripts have been tested with bash and ksh.
@@ -53,6 +54,16 @@ public class GenSh {
     private String dateGenerated = Calendar.getInstance().getTime().toString();
     private String generatingUser = Ublu.getUser();
     private boolean strictPosix;
+    private StringArrayList preludeCommandList;
+
+    /**
+     * Get the array of prelude commands
+     *
+     * @return array of prelude commands
+     */
+    public StringArrayList getPreludeCommandList() {
+        return preludeCommandList;
+    }
 
     /**
      * Get the value of strictPosix
@@ -122,11 +133,21 @@ public class GenSh {
     }
 
     /**
+     * Add a shell command string to the array of prelude commands
+     *
+     * @param cmdString shell command string
+     */
+    public void addPreludeCommand(String cmdString) {
+        preludeCommandList.add(cmdString);
+    }
+
+    /**
      * Instance with a new options array and a default fq jar path of
      * DEFAULT_FQJARPATH
      */
     public GenSh() {
         this.optionArrayList = new OptionArrayList();
+        this.preludeCommandList = new StringArrayList();
         fqJarPath = DEFAULT_FQJARPATH;
         includePath = "";
     }
@@ -293,6 +314,7 @@ public class GenSh {
                 .append("echo \"---\"\n")
                 .append("echo \"If the keyword 'silent' appears ahead of all options, then included files will not echo and prompting is suppressed.\"\n")
                 .append("echo \"Exit code is the result of execution, or 0 for -h or 2 if there is an error in processing options\"\n")
+                .append("echo \"This script sets \\$SCRIPTDIR to the script's directory prior to executing prelude commands and Ublu invocation.\"\n")
                 .append("}");
         return sb.toString();
     }
@@ -356,6 +378,18 @@ public class GenSh {
         return "SCRIPTDIR=$(CDPATH= cd \"$(dirname \"$0\")\" && pwd)\n";
     }
 
+    private String genPreludeCommands() {
+        StringBuilder sb = new StringBuilder("# Prelude commands to execute before invocation\n");
+        if (preludeCommandList.isEmpty()) {
+            sb.append("# No prelude commands\n");
+        } else {
+            for (String cmd : preludeCommandList) {
+                sb.append(cmd).append('\n');
+            }
+        }
+        return sb.toString();
+    }
+
     private String genOptionsString() {
         StringBuilder sb = new StringBuilder();
         sb.append("# Translate options to tuple assignments").append("\n");
@@ -415,6 +449,7 @@ public class GenSh {
                 .append("\n")
                 .append(genOptionsString()).append("\n")
                 .append(genScriptDir()).append("\n")
+                .append(genPreludeCommands()).append('\n')
                 .append(genInvocation())
                 .append("\nexit $?\n");
         return sb.toString();
