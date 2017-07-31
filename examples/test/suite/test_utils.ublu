@@ -56,10 +56,10 @@ FUNC createTestRecordFormat ( ) $[
     calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
     calljava -to @desc -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
 
-    string -to ~ -trim XPFAIL
-    num -to ~ -int 2
+    string -to ~ -trim PFAIL
+    num -to ~ -int 1
     calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
-    calljava -to @xpfail -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
+    calljava -to @pfail -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
 
     string -to ~ -trim UBLUTST
     calljava -to @fmt -new com.ibm.as400.access.RecordFormat -primarg ~
@@ -68,11 +68,13 @@ FUNC createTestRecordFormat ( ) $[
     calljava -method addFieldDescription -obj @fmt -arg @tmstrt
     calljava -method addFieldDescription -obj @fmt -arg @tmend
     calljava -method addFieldDescription -obj @fmt -arg @desc
-    calljava -method addFieldDescription -obj @fmt -arg @xpfail
+    calljava -method addFieldDescription -obj @fmt -arg @pfail
 
     string -to ~ -trim FILNAM
     calljava -method addKeyFieldDescription -obj @fmt -primarg ~
     string -to ~ -trim TMSTRT
+    calljava -method addKeyFieldDescription -obj @fmt -primarg ~
+    string -to ~ -trim TMEND
     calljava -method addKeyFieldDescription -obj @fmt -primarg ~
     
     tuple -assign ~ @fmt    
@@ -86,4 +88,20 @@ FUNC createPF ( sys ifspath fmt desc ) $[
     file -to ~ -as400 @@sys -new -keyed @@ifspath
     lifo -dup
     ~ -createfmt @@fmt @@desc
+]$
+  
+# writeMapToRecord ( tfile tmap )
+# Given an open pf and a map whose keys are the same as field names,
+# get a new record, fill it out and write it to the end of the phys test file.
+FUNC writeMapToRecord ( tfile tmap )  $[
+    LOCAL @fmt LOCAL @rec
+    @@tfile -to @fmt -getfmt
+    calljava -to @rec -method getNewRecord -obj @fmt
+    @@tmap -to ~ -keys
+    FOR @k in ~ $[
+        @@tmap -~ @k
+        @rec -setfieldbyname @k ~
+    ]$
+    @@tfile -pos A
+    @@tfile -write @rec
 ]$
