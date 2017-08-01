@@ -57,8 +57,7 @@ FUNC writeData ( streamfiletuple srcpftuple ) $[
         
         num -to ~ -bigdec @linenum
         @rec -setfieldbyname SRCSEQ ~
-        string -to ~ -trim @thisline
-        @rec -setfieldbyname SRCDTA ~
+        @rec -setfieldbyname SRCDTA @thisline
         
         @@srcpftuple -write @rec
         
