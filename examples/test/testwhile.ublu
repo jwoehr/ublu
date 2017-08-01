@@ -17,8 +17,7 @@ WHILE @continue $[
 put -n -s ${ after WHILE, the index is }$ put -from @index
 put -n -s ${ tuple stack depth is }$ lifo -depth
 
-tuple -true @continue
-lifo -push @continue
+lifo -push @true
 put -to @index -# -3
 WHILE ~ $[
 	LOCAL @i
@@ -28,6 +27,7 @@ WHILE ~ $[
 	put -s -n ${ index is }$ put -from ~
 	eval -to @exit == @index 7
 	IF @exit THEN $[ BREAK ]$
+	lifo -push @true
 ]$
 put -n -s ${ after WHILE, the index is }$ put -from @index
 put -n -s ${ tuple stack depth is }$ lifo -depth
