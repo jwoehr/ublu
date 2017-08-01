@@ -3,7 +3,7 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# writesrc ( sys streamfpath ifsfqp padlen )
+# writesrc ( sys streamfpath ifsfqp )
 # Given
 #   sys ... an as400 object
 #   streamfpath ... a path to a local stream file
@@ -15,7 +15,6 @@
 # E.g.
 #   writesrc ( @mysys @streamfile /QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR )
 #
-# Each line is padded with blanks to padlen chars or truncated
 FUNC writesrc ( sys streamfpath ifsfqp ) $[
    LOCAL @streamfiletuple
    LOCAL @srcpftuple
@@ -30,7 +29,7 @@ FUNC writesrc ( sys streamfpath ifsfqp ) $[
 # Get a record file and open for write
 FUNC getTargetMember ( sys ifsfqp filetuple ) $[
     file -as400 @@sys -to @@filetuple -sequential @@ifsfqp
-    @@filetuple -open  W   
+    @@filetuple -open  W 
 ]$
 
 # Get stream file and open for read character
@@ -44,34 +43,32 @@ FUNC writeData ( streamfiletuple srcpftuple ) $[
     LOCAL @fmt 
     LOCAL @thisline LOCAL @nnullline
     LOCAL @linenum
-    
     @@srcpftuple -to @fmt -getfmt
-    
-    num -to @linenum -int 100
-
+    num -to @linenum -int 1
     @@srcpftuple -pos A
     
-    ::@@streamfiletuple -to @thisline -rline
+    @@streamfiletuple -to @thisline -rline
     test -to ~ -nnull @thisline
     
     WHILE ~ $[
         LOCAL @rec
         
-        calljava -to @rec -- @@fmt -method getNewRecord
+        calljava -to @rec -- @fmt -method getNewRecord
         
-        num -to ~ -int @linenum
+        num -to ~ -bigdec @linenum
         @rec -setfieldbyname SRCSEQ ~
-        string -to ~ trim @thisline
+        string -to ~ -trim @thisline
         @rec -setfieldbyname SRCDTA ~
         
         @@srcpftuple -write @rec
         
-        eval -to @linenum + @linenum 100
+        eval -to @linenum + @linenum 1
         @@streamfiletuple -to @thisline -rline
         test -to ~ -nnull @thisline
     ]$
 ]$
-  
+
+# Not used  
 # padOrTrunc ( str padlen )
 # push bl-padded string or truncated if longer than padlen (e.g., 100 chars)
 FUNC padOrTrunc ( str padlen ) $[
@@ -88,6 +85,5 @@ FUNC padOrTrunc ( str padlen ) $[
         string -to ~ -pad @mystr @tmp @mypadlen
     ]$
 ]$
-
 
 # end
