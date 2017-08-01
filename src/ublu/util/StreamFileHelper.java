@@ -305,8 +305,10 @@ public class StreamFileHelper {
     }
 
     /**
+     * Return the line or null
      *
-     * @return @throws IOException
+     * @return the line or null
+     * @throws IOException
      */
     public String readLine() throws IOException {
         String result = bufferedReader.readLine();
