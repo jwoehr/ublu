@@ -54,19 +54,24 @@ public class CmdWhile extends Command {
      * @return remnant of the arg array
      */
     public ArgArray doWhile(ArgArray argArray) {
-        Tuple whileTuple;
+        Tuple whileTuple = null;
         if (!argArray.isNextTupleNameOrPop()) {
             getLogger().log(Level.SEVERE, "No WHILE tuple provided", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            whileTuple = argArray.nextTupleOrPop();
-            String block = argArray.nextUnlessNotBlock();
-            if (block == null) {
-                getLogger().log(Level.SEVERE, "WHILE found without a $[ block ]$");
-                setCommandResult(COMMANDRESULT.FAILURE);
+            if (argArray.isNextPopTuple()) {
+                argArray.next(); // discard pop sign and don't instance whileTuple
             } else {
+                whileTuple = argArray.nextTuple(); // it's a tuple, get it if it exists
                 if (whileTuple == null) {
                     getLogger().log(Level.SEVERE, "WHILE tuple does not exist in {0}", getNameAndDescription());
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
+            }
+            if (getCommandResult() != COMMANDRESULT.FAILURE) { // if it was a pop or an instanced tuple
+                String block = argArray.nextUnlessNotBlock();
+                if (block == null) {
+                    getLogger().log(Level.SEVERE, "WHILE found without a $[ block ]$");
                     setCommandResult(COMMANDRESULT.FAILURE);
                 } else {
                     Parser p = new Parser(getInterpreter(), block);
@@ -88,7 +93,7 @@ public class CmdWhile extends Command {
 
     private void walkWhile(Tuple whileTuple, ArgArray argArray) {
         ArgArray copy;
-        while (whileTuple.getValue().equals(true)) {
+        while (whileTuple == null ? getTupleStack().pop().value(Boolean.class) : whileTuple.value(Boolean.class)) /* while (whileTuple.getValue().equals(true)) */ {
             copy = new ArgArray(getInterpreter(), argArray);
             getInterpreter().setArgArray(copy);
             setCommandResult(getInterpreter().loop());
