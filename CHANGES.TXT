@@ -20,10 +20,11 @@ All rights reserved.
 	* `usage/help` honors property `ublu.usage.linelength`
 * Examples
 	* `createFileFromRecFormat.ublu`
+	* `writesrc.ublu`
 * Extensions
 	* `ux.mbrdesc.ublu`
 * Windowing
-	* now executes rest of command line
+	* now executes rest of initial command line
 	* set colors separately for input and output from menu
 * Testing
 	* progress on the framework
