@@ -1,70 +1,75 @@
-# writesrc.ublu ... write program to source member of a record file
+# writesrc.ublu ... write program to member of a source physical file
 # Example from Ublu https://github.com/jwoehr/ublu
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# writesrc ( sys streamfile recordfile padlen )
+# writesrc ( sys streamfpath ifsfqp padlen )
 # Given
 #   sys ... an as400 object
-#   streamfile ... a fully qualified IFS path to a source member
-#   recordfile ... a path to a local stream file
-#   padlen ... a pad/truncate length
-# write the contents of the local file to the remote physical source file member
-# padded/truncated line by padded/truncated line
+#   streamfpath ... a path to a local stream file
+#   ifsfqp ... a fully qualified IFS path to a source member
+# Write the contents of the local file to the remote source phys file member.
+# Member must already exist and should be empty.
+# No line of the stream file should be longer than the SRCDAT field width
+# of the target physical file.
 # E.g.
-#   writesrc ( @mysys @streamfile /QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR len)
+#   writesrc ( @mysys @streamfile /QSYS.LIB/MYLIB.LIB/QCLSRC.FILE/MYPROG.MBR )
 #
 # Each line is padded with blanks to padlen chars or truncated
-FUNC writesrc ( sys streamfile recordfile padlen ) $[
+FUNC writesrc ( sys streamfpath ifsfqp ) $[
    LOCAL @streamfiletuple
-   LOCAL @recordfiletuple LOCAL @arraytuple LOCAL @formattuple
-   getSourceStream ( @@streamfile @streamfiletuple )
-   getTargetMember ( @@sys @@recordfile @recordfiletuple @arraytuple @formattuple )
-   writeData ( @streamfiletuple @arraytuple @formattuple )
-   streamf -- @streamfiletuple -close
-   file -- @recordfiletuple -close
+   LOCAL @srcpftuple
+   getSourceStream ( @@streamfpath @streamfiletuple )
+   getTargetMember ( @@sys @@ifsfqp @srcpftuple )
+   writeData ( @streamfiletuple @srcpftuple )
+   @streamfiletuple -close
+   @srcpftuple -close
 ]$
 
-# getTargetMember ( sys fqp filetuple arraytuple formattuple )
-# Get an record file handle, the records in an array, and the format of target  
-FUNC getTargetMember ( sys fqp filetuple arraytuple formattuple ) $[
-    file -as400 @@sys -to @@filetuple -sequential @@fqp
-    file -- @@filetuple -to @@arraytuple -read ALL
-    file -- @@filetuple -open  RW
-    file -- @@filetuple -to @@formattuple -getfmt
+# getTargetMember ( sys ifsfqp filetuple )
+# Get a record file and open for write
+FUNC getTargetMember ( sys ifsfqp filetuple ) $[
+    file -as400 @@sys -to @@filetuple -sequential @@ifsfqp
+    @@filetuple -open  W   
 ]$
 
-# Get stream file
-FUNC getSourceStream ( fqp streamftuple ) $[
-    streamf -to @@streamftuple -new @@fqp
+# Get stream file and open for read character
+FUNC getSourceStream ( streamfpath streamftuple ) $[
+    streamf -to @@streamftuple -new @@streamfpath
     @@streamftuple -open RC
 ]$
 
-# writeData ( streamfiletuple arraytuple formattuple )
-FUNC writeData ( streamfiletuple arraytuple formattuple ) $[
-    LOCAL @thisline LOCAL @thisrec
-    LOCAL @numrecords LOCAL @recordslist
-    LOCAL @currrecnum LOCAL @nullline
-    put -to @currrecnum 0
-    list -to @recordslist -source @@arraytuple
-    list -- @recordslist -to @numrecords -size
-    streamf -- @@streamfiletuple -to @thisline -rline
-    test -to @nnullline -nnull @thisline
-    eval -to ~ > @numrecords @currrecnum
-    eval -to ~ && ~ @nnullline
-    WHILE ~ $[       
-        eval -to @currrecnum + @currrecnum 1
-        streamf -- @@streamfiletuple -to @thisline -rline
-        \\ ${ pad current line to current record and update in file }$
-        test -to @nnullline -nnull @thisline
-        eval -to ~ > @numrecords @currrecnum
-        eval -to ~ && ~ @nnullline
+# writeData ( streamfiletuple srcpftuple )
+FUNC writeData ( streamfiletuple srcpftuple ) $[
+    LOCAL @fmt 
+    LOCAL @thisline LOCAL @nnullline
+    LOCAL @linenum
+    
+    @@srcpftuple -to @fmt -getfmt
+    
+    num -to @linenum -int 100
+
+    @@srcpftuple -pos A
+    
+    ::@@streamfiletuple -to @thisline -rline
+    test -to ~ -nnull @thisline
+    
+    WHILE ~ $[
+        LOCAL @rec
+        
+        calljava -to @rec -- @@fmt -method getNewRecord
+        
+        num -to ~ -int @linenum
+        @rec -setfieldbyname SRCSEQ ~
+        string -to ~ trim @thisline
+        @rec -setfieldbyname SRCDTA ~
+        
+        @@srcpftuple -write @rec
+        
+        eval -to @linenum + @linenum 100
+        @@streamfiletuple -to @thisline -rline
+        test -to ~ -nnull @thisline
     ]$
-    WHILE @nnullline $[
-    \\ ${ create a record and pad the current line to it and write to file }$    
-    streamf -- @@streamfiletuple -to @thisline -rline
-    test -to @nnullline -nnull @thisline    
-    ]$    
 ]$
   
 # padOrTrunc ( str padlen )
