@@ -48,13 +48,13 @@ FUNC writeData ( streamfiletuple arraytuple formattuple ) $[
     put -to @currrecnum 0
     list -to @recordslist -source @@arraytuple
     list -- @recordslist -to @numrecords -size
-    streamf -- @@streamfiletuple -to @thisline -readline
+    streamf -- @@streamfiletuple -to @thisline -rline
     test -to @nnullline -nnull @thisline
     eval -to ~ > @numrecords @currrecnum
     eval -to ~ && ~ @nnullline
     WHILE ~ $[       
         eval -to @currrecnum + @currrecnum 1
-        streamf -- @@streamfiletuple -to @thisline -readline
+        streamf -- @@streamfiletuple -to @thisline -rline
         \\ ${ pad current line to current record and update in file }$
         test -to @nnullline -nnull @thisline
         eval -to ~ > @numrecords @currrecnum
@@ -62,7 +62,7 @@ FUNC writeData ( streamfiletuple arraytuple formattuple ) $[
     ]$
     WHILE @nnullline $[
     \\ ${ create a record and pad the current line to it and write to file }$    
-    streamf -- @@streamfiletuple -to @thisline -readline
+    streamf -- @@streamfiletuple -to @thisline -rline
     test -to @nnullline -nnull @thisline    
     ]$    
 ]$
