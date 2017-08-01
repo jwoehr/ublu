@@ -474,7 +474,12 @@ public class ArgArray extends ArrayList<String> {
         return result;
     }
 
-    private boolean isNextPopTuple() {
+    /**
+     * True if next in arg array is a pop ~ symbol
+     * 
+     * @return True if next in arg array is a pop ~ symbol else false
+     */
+    public boolean isNextPopTuple() {
         boolean result = false;
         if (peekNext() != null && peekNext().length() > 0) {
             result = peekNext().equals(POPTUPLE);
