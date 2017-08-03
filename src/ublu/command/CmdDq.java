@@ -28,7 +28,7 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-import ublu.util.Tuple;
+//import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.DataQueue;
 import com.ibm.as400.access.ErrorCompletingRequestException;
@@ -107,7 +107,8 @@ public class CmdDq extends Command {
      */
     public ArgArray dq(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
-        Tuple dqTuple = null;
+//        Tuple dqTuple = null;
+        DataQueue myDq = null;
         int dqMaxLen = 0;
         int waitSeconds = 0;
         String theQuery = null;
@@ -127,7 +128,8 @@ public class CmdDq extends Command {
                     break;
                 case "--":
                 case "-dq":
-                    dqTuple = argArray.nextTupleOrPop();
+                    // dqTuple = argArray.nextTupleOrPop();
+                    myDq = argArray.nextTupleOrPop().value(DataQueue.class);
                     break;
                 case "-clear":
                     function = FUNCTIONS.CLEAR;
@@ -173,15 +175,14 @@ public class CmdDq extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            DataQueue myDq = null;
-            if (dqTuple != null) {
-                Object tupleValue = dqTuple.getValue();
-                if (tupleValue instanceof DataQueue) {
-                    myDq = DataQueue.class.cast(tupleValue);
-                } else {
-                    getLogger().log(Level.WARNING, "Valued tuple which is not a data queue tuple provided to -dq in {0}", getNameAndDescription());
-                }
-            }
+//            if (dqTuple == null) {
+//                Object tupleValue = dqTuple.getValue();
+//                if (tupleValue instanceof DataQueue) {
+//                    myDq = DataQueue.class.cast(tupleValue);
+//                } else {
+//                    getLogger().log(Level.WARNING, "Valued tuple which is not a data queue tuple provided to -dq in {0}", getNameAndDescription());
+//                }
+//            }
             if (myDq == null) { // no provided DQ instance
                 if (argArray.size() < 1) {
                     logArgArrayTooShortError(argArray);
