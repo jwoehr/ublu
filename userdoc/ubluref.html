@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 31 Jul 2017 00:18:25 UTC">
+  "Thu, 3 Aug 2017 03:20:54 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-07-30</p>
+  Last edit: 2017-08-02</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -108,6 +108,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <li><a href="#Installation">Installation</a>
+    </li>
+
+
+    <li><a href="#Building_Ublu_from_source">Building Ublu from
+    source</a>
     </li>
 
 
@@ -918,7 +923,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </h2>
 
 
-  <p>Ublu is distributed as an archive containing</p>
+  <p>Each Ublu release is distributed as an archive containing</p>
 
 
   <ul>
@@ -976,10 +981,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <li><em>miscellaneous</em>
     </li>
   </ul>
-  Alternatively, you can <a href=
-  "https://github.com/jwoehr/ublu">download the full source</a> or
-  check it out via <tt>git</tt> or <tt>svn</tt> from
-  <tt>https://github.com/jwoehr/ublu.git</tt>
+
 
   <p>The <tt>lib</tt> directory contains third-party .jar files
   containing classes referenced by Ublu. The <tt>lib</tt> directory
@@ -1021,6 +1023,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </ul>
     </li>
   </ul>
+
+
+  <h2><a name="Building_Ublu_from_source">Building Ublu from
+  source</a>
+  </h2>
+
+
+  <p>It can be a good idea to <a href=
+  "https://github.com/jwoehr/ublu">download the full source</a> or
+  check it out via <tt>git</tt> or <tt>svn</tt> from
+  <tt>https://github.com/jwoehr/ublu.git</tt> Changes, features and
+  bug fixes come pretty frequently at present.</p>
+
+
+  <p>When you have the source tree, change directory to the top
+  level and execute <a href=
+  "http://ant.apache.org/"><code>ant</code></a> (which you will
+  need to have installed separately). Ant will build the default
+  target and leave its output in the <code>dist</code>
+  directory.</p>
 
 
   <h2><a name="Invocation" id="Invocation"></a>Invocation</h2>
