@@ -72,7 +72,10 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     
     \\ ${ debug }$ lifo -dup put -n -s ${ result of diff }$ put ~
     
-    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put to @PFAIL F ]$
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+
+    \\ ${ debug }$ put -n -s ${ value of PFAIL }$ put @PFAIL
+      
     @result -> @PFAIL 
     
     @results -add @result

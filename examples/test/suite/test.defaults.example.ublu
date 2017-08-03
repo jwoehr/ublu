@@ -6,21 +6,22 @@
 # See the Ublu license (BSD-2 open source)
 
 # Assumes called from an includer of test_utils.ublu
-# e.g., test.all.ublu
+# e.g., test.all.ublu                    
 
-const *t_paradigm /some/dir/path
-const *t_server MYSYSTEM
-const *t_userprof MYUSERPROF
-const *t_password MYPASSWORD
-const *t_library MYLIB
-const *t_sourcepf MYSRCPF
-const *t_sourcembr MYSRCMBR
+const *t_paradigm /some/dir/path    # path to exemplars
+const *t_server MYSYSTEM            # target IBM i system
+const *t_userprof MYUSERPROF        # testuser id
+const *t_password MYPASSWORD        # testuser passwd
+const *t_library MYLIB              # test library on IBM i system
+const *t_sourcepf MYSRCPF           # source phys file for record file tests
+const *t_sourcembr MYSRCMBR         # member to use for record file tests
+const *t_dataq MYDATAQ              # data queue to test on
 
 # Using ssl is of course the default.
 tuple -true @ssl 
 
 # FQP to a source pf mbr for t_record.ublu
-fqp_file ( *t_library *t_sourcepf )
+fqp_file ( *t_library *t_sourcepf )                   
 fqp_mbr ( ~ *t_sourcembr )
 const *t_record_source_mbr_fqp ~
 

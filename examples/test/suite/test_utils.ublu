@@ -5,15 +5,22 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
+# fqp_obj ( library objname objtype )
+# push ifs fqp from library + object + objtype
+FUNC fqp_obj ( library objname objtype ) $[
+  string -to ~ -cat /QSYS.LIB/ @@library
+  ~ -to ~ -cat .LIB/
+  ~ -to ~ -cat @@objname
+  ~ -to ~ -cat .
+  ~ -to ~ -cat @@objtype
+]$
+  
 # fqp_file ( library filename )
 # push ifs fqp from library and filename
 FUNC fqp_file ( library filename ) $[
-  string -to ~ -cat /QSYS.LIB/ @@library
-  ~ -to ~ -cat .LIB/
-  ~ -to ~ -cat @@filename
-  ~ -to ~ -cat .FILE
+    fqp_obj ( @@library @@filename FILE )
 ]$
-
+  
 #  fqp_mbr ( fqp_file mbrname )
 # push ifs fqp from file fqp and membername 
 FUNC fqp_mbr ( fqp_file mbrname ) $[
