@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 3 Aug 2017 03:20:54 UTC">
+  "Fri, 4 Aug 2017 15:49:28 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-02</p>
+  Last edit: 2017-08-04</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -1400,21 +1400,13 @@ Type help for help. Type license for license. Type bye to exit.
   <tt>|</tt> ) or "here documents" ( <tt>&lt;&lt;</tt> ).<br></p>
 
 
-  <p>When interpreter input comes from standard in, prompting is
-  suppressed.</p>
-
-
-  <p>In <a href="#Server_mode">server mode</a>, input comes from
-  the network socket and prompting is suppressed.<br></p>
-
-
   <h3><a name="Output" id="Output"></a>Output</h3>
 
 
   <p>In <a href="#Interpreter">interpreter</a> and <a href=
   "#Commandline">commandline</a> mode, command output of Ublu is
   written to standard out, with the exception of the following
-  which are written to standard error:<br></p>
+  which are written to standard error:</p>
 
 
   <ul>
@@ -1429,14 +1421,28 @@ Type help for help. Type license for license. Type bye to exit.
     <li>all help and usage messages</li>
 
 
-    <li>the prompt</li>
+    <li>the prompt
+
+      <ul>
+        <li>When interpreter input comes from standard in,
+        prompting is suppressed.</li>
+
+
+        <li>When running under <a href="#Goublu">Goublu</a>, the
+        prompt is to standard out.</li>
+
+
+        <li>In <a href="#Server_mode">server mode</a>, input comes
+        from the network socket and prompting is suppressed.</li>
+      </ul>
+    </li>
   </ul>
 
 
   <p>When automating system tasks, it may be helpful to redirect
   stderr from the shell command line via <tt>2&gt;/dev/null</tt> to
   discard miscellaneous interpreter informational output. This,
-  however, discards error messages as well.<br></p>
+  however, discards error messages as well.</p>
 
 
   <p>In <a href="#Server_mode">server mode</a>, Ublu standard out
@@ -1515,13 +1521,20 @@ Type help for help. Type license for license. Type bye to exit.
 
   <h3><a name="Quoted_strings" id="Quoted_strings"></a>Quoted
   strings</h3>
-  Quoting of strings is achieved by placing the string between two
-  elements <strong><tt>${</tt></strong> and
+
+
+  <p>Quoting of strings is achieved by placing the string between
+  two elements <strong><tt>${</tt></strong> and
   <strong><tt>}$</tt></strong> . The open and close elements of a
   quoted string must each be separated by at least one space from
   the contents of the string and from any leading or following
-  commands or arguments.<br>
-  <br>
+  commands or arguments.</p>
+
+
+  <blockquote>
+    The <code><a href="#string">string</a></code> command offers
+    many manipulations of strings to get what you want.
+  </blockquote>
 
 
   <p>Whitespace between non-whitespace elements of the string is
@@ -2218,10 +2231,12 @@ Type help for help. Type license for license. Type bye to exit.
   often possessing an argument or string of arguments.<br></p>
 
 
-  <p>All dash-commands to a command must appear on the same line
-  with the command, except that a <a href="#Quoted_strings">quoted
-  string</a> once started may span line breaks, thus extending a
-  command over two or more lines.<br></p>
+  <p>All dash-commands with their arguments must appear on the same
+  line with the command, except that a <a href=
+  "#Quoted_strings">quoted string</a> or <a href=
+  "#Execution_blocks">block</a> argument to a command or
+  dash-command, once started, may span line breaks, thus extending
+  a command over two or more lines.<br></p>
 
 
   <p>If dash-commands specify conflicting operations, the last
@@ -2415,6 +2430,10 @@ Type help for help. Type license for license. Type bye to exit.
     </li>
 
 
+    <li>Tuple stack (pushing and popping named or anonymous
+    tuples)</li>
+
+
     <li>Null output (discard all data directed to this
     datasink).</li>
   </ol>
@@ -2454,6 +2473,11 @@ Type help for help. Type license for license. Type bye to exit.
         previously exist.</li>
       </ul>
     </li>
+
+
+    <li>The tuple stack as a datasink is denoted by the tilde
+    character <code><strong><span style=
+    "font-size: larger;">~</span></strong></code></li>
   </ul>
 
 
