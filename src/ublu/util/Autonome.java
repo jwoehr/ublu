@@ -38,6 +38,7 @@ import com.ibm.as400.access.IFSFile;
 import com.ibm.as400.access.Job;
 import com.ibm.as400.access.JobList;
 import com.ibm.as400.access.JobLog;
+import com.ibm.as400.access.KeyedDataQueue;
 import com.ibm.as400.access.MessageQueue;
 import com.ibm.as400.access.ObjectDescription;
 import com.ibm.as400.access.ObjectList;
@@ -96,6 +97,7 @@ public class Autonome {
         AUTONOMY.put(Db.class, "db");
         AUTONOMY.put(SysShepHelper.class, "dpoint");
         AUTONOMY.put(DataQueue.class, "dq");
+        AUTONOMY.put(KeyedDataQueue.class, "dq");
         AUTONOMY.put(DataArea.class, "dta");
         AUTONOMY.put(AS400File.class, "file");
         AUTONOMY.put(FTP.class, "ftp");

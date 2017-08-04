@@ -28,11 +28,11 @@
 package ublu.command;
 
 import ublu.util.ArgArray;
-//import ublu.util.Tuple;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.DataQueue;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.IllegalObjectTypeException;
+import com.ibm.as400.access.KeyedDataQueue;
 import com.ibm.as400.access.ObjectAlreadyExistsException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
@@ -40,6 +40,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.Tuple;
 
 /**
  * Command to manipulate data queues
@@ -49,7 +50,10 @@ import java.util.logging.Level;
 public class CmdDq extends Command {
 
     {
-        setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
+        setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-authority *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT]"
+                + " [-saveSenderInformation ~@tf] [-FIFO ~@tf] [-forceToAuxiliaryStorage ~@tf] [-desc ~@{description}] [-keyed ~@tf] [-keylen ~@{intlength}]"
+                + " [-key ~@{key}] [-searchtype  EQ|NE|LT|LE|GT|GE]"
+                + " [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | keylen | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
     }
 
     /**
@@ -107,9 +111,25 @@ public class CmdDq extends Command {
      */
     public ArgArray dq(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
-//        Tuple dqTuple = null;
+        Tuple dqTuple;
         DataQueue myDq = null;
-        int dqMaxLen = 0;
+        KeyedDataQueue myKDq = null;
+        // ---------------- //
+        // Creation attributes
+        int maxEntryLength = 0;
+        String authority = "*LIBCRTAUT";
+        boolean saveSenderInformation = false;
+        boolean FIFO = true;
+        boolean forceToAuxiliaryStorage = false;
+        String description = "Created by Ublu";
+        // Keyed Q?
+        boolean keyed = false;
+        Integer keyLength = null;
+        String key = null;
+        // byte[] bkey = null;
+        String searchType = "EQ";
+        // ---------------- //
+
         int waitSeconds = 0;
         String theQuery = null;
         String dataToWrite = null;
@@ -128,15 +148,36 @@ public class CmdDq extends Command {
                     break;
                 case "--":
                 case "-dq":
-                    // dqTuple = argArray.nextTupleOrPop();
-                    myDq = argArray.nextTupleOrPop().value(DataQueue.class);
+                    dqTuple = argArray.nextTupleOrPop();
+                    myDq = dqTuple.value(DataQueue.class);
+                    if (myDq == null) {
+                        myKDq = dqTuple.value(KeyedDataQueue.class);
+                    }
+                    break;
+                case "-authority":
+                    authority = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-saveSenderInformation":
+                    saveSenderInformation = argArray.nextBooleanTupleOrPop();
+                    break;
+                case "-FIFO":
+                    FIFO = argArray.nextBooleanTupleOrPop();
+                    break;
+                case "-forceToAuxiliaryStorage":
+                    forceToAuxiliaryStorage = argArray.nextBooleanTupleOrPop();
+                    break;
+                case "-desc":
+                    description = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-keylen":
+                    keyLength = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-clear":
                     function = FUNCTIONS.CLEAR;
                     break;
                 case "-create":
                     function = FUNCTIONS.CREATE;
-                    dqMaxLen = argArray.nextIntMaybeQuotationTuplePopString();
+                    maxEntryLength = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-delete":
                     function = FUNCTIONS.DELETE;
@@ -147,6 +188,12 @@ public class CmdDq extends Command {
                 case "-new":
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
+                    break;
+                case "-key":
+                    key = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-keyed":
+                    keyed = argArray.nextBooleanTupleOrPop();
                     break;
                 case "-noop":
                     function = FUNCTIONS.NOOP;
@@ -160,6 +207,9 @@ public class CmdDq extends Command {
                     break;
                 case "-read":
                     function = FUNCTIONS.READ;
+                    break;
+                case "-searchtype":
+                    searchType = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-write":
                     function = FUNCTIONS.WRITE;
@@ -175,15 +225,7 @@ public class CmdDq extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-//            if (dqTuple == null) {
-//                Object tupleValue = dqTuple.getValue();
-//                if (tupleValue instanceof DataQueue) {
-//                    myDq = DataQueue.class.cast(tupleValue);
-//                } else {
-//                    getLogger().log(Level.WARNING, "Valued tuple which is not a data queue tuple provided to -dq in {0}", getNameAndDescription());
-//                }
-//            }
-            if (myDq == null) { // no provided DQ instance
+            if (myDq == null && myKDq == null) { // no provided DQ instance
                 if (argArray.size() < 1) {
                     logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
@@ -203,23 +245,31 @@ public class CmdDq extends Command {
                         }
                     }
                     if (getAs400() != null) {
-                        myDq = new DataQueue(getAs400(), dqPath);
+                        if (keyed) {
+                            myKDq = new KeyedDataQueue(getAs400(), dqPath);
+                        } else {
+                            myDq = new DataQueue(getAs400(), dqPath);
+                        }
                     }
                 }
             }
-            if (myDq != null) {
+            if (myDq != null || myKDq != null) {
                 switch (function) {
                     case CLEAR:
                         try {
-                            myDq.clear();
+                            (myDq != null ? myDq : myKDq).clear();
                         } catch (IllegalObjectTypeException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + myDq.getName() + inNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + (myDq != null ? myDq : myKDq).getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
                     case CREATE:
                         try {
-                            myDq.create(dqMaxLen);
+                            if (myDq != null) {
+                                myDq.create(maxEntryLength, authority, saveSenderInformation, FIFO, forceToAuxiliaryStorage, description);
+                            } else {
+                                myKDq.create(keyLength, maxEntryLength, authority, saveSenderInformation, forceToAuxiliaryStorage, description);
+                            }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectAlreadyExistsException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error creating dataqueue " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -227,7 +277,7 @@ public class CmdDq extends Command {
                         break;
                     case DELETE:
                         try {
-                            myDq.delete();
+                            (myDq != null ? myDq : myKDq).delete();
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | IllegalObjectTypeException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error deleting dataqueue " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -235,7 +285,7 @@ public class CmdDq extends Command {
                         break;
                     case EXISTS:
                         try {
-                            put(myDq.exists());
+                            put((myDq != null ? myDq : myKDq).exists());
                         } catch (IllegalObjectTypeException | SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -243,7 +293,11 @@ public class CmdDq extends Command {
                         break;
                     case INSTANCE:
                         try {
-                            put(myDq);
+                            if (myDq != null) {
+                                put(myDq);
+                            } else {
+                                put(myKDq);
+                            }
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting dataqueue instance " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -251,7 +305,11 @@ public class CmdDq extends Command {
                         break;
                     case PEEK:
                         try {
-                            put(myDq.peek(waitSeconds));
+                            if (myDq != null) {
+                                put(myDq.peek(waitSeconds));
+                            } else {
+                                put(myKDq.peek(key, waitSeconds, searchType));
+                            }
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
                             getLogger().log(Level.SEVERE, "Error peeking dataqueue instance " + myDq.getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -259,57 +317,68 @@ public class CmdDq extends Command {
                         break;
                     case QUERY:
                         try {
-                            myDq.refreshAttributes();
+                            (myDq != null ? myDq : myKDq).refreshAttributes();
                             switch (theQuery) {
                                 case "ccsid":
-                                    put(myDq.getCcsid());
+                                    put((myDq != null ? myDq : myKDq).getCcsid());
                                     break;
                                 case "description":
-                                    put(myDq.getDescription());
+                                    put((myDq != null ? myDq : myKDq).getDescription());
                                     break;
                                 case "fifo":
-                                    put(myDq.isFIFO());
+                                    put((myDq != null ? myDq : myKDq).isFIFO());
                                     break;
                                 case "forceauxstorage":
-                                    put(myDq.getForceToAuxiliaryStorage());
+                                    put((myDq != null ? myDq : myKDq).getForceToAuxiliaryStorage());
+                                    break;
+                                case "keylen":
+                                    put(myKDq.getKeyLength());
                                     break;
                                 case "maxentrylength":
-                                    put(myDq.getMaxEntryLength());
+                                    put((myDq != null ? myDq : myKDq).getMaxEntryLength());
                                     break;
                                 case "name":
-                                    put(myDq.getName());
+                                    put((myDq != null ? myDq : myKDq).getName());
                                     break;
                                 case "path":
-                                    put(myDq.getPath());
+                                    put((myDq != null ? myDq : myKDq).getPath());
                                     break;
                                 case "savesender":
-                                    put(myDq.getSaveSenderInformation());
+                                    put((myDq != null ? myDq : myKDq).getSaveSenderInformation());
                                     break;
                                 case "system":
-                                    put(myDq.getSystem());
+                                    put((myDq != null ? myDq : myKDq).getSystem());
                                     break;
                                 default:
-                                    getLogger().log(Level.SEVERE, "Unknown dataqueue query for {0} in {1}", new Object[]{myDq.getName(), getNameAndDescription()});
+                                    getLogger().log(Level.SEVERE, "Unknown dataqueue query for {0} in {1}", new Object[]{(myDq != null ? myDq : myKDq).getName(), getNameAndDescription()});
                                     setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } catch (AS400SecurityException | SQLException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | IllegalObjectTypeException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error querying dataqueue instance " + myDq.getName() + "or putting result in " + getNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error querying dataqueue instance " + (myDq != null ? myDq : myKDq).getName() + "or putting result in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
                     case READ:
                         try {
-                            put(myDq.read(waitSeconds));
+                            if (myDq != null) {
+                                put(myDq.read(waitSeconds));
+                            } else {
+                                put(myKDq.read(key, waitSeconds, searchType));
+                            }
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
-                            getLogger().log(Level.SEVERE, "Error peeking reading instance " + myDq.getName() + inNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error peeking reading instance " + (myDq != null ? myDq : myKDq).getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
                     case WRITE:
                         try {
-                            myDq.write(dataToWrite);
+                            if (myDq != null) {
+                                myDq.write(dataToWrite);
+                            } else {
+                                myKDq.write(key, dataToWrite);
+                            }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | IllegalObjectTypeException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Error writing to data queue " + myDq.getName() + inNameAndDescription(), ex);
+                            getLogger().log(Level.SEVERE, "Error writing to data queue " + (myDq != null ? myDq : myKDq).getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                         break;
