@@ -18,6 +18,7 @@ All rights reserved.
 	* `props` picks up System property ublu.usage.linelength at startup
 	* `tuple -assign` to non-existent tuple was failing
 	* `usage/help` honors property `ublu.usage.linelength`
+	* `WHILE` was failing on tuple stack ~ argument
 * Examples
 	* `createFileFromRecFormat.ublu`
 	* `writesrc.ublu`
