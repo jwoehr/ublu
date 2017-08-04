@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 4 Aug 2017 15:49:28 UTC">
+  "Fri, 4 Aug 2017 22:43:20 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -6541,36 +6541,100 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
   <blockquote>
-    <tt>/4? [-as400 @as400] [--,-dq ~@dq] [-wait
-    ~@{intwaitseconds}] [-clear | -create ~@{maxentrylength} |
-    -delete | -exists | -new,-instance | -peek | -query [ ccsid |
-    description | fifo | forceauxstorage | maxentrylength | name |
-    path | savesender | system ] | -read | -write ~@{data to
-    write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} :
-    manipulate a data queue on the host</tt><br>
-    <br>
-    The <tt>dq</tt> command manipulates a dataqueue on the
-    host.<br>
-    <br>
-    If the <a href="#System_Userid"><tt>-as400</tt></a> <a href=
+    <p><code>/4? [-as400 @as400] [--,-dq ~@dq] [-wait
+    ~@{intwaitseconds}] [-authority
+    *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT] [-saveSenderInformation
+    ~@tf] [-FIFO ~@tf] [-forceToAuxiliaryStorage ~@tf] [-desc
+    ~@{description}] [-keyed ~@tf] [-keylen ~@{intlength}] [-key
+    ~@{key}] [-searchtype EQ|NE|LT|LE|GT|GE] [-clear | -create
+    ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek
+    | -query [ ccsid | description | fifo | forceauxstorage |
+    keylen | maxentrylength | name | path | savesender | system ] |
+    -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system}
+    ~@{userid} ~@{password} : manipulate a data queue on the
+    host</code>
+    </p>
+
+
+    <p>The <tt>dq</tt> command manipulates a data queue or keyed
+    data queue on the host.</p>
+
+
+    <p>If the <a href="#System_Userid"><tt>-as400</tt></a> <a href=
     "#Dash_Command">dash-command</a> is provided, then the
     arguments <tt>system userid</tt> and <tt>password</tt> must be
-    omitted.<br>
-    <br>
-    The <tt>-dq</tt> <em>@dq</em> dash-command is used to reference
-    an existing dataqueue instance previously stored in some tuple
-    variable of the user's choice such as <em>@dq</em>. If the
-    <tt>-dq</tt> dash-command is used, then the arguments
+    omitted.</p>
+
+
+    <p>The <tt>-dq</tt> <em>@dq</em> dash-command is used to
+    reference an existing dataqueue instance previously stored in
+    some tuple variable of the user's choice such as <em>@dq</em>.
+    If the <tt>-dq</tt> dash-command is used, then the arguments
     <tt>dataqueuepath system userid password</tt> must be
-    omitted.<br>
-    <br>
-    The <tt>dataqueuepath</tt> is a fully-qualified HFS path, e.g.,
-    <tt>/qsys.lib/qgpl.lib/events.dtaq</tt><br>
-    <br>
-    The various operations are as follows:<br>
+    omitted.</p>
+
+
+    <p>The <tt>dataqueuepath</tt> is a fully-qualified HFS path,
+    e.g., <tt>/qsys.lib/qgpl.lib/events.dtaq</tt></p>
+
+
+    <p>You must indicated at instancing time if a keyed or
+    sequential data queue is intended. If <code>-keyed</code> is
+    <code>@false</code> (the default) a sequential data queue is
+    instanced.</p>
+
+
+    <p>The various operations are as follows:</p>
 
 
     <ul>
+      <li><code>-authority
+      *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT</code> set at
+      <code>-create</code> time sets access to the queue.</li>
+
+
+      <li><code>-saveSenderInformation ~@tf</code> set at
+      <code>-create</code> time indicates if the created queue will
+      save sender information. The default is
+      <code>false</code>.</li>
+
+
+      <li><code>-FIFO ~@tf</code> set at <code>-create</code> time
+      indicates whether a sequential data queue is FIFO
+      (<code>true</code>, the default) or LIFO
+      (<code>false</code>). It is ignored on keyed queue
+      creation.</li>
+
+
+      <li><code>-forceToAuxiliaryStorage ~@tf</code> set at
+      <code>-create</code> time is <code>true</code> if entries are
+      immediately written to permanent storage; <code>false</code>
+      otherwise.</li>
+
+
+      <li><code>-desc ~@{description}</code> set at
+      <code>-create</code> time is the queue's text
+      description.</li>
+
+
+      <li><code>-keyed ~@tf</code> set at instancing time indicates
+      a keyed queue (<code>true</code>) or a sequential queue
+      (<code>false</code>, the default).</li>
+
+
+      <li><code>-keylen ~@{intlength}</code> set at
+      <code>-create</code> time is a keyed queue's key length.</li>
+
+
+      <li><code>-key ~@{key}</code> must be set to retrieve from or
+      write to a keyed queue.</li>
+
+
+      <li><code>-searchtype EQ|NE|LT|LE|GT|GE</code> is set at
+      retrieve time for a peek or read from a keyed queue. The
+      meanings are obvious. The default is <code>EQ</code>.</li>
+
+
       <li><code>-wait ~@{intwaitseconds}</code> is the number of
       seconds to wait for a queue entry when used with
       <code>-peek</code> or <code>-read</code>. A value of
@@ -6627,6 +6691,10 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
           forced to auxiliary storage</li>
 
 
+          <li><code>keylen</code> puts the key length for a keyed
+          queue. This is an error if the queue is sequential.</li>
+
+
           <li><tt>maxentrylength</tt> puts the maximum entry
           length</li>
 
@@ -6655,11 +6723,13 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
       e.g., if a tuple is provided, but this non-string
       functionality is not fully tested yet.</li>
     </ul>
-    The default operation is <tt>-instance</tt> .<br>
-    <br>
-    The full implementation of data queue support awaits the
-    addition of data queue attributes and a <tt>dqentry</tt>
-    command.<br>
+
+
+    <p>The default operation is <tt>-instance</tt> .</p>
+
+
+    <p>The data queue command currently only supports string keys
+    and string data.</p>
   </blockquote>
 
 
