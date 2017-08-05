@@ -5,6 +5,8 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +17,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 4 Aug 2017 22:43:20 UTC">
+  "Sun, 6 Aug 2017 22:43:20 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +65,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-04</p>
+  Last edit: 2017-08-06</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -6546,18 +6548,22 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT] [-saveSenderInformation
     ~@tf] [-FIFO ~@tf] [-forceToAuxiliaryStorage ~@tf] [-desc
     ~@{description}] [-keyed ~@tf] [-keylen ~@{intlength}] [-key
-    ~@{key}] [-searchtype EQ|NE|LT|LE|GT|GE] [-clear | -create
-    ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek
-    | -query [ ccsid | description | fifo | forceauxstorage |
-    keylen | maxentrylength | name | path | savesender | system ] |
-    -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system}
-    ~@{userid} ~@{password} : manipulate a data queue on the
-    host</code>
+    ~@{key}] [-bkey ~@bytekey] [-searchtype EQ|NE|LT|LE|GT|GE]
+    [-clear | -create ~@{maxentrylength} | -delete | -exists |
+    -new,-instance | -peek | -query [ ccsid | description | fifo |
+    forceauxstorage | keylen | maxentrylength | name | path |
+    savesender | system ] | -read | -write ~@{data to write} |
+    writeb ~@bytedata] ~@{dataqueuepath} ~@{system} ~@{userid}
+    ~@{password} : manipulate a data queue on the host</code>
     </p>
 
 
     <p>The <tt>dq</tt> command manipulates a data queue or keyed
-    data queue on the host.</p>
+    data queue on the host. Strings or byte arrays can be written,
+    peeked and read. When read or peeked, a DataQueueEntry or
+    KeyedDataQueueEntry is returned. There are extensions in
+    <code>extensions/ux.dqentry.ublu</code> to manipulate these
+    entries.</p>
 
 
     <p>If the <a href="#System_Userid"><tt>-as400</tt></a> <a href=
@@ -6626,8 +6632,16 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
       <code>-create</code> time is a keyed queue's key length.</li>
 
 
-      <li><code>-key ~@{key}</code> must be set to retrieve from or
-      write to a keyed queue.</li>
+      <li><code>-key ~@{key}</code> or <code>-bkey ~@{bkey}</code>
+      must be set to peek, read or write to a keyed queue.
+      <em>key</em> is a string. When writing, use
+      <code>-write</code> with a string.</li>
+
+
+      <li><code>-bkey ~@{bkey}</code> or <code>-key ~@{key}</code>
+      must be set to peek, read or write to a keyed queue.
+      <em>key</em> is a byte array. When writing, use
+      <code>-writeb</code> with a byte array.</li>
 
 
       <li><code>-searchtype EQ|NE|LT|LE|GT|GE</code> is set at
@@ -6719,9 +6733,13 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
       <li><tt>-write</tt> <em>~@${ some text }$</em> Writes data to
-      the queue. This data should not need to be in string form,
-      e.g., if a tuple is provided, but this non-string
-      functionality is not fully tested yet.</li>
+      the queue. <em>Some text</em> is provided in string form</li>
+
+
+      <li><code>writeb ~@bytedata</code> is used when writing to a
+      keyed queue with a key provided in byte array form via
+      <code>-bkey ~@bytekey</code>. <em>bytedata</em> is a byte
+      array.</li>
     </ul>
 
 
