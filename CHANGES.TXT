@@ -85,8 +85,9 @@ Examples
 * test/cimtest.ublu
 
 Extensions
-* ux.format.ublu
 * ux.cim.property.ublu
+* ux.dqentry.ublu
+* ux.format.ublu
 * ux.objectlock.ublu
 
 1.1.5 2016-12-31
