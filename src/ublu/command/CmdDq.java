@@ -40,6 +40,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.Generics.ByteArrayList;
 import ublu.util.Tuple;
 
 /**
@@ -52,8 +53,10 @@ public class CmdDq extends Command {
     {
         setNameAndDescription("dq", "/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-authority *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT]"
                 + " [-saveSenderInformation ~@tf] [-FIFO ~@tf] [-forceToAuxiliaryStorage ~@tf] [-desc ~@{description}] [-keyed ~@tf] [-keylen ~@{intlength}]"
-                + " [-key ~@{key}] [-searchtype  EQ|NE|LT|LE|GT|GE]"
-                + " [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | keylen | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
+                + " [-key ~@{key}] [-bkey ~@bytekey] [-searchtype  EQ|NE|LT|LE|GT|GE]"
+                + " [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage"
+                + " | keylen | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write} | writeb ~@bytedata] "
+                + "~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host");
     }
 
     /**
@@ -112,6 +115,8 @@ public class CmdDq extends Command {
     public ArgArray dq(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
         Tuple dqTuple;
+        byte[] byteData = null;
+        byte[] byteKey = null;
         DataQueue myDq = null;
         KeyedDataQueue myKDq = null;
         // ---------------- //
@@ -189,6 +194,9 @@ public class CmdDq extends Command {
                 case "-instance":
                     function = FUNCTIONS.INSTANCE;
                     break;
+                case "-bkey":
+                    byteKey = byteTupleToArray(argArray.nextTupleOrPop());
+                    break;
                 case "-key":
                     key = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
@@ -215,6 +223,10 @@ public class CmdDq extends Command {
                     function = FUNCTIONS.WRITE;
                     dataToWrite = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-writeb":
+                    function = FUNCTIONS.WRITE;
+                    byteData = byteTupleToArray(argArray.nextTupleOrPop());
+                    break;
                 case "-wait":
                     waitSeconds = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
@@ -229,7 +241,7 @@ public class CmdDq extends Command {
                 if (argArray.size() < 1) {
                     logArgArrayTooShortError(argArray);
                     setCommandResult(COMMANDRESULT.FAILURE);
-                } else { // get the Job factors
+                } else {
                     String dqPath = argArray.nextMaybeQuotationTuplePopString();
                     if (getAs400() == null) { // no AS400 instance
                         if (argArray.size() < 3) {
@@ -257,7 +269,11 @@ public class CmdDq extends Command {
                 switch (function) {
                     case CLEAR:
                         try {
-                            (myDq != null ? myDq : myKDq).clear();
+                            if (byteKey != null) {
+                                myKDq.clear(byteKey);
+                            } else {
+                                (myDq != null ? myDq : myKDq).clear();
+                            }
                         } catch (IllegalObjectTypeException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error testing dataqueue existence or putting result for " + (myDq != null ? myDq : myKDq).getName() + inNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -308,7 +324,11 @@ public class CmdDq extends Command {
                             if (myDq != null) {
                                 put(myDq.peek(waitSeconds));
                             } else {
-                                put(myKDq.peek(key, waitSeconds, searchType));
+                                if (byteKey == null) {
+                                    put(myKDq.peek(key, waitSeconds, searchType));
+                                } else {
+                                    put(myKDq.peek(byteKey, waitSeconds, searchType));
+                                }
                             }
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
                             getLogger().log(Level.SEVERE, "Error peeking dataqueue instance " + myDq.getName() + inNameAndDescription(), ex);
@@ -332,7 +352,12 @@ public class CmdDq extends Command {
                                     put((myDq != null ? myDq : myKDq).getForceToAuxiliaryStorage());
                                     break;
                                 case "keylen":
-                                    put(myKDq.getKeyLength());
+                                    if (myKDq == null) {
+                                        getLogger().log(Level.SEVERE, "query keylen only applies to keyed dataqueue in {0}", getNameAndDescription());
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    } else {
+                                        put(myKDq.getKeyLength());
+                                    }
                                     break;
                                 case "maxentrylength":
                                     put((myDq != null ? myDq : myKDq).getMaxEntryLength());
@@ -373,9 +398,27 @@ public class CmdDq extends Command {
                     case WRITE:
                         try {
                             if (myDq != null) {
-                                myDq.write(dataToWrite);
+                                if (byteData == null) {
+                                    myDq.write(dataToWrite);
+                                } else {
+                                    myDq.write(byteData);
+                                }
                             } else {
-                                myKDq.write(key, dataToWrite);
+                                if (byteKey == null) {
+                                    if (dataToWrite == null) {
+                                        getLogger().log(Level.SEVERE, "String key for keyed dataqueue but no string data to write in {0}", getNameAndDescription());
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    } else {
+                                        myKDq.write(key, dataToWrite);
+                                    }
+                                } else {
+                                    if (byteData == null) {
+                                        getLogger().log(Level.SEVERE, "Byte key for keyed dataqueue but no byte data to write in {0}", getNameAndDescription());
+                                        setCommandResult(COMMANDRESULT.FAILURE);
+                                    } else {
+                                        myKDq.write(byteKey, byteData);
+                                    }
+                                }
                             }
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | IllegalObjectTypeException | InterruptedException | ObjectDoesNotExistException ex) {
                             getLogger().log(Level.SEVERE, "Error writing to data queue " + (myDq != null ? myDq : myKDq).getName() + inNameAndDescription(), ex);
@@ -391,6 +434,17 @@ public class CmdDq extends Command {
             }
         }
         return argArray;
+    }
+
+    private byte[] byteTupleToArray(Tuple byteTuple) {
+        byte[] result;
+        ByteArrayList bal = byteTuple.value(ByteArrayList.class);
+        if (bal != null) {
+            result = bal.byteArray();
+        } else {
+            result = byteTuple.value(byte[].class);
+        }
+        return result;
     }
 
     @Override
