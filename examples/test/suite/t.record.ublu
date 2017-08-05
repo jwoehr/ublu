@@ -21,7 +21,7 @@ include ../../../examples/listsrc.ublu
 FUNC t.record ( work_dir testsys testrptpf ) $[
     LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESC LOCAL @PFAIL
     LOCAL @result LOCAL @results
-    LOCAL @sys LOCAL @tmpfile LOCAL @difflist
+    LOCAL @tmpfile LOCAL @difflist
     
     put ${ -------------- }$
     put ${ Start t.record }$
@@ -34,8 +34,6 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     put -to @paradigm ~
     cat_fp ( @@work_dir t.record.listsrc.diff.txt )
     put -to @difflist ~
-    
-    list -to @results -new
 
     map -to @result
     
@@ -49,7 +47,7 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     tuple -assign @TMSTRT ~
     @result -> @TMSTRT
     
-    fqp_file ( *t_library *t_sourcepf )                   
+    fqp_file ( *t_library *t_sourcepf )
     fqp_mbr ( ~ *t_sourcembr )
     const *t_record_source_mbr_fqp ~
     
@@ -82,11 +80,7 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
       
     @result -> @PFAIL 
     
-    @results -add @result
-    
-    FOR @r in @results $[
-        writeMapToRecord ( @@testrptpf @r )
-    ]$
+    writeMapToRecord ( @@testrptpf @result )
       
     put ${ ------------ }$    
     put ${ end t.record }$

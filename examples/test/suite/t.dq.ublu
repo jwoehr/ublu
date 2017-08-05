@@ -1,0 +1,288 @@
+# t.dq.ublu
+# Component of test.all ( )
+# Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Assumes called from test.all.ublu so
+# ... so defaults are already included
+#
+# include -s test_utils.ublu
+# ... is already included from test.all.ublu
+#
+# Assumes the present file is residing in examples/test/suite 
+include ../../../extensions/ux.dqentry.ublu
+
+# t.dq ( work_dir testsys testrptpf )
+# ... work_dir - where tests can create files and leave them
+# ... testsys - the server against which tests to be run
+# ... testrptpf - open pf to write test report records
+FUNC t.dq ( work_dir testsys testrptpf ) $[
+    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESC LOCAL @PFAIL
+    LOCAL @result
+    LOCAL @qifqp LOCAL @qs LOCAL @qk
+    LOCAL @expect LOCAL @output LOCAL @dqe
+    LOCAL @outfile
+    LOCAL @qdesc
+    
+    put ${ ---------- }$
+    put ${ Start t.dq }$
+    put ${ ---------- }$
+    put ${ }$
+    
+    fqp_obj ( *t_library *t_dataq DTAQ )
+    tuple -assign @qifqp ~
+    
+    cat_fp ( @@work_dir t.dq.miscout.txt )
+    put -to @outfile ~
+    
+    map -to @result
+    
+    string -to @FILNAM -trim t.dq.ublu
+    @result -> @FILNAM
+    
+    put -to @qdesc ${ test sequential queue }$
+    
+    string -to @DESC -trim ${ seq queue:create and exists: }$
+    @DESC -to @DESC -cat @qifqp
+    @result -> @DESC
+    
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    @result -> @TMSTRT
+        
+    dq -to @qs -as400 @@testsys @qifqp
+    @qs -desc @qdesc -create 1024
+    @qs -to @output -exists
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    @result -> @TMEND
+    
+    IF @output THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+    @result -> @PFAIL
+    
+    writeMapToRecord ( @@testrptpf @result )
+    
+    string -to @FILNAM -trim t.dq.ublu
+    @result -> @FILNAM
+    
+    string -to @DESC -trim ${ seq queue:write and peek }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    put -to @expect ${ hello sequential queue }$
+    @qs -write @expect
+    @qs -to @dqe -peek
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    ux.dqe.getString ( @dqe )
+    string -to ~ -eq ~ @expect
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$    
+    
+    writeMapToRecord ( @@testrptpf @result )
+
+    string -to @DESC -trim ${ seq queue:read }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @dqe -read
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    ux.dqe.getString ( @dqe )
+    string -to ~ -eq ~ @expect
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result )
+    
+    string -to @DESC -trim ${ seq queue:query ccsid }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query ccsid
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    eval -to ~ == @output 0
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result ) 
+
+    string -to @DESC -trim ${ seq queue:query description }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query description
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    @output -to ~ -eq @qdesc
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result ) 
+    
+    string -to @DESC -trim ${ seq queue:query fifo }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query fifo
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    IF @output THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+    writeMapToRecord ( @@testrptpf @result ) 
+    
+    string -to @DESC -trim ${ seq queue:query forceauxstorage }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query forceauxstorage
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    IF -! @output THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result )     
+
+    string -to @DESC -trim ${ seq queue:query maxentrylength }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query maxentrylength
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    eval -to ~ == @output 1024
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result )     
+ 
+    string -to @DESC -trim ${ seq queue:query name }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query name
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    @output -to ~ -eq *t_dataq
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result )  
+    
+    string -to @DESC -trim ${ seq queue:query path }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query path
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    @output -to ~ -eq @qifqp
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result )
+    
+    string -to @DESC -trim ${ seq queue:query savesender }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -to @output -query savesender
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    IF -! @output THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    writeMapToRecord ( @@testrptpf @result )     
+
+    string -to @DESC -trim ${ seq queue:delete and exists }$
+    put -n -s ${ *** }$ put @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    @qs -delete  
+    @qs -to @output -exists
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    IF -! @output THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$    
+    
+    writeMapToRecord ( @@testrptpf @result )
+    
+    put ${ ------------ }$    
+    put ${ end t.dq }$
+    put ${ ------------ }$
+    put ${ }$
+    
+]$
+
+# @qk -keylen 4 -desc ${ test keyed queue }$ -create 1024
+# @qk -key abcd -write ${ hello keyed queue }$
+# @qk -key abcd -peek
+# com.ibm.as400.access.KeyedDataQueueEntry@44c8afef ::  :: hello keyed queue 
+# @qk -key abce -peek
+# null
+# @qk -key abcd -clear
+# @qk -key abcd -peek
+# null
+# string -to ~ -tobytes abcd
+# lifo -dup put ~
+# [B@371a67ec
+# string -to ~ -tobytes ${ hello again }$
+# lifo -swap
+# @qk -bkey ~ -write ~
+# Ublu:1:UbluInterpreter.Thread[main,5,main]:SEVERE:ublu.command.CmdDq.dq():Byte key for keyed dataqueue but no byte data to write in dq/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-authority *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT] [-saveSenderInformation ~@tf] [-FIFO ~@tf] [-forceToAuxiliaryStorage ~@tf] [-desc ~@{description}] [-keyed ~@tf] [-keylen ~@{intlength}] [-key ~@{key}] [-bkey ~@bytekey] [-searchtype  EQ|NE|LT|LE|GT|GE] [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | keylen | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write}] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host
+# string -to ~ -tobytes abcd
+# string -to ~ -tobytes ${ hello again }$
+# lifo -swap
+# @qk -bkey ~ -writeb ~
+# string -to ~ -tobytes abcd
+# @qk -bkey ~ -peek
+# com.ibm.as400.access.KeyedDataQueueEntry@7a3d45bd ::  :: ÇÁ%%?/Å/Ñ>
+# string -to ~ -tobytes abcd @qk -to @foo -bkey ~ -peek
+# put @foo
+# com.ibm.as400.access.KeyedDataQueueEntry@1e7c7811
+# calljava -method getKeyString -obj @foo
+# /ÂÄÀ
+# calljava -method getData -obj @foo
+# [ 68 65 6c 6c 6f 20 61 67 61 69 6e 20 ] ( [B@4d3167f4 )
+# @qk -clear
+# @qk -delete
+# end 
