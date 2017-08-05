@@ -49,6 +49,10 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     tuple -assign @TMSTRT ~
     @result -> @TMSTRT
     
+    fqp_file ( *t_library *t_sourcepf )                   
+    fqp_mbr ( ~ *t_sourcembr )
+    const *t_record_source_mbr_fqp ~
+    
     listsrcToLocalFile ( @@testsys *t_record_source_mbr_fqp @tmpfile )
     
     currentTimeMillis ( )

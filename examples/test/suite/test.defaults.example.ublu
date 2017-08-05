@@ -20,11 +20,6 @@ const *t_dataq MYDATAQ              # data queue to test on
 # Using ssl is of course the default.
 tuple -true @ssl 
 
-# FQP to a source pf mbr for t_record.ublu
-fqp_file ( *t_library *t_sourcepf )                   
-fqp_mbr ( ~ *t_sourcembr )
-const *t_record_source_mbr_fqp ~
-
 const *t_record_file_1 RECFILE1
 const *t_record_file_2 RECFILE2
 
