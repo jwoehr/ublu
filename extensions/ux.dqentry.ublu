@@ -1,0 +1,41 @@
+# ux.dqentry.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# DataQueueEntry and KeyedDataQueueEntry support.
+# They are returned by dq -peek and dq -read.
+# see the Ublu 'dq' command
+
+# FUNC ux.dqe.getData ( dqe )
+# Pushes the data for this data queue entry as byte array
+FUNC ux.dqe.getData ( dqe ) $[
+    calljava -to ~ -method getData -obj @@dqe
+]$
+
+# FUNC ux.dqe.getString
+# Pushes the data for this data queue entry as string
+FUNC ux.dqe.getString ( dqe ) $[
+    calljava -to ~ -method getString -obj @@dqe
+]$
+  
+# FUNC ux.dqe.getSenderInformation
+# Pushes the sender information for this data queue entry.  
+FUNC ux.dqe.getSenderInformation ( dqe ) $[
+    calljava -to ~ -method getSenderInformation -obj @@dqe
+]$
+
+# FUNC ux.dqe.getKey
+# Pushes the key as byte arrray for this keyed data queue entry.  
+FUNC ux.dqe.getKey ( kdqe ) $[
+    calljava -to ~ -method getKey -obj @@kdqe
+]$
+  
+# FUNC ux.dqe.getKeyString
+# Pushes the key as string for this keyed data queue entry.    
+FUNC ux.dqe.getKeyString ( kdqe ) $[
+    calljava -to ~ -method getKeyString -obj @@kdqe
+]$  
+
+# end
