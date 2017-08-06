@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -14752,17 +14753,24 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
       <li>If the <tt>-s</tt> dash-command is present, a string put
-      to standard output is followed by a blank space.</li>
+      to standard output or appended to a string-valued tuple is
+      followed by a blank space.</li>
     </ul>
-    <em>Example<br>
-    <br></em> The following example uses the <a href=
+
+
+    <p><em>Example</em>
+    </p>
+
+
+    <p>The following example uses the <a href=
     "#file"><tt>file</tt></a> command to fetch info about the
     members of an i Series OS record file into a tuple @ml then
     first does a <tt>put @ml</tt> then a <tt>put -from @ml</tt>
     illustrating the difference between the two semantics of
-    <tt>put</tt>.<br>
-    <br>
-    <tt>&gt; file -to @f -as400 @s -keyed
+    <tt>put</tt>.</p>
+
+
+    <p><tt>&gt; file -to @f -as400 @s -keyed
     /QSYS.LIB/MYSRC.LIB/QCLSRC.FILE<br>
     &gt; file -- @f -to @ml -list<br>
     &gt; put @ml<br>
@@ -14774,7 +14782,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
     0</em><em><br></em>
     <em>ACCESS_PATH_SIZE_MULTIPLIER:&nbsp;&nbsp;&nbsp;
     1</em><em><br></em> <em>ALLOW_DELETE_OPERATION:
-    false</em><em><br></em></tt> <em>... etc.</em><tt><br></tt>
+    false</em><em><br></em></tt> <em>... etc.</em><tt><br></tt></p>
   </blockquote>
 
 
