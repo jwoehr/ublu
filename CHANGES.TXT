@@ -10,27 +10,28 @@ All rights reserved.
     * Explained how to make SSL connection 
     * Guide enhanced
 * Commands
-	* `as400 -nodefault` prevents setting service ports at instancing
-	* `dq` supports keyed data queues
+    * `as400 -nodefault` prevents setting service ports at instancing
+    * `dq` supports keyed data queues
     * `file -addmbr`
     * `FUNC` can take func name from tuple pop or string
-    	* this makes it easier for FUNCs to define FUNCs
-	* `map` creates user tuple maps
-	* `props` picks up System property ublu.usage.linelength at startup
-	* `tuple -assign` to non-existent tuple was failing
-	* `usage/help` honors property `ublu.usage.linelength`
-	* `WHILE` was failing on tuple stack ~ argument
+        * this makes it easier for FUNCs to define FUNCs
+    * `map` creates user tuple maps
+    * `props` picks up System property ublu.usage.linelength at startup
+    * `sess` command missing break after -to
+    * `tuple -assign` to non-existent tuple was failing
+    * `usage/help` honors property `ublu.usage.linelength`
+    * `WHILE` was failing on tuple stack ~ argument
 * Examples
-	* `createFileFromRecFormat.ublu`
-	* `writesrc.ublu`
+    * `createFileFromRecFormat.ublu`
+    * `writesrc.ublu`
 * Extensions
-	* `ux.mbrdesc.ublu`
+    * `ux.mbrdesc.ublu`
 * Windowing
-	* now executes rest of initial command line
-	* set colors separately for input and output from menu
+    * now executes rest of initial command line
+    * set colors separately for input and output from menu
 * Testing
-	* progress on the framework
-	* Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
+    * progress on the framework
+    * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
 
 1.1.7 2017-07-05
 -----
@@ -58,16 +59,16 @@ Commands
 * BREAK - bug fixed, didn't work with nested blocks > 1
 * cim and cimi for Common Information Model (added)
 * calljava
-	* -class
-	* -forname
+    * -class
+    * -forname
 * dq now uses wait on -peek and -read
 * eval
-	* now does it as Long
+    * now does it as Long
         * added inc and dec
         * fixed bug where - mistaken for dash-command
 * file greatly enhanced
 * ftp command rewritten, new specifications
-	* previous ftp command is now called 'oldftp'
+    * previous ftp command is now called 'oldftp'
 * interpreter new command for interpreter debugging
 * record greatly enhanced
 * streamf new command for stream files on local system
@@ -75,10 +76,10 @@ Commands
     * -pad
     * escape and unescape allow java-like string escapes
 * tuple
-	* -assign
+    * -assign
         * -type returns class object
-	* handle the tuple stack on -true -false -null
-	
+    * handle the tuple stack on -true -false -null
+    
 Examples
 * clHelp.ublu
 * delspoolf.ublu
@@ -98,49 +99,49 @@ various shortfalls, e..g, see his work on the calljava and dpoint commands.
 
 System
 * default tuples
-	* @true
-	* @false
+    * @true
+    * @false
 * interpreter
-	* allow quoted strings as function arguments
-	* allow blocks as function arguments
+    * allow quoted strings as function arguments
+    * allow blocks as function arguments
 
 Commands
 * general
-	* more cleanup
-	* ublu.includepath property management
+    * more cleanup
+    * ublu.includepath property management
 * individual commands
-	* calljava
-		* properly deals with interfaces
-	* db
-		* -columnnames
-		* bug: -bytes
-	* dpoint
-		* WARNING status now has message
-		* dpoint allows a crit and warn alert comparator to work without value 
-	* dta command for data areas
-	* file
-	    * -createdds
-	    * -createfmt
-	    * -lock
-	    * -unlock
-	    * -writeall
-	    * -commitstart
-	    * -commit
-	    * -rollback
-	    * -commitend
-		* change -pos BF to B
-	* gensh
-		* -strictPosix
-		* gensh was generating bad documentary headers when passed plainwords.
+    * calljava
+        * properly deals with interfaces
+    * db
+        * -columnnames
+        * bug: -bytes
+    * dpoint
+        * WARNING status now has message
+        * dpoint allows a crit and warn alert comparator to work without value 
+    * dta command for data areas
+    * file
+        * -createdds
+        * -createfmt
+        * -lock
+        * -unlock
+        * -writeall
+        * -commitstart
+        * -commit
+        * -rollback
+        * -commitend
+        * change -pos BF to B
+    * gensh
+        * -strictPosix
+        * gensh was generating bad documentary headers when passed plainwords.
         * -includepath
     * include
         * relative includes try to take ublu.includepath property into account
     * record
-    	* -create
-    	* -getcontents
-    	* -getfield[byname]
-    	* -getfields
-    	* -setcontents works more correctly
+        * -create
+        * -getcontents
+        * -getfield[byname]
+        * -getfields
+        * -setcontents works more correctly
     * rs
         * -fileblob
         * -getblob
@@ -148,20 +149,20 @@ Commands
         * -tofile
         * more destinations for blobs
     * tuple
-    	* account for the variety of as400 classes
-    	* -autonomic
+        * account for the variety of as400 classes
+        * -autonomic
 
 Extensions
 * general
-	* some cleanup
+    * some cleanup
 * new
-	* sysshep.qsys2.system_status.ublu
-	* sysshep.qsys2.memory_pool.ublu
-	* ux.msg.ublu
+    * sysshep.qsys2.system_status.ublu
+    * sysshep.qsys2.memory_pool.ublu
+    * ux.msg.ublu
 * updated
-	* sysshep.qsys2.sysdiskstat.ublu
-		* changed format
-		
+    * sysshep.qsys2.sysdiskstat.ublu
+        * changed format
+        
 Examples
 * fileAllBlobs.ublu
 
@@ -172,27 +173,27 @@ System
 
 Commands
 * general
-	* minor fixes at Java level
-	* major fixes to rs and db
+    * minor fixes at Java level
+    * major fixes to rs and db
 * individual commands
     * num -bin
-	* outq and printer rationalized
-		* outq -get -getint -getfloat -getstring
-		* outq removed superflous dash-commands
-		* printer -getint -getfloat -getstring
-	* rs & ftp bug in close deleting tuple fixed
-	* rs
-		* -bytes added
-		* -close?? dash-commands  no longer delete tuple
-		* -get -lget
-		* -abs -rel -next
-	* savesys
-	
+    * outq and printer rationalized
+        * outq -get -getint -getfloat -getstring
+        * outq removed superflous dash-commands
+        * printer -getint -getfloat -getstring
+    * rs & ftp bug in close deleting tuple fixed
+    * rs
+        * -bytes added
+        * -close?? dash-commands  no longer delete tuple
+        * -get -lget
+        * -abs -rel -next
+    * savesys
+    
 Extensions
 * new
-	* ux.printobj.ublu
-	* sysshep directory
-	
+    * ux.printobj.ublu
+    * sysshep directory
+    
 1.1.3 2016-10-14
 System:
 * Much refactoring at the Java level
@@ -200,32 +201,32 @@ System:
 * autonomic tuple variables
 * save and restore const map
 * ublu.util.Renderer
-	* ObjectLockListEntry	
+    * ObjectLockListEntry    
 
 Commands:
 * general
-	* deprecate -instance in favor of -new
-	* command descriptions cleaned up
-	* some commands' argument parsing modernized
-* individual commands	
-	* const -list
-	* db -json
-	* IF now tests for null as well as not-true-not-false
-	* ifs -fromfile
-	* include -s (for -silent)
-	* joblog command added
-	* json command added
-	* job -hold -release
-	* lifo -true -false -null
-	* msgq no longer does automatic close
-	* printer -wtrjob
-	* printer -get works for all attributes now
-	* put pushes null correctly
-	* RETURN removed (doesn't work correctly)
-	* rs -json
-	* string --,-string -toascii -toas400
-	* system modernized
-	* tuple -autonome(s)
+    * deprecate -instance in favor of -new
+    * command descriptions cleaned up
+    * some commands' argument parsing modernized
+* individual commands    
+    * const -list
+    * db -json
+    * IF now tests for null as well as not-true-not-false
+    * ifs -fromfile
+    * include -s (for -silent)
+    * joblog command added
+    * json command added
+    * job -hold -release
+    * lifo -true -false -null
+    * msgq no longer does automatic close
+    * printer -wtrjob
+    * printer -get works for all attributes now
+    * put pushes null correctly
+    * RETURN removed (doesn't work correctly)
+    * rs -json
+    * string --,-string -toascii -toas400
+    * system modernized
+    * tuple -autonome(s)
 
 Miscellaneous:
 * Update vim mode
@@ -236,15 +237,15 @@ Miscellaneous:
 
 Examples:
 * new
-	* joblogstuff.ublu
-	* test/testjson.ublu
-	* test/testnum.ublu
+    * joblogstuff.ublu
+    * test/testjson.ublu
+    * test/testnum.ublu
 * updated
-	* all or most updated -new in place of -instance
-	* dbexample.ublu
-	* msgstuff.ublu
-	* test/testlist.ublu
-	
+    * all or most updated -new in place of -instance
+    * dbexample.ublu
+    * msgstuff.ublu
+    * test/testlist.ublu
+    
 Extensions (extending Ublu in Ublu) in the new extensions subdir:
 * ux.objectlock.ublu 
 * ux.user.ublu
@@ -260,7 +261,7 @@ Changes to commands:
 * sock command added
 * trace command added
 * server command now allows execution of a "canned" program rather
-	  than simple direct access to the Ublu interpreter.
+      than simple direct access to the Ublu interpreter.
 * multiple server instances now allowed.  
 * string -uchar now can take a string of hexvals instead of only one
 * removed -from from commandcall and parse arguments better
@@ -269,7 +270,7 @@ Changes to commands:
 * added -byte to num command
 * list command supports object arrays and -toarray
 * put command wraps non-tuples in anonymous tuple to push to tuple stack
-	
+    
 New examples:
 * dbexample.ublu
 * ifsstuff.ublu
@@ -278,33 +279,33 @@ New examples:
 
 Miscellaneous:
 * Deprecate providing system/userid/password as arguments to most
-	  commands (use as400 object created by as400 command instead)
+      commands (use as400 object created by as400 command instead)
 * Javadoc cleaned up
 * SmapiHelper javadoc cleanup
 * Ublu JEdit mode (ublu.xml)
-	* Fixed digits problem
-	* Added keywords
+    * Fixed digits problem
+    * Added keywords
 * More and better documentation
 * Made it simpler to add MSSQL support in if user desires it.
 
 1.1.1
 Bug fix and feature add revision. Many bugs fixed and much code cleaned up.
 Documentation improved.
-	
+    
 Changes to commands:
 * DO now has -undo to allow decremental looping
 * IF now has -! to invert the sense of the logical test
 * monitor
-	* now takes an as400 instance instead of credentials
-	* now takes worklib ~@{libname} for it working library on the server		
+    * now takes an as400 instance instead of credentials
+    * now takes worklib ~@{libname} for it working library on the server        
 * RETURN command (new) leaves a FUNC or defun
 * tn5250 and session commands (new) allow a screen-scraping telnet 5250
 * tuple now takes -istuplename to test for validity of tuple name
-	
+    
 New examples:
 * connect5250.ublu
 * describe_object.ublu
-	
+    
 1.1.0
     - Code cleanup
     - More documentation
