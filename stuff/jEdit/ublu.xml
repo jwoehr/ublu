@@ -5,148 +5,172 @@
 <!-- <MODE NAME="ublu" FILE="ublu.xml" FILE_NAME_GLOB="*.ublu" /> -->
 <!-- Jack J. Woehr jwoehr@softwoehr.com updated 20161009 -->
 <MODE>
-
-<PROPS>
-    <PROPERTY NAME="lineComment" VALUE="#" />
-    <PROPERTY NAME="lineComment" VALUE="#!" />
-    <PROPERTY NAME="indentOpenBrackets" VALUE="$[" />
-    <PROPERTY NAME="indentCloseBrackets" VALUE="]$" />
-    <PROPERTY NAME="doubleBracketIndent" VALUE="false" />
-    <PROPERTY NAME="lineUpClosingBracket" VALUE="true" />
-    <PROPERTY NAME="indentSize" VALUE="2" />
-    <PROPERTY NAME="tabSize" VALUE="4" />
-    <PROPERTY NAME="noTabs" VALUE="true" />
-</PROPS>
-
-<RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE"
-DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8}[lL])?|0[0-7]{1,11}([0-7]{0,11}[lL])?|([0-9]+\.[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?[fFdD]?|[0-9]+([eE][+-]?[0-9]+[fFdD]?|([eE][+-]?[0-9]+)?[fFdD]))">
-
-	<EOL_SPAN TYPE="COMMENT1">#!</EOL_SPAN>
-	<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
-	<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}+\$\{\p{Space}.*\}\$</SEQ_REGEXP>
-	<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}+-to\p{Space}+\S+\p{Space}+\$\{\p{Space}.*\}\$</SEQ_REGEXP>
 	
-	<MARK_PREVIOUS TYPE="FUNCTION" MATCH_TYPE="OPERATOR">(</MARK_PREVIOUS>
+	<PROPS>
+		<PROPERTY NAME="lineComment" VALUE="#" />
+		<PROPERTY NAME="lineComment" VALUE="#!" />
+		<PROPERTY NAME="indentOpenBrackets" VALUE="$[" />
+		<PROPERTY NAME="indentCloseBrackets" VALUE="]$" />
+		<PROPERTY NAME="doubleBracketIndent" VALUE="false" />
+		<PROPERTY NAME="lineUpClosingBracket" VALUE="true" />
+		<PROPERTY NAME="indentSize" VALUE="2" />
+		<PROPERTY NAME="tabSize" VALUE="4" />
+		<PROPERTY NAME="noTabs" VALUE="true" />
+	</PROPS>
 	
-	<SPAN TYPE="LITERAL1" NO_LINE_BREAK="FALSE">
-		<BEGIN>${</BEGIN>
-		<END>}$</END>
-	</SPAN>
-
-	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\S+\b</SEQ_REGEXP> 
-	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\-\s</SEQ_REGEXP>
-	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\!\s</SEQ_REGEXP>
-	<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\#</SEQ_REGEXP>
-	<SEQ_REGEXP TYPE="LITERAL2" HASH_CHAR="*">\*\S+\b</SEQ_REGEXP> 
-	<SEQ_REGEXP TYPE="LITERAL4" HASH_CHAR="@">@@\S+\b</SEQ_REGEXP> 
-	<SEQ_REGEXP TYPE="MARKUP" HASH_CHAR="@">@\S+\b</SEQ_REGEXP>
-	
-	<SEQ TYPE="OPERATOR">)</SEQ>
-	<SEQ TYPE="OPERATOR">$[</SEQ>
-	<SEQ TYPE="OPERATOR">]$</SEQ>
-	<SEQ TYPE="LITERAL4">~</SEQ>
-	
-    <KEYWORDS>
-        <KEYWORD2>as400</KEYWORD2>
-        <KEYWORD2>ask</KEYWORD2>
-        <KEYWORD1>BREAK</KEYWORD1>
-        <KEYWORD2>bye</KEYWORD2>
-        <KEYWORD1>CALL</KEYWORD1>
-        <KEYWORD2>calljava</KEYWORD2>
-        <KEYWORD1>CATCH</KEYWORD1>
-        <KEYWORD2>cim</KEYWORD2>
-        <KEYWORD2>cimi</KEYWORD2>
-        <KEYWORD2>collection</KEYWORD2>
-        <KEYWORD2>commandcall</KEYWORD2>
-        <KEYWORD2>const</KEYWORD2>
-        <KEYWORD2>cs</KEYWORD2>
-        <KEYWORD2>db</KEYWORD2>
-        <KEYWORD2>dbug</KEYWORD2>
-        <KEYWORD2>defun</KEYWORD2>
-        <KEYWORD2>desktop</KEYWORD2>
-        <KEYWORD2>dict</KEYWORD2>
-        <KEYWORD1>DO</KEYWORD1>
-        <KEYWORD2>dpoint</KEYWORD2>
-        <KEYWORD2>dq</KEYWORD2>
-        <KEYWORD2>dta</KEYWORD2>
-        <KEYWORD1>ELSE</KEYWORD1>
-        <KEYWORD2>eval</KEYWORD2>
-        <KEYWORD2>exit</KEYWORD2>
-        <KEYWORD2>file</KEYWORD2> 
-        <KEYWORD1>FOR</KEYWORD1>
-        <KEYWORD2>ftp</KEYWORD2>
-        <KEYWORD1>FUN</KEYWORD1>
-        <KEYWORD1>FUNC</KEYWORD1>
-        <KEYWORD2>gensh</KEYWORD2>
-        <KEYWORD2>help</KEYWORD2>
-        <KEYWORD2>usage</KEYWORD2>
-        <KEYWORD2>histlog</KEYWORD2>
-        <KEYWORD2>history</KEYWORD2>
-        <KEYWORD2>h</KEYWORD2>
-        <KEYWORD2>host</KEYWORD2>
-        <KEYWORD1>IF</KEYWORD1>
-        <KEYWORD2>ifs</KEYWORD2>
-        <KEYWORD2>include</KEYWORD2>
-        <KEYWORD2>interpret</KEYWORD2>
-        <KEYWORD2>interpreter</KEYWORD2>
-        <KEYWORD2>jmx</KEYWORD2>
-        <KEYWORD2>job</KEYWORD2>
-        <KEYWORD2>joblist</KEYWORD2>
-        <KEYWORD2>joblog</KEYWORD2>
-        <KEYWORD2>jrnl</KEYWORD2>
-        <KEYWORD2>json</KEYWORD2>
-        <KEYWORD2>jvm</KEYWORD2>
-        <KEYWORD1>LOCAL</KEYWORD1>
-        <KEYWORD2>license</KEYWORD2>
-        <KEYWORD2>lifo</KEYWORD2>
-        <KEYWORD2>list</KEYWORD2>
-        <KEYWORD2>map</KEYWORD2>
-        <KEYWORD2>monitor</KEYWORD2>
-        <KEYWORD2>msg</KEYWORD2>
-        <KEYWORD2>msgq</KEYWORD2>
-        <KEYWORD2>num</KEYWORD2>
-        <KEYWORD2>objlist</KEYWORD2>
-        <KEYWORD2>objdesc</KEYWORD2>
-        <KEYWORD2>outq</KEYWORD2>
-        <KEYWORD2>ppl</KEYWORD2>
-        <KEYWORD2>printer</KEYWORD2>
-        <KEYWORD2>programcall</KEYWORD2>
-        <KEYWORD2>props</KEYWORD2>
-        <KEYWORD2>put</KEYWORD2>
-        <KEYWORD2>record</KEYWORD2>
-        <KEYWORD1>RETURN</KEYWORD1>
-        <KEYWORD2>rs</KEYWORD2>
-        <KEYWORD2>savf</KEYWORD2>
-        <KEYWORD2>savef</KEYWORD2>  
-        <KEYWORD2>server</KEYWORD2>
-        <KEYWORD2>sess</KEYWORD2>
-        <KEYWORD2>session</KEYWORD2>
-        <KEYWORD2>sleep</KEYWORD2>
-        <KEYWORD2>smapi</KEYWORD2>
-        <KEYWORD2>spoolf</KEYWORD2>
-        <KEYWORD2>spoolflist</KEYWORD2>
-        <KEYWORD2>streamf</KEYWORD2>
-        <KEYWORD2>string</KEYWORD2>
-        <KEYWORD2>subsys</KEYWORD2>
-        <KEYWORD1>SWITCH</KEYWORD1>
-        <KEYWORD2>system</KEYWORD2>
-        <KEYWORD2>sysval</KEYWORD2>
-        <KEYWORD1>TASK</KEYWORD1>
-        <KEYWORD2>test</KEYWORD2>
-        <KEYWORD2>thread</KEYWORD2>
-        <KEYWORD1>THEN</KEYWORD1>
-        <KEYWORD2>tn5250</KEYWORD2>
-        <KEYWORD1>THROW</KEYWORD1>
-        <KEYWORD2>trace</KEYWORD2>
-        <KEYWORD1>TRY</KEYWORD1>
-        <KEYWORD2>tuple</KEYWORD2>
-        <KEYWORD2>user</KEYWORD2>
-        <KEYWORD2>userlist</KEYWORD2>
-        <KEYWORD1>WHILE</KEYWORD1>
-        <KEYWORD1>\\</KEYWORD1>
-        <KEYWORD4>STD:</KEYWORD4>
-        <KEYWORD4>ERR:</KEYWORD4>
-        <KEYWORD4>NULL:</KEYWORD4>
-    </KEYWORDS>
-</RULES>
+	<RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE" DIGIT_RE="(0[lL]?|[1-9]\d{0,9}(\d{0,9}[lL])?|0[xX]\p{XDigit}{1,8}(\p{XDigit}{0,8}[lL])?|0[0-7]{1,11}([0-7]{0,11}[lL])?|([0-9]+\.[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?[fFdD]?|[0-9]+([eE][+-]?[0-9]+[fFdD]?|([eE][+-]?[0-9]+)?[fFdD]))">
+		
+		<EOL_SPAN TYPE="COMMENT1">#!</EOL_SPAN>
+		<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+		<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}+\$\{\p{Space}.*\}\$</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="COMMENT1" HASH_CHAR="\\">\\\\\p{Space}+-to\p{Space}+\S+\p{Space}+\$\{\p{Space}.*\}\$</SEQ_REGEXP>
+		
+		<MARK_PREVIOUS TYPE="FUNCTION" MATCH_TYPE="OPERATOR">(</MARK_PREVIOUS>
+		
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="FALSE">
+			<BEGIN>${</BEGIN>
+			<END>}$</END>
+		</SPAN>
+		
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\S+\b</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\-\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\!\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-~">\-~\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="->">\-\>\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-.">\-\.\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR="-">\-\#</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="LITERAL2" HASH_CHAR="*">\*\S+\b</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="LITERAL4" HASH_CHAR="@">@@\S+\b</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="MARKUP" HASH_CHAR="@">@\S+\b</SEQ_REGEXP>
+		
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" -">\s\-\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" +">\s\+\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" *">\s\*\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" /">\s\/\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" !">\s\!\s</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="KEYWORD3" HASH_CHAR=" %">\s\%\s</SEQ_REGEXP>
+		
+		<SEQ TYPE="OPERATOR">)</SEQ>
+		<SEQ TYPE="OPERATOR">$[</SEQ>
+		<SEQ TYPE="OPERATOR">]$</SEQ>
+		<SEQ TYPE="LITERAL4">~</SEQ>
+		
+		<KEYWORDS>
+			<KEYWORD2>as400</KEYWORD2>
+			<KEYWORD2>ask</KEYWORD2>
+			<KEYWORD1>BREAK</KEYWORD1>
+			<KEYWORD2>bye</KEYWORD2>
+			<KEYWORD1>CALL</KEYWORD1>
+			<KEYWORD2>calljava</KEYWORD2>
+			<KEYWORD1>CATCH</KEYWORD1>
+			<KEYWORD2>cim</KEYWORD2>
+			<KEYWORD2>cimi</KEYWORD2>
+			<KEYWORD2>collection</KEYWORD2>
+			<KEYWORD2>commandcall</KEYWORD2>
+			<KEYWORD2>const</KEYWORD2>
+			<KEYWORD2>cs</KEYWORD2>
+			<KEYWORD2>db</KEYWORD2>
+			<KEYWORD2>dbug</KEYWORD2>
+			<KEYWORD2>defun</KEYWORD2>
+			<KEYWORD2>desktop</KEYWORD2>
+			<KEYWORD2>dict</KEYWORD2>
+			<KEYWORD1>DO</KEYWORD1>
+			<KEYWORD2>dpoint</KEYWORD2>
+			<KEYWORD2>dq</KEYWORD2>
+			<KEYWORD2>dta</KEYWORD2>
+			<KEYWORD1>ELSE</KEYWORD1>
+			<KEYWORD2>eval</KEYWORD2>
+			<KEYWORD2>exit</KEYWORD2>
+			<KEYWORD2>file</KEYWORD2>
+			<KEYWORD1>FOR</KEYWORD1>
+			<KEYWORD2>ftp</KEYWORD2>
+			<KEYWORD1>FUN</KEYWORD1>
+			<KEYWORD1>FUNC</KEYWORD1>
+			<KEYWORD2>gensh</KEYWORD2>
+			<KEYWORD2>help</KEYWORD2>
+			<KEYWORD2>usage</KEYWORD2>
+			<KEYWORD2>histlog</KEYWORD2>
+			<KEYWORD2>history</KEYWORD2>
+			<KEYWORD2>h</KEYWORD2>
+			<KEYWORD2>host</KEYWORD2>
+			<KEYWORD1>IF</KEYWORD1>
+			<KEYWORD2>ifs</KEYWORD2>
+			<KEYWORD2>include</KEYWORD2>
+			<KEYWORD2>interpret</KEYWORD2>
+			<KEYWORD2>interpreter</KEYWORD2>
+			<KEYWORD2>jmx</KEYWORD2>
+			<KEYWORD2>job</KEYWORD2>
+			<KEYWORD2>joblist</KEYWORD2>
+			<KEYWORD2>joblog</KEYWORD2>
+			<KEYWORD2>jrnl</KEYWORD2>
+			<KEYWORD2>json</KEYWORD2>
+			<KEYWORD2>jvm</KEYWORD2>
+			<KEYWORD1>LOCAL</KEYWORD1>
+			<KEYWORD2>license</KEYWORD2>
+			<KEYWORD2>lifo</KEYWORD2>
+			<KEYWORD2>list</KEYWORD2>
+			<KEYWORD2>map</KEYWORD2>
+			<KEYWORD2>monitor</KEYWORD2>
+			<KEYWORD2>msg</KEYWORD2>
+			<KEYWORD2>msgq</KEYWORD2>
+			<KEYWORD2>num</KEYWORD2>
+			<KEYWORD2>objlist</KEYWORD2>
+			<KEYWORD2>objdesc</KEYWORD2>
+			<KEYWORD2>outq</KEYWORD2>
+			<KEYWORD2>ppl</KEYWORD2>
+			<KEYWORD2>printer</KEYWORD2>
+			<KEYWORD2>programcall</KEYWORD2>
+			<KEYWORD2>props</KEYWORD2>
+			<KEYWORD2>put</KEYWORD2>
+			<KEYWORD2>record</KEYWORD2>
+			<KEYWORD1>RETURN</KEYWORD1>
+			<KEYWORD2>rs</KEYWORD2>
+			<KEYWORD2>savf</KEYWORD2>
+			<KEYWORD2>savef</KEYWORD2>
+			<KEYWORD2>server</KEYWORD2>
+			<KEYWORD2>sess</KEYWORD2>
+			<KEYWORD2>session</KEYWORD2>
+			<KEYWORD2>sleep</KEYWORD2>
+			<KEYWORD2>smapi</KEYWORD2>
+			<KEYWORD2>spoolf</KEYWORD2>
+			<KEYWORD2>spoolflist</KEYWORD2>
+			<KEYWORD2>streamf</KEYWORD2>
+			<KEYWORD2>string</KEYWORD2>
+			<KEYWORD2>subsys</KEYWORD2>
+			<KEYWORD1>SWITCH</KEYWORD1>
+			<KEYWORD2>system</KEYWORD2>
+			<KEYWORD2>sysval</KEYWORD2>
+			<KEYWORD1>TASK</KEYWORD1>
+			<KEYWORD2>test</KEYWORD2>
+			<KEYWORD2>thread</KEYWORD2>
+			<KEYWORD1>THEN</KEYWORD1>
+			<KEYWORD2>tn5250</KEYWORD2>
+			<KEYWORD1>THROW</KEYWORD1>
+			<KEYWORD2>trace</KEYWORD2>
+			<KEYWORD1>TRY</KEYWORD1>
+			<KEYWORD2>tuple</KEYWORD2>
+			<KEYWORD2>user</KEYWORD2>
+			<KEYWORD2>userlist</KEYWORD2>
+			<KEYWORD1>WHILE</KEYWORD1>
+			<KEYWORD1>\\</KEYWORD1>
+			<KEYWORD4>STD:</KEYWORD4>
+			<KEYWORD4>ERR:</KEYWORD4>
+			<KEYWORD4>NULL:</KEYWORD4>
+			
+			<!-- from 'eval' -->
+			<KEYWORD3>inc</KEYWORD3>
+			<KEYWORD3>dec</KEYWORD3>
+			<KEYWORD3>pct</KEYWORD3>
+			<KEYWORD3>&lt;</KEYWORD3>
+			<KEYWORD3>&lt;&lt;</KEYWORD3>
+			<KEYWORD3>&lt;=</KEYWORD3>
+			<KEYWORD3>&gt;</KEYWORD3>
+			<KEYWORD3>&gt;&gt;</KEYWORD3>
+			<KEYWORD3>&gt;=</KEYWORD3>
+			<KEYWORD3>&amp;</KEYWORD3>
+			<KEYWORD3>&amp;&amp;</KEYWORD3>
+			<KEYWORD3>^</KEYWORD3>
+		
+		</KEYWORDS>
+	</RULES>
 </MODE>
