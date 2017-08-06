@@ -31,7 +31,9 @@ All rights reserved.
     * set colors separately for input and output from menu
 * Testing
     * progress on the framework
-    * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
+    * t.dq
+    * t.record
+* Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
 
 1.1.7 2017-07-05
 -----
