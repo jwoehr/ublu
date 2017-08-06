@@ -1,0 +1,90 @@
+# ansiesc.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+                                                        
+# Send ANSI escape sequences to Ublu's hosting terminal.
+# Works with XTerm and similar.
+# Mostly self-explanatory.
+
+string -to ~ -uchar ${ 0x001b 0x005b }$
+const *ansi ~
+
+FUNC ansCursorPos ( x y ) $[ put -n *ansi put -n @@y put -n ; put -n @@x put -n H ]$
+FUNC ansCursorPos2 ( x y ) $[ put -n *ansi put -n @@y put -n ; put -n @@x put -n f ]$
+FUNC ansCursorUp ( y ) $[ put -n *ansi put -n @@y put -n A ]$
+FUNC ansCursorDown ( y ) $[ put -n *ansi put -n @@y put -n B ]$    
+FUNC ansCursorForward ( x ) $[ put -n *ansi put -n @@x put -n C ]$
+FUNC ansCursorBackward ( x ) $[ put -n *ansi put -n @@x put -n D ]$
+FUNC ansSaveCursorPos ( ) $[ put -n *ansi put -n s ]$
+FUNC ansRestoreCursorPos ( ) $[ put -n *ansi put -n u ]$                    
+FUNC ansEraseDisplay ( ) $[ put -n *ansi put -n 2J ]$
+FUNC ansEraseEOL ( ) $[ put -n *ansi put -n K ]$
+
+# FUNC ansSetGraphicsMode ( modes )
+# ... modes is a string of blank-separated numeric values
+# ... or their corresponding constants.    
+# ... To set, for example, Bold FgBlack BgWhite Underscore
+#   put -to @modes *ans_Bold
+#   put -to @modes -s -append *ans_FgBlack
+#   put -to @modes -s -append *ans_BgWhite                           
+#   put -to @modes -s -append *ans_Underscore  
+#   ansSetGraphicsMode ( @modes )       
+FUNC ansSetGraphicsMode ( modes ) $[                                                 
+    LOCAL @l LOCAL @sz LOCAL @it    
+    put -n *ansi
+    put -to ~ @@modes                                                               
+    list -to @l -source ~
+    @l -to @sz -size
+    eval -to @it - @sz 1
+    FOR @i in @l $[
+        put -n @i
+        eval -to ~ > @it 0
+        IF ~ THEN $[
+            put -n ;
+        ]$
+    eval -to @it - @it 1     
+    ]$
+    put -n m  
+]$    
+
+# This resolution setter doesn't work on any XTerm I've tried 
+# FUNC ansSetMode ( mode ) $[                        
+#    put -n *ansi put -n = put -n @@mode put -n h
+# ]$
+
+# This resolution setter doesn't work on any XTerm I've tried  
+# FUNC ansResetMode ( mode ) $[
+#     put -n *ansi put -n = put -n @@mode put -n l
+# ]$  
+
+# Text attributes
+const *ans_AllOff 0
+const *ans_Bold 1
+const *ans_Underscore 4
+const *ans_Blink 5
+const *ans_Reverse 7
+const *ans_Concealed 8
+ 
+# Foreground colors
+const *ans_FgBlack 30
+const *ans_FgRed 31
+const *ans_FgGreen 32
+const *ans_FgYellow 33
+const *ans_FgBlue 34
+const *ans_FgMagenta 35
+const *ans_FgCyan 36
+const *ans_FgWhite 37
+ 
+# Background colors
+const *ans_BgBlack 40
+const *ans_BgRed 41
+const *ans_BgGreen 42
+const *ans_BgYellow 43
+const *ans_BgBlue 44
+const *ans_BgMagenta 45
+const *ans_BgCyan 46
+const *ans_BgWhite 47
+ 
+# end
