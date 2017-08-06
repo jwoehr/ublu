@@ -566,17 +566,4 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
 ]$
 
-# @qk -bkey ~ -writeb ~
-# string -to ~ -tobytes abcd
-# @qk -bkey ~ -peek
-# com.ibm.as400.access.KeyedDataQueueEntry@7a3d45bd ::  :: ÇÁ%%?/Å/Ñ>
-# string -to ~ -tobytes abcd @qk -to @foo -bkey ~ -peek
-# put @foo
-# com.ibm.as400.access.KeyedDataQueueEntry@1e7c7811
-# calljava -method getKeyString -obj @foo
-# /ÂÄÀ
-# calljava -method getData -obj @foo
-# [ 68 65 6c 6c 6f 20 61 67 61 69 6e 20 ] ( [B@4d3167f4 )
 # @qk -clear
-# @qk -delete
-# end 
