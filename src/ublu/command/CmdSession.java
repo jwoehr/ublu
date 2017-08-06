@@ -75,6 +75,7 @@ public class CmdSession extends Command {
             switch (dashCommand) {
                 case "-to":
                     setDataDestfromArgArray(argArray);
+                    break;
                 case "-from":
                     setDataSrcfromArgArray(argArray);
                     break;
