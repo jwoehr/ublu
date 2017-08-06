@@ -25,7 +25,7 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     LOCAL @expect LOCAL @output LOCAL @dqe
     LOCAL @outfile
     LOCAL @qdesc
-    LOCAL @key
+    LOCAL @key LOCAL @bkey LOCAL @bdata
     LOCAL @kqname
     
     put ${ ---------- }$
@@ -337,7 +337,49 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
     
     put @PFAIL
+
+    string -to @DESC -trim ${ keyed queue:bwrite and bpeek }$
+    put -n -s ${ *** }$ put -n -s @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    
+    put -to @expect ${ hello bkeyed queue }$
+    string -to @bkey -tobytes efgh
+    @expect -to @bdata -tobytes
+
+    @qk -bkey @bkey -writeb @bdata
+    @qk -to @dqe -bkey @bkey -peek
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    ux.dqe.getString ( @dqe )
+    string -to ~ -eq ~ @expect
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$    
+    
+    put @PFAIL
+    
+    writeMapToRecord ( @@testrptpf @result )
+
+    string -to @DESC -trim ${ keyed queue:bread }$
+    put -n -s ${ *** }$ put -n -s @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
       
+    @qk -to @dqe -bkey @bkey -read
+    
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    
+    ux.dqe.getString ( @dqe )
+    string -to ~ -eq ~ @bdata
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+    
+    put @PFAIL
+          
+    
     writeMapToRecord ( @@testrptpf @result )
 
     string -to @DESC -trim ${ keyed queue:query keylen }$
