@@ -227,7 +227,7 @@ public class Putter {
                         if (!(t == null)) {
                             Object o = t.getValue();
                             if (o instanceof String) {
-                                setObject(t.getValue() + getObject().toString());
+                                setObject(t.getValue() + (space ? " " : "") + getObject().toString());
                             }
                         }
                     }
