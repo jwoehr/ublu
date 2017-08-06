@@ -354,8 +354,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     currentTimeMillis ( )
     tuple -assign @TMEND ~
     
-    ux.dqe.getString ( @dqe )
-    string -to ~ -eq ~ @expect
+    ux.dqe.getData ( @dqe )
+    calljava -to ~ -class java.util.Arrays -method equals -primarg ~ -primarg @bdata
     IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$    
     
     put @PFAIL
@@ -373,12 +373,11 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     currentTimeMillis ( )
     tuple -assign @TMEND ~
     
-    ux.dqe.getString ( @dqe )
-    string -to ~ -eq ~ @bdata
+    ux.dqe.getData ( @dqe )
+    calljava -to ~ -class java.util.Arrays -method equals -primarg ~ -primarg @bdata
     IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
     
     put @PFAIL
-          
     
     writeMapToRecord ( @@testrptpf @result )
 
