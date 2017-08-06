@@ -388,7 +388,11 @@ public class CmdDq extends Command {
                             if (myDq != null) {
                                 put(myDq.read(waitSeconds));
                             } else {
-                                put(myKDq.read(key, waitSeconds, searchType));
+                                if (byteKey != null) {
+                                    put(myKDq.read(byteKey, waitSeconds, searchType));
+                                } else {
+                                    put(myKDq.read(key, waitSeconds, searchType));
+                                }
                             }
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | IllegalObjectTypeException ex) {
                             getLogger().log(Level.SEVERE, "Error peeking reading instance " + (myDq != null ? myDq : myKDq).getName() + inNameAndDescription(), ex);
