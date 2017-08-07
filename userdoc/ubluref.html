@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 6 Aug 2017 22:43:20 UTC">
+  "Mon, 7 Aug 2017 22:14:16 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-06</p>
+  Last edit: 2017-08-07</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -6992,9 +6993,9 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
   <blockquote>
-    <tt>/2/3 [-to @var] ~@[inc dec + - * / % &lt;&lt; &gt;&gt; !
-    &amp; | ^ &amp;&amp; || == &gt; &lt; &lt;= &gt;= != pct]
-    ~@operand [~@operand] : arithmetic</tt><br>
+    <tt>/2/3 [-to @var] ~@[inc dec max min + - * / % &lt;&lt;
+    &gt;&gt; ! &amp; | ^ &amp;&amp; || == &gt; &lt; &lt;= &gt;= !=
+    pct] ~@operand [~@operand] : arithmetic</tt><br>
     <br>
     <tt>eval</tt> performs arithmetic and logical operations on
     <a href="#Numbers">numbers</a>. <tt>eval</tt> evalutes its
@@ -7018,24 +7019,32 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
       one (1)</li>
 
 
-      <li><tt>+</tt> <em>lopr ropr</em> adds <em>lopr</em> to
-      <em>ropr</em></li>
+      <li><code>max</code> <em>opr</em> puts the max of
+      <em>lopr</em> <em>ropr</em></li>
 
 
-      <li><tt>-</tt> <em>lopr ropr</em> subracts <em>ropr</em> from
-      <em>lopr</em></li>
+      <li><code>min</code> <em>opr</em> puts the min of
+      <em>lopr</em> <em>ropr</em></li>
 
 
-      <li><tt>*</tt> <em>lopr ropr</em> multiplies <em>lopr</em>
-      times <em>ropr</em></li>
+      <li><tt>+</tt> <em>lopr ropr</em> puts the sump of
+      <em>lopr</em> <em>ropr</em></li>
 
 
-      <li><tt>/</tt> <em>lopr ropr</em> divides <em>lopr</em> by
-      <em>ropr</em></li>
+      <li><tt>-</tt> <em>lopr ropr</em> puts the difference of
+      <em>ropr</em> <em>lopr</em></li>
 
 
-      <li><em><tt>%</tt></em> <em>lopr ropr</em> is the remainder
-      of dividing <em>lopr</em> by <em>ropr</em></li>
+      <li><tt>*</tt> <em>lopr ropr</em> puts the product of
+      <em>lopr</em> times <em>ropr</em></li>
+
+
+      <li><tt>/</tt> <em>lopr ropr</em> puts the dividend of
+      <em>lopr</em> divided by <em>ropr</em></li>
+
+
+      <li><em><tt>%</tt></em> <em>lopr ropr</em> puts the remainder
+      (modulus) of dividing <em>lopr</em> by <em>ropr</em></li>
 
 
       <li><tt>&lt;&lt;</tt> <em>lopr ropr</em> left shifts
@@ -16383,14 +16392,16 @@ ciptool
     ~@{string} ~@{substr} | -substr ~@{string} ~@{intoffset}
     ~@{intend} | -tobytes ~@{string} | -toas400 ~@as400 ~@{string}
     ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim
-    ~@{string} | -unescape ~@{string} ] : string operations</code>
+    ~@{string} | -unescape ~@{string} | -upcase ~@{string} | -lcase
+    ~@{string} ] : string operations</code>
     </p>
-    The <tt>string</tt> command performs string operations and
+
+
+    <p>The <tt>string</tt> command performs string operations and
     <a href="#put">put</a>s the result to the destination <a href=
     "#Datasinks">datasink</a>. Its operands are provided with the
-    individual <a href="#Dash_Command">dash-commands</a>
-    specifying the operation. Any and all string operands may
-    be<br>
+    individual <a href="#Dash_Command">dash-commands</a> specifying
+    the operation. Any and all string operands may be</p>
 
 
     <ul>
@@ -16585,6 +16596,14 @@ ciptool
 
       <li><tt>-trim</tt> <tt>~@{string}</tt> puts <em>string</em>
       with the leading and trailing whitespace removed.</li>
+
+
+      <li><tt>-lcase ~@{string}</tt> puts lowercased
+      <em>string</em> per current locale.</li>
+
+
+      <li><tt>-upcase ~@{string}</tt> puts uppercased
+      <em>string</em> per current locale.</li>
 
 
       <li>
