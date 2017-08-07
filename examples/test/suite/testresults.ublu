@@ -220,7 +220,7 @@ FUNC review ( sys tfile od fname lname recs ) $[
     LOCAL @prompt
     LOCAL @promptlen
     LOCAL @ans
-    put -to @prompt ${ (P)rev/(N)ext/(Q)uit ? }$ 
+    put -to @prompt ${ (P)rev/(N)ext (or [ENTER])/(Q)uit? }$ 
     @prompt -to @promptlen -len
     
     WHILE @true $[
@@ -237,9 +237,7 @@ FUNC review ( sys tfile od fname lname recs ) $[
         put -n @prompt 
         ansRestoreCursorPos ( )
         ask -to @ans
-        @ans -to ~ -len
-        eval -to ~ == ~ 0
-        IF ~ THEN $[ put -to @ans ${ x }$ ]$      
+        string -to @ans -bl @ans \\ ${ in case it's empty }$      
         @ans -to @ans -substr 0 1
         @ans -to @ans -upcase
         SWITCH @ans -case Q $[
