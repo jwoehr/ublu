@@ -46,7 +46,7 @@ public class CmdEval extends Command {
 
     {
         setNameAndDescription("eval",
-                "/2/3 [-to @var] ~@[inc dec + - * / % << >> ! & | ^ && || == > < <= >= != pct] ~@operand [~@operand] : arithmetic ");
+                "/2/3 [-to @var] ~@[inc dec max min + - * / % << >> ! & | ^ && || == > < <= >= != pct] ~@operand [~@operand] : arithmetic ");
     }
 
     /**
@@ -403,6 +403,36 @@ public class CmdEval extends Command {
                             ropr = argArray.nextLongMaybeQuotationTuplePopString();
                             try {
                                 put((lopr * 100) / ropr);
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case "max":
+                        if (argArray.size() < 2) {
+                            logArgArrayTooShortError(argArray);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
+                            try {
+                                put(java.lang.Math.max(lopr, ropr));
+                            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                                getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case "min":
+                        if (argArray.size() < 2) {
+                            logArgArrayTooShortError(argArray);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            lopr = argArray.nextLongMaybeQuotationTuplePopString();
+                            ropr = argArray.nextLongMaybeQuotationTuplePopString();
+                            try {
+                                put(java.lang.Math.min(lopr, ropr));
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                                 getLogger().log(Level.SEVERE, "Error putting result of " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
