@@ -34,6 +34,7 @@ import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.logging.Level;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.StringArrayList;
@@ -49,12 +50,12 @@ public class CmdString extends Command {
 
     {
         setNameAndDescription("string",
-                "/0 [-to datasink] [--,-string ~@{lopr}] [-limit ~@{ntimes}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} ~@{n} | -cat ~@{string1} ~@{string2} | -charat ~@{intoffset} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -split ~@{string} ~@{regex} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@{intoffset} ~@{intend} | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} ] : string operations");
+                "/0 [-to datasink] [--,-string ~@{lopr}] [-limit ~@{ntimes}] [-uchar ~@{ 0x????  0x???? ...} | -bl ~@{string} | -bls ~@{string} ~@{n} | -cat ~@{string1} ~@{string2} | -charat ~@{intoffset} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string}  | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -split ~@{string} ~@{regex} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@{intoffset} ~@{intend} | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} | -upcase ~@{string} | -lcase ~@{string} ] : string operations");
     }
 
     enum OPERATIONS {
 
-        UCHAR, BL, BLS, CAT, CHARAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, PAD, REPL, REPL1, REPLREGX, SPLIT, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE
+        UCHAR, BL, BLS, CAT, CHARAT, EQ, ESCAPE, FROMBYTES, LEN, NEW, NL, PAD, REPL, REPL1, REPLREGX, SPLIT, TOBYTES, TRIM, STARTSWITH, SUBSTR, NOOP, TOASCII, TOAS400, UNESCAPE, UPCASE, LCASE
     }
 
     /**
@@ -86,7 +87,7 @@ public class CmdString extends Command {
                 case "--":
                 case "-string":
                     lopr = argArray.nextMaybeQuotationTuplePopString();
-                    break;                  
+                    break;
                 case "-limit":
                     limit = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
@@ -199,6 +200,14 @@ public class CmdString extends Command {
                     break;
                 case "-unescape":
                     operation = OPERATIONS.UNESCAPE;
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
+                    break;
+                case "-lcase":
+                    operation = OPERATIONS.LCASE;
+                    lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
+                    break;
+                case "-upcase":
+                    operation = OPERATIONS.UPCASE;
                     lopr = lopr == null ? argArray.nextMaybeQuotationTuplePopString() : lopr;
                     break;
                 default:
@@ -320,6 +329,12 @@ public class CmdString extends Command {
                     break;
                 case TRIM:
                     opresult = lopr.trim();
+                    break;
+                case LCASE:
+                    opresult = lopr.toLowerCase();
+                    break;
+                case UPCASE:
+                    opresult = lopr.toUpperCase();
                     break;
                 case TOASCII:
                     if (ccsid == -1) {
