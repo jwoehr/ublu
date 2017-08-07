@@ -160,7 +160,10 @@
 			<!-- from 'eval' -->
 			<KEYWORD3>inc</KEYWORD3>
 			<KEYWORD3>dec</KEYWORD3>
+			<KEYWORD3>max</KEYWORD3>
+			<KEYWORD3>min</KEYWORD3>
 			<KEYWORD3>pct</KEYWORD3>
+			<KEYWORD3>==</KEYWORD3>
 			<KEYWORD3>&lt;</KEYWORD3>
 			<KEYWORD3>&lt;&lt;</KEYWORD3>
 			<KEYWORD3>&lt;=</KEYWORD3>
