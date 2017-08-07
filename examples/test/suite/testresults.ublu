@@ -128,6 +128,14 @@ FUNC boldYellowOnBlack ( ) $[
     ansSetGraphicsMode ( @modes )
 ]$
   
+FUNC boldMagentaOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgMagenta
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$  
+  
 # Draw one screen of data
 # dataScreen ( sys tfile od fname lname rec )
 #   sys - as400
@@ -138,6 +146,7 @@ FUNC boldYellowOnBlack ( ) $[
 #   rec - mapped record to draw 
 FUNC dataScreen ( sys tfile od fname lname rec ) $[
     LOCAL @sysname LOCAL @linenum
+    LOCAL @therec tuple -assign @therec @@rec
     
     calljava -to @sysname -method getSystemName -obj @@sys
     put -to @linenum 1 
@@ -168,14 +177,14 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     
     ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
     
-    @@rec -to ~ -. filename
+    @therec -to ~ -. filename
     boldGreenOnBlack ( ) put -n ${ Test module: }$ 
     whiteOnBlack ( ) put -n -s ~
-    @@rec -to ~ -. millisecs 
+    @therec -to ~ -. millisecs 
     boldGreenOnBlack ( ) put -n ${ Milliseconds: }$
     whiteOnBlack ( ) put -n -s ~
     boldGreenOnBlack ( ) put -n ${ Pass/Fail: }$
-    @@rec -to ~ -. pfail lifo -dup  
+    @therec -to ~ -. pfail lifo -dup  
     ~ -to ~ -eq P
     IF ~ THEN $[
        put -n PASS
@@ -185,7 +194,7 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
        ansSetGraphicsMode ( *ans_FgGreen )
     ]$
       
-    @@rec -to ~ -. description
+    @therec -to ~ -. description
     ~ -to ~ -split \:
     list -to ~ -source ~
     FOR @j ~ $[
@@ -196,23 +205,84 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
 ]$      
      
- # put -to @modes -s -append *ans_Underscore    
- # put -to @modes -s -append *ans_FgGreen
- # put -to @modes -s -append *ans_BgBlack
- # ansSetGraphicsMode ( @modes )
+# Review records one at a time
+#   sys - as400
+#   tfile - file obj
+#   od - object desc object for file
+#   fname - name of file
+#   lname - name of lib
+#   recs - list of mapped records to review 
+FUNC review ( sys tfile od fname lname recs ) $[
+    LOCAL @l tuple -assign @l @@recs
+    LOCAL @llen @l -to @llen -size
+    LOCAL @ptr put -to @ptr 0
+    LOCAL @rec
+    LOCAL @prompt
+    LOCAL @promptlen
+    LOCAL @ans
+    put -to @prompt ${ (P)rev/(N)ext/(Q)uit ? }$ 
+    @prompt -to @promptlen -len
+    
+    WHILE @true $[
+        @l -to ~ -get @ptr
+        dataScreen ( @@sys @@tfile @@od @@fname @@lname ~ )
+        
+        ansCursorForward ( @promptlen )
+        boldYellowOnBlack ( ) 
+        ansSaveCursorPos ( )
+        put -n _
+        ansRestoreCursorPos ( )
+        ansCursorBackward ( @promptlen )
+        boldMagentaOnBlack ( ) 
+        put -n @prompt 
+        ansRestoreCursorPos ( )
+        ask -to @ans
+        @ans -to ~ -len
+        eval -to ~ == ~ 0
+        IF ~ THEN $[ put -to @ans ${ x }$ ]$      
+        @ans -to @ans -substr 0 1
+        @ans -to @ans -upcase
+        SWITCH @ans -case Q $[
+            BREAK
+        ]$ -case N  $[
+            eval -to @ptr + @ptr 1
+            eval -to ~ - @llen 1
+            eval -to @ptr min @ptr ~            
+        ]$
+          -case P $[
+            eval -to @ptr - @ptr 1
+            eval -to @ptr max @ptr 0
+        ]$ -default $[
+            eval -to @ptr + @ptr 1
+            eval -to ~ - @llen 1
+            eval -to @ptr min @ptr ~ 
+        ]$
+    ]$
+]$    
 
 # Browse test records   
 FUNC browse ( sys tfile od fname lname recs ) $[
     procrecs ( @@recs )
     
-    FOR @i ~ $[
-        dataScreen ( @@sys @@tfile @@od @@fname @@lname @i )
-        ask -to NULL:
-        ansEraseDisplay ( )
-    ]$
-
-      ansCursorPos ( 0 1 ) 
+    review ( @@sys @@tfile @@od @@fname @@lname ~ )
+    
+    ansSetGraphicsMode ( *ans_AllOff ) 
+    ansEraseDisplay ( )
+    ansCursorPos ( 0 1 )    
 ]$
+  
+# Browse test records
+# FUNC browse ( sys tfile od fname lname recs ) $[
+#     procrecs ( @@recs )
+#     
+#     FOR @i ~ $[
+#         dataScreen ( @@sys @@tfile @@od @@fname @@lname @i )
+#         ask -to NULL:
+#         ansEraseDisplay ( )
+#     ]$
+# 
+#     ansCursorPos ( 0 1 ) 
+# ]$  
       
 # Browse test records   
 # FUNC browse ( sys tfile od fname lname recs ) $[
