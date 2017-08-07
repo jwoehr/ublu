@@ -11,9 +11,11 @@ include -s ansiesc.ublu
 
 # Interactively browse test results
 FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
-    LOCAL @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS
-    LOCAL @USESSL
-    @@usessl -to ~ -eq Y   
+    LOCAL @SYSTEM LOCAL @TESTFILE 
+    LOCAL @OBJDESC LOCAL @FILENAME 
+    LOCAL @LIBNAME LOCAL @RECORDS
+    put -to ~ @@usessl
+    ~ -to ~ -eq Y   
     as400 -to @SYSTEM -ssl ~ @@sysname @@uid @@passwd
     getfile ( @SYSTEM @@ifsfqp )
     tuple -assign @TESTFILE ~
@@ -54,13 +56,60 @@ FUNC libname ( thefile ) $[
     calljava -to ~ -method getLibraryName -obj @@thefile   
 ]$
   
-# Read all records in
+# Read in all records 
 FUNC rall ( thefile ) $[
-    @thefile -to ~ -read ALL
+    @@thefile -to ~ -read ALL
 ]$    
-  
+
+# Map one record
+FUNC procrec ( rec ) $[
+    LOCAL @recmap
+    map -to @recmap
+    
+    @@rec -to ~ -getfieldbyname FILNAM
+    @recmap -add filename ~
+    
+    @@rec -to ~ -getfieldbyname TMSTRT
+    @@rec -to ~ -getfieldbyname TMEND
+    eval -to ~ - ~ ~
+    @recmap -add millisecs ~
+    
+    @@rec -to ~ -getfieldbyname DESC
+    ~ -to ~ -trim
+    @recmap -add description ~
+    
+    @@rec -to ~ -getfieldbyname PFAIL
+    @recmap -add pfail ~
+    
+    tuple -assign ~ @recmap
+]$
+
+# Proc all recs into maps and add to list  
+FUNC procrecs ( recarray ) $[
+    LOCAL @l
+    list -to @l
+    FOR @i @@recarray $[
+        procrec ( @i )
+        @l -add ~
+    ]$
+    tuple -assign ~ @l
+]$
+
+# Browse test records  
 FUNC browse ( sys tfile od fname lname recs ) $[
-    put @@recs
+    procrecs ( @@recs )
+    LOCAL @desclines
+    FOR @i ~ $[
+        @i -to ~ -. filename put -n ${ Test file: }$ put ~ 
+        @i -to ~ -. description
+        ~ -to ~ -split \:
+        list -to ~ -source ~
+        FOR @j ~ $[        
+            put -n ${ Description: }$ put @j
+        ]$
+        @i -to ~ -. millisecs put -n ${ Milliseconds: }$ put ~ 
+        @i -to ~ -. pfail put -n ${ Pass/Fail: }$ put ~ 
+    ]$
 ]$
 
     
