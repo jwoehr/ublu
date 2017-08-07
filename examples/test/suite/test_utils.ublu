@@ -39,6 +39,7 @@ FUNC cat_fp ( fqdirpath filename ) $[
 # Push current time in milliseconds since 1970  
 FUNC currentTimeMillis ( ) $[
     calljava -to ~ -class java.lang.System -method currentTimeMillis
+    calljava -to ~ -class java.math.BigInteger -method valueOf -primarg ~
 ]$
   
 # Push record format for testing. Format will persist and can be reused to create records
