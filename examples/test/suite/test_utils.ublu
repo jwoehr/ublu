@@ -51,11 +51,11 @@ FUNC createTestRecordFormat ( ) $[
     calljava -to @filnam -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
 
     string -to ~ -trim TMSTRT
-    calljava -to ~ -new com.ibm.as400.access.AS400Bin8
+    calljava -to ~ -new com.ibm.as400.access.AS400UnsignedBin8 
     calljava -to @tmstrt -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
     
     string -to ~ -trim TMEND
-    calljava -to ~ -new com.ibm.as400.access.AS400Bin8
+    calljava -to ~ -new com.ibm.as400.access.AS400UnsignedBin8
     calljava -to @tmend -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
 
     string -to ~ -trim DESC
