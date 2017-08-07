@@ -47,7 +47,7 @@ public class CmdUsage extends Command {
         "\tIf no command is present, interprets input until EOF or the 'bye' command is encountered."};
 
     {
-        setNameAndDescription("help or usage", "/0 [[-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
+        setNameAndDescription("help or usage", "/0 [[--,-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
     }
 
     private int linelength;
@@ -97,6 +97,7 @@ public class CmdUsage extends Command {
                 case "-all":
                     longmsg = true;
                     break;
+                case "--":    
                 case "-cmd":
                     cmdName = args.nextMaybeQuotationTuplePopString();
                     break;
