@@ -11,6 +11,7 @@ All rights reserved.
     * Guide enhanced
 * Commands
     * `as400 -nodefault` prevents setting service ports at instancing
+    * `ask -nocons`
     * `dq` supports keyed data queues
     * `file -addmbr`
     * `FUNC` can take func name from tuple pop or string
