@@ -28,7 +28,8 @@ FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
     rall ( @TESTFILE )
     tuple -assign @RECORDS ~
     browse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS )
-    @SYSTEM -disconnect
+    @SYSTEM -disconnect 
+    ansSetGraphicsMode ( *ans_AllOff )
 ]$
 
 # Get the file  
@@ -67,6 +68,7 @@ FUNC procrec ( rec ) $[
     map -to @recmap
     
     @@rec -to ~ -getfieldbyname FILNAM
+    ~ -to ~ -trim
     @recmap -add filename ~
     
     @@rec -to ~ -getfieldbyname TMSTRT
@@ -95,21 +97,93 @@ FUNC procrecs ( recarray ) $[
     tuple -assign ~ @l
 ]$
 
-# Browse test records  
+# Draw one screen of data
+# dataScreen ( sys tfile od fname lname rec )
+#   sys - as400
+#   tfile - file obj
+#   od - object desc object for file
+#   fname - name of file
+#   lname - name of lib
+#   rec - mapped record to draw 
+FUNC dataScreen ( sys tfile od fname lname rec ) $[
+    LOCAL @sysname LOCAL @linenum
+    
+    calljava -to @sysname -method getSystemName -obj @@sys
+    put -to @linenum 1 
+        
+    ansEraseDisplay ( )
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgGreen
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+    
+    put -n -s System: put -n -s @sysname
+    put -n -s Library: put -n -s @@lname
+    put -n -s File: put -n -s @@fname
+    @@od -to ~ -valuestring TEXT_DESCRIPTION
+    put -n -s Run: put -n ~      
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    
+    @@rec -to ~ -. filename put -n ${ Test module: }$  put -n -s ~
+    @@rec -to ~ -. millisecs  put -n ${ Milliseconds: }$ put -n -s ~ 
+    put -n ${ Pass/Fail: }$
+    @@rec -to ~ -. pfail lifo -dup  
+    ~ -to ~ -eq P
+    IF ~ THEN $[
+       put -n PASS
+    ]$ ELSE $[
+       ansSetGraphicsMode ( *ans_FgRed )
+       put -n FAIL
+       ansSetGraphicsMode ( *ans_FgGreen )
+    ]$
+      
+    @@rec -to ~ -. description
+    ~ -to ~ -split \:
+    list -to ~ -source ~
+    FOR @j ~ $[
+        ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1        
+        put -n ${ Description: }$ put -n @j
+    ]$    
+]$      
+     
+ # put -to @modes -s -append *ans_Underscore    
+ # put -to @modes -s -append *ans_FgGreen
+ # put -to @modes -s -append *ans_BgBlack
+ # ansSetGraphicsMode ( @modes )
+
+# Browse test records   
 FUNC browse ( sys tfile od fname lname recs ) $[
     procrecs ( @@recs )
-    LOCAL @desclines
-    FOR @i ~ $[
-        @i -to ~ -. filename put -n ${ Test file: }$ put ~ 
-        @i -to ~ -. description
-        ~ -to ~ -split \:
-        list -to ~ -source ~
-        FOR @j ~ $[        
-            put -n ${ Description: }$ put @j
-        ]$
-        @i -to ~ -. millisecs put -n ${ Milliseconds: }$ put ~ 
-        @i -to ~ -. pfail put -n ${ Pass/Fail: }$ put ~ 
-    ]$
-]$
-
     
+    FOR @i ~ $[
+        dataScreen ( @@sys @@tfile @@od @@fname @@lname @i )
+        ask -to NULL:
+        ansEraseDisplay ( )
+    ]$
+
+      ansCursorPos ( 0 1 ) 
+]$
+      
+# Browse test records   
+# FUNC browse ( sys tfile od fname lname recs ) $[
+# procrecs ( @@recs )
+#    LOCAL @desclines
+#    FOR @i ~ $[
+#        @i -to ~ -. filename put -n ${ Test file: }$ put ~ 
+#        @i -to ~ -. description
+#        ~ -to ~ -split \:
+#        list -to ~ -source ~
+#        FOR @j ~ $[        
+#            put -n ${ Description: }$ put @j
+#        ]$
+#        @i -to ~ -. millisecs put -n ${ Milliseconds: }$ put ~ 
+#        @i -to ~ -. pfail put -n ${ Pass/Fail: }$ put ~ 
+#    ]$
+# ]$
+
+# end  
