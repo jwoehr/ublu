@@ -97,6 +97,37 @@ FUNC procrecs ( recarray ) $[
     tuple -assign ~ @l
 ]$
 
+FUNC whiteOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes -s -append *ans_FgWhite
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$
+  
+FUNC boldGreenOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgGreen
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$
+  
+FUNC boldBlueOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgBlue
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$  
+
+FUNC boldYellowOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgYellow
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$
+  
 # Draw one screen of data
 # dataScreen ( sys tfile od fname lname rec )
 #   sys - as400
@@ -115,23 +146,35 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     
     ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
     
-    put -to @modes *ans_AllOff
-    put -to @modes *ans_Bold
-    put -to @modes -s -append *ans_FgGreen
-    put -to @modes -s -append *ans_BgBlack   
-    ansSetGraphicsMode ( @modes )
+    boldBlueOnBlack ( ) put -n -s System:  
+    boldYellowOnBlack ( ) put -n -s @sysname
     
-    put -n -s System: put -n -s @sysname
-    put -n -s Library: put -n -s @@lname
-    put -n -s File: put -n -s @@fname
-    @@od -to ~ -valuestring TEXT_DESCRIPTION
-    put -n -s Run: put -n ~      
+    boldBlueOnBlack ( ) put -n -s Library:
+    boldYellowOnBlack ( ) put -n -s @@lname
+    
+    boldBlueOnBlack ( ) put -n -s File:
+    boldYellowOnBlack ( ) put -n -s @@fname
     
     ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
     
-    @@rec -to ~ -. filename put -n ${ Test module: }$  put -n -s ~
-    @@rec -to ~ -. millisecs  put -n ${ Milliseconds: }$ put -n -s ~ 
-    put -n ${ Pass/Fail: }$
+    @@od -to ~ -valuestring TEXT_DESCRIPTION
+    
+    boldBlueOnBlack ( ) put -n -s Run:
+    boldYellowOnBlack ( ) put -n -s ~
+    
+    @@od -to ~ -valuestring CHANGE_DATE
+    boldBlueOnBlack ( ) put -n -s Changed:
+    boldYellowOnBlack ( ) put -n ~
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    
+    @@rec -to ~ -. filename
+    boldGreenOnBlack ( ) put -n ${ Test module: }$ 
+    whiteOnBlack ( ) put -n -s ~
+    @@rec -to ~ -. millisecs 
+    boldGreenOnBlack ( ) put -n ${ Milliseconds: }$
+    whiteOnBlack ( ) put -n -s ~
+    boldGreenOnBlack ( ) put -n ${ Pass/Fail: }$
     @@rec -to ~ -. pfail lifo -dup  
     ~ -to ~ -eq P
     IF ~ THEN $[
@@ -147,8 +190,10 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     list -to ~ -source ~
     FOR @j ~ $[
         ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1        
-        put -n ${ Description: }$ put -n @j
-    ]$    
+        boldGreenOnBlack ( ) put -n ${ Description: }$
+        whiteOnBlack ( ) put -n @j
+    ]$
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
 ]$      
      
  # put -to @modes -s -append *ans_Underscore    
