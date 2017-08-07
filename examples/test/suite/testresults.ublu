@@ -1,0 +1,66 @@
+# testresults.ublu
+# Result Browser for
+# Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Assumes examples is in the include path
+include -s test_utils.ublu
+include -s ansiesc.ublu
+
+# Interactively browse test results
+FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
+    LOCAL @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS
+    LOCAL @USESSL
+    @@usessl -to ~ -eq Y   
+    as400 -to @SYSTEM -ssl ~ @@sysname @@uid @@passwd
+    getfile ( @SYSTEM @@ifsfqp )
+    tuple -assign @TESTFILE ~
+    getdesc ( @SYSTEM @@ifsfqp )
+    tuple -assign @OBJDESC ~
+    fname ( @TESTFILE )
+    tuple -assign @FILENAME ~
+    libname ( @TESTFILE )
+    tuple -assign @LIBNAME ~
+    rall ( @TESTFILE )
+    tuple -assign @RECORDS ~
+    browse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS )
+    @SYSTEM -disconnect
+]$
+
+# Get the file  
+FUNC getfile ( sys ifsfqp ) $[
+    file -to ~ -as400 @@sys -keyed @@ifsfqp
+]$
+
+# Get file's object description  
+FUNC getdesc ( sys ifsfqp ) $[
+    objdesc -to ~ -as400 @@sys -path @@ifsfqp
+]$
+  
+# Load all records from the file
+FUNC loadall ( thefile ) $[ 
+    @@thefile -to ~ -read ALL
+]$
+
+# Get filename  
+FUNC fname ( thefile ) $[
+    calljava -to ~ -method getFileName -obj @@thefile
+]$
+
+# Get libname  
+FUNC libname ( thefile ) $[
+    calljava -to ~ -method getLibraryName -obj @@thefile   
+]$
+  
+# Read all records in
+FUNC rall ( thefile ) $[
+    @thefile -to ~ -read ALL
+]$    
+  
+FUNC browse ( sys tfile od fname lname recs ) $[
+    put @@recs
+]$
+
+    
