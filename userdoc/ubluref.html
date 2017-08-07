@@ -5,9 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -3130,8 +3127,9 @@ Type help for help. Type license for license. Type bye to exit.
 
 
   <blockquote>
-    <tt>/0 [-to datasink] [-from datasink] [-say ~@{prompt string}]
-    : get input from user</tt><br>
+    <p><tt>/0 [-to datasink] [-from datasink] [-nocons] [-say
+    ~@{prompt string}] : get input from user</tt>
+    </p>
 
 
     <p><tt>ask</tt> prompts the user (if a prompt string is
@@ -3160,8 +3158,15 @@ Type help for help. Type license for license. Type bye to exit.
       <li>The string value of a tuple referenced by
       <tt>-from</tt></li>
     </ul>
-    <em>Example</em><br>
-    <br>
+
+
+    <p>If <code>-nocons</code> is set, Ublu will not attempt to
+    read the console but instead read the standard input. This has
+    no effect in windowing mode.</p>
+
+
+    <p><em>Example</em>
+    </p>
     <tt>&gt; ask -say ${ What is funny? }$</tt><tt><br></tt>
     <tt><em>What is funny? :</em> elephants and giraffes and
     zoos</tt><tt><br></tt> <em><tt>elephants and giraffes and

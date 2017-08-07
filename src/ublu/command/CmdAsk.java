@@ -51,7 +51,7 @@ public class CmdAsk extends Command {
 
     {
         setNameAndDescription("ask",
-                "/0 [-to datasink] [-from datasink] [-say ~@{prompt string}]  : get input from user");
+                "/0 [-to datasink] [-from datasink] [-nocons] [-say ~@{prompt string}]  : get input from user");
     }
 
     /**
@@ -62,6 +62,7 @@ public class CmdAsk extends Command {
      */
     public ArgArray cmdAsk(ArgArray argArray) {
         String prompt = null;
+        boolean consoleOk = true;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -73,6 +74,9 @@ public class CmdAsk extends Command {
                     break;
                 case "-say":
                     prompt = argArray.nextMaybeQuotationTuplePopString();
+                    break;
+                case "-nocons":
+                    consoleOk = false;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -95,7 +99,7 @@ public class CmdAsk extends Command {
                     setCommandResult(COMMANDRESULT.FAILURE);
                 }
             }
-            if (getInterpreter().isConsole()) {
+            if (getInterpreter().isConsole() && consoleOk) {
                 /* debug */ // getInterpreter().outputerrln("Is console.");
                 if (prompt != null) {
                     s = System.console().readLine("%s : ", prompt.trim());
