@@ -13,12 +13,16 @@ All rights reserved.
     * `as400 -nodefault` prevents setting service ports at instancing
     * `ask -nocons`
     * `dq` supports keyed data queues
+    * `eval -max -min`
     * `file -addmbr`
     * `FUNC` can take func name from tuple pop or string
         * this makes it easier for FUNCs to define FUNCs
+    * `help` now takes `--` cmdname
     * `map` creates user tuple maps
     * `props` picks up System property ublu.usage.linelength at startup
+    * `rs` now takes the closure from either -from or eponymous
     * `sess` command missing break after -to
+    * `string -lcase -upcase`
     * `tuple -assign` to non-existent tuple was failing
     * `usage/help` honors property `ublu.usage.linelength`
     * `WHILE` was failing on tuple stack ~ argument
@@ -34,6 +38,7 @@ All rights reserved.
     * progress on the framework
     * t.dq
     * t.record
+    * test result browser
 * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
 
 1.1.7 2017-07-05
