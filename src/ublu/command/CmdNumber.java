@@ -143,72 +143,81 @@ public class CmdNumber extends Command {
 
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
             String theNumber = argArray.nextMaybeQuotationTuplePopString();
-            switch (conversion) {
-                case BIN:
-                    byte[] ba = theNumber.getBytes();
-                    try {
-                        put(Byte.toUnsignedInt(ba[0]));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case INT:
-                    try {
-                        put(Integer.parseInt(theNumber, radix));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case SHORT:
-                    try {
-                        put(Short.parseShort(theNumber, radix));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case DOUBLE:
-                    try {
-                        put(Double.parseDouble(theNumber));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case LONG:
-                    try {
-                        put(Long.parseLong(theNumber, radix));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case FLOAT:
-                    try {
-                        put(Float.parseFloat(theNumber));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case BIGDEC:
-                    try {
-                        put(new BigDecimal(theNumber));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
-                case BYTE:
-                    try {
-                        put(Byte.parseByte(theNumber, radix));
-                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    }
-                    break;
+            try {
+                switch (conversion) {
+                    case BIN:
+                        byte[] ba = theNumber.getBytes();
+                        try {
+                            put(Byte.toUnsignedInt(ba[0]));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case INT:
+                        try {
+                            put(Integer.parseInt(theNumber, radix));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case SHORT:
+                        try {
+                            put(Short.parseShort(theNumber, radix));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case DOUBLE:
+                        try {
+                            put(Double.parseDouble(theNumber));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case LONG:
+                        try {
+                            put(Long.parseLong(theNumber, radix));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case FLOAT:
+                        try {
+                            put(Float.parseFloat(theNumber));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case BIGDEC:
+                        try {
+                            put(new BigDecimal(theNumber));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                    case BYTE:
+                        try {
+                            put(Byte.parseByte(theNumber, radix));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception converting or putting number " + theNumber + inNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                        break;
+                }
+            } catch (java.lang.NumberFormatException ex) {
+                try {
+                    put(null);
+                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex1) {
+                    getLogger().log(Level.SEVERE, "Exception putting null number " + theNumber + inNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
             }
         }
         return argArray;
