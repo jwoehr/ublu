@@ -227,6 +227,14 @@ FUNC review ( sys tfile od fname lname recs ) $[
         @l -to ~ -get @ptr
         dataScreen ( @@sys @@tfile @@od @@fname @@lname ~ )
         
+        boldBlueOnBlack ( ) put -n -s Record
+        eval -to ~ inc @ptr
+        boldYellowOnBlack ( ) put -n -s ~
+        boldBlueOnBlack ( ) put -n -s of
+        boldYellowOnBlack ( ) put -n @llen
+        
+        ansCursorDown ( 1 )
+        ansCursorBackward ( 100 )
         ansCursorForward ( @promptlen )
         boldYellowOnBlack ( ) 
         ansSaveCursorPos ( )
@@ -236,23 +244,25 @@ FUNC review ( sys tfile od fname lname recs ) $[
         boldMagentaOnBlack ( ) 
         put -n @prompt 
         ansRestoreCursorPos ( )
+        
         ask -to @ans
-        string -to @ans -bl @ans \\ ${ in case it's empty }$      
+        string -to @ans -bl @ans \\ ${ in case it's empty }$
         @ans -to @ans -substr 0 1
         @ans -to @ans -upcase
+
         SWITCH @ans -case Q $[
             BREAK
         ]$ -case N  $[
-            eval -to @ptr + @ptr 1
-            eval -to ~ - @llen 1
+            eval -to @ptr inc @ptr
+            eval -to ~ dec @llen
             eval -to @ptr min @ptr ~            
         ]$
           -case P $[
-            eval -to @ptr - @ptr 1
+            eval -to @ptr dec @ptr
             eval -to @ptr max @ptr 0
         ]$ -default $[
-            eval -to @ptr + @ptr 1
-            eval -to ~ - @llen 1
+            eval -to @ptr inc @ptr
+            eval -to ~ dec @llen
             eval -to @ptr min @ptr ~ 
         ]$
     ]$
