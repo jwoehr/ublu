@@ -652,14 +652,18 @@ public class CmdRs extends Command {
                     break;
 
                 case METADATA:
-                    if (getDataSrc() == null) {
+                    if (myRs == null) {
+                        if (getDataSrc().getType() == DataSink.SINKTYPE.TUPLE) {
+                            myRs = getTuple(getDataSrc().getName()).value(ResultSetClosure.class);
+                        }
+                    }
+                    if (myRs == null) {
                         getLogger().log(Level.SEVERE, "Missing data source in rs -metadata command");
                         setCommandResult(COMMANDRESULT.FAILURE);
                         break;
                     }
                     try {
-                        srcResultSetClosure = ResultSetClosure.class.cast(getTuple(getDataSrc().getName()).getValue());
-                        put(srcResultSetClosure.getResultSet().getMetaData());
+                        put(myRs.getResultSet().getMetaData());
                     } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                         getLogger().log(Level.SEVERE, "Exception getting or putting result set metadata", ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -668,6 +672,7 @@ public class CmdRs extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+
                 case NEXT:
                     if (myRs == null) {
                         getLogger().log(Level.SEVERE, "Tuple not found for -next in {0}", getNameAndDescription());
