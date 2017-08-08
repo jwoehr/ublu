@@ -5,9 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -379,7 +376,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </li>
 
 
-            <li><tt><a href="#db">db</a></tt>
+            <li>
+              <tt><a href="#db">db</a></tt>
+
+              <ul>
+                <li><span style="font-size: smaller;"><a href=
+                "#JDBC_IBM_i_SSL">JDBC to the IBM i over
+                SSL</a></span>
+                </li>
+              </ul>
             </li>
 
 
@@ -5073,8 +5078,26 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     <p><strong>Note:</strong> This command and the Ublu database
     code of which it is part is some of the oldest code in Ublu. It
     is being reworked somewhat.</p>
-    <em>See also:</em> <code><a href="#cs">cs</a></code>
-    <code><a href="#rs">rs</a></code>
+
+
+    <p><em>See also:</em> <code><a href="#cs">cs</a></code>
+    <code><a href="#rs">rs</a></code></p>
+
+
+    <h5><a name="JDBC_IBM_i_SSL">JDBC to the IBM i over SSL</a>
+    </h5>
+
+
+    <ol>
+      <li>Set your local environment up for SSL as described in the
+      <a href="#NoteOnSSL">Note on SSL</a>.</li>
+
+
+      <li>The last <code>-property ~@{key} ~@{value}</code> setting
+      in your connection command should be <code>-property secure
+      true</code>.</li>
+    </ol>
+
 
     <h5>Operations<br></h5>
 
