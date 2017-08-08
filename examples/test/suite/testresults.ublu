@@ -15,6 +15,7 @@ FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
     LOCAL @OBJDESC LOCAL @FILENAME 
     LOCAL @LIBNAME LOCAL @RECORDS
     LOCAL @USESSL LOCAL @DB
+    LOCAL @PASSRS LOCAL @FAILRS
     
     put -to ~ @@usessl
     ~ -to @USESSL -eq Y
@@ -33,16 +34,26 @@ FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
     libname ( @TESTFILE )
     tuple -assign @LIBNAME ~
     
+    put ${ Retrieving all records via record access .. }$ 
     rall ( @TESTFILE )
     tuple -assign @RECORDS ~
     
+    put ${ Connecting to database via JDBC .. }$ 
     getDB ( @@sysname @USESSL @LIBNAME @@uid @@passwd  )
     tuple -assign @DB ~
     
-    \\ ${ browse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS ) }$
+    put ${ Retrieving all passers via JDBC .. }$ 
+    selectPassFail ( @DB @FILENAME @true )
+    tuple -assign @PASSRS ~
     
-    chooseBrowse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS @DB )
+    put ${ Retrieving all failers via JDBC .. }$ 
+    selectPassFail ( @DB @FILENAME @false )
+    tuple -assign @FAILRS ~
     
+    chooseBrowse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS @PASSRS @FAILRS )
+    
+        @PASSRS -close
+        @FAILRS -close
         @DB -disconnect
     @SYSTEM -disconnect
 
@@ -361,9 +372,19 @@ FUNC review ( sys tfile od fname lname recs ) $[
 
 # Browse test records   
 FUNC browse ( sys tfile od fname lname recs ) $[
-    procrecs ( @@recs )
+    LOCAL @LIST
     
-    review ( @@sys @@tfile @@od @@fname @@lname ~ )
+    procrecs ( @@recs )
+    tuple -assign @LIST ~
+    
+    @LIST -to ~ -size
+    eval -to ~ > ~ 0
+    IF ~ THEN $[
+        review ( @@sys @@tfile @@od @@fname @@lname @LIST )
+    ]$ ELSE $[ 
+        put ${ No results, press ENTER to continue }$
+        ask -to NULL:
+    ]$
     
     ansSetGraphicsMode ( *ans_AllOff ) 
     ansEraseDisplay ( )
@@ -458,7 +479,7 @@ FUNC choiceScreen ( sys tfile od fname lname ) $[
 
 
 # Choose which records to browse and browse 'em
-FUNC chooseBrowse ( sys tfile od fname lname recs dbinst ) $[
+FUNC chooseBrowse ( sys tfile od fname lname recs passrs failrs ) $[
     LOCAL @ans
     
     WHILE @true $[
@@ -472,12 +493,10 @@ FUNC chooseBrowse ( sys tfile od fname lname recs dbinst ) $[
                 BREAK
             ]$ -case A $[
                 browse ( @@sys @@tfile @@od @@fname @@lname @@recs )  
-            ]$ -case P $[
-                selectPassFail ( @@dbinst @@fname @true )
-                browseRs ( @@sys @@tfile @@od @@fname @@lname ~ )                
+            ]$ -case P $[                
+                browseRs ( @@sys @@tfile @@od @@fname @@lname @@passrs )                
             ]$ -case F $[
-                selectPassFail ( @@dbinst @@fname @false )
-                browseRs ( @@sys @@tfile @@od @@fname @@lname ~ )                 
+                browseRs ( @@sys @@tfile @@od @@fname @@lname @@failrs )                 
             ]$ -default $[
                 browse ( @@sys @@tfile @@od @@fname @@lname @@recs )
             ]$
