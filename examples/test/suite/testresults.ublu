@@ -14,24 +14,67 @@ FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
     LOCAL @SYSTEM LOCAL @TESTFILE 
     LOCAL @OBJDESC LOCAL @FILENAME 
     LOCAL @LIBNAME LOCAL @RECORDS
+    LOCAL @USESSL LOCAL @DB
+    
     put -to ~ @@usessl
-    ~ -to ~ -eq Y   
-    as400 -to @SYSTEM -ssl ~ @@sysname @@uid @@passwd
+    ~ -to @USESSL -eq Y
+    
+    as400 -to @SYSTEM -ssl @USESSL @@sysname @@uid @@passwd
+    
     getfile ( @SYSTEM @@ifsfqp )
     tuple -assign @TESTFILE ~
+    
     getdesc ( @SYSTEM @@ifsfqp )
     tuple -assign @OBJDESC ~
+    
     fname ( @TESTFILE )
     tuple -assign @FILENAME ~
+    
     libname ( @TESTFILE )
     tuple -assign @LIBNAME ~
+    
     rall ( @TESTFILE )
     tuple -assign @RECORDS ~
-    browse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS )
-    @SYSTEM -disconnect 
+    
+    getDB ( @@sysname @USESSL @LIBNAME @@uid @@passwd  )
+    tuple -assign @DB ~
+    
+    \\ ${ browse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS ) }$
+    
+    chooseBrowse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS @DB )
+    
+        @DB -disconnect
+    @SYSTEM -disconnect
+
     ansSetGraphicsMode ( *ans_AllOff )
 ]$
 
+# Get JDBC instance
+FUNC getDB ( sysname usessl libname uid passwd  ) $[
+    IF @@usessl THEN $[
+        db -to ~ -dbtype as400 -property secure yes 
+        -connect @@sysname @@libname @@uid @@passwd
+    ]$ ELSE $[
+        db -to ~ -dbtype as400 -connect @@sysname @@libname @@uid @@passwd
+    ]$
+]$
+
+# PUsh result set of test results by pass or fail
+FUNC selectPassFail ( dbinst filename passfail ) $[
+    LOCAL @q
+    string -to @q -cat ${ SELECT * FROM }$ @@filename
+    @q -to @q -bl
+    @q -to @q -cat ${ WHERE PFAIL = }$
+   
+    IF @@passfail THEN $[
+            @q -to @q -cat 'P'
+    ]$ ELSE $[
+            @q -to @q -cat 'F'
+    ]$
+      
+    @@dbinst -to ~ -query @q
+]$
+  
 # Get the file  
 FUNC getfile ( sys ifsfqp ) $[
     file -to ~ -as400 @@sys -keyed @@ifsfqp
@@ -127,7 +170,7 @@ FUNC procrows ( zrs ) $[
     list -to @l
     @@zrs -to ~ -next
     WHILE ~ $[
-        procrow ( zrs )
+        procrow ( @@zrs )
         @l -add ~
         @@zrs -to ~ -next
     ]$
@@ -326,35 +369,122 @@ FUNC browse ( sys tfile od fname lname recs ) $[
     ansEraseDisplay ( )
     ansCursorPos ( 0 1 )    
 ]$
-  
-# Browse test records
-# FUNC browse ( sys tfile od fname lname recs ) $[
-#     procrecs ( @@recs )
-#     
-#     FOR @i ~ $[
-#         dataScreen ( @@sys @@tfile @@od @@fname @@lname @i )
-#         ask -to NULL:
-#         ansEraseDisplay ( )
-#     ]$
-# 
-#     ansCursorPos ( 0 1 ) 
-# ]$  
-      
-# Browse test records   
-# FUNC browse ( sys tfile od fname lname recs ) $[
-# procrecs ( @@recs )
-#    LOCAL @desclines
-#    FOR @i ~ $[
-#        @i -to ~ -. filename put -n ${ Test file: }$ put ~ 
-#        @i -to ~ -. description
-#        ~ -to ~ -split \:
-#        list -to ~ -source ~
-#        FOR @j ~ $[        
-#            put -n ${ Description: }$ put @j
-#        ]$
-#        @i -to ~ -. millisecs put -n ${ Milliseconds: }$ put ~ 
-#        @i -to ~ -. pfail put -n ${ Pass/Fail: }$ put ~ 
-#    ]$
-# ]$
 
-# end  
+# Browse result set  
+FUNC browseRs ( sys tfile od fname lname zrs ) $[
+    LOCAL @ZRS
+    tuple -assign @ZRS @@zrs
+    LOCAL @LIST
+    
+    procrows ( @ZRS )
+    tuple -assign @LIST ~
+    
+    @LIST -to ~ -size
+    eval -to ~ > ~ 0
+    IF ~ THEN $[
+        review ( @@sys @@tfile @@od @@fname @@lname @LIST )
+    ]$ ELSE $[ 
+        put ${ No results, press ENTER to continue }$
+        ask -to NULL:
+    ]$
+    
+    ansSetGraphicsMode ( *ans_AllOff ) 
+    ansEraseDisplay ( )
+    ansCursorPos ( 0 1 )    
+]$
+
+# Draw choice screen of data and push user's choice
+# choiceScreen ( sys tfile od fname lname )
+#   sys - as400
+#   tfile - file obj
+#   od - object desc object for file
+#   fname - name of file
+#   lname - name of lib
+FUNC choiceScreen ( sys tfile od fname lname ) $[
+    LOCAL @sysname LOCAL @linenum
+    LOCAL @prompt LOCAL @promptlen LOCAL @ans
+    
+    calljava -to @sysname -method getSystemName -obj @@sys
+    put -to @linenum 1 
+        
+    ansEraseDisplay ( )
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    
+    boldBlueOnBlack ( ) put -n -s System:  
+    boldYellowOnBlack ( ) put -n -s @sysname
+    
+    boldBlueOnBlack ( ) put -n -s Library:
+    boldYellowOnBlack ( ) put -n -s @@lname
+    
+    boldBlueOnBlack ( ) put -n -s File:
+    boldYellowOnBlack ( ) put -n -s @@fname
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    
+    @@od -to ~ -valuestring TEXT_DESCRIPTION
+    
+    boldBlueOnBlack ( ) put -n -s Run:
+    boldYellowOnBlack ( ) put -n -s ~
+    
+    @@od -to ~ -valuestring CHANGE_DATE
+    boldBlueOnBlack ( ) put -n -s Changed:
+    boldYellowOnBlack ( ) put -n ~
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+   
+    put -to @prompt ${ Browse /(A)ll (or [ENTER])/(P)ass/(F)ail/(Q)uit? }$ 
+    @prompt -to @promptlen -len
+   
+    ansCursorPos ( 0 @linenum )
+    ansCursorDown ( 1 )
+    ansCursorBackward ( 100 )
+    ansCursorForward ( @promptlen )
+    boldYellowOnBlack ( ) 
+    ansSaveCursorPos ( )
+    put -n ____
+    ansRestoreCursorPos ( )
+    ansCursorBackward ( @promptlen )
+    boldMagentaOnBlack ( ) 
+    put -n @prompt 
+    ansRestoreCursorPos ( )
+    ansSetGraphicsMode ( *ans_Underscore )
+    
+    ask -to ~
+    
+    ansSetGraphicsMode ( *ans_AllOff )
+]$      
+  
+
+
+# Choose which records to browse and browse 'em
+FUNC chooseBrowse ( sys tfile od fname lname recs dbinst ) $[
+    LOCAL @ans
+    
+    WHILE @true $[
+        choiceScreen ( @@sys @@tfile @@od @@fname @@lname )
+        
+        string -to @ans -bl ~ \\ ${ in case it's empty }$
+            @ans -to @ans -substr 0 1
+            @ans -to @ans -upcase
+            
+        SWITCH @ans -case Q $[
+                BREAK
+            ]$ -case A $[
+                browse ( @@sys @@tfile @@od @@fname @@lname @@recs )  
+            ]$ -case P $[
+                selectPassFail ( @@dbinst @@fname @true )
+                browseRs ( @@sys @@tfile @@od @@fname @@lname ~ )                
+            ]$ -case F $[
+                selectPassFail ( @@dbinst @@fname @false )
+                browseRs ( @@sys @@tfile @@od @@fname @@lname ~ )                 
+            ]$ -default $[
+                browse ( @@sys @@tfile @@od @@fname @@lname @@recs )
+            ]$
+    ]$
+      
+    ansSetGraphicsMode ( *ans_AllOff ) 
+    ansEraseDisplay ( )
+    ansCursorPos ( 0 1 )       
+]$    
+# end
