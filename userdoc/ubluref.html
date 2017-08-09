@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 7 Aug 2017 22:14:16 UTC">
+  "Tue, 8 Aug 2017 22:14:16 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -64,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-07</p>
+  Last edit: 2017-08-08</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -2496,9 +2495,13 @@ Type help for help. Type license for license. Type bye to exit.
 
 
   <p>When a command results in an object other than a string and
-  the command's destination datasink is File or Standard output the
+  the command's destination datasink is File or Standard or Error
+  output, Ublu intelligently renders the object as a string.</p>
+
+
+  <p>If the object is of a class which Ublu does not recognize, the
   object's <tt>toString()</tt> method is called to provide the
-  data.<br></p>
+  data.</p>
 
 
   <h4><a name="System_Userid" id="System_Userid"></a>System,
@@ -5067,13 +5070,14 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
     <p><strong>Note:</strong> For historic reasons, the
-    dash-commands for this (early) Ublu commmand are stylistically
+    dash-commands for this (early) Ublu command are stylistically
     inconsistent with the other commands: <tt>-db</tt> is now
     deprecated in favor of <tt>-dbtype</tt> and
-    <tt>-dbconnected</tt> should be called <tt>-db</tt>. In any
-    case, the <a href="#Eponymous_dash-command__--_">eponymous
-    dash-command</a> <tt>-- @dbconnected</tt> can be used instead
-    of <tt>-dbconnected</tt><br></p>
+    <tt>-dbconnected</tt> should really have been called
+    <tt>-db</tt>. In any case, the <a href=
+    "#Eponymous_dash-command__--_">eponymous dash-command</a>
+    <tt>-- @dbconnected</tt> can be used instead of
+    <tt>-dbconnected</tt><br></p>
 
 
     <p><strong>Note:</strong> This command and the Ublu database
