@@ -12,7 +12,7 @@
 # ... is already included from test.all.ublu
 #
 # Assumes the present file is residing in examples/test/suite 
-include ../../../extensions/ux.dqentry.ublu
+include -s ../../../extensions/ux.dqentry.ublu
 
 # t.dq ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them

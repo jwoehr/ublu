@@ -26,12 +26,17 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     IF @showconst THEN $[ const -list ]$
       
     as400 -to @testsys -ssl @ssl *t_server *t_userprof *t_password
+    
     createTestRecordFormat ( )
-    lifo -dup
-    put ~
-    tuple -map
+    
+    \\ ${ debug }$ \\ ${ lifo -dup }$
+    \\ ${ debug }$ \\ ${ put ~ }$
+    \\ ${ debug }$ \\ ${ tuple -map }$
+    
     tuple -assign @fmt ~
-    put @fmt
+    
+    \\ ${ debug }$ \\ ${ put @fmt }$
+    
     createPF ( @testsys @@ifspath @fmt @@description )
     tuple -assign @testrptpf ~
     @testrptpf -open RW
@@ -54,7 +59,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.dict.ublu t.dict ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dict }$		
     \\ ${ include t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test DO }$		
     \\ ${ include t.dpoint.ublu t.dpoint ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dpoint }$		
-    include t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
+    include -s t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
     \\ ${ include t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dta }$		
     \\ ${ include t.ELSE.ublu t.ELSE ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ELSE }$		
     \\ ${ include t.eval.ublu t.eval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test eval }$		
@@ -96,7 +101,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.programcall.ublu t.programcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test programcall }$		
     \\ ${ include t.props.ublu t.props ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test props }$		
     \\ ${ include t.put.ublu t.put ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test put }$		
-    include t.record.ublu t.record ( @@work_dir @testsys @testrptpf )     \\ ${ test record }$		
+    include -s t.record.ublu t.record ( @@work_dir @testsys @testrptpf )     \\ ${ test record }$		
     \\ ${ include t.rs.ublu t.rs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test rs }$		
     \\ ${ include t.savf.ublu t.savf ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savf }$		
     \\ ${ include t.savef.ublu t.savef ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savef }$		

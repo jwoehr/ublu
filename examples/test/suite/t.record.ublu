@@ -12,7 +12,7 @@
 # ... is already included from test.all.ublu
 #
 # Assumes the present file is residing in examples/test/suite 
-include ../../../examples/listsrc.ublu
+include -s ../../../examples/listsrc.ublu
 
 # t.record ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them
@@ -61,22 +61,27 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     ~ -to ~ -bl
     ~ -to ~ -cat @paradigm
     
-    \\ ${ debug }$ lifo -dup put ~
+    \\ ${ announce }$
+    put -n -s *** lifo -dup put -n -s ~
     
     system -to ~ ~
-      
+    
     lifo -dup
+
     calljava -to ~ -method getOutput -obj ~
     put -tofile @difflist ~
         
     calljava -to ~ -method getRc -obj ~
-    eval -to ~ == 0 ~
     
-    \\ ${ debug }$ lifo -dup put -n -s ${ result of diff }$ put ~
+    \\ ${ announce }$
+    lifo -dup put -n -s ~
+    
+    eval -to ~ == 0 ~ 
     
     IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
-
-    \\ ${ debug }$ put -n -s ${ value of PFAIL }$ put @PFAIL
+      
+    \\ ${ announce }$
+    put @PFAIL
       
     @result -> @PFAIL 
     
