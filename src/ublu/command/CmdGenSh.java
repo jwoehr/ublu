@@ -39,6 +39,7 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.GenSh.OptScriptOnly;
 
 /**
  * Class to generate a launcher shell scripts on command
@@ -81,7 +82,7 @@ public class CmdGenSh extends Command {
                     genSh.addOption(o);
                     break;
                 case "-opts":
-                    o = new GenSh.OptScriptOnly(argArray.next().charAt(0), argArray.next(), argArray.nextMaybeQuotation());
+                    o = new OptScriptOnly(argArray.next().charAt(0), argArray.next(), argArray.nextMaybeQuotation());
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
                     break;
