@@ -2802,14 +2802,15 @@ Type help for help. Type license for license. Type bye to exit.
     -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf |
     -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} :
     instance, connect to, query connection, or disconnect from an
-    as400 system</tt><br>
-    Creates an object instance representing an AS400 system and
+    as400 system</tt>
+
+    <p>Creates an object instance representing an AS400 system and
     manipulates that object. The instance is intended to be stored
     in a <a href="#Tuple_Variables">tuple variable</a> for later
     use with the <tt><a href="#System_Userid">-as400</a></tt>
     <a href="#Dash_Command">dash-command</a> to many commands so
     that the <em>system</em>, <em>userid</em> and <em>password</em>
-    need not be repeated with various commands.<br>
+    need not be repeated with various commands.</p>
 
 
     <p><a name="NoteOnSSL"><strong>Note on SSL</strong></a>:
@@ -2848,14 +2849,17 @@ Type help for help. Type license for license. Type bye to exit.
       Setup Instructions for Making Secure Sockets Layer (SSL)
       Connections with the IBM Toolbox for Java</a>.</li>
     </ul>
-    <br>
-    When an <tt>as400</tt> instance is no longer in use but your
+
+
+    <p>When an <tt>as400</tt> instance is no longer in use but your
     program continues, it is often best to <tt>-disconnect</tt> or
-    <tt>-disconnectsvc</tt>.<br>
-    <br>
-    An <tt>as400</tt> instance stored in a tuple variable
+    <tt>-disconnectsvc</tt>.</p>
+
+
+    <p>An <tt>as400</tt> instance stored in a tuple variable
     <tt>@myas400</tt> is passed to the <tt>as400</tt> command using
-    any one of the three dash-command forms:
+    any one of the three dash-command forms:</p>
+
 
     <ul>
       <li>-- <tt>@myas400</tt></li>
