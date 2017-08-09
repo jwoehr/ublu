@@ -92,7 +92,9 @@ public class GenSh {
     public void accumulateOption(Option o) {
         accumulateCommand(o.getOptionChar());
         accumulateCommand(o.getAssignedName());
-        accumulateCommand(o.getTupleName());
+        if (!(o instanceof OptScriptOnly)) {
+            accumulateCommand(o.getTupleName());
+        }
         accumulateCommandQuoted(o.getDescription());
     }
 
@@ -394,21 +396,23 @@ public class GenSh {
         StringBuilder sb = new StringBuilder();
         sb.append("# Translate options to tuple assignments").append("\n");
         for (Option option : optionArrayList) {
-            sb.append("if [ \"${").append(option.getAssignedName()).append("}\" != \"\" ]\n");
-            sb.append("then\n");
-            sb.append("\tgensh_runtime_opts=\"${gensh_runtime_opts}").append(option.putting()).append(" \"\n");
-            if (option instanceof OptMulti) {
-                sb.append("else\n");
-                sb.append("\tgensh_runtime_opts=\"${gensh_runtime_opts}").append("tuple -null ").append(option.getTupleName()).append(" \"\n");
-            } else if (option.isRequired()) {
-                sb.append("else\n");
-                sb.append("\techo \"Option ")
-                        .append(option.optionAndParam())
-                        .append(" is a required option but is not present.\"\n");
-                sb.append("\tusage\n");
-                sb.append("\texit 2\n");
+            if (!(option instanceof OptScriptOnly)) {
+                sb.append("if [ \"${").append(option.getAssignedName()).append("}\" != \"\" ]\n");
+                sb.append("then\n");
+                sb.append("\tgensh_runtime_opts=\"${gensh_runtime_opts}").append(option.putting()).append(" \"\n");
+                if (option instanceof OptMulti) {
+                    sb.append("else\n");
+                    sb.append("\tgensh_runtime_opts=\"${gensh_runtime_opts}").append("tuple -null ").append(option.getTupleName()).append(" \"\n");
+                } else if (option.isRequired()) {
+                    sb.append("else\n");
+                    sb.append("\techo \"Option ")
+                            .append(option.optionAndParam())
+                            .append(" is a required option but is not present.\"\n");
+                    sb.append("\tusage\n");
+                    sb.append("\texit 2\n");
+                }
+                sb.append("fi\n");
             }
-            sb.append("fi\n");
         }
         return sb.toString();
     }
@@ -735,6 +739,124 @@ public class GenSh {
                     .append(" ..]");
             return sb.toString();
         }
+    }
+
+    /**
+     * Individual option that will be scripted to assign one value only for the
+     * script, no tuple assignment in invocation.
+     */
+    public static class OptScriptOnly implements Option {
+
+        private char optChar;
+        private String assignedName;
+        private String description;
+        private Boolean required;
+
+        /**
+         * Ctor instances all factors
+         *
+         * @param optChar option character
+         * @param assignedName name for shell var assignment
+         * @param description text description for usage message
+         */
+        public OptScriptOnly(char optChar, String assignedName, String description) {
+            this(optChar, assignedName, description, false);
+        }
+
+        /**
+         * Ctor instances all factors
+         *
+         * @param optChar option character
+         * @param assignedName name for shell var assignment
+         * @param description text description for usage message
+         * @param required true if this is a required option
+         */
+        public OptScriptOnly(char optChar, String assignedName, String description, boolean required) {
+            this.optChar = optChar;
+            this.description = description;
+            this.assignedName = assignedName;
+            setRequired(required);
+        }
+
+        @Override
+        public String option() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("-").append(optChar);
+            return sb.toString();
+        }
+
+        @Override
+        public String optionAndParam() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(option())
+                    .append(" ")
+                    .append(getAssignedName());
+            return sb.toString();
+        }
+
+        @Override
+        public String getopt() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\t\t")
+                    .append(option()).append(")")
+                    .append("\n\t\t\t")
+                    .append(getAssignedName())
+                    .append("=\"$2\";shift;\n\t\t\tshift;;");
+            return sb.toString();
+        }
+
+        @Override
+        public String getKshopt() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\t\t")
+                    .append(getOptionChar()).append(")\t")
+                    .append(getAssignedName())
+                    .append("=\"$OPTARG\";;");
+            return sb.toString();
+        }
+
+        @Override
+        public String usage() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(option()).append(" ").append(assignedName).append("\t...\t").append(description);
+            return sb.toString();
+        }
+
+        @Override
+        public String putting() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public char getOptionChar() {
+            return optChar;
+        }
+
+        @Override
+        public String getAssignedName() {
+            return assignedName;
+        }
+
+        @Override
+        public String getTupleName() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public boolean isRequired() {
+            return this.required;
+        }
+
+        @Override
+        public final void setRequired(boolean required) {
+            this.required = required;
+        }
+
     }
 
     /**

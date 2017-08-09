@@ -49,7 +49,7 @@ public class CmdGenSh extends Command {
 
     {
         setNameAndDescription("gensh",
-                "/5+ [-to datasink] [-strictPosix] [ [-path ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$ ..] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname} ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate launcher shell script");
+                "/5+ [-to datasink] [-strictPosix] [ [-path ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$ ..] [-opts optchar assignment_name ${ description }$ ..] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname} ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate launcher shell script");
     }
 
     /**
@@ -77,6 +77,11 @@ public class CmdGenSh extends Command {
                     break;
                 case "-optr":
                     o = new Opt(argArray.next().charAt(0), argArray.next(), argArray.next(), argArray.nextMaybeQuotation(), Opt.REQUIRED);
+                    genSh.accumulateOption(o);
+                    genSh.addOption(o);
+                    break;
+                case "-opts":
+                    o = new GenSh.OptScriptOnly(argArray.next().charAt(0), argArray.next(), argArray.nextMaybeQuotation());
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
                     break;

@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 8 Aug 2017 22:14:16 UTC">
+  "Wed, 9 Aug 2017 11:01:27 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-08</p>
+  Last edit: 2017-08-09</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -8446,9 +8446,10 @@ PF
     <p><code>/5+ [-to datasink] [-strictPosix] [ [-path
     ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt
     optchar assignment_name tuplename ${ description }$ ..] [-optr
-    optchar assignment_name tuplename ${ description }$ ..] [-optx
-    optchar multiple_assignment_name tuplename ${ description }$
-    ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname}
+    optchar assignment_name tuplename ${ description }$ ..] [-opts
+    optchar assignment_name ${ description }$ ..] [-optx optchar
+    multiple_assignment_name tuplename ${ description }$ ..]
+    [-prelude ~@{prelude command string ..] ] ~@{scriptname}
     ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate
     launcher shell script</code>
     </p>
@@ -8528,6 +8529,19 @@ PF
       the option is not present.</li>
 
 
+      <li><tt>-opts optchar assignment_name ${ description }$</tt>
+      creates in the generated script a <code>getopts</code> option
+      that will assign <em>optchar</em>'s argument to shell
+      variable <tt>assignment_name</tt> with a description in the
+      script help message furnished by the <a href=
+      "#Quoted_strings">quoted string</a> <tt>${ description
+      }$</tt>. <code>-opts</code> does <strong>not</strong> assign
+      a <tt>tuplename</tt> for Ublu invocation. The variable thusly
+      assigned is useful in <code>-prelude</code> code to be
+      executed by the script just prior to the invocation of
+      Ublu.</li>
+
+
       <li>
         <tt>-optx optchar assignment_name tuplename ${ description
         }$</tt> createsin the generated script a
@@ -8555,12 +8569,13 @@ PF
       <li><code>-prelude ~@{prelude command string}</code> adds a
       line consisting of a user-provided shell command string which
       will be inserted in the generated script after the
-      declaration of <code>$SCRIPTDIR</code> and before the Java
-      invocation of Ublu. This option may be used to add shell
-      command lines as many times as needed. The inserted lines
-      will appear in the order the <code>-prelude</code>
-      dash-commands were issued. A typical usage is <code>-prelude
-      ${ cd $SCRIPTDIR }$</code></li>
+      declaration of all variables including
+      <code>$SCRIPTDIR</code> and before the Java invocation of
+      Ublu. This option may be used to add shell command lines as
+      many times as needed. The inserted lines will appear in the
+      order the <code>-prelude</code> dash-commands were issued. A
+      typical usage is <code>-prelude ${ cd $SCRIPTDIR
+      }$</code></li>
     </ul>
 
 
