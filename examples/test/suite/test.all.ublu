@@ -41,7 +41,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     tuple -assign @testrptpf ~
     @testrptpf -open RW
     
-    \\ ${ include t.as400.ublu t.as400 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test as400 }$		
+    \\ ${ include t.as400.ublu t.as400 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test as400 }$
     \\ ${ include t.ask.ublu t.ask ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ask }$		
     \\ ${ include t.BREAK.ublu t.BREAK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test BREAK }$		
     \\ ${ include t.bye.ublu t.bye ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test bye }$		
