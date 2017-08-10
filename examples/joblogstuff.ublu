@@ -33,7 +33,7 @@ FUNC catJobLog ( sys jobname jobuser jobnumber verbose ) $[
 #   joblog -to @jl -as400 @mysys -new QPAD9999 MYID 349989
 #   joblog -- @jl -to ~ -length
 #   joblog -- @jl -to @qml -qm 0 ~
-FOR @i in @qml $[ msg -- @i -message replyStatus ( @i ~ ) put ~ ]$
+#   FOR @i in @qml $[ msg -- @i -message replyStatus ( @i ~ ) put ~ ]$
 FUNC replyStatus ( queuedMessage status ) $[
     calljava -- @@queuedMessage -method getReplyStatus -to @@status
 ]$
