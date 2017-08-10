@@ -31,6 +31,9 @@ All rights reserved.
     * `writesrc.ublu`
 * Extensions
     * `ux.mbrdesc.ublu`
+* Stuff
+	* Perl
+		* `validateuser.pl` validates a userid / password combo
 * Windowing
     * now executes rest of initial command line
     * set colors separately for input and output from menu
