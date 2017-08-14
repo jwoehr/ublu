@@ -66,7 +66,7 @@ public class CmdSpoolF extends Command {
 
     {
         setNameAndDescription("spoolf",
-                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [[-answermsg ~@{ some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate | createtime | jobname | jobnumber | jobsysname | jobuser | message | name | number] | [-hold [-immed|-pageend]] | [-new,-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] ~@{system} ~@{user} ~@{password} ~@{name} ~@{number} ~@{jobname} ~@{jobuser} ~@{jobnumber}  : operate on an individual spooled file");
+                "/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [-pure ~@tf] [[-answermsg ~@{ some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate | createtime | jobname | jobnumber | jobsysname | jobuser | message | name | number] | [-hold [-immed|-pageend]] | [-new,-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] ~@{system} ~@{user} ~@{password} ~@{name} ~@{number} ~@{jobname} ~@{jobuser} ~@{jobnumber}  : operate on an individual spooled file");
     }
 
     /**
@@ -162,7 +162,7 @@ public class CmdSpoolF extends Command {
         Tuple creationPPLTuple = null;
         OutputQueue creationOutQ = null;
         Tuple creationOutQTuple = null;
-        /* ***** */
+        Boolean pure = false;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -206,6 +206,9 @@ public class CmdSpoolF extends Command {
                     break;
                 case "-fetch":
                     operation = OPERATIONS.FETCH;
+                    break;
+                case "-pure":
+                    pure = argArray.nextBooleanTupleOrPop();
                     break;
                 case "-get":
                     operation = OPERATIONS.GET;
@@ -319,10 +322,7 @@ public class CmdSpoolF extends Command {
                                 try {
                                     SpoolFHelper splfh = new SpoolFHelper(mySpooledFile);
                                     remoteCopy = splfh.copy(remoteAS400, null, splfh.defaultPrinterFile(remoteAS400), splfh.defaultOutputQueue(remoteAS400));
-                                } catch (AS400Exception ex) {
-                                    getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + inNameAndDescription(), ex);
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                                } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
                                     getLogger().log(Level.SEVERE, "Unable to copy spooled file to remote system " + remoteAS400 + inNameAndDescription(), ex);
                                     setCommandResult(COMMANDRESULT.FAILURE);
                                 } catch (ErrorCompletingRequestException ex) {
@@ -353,9 +353,6 @@ public class CmdSpoolF extends Command {
                         } else {
                             try {
                                 theCopy = mySpooledFile.copy(OutputQueue.class.cast(o));
-                            } catch (AS400Exception ex) {
-                                getLogger().log(Level.SEVERE, "Unable to -copyq spooled file in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
                             } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                                 getLogger().log(Level.SEVERE, "Unable to -copyq spooled file in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
@@ -433,7 +430,11 @@ public class CmdSpoolF extends Command {
                     case FETCH:
                         TransformedSpooledFileFetcher tsff = new TransformedSpooledFileFetcher(mySpooledFile);
                         try {
-                            put(ReportFetcher.fetchTidied(tsff));
+                            if (pure) {
+                                put(tsff.fetchSpooledFile());
+                            } else {
+                                put(ReportFetcher.fetchTidied(tsff));
+                            }
                         } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Unable to fetch or to put transformed spooled file in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -459,10 +460,7 @@ public class CmdSpoolF extends Command {
                     case HOLD:
                         try {
                             mySpooledFile.hold(holdType);
-                        } catch (AS400Exception ex) {
-                            getLogger().log(Level.SEVERE, "Unable to hold spooled file in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
+                        } catch (AS400Exception | AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Unable to hold spooled file in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } catch (ErrorCompletingRequestException ex) {
@@ -492,9 +490,6 @@ public class CmdSpoolF extends Command {
                             SpooledFile spooledFileToMoveMeAfter = SpooledFile.class.cast(o);
                             try {
                                 mySpooledFile.move(spooledFileToMoveMeAfter);
-                            } catch (AS400Exception ex) {
-                                getLogger().log(Level.SEVERE, "Unable to move spooled file after another in " + getNameAndDescription(), ex);
-                                setCommandResult(COMMANDRESULT.FAILURE);
                             } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                                 getLogger().log(Level.SEVERE, "Unable to move spooled file after another in " + getNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
@@ -543,9 +538,6 @@ public class CmdSpoolF extends Command {
                         ppl.setParameter(PrintObject.ATTR_RMTPRTQ, remotePrintQueue);
                         try {
                             mySpooledFile.sendTCP(ppl);
-                        } catch (AS400Exception ex) {
-                            getLogger().log(Level.SEVERE, "Unable to send spooled file via tcp in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
                         } catch (AS400SecurityException | IOException | InterruptedException | ErrorCompletingRequestException ex) {
                             getLogger().log(Level.SEVERE, "Unable to send spooled file via tcp in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -554,9 +546,6 @@ public class CmdSpoolF extends Command {
                     case TOP:
                         try {
                             mySpooledFile.moveToTop();
-                        } catch (AS400Exception ex) {
-                            getLogger().log(Level.SEVERE, "Unable to move spooled file to top in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
                         } catch (AS400SecurityException | IOException | InterruptedException | RequestNotSupportedException | ErrorCompletingRequestException ex) {
                             getLogger().log(Level.SEVERE, "Unable to move spooled file to top in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
