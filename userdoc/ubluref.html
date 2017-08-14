@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 9 Aug 2017 11:01:27 UTC">
+  "Mon, 14 Aug 2017 11:01:27 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-09</p>
+  Last edit: 2017-08-14</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -15996,26 +15996,28 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink]
-    [-tofile ~@filename ] [[-answermsg ~@{ some text }] | [-copy] |
-    [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] |
-    [-delete] | -fetch | [-get createdate | createtime | jobname |
-    jobnumber | jobsysname | jobuser | message | name | number] |
-    [-hold [-immed|-pageend]] | [-new,-instance ] | [-move
-    ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] |
-    [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath]
-    [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]]
-    ~@{system} ~@{user} ~@{password} ~@{name} ~@{number}
-    ~@{jobname} ~@{jobuser} ~@{jobnumber} : operate on an
-    individual spooled file</tt><br>
-    <br>
-    The <tt>spoolf</tt> command operates on an individual spooled
-    file object. You can create the spooled file object directly
-    from a full specification as shown above, or you can use the
-    <tt>-spoolf</tt> <a href="#Dash_Command">dash-command</a> to
-    provide a tuple referencing a spooled file object either
-    created directly or obtained via the <a href=
-    "#spoolflist"><tt>spoolflist</tt></a> command.<br>
+    <p><code>/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to
+    datasink] [-tofile ~@filename ] [-pure ~@tf] [[-answermsg ~@{
+    some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq
+    ~@outq] | [-create] | [-delete] | -fetch | [-get createdate |
+    createtime | jobname | jobnumber | jobsysname | jobuser |
+    message | name | number] | [-hold [-immed|-pageend]] |
+    [-new,-instance ] | [-move ~@spoolf_before_me] | [-moveq
+    ~@{outq_on_same_system}] | [-release] | [-sendtcp
+    ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile
+    ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] ~@{system} ~@{user}
+    ~@{password} ~@{name} ~@{number} ~@{jobname} ~@{jobuser}
+    ~@{jobnumber} : operate on an individual spooled file</code>
+    </p>
+
+
+    <p>The <tt>spoolf</tt> command operates on an individual
+    spooled file object. You can create the spooled file object
+    directly from a full specification as shown above, or you can
+    use the <tt>-spoolf</tt> <a href=
+    "#Dash_Command">dash-command</a> to provide a tuple referencing
+    a spooled file object either created directly or obtained via
+    the <a href="#spoolflist"><tt>spoolflist</tt></a> command.</p>
 
 
     <ul>
@@ -16092,15 +16094,16 @@ exit <span class="syntax-KEYWORD2">$?</span>
       file.</li>
 
 
-      <li>
-        <tt>-fetch</tt> fetches the referenced spooled file as a
-        transformed text file.
+      <li><tt>-fetch</tt> fetches the referenced spooled file as a
+      transformed text file. Certain hacks are applied to remove
+      some formatting which may not be desirable. Use
+      <code>-pure</code> to avoid these hacks.</li>
 
-        <ul>
-          <li>this is equivalent to the <a href=
-          "#fetch"><tt>fetch</tt></a> command.</li>
-        </ul>
-      </li>
+
+      <li><code>-pure ~@tf</code> if <code>@true</code> says to
+      skip applying certain formatting hacks which otherwise
+      (<code>@false</code>, the default) are applied to "clean up"
+      the spooled file output.</li>
 
 
       <li>
