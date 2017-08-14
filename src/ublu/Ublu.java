@@ -340,37 +340,6 @@ public class Ublu {
         }
         return interpreter.getGlobal_ret_val();
     }
-    //    /**
-    //     * Run the singleton main interpreter
-    //     *
-    //     * @return the global return value
-    //     */
-    //    public int oldRunMainInterpreter() {
-    //        Interpreter interpreter = getMainInterpreter();
-    //        if (interpreter.getArgArray().isEmpty()) {
-    //            if (!getSwitches().contains("-s")) {
-    //                if (interpreter.isConsole()) {
-    //                    interpreter.outputerrln(startupMessage());
-    //                    interpreter.outputerrln(HELPLINE);
-    //                }
-    //            }
-    //            interpreter.interpret();
-    //        } else if (getSwitches().contains("-include")
-    //                || getSwitches().contains("-i")) {
-    //            interpreter.getArgArray().add(0, "include");
-    //            if (getSwitches().contains("-s")) {
-    //                interpreter.getArgArray().add(1, "-s");
-    //            }
-    //            interpreter.loop();
-    //            interpreter.interpret();
-    //        } else {
-    //            interpreter.loop();
-    //        }
-    //        interpreter.closeHistory();
-    //        interpreter.getErroutStream().flush();
-    //        interpreter.getOutputStream().flush();
-    //        return interpreter.getGlobal_ret_val();
-    //    }
 
     /**
      * Run a command or run the interpreter. This is the main() of the Main
