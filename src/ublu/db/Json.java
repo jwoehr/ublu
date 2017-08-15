@@ -27,7 +27,6 @@
  */
 package ublu.db;
 
-import ublu.util.Generics.ColumnNameList;
 import ublu.util.Generics.StringArrayList;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
