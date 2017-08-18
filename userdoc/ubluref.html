@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 14 Aug 2017 11:01:27 UTC">
+  "Fri, 18 Aug 2017 16:01:27 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-14</p>
+  Last edit: 2017-08-18</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -6784,11 +6784,184 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     </ul>
 
 
-    <p>The default operation is <tt>-instance</tt> .</p>
+    <p>The default operation is <tt>-new</tt> .</p>
 
 
-    <p>The data queue command currently only supports string keys
-    and string data.</p>
+    <p><em>Example</em>
+    </p>
+
+    <pre><span class="syntax0"><span class=
+    "syntax-COMMENT1">#</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">Instance</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">a</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">session</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">with</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">the</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">target</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">system</span>
+<span class="syntax-KEYWORD2">as400</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@oss</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-usessl</span> MYSYS MyProfile ********
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Instance</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">DQ</span>
+<span class="syntax-KEYWORD2">dq</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@q</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-MARKUP">@oss</span> /QSYS.LIB/UBLUTEST.LIB/TESTDQ.DTAQ
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Create</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">DQ</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">on</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">system</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">with</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">max</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">entry</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">len</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">1111</span>
+<span class="syntax-MARKUP">@q</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-create</span> <span class=
+"syntax-DIGIT">1111</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Reference</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">file</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">which</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">happens</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">have</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">record</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">len</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">of</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">1111</span>
+<span class="syntax-KEYWORD2">file</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-as400</span> <span class=
+"syntax-MARKUP">@oss</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-keyed</span> /QSYS.LIB/UBLUTEST.LIB/TEST0008.FILE
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Open</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">file</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(R)ead</span>
+<span class="syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-open</span> R
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Position</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">file</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(B)efore</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">First</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Record</span>
+<span class="syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-pos</span> B
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">NEXT</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">record</span>
+<span class="syntax-MARKUP">@f</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@rec</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-read</span> NEXT
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Get</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">record's</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">data</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">as</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">bytes</span>
+<span class="syntax-MARKUP">@rec</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@data</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-getcontents</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Write</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">record</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">dataqueue</span>
+<span class="syntax-MARKUP">@q</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-writeb</span> <span class=
+"syntax-MARKUP">@data</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Etc</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">...</span>
+</span></pre>
   </blockquote>
 
 
