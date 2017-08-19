@@ -17,6 +17,7 @@ All rights reserved.
     * `file -addmbr`
     * `FUNC` can take func name from tuple pop or string
         * this makes it easier for FUNCs to define FUNCs
+    * `gensh` -D -X -prelude and errs on reserved options (DXh)
     * `help` now takes `--` cmdname
     * `map` creates user tuple maps
     * `props` picks up System property ublu.usage.linelength at startup
