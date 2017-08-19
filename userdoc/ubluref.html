@@ -9593,9 +9593,7 @@ java<span class="syntax-KEYWORD2">${</span><span class=
 "syntax-OPERATOR">(</span> @exclude @find \<span class=
 "syntax-OPERATOR">)</span> 
 exit <span class="syntax-KEYWORD2">$?</span>
-
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -11882,8 +11880,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 <span class="gutter">  17 </span><span class=
 "syntax-OPERATOR">]$</span>
 <span class="gutter">  18 </span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -12286,8 +12283,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 <span class="gutterH">  40 </span><span class=
 "syntax-KEYWORD2">put</span> <span class=
 "syntax-MARKUP">@jsonobj</span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -12710,8 +12706,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 "syntax-KEYWORD3"> </span><span class=
 "syntax-MARKUP">@mylist</span> <span class=
 "syntax-KEYWORD3">-size</span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -12871,8 +12866,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 "syntax-KEYWORD2">tuple</span> <span class=
 "syntax-KEYWORD3">-map</span>
 <span class="gutter">  22 </span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -13500,8 +13494,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 <span class="gutter">  34 </span><span class=
 "syntax-OPERATOR">]$</span>
 <span class="gutterH">  35 </span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -13681,8 +13674,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 "syntax-LITERAL1">abcd</span><span class=
 "syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span> 
 <span class="gutter">  14 </span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -14215,8 +14207,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
 <span class="gutterH">  30 </span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -17310,8 +17301,7 @@ ciptool
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">End</span>
 <span class="gutterH">  25 </span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -18376,25 +18366,24 @@ ciptool
     <tt>/1 [-to datasink] ${ some text, usually a comment }$&nbsp;
     : redirect a quotation to a datasink or simply make an enclosed
     comment</tt><br>
-  </blockquote>
-  The <tt>\\</tt> ("comment-quote") command allows you to use a
-  <tt>${ <a href="#Quoted_strings">quoted string</a> }$</tt> or
-  single <a href="#Plainwords">plainword</a> for an enclosed
-  comment. This is useful in defining functions (e.g., with
-  <a href="#FUNC"><tt>FUNC</tt></a>) because the line comment
-  command <a href="#comment_introducer"><tt>#</tt></a> can't be
-  used in a function definition's <a href=
-  "#Execution_blocks">execution block</a> since it has the effect
-  of consuming the entire remainder of the block.<br>
-  <br>
-  The string can actually be redirected to a <a href=
-  "#Datasinks">datasink</a> by the <tt>-to</tt> <a href=
-  "#Dash_Command">dash-command</a>, if desired. The default
-  datasink for <tt>\\</tt> is set to <tt>NULL:</tt><br>
-  <br>
-  <em>Example</em> (<tt>examples/test/testcommentquote.ublu</tt>)
+    The <tt>\\</tt> ("comment-quote") command allows you to use a
+    <tt>${ <a href="#Quoted_strings">quoted string</a> }$</tt> or
+    single <a href="#Plainwords">plainword</a> for an enclosed
+    comment. This is useful in defining functions (e.g., with
+    <a href="#FUNC"><tt>FUNC</tt></a>) because the line comment
+    command <a href="#comment_introducer"><tt>#</tt></a> can't be
+    used in a function definition's <a href=
+    "#Execution_blocks">execution block</a> since it has the effect
+    of consuming the entire remainder of the block.<br>
+    <br>
+    The string can actually be redirected to a <a href=
+    "#Datasinks">datasink</a> by the <tt>-to</tt> <a href=
+    "#Dash_Command">dash-command</a>, if desired. The default
+    datasink for <tt>\\</tt> is set to <tt>NULL:</tt><br>
+    <br>
+    <em>Example</em> (<tt>examples/test/testcommentquote.ublu</tt>)
 
-  <pre>
+    <pre>
 <span class="syntax0"><span class="gutter">   1 </span><span class=
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class=
@@ -18540,8 +18529,9 @@ ciptool
 "syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">done</span>
 <span class="gutterH">  20 </span>
-</span>
-</pre>
+</span></pre>
+  </blockquote>
+
 
   <h2><a name="Tips_and_Tricks" id="Tips_and_Tricks"></a> Tips and
   Tricks<br></h2>
