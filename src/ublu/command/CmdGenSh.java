@@ -53,6 +53,8 @@ public class CmdGenSh extends Command {
                 "/5+ [-to datasink] [-strictPosix] [ [-path ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$ ..] [-opts optchar assignment_name ${ description }$ ..] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname} ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate launcher shell script");
     }
 
+    public final static String RESERVED = "[DXh]";
+
     /**
      * Command to generate a launcher shell script
      *
@@ -63,7 +65,7 @@ public class CmdGenSh extends Command {
         GenSh genSh = new GenSh();
         Option o;
         boolean strictPosix = false;
-        while (argArray.hasDashCommand()) {
+        while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             genSh.accumulateCommand(dashCommand);
             switch (dashCommand) {
@@ -72,21 +74,33 @@ public class CmdGenSh extends Command {
                     genSh.accumulateCommand(getDataDest().getName());
                     break;
                 case "-opt":
+                    if (!validateOptChar(argArray)) {
+                        break;
+                    }
                     o = new Opt(argArray.next().charAt(0), argArray.next(), argArray.next(), argArray.nextMaybeQuotation());
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
                     break;
                 case "-optr":
+                    if (!validateOptChar(argArray)) {
+                        break;
+                    }
                     o = new Opt(argArray.next().charAt(0), argArray.next(), argArray.next(), argArray.nextMaybeQuotation(), Opt.REQUIRED);
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
                     break;
                 case "-opts":
+                    if (!validateOptChar(argArray)) {
+                        break;
+                    }
                     o = new OptScriptOnly(argArray.next().charAt(0), argArray.next(), argArray.nextMaybeQuotation());
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
                     break;
                 case "-optx":
+                    if (!validateOptChar(argArray)) {
+                        break;
+                    }
                     o = new OptMulti(argArray.next().charAt(0), argArray.next(), argArray.next(), argArray.nextMaybeQuotation());
                     genSh.accumulateOption(o);
                     genSh.addOption(o);
@@ -115,7 +129,7 @@ public class CmdGenSh extends Command {
         } else if (argArray.size() < 3) {
             logArgArrayTooShortError(argArray);
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
+        } else if (getCommandResult() != COMMANDRESULT.FAILURE) {
             genSh.setStrictPosix(strictPosix);
             String scriptname = argArray.nextMaybeQuotationTuplePopString();
             String includename = argArray.nextMaybeQuotationTuplePopString();
@@ -134,6 +148,24 @@ public class CmdGenSh extends Command {
             }
         }
         return argArray;
+    }
+
+    private boolean validOptChar(String c) {
+        return !c.matches(RESERVED);
+    }
+
+    private void reservedError(String c) {
+        getLogger().log(Level.SEVERE, "Reserved option character {0} in {1}", new Object[]{c, getNameAndDescription()});
+        setCommandResult(COMMANDRESULT.FAILURE);
+    }
+
+    private boolean validateOptChar(ArgArray a) {
+        String c = a.peekNext().substring(0, 1);
+        boolean valid = validOptChar(c);
+        if (!valid) {
+            reservedError(c);
+        }
+        return valid;
     }
 
     @Override
