@@ -179,6 +179,7 @@ FUNC procrow ( zrs ) $[
 FUNC procrows ( zrs ) $[
     LOCAL @l
     list -to @l
+    @@zrs -before
     @@zrs -to ~ -next
     WHILE ~ $[
         procrow ( @@zrs )
@@ -421,7 +422,7 @@ FUNC browseRs ( sys tfile od fname lname zrs ) $[
 #   od - object desc object for file
 #   fname - name of file
 #   lname - name of lib
-FUNC choiceScreen ( sys tfile od fname lname ) $[
+FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     LOCAL @sysname LOCAL @linenum
     LOCAL @prompt LOCAL @promptlen LOCAL @ans
     
@@ -443,14 +444,20 @@ FUNC choiceScreen ( sys tfile od fname lname ) $[
     
     ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
     
-    @@od -to ~ -valuestring TEXT_DESCRIPTION
-    
     boldBlueOnBlack ( ) put -n -s Run:
-    boldYellowOnBlack ( ) put -n -s ~
+    @@od -to ~ -valuestring TEXT_DESCRIPTION
+    boldYellowOnBlack ( ) put -n -s ~    
     
-    @@od -to ~ -valuestring CHANGE_DATE
     boldBlueOnBlack ( ) put -n -s Changed:
+    @@od -to ~ -valuestring CHANGE_DATE
     boldYellowOnBlack ( ) put -n ~
+    
+    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    
+    boldBlueOnBlack ( ) put -n -s Passes:
+    boldYellowOnBlack ( ) @@passrs -to ~NULL: -last @@passrs -to ~ -rownum put -n -s ~
+    boldBlueOnBlack ( ) put -n -s Fails:
+    boldYellowOnBlack ( ) @@failrs -to ~NULL: -last @@failrs -to ~ -rownum put -n -s ~
     
     ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
    
@@ -475,15 +482,13 @@ FUNC choiceScreen ( sys tfile od fname lname ) $[
     
     ansSetGraphicsMode ( *ans_AllOff )
 ]$      
-  
-
 
 # Choose which records to browse and browse 'em
 FUNC chooseBrowse ( sys tfile od fname lname recs passrs failrs ) $[
     LOCAL @ans
     
     WHILE @true $[
-        choiceScreen ( @@sys @@tfile @@od @@fname @@lname )
+        choiceScreen ( @@sys @@tfile @@od @@fname @@lname @@passrs @@failrs )
         
         string -to @ans -bl ~ \\ ${ in case it's empty }$
             @ans -to @ans -substr 0 1

@@ -59,7 +59,7 @@ public class CmdRs extends Command {
 
     {
         // setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-fileblob ~@{index} ~@{blobfilepath}] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
-        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets)");
+        setNameAndDescription("rs", "/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-before] | [-after] | [-first] | [-last] | [-rownum] | [-rawrs] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets");
     }
 
     /**
@@ -136,6 +136,30 @@ public class CmdRs extends Command {
          * report if size &lt;= 0).
          */
         FETCHSIZE,
+        /**
+         * Move before first row
+         */
+        BEFORE,
+        /**
+         * Move after last row
+         */
+        AFTER,
+        /**
+         * Move to first row
+         */
+        FIRST,
+        /**
+         * Move to lase row
+         */
+        LAST,
+        /**
+         * Get current row number
+         */
+        ROWNUM,
+        /**
+         * Get raw result set object
+         */
+        RAWRS,
         /**
          * Commit a result set
          */
@@ -338,6 +362,24 @@ public class CmdRs extends Command {
                     charConversionIndexList = new Generics.IndexList();
                     charConversionIndexList.addAll(argArray.parseIntArray());
                     break;
+                case "-before":
+                    function = FUNCTIONS.BEFORE;
+                    break;
+                case "-after":
+                    function = FUNCTIONS.AFTER;
+                    break;
+                case "-first":
+                    function = FUNCTIONS.FIRST;
+                    break;
+                case "-last":
+                    function = FUNCTIONS.LAST;
+                    break;
+                case "-rownum":
+                    function = FUNCTIONS.ROWNUM;
+                    break;
+                case "-rawrs":
+                    function = FUNCTIONS.RAWRS;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -370,6 +412,84 @@ public class CmdRs extends Command {
                             put(myRs.getResultSet().relative(cursorinc));
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Could not set cursor relative or put result in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case BEFORE:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -before in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            myRs.getResultSet().beforeFirst();
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Could not set cursor before first in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case AFTER:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -after in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            myRs.getResultSet().afterLast();
+                        } catch (SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Could not set cursor after last in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case FIRST:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -first in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().first());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not set cursor first or put result in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case LAST:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -last in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().last());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not set cursor last or put result in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case ROWNUM:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -rownum in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet().getRow());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get rownum or put result in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case RAWRS:
+                    if (myRs == null) {
+                        getLogger().log(Level.SEVERE, "Tuple not found for -rawrs in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    } else {
+                        try {
+                            put(myRs.getResultSet());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Could not get raw result set or put result in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }

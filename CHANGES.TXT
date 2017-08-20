@@ -21,7 +21,14 @@ All rights reserved.
     * `help` now takes `--` cmdname
     * `map` creates user tuple maps
     * `props` picks up System property ublu.usage.linelength at startup
-    * `rs` now takes the closure from either -from or eponymous
+    * `rs`
+    	* now takes the closure from either -from or eponymous
+    	* -before
+    	* -after
+    	* -first
+    	* -last
+    	* -rownum
+    	* -rawrs
     * `sess` command missing break after -to
     * `string -lcase -upcase`
     * `tuple -assign` to non-existent tuple was failing

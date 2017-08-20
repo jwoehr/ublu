@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15132,15 +15133,15 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <p><tt>/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath]
-    [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] |
+    <p><code>/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath]
+    [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-before]
+    | [-after] | [-first] | [-last] | [-rownum] | [-rawrs] |
     [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st}
-    [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | 
-    <!-- [-fileblob ~@{index} ~@{blobfilepath}] |  --> [-get
-    ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] |
+    [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] |
+    [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] |
     [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] |
     [-next] | [-split split_specification] | [-toascii numindices
-    index index ..] | [-metadata]] : operate on result sets</tt>
+    index index ..] | [-metadata]] : operate on result sets</code>
     </p>
 
 
@@ -15154,6 +15155,32 @@ exit <span class="syntax-KEYWORD2">$?</span>
       (0) is before the first row, -1 is the last. Puts true if the
       cursor is still within the result set, false if beyond either
       end.</li>
+
+
+      <li><code>-before</code> moves the cursor before the first
+      row.</li>
+
+
+      <li><code>-after</code> moves the cursor after the last
+      row.</li>
+
+
+      <li><code>-first</code> moves the cursor to the first row
+      putting <code>true</code> if such a row exists, otherwise
+      <code>false</code>.</li>
+
+
+      <li><code>-last</code> moves the cursor to the last row
+      putting <code>true</code> if such a row exists, otherwise
+      <code>false</code>.</li>
+
+
+      <li><code>-rownum</code> puts the current cursor row
+      number.</li>
+
+
+      <li><code>-rawrs</code> puts the raw result set for <a href=
+      "#calljava"><code>calljava</code></a> operations.</li>
 
 
       <li><code>-rel ~@{rows}</code> moves the result set cursor
