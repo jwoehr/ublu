@@ -1,0 +1,5 @@
+put -to @foo 123
+put -to @bar -# @foo
+put @bar            
+tuple -typename @bar
+tuple -typename @foo 
