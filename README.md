@@ -81,7 +81,7 @@ Goublu is a console front-end that provides an editable Ublu command line. The g
 
 `go get -u github.com/jwoehr/goublu`
 
-will fetch the source to your `$GOPATH/src` directory. Use `go build main\goublu.go` to build Goublu for your architecture.
+will fetch the source to your `$GOPATH/src` directory. Use `go build main/goublu.go` to build Goublu for your architecture.
 
 <a name="discussion"></a>
 
