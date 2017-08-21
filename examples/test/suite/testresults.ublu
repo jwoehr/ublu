@@ -195,7 +195,14 @@ FUNC whiteOnBlack ( ) $[
     put -to @modes -s -append *ans_BgBlack   
     ansSetGraphicsMode ( @modes )
 ]$
-  
+
+FUNC boldRedOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgRed
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$
 FUNC boldGreenOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
@@ -227,6 +234,14 @@ FUNC boldMagentaOnBlack ( ) $[
     put -to @modes -s -append *ans_BgBlack   
     ansSetGraphicsMode ( @modes )
 ]$  
+
+# FUNC linepostinc ( linenum )
+# Move cursor to 0 , @@linenum and increment @@linenum
+# (Ublu is call by reference.)
+FUNC linepostinc ( linenum ) $[
+    ansCursorPos ( 0 @@linenum )
+    eval -to @@linenum inc @@linenum 
+]$
   
 # Draw one screen of data
 # dataScreen ( sys tfile od fname lname rec )
@@ -241,11 +256,12 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     LOCAL @therec tuple -assign @therec @@rec
     
     calljava -to @sysname -method getSystemName -obj @@sys
-    put -to @linenum 1 
+    
+    put -to @linenum 1
         
     ansEraseDisplay ( )
     
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum ) 
     
     boldBlueOnBlack ( ) put -n -s System:  
     boldYellowOnBlack ( ) put -n -s @sysname
@@ -256,7 +272,7 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     boldBlueOnBlack ( ) put -n -s File:
     boldYellowOnBlack ( ) put -n -s @@fname
     
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum ) 
     
     @@od -to ~ -valuestring TEXT_DESCRIPTION
     
@@ -267,7 +283,7 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     boldBlueOnBlack ( ) put -n -s Changed:
     boldYellowOnBlack ( ) put -n ~
     
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum ) 
     
     @therec -to ~ -. filename
     boldGreenOnBlack ( ) put -n ${ Test module: }$ 
@@ -290,11 +306,11 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     ~ -to ~ -split \:
     list -to ~ -source ~
     FOR @j ~ $[
-        ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1        
+        linepostinc ( @linenum )         
         boldGreenOnBlack ( ) put -n ${ Description: }$
         whiteOnBlack ( ) put -n @j
     ]$
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum ) 
 ]$      
      
 # Review records one at a time
@@ -374,7 +390,7 @@ FUNC review ( sys tfile od fname lname recs ) $[
 # Browse test records   
 FUNC browse ( sys tfile od fname lname recs ) $[
     LOCAL @LIST
-    
+
     procrecs ( @@recs )
     tuple -assign @LIST ~
     
@@ -382,8 +398,9 @@ FUNC browse ( sys tfile od fname lname recs ) $[
     eval -to ~ > ~ 0
     IF ~ THEN $[
         review ( @@sys @@tfile @@od @@fname @@lname @LIST )
-    ]$ ELSE $[ 
-        put ${ No results, press ENTER to continue }$
+    ]$ ELSE $[
+        boldRedOnBlack ( )
+        put ${ 0 results, Press ENTER to continue }$
         ask -to NULL:
     ]$
     
@@ -405,8 +422,9 @@ FUNC browseRs ( sys tfile od fname lname zrs ) $[
     eval -to ~ > ~ 0
     IF ~ THEN $[
         review ( @@sys @@tfile @@od @@fname @@lname @LIST )
-    ]$ ELSE $[ 
-        put ${ No results, press ENTER to continue }$
+    ]$ ELSE $[
+        boldRedOnBlack ( )
+        put ${ 0 results, Press ENTER to continue }$
         ask -to NULL:
     ]$
     
@@ -427,11 +445,12 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     LOCAL @prompt LOCAL @promptlen LOCAL @ans
     
     calljava -to @sysname -method getSystemName -obj @@sys
-    put -to @linenum 1 
-        
+
+    put -to @linenum 1
+    
     ansEraseDisplay ( )
     
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum ) 
     
     boldBlueOnBlack ( ) put -n -s System:  
     boldYellowOnBlack ( ) put -n -s @sysname
@@ -442,7 +461,7 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     boldBlueOnBlack ( ) put -n -s File:
     boldYellowOnBlack ( ) put -n -s @@fname
     
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum ) 
     
     boldBlueOnBlack ( ) put -n -s Run:
     @@od -to ~ -valuestring TEXT_DESCRIPTION
@@ -452,19 +471,16 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     @@od -to ~ -valuestring CHANGE_DATE
     boldYellowOnBlack ( ) put -n ~
     
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
+    linepostinc ( @linenum )
     
     boldBlueOnBlack ( ) put -n -s Passes:
     boldYellowOnBlack ( ) @@passrs -to ~NULL: -last @@passrs -to ~ -rownum put -n -s ~
     boldBlueOnBlack ( ) put -n -s Fails:
-    boldYellowOnBlack ( ) @@failrs -to ~NULL: -last @@failrs -to ~ -rownum put -n -s ~
-    
-    ansCursorPos ( 0 @linenum ) eval -to @linenum + @linenum 1
-   
+    boldYellowOnBlack ( ) @@failrs -to ~NULL: -last @@failrs -to ~ -rownum put -n ~
+
     put -to @prompt ${ Browse /(A)ll (or [ENTER])/(P)ass/(F)ail/(Q)uit? }$ 
     @prompt -to @promptlen -len
    
-    ansCursorPos ( 0 @linenum )
     ansCursorDown ( 1 )
     ansCursorBackward ( 100 )
     ansCursorForward ( @promptlen )
