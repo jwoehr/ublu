@@ -51,7 +51,7 @@ import java.util.logging.Level;
 public class CmdPut extends Command {
 
     {
-        setNameAndDescription("put", "/1? [-to datasink] [-tofile ~@filepath] [-from datasink ] [-fromfile ~@filepath] [-append] [ -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# number | ~@{object or a string}  | a single lex ] : put data from datasink to datasink, optionally translating charset if -toascii or -charset are set");
+        setNameAndDescription("put", "/1? [-to datasink] [-tofile ~@filepath] [-from datasink ] [-fromfile ~@filepath] [-append] [ -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# ~@{numberstring} | ~@{object or a string}  | a single lex ] : put data from datasink to datasink, typically in string form (with some exceptions), optionally translating charset if -toascii or -charset are set");
     }
 
     /**
@@ -89,7 +89,7 @@ public class CmdPut extends Command {
         boolean append = false;
         boolean newline = true;
         boolean space = false;
-        Integer number = null;
+        Long number = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -106,7 +106,7 @@ public class CmdPut extends Command {
                     setDataSrc(DataSink.fileSinkFromTuple(argArray.nextTupleOrPop()));
                     break;
                 case "-#":
-                    number = argArray.nextInt();
+                    number = argArray.nextLongMaybeQuotationTuplePopString();
                     break;
                 case "-append":
                     append = true;

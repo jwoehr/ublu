@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -14883,13 +14882,17 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/1? [-to datasink] [-tofile ~@filepath] [-from datasink ]
-    [-fromfile ~@filepath] [-append] [ -toascii ] [ -charset
-    srccharsetname ] [-n] [-s] [ -# number | ~@{object or a string}
-    | a single lex ] : put data from datasink to datasink,
-    optionally translating charset if -toascii or -charset are
-    set</tt><br>
-    The <tt>put</tt> command puts data from the source <a href=
+    <p><code>/1? [-to datasink] [-tofile ~@filepath] [-from
+    datasink ] [-fromfile ~@filepath] [-append] [ -toascii ] [
+    -charset srccharsetname ] [-n] [-s] [ -# ~@{numberstring} |
+    ~@{object or a string} | a single lex ] : put data from
+    datasink to datasink, typically in string form (with some
+    exceptions), optionally translating charset if -toascii or
+    -charset are set</code>
+    </p>
+
+
+    <p>The <tt>put</tt> command puts data from the source <a href=
     "#Datasinks">datasink</a> ( Standard Input ( called
     <tt>STD:</tt> ), filename, <a href=
     "#Tuple_Variables"><em>@variable</em></a>, the <a href=
@@ -14901,13 +14904,13 @@ exit <span class="syntax-KEYWORD2">$?</span>
     "#Tuple_stack">Tuple stack</a> signified by <tt>~</tt>, or
     <tt>NULL:</tt> ) specified by the <tt>-to</tt> dash-command,
     optionally translating charset if <tt>-toascii</tt> or
-    <tt>-charset</tt> are set.<br>
-    <br>
-    In the absence of <tt>-to</tt> and/or <tt>-from</tt> (or
+    <tt>-charset</tt> are set.</p>
+
+
+    <p>In the absence of <tt>-to</tt> and/or <tt>-from</tt> (or
     -<tt>tofile</tt> and/or <tt>-fromfile</tt>) the respective
     datasinks are by default Standard Input and Standard
-    Output.<br>
-    <br>
+    Output.</p>
     The <tt>-tofile</tt> dash-command takes a <a href=
     "#Tuple_Variables">tuple</a> name or a tuple from the <a href=
     "#Tuple_stack">tuple stack</a> and uses its string value as a
@@ -14959,9 +14962,10 @@ exit <span class="syntax-KEYWORD2">$?</span>
       the tuple stack.</li>
 
 
-      <li>If the <tt>-#</tt> <em>number</em> dash-command is
-      present, put parses <em>number</em> as a signed number and
-      puts it to the destination datasink.</li>
+      <li>If the <tt>-# ~@{numberstring}</tt> dash-command is
+      present, put parses <em>numberstring</em> as a signed long
+      and puts it to the destination datasink. It is an error to
+      pass an already-parsed number to this dash-command.</li>
 
 
       <li>If the <tt>-append</tt> dash-command is present, if the

@@ -21,6 +21,7 @@ All rights reserved.
     * `help` now takes `--` cmdname
     * `map` creates user tuple maps
     * `props` picks up System property ublu.usage.linelength at startup
+    * `put` -# now is Long and can take tuple and pop for numberstring
     * `rs`
     	* now takes the closure from either -from or eponymous
     	* -before
