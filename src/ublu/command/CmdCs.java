@@ -62,7 +62,7 @@ public class CmdCs extends Command {
     /**
      * The functions performed by the file command
      */
-    protected static enum FUNCTIONS {
+    protected enum FUNCTIONS {
         /**
          * Instance callable statement
          */
@@ -343,7 +343,7 @@ public class CmdCs extends Command {
             case "LONG":
                 cs.setLong(parameterIndex, (Long) x);
             case "ARRAY":
-                cs.setArray(parameterIndex, (Array) (x));
+                cs.setArray(parameterIndex, (Array) x);
                 break;
             case "STRING":
                 cs.setString(parameterIndex, (String) x);
