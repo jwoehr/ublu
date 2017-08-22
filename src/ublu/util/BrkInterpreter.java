@@ -27,6 +27,7 @@
  */
 package ublu.util;
 
+import java.io.IOException;
 import ublu.util.Generics.StringArrayList;
 
 /**
@@ -65,6 +66,7 @@ public class BrkInterpreter {
 
     private String brkPrompt(String commandName, ArgArray argArray) {
         String s = "at: " + commandName + ' ' + argArray + "\nbrk>";
+        if (getHostInterpreter().isGoubluing()) s = s+ "\n";
         return s;
     }
 
@@ -73,7 +75,17 @@ public class BrkInterpreter {
     }
 
     private StringArrayList getBrkLine() {
-        return new StringArrayList(System.console().readLine().trim());
+        StringArrayList sal = null;
+        if (getHostInterpreter().isConsole()) {
+            sal = new StringArrayList(System.console().readLine().trim());
+        } else {
+            try {
+                sal = new StringArrayList(getHostInterpreter().getInputStreamBufferedReader().readLine().trim());
+            } catch (IOException ex) {
+                outputln("Exception getting break input: " + ex);
+            }
+        }
+        return sal;
     }
 
     /**
