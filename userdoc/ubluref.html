@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 20 Aug 2017 16:01:27 UTC">
+  "Tues, 21 Aug 2017 14:42:27 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-20</p>
+  Last edit: 2017-08-22</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -4954,13 +4954,13 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
   <blockquote>
-    <tt>/4? [-to @var ] [--,-cs ~@cs] [-dbconnected ~@db] [[[-new]
-    -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object
-    ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out
-    ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription
-    ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and
-    execute callable statements which JDBC uses to execute SQL
-    stored procedures</tt>
+    <tt>/4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db]
+    [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index}
+    ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}]
+    | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}]
+    [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] |
+    [-uc]] : instance and execute callable statements which JDBC
+    uses to execute SQL stored procedures</tt>
 
     <p>The <tt>cs</tt> command creates and executes a JDBC
     CallableStatement used primarily for invoking SQL stored
@@ -4977,9 +4977,9 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
       the <code>cs</code> command for subsequent operations</li>
 
 
-      <li><code>-dbconnected @db</code> references the database
-      instance created by the <a href="db">db</a> command used to
-      instance the cs object</li>
+      <li><code>-db,-dbconnected @db</code> references a connected
+      database instance created by the <a href="db">db</a> command
+      used to instance the cs object</li>
 
 
       <li><code>-new</code> is the default operation and instances

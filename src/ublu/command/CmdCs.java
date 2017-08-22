@@ -56,7 +56,7 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("cs",
-                "/4? [-to @var ] [--,-cs ~@cs] [-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -135,6 +135,7 @@ public class CmdCs extends Command {
                 case "-cs":
                     cs = argArray.nextTupleOrPop().value(CallableStatement.class);
                     break;
+                case "-db":
                 case "-dbconnected":
                     db = argArray.nextTupleOrPop().value(Db.class);
                     break;
