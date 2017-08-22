@@ -12,6 +12,7 @@ All rights reserved.
 * Commands
     * `as400 -nodefault` prevents setting service ports at instancing
     * `ask -nocons`
+    * `dbug` compatible with Goublu
     * `dq` supports keyed data queues
     * `eval -max -min`
     * `file -addmbr`
