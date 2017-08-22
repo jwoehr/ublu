@@ -75,7 +75,7 @@ public class CmdRs extends Command {
      *
      * @return one's-based index of column to split
      */
-    protected int getSplitTarget() {
+    private int getSplitTarget() {
         return splitTarget;
     }
 
@@ -84,7 +84,7 @@ public class CmdRs extends Command {
      *
      * @param splitTarget one's-based index of column to split
      */
-    protected void setSplitTarget(int splitTarget) {
+    private void setSplitTarget(int splitTarget) {
         this.splitTarget = splitTarget;
     }
 
@@ -93,7 +93,7 @@ public class CmdRs extends Command {
      *
      * @return array of widths into which to split column.
      */
-    protected int[] getSplitWidths() {
+    private int[] getSplitWidths() {
         return splitWidths;
     }
 
@@ -102,7 +102,7 @@ public class CmdRs extends Command {
      *
      * @param splitWidths array of widths into which to split column.
      */
-    protected void setSplitWidths(int[] splitWidths) {
+    private void setSplitWidths(int[] splitWidths) {
         this.splitWidths = splitWidths;
     }
 
@@ -879,7 +879,7 @@ public class CmdRs extends Command {
 
     private byte[] arrayBlob(Blob b) {
         ByteArrayList bal = new ByteArrayList();
-        try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream());) {
+        try (BufferedInputStream bis = new BufferedInputStream(b.getBinaryStream())) {
             while (bis.available() > 0) {
                 bal.add((byte) (bis.read()));
             }

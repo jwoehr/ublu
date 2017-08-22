@@ -66,7 +66,7 @@ public class CmdPut extends Command {
      *
      * @return charset name of data before putting
      */
-    protected String getCharsetName() {
+    private String getCharsetName() {
         return charsetName;
     }
 
@@ -75,7 +75,7 @@ public class CmdPut extends Command {
      *
      * @param charsetName charset name of data before putting
      */
-    protected final void setCharsetName(String charsetName) {
+    private void setCharsetName(String charsetName) {
         this.charsetName = charsetName;
     }
 
@@ -149,10 +149,7 @@ public class CmdPut extends Command {
                             }
                         }
                         put(sb.toString(), append, space, newline);
-                    } catch (FileNotFoundException | RequestNotSupportedException ex) {
-                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
-                        setCommandResult(COMMANDRESULT.FAILURE);
-                    } catch (IOException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                    } catch (RequestNotSupportedException | IOException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
                         getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }

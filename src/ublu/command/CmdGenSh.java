@@ -53,7 +53,7 @@ public class CmdGenSh extends Command {
                 "/5+ [-to datasink] [-strictPosix] [ [-path ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$ ..] [-opts optchar assignment_name ${ description }$ ..] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname} ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate launcher shell script");
     }
 
-    public final static String RESERVED = "[DXh]";
+    private static final String RESERVED = "[DXh]";
 
     /**
      * Command to generate a launcher shell script
