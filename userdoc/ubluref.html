@@ -2,9 +2,9 @@
 
 <html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for HTML5 for Linux version 5.2.0">
-  <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9" >
+  <meta name="generator" content="Bluefish 2.2.9" >
+  <meta name="generator" content="Bluefish 2.2.9" >
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -4944,8 +4944,7 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 "syntax-MARKUP">@bar</span>
 <span class="syntax-COMMENT1">#</span><span class=
 "syntax-COMMENT1"> </span><span class="syntax-COMMENT1">end</span>
-</span>
-</pre>
+</span></pre>
   </blockquote>
 
 
@@ -5028,7 +5027,142 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
       <li><code>-uc</code> puts the updated rows count when that is
       returned by the statement rather than a result set.</li>
     </ul>
-    <em>Example</em>
+    <em>Examples</em>
+
+    <p>I. Creating a schema and a table</p>
+
+    <pre><span class="syntax0"><span class=
+    "syntax-COMMENT1">#</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">Connect</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">naming</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">arbitrary</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">library,</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">it</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">doesn't</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">matter</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">which</span>
+<span class="syntax-KEYWORD2">db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-dbtype</span> <span class=
+"syntax-KEYWORD2">as400</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-connect</span> MYSYS.FOO SOMELIB MYUID ********
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Creates</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">new</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">library</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">with</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">journals</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">etc.</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">See</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">IBM's</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">_Database</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">SQL</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">programming_</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(rbafypdf.pdf)</span>
+<span class="syntax-KEYWORD2">cs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-db</span> <span class=
+"syntax-MARKUP">@db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@cs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-sql</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">CREATE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">SCHEMA</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">JAXDTEMP</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="syntax-MARKUP">@cs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-call</span>
+<span class="syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@sql</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">CREATE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">TABLE</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">JAXDTEMP.INVENTORY</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">(PARTNO</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">SMALLINT</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">NOT</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">NULL,</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">DESCR</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">VARCHAR(24),</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">QONHAND</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">INT,</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">PRIMARY</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">KEY(PARTNO))</span><span class=
+"syntax-LITERAL1"> </span><span class="syntax-LITERAL1">}$</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">Creates</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">new</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">table</span>
+<span class="syntax-KEYWORD2">cs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-db</span> <span class=
+"syntax-MARKUP">@db</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@cs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-sql</span> <span class=
+"syntax-MARKUP">@sql</span>
+<span class="syntax-MARKUP">@cs</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-call</span>
+
+</span></pre>
+
+    <p>II. Executing arbitrary code in a callable statement</p>
+
 
     <p><code>&gt; db -to @myDb -dbtype as400 -connect PUB400.COM
     qsys2 me MYPASSWD<br>
