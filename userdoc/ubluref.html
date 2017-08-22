@@ -372,10 +372,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </li>
 
 
-            <li><a href="#dbug"><tt>dbug</tt></a>
-            </li>
-
-
             <li>
               <tt><a href="#db">db</a></tt>
 
@@ -385,6 +381,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 SSL</a></span>
                 </li>
               </ul>
+            </li>
+
+
+            <li><a href="#dbug"><tt>dbug</tt></a>
             </li>
 
 
@@ -6239,12 +6239,17 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
   <blockquote>
     <tt>/0 [-init] [-info] [-brk ~@opname] [-clr ~@opname]
     [[-step]|[-go]] [--,-dbug $[ execution block ]$] : dbug your
-    program</tt><br>
-    <br>
-    The <tt>dbug</tt> command runs a stepping program debugger on
-    an execution block you provide to the command.<br>
-    <br>
-    The operations are as follows:<br>
+    program</tt>
+
+    <p>The <tt>dbug</tt> command runs a stepping program debugger
+    on an execution block you provide to the command.</p>
+
+
+    <p><code>dbug</code> works in "plain" Ublu and under <a href=
+    "#Goublu">Goublu</a>, but does not work in windowing Ublu.</p>
+
+
+    <p>The operations are as follows:</p>
 
 
     <ul>
