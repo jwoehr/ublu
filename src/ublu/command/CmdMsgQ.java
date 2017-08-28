@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -432,16 +434,6 @@ public class CmdMsgQ extends Command {
         }
     }
 
-//    private void sendReply(String ifsPath, String key, String reply) {
-//        QueuedMessageKey qmk = new QueuedMessageKey(key);
-//        MessageQueue mq = new MessageQueue(getAs400(), ifsPath);
-//        try {
-//            mq.reply(qmk.toMessageKey(), reply);
-//        } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException ex) {
-//            getLogger().log(Level.SEVERE, "Exception replying to a message in command msgq", ex);
-//            setCommandResult(COMMANDRESULT.FAILURE);
-//        }
-//    }
     private void sendReply(MessageQueue mq, String key, String reply) throws AS400SecurityException, ErrorCompletingRequestException, InterruptedException, IOException, ObjectDoesNotExistException {
         QueuedMessageKey qmk = new QueuedMessageKey(key);
         mq.reply(qmk.toMessageKey(), reply);
