@@ -1083,8 +1083,6 @@ public class Interpreter {
             popFrame();
             // /* debug */ outputerrln("popped frame in executeBlock");
         }
-
-        // }
         return rc;
     }
 
