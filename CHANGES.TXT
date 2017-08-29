@@ -15,6 +15,7 @@ All rights reserved.
     * `dbug` compatible with Goublu
     * `dq` supports keyed data queues
     * `eval -max -min`
+    	* `eval` bug didn't pop tuple stack for logicals && ||
     * `file -addmbr`
     * `FUNC` can take func name from tuple pop or string
         * this makes it easier for FUNCs to define FUNCs
