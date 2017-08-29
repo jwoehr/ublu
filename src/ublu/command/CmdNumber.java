@@ -142,7 +142,7 @@ public class CmdNumber extends Command {
         }
 
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
-            String theNumber = argArray.nextMaybeQuotationTuplePopString();
+            String theNumber = argArray.nextMaybeQuotationTuplePopStringTrim();
             try {
                 switch (conversion) {
                     case BIN:
