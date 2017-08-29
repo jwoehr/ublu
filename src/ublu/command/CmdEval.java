@@ -279,8 +279,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            boolean llog = argArray.nextMaybeTupleString().equals("true");
-                            boolean rlog = argArray.nextMaybeTupleString().equals("true");
+                            boolean llog = argArray.nextMaybeQuotationTuplePopStringTrim().equals("true");
+                            boolean rlog = argArray.nextMaybeQuotationTuplePopStringTrim().equals("true");
                             try {
                                 put(llog && rlog);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
@@ -294,8 +294,8 @@ public class CmdEval extends Command {
                             logArgArrayTooShortError(argArray);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
-                            boolean llog = argArray.nextMaybeTupleString().equals("true");
-                            boolean rlog = argArray.nextMaybeTupleString().equals("true");
+                            boolean llog = argArray.nextMaybeQuotationTuplePopStringTrim().equals("true");
+                            boolean rlog = argArray.nextMaybeQuotationTuplePopStringTrim().equals("true");
                             try {
                                 put(llog || rlog);
                             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
