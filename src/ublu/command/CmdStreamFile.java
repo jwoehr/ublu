@@ -50,7 +50,7 @@ import ublu.util.Tuple;
 public class CmdStreamFile extends Command {
 
     {
-        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -delete | -rename ~@streamf | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files");
+        setNameAndDescription("streamf", "/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -delete | -file | -rename ~@streamf | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files");
     }
 
     /**
@@ -113,7 +113,11 @@ public class CmdStreamFile extends Command {
         /**
          *
          */
-        RENAME
+        RENAME,
+        /**
+         *
+         */
+        FILE
     }
 
     /**
@@ -199,6 +203,9 @@ public class CmdStreamFile extends Command {
                 case "-query":
                     op = OPS.QUERY;
                     queryString = argArray.nextMaybeQuotationTuplePopStringTrim().toLowerCase();
+                    break;
+                case "-file":
+                    op = OPS.FILE;
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -388,6 +395,18 @@ public class CmdStreamFile extends Command {
                             put(streamFileHelper.readLine());
                         } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
                             getLogger().log(Level.SEVERE, "Error -rball in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
+                case FILE:
+                    if (streamFileHelper == null) {
+                        noInstance();
+                    } else {
+                        try {
+                            put(streamFileHelper.getFile());
+                        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                            getLogger().log(Level.SEVERE, "Error -file in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }

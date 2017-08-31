@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tues, 21 Aug 2017 14:42:27 UTC">
+  "Thu, 31 Aug 2017 18:42:27 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-22</p>
+  Last edit: 2017-08-31</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -10411,9 +10412,10 @@ exit <span class="syntax-KEYWORD2">$?</span>
   <blockquote>
     <code>/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} |
     -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt
-    ~@{nth} | -optarg ~@{nth} | -allargs] : info on and control of
-    Ublu and the interpreter at the level this command is
-    invoked</code>
+    ~@{nth} | -optarg ~@{nth} | -allargs | -geterr | -getout |
+    -seterr ~@printstream | -setout ~@printstream] : info on and
+    control of Ublu and the interpreter at the level this command
+    is invoked</code>
 
     <p>The <code>interpreter</code> command relates to the current
     level of the Ublu <a href="#Interpreter">interpreter</a>.</p>
@@ -10463,6 +10465,26 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <li><code>-allargs</code> puts all invocation arguments to
       Ublu as a string array suitable as a source for the
       <code><a href="#list">list</a></code> command.</li>
+
+
+      <li><code>-geterr</code> puts the
+      <code>java.io.PrintStream</code> used by the current level of
+      the interpreter for standard err.</li>
+
+
+      <li><code>-getout</code> puts the
+      <code>java.io.PrintStream</code> used by the current level of
+      the interpreter for standard out.</li>
+
+
+      <li><code>-seterr ~@printstream</code> sets the
+      <code>java.io.PrintStream</code> used by the current level of
+      the interpreter for standard err.</li>
+
+
+      <li><code>-setout ~@printstream</code> sets the
+      <code>java.io.PrintStream</code> used by the current level of
+      the interpreter for standard out.</li>
     </ul>
   </blockquote>
 
@@ -16610,13 +16632,13 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/0 [-to datasink] [-from datasink] [--,-streamf
+    <code>/0 [-to datasink] [-from datasink] [--,-streamf
     @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode
-    RB|RC|W} | -close | -create | -delete | -rename ~@streamf |
-    -mkdirs | -rball | -rcall | -rline | -read ~@{offset}
-    ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query
-    ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate
-    stream files</tt>
+    RB|RC|W} | -close | -create | -delete | -file | -rename
+    ~@streamf | -mkdirs | -rball | -rcall | -rline | -read
+    ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} |
+    -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] :
+    manipulate stream files</code>
 
     <p>The <tt>streamf</tt> command manipulates local file system
     stream files and directories.</p>
@@ -16669,6 +16691,11 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
       <li><code>-delete</code> deletes the file specified by the
       instance.</li>
+
+
+      <li><code>-file</code> puts the raw <code>java.io.File</code>
+      object from the streamfile token used by Ublu and passed in
+      via <code>--,-streamf @streamfileinstance</code></li>
 
 
       <li><code>-rename ~@streamf</code> renames the instance to

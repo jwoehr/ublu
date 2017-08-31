@@ -31,6 +31,7 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import ublu.util.ArgArray;
@@ -43,7 +44,7 @@ import ublu.util.ArgArray;
 public class CmdInterpreter extends Command {
 
     {
-        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs] : info on and control of Ublu and the interpreter at the level this command is invoked");
+        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs | -geterr | -getout | -seterr  ~@printstream | -setout  ~@printstream] : info on and control of Ublu and the interpreter at the level this command is invoked");
     }
 
     enum OPS {
@@ -56,7 +57,11 @@ public class CmdInterpreter extends Command {
         ARG,
         ARGS,
         OPTS,
-        ALLARGS
+        ALLARGS,
+        GETOUT,
+        SETOUT,
+        GETERR,
+        SETERR
     }
 
     ArgArray doInterpreter(ArgArray argArray) {
@@ -65,6 +70,7 @@ public class CmdInterpreter extends Command {
         String country = null;
         String messagekey = null;
         Integer nth = null;
+        PrintStream ps = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -108,6 +114,20 @@ public class CmdInterpreter extends Command {
                     break;
                 case "-allargs":
                     op = OPS.ALLARGS;
+                    break;
+                case "-geterr":
+                    op = OPS.GETERR;
+                    break;
+                case "-getout":
+                    op = OPS.GETOUT;
+                    break;
+                case "-seterr":
+                    op = OPS.SETERR;
+                    ps = argArray.nextTupleOrPop().value(PrintStream.class);
+                    break;
+                case "-setout":
+                    op = OPS.SETOUT;
+                    ps = argArray.nextTupleOrPop().value(PrintStream.class);
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -197,6 +217,26 @@ public class CmdInterpreter extends Command {
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Error putting all args in " + getNameAndDescription(), ex);
                     }
+                    break;
+                case GETERR:
+                    try {
+                        put(getInterpreter().getErroutStream());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error getting or putting err stream in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case GETOUT:
+                    try {
+                        put(getInterpreter().getOutputStream());
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error getting or putting out stream in " + getNameAndDescription(), ex);
+                    }
+                    break;
+                case SETERR:
+                    getInterpreter().setErroutStream(ps);
+                    break;
+                case SETOUT:
+                    getInterpreter().setOutputStream(ps);
                     break;
             }
         }
