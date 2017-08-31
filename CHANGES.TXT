@@ -21,6 +21,11 @@ All rights reserved.
         * this makes it easier for FUNCs to define FUNCs
     * `gensh` -D -X -prelude and errs on reserved options (DXh)
     * `help` now takes `--` cmdname
+    * `interpreter`
+    	* -getout
+    	* -setout
+    	* -geterr
+    	* -seterr
     * `map` creates user tuple maps
     * `props` picks up System property ublu.usage.linelength at startup
     * `put` -# now is Long and can take tuple and pop for numberstring
@@ -33,6 +38,7 @@ All rights reserved.
     	* -rownum
     	* -rawrs
     * `sess` command missing break after -to
+    * `streamf -file`
     * `string -lcase -upcase`
     * `tuple -assign` to non-existent tuple was failing
     * `usage/help` honors property `ublu.usage.linelength`
