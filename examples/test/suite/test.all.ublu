@@ -85,7 +85,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.jrnl.ublu t.jrnl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jrnl }$		
     \\ ${ include t.json.ublu t.json ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test json }$		
     \\ ${ include t.jvm.ublu t.jvm ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jvm }$		
-    \\ ${ include t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test LOCAL }$		
+    include t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf )     \\ ${ test LOCAL }$		
     \\ ${ include t.license.ublu t.license ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test license }$		
     \\ ${ include t.lifo.ublu t.lifo ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test lifo }$		
     \\ ${ include t.list.ublu t.list ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test list }$		

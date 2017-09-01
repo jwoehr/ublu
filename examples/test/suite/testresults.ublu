@@ -474,9 +474,9 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     linepostinc ( @linenum )
     
     boldBlueOnBlack ( ) put -n -s Passes:
-    boldYellowOnBlack ( ) @@passrs -to ~NULL: -last @@passrs -to ~ -rownum put -n -s ~
+    boldYellowOnBlack ( ) @@passrs -to NULL: -last @@passrs -to ~ -rownum put -n -s ~
     boldBlueOnBlack ( ) put -n -s Fails:
-    boldYellowOnBlack ( ) @@failrs -to ~NULL: -last @@failrs -to ~ -rownum put -n ~
+    boldYellowOnBlack ( ) @@failrs -to NULL: -last @@failrs -to ~ -rownum put -n ~
 
     put -to @prompt ${ Browse /(A)ll (or [ENTER])/(P)ass/(F)ail/(Q)uit? }$ 
     @prompt -to @promptlen -len

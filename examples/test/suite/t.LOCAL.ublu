@@ -1,4 +1,4 @@
-# t.record.ublu
+# t.LOCAL.ublu
 # Component of test.all ( )
 # Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
@@ -10,49 +10,39 @@
 #
 # include -s test_utils.ublu
 # ... is already included from test.all.ublu
-#
-# Assumes the present file is residing in examples/test/suite 
-include -s ../../../examples/listsrc.ublu
 
-# t.record ( work_dir testsys testrptpf )
+# Assumes the present file is residing in examples/test/suite 
+include -s ../../../examples/redir.ublu
+
+# t.LOCAL ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them
 # ... testsys - the server against which tests to be run
 # ... testrptpf - open pf to write test report records
-FUNC t.record ( work_dir testsys testrptpf ) $[
-    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESC LOCAL @PFAIL
-    LOCAL @result LOCAL @results
+FUNC t.LOCAL ( work_dir testsys testrptpf ) $[
+    LOCAL @TMSTRT  LOCAL @TMEND 
+    LOCAL @DESC    LOCAL @PFAIL
     LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
     
-    put ${ -------------- }$
-    put ${ Start t.record }$
-    put ${ -------------- }$
+    put ${ ------------- }$
+    put ${ Start t.LOCAL }$
+    put ${ ------------- }$
     put ${ }$
         
-    cat_fp ( @@work_dir t.record.listsrc.txt )
+    cat_fp ( @@work_dir t.LOCAL.testnewbind.txt )
     put -to @tmpfile ~
-    cat_fp ( *t_paradigm t.record.listsrc.txt )
+    cat_fp ( *t_paradigm t.LOCAL.testnewbind.txt )
     put -to @paradigm ~
-    cat_fp ( @@work_dir t.record.listsrc.diff.txt )
+    cat_fp ( @@work_dir t.LOCAL.testnewbind.diff.txt )
     put -to @difflist ~
-
+    
     map -to @result
     
-    string -to @FILNAM -trim t.record.ublu
-    @result -> @FILNAM
-    
-    string -to @DESC -cat ${ listsrc:diff in }$ @difflist
+    string -to @DESC -cat ${ testnewbind:diff in }$ @difflist
     @result -> @DESC
     
-    currentTimeMillis ( )
-    tuple -assign @TMSTRT ~
-    @result -> @TMSTRT
-    
-    fqp_file ( *t_library *t_sourcepf )
-    fqp_mbr ( ~ *t_sourcembr )
-    const *t_record_source_mbr_fqp ~
-    
-    listsrcToLocalFile ( @@testsys *t_record_source_mbr_fqp @tmpfile )
-    
+    \\ ${ Assumes the present file is residing in examples/test/suite }$
+    redir ( @tmpfile $[ include ../testnewbind.ublu ]$ )
+
     currentTimeMillis ( )
     tuple -assign @TMEND ~
     @result -> @TMEND
@@ -86,10 +76,11 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     @result -> @PFAIL 
     
     writeMapToRecord ( @@testrptpf @result )
-      
-    put ${ ------------ }$    
-    put ${ end t.record }$
-    put ${ ------------ }$
+    
+    put ${ ----------- }$    
+    put ${ end t.LOCAL }$
+    put ${ ----------- }$
     put ${ }$
 
 ]$
+    

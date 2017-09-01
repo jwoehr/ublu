@@ -60,6 +60,7 @@ All rights reserved.
 * Testing
     * progress on the framework
     * t.dq
+    * t.LOCAL
     * t.record
     * test result browser
 * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
