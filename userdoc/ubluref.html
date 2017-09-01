@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 31 Aug 2017 18:42:27 UTC">
+  "Fri, 1 Sep 2017 16:36:46 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -64,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-08-31</p>
+  Last edit: 2017-09-01</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -10367,29 +10366,45 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/0 [-block $[ block ...]$] : run the interpreter, possibly
-    on a provided block<br>
-    <br></tt> The <tt>interpret</tt> command runs a nested instance
-    of the interpreter. This command can come at the end of a
-    commandline mode operation to launch the interpreter. If issued
-    in interpretive mode, stacks another intepreter. One layer of
+    <p><code>/0 [-block [~@{ block ... }$ | $[ block ...]$]] : run
+    the interpreter, possibly on a provided block</code>
+    </p>
+
+
+    <p>The <tt>interpret</tt> command runs a nested instance of the
+    interpreter. This command can come at the end of a commandline
+    mode operation to launch the interpreter. If issued in
+    interpretive mode, stacks another intepreter. One layer of
     interpreter unnests with each <a href="#bye"><tt>bye</tt></a>
     command (Ctl-D being the same as <tt>bye</tt>). All interpreter
     instances exit together when the <a href=
-    "#exit"><tt>exit</tt></a> command is encountered.<br>
-    <br>
-    An <a href="#Execution_blocks">execution block</a> can be
+    "#exit"><tt>exit</tt></a> command is encountered.</p>
+
+
+    <p>An <a href="#Execution_blocks">execution block</a> can be
     provided via the <tt>-block</tt> <a href=
     "#Dash_Command">dash-command</a>. In this case, the interpreter
-    instance unnests at the end of the block.<br>
-    <br>
-    Some state is passed back from nested interpreter sublevels to
-    the previous interpreter level. See the material above on
+    instance unnests at the end of the block.</p>
+
+
+    <blockquote>
+      <strong>Note</strong> that the execution block can be passed
+      in <code>$[ block ]$</code> syntax or in <code>${ quoted
+      string }$</code> syntax, or simply as text in <a href=
+      "#Tuple_Variables">tuple variable</a> or on the <a href=
+      "#Tuple_stack">tuple stack</a>.
+    </blockquote>
+
+
+    <p>Some state is passed back from nested interpreter sublevels
+    to the previous interpreter level. See the material above on
     <a href="#Nested_interpreter_sublevel">nested interpreter
-    sublevels</a>.<br>
-    <br>
-    <em>Example<br>
-    <br></em> <tt>&gt; interpret</tt><tt><br></tt> <tt>1&gt;
+    sublevels</a>.</p>
+
+
+    <p><em>Example</em>
+    </p>
+    <tt>&gt; interpret</tt><tt><br></tt> <tt>1&gt;
     interpret</tt><tt><br></tt> <tt>2&gt;
     interpret</tt><tt><br></tt> <tt>3&gt; bye</tt> <tt><br></tt>
     <tt>2&gt; bye</tt><tt><br>
