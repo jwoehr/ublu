@@ -37,7 +37,7 @@ import java.util.logging.Level;
 public class CmdInterpret extends Command {
 
     {
-        setNameAndDescription("interpret", "/0 [-block $[ block ...]$] : run the interpreter, possibly on a provided block");
+        setNameAndDescription("interpret", "/0 [-block [~@{ block ... }$ | $[ block ...]$]] : run the interpreter, possibly on a provided block");
     }
 
     /**
@@ -60,8 +60,7 @@ public class CmdInterpret extends Command {
                 case "-block":
                     block = argArray.nextUnlessNotBlock();
                     if (block == null) {
-                        getLogger().log(Level.SEVERE, "Null execution block provided to -block in {0}", getNameAndDescription());
-                        setCommandResult(COMMANDRESULT.FAILURE);
+                        block = argArray.nextMaybeQuotationTuplePopStringTrim();
                     }
                     break;
                 default:
