@@ -6,6 +6,7 @@ All rights reserved.
 -----
 * Optimizations
     * various
+    * string parsing now assimilates a block as well as a quotation
 * Documentation
     * Explained how to make SSL connection 
     * Guide enhanced
@@ -21,6 +22,7 @@ All rights reserved.
         * this makes it easier for FUNCs to define FUNCs
     * `gensh` -D -X -prelude and errs on reserved options (DXh)
     * `help` now takes `--` cmdname
+    * `interpret -block` now can take a tuple, string, pop
     * `interpreter`
     	* -getout
     	* -setout
@@ -45,7 +47,8 @@ All rights reserved.
     * `WHILE` was failing on tuple stack ~ argument
 * Examples
     * `createFileFromRecFormat.ublu`
-    * `writesrc.ublu`
+    * `redir.ublu` redirects output from an execution block
+    * `writesrc.ublu` writes a local stream file to a source physical file
 * Extensions
     * `ux.mbrdesc.ublu`
 * Stuff
