@@ -647,6 +647,8 @@ public class ArgArray extends ArrayList<String> {
         } else {
             if (isNextQuotation()) {
                 assimilateFullQuotation();
+            } else if (isNextBlock()) {
+                assimilateFullBlock();
             }
             result = next();
         }
