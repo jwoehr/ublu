@@ -40,6 +40,10 @@ FUNC t.LOCAL ( work_dir testsys testrptpf ) $[
     string -to @DESC -cat ${ testnewbind:diff in }$ @difflist
     @result -> @DESC
     
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    @result -> @TMSTRT
+    
     \\ ${ Assumes the present file is residing in examples/test/suite }$
     redir ( @tmpfile $[ include ../testnewbind.ublu ]$ )
 
