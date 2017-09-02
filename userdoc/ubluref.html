@@ -10501,6 +10501,161 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <code>java.io.PrintStream</code> used by the current level of
       the interpreter for standard out.</li>
     </ul>
+
+
+    <p><em>Example</em> (<code>examples/redir.ublu</code>)</p>
+
+    <pre><span class="syntax0"><span class=
+    "syntax-COMMENT1">#</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">FUNC</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">redir</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">(</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">fqp</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">block</span><span class=
+    "syntax-COMMENT1"> </span><span class=
+    "syntax-COMMENT1">)</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">fqp</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">tuple</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">variable</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">with</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">filepath</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">...</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">block</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">an</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">execution</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">block</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">whose</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">standard</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">out</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">redirected</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">the</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">file</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">E.g.,</span><span class=
+"syntax-COMMENT1"> </span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@fpath</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">/foo/bar.txt</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">-to</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@block</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">$[</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">put</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">${</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">this</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">is</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">a</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">test</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">}$</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">]$</span>
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">redir</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">(</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@fpath</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">@block</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">)</span>
+<span class="syntax-KEYWORD1">FUNC</span> redir  <span class=
+"syntax-OPERATOR">(</span> fqp block <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+    <span class="syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@stdout</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@ps</span>
+    <span class="syntax-KEYWORD2">interpreter</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@stdout</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-getout</span>
+    <span class="syntax-KEYWORD2">calljava</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@ps</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-new</span> java.io.PrintStream<span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-arg</span> <span class=
+"syntax-LITERAL4">@@fqp</span>
+    <span class="syntax-KEYWORD2">interpreter</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-setout</span> <span class=
+"syntax-MARKUP">@ps</span>
+    <span class="syntax-KEYWORD2">interpret</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-block</span> <span class=
+"syntax-LITERAL4">@@block</span>    
+    <span class="syntax-KEYWORD2">interpreter</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-setout</span> <span class=
+"syntax-MARKUP">@stdout</span>
+    <span class="syntax-KEYWORD2">calljava</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-method</span> close<span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-obj</span> <span class=
+"syntax-MARKUP">@ps</span>
+<span class="syntax-OPERATOR">]$</span>
+</span></pre>
   </blockquote>
 
 
