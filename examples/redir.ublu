@@ -14,10 +14,11 @@
 # put -to @block $[ put ${ this is a test }$ ]$
 # redir ( @fpath @block )
 FUNC redir  ( fqp block ) $[
-    LOCAL @stdout
+    LOCAL @stdout LOCAL @ps
     interpreter -to @stdout -getout
     calljava -to @ps -new java.io.PrintStream -arg @@fqp
     interpreter -setout @ps
     interpret -block @@block    
     interpreter -setout @stdout
+    calljava -method close -obj @ps
 ]$
