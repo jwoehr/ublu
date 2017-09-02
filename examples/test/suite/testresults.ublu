@@ -233,7 +233,15 @@ FUNC boldMagentaOnBlack ( ) $[
     put -to @modes -s -append *ans_FgMagenta
     put -to @modes -s -append *ans_BgBlack   
     ansSetGraphicsMode ( @modes )
-]$  
+]$
+  
+FUNC boldCyanOnBlack ( ) $[
+    put -to @modes *ans_AllOff
+    put -to @modes *ans_Bold
+    put -to @modes -s -append *ans_FgCyan
+    put -to @modes -s -append *ans_BgBlack   
+    ansSetGraphicsMode ( @modes )
+]$    
 
 # FUNC linepostinc ( linenum )
 # Move cursor to 0 , @@linenum and increment @@linenum
@@ -286,20 +294,22 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     linepostinc ( @linenum ) 
     
     @therec -to ~ -. filename
-    boldGreenOnBlack ( ) put -n ${ Test module: }$ 
+    boldCyanOnBlack ( ) put -n ${ Test module: }$ 
     whiteOnBlack ( ) put -n -s ~
     @therec -to ~ -. millisecs 
-    boldGreenOnBlack ( ) put -n ${ Milliseconds: }$
+    boldCyanOnBlack ( ) put -n ${ Milliseconds: }$
     whiteOnBlack ( ) put -n -s ~
-    boldGreenOnBlack ( ) put -n ${ Pass/Fail: }$
+    boldCyanOnBlack ( ) put -n ${ Pass/Fail: }$
     @therec -to ~ -. pfail lifo -dup  
     ~ -to ~ -eq P
     IF ~ THEN $[
+       ansSetGraphicsMode ( *ans_FgGreen )
        put -n PASS
+       ansSetGraphicsMode ( *ans_FgCyan ) 
     ]$ ELSE $[
        ansSetGraphicsMode ( *ans_FgRed )
        put -n FAIL
-       ansSetGraphicsMode ( *ans_FgGreen )
+       ansSetGraphicsMode ( *ans_FgCyan )
     ]$
       
     @therec -to ~ -. description
@@ -307,7 +317,7 @@ FUNC dataScreen ( sys tfile od fname lname rec ) $[
     list -to ~ -source ~
     FOR @j ~ $[
         linepostinc ( @linenum )         
-        boldGreenOnBlack ( ) put -n ${ Description: }$
+        boldCyanOnBlack ( ) put -n ${ Description: }$
         whiteOnBlack ( ) put -n @j
     ]$
     linepostinc ( @linenum ) 
@@ -474,9 +484,9 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     linepostinc ( @linenum )
     
     boldBlueOnBlack ( ) put -n -s Passes:
-    boldYellowOnBlack ( ) @@passrs -to NULL: -last @@passrs -to ~ -rownum put -n -s ~
+    boldGreenOnBlack ( ) @@passrs -to NULL: -last @@passrs -to ~ -rownum put -n -s ~
     boldBlueOnBlack ( ) put -n -s Fails:
-    boldYellowOnBlack ( ) @@failrs -to NULL: -last @@failrs -to ~ -rownum put -n ~
+    boldRedOnBlack ( ) @@failrs -to NULL: -last @@failrs -to ~ -rownum put -n ~
 
     put -to @prompt ${ Browse /(A)ll (or [ENTER])/(P)ass/(F)ail/(Q)uit? }$ 
     @prompt -to @promptlen -len
