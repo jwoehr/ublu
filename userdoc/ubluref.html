@@ -11009,10 +11009,9 @@ exit <span class="syntax-KEYWORD2">$?</span>
         <tt><br></tt> <tt>jmx -jmx @jmx -connect<br></tt>
 
         <blockquote>
-          <em>(or</em><em><tt>j</tt></em><em><tt>mx -jmx @jmx
-          -connect -role monitorRole -password</tt></em>
-          <em><tt>s0m3pa55w0rd</tt></em> <em>if authentication is
-          used as above)</em><br>
+          <em>(or <tt>jmx -jmx @jmx -connect -role monitorRole
+          -password s0m3pa55w0rd</tt>if authentication is used as
+          above)</em>
         </blockquote>
         <tt>jmx -jmx @jmx -query names</tt> <tt><br></tt> <tt>jmx
         -jmx @jmx -query mbeans<br>
@@ -11037,24 +11036,25 @@ exit <span class="syntax-KEYWORD2">$?</span>
     [-refresh] [-end ~@{delaytime} (-1 for \"controlled\") | -get
     ~@{property([name|number|system|user|description|type])} |
     -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance
-    | -noop | -query
-    ~@{property([user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit])}
+    | -noop | -query ~@{property
+    ([user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit])}
     | -release | -spec] ~@{jobName} ~@{userName} ~@{jobNumber}
     ~@{system} ~@{userid} ~@{password} : manipulate jobs on the
-    host</tt><br>
-    <br>
-    Manipulates jobs on the host. If the <tt>-job @job</tt>
+    host</tt>
+
+    <p>Manipulates jobs on the host. If the <tt>-job @job</tt>
     <a href="#Dash_Command">dash-command</a> with an instanced
     <a href="#Tuple_Variables">tuple variable</a> is provided, the
     <em>jobName</em>, <em>userName</em> and <em>jobNumber</em> must
     be omitted. &nbsp; If the <a href=
     "#System_Userid"><tt>-as400</tt></a> dash-command is provided,
     then the arguments <tt>system userid</tt> and <tt>password</tt>
-    must be omitted.<br>
-    <br>
-    Job objects for use with the <tt>job</tt> command are typically
-    obtained via the <a href="#joblist"><tt>joblist</tt></a>
-    command, e.g.,<br>
+    must be omitted.</p>
+
+
+    <p>Job objects for use with the <tt>job</tt> command are
+    typically obtained via the <a href=
+    "#joblist"><tt>joblist</tt></a> command, e.g.,</p>
 
 
     <blockquote>
@@ -11069,12 +11069,15 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <em><tt>844017*OUTQ</tt></em><em><tt><br></tt></em>
       <em><tt>164172*OUTQ</tt></em><br>
     </blockquote>
-    <strong>Use caution when using the <tt>-end</tt> dash-command
-    with any value other than -1 for a controlled end to the
-    job!</strong> Any other argument to <tt>-end</tt> can possibly
-    leave the system in need of a re-IPL.<br>
-    <br>
-    The operations are as follows:<br>
+
+
+    <p><strong>Use caution when using the <tt>-end</tt>
+    dash-command with any value other than -1 for a controlled end
+    to the job!</strong> Any other argument to <tt>-end</tt> can
+    possibly leave the system in need of a re-IPL.</p>
+
+
+    <p>The operations are as follows:</p>
 
 
     <ul>
