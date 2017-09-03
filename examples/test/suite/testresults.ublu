@@ -150,7 +150,23 @@ FUNC procrecs ( recarray ) $[
     ]$
     tuple -assign ~ @l
 ]$
-  
+
+# Proc all recs whose modname starts with @@modname into maps and add to list  
+FUNC seekrecs ( recarray modname ) $[
+    LOCAL @l LOCAL @MODNAME
+    tuple -assign @MODNAME @@modname
+    list -to @l
+    FOR @i @@recarray $[
+        @i -to ~ -getfieldbyname FILNAM
+        ~ -to ~ -startswith @MODNAME
+        IF ~ THEN $[
+            procrec ( @i )
+            @l -add ~
+        ]$
+    ]$
+    tuple -assign ~ @l
+]$
+
 # Map current result set row into record
 FUNC procrow ( zrs ) $[
     LOCAL @recmap
@@ -398,11 +414,9 @@ FUNC review ( sys tfile od fname lname recs ) $[
 ]$    
 
 # Browse test records   
-FUNC browse ( sys tfile od fname lname recs ) $[
+FUNC browse ( sys tfile od fname lname reclist ) $[
     LOCAL @LIST
-
-    procrecs ( @@recs )
-    tuple -assign @LIST ~
+    tuple -assign @LIST @@reclist
     
     @LIST -to ~ -size
     eval -to ~ > ~ 0
@@ -444,15 +458,17 @@ FUNC browseRs ( sys tfile od fname lname zrs ) $[
 ]$
 
 # Draw choice screen of data and push user's choice
-# choiceScreen ( sys tfile od fname lname )
+# choiceScreen ( sys tfile od fname lname passrs failrs )
 #   sys - as400
 #   tfile - file obj
 #   od - object desc object for file
 #   fname - name of file
 #   lname - name of lib
+#   passrs - result set of passers
+#   failrs - result set of failers
 FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     LOCAL @sysname LOCAL @linenum
-    LOCAL @prompt LOCAL @promptlen LOCAL @ans
+    LOCAL @prompt LOCAL @promptlen
     
     calljava -to @sysname -method getSystemName -obj @@sys
 
@@ -488,7 +504,7 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     boldBlueOnBlack ( ) put -n -s Fails:
     boldRedOnBlack ( ) @@failrs -to NULL: -last @@failrs -to ~ -rownum put -n ~
 
-    put -to @prompt ${ Browse /(A)ll (or [ENTER])/(P)ass/(F)ail/(Q)uit? }$ 
+    put -to @prompt ${ Browse /(A)ll (or [ENTER])/(S)eek/(P)ass/(F)ail/(Q)uit? }$ 
     @prompt -to @promptlen -len
    
     ansCursorDown ( 1 )
@@ -509,6 +525,67 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     ansSetGraphicsMode ( *ans_AllOff )
 ]$      
 
+# Draw seek screen of data and push user's sought module choice
+# seekScreen ( sys tfile od fname lname )
+#   sys - as400
+#   tfile - file obj
+#   od - object desc object for file
+#   fname - name of file
+#   lname - name of lib
+FUNC seekScreen ( sys tfile od fname lname ) $[
+    LOCAL @sysname LOCAL @linenum
+    LOCAL @prompt LOCAL @promptlen
+    
+    calljava -to @sysname -method getSystemName -obj @@sys
+
+    put -to @linenum 1
+    
+    ansEraseDisplay ( )
+    
+    linepostinc ( @linenum ) 
+    
+    boldBlueOnBlack ( ) put -n -s System:  
+    boldYellowOnBlack ( ) put -n -s @sysname
+    
+    boldBlueOnBlack ( ) put -n -s Library:
+    boldYellowOnBlack ( ) put -n -s @@lname
+    
+    boldBlueOnBlack ( ) put -n -s File:
+    boldYellowOnBlack ( ) put -n -s @@fname
+    
+    linepostinc ( @linenum ) 
+    
+    boldBlueOnBlack ( ) put -n -s Run:
+    @@od -to ~ -valuestring TEXT_DESCRIPTION
+    boldYellowOnBlack ( ) put -n -s ~    
+    
+    boldBlueOnBlack ( ) put -n -s Changed:
+    @@od -to ~ -valuestring CHANGE_DATE
+    boldYellowOnBlack ( ) put -n ~
+    
+    linepostinc ( @linenum )
+   
+    put -to @prompt ${ Browse module(s) whose names start with: }$ 
+    @prompt -to @promptlen -len
+   
+    ansCursorDown ( 1 )
+    ansCursorBackward ( 100 )
+    ansCursorForward ( @promptlen )
+    boldYellowOnBlack ( ) 
+    ansSaveCursorPos ( )
+    put -n ___________________________________
+    ansRestoreCursorPos ( )
+    ansCursorBackward ( @promptlen )
+    boldMagentaOnBlack ( ) 
+    put -n @prompt 
+    ansRestoreCursorPos ( )
+    ansSetGraphicsMode ( *ans_Underscore )
+    
+    ask -to ~
+    
+    ansSetGraphicsMode ( *ans_AllOff )
+]$
+  
 # Choose which records to browse and browse 'em
 FUNC chooseBrowse ( sys tfile od fname lname recs passrs failrs ) $[
     LOCAL @ans
@@ -522,14 +599,20 @@ FUNC chooseBrowse ( sys tfile od fname lname recs passrs failrs ) $[
             
         SWITCH @ans -case Q $[
                 BREAK
-            ]$ -case A $[
-                browse ( @@sys @@tfile @@od @@fname @@lname @@recs )  
+            ]$ -case A $[                
+                procrecs ( @@recs )                
+                browse ( @@sys @@tfile @@od @@fname @@lname ~ )  
+            ]$ -case S $[
+                seekScreen ( @@sys @@tfile @@od @@fname @@lname )
+                seekrecs ( @@recs ~ )                
+                browse ( @@sys @@tfile @@od @@fname @@lname ~ )  
             ]$ -case P $[                
                 browseRs ( @@sys @@tfile @@od @@fname @@lname @@passrs )                
             ]$ -case F $[
                 browseRs ( @@sys @@tfile @@od @@fname @@lname @@failrs )                 
-            ]$ -default $[
-                browse ( @@sys @@tfile @@od @@fname @@lname @@recs )
+            ]$ -case ${ }$ $[
+                procrecs ( @@recs )                
+                browse ( @@sys @@tfile @@od @@fname @@lname ~ ) 
             ]$
     ]$
       
