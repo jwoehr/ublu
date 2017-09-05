@@ -45,9 +45,12 @@ All rights reserved.
     * `string -lcase -upcase`
     * `tuple -assign` to non-existent tuple was failing
     * `usage/help` honors property `ublu.usage.linelength`
-    * `WHILE` was failing on tuple stack ~ argument
+    * `WHILE`
+    	* was failing on tuple stack ~ argument
+    	* didn't unnest completely on `BREAK`
 * Examples
     * `createFileFromRecFormat.ublu`
+    * `isJobRunning`
     * `redir.ublu` redirects output from an execution block
     * `writesrc.ublu` writes a local stream file to a source physical file
 * Extensions
@@ -60,9 +63,12 @@ All rights reserved.
     * set colors separately for input and output from menu
 * Testing
     * progress on the framework
+    * t.DO
     * t.dq
+    * t.FOR
     * t.LOCAL
     * t.record
+    * t.WHILE
     * test result browser
 * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
 
