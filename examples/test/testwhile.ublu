@@ -3,6 +3,8 @@
 # Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
+put -n ${ framedepth: }$ interpreter -q framedepth
+
 tuple -true @continue
 put -to @index -# -3
 WHILE @continue $[
@@ -17,6 +19,8 @@ WHILE @continue $[
 put -n -s ${ after WHILE, the index is }$ put -from @index
 put -n -s ${ tuple stack depth is }$ lifo -depth
 
+put -n ${ framedepth: }$ interpreter -q framedepth
+
 lifo -push @true
 put -to @index -# -3
 WHILE ~ $[
@@ -29,6 +33,9 @@ WHILE ~ $[
 	IF @exit THEN $[ BREAK ]$
 	lifo -push @true
 ]$
+
+put -n ${ framedepth: }$ interpreter -q framedepth
+
 put -n -s ${ after WHILE, the index is }$ put -from @index
 put -n -s ${ tuple stack depth is }$ lifo -depth
 
