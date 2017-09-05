@@ -129,7 +129,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.tuple.ublu t.tuple ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test tuple }$		
     \\ ${ include t.user.ublu t.user ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test user }$		
     \\ ${ include t.userlist.ublu t.userlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test userlist }$		
-    \\ ${ include t.WHILE.ublu t.WHILE ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test WHILE }$
+    include t.WHILE.ublu t.WHILE ( @@work_dir @testsys @testrptpf )     \\ ${ test WHILE }$
     
     @testrptpf -close
     @testsys -disconnect
