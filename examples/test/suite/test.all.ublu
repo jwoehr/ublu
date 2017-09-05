@@ -57,7 +57,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.dbug.ublu t.dbug ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dbug }$		
     \\ ${ include t.defun.ublu t.defun ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test defun }$		
     \\ ${ include t.dict.ublu t.dict ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dict }$		
-    include t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf )      \\ ${ test DO }$		
+    include t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf )   \\ ${ test DO }$		
     \\ ${ include t.dpoint.ublu t.dpoint ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dpoint }$		
     include -s t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
     \\ ${ include t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dta }$		
@@ -65,7 +65,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.eval.ublu t.eval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test eval }$		
     \\ ${ include t.exit.ublu t.exit ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test exit }$		
     \\ ${ include t.file.ublu t.file ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test file }$		
-    \\ ${ include t.FOR.ublu t.FOR ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FOR }$		
+    include t.FOR.ublu t.FOR ( @@work_dir @testsys @testrptpf ) \\ ${ test FOR }$		
     \\ ${ include t.ftp.ublu t.ftp ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ftp }$		
     \\ ${ include t.FUN.ublu t.FUN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUN }$		
     \\ ${ include t.FUNC.ublu t.FUNC ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUNC }$		

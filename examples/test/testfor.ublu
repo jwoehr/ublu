@@ -1,8 +1,16 @@
 # testfor.ublu
 # Test the FOR command
 
-put -to @list ${ a b c d e f g }$
-lifo -push @list
-lifo -dup
-lifo -dup
-FOR @i in ~ $[ put -from @i ]$
+put -to @list ${ a b c d e f g h }$
+put -to @nums ${ 1 2 3 4 5 6 7 8 }$
+FOR @i in @list $[ 
+    FOR @j in @nums $[
+        put -n @i put -n -s @j
+        eval -to ~ == @j 8
+        IF ~ THEN $[
+            put -from NULL:
+        ]$
+    ]$
+]$
+
+# end
