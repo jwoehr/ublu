@@ -1,0 +1,22 @@
+# isJobRunning.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# See if a given job is running and push boolean to tuple stack.
+
+# FUNC isJobRunning ( sys jobname )
+# Pushes to tuple stack true or false
+# ... sys - instanced AS400 object
+# ... jobname - name of sought job
+FUNC isJobRunning ( sys jobname ) $[
+    LOCAL @jl LOCAL @l
+    joblist -as400 @@sys -to @jl -active -jobname @@jobname
+    list -to @l
+    FOR @i in @jl $[ @l -add @i ]$
+    @l -to ~ -size
+    eval -to ~ > ~ 0
+]$
+
+# end
