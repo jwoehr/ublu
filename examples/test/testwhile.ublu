@@ -9,17 +9,18 @@ tuple -true @continue
 put -to @index -# -3
 WHILE @continue $[
 	LOCAL @i
-	eval -to @index + @index 1 
+	eval -to @index + @index 1
 	put -to @i -from @index
 	lifo -push @i
 	put -s -n ${ index is }$ put -from ~
 	eval -to @exit == @index 7
 	IF @exit THEN $[ BREAK ]$
 ]$
+
+put -n ${ framedepth: }$ interpreter -q framedepth  
+  
 put -n -s ${ after WHILE, the index is }$ put -from @index
 put -n -s ${ tuple stack depth is }$ lifo -depth
-
-put -n ${ framedepth: }$ interpreter -q framedepth
 
 lifo -push @true
 put -to @index -# -3
@@ -38,4 +39,3 @@ put -n ${ framedepth: }$ interpreter -q framedepth
 
 put -n -s ${ after WHILE, the index is }$ put -from @index
 put -n -s ${ tuple stack depth is }$ lifo -depth
-
