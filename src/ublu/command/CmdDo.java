@@ -110,6 +110,7 @@ public class CmdDo extends Command {
             getInterpreter().setArgArray(copy);
             setCommandResult(getInterpreter().loop());
             if (getCommandResult() == COMMANDRESULT.FAILURE || getInterpreter().isBreakIssued()) {
+                getInterpreter().popFrame();
                 break;
             }
         }
@@ -125,6 +126,7 @@ public class CmdDo extends Command {
             getInterpreter().setArgArray(copy);
             setCommandResult(getInterpreter().loop());
             if (getCommandResult() == COMMANDRESULT.FAILURE || getInterpreter().isBreakIssued()) {
+                getInterpreter().popFrame();
                 break;
             }
         }

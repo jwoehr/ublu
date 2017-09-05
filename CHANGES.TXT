@@ -14,6 +14,7 @@ All rights reserved.
     * `as400 -nodefault` prevents setting service ports at instancing
     * `ask -nocons`
     * `dbug` compatible with Goublu
+    * `DO` didn't unnest completely on `BREAK`
     * `dq` supports keyed data queues
     * `eval -max -min`
     	* `eval` bug didn't pop tuple stack for logicals && ||

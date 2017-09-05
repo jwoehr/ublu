@@ -3,24 +3,30 @@ FUNC testDO ( start limit ) $[
     DO @@start @@limit $[
         put -n -s ${ loop index is }$ put -from @@start 
         test -eq @@start 7 -to @$$break
-        IF @$$break THEN $[ BREAK ]$
+        IF @$$break THEN $[ BREAK put zotz ]$
     ]$
     put -n -s ${ index after loop is }$ put -from @start
 ]$
 
 put -to @start 0 put -to @limit 11
 
+interpreter
 testDO ( @start @limit )
+interpreter
 
 FUNC testDO1 ( start limit ) $[
     DO @@start @@limit $[
         put -n -s ${ loop index is }$ put -from @@start 
         test -to @$$break  -ne @@start 7
-        IF @$$break THEN $[ put . ]$ ELSE $[ BREAK ]$
+        IF @$$break THEN $[ put . ]$ ELSE $[ BREAK put zotz ]$
     ]$
     put -n -s ${ index after loop is }$ put -from @@start
 ]$
 
 put -to @start 0 put -to @limit 11
 
+interpreter
 testDO1 ( @start @limit )
+interpreter
+
+# end
