@@ -51,6 +51,7 @@ All rights reserved.
 * Examples
     * `createFileFromRecFormat.ublu`
     * `isJobRunning`
+    * `isSbsActive`
     * `redir.ublu` redirects output from an execution block
     * `writesrc.ublu` writes a local stream file to a source physical file
 * Extensions
