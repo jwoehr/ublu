@@ -88,7 +88,7 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     writeMapToRecord ( @@testrptpf @result )
       
     put ${ ------------ }$    
-    put ${ end t.record }$
+    put ${ End t.record }$
     put ${ ------------ }$
     put ${ }$
 

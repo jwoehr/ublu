@@ -560,7 +560,7 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     writeMapToRecord ( @@testrptpf @result )    
     
     put ${ ------------ }$    
-    put ${ end t.dq }$
+    put ${ End t.dq }$
     put ${ ------------ }$
     put ${ }$
     

@@ -85,7 +85,7 @@ FUNC t.LOCAL ( work_dir testsys testrptpf ) $[
     writeMapToRecord ( @@testrptpf @result )
     
     put ${ ----------- }$    
-    put ${ end t.LOCAL }$
+    put ${ End t.LOCAL }$
     put ${ ----------- }$
     put ${ }$
 
