@@ -1,0 +1,21 @@
+# isSbsActive.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# See if a given subsystem is running and push boolean to tuple stack.
+
+# FUNC isSbsActive ( sys ifspath )
+# Pushes to tuple stack true or false
+# ... sys - instanced AS400 object
+# ... ifspath - path to subsys description
+# E.g.,
+# isSbsActive ( @mysys /QSYS.LIB/MYLIB.LIB/MYSBS.SBSD )
+FUNC isSbsActive ( sys ifspath ) $[
+    LOCAL @sbs
+    subsys -to @sbs -as400 @@sys -subsyspath @@ifspath -new
+    @sbs -refresh
+    @sbs -to ~ -query status
+    ~ -to ~ -eq *ACTIVE
+]$
