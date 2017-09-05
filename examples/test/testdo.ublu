@@ -10,9 +10,9 @@ FUNC testDO ( start limit ) $[
 
 put -to @start 0 put -to @limit 11
 
-interpreter
+put -n ${ frame depth: }$ interpreter -q framedepth
 testDO ( @start @limit )
-interpreter
+put -n ${ frame depth: }$ interpreter -q framedepth
 
 FUNC testDO1 ( start limit ) $[
     DO @@start @@limit $[
@@ -25,8 +25,8 @@ FUNC testDO1 ( start limit ) $[
 
 put -to @start 0 put -to @limit 11
 
-interpreter
+put -n ${ frame depth: }$ interpreter -q framedepth
 testDO1 ( @start @limit )
-interpreter
+put -n ${ frame depth: }$ interpreter -q framedepth
 
 # end
