@@ -652,7 +652,7 @@ public class CmdRs extends Command {
                                     case ERR:
                                         streamBlob(b, getInterpreter().getErroutStream());
                                         break;
-                                    case NUL:
+                                    case NULL:
                                         break;
                                     default:
                                         getLogger().log(Level.SEVERE, "Unsupported data destination for Blob in {0}", getNameAndDescription());

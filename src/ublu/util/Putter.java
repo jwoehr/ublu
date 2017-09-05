@@ -272,7 +272,7 @@ public class Putter {
                     }
                 }
                 break;
-            case NUL:
+            case NULL:
                 // throw it away!
                 break;
         }

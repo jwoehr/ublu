@@ -72,7 +72,7 @@ public class DataSink {
         /**
          * null device i.e., nowhere
          */
-        NUL,
+        NULL,
         /**
          * Tuple stack
          */
@@ -94,7 +94,7 @@ public class DataSink {
         } else if (name.startsWith("http://")) {
             sinkType = SINKTYPE.URL;
         } else if (name.equals("NULL:")) {
-            sinkType = SINKTYPE.NUL;
+            sinkType = SINKTYPE.NULL;
         } else if (name.equals("STD:")) {
             sinkType = SINKTYPE.STD;
         } else if (name.equals("ERR:")) {

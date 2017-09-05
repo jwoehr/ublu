@@ -154,7 +154,7 @@ public class CmdSystem extends Command {
                     command = getTupleStack().pop().getValue().toString();
                     executeCommand(command);
                     break;
-                case NUL:
+                case NULL:
                 case URL:
                 default:
                     getLogger().log(Level.SEVERE, "Unsupported data source {0} in {1}", new Object[]{getDataSrc().getType(), getNameAndDescription()});

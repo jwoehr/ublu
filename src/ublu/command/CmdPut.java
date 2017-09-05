@@ -150,7 +150,7 @@ public class CmdPut extends Command {
                         }
                         put(sb.toString(), append, space, newline);
                     } catch (RequestNotSupportedException | IOException | SQLException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                        unspecifiedErr(ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -161,14 +161,14 @@ public class CmdPut extends Command {
                             try {
                                 new Putter(tuple, getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                             } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                                unspecifiedErr(ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         } else {
                             try {
                                 new Putter(tuple.getValue(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                             } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                                getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                                unspecifiedErr(ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
@@ -176,7 +176,7 @@ public class CmdPut extends Command {
                         try {
                             new Putter(null, getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                         } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                            unspecifiedErr(ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     }
@@ -185,7 +185,7 @@ public class CmdPut extends Command {
                     try {
                         new Putter(argArray.nextMaybeQuotationTuplePopString(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                     } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                        unspecifiedErr(ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -193,7 +193,15 @@ public class CmdPut extends Command {
                     try {
                         new Putter(getTupleStack().pop().getValue(), getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
                     } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
-                        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
+                        unspecifiedErr(ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case NULL:
+                    try {
+                        new Putter("", getInterpreter(), getCharsetName()).put(getDataDest(), append, space, newline);
+                    } catch (SQLException | RequestNotSupportedException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException ex) {
+                        unspecifiedErr(ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
@@ -204,6 +212,10 @@ public class CmdPut extends Command {
             }
         }
         return argArray;
+    }
+
+    private void unspecifiedErr(Exception ex) {
+        getLogger().log(Level.SEVERE, "Exception in " + getNameAndDescription(), ex);
     }
 
     @Override
