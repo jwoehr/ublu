@@ -44,7 +44,7 @@ import ublu.util.ArgArray;
 public class CmdInterpreter extends Command {
 
     {
-        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs | -geterr | -getout | -seterr  ~@printstream | -setout  ~@printstream] : info on and control of Ublu and the interpreter at the level this command is invoked");
+        setNameAndDescription("interpreter", "/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs | -geterr | -getout | -seterr  ~@printstream | -setout  ~@printstream | -q,-query framedepth|instancedepth|forblock|breakissued|goublu|window] : info on and control of Ublu and the interpreter at the level this command is invoked");
     }
 
     enum OPS {
@@ -61,7 +61,8 @@ public class CmdInterpreter extends Command {
         GETOUT,
         SETOUT,
         GETERR,
-        SETERR
+        SETERR,
+        QUERY
     }
 
     ArgArray doInterpreter(ArgArray argArray) {
@@ -71,6 +72,7 @@ public class CmdInterpreter extends Command {
         String messagekey = null;
         Integer nth = null;
         PrintStream ps = null;
+        String qstring = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -128,6 +130,11 @@ public class CmdInterpreter extends Command {
                 case "-setout":
                     op = OPS.SETOUT;
                     ps = argArray.nextTupleOrPop().value(PrintStream.class);
+                    break;
+                case "-q":
+                case "-query":
+                    op = OPS.QUERY;
+                    qstring = argArray.nextMaybeQuotationTuplePopStringTrim().toLowerCase();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -238,9 +245,41 @@ public class CmdInterpreter extends Command {
                 case SETOUT:
                     getInterpreter().setOutputStream(ps);
                     break;
+                case QUERY:
+                    try {
+                        put(runQuery(qstring));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error getting or putting out stream in " + getNameAndDescription(), ex);
+                    }
+                    break;
             }
         }
         return argArray;
+    }
+
+    private Object runQuery(String q) {
+        Object o = null;
+        switch (q) {
+            case "framedepth":
+                o = getInterpreter().getFrameDepth();
+                break;
+            case "instancedepth":
+                o = getInterpreter().getInstanceDepth();
+                break;
+            case "forblock":
+                o = getInterpreter().isForBlock();
+                break;
+            case "breakissued":
+                o = getInterpreter().isBreakIssued();
+                break;
+            case "goublu":
+                o = getInterpreter().isGoubluing();
+                break;
+            case "window":
+                o = getInterpreter().isWindowing();
+                break;
+        }
+        return o;
     }
 
     @Override

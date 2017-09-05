@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 1 Sep 2017 16:36:46 UTC">
+  "Tue, 5 Sep 2017 02:55:23 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-01</p>
+  Last edit: 2017-09-04</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -10428,9 +10428,10 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <code>/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} |
     -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt
     ~@{nth} | -optarg ~@{nth} | -allargs | -geterr | -getout |
-    -seterr ~@printstream | -setout ~@printstream] : info on and
-    control of Ublu and the interpreter at the level this command
-    is invoked</code>
+    -seterr ~@printstream | -setout ~@printstream | -q,-query
+    framedepth|instancedepth|forblock|breakissued|goublu|window] :
+    info on and control of Ublu and the interpreter at the level
+    this command is invoked</code>
 
     <p>The <code>interpreter</code> command relates to the current
     level of the Ublu <a href="#Interpreter">interpreter</a>.</p>
@@ -10500,6 +10501,13 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <li><code>-setout ~@printstream</code> sets the
       <code>java.io.PrintStream</code> used by the current level of
       the interpreter for standard out.</li>
+
+
+      <li><code>-q,-query
+      framedepth|instancedepth|forblock|breakissued|goublu|window</code>
+      puts an object answering the given query about the
+      interpreter. If the query is unknown, <code>null</code> is
+      put.</li>
     </ul>
 
 
