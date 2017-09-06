@@ -790,7 +790,6 @@ public class ArgArray extends ArrayList<String> {
     public String nextUnlessNotBlock() {
         String s = null;
         if (isNextBlock()) {
-            //interpreter.getArgArray().remove(0); // throw away the block opener!
             assimilateFullBlock();
             s = next();
         }

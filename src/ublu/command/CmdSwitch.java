@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +39,7 @@ import java.util.logging.Level;
 public class CmdSwitch extends Command {
 
     {
-        setNameAndDescription("SWITCH", " ~@stringselector [-case ~@${string}$ $[ block ]$ [[-case ~@${string}$ $[ block ]$] ...] [-default $[ block ]$] : language switch statement");
+        setNameAndDescription("SWITCH", " ~@stringselector [-case ~@{string} $[ block ]$ [[-case ~@{string} $[ block ]$] ...] [-default $[ block ]$] : language switch statement");
     }
 
     /**
@@ -49,55 +51,49 @@ public class CmdSwitch extends Command {
      */
     public ArgArray cmdSwitch(ArgArray argArray) {
         boolean foundCase = false;
-        Tuple selectorTuple = argArray.nextTupleOrPop();
+        String selectorString = argArray.nextMaybeQuotationTuplePopStringTrim();
         String caseString;
         String blockString;
-        if (selectorTuple == null) {
-            getLogger().log(Level.SEVERE, "No selector tuple provided to {0}", getNameAndDescription());
-            setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
-            String selectorString = selectorTuple.getValue().toString().trim();
-            while (argArray.hasDashCommand()) {
-                String dashCommand = argArray.parseDashCommand();
-                switch (dashCommand) {
-                    case "-case":
-                        caseString = argArray.nextMaybeQuotationTuplePopString().trim();
-                        blockString = argArray.nextUnlessNotBlock();
-                        if (!foundCase) { // because SWITCH must finish consuming -case dashcommands from the ArgArray
-                            if (caseString.contentEquals(selectorString)) {
-                                foundCase = true;
-                                if (blockString == null) {
-                                    getLogger().log(Level.SEVERE, "No block provided to case {0} in {1}", new Object[]{caseString, getNameAndDescription()});
-                                    setCommandResult(COMMANDRESULT.FAILURE);
-                                } else {
-                                    setCommandResult(getInterpreter().executeBlock(blockString));
-                                }
-                            }
-                        }
-                        break;
-                    case "--":
-                    case "-default":
-                        blockString = argArray.nextUnlessNotBlock();
-                        if (!foundCase) {
+        while (argArray.hasDashCommand()) {
+            String dashCommand = argArray.parseDashCommand();
+            switch (dashCommand) {
+                case "-case":
+                    caseString = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    blockString = argArray.nextUnlessNotBlock();
+                    if (!foundCase) { // because SWITCH must finish consuming -case dashcommands from the ArgArray
+                        if (caseString.equals(selectorString)) {
                             foundCase = true;
                             if (blockString == null) {
-                                getLogger().log(Level.SEVERE, "No block provided to default case in {1}", getNameAndDescription());
+                                getLogger().log(Level.SEVERE, "No block provided to case {0} in {1}", new Object[]{caseString, getNameAndDescription()});
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             } else {
                                 setCommandResult(getInterpreter().executeBlock(blockString));
                             }
                         }
-                        break;
-                    default:
-                        unknownDashCommand(dashCommand);
-                }
-                if (getCommandResult().equals(COMMANDRESULT.FAILURE)) {
+                    }
                     break;
-                }
+                case "--":
+                case "-default":
+                    blockString = argArray.nextUnlessNotBlock();
+                    if (!foundCase) {
+                        foundCase = true;
+                        if (blockString == null) {
+                            getLogger().log(Level.SEVERE, "No block provided to default case in {1}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            setCommandResult(getInterpreter().executeBlock(blockString));
+                        }
+                    }
+                    break;
+                default:
+                    unknownDashCommand(dashCommand);
             }
-            if (havingUnknownDashCommand()) {
-                setCommandResult(COMMANDRESULT.FAILURE);
+            if (getCommandResult().equals(COMMANDRESULT.FAILURE)) {
+                break;
             }
+        }
+        if (havingUnknownDashCommand()) {
+            setCommandResult(COMMANDRESULT.FAILURE);
         }
         return argArray;
     }

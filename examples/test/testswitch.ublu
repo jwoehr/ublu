@@ -19,6 +19,6 @@ FUNC testSwitch ( selector ) $[
 		-case green
 			$[ put ${ you chose green }$ ]$
 		-default
-			$[ put -s -n ${ What!? }$ put -from @@selector ]$
+			$[ put -s -n ${ What!? }$ put @@selector ]$
 ]$
 # End
