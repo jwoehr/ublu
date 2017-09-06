@@ -18,3 +18,15 @@ put -from @atuple -to ~
 lifo -show
 put -from ~
 lifo -show
+put -to ~ ${ this is a test }$
+list -to ~
+lifo -show
+put ~
+put ~
+lifo -to ~ -depth
+lifo -dup
+put -n -s Depth: put ~
+num -to ~ 0
+DO ~ ~ $[ put ~ ]$
+lifo -to ~ -depth
+put -n -s Depth: put ~
