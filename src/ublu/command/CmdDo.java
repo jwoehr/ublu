@@ -41,7 +41,7 @@ import java.util.logging.Level;
 public class CmdDo extends Command {
 
     {
-        setNameAndDescription("DO", "/5 [-undo] @iterator [to|TO] @limit $[ cmd .. ]$ : DO iterative from @iterator to @limit exclusive of limit incrementing/decrementing @iterator");
+        setNameAndDescription("DO", "/5 [-undo] ~@iterator [to|TO] ~@limit $[ cmd .. ]$ : DO iterative from @iterator to @limit exclusive of limit incrementing/decrementing @iterator");
     }
 
     /**
@@ -65,12 +65,12 @@ public class CmdDo extends Command {
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-            Tuple startTuple = getTuple(argArray.next());
-            String limitTupleName = argArray.next();
+            Tuple startTuple = argArray.nextTupleOrPop();
+            String limitTupleName = argArray.peekNext();
             if (limitTupleName.equalsIgnoreCase("to")) {
                 limitTupleName = argArray.next();
             }
-            Tuple limitTuple = getTuple(limitTupleName);
+            Tuple limitTuple = argArray.nextTupleOrPop();
             String block = argArray.nextUnlessNotBlock();
             if (block == null) {
                 getLogger().log(Level.SEVERE, "DO found without a $[ block ]$");
