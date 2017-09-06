@@ -7,6 +7,7 @@
 # Redirect output to a file
 
 # FUNC redir  ( fqp block )
+# redir std out to a file
 # ... fqp is a tuple variable with a filepath
 # ... block is an execution block whose standard out is redirected to the file
 # E.g., 
@@ -20,5 +21,45 @@ FUNC redir  ( fqp block ) $[
     interpreter -setout @ps
     interpret -block @@block    
     interpreter -setout @stdout
+    calljava -method close -obj @ps
+]$
+
+# FUNC redirerr  ( fqp block )
+# redir std err to a file
+# ... fqp is a tuple variable with a filepath
+# ... block is an execution block whose standard err is redirected to the file
+# E.g., 
+# put -to @fpath /foo/bar.txt
+# put -to @block $[ put ${ this is a test }$ ]$
+# redir ( @fpath @block )
+FUNC redirerr  ( fqp block ) $[
+    LOCAL @stderr LOCAL @ps
+    interpreter -to @stderr -geterr
+    calljava -to @ps -new java.io.PrintStream -arg @@fqp
+    interpreter -seterr @ps
+    interpret -block @@block    
+    interpreter -seterr @stderr
+    calljava -method close -obj @ps
+]$
+  
+# FUNC redirall  ( fqp block )
+# redir std out and std err both to the same file
+# ... fqp is a tuple variable with a filepath
+# ... block is an execution block whose standard out & err are redirected
+#     to the file
+# E.g., 
+# put -to @fpath /foo/bar.txt
+# put -to @block $[ put ${ this is a test }$ ]$
+# redir ( @fpath @block )
+FUNC redirall  ( fqp block ) $[
+    LOCAL @stdout LOCAL @stderr LOCAL @ps
+    interpreter -to @stdout -getout
+    interpreter -to @stderr -geterr
+    calljava -to @ps -new java.io.PrintStream -arg @@fqp
+    interpreter -setout @ps
+    interpreter -seterr @ps
+    interpret -block @@block    
+    interpreter -setout @stdout
+    interpreter -seterr @stderr
     calljava -method close -obj @ps
 ]$

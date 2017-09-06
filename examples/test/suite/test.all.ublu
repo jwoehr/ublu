@@ -74,7 +74,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.histlog.ublu t.histlog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test histlog }$		
     \\ ${ include t.history.ublu t.history ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test history }$	
     \\ ${ include t.host.ublu t.host ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test host }$		
-    \\ ${ include t.IF.ublu t.IF ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test IF }$		
+    include t.IF.ublu t.IF ( @@work_dir @testsys @testrptpf )      \\ ${ test IF }$		
     \\ ${ include t.ifs.ublu t.ifs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ifs }$		
     \\ ${ include t.include.ublu t.include ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test include }$		
     \\ ${ include t.interpret.ublu t.interpret ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test interpret }$		
