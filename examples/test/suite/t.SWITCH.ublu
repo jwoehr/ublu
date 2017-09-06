@@ -1,4 +1,4 @@
-# t.WHILE.ublu
+# t.SWITCH.ublu
 # Component of test.all ( )
 # Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
@@ -14,41 +14,43 @@
 # Assumes the present file is residing in examples/test/suite 
 include -s ../../../examples/redir.ublu
 
-# t.WHILE ( work_dir testsys testrptpf )
+# t.SWITCH ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them
 # ... testsys - the server against which tests to be run
 # ... testrptpf - open pf to write test report records
-FUNC t.WHILE ( work_dir testsys testrptpf ) $[
+FUNC t.SWITCH ( work_dir testsys testrptpf ) $[
     LOCAL @TMSTRT  LOCAL @TMEND 
     LOCAL @DESC    LOCAL @PFAIL
     LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
     
-    put ${ ---------- }$
-    put ${ Start t.WHILE }$
-    put ${ ---------- }$
+    put ${ -------------- }$
+    put ${ Start t.SWITCH }$
+    put ${ -------------- }$
     put ${ }$
         
-    cat_fp ( @@work_dir t.WHILE.testwhile.txt )
+    cat_fp ( @@work_dir t.SWITCH.testswitch.txt )
     put -to @tmpfile ~
-    cat_fp ( *t_paradigm t.WHILE.testwhile.txt )
+    cat_fp ( *t_paradigm t.SWITCH.testswitch.txt )
     put -to @paradigm ~
-    cat_fp ( @@work_dir t.WHILE.testwhile.diff.txt )
+    cat_fp ( @@work_dir t.SWITCH.testswitch.diff.txt )
     put -to @difflist ~
     
     map -to @result
     
-    string -to @FILNAM -trim t.WHILE.ublu
+    string -to @FILNAM -trim t.SWITCH.ublu
     @result -> @FILNAM
     
-    string -to @DESC -cat ${ testwhile:test WHILE loops:diff in }$ @difflist
+    string -to @DESC -cat ${ testswitch:test SWITCH cases:diff in }$ @difflist
     @result -> @DESC
+    
+    include -s ../testswitch.ublu
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
     @result -> @TMSTRT
-        
+    
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redir ( @tmpfile $[ include ../testwhile.ublu ]$ )
+    redir ( @tmpfile $[  testSwitch ( red ) testSwitch ( green ) testSwitch ( blue ) ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~
@@ -84,9 +86,9 @@ FUNC t.WHILE ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
     
-    put ${ ----------- }$    
-    put ${ End t.WHILE }$
-    put ${ ----------- }$
+    put ${ ------------ }$    
+    put ${ End t.SWITCH }$
+    put ${ ------------ }$
     put ${ }$
 
 ]$

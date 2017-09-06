@@ -115,7 +115,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.spoolflist.ublu t.spoolflist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test spoolflist }$		
     \\ ${ include t.string.ublu t.string ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test string }$		
     \\ ${ include t.subsys.ublu t.subsys ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test subsys }$		
-    \\ ${ include t.SWITCH.ublu t.SWITCH ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test SWITCH }$		
+    include t.SWITCH.ublu t.SWITCH ( @@work_dir @testsys @testrptpf )      \\ ${ test SWITCH }$		
     \\ ${ include t.system.ublu t.system ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test system }$		
     \\ ${ include t.sysval.ublu t.sysval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sysval }$		
     \\ ${ include t.TASK.ublu t.TASK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test TASK }$		
