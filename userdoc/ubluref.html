@@ -17917,7 +17917,7 @@ FUNC killme ( ms ) $[
 ]$
 # This works
 FUNC killinseconds ( seconds ) $[ eval -to ~ * @@seconds 1000 killme ( ~ ) ]$
-#This fails
+# This fails
 FUNC killinseconds2 ( seconds ) $[ LOCAL @ms eval -to @ms * @@seconds 1000 killme ( @ms ) ]$</code>
 </pre>
     </blockquote>
