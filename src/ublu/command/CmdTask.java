@@ -40,6 +40,7 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import ublu.util.TupleMap;
 
 /**
  * Command to launch a block in a background interpreter thread
@@ -49,7 +50,7 @@ import java.util.logging.Level;
 public class CmdTask extends Command {
 
     {
-        setNameAndDescription("TASK", "/1? [-from ~@datasink] [-to ~@datasink] [-start] $[ BLOCK TO EXECUTE ]$ : create a background thread to execute a block, putting the thread and starting the thread if specified");
+        setNameAndDescription("TASK", "/1? [-from ~@datasink] [-to ~@datasink] [-local @tuplename ~@tuple [-local ..]] [-start] $[ BLOCK TO EXECUTE ]$ : create a background thread to execute a block, putting the thread and starting the thread if specified");
     }
 
     /**
@@ -57,6 +58,8 @@ public class CmdTask extends Command {
      */
     public CmdTask() {
     }
+
+    TupleMap tm = new TupleMap();
 
     /**
      * Interpret a block in a thread in the background
@@ -76,6 +79,9 @@ public class CmdTask extends Command {
                     break;
                 case "-to":
                     setDataDestfromArgArray(argArray);
+                    break;
+                case "-local":
+                    tm.setTuple(argArray.next(), argArray.nextTupleOrPop().getValue());
                     break;
                 case "-start":
                     startNow = true;
@@ -131,6 +137,9 @@ public class CmdTask extends Command {
                 setCommandResult(COMMANDRESULT.FAILURE);
             } else {
                 InterpreterThread interpreterThread = new InterpreterThread(getInterpreter(), block);
+                for (String k : tm.keySet()) {
+                    interpreterThread.getInterpreter().setTuple(k, tm.getTuple(k).getValue());
+                }
                 if (startNow) {
                     interpreterThread.start();
                 }

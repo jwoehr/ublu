@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 6 Sep 2017 12:18:35 UTC">
+  "Thu, 7 Sep 2017 19:35:35 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-06</p>
+  Last edit: 2017-09-07</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -17864,35 +17865,73 @@ ciptool
 
 
   <blockquote>
-    <tt>/1? [-from datasink] [-to datasink] [-start] $[ BLOCK TO
-    EXECUTE ]$ : create a background thread to execute a block,
-    putting the thread and starting the thread if specified<br>
-    <br></tt> The <tt>TASK</tt> command creates a thread to execute
-    a block and optionally launches the thread immediately.
+    <p><code>/1? [-from ~@datasink] [-to ~@datasink] [-local
+    @tuplename ~@tuple [-local ..]] [-start] $[ BLOCK TO EXECUTE ]$
+    : create a background thread to execute a block, putting the
+    thread and starting the thread if specified</code>
+    </p>
+
+
+    <p>The <tt>TASK</tt> command creates a thread to execute a
+    block and optionally launches the thread immediately.
     <tt>TASK</tt> <tt><a href="#put">put</a></tt>s the thread
     object it creates, which can be stored in the destination
     <a href="#Datasinks">datasink</a> via the <tt>-to</tt> <a href=
     "#Dash_Command">dash-command</a> for later manipulation by the
     <tt><a href="#thread">thread</a></tt> command which can start
-    and stop the thread.<br>
-    <br>
-    Instead of providing a block as an argument to the
+    and stop the thread.</p>
+
+
+    <p>Instead of providing a block as an argument to the
     <tt>TASK</tt> command, you may provide a series of commands
     stored as a string in a file or <a href=
     "#Tuple_Variables">tuple variable</a> indicated as the source
-    datasink via the <tt>-from</tt> dash-command.<br>
-    <br>
-    The new thread inherits the current tuple variable space but
+    datasink via the <tt>-from</tt> dash-command.</p>
+
+
+    <p>The new thread inherits the current tuple variable space but
     will not possess new entries added to other threads subsequent
-    to the launch of this <tt>TASK</tt>'s thread.<br>
-    <br>
-    The new thread starts with the system dictionary. Any
+    to the launch of this <tt>TASK</tt>'s thread.</p>
+
+
+    <p><code>-local @tuplename ~@tuple</code> may be used any
+    number of times to assign the value of <code>~@tuple</code>
+    locally to the thread under .</p>
+
+
+    <p><strong>Best</strong> is to use the <a href=
+    "#Tuple_stack">tuple stack</a> when providing a tuple value for
+    the task-local thus created.</p>
+
+
+    <p>Thus,</p>
+
+
+    <blockquote>
+      <pre><code># TASK to exit Ublu after a number of milliseconds
+FUNC killme ( ms ) $[
+    TASK -to NULL: -local @ms @@ms -start $[
+        put -n ${ value of @ms is }$ put @ms
+        sleep -m @ms exit
+    ]$
+]$
+# This works
+FUNC killinseconds ( seconds ) $[ eval -to ~ * @@seconds 1000 killme ( ~ ) ]$
+#This fails
+FUNC killinseconds2 ( seconds ) $[ LOCAL @ms eval -to @ms * @@seconds 1000 killme ( @ms ) ]$</code>
+</pre>
+    </blockquote>
+
+
+    <p>The new thread starts with the system dictionary. Any
     additional functions must be added by include or <tt><a href=
-    "#dict">dict</a></tt> <tt>-restore</tt>.<br>
-    <br>
-    The <tt>-start</tt> dash-command starts the thread immediately.
-    The default is to simply put the thread to be later started via
-    the <tt><a href="#thread">thread</a></tt> command.<br>
+    "#dict">dict</a></tt> <tt>-restore</tt>.</p>
+
+
+    <p>The <tt>-start</tt> dash-command starts the thread
+    immediately. The default is to simply put the thread to be
+    later started via the <tt><a href="#thread">thread</a></tt>
+    command.</p>
   </blockquote>
 
 
