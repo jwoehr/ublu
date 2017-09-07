@@ -43,6 +43,7 @@ All rights reserved.
     * `sess` command missing break after -to
     * `streamf -file`
     * `string -lcase -upcase`
+    * `TASK -local`
     * `tuple -assign` to non-existent tuple was failing
     * `usage/help` honors property `ublu.usage.linelength`
     * `WHILE`
@@ -68,7 +69,9 @@ All rights reserved.
     * t.dq
     * t.FOR
     * t.LOCAL
+    * t.lifo
     * t.record
+    * t.switch
     * t.WHILE
     * test result browser
 * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
