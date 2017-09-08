@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -84,6 +84,7 @@ public class InterpreterThread extends Thread {
     public InterpreterThread(Interpreter srcInterpreter, String args) {
         this();
         setInterpreter(new Interpreter(srcInterpreter, args));
+        getInterpreter().pushFrame().pushLocal();
     }
 
     /**
