@@ -288,16 +288,16 @@ public class TupleMap extends LinkedHashMap<String, Tuple> {
         return result;
     }
 
-    private Tuple localSetTuple(String key, Object value) {
-        Tuple tuple;
-        TupleMap lmap = getMostLocalMap();
-        if (lmap.containsKey(key)) {
-            tuple = putValueToExtantLocal(key, value);
-        } else {
-            tuple = putValueToNewLocal(key, value);
-        }
-        return tuple;
-    }
+//    private Tuple localSetTuple(String key, Object value) {
+//        Tuple tuple;
+//        TupleMap lmap = getMostLocalMap();
+//        if (lmap.containsKey(key)) {
+//            tuple = putValueToExtantLocal(key, value);
+//        } else {
+//            tuple = putValueToNewLocal(key, value);
+//        }
+//        return tuple;
+//    }
 
     /**
      * Display all tuple keys in the local map and global map
