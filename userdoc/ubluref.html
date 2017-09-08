@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 7 Sep 2017 19:35:35 UTC">
+  "Fri, 8 Sep 2017 22:58:49 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -64,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-07</p>
+  Last edit: 2017-09-08</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -17908,18 +17907,98 @@ ciptool
 
 
     <blockquote>
-      <pre><code># TASK to exit Ublu after a number of milliseconds
-FUNC killme ( ms ) $[
-    TASK -to NULL: -local @ms @@ms -start $[
-        put -n ${ value of @ms is }$ put @ms
-        sleep -m @ms exit
-    ]$
-]$
-# This works
-FUNC killinseconds ( seconds ) $[ eval -to ~ * @@seconds 1000 killme ( ~ ) ]$
-# This fails
-FUNC killinseconds2 ( seconds ) $[ LOCAL @ms eval -to @ms * @@seconds 1000 killme ( @ms ) ]$</code>
-</pre>
+      <pre><span class="syntax0"><span class=
+      "syntax-COMMENT1">#</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">TASK</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">to</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">exit</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">Ublu</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">after</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">a</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">number</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">of</span><span class=
+      "syntax-COMMENT1"> </span><span class=
+      "syntax-COMMENT1">milliseconds</span>
+<span class="syntax-KEYWORD1">FUNC</span> killme <span class=
+"syntax-OPERATOR">(</span> ms <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span>
+    <span class="syntax-KEYWORD1">TASK</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-KEYWORD4">NULL:</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-local</span> <span class=
+"syntax-MARKUP">@ms</span> <span class=
+"syntax-LITERAL4">@@ms</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-start</span> <span class=
+"syntax-OPERATOR">$[</span>
+        <span class="syntax-KEYWORD2">put</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-n</span> <span class=
+"syntax-LITERAL1">${</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">value</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">of</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">@ms</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">is</span><span class=
+"syntax-LITERAL1"> </span><span class=
+"syntax-LITERAL1">}$</span> <span class=
+"syntax-KEYWORD2">put</span> <span class="syntax-MARKUP">@ms</span>
+        <span class="syntax-KEYWORD2">sleep</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-m</span> <span class=
+"syntax-MARKUP">@ms</span> <span class=
+"syntax-KEYWORD2">exit</span>
+    <span class="syntax-OPERATOR">]$</span>
+<span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">This</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">works</span>
+<span class=
+"syntax-KEYWORD1">FUNC</span> killinseconds <span class="syntax-OPERATOR">(</span> seconds <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">$[</span> <span class="syntax-KEYWORD2">eval</span><span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">-to</span> <span class="syntax-LITERAL4">~</span><span class="syntax-KEYWORD3"> </span><span class="syntax-KEYWORD3">*</span><span class="syntax-KEYWORD3"> </span><span class="syntax-LITERAL4">@@seconds</span> <span class="syntax-DIGIT">1000</span> killme <span class="syntax-OPERATOR">(</span> <span class="syntax-LITERAL4">~</span> <span class="syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">]$</span>
+
+<span class="syntax-COMMENT1">#</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">This</span><span class=
+"syntax-COMMENT1"> </span><span class=
+"syntax-COMMENT1">works</span><span class=
+"syntax-COMMENT1"> </span><span class="syntax-COMMENT1">too</span>
+<span class=
+"syntax-KEYWORD1">FUNC</span> killinseconds2 <span class=
+"syntax-OPERATOR">(</span> seconds <span class=
+"syntax-OPERATOR">)</span> <span class=
+"syntax-OPERATOR">$[</span> <span class=
+"syntax-KEYWORD1">LOCAL</span> <span class=
+"syntax-MARKUP">@ms</span> <span class=
+"syntax-KEYWORD2">eval</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">-to</span> <span class=
+"syntax-MARKUP">@ms</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-KEYWORD3">*</span><span class=
+"syntax-KEYWORD3"> </span><span class=
+"syntax-LITERAL4">@@seconds</span> <span class=
+"syntax-DIGIT">1000</span> killme <span class=
+"syntax-OPERATOR">(</span> <span class=
+"syntax-MARKUP">@ms</span> <span class=
+"syntax-OPERATOR">)</span> <span class="syntax-OPERATOR">]$</span>
+
+</span></pre>
     </blockquote>
 
 

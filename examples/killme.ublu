@@ -1,0 +1,29 @@
+# killme.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# TASK to exit Ublu after a number of milliseconds
+# Useful to run in background in short scripts where network timeouts occur 
+FUNC killme ( ms ) $[
+    TASK -to NULL: -local @ms @@ms -start $[
+	   \\ ${ put -n ${ value of @ms is }$ put @ms }$
+	   sleep -m @ms exit
+	]$
+]$
+
+# Starts task to exit Ublu in seconds
+FUNC killinseconds ( seconds ) $[
+    eval -to ~ * @@seconds 1000
+    killme ( ~ )
+]$
+
+# This works too
+FUNC killinseconds2 ( seconds ) $[
+    LOCAL @ms
+    eval -to @ms * @@seconds 1000
+    killme ( @ms )
+]$
+
+# end
