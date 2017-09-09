@@ -14,6 +14,7 @@ All rights reserved.
 * Commands
     * `as400 -nodefault` prevents setting service ports at instancing
     * `ask -nocons`
+    * `const -drop -clear`
     * `dbug` compatible with Goublu
     * `DO` didn't unnest completely on `BREAK`
     * `dq` supports keyed data queues
