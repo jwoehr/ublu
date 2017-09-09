@@ -7,6 +7,7 @@ All rights reserved.
 * Optimizations
     * various
     * string parsing now assimilates a block as well as a quotation
+    * better Goublu support
 * Documentation
     * Explained how to make SSL connection 
     * Guide enhanced
@@ -50,9 +51,11 @@ All rights reserved.
     	* was failing on tuple stack ~ argument
     	* didn't unnest completely on `BREAK`
 * Examples
+    * `ansiesc.ublu` ANSI escape sequences for local terminal color and control
     * `createFileFromRecFormat.ublu`
-    * `isJobRunning`
-    * `isSbsActive`
+    * `isJobRunning.ublu`
+    * `isSbsActive.ublu`
+    * `killme.ublu` starts a thread to exit Ublu, useful for net timeouts
     * `redir.ublu` redirects output from an execution block
     * `writesrc.ublu` writes a local stream file to a source physical file
 * Extensions
@@ -60,6 +63,8 @@ All rights reserved.
 * Stuff
 	* Perl
 		* `validateuser.pl` validates a userid / password combo
+    * jEdit
+        * updated `ublu.xml`
 * Windowing
     * now executes rest of initial command line
     * set colors separately for input and output from menu
