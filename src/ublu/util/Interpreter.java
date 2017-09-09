@@ -149,6 +149,32 @@ public class Interpreter {
     }
 
     /**
+     * Remove a constant value from the map.
+     *
+     * @param name name of const
+     * @return true if const existed in the ConstMap, false if not
+     * @see ublu.util.Const
+     * @see ublu.command.CmdConst
+     */
+    public boolean dropConst(String name) {
+        boolean result = false;
+        if (Const.isConstName(name)) {
+            if (constMap.containsKey(name)) {
+                constMap.remove(name);
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Remove all constants from the map.
+     */
+    public void clearConstMap() {
+        constMap.clear();
+    }
+
+    /**
      * Get nested interpreter depth
      *
      * @return nested interpreter depth

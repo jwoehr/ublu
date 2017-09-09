@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 8 Sep 2017 22:58:49 UTC">
+  "Sun, 10 Sep 2017 22:58:49 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-08</p>
+  Last edit: 2017-09-10</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -4713,8 +4714,9 @@ Type help for help. Type license for license. Type bye to exit.
 
 
   <blockquote>
-    <p><tt>/2? [-to datasink] [-list | -create | -save | -restore |
-    -merge ] *name ~@{value} : create a constant value</tt>
+    <p><code>/2? [-to datasink] [-list | -create | -clear | -drop
+    ~@{ *constname } | -save | -restore | -merge ] *name ~@{value}
+    : create a constant value</code>
     </p>
 
 
@@ -4765,6 +4767,14 @@ Type help for help. Type license for license. Type bye to exit.
       <li><tt>-create</tt> creates constant <em>*name</em> with
       string value <em>value</em>. It is the default
       operation.</li>
+
+
+      <li><code>-clear</code> clears (empties) the constant
+      map.</li>
+
+
+      <li><code>-drop ~@{ *constname }</code> removes the given
+      constant from the constant map.</li>
 
 
       <li><tt>-list</tt> lists all defined constants to the

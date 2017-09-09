@@ -54,11 +54,11 @@ public class CmdConst extends Command {
 
     {
         setNameAndDescription("const",
-                "/2? [-to datasink] [-list | -create | -save | -restore | -merge ] *name ~@{value} : create a constant value");
+                "/2? [-to datasink] [-list | -create | -clear | -drop ~@{ *constname } | -save | -restore | -merge ] *name ~@{value} : create a constant value");
     }
 
     enum OPS {
-        CREATE, LIST, SAVE, RESTORE
+        CREATE, CLEAR, DROP, LIST, SAVE, RESTORE
     }
 
     /**
@@ -85,6 +85,12 @@ public class CmdConst extends Command {
                 case "-create":
                     op = OPS.CREATE;
                     break;
+                case "-clear":
+                    op = OPS.CLEAR;
+                    break;
+                case "-drop":
+                    op = OPS.DROP;
+                    break;
                 case "-save":
                     op = OPS.SAVE;
                     break;
@@ -104,13 +110,14 @@ public class CmdConst extends Command {
         }
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
             ConstMap cm;
+            String name;
             switch (op) {
                 case CREATE:
                     if (argArray.size() < 2) {
                         logArgArrayTooShortError(argArray);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-                    String name = argArray.next();
+                    name = argArray.next();
                     String value = argArray.nextMaybeQuotationTuplePopString();
                     if (Const.isConstName(name)) {
                         if (getInterpreter().getConst(name) != null) {
@@ -118,6 +125,27 @@ public class CmdConst extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else if (!getInterpreter().setConst(name, value)) {
                             getLogger().log(Level.SEVERE, "Attempt to set a const with null value in {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "{0}" + " is not a const name starting with \"" + Const.CONSTNAMECHAR + "\" in {1}", new Object[]{name, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case CLEAR:
+                    getInterpreter().clearConstMap();
+                    break;
+                case DROP:
+                    if (Const.isConstName(argArray.peekNext())) {
+                        name = argArray.next();
+                    } else {
+                        name = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    }
+                    if (Const.isConstName(name)) {
+                        try {
+                            put(getInterpreter().dropConst(name));
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception putting result of drop const in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
                     } else {
