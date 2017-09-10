@@ -125,7 +125,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.THROW.ublu t.THROW ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test THROW }$		
     \\ ${ include t.tn5250.ublu t.tn5250 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test tn5250 }$		
     \\ ${ include t.trace.ublu t.trace ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test trace }$		
-    \\ ${ include t.TRY.ublu t.TRY ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test TRY }$		
+    include -s t.TRY.ublu t.TRY ( @@work_dir @testsys @testrptpf )      \\ ${ test TRY }$		
     include -s t.tuple.ublu t.tuple ( @@work_dir @testsys @testrptpf )      \\ ${ test tuple }$		
     \\ ${ include t.user.ublu t.user ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test user }$		
     \\ ${ include t.userlist.ublu t.userlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test userlist }$		

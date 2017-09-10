@@ -1,0 +1,92 @@
+# t.TRY.ublu
+# Component of test.all ( )
+# Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Assumes called from test.all.ublu so
+# ... so defaults are already included
+#
+# include -s test_utils.ublu
+# ... is already included from test.all.ublu
+
+# Assumes the present file is residing in examples/test/suite 
+include -s ../../../examples/redir.ublu
+
+# t.TRY ( work_dir testsys testrptpf )
+# ... work_dir - where tests can create files and leave them
+# ... testsys - the server against which tests to be run
+# ... testrptpf - open pf to write test report records
+FUNC t.TRY ( work_dir testsys testrptpf ) $[
+    LOCAL @TMSTRT  LOCAL @TMEND 
+    LOCAL @DESC    LOCAL @PFAIL
+    LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
+    
+    put ${ ----------- }$
+    put ${ Start t.TRY }$
+    put ${ ----------- }$
+    put ${ }$
+        
+    cat_fp ( @@work_dir t.TRY.testtry.txt )
+    put -to @tmpfile ~
+    cat_fp ( *t_paradigm t.TRY.testtry.txt )
+    put -to @paradigm ~
+    cat_fp ( @@work_dir t.TRY.testtry.diff.txt )
+    put -to @difflist ~
+    
+    map -to @result
+    
+    string -to @FILNAM -trim t.TRY.ublu
+    @result -> @FILNAM
+    
+    string -to @DESC -cat ${ testtry:test TRY/THROW/CATCH:diff in }$ @difflist
+    @result -> @DESC
+    
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    @result -> @TMSTRT
+    
+    \\ ${ Assumes the present file is residing in examples/test/suite }$
+    redirall ( @tmpfile $[ include -s ../testtry.ublu testTry ( ) ]$ )
+
+    currentTimeMillis ( )
+    tuple -assign @TMEND ~
+    @result -> @TMEND
+    
+    string -to ~ -cat ${ diff -u }$ @tmpfile
+    ~ -to ~ -bl
+    ~ -to ~ -cat @paradigm
+    
+    \\ ${ announce }$
+    put -n -s *** lifo -dup put -n -s ~
+    
+    system -to ~ ~
+    
+    lifo -dup
+
+    calljava -to ~ -method getOutput -obj ~
+    put -tofile @difflist ~
+        
+    calljava -to ~ -method getRc -obj ~
+    
+    \\ ${ announce }$
+    lifo -dup put -n -s ~
+    
+    eval -to ~ == 0 ~ 
+    
+    IF ~ THEN $[ put -to @PFAIL P ]$ ELSE $[ put -to @PFAIL F ]$
+      
+    \\ ${ announce }$
+    put @PFAIL
+      
+    @result -> @PFAIL 
+    
+    writeMapToRecord ( @@testrptpf @result )
+    
+    put ${ --------- }$    
+    put ${ End t.TRY }$
+    put ${ --------- }$
+    put ${ }$
+
+]$
