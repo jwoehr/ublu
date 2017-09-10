@@ -1,4 +1,4 @@
-# t.IF.ublu
+# t.tuple.ublu
 # Component of test.all ( )
 # Test Suite for Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
@@ -14,33 +14,33 @@
 # Assumes the present file is residing in examples/test/suite 
 include -s ../../../examples/redir.ublu
 
-# t.IF ( work_dir testsys testrptpf )
+# t.tuple ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them
 # ... testsys - the server against which tests to be run
 # ... testrptpf - open pf to write test report records
-FUNC t.IF ( work_dir testsys testrptpf ) $[
+FUNC t.tuple ( work_dir testsys testrptpf ) $[
     LOCAL @TMSTRT  LOCAL @TMEND 
     LOCAL @DESC    LOCAL @PFAIL
     LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
     
-    put ${ ---------- }$
-    put ${ Start t.IF }$
-    put ${ ---------- }$
+    put ${ ------------- }$
+    put ${ Start t.tuple }$
+    put ${ ------------- }$
     put ${ }$
         
-    cat_fp ( @@work_dir t.IF.testifelse.txt )
+    cat_fp ( @@work_dir t.tuple.testtuple.txt )
     put -to @tmpfile ~
-    cat_fp ( *t_paradigm t.IF.testifelse.txt )
+    cat_fp ( *t_paradigm t.tuple.testtuple.txt )
     put -to @paradigm ~
-    cat_fp ( @@work_dir t.IF.testifelse.diff.txt )
+    cat_fp ( @@work_dir t.tuple.testtuple.diff.txt )
     put -to @difflist ~
     
     map -to @result
     
-    string -to @FILNAM -trim t.IF.ublu
+    string -to @FILNAM -trim t.tuple.ublu
     @result -> @FILNAM
     
-    string -to @DESC -cat ${ testifelse:test IF / THEN / ELSE:diff in }$ @difflist
+    string -to @DESC -cat ${ testtuple:test tuple operations:diff in }$ @difflist
     @result -> @DESC
     
     currentTimeMillis ( )
@@ -48,7 +48,7 @@ FUNC t.IF ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
     
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redirall ( @tmpfile $[ include -s ../testifelse.ublu ]$ )
+    redirall ( @tmpfile $[ include ../testtuple.ublu ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~
@@ -84,9 +84,9 @@ FUNC t.IF ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
     
-    put ${ -------- }$    
-    put ${ End t.IF }$
-    put ${ -------- }$
+    put ${ ----------- }$    
+    put ${ End t.tuple }$
+    put ${ ----------- }$
     put ${ }$
 
 ]$
