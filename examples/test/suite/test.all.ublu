@@ -57,15 +57,15 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.dbug.ublu t.dbug ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dbug }$		
     \\ ${ include t.defun.ublu t.defun ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test defun }$		
     \\ ${ include t.dict.ublu t.dict ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dict }$		
-    include t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf )   \\ ${ test DO }$		
-    include t.dpoint.ublu t.dpoint ( @@work_dir @testsys @testrptpf )      \\ ${ test dpoint }$		
-    include t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
+    include -s t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf )   \\ ${ test DO }$		
+    include -s t.dpoint.ublu t.dpoint ( @@work_dir @testsys @testrptpf )      \\ ${ test dpoint }$		
+    include -s t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
     \\ ${ include t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dta }$		
     \\ ${ include t.ELSE.ublu t.ELSE ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ELSE }$		
     \\ ${ include t.eval.ublu t.eval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test eval }$		
     \\ ${ include t.exit.ublu t.exit ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test exit }$		
     \\ ${ include t.file.ublu t.file ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test file }$		
-    include t.FOR.ublu t.FOR ( @@work_dir @testsys @testrptpf ) \\ ${ test FOR }$		
+    include -s t.FOR.ublu t.FOR ( @@work_dir @testsys @testrptpf ) \\ ${ test FOR }$		
     \\ ${ include t.ftp.ublu t.ftp ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ftp }$		
     \\ ${ include t.FUN.ublu t.FUN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUN }$		
     \\ ${ include t.FUNC.ublu t.FUNC ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUNC }$		
@@ -74,7 +74,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.histlog.ublu t.histlog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test histlog }$		
     \\ ${ include t.history.ublu t.history ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test history }$	
     \\ ${ include t.host.ublu t.host ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test host }$		
-    include t.IF.ublu t.IF ( @@work_dir @testsys @testrptpf )      \\ ${ test IF }$		
+    include -s t.IF.ublu t.IF ( @@work_dir @testsys @testrptpf )      \\ ${ test IF }$		
     \\ ${ include t.ifs.ublu t.ifs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ifs }$		
     \\ ${ include t.include.ublu t.include ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test include }$		
     \\ ${ include t.interpret.ublu t.interpret ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test interpret }$		
@@ -85,9 +85,9 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.jrnl.ublu t.jrnl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jrnl }$		
     \\ ${ include t.json.ublu t.json ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test json }$		
     \\ ${ include t.jvm.ublu t.jvm ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jvm }$		
-    include t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf )     \\ ${ test LOCAL }$		
+    include -s t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf )     \\ ${ test LOCAL }$		
     \\ ${ include t.license.ublu t.license ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test license }$		
-    include t.lifo.ublu t.lifo ( @@work_dir @testsys @testrptpf )      \\ ${ test lifo }$		
+    include -s t.lifo.ublu t.lifo ( @@work_dir @testsys @testrptpf )      \\ ${ test lifo }$		
     \\ ${ include t.list.ublu t.list ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test list }$		
     \\ ${ include t.monitor.ublu t.monitor ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test monitor }$		
     \\ ${ include t.msg.ublu t.msg ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msg }$		
@@ -115,7 +115,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.spoolflist.ublu t.spoolflist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test spoolflist }$		
     \\ ${ include t.string.ublu t.string ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test string }$		
     \\ ${ include t.subsys.ublu t.subsys ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test subsys }$		
-    include t.SWITCH.ublu t.SWITCH ( @@work_dir @testsys @testrptpf )      \\ ${ test SWITCH }$		
+    include -s t.SWITCH.ublu t.SWITCH ( @@work_dir @testsys @testrptpf )      \\ ${ test SWITCH }$		
     \\ ${ include t.system.ublu t.system ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test system }$		
     \\ ${ include t.sysval.ublu t.sysval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sysval }$		
     \\ ${ include t.TASK.ublu t.TASK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test TASK }$		
@@ -126,10 +126,10 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include t.tn5250.ublu t.tn5250 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test tn5250 }$		
     \\ ${ include t.trace.ublu t.trace ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test trace }$		
     \\ ${ include t.TRY.ublu t.TRY ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test TRY }$		
-    include t.tuple.ublu t.tuple ( @@work_dir @testsys @testrptpf )      \\ ${ test tuple }$		
+    include -s t.tuple.ublu t.tuple ( @@work_dir @testsys @testrptpf )      \\ ${ test tuple }$		
     \\ ${ include t.user.ublu t.user ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test user }$		
     \\ ${ include t.userlist.ublu t.userlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test userlist }$		
-    include t.WHILE.ublu t.WHILE ( @@work_dir @testsys @testrptpf )     \\ ${ test WHILE }$
+    include -s t.WHILE.ublu t.WHILE ( @@work_dir @testsys @testrptpf )     \\ ${ test WHILE }$
     
     @testrptpf -close
     @testsys -disconnect

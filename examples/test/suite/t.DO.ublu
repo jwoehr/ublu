@@ -48,7 +48,7 @@ FUNC t.DO ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
     
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redir ( @tmpfile $[ include ../testdo.ublu ]$ )
+    redirall ( @tmpfile $[ include ../testdo.ublu ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~

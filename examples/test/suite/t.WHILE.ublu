@@ -48,7 +48,7 @@ FUNC t.WHILE ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
         
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redir ( @tmpfile $[ include ../testwhile.ublu ]$ )
+    redirall ( @tmpfile $[ include ../testwhile.ublu ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~

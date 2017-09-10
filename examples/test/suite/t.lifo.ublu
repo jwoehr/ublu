@@ -48,7 +48,7 @@ FUNC t.lifo ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
     
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redir ( @tmpfile $[ include ../testlifo.ublu ]$ )
+    redirall ( @tmpfile $[ include ../testlifo.ublu ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~
