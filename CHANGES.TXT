@@ -80,6 +80,7 @@ All rights reserved.
     * t.lifo
     * t.record
     * t.SWITCH
+    * t.TRY
     * t.tuple
     * t.WHILE
     * test result browser
