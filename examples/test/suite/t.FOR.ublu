@@ -36,7 +36,7 @@ FUNC t.FOR ( work_dir testsys testrptpf ) $[
     put -to @difflist ~
     
     map -to @result
-    
+
     string -to @FILNAM -trim t.FOR.ublu
     @result -> @FILNAM
     

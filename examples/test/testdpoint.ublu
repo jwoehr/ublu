@@ -9,7 +9,7 @@ put ${ lt }$
 dpoint -- @dp -to @dp -compare lt 
 put -from @dp
 put ${ lte }$
-dpoint -- @dp -to @dp -compare lte 
+dpoint -- @dp -to @dp -compare lte
 put -from @dp
 put ${ info }$
 dpoint -- @dp -to @dp -compare info
