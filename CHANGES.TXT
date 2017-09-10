@@ -72,12 +72,15 @@ All rights reserved.
 * Testing
     * progress on the framework
     * t.DO
+    * t.dpoint
     * t.dq
     * t.FOR
+    * t.IF
     * t.LOCAL
     * t.lifo
     * t.record
-    * t.switch
+    * t.SWITCH
+    * t.tuple
     * t.WHILE
     * test result browser
 * Ubloid project started for Ublu on Android https://github/jwoehr/ubluoid
