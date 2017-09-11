@@ -88,7 +88,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     include -s t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf )     \\ ${ test LOCAL }$		
     \\ ${ include -s t.license.ublu t.license ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test license }$		
     include -s t.lifo.ublu t.lifo ( @@work_dir @testsys @testrptpf )      \\ ${ test lifo }$		
-    \\ ${ include -s t.list.ublu t.list ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test list }$		
+    include -s t.list.ublu t.list ( @@work_dir @testsys @testrptpf )      \\ ${ test list }$		
     \\ ${ include -s t.monitor.ublu t.monitor ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test monitor }$		
     \\ ${ include -s t.msg.ublu t.msg ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msg }$		
     \\ ${ include -s t.msgq.ublu t.msgq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msgq }$		

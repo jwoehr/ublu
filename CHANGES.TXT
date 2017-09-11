@@ -79,6 +79,7 @@ All rights reserved.
     * t.IF
     * t.LOCAL
     * t.lifo
+    * t.list
     * t.num
     * t.record
     * t.SWITCH
