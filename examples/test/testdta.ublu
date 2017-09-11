@@ -18,7 +18,8 @@ FUNC testdta ( myserver mylib myid mypasswd deletetf ) $[
     @mychar -initlen 8 -initval argle! -initdesc ${ test please ignore }$ -initauth *USE -create
     put -n -s value: @mychar -read
     put -n -s name: @mychar -query name
-    put -n -s sys: @mychar -query sys
+    put -n -s sys: @mychar -to ~ -query sys
+    calljava -method getSystemName -obj ~
     put -n -s length: @mychar -query length
     put -n -s path: @mychar -query path
     IF @@deletetf THEN $[
@@ -31,7 +32,8 @@ FUNC testdta ( myserver mylib myid mypasswd deletetf ) $[
     @mydec -initlen 20 -initdecpos 6 -initval 12345678901234.654321 -initdesc ${ dec test please ignore }$ -initauth *CHANGE -create
     put -n -s value: @mydec -read
     put -n -s name: @mydec -query name
-    put -n -s sys: @mydec -query sys
+    put -n -s sys:  @mydec -to ~ -query sys
+    calljava -method getSystemName -obj ~
     put -n -s length: @mydec -query length
     put -n -s path: @mydec -query path
     put -n -s decpos: @mydec -query decpos
@@ -45,7 +47,8 @@ FUNC testdta ( myserver mylib myid mypasswd deletetf ) $[
     @mylog -initval @true -initdesc ${ log test please ignore }$ -initauth *EXCLUDE -create
     put -n -s value: @mylog -read
     put -n -s name: @mylog -query name
-    put -n -s sys: @mylog -query sys
+    put -n -s sys: @mylog -to ~ -query sys
+    calljava -method getSystemName -obj ~
     put -n -s length: @mylog -query length
     put -n -s path: @mylog -query path
     put -n -s decpos: @mylog -query decpos
@@ -59,7 +62,8 @@ FUNC testdta ( myserver mylib myid mypasswd deletetf ) $[
     @myloc -write ~
     put -n -s value: @myloc -read
     put -n -s name: @myloc -query name
-    put -n -s sys: @myloc -query sys
+    put -n -s sys: @myloc -to ~ -query sys
+    calljava -method getSystemName -obj ~
     put -n -s length: @myloc -query length
     put -n -s path: @myloc -query path
     put -n -s decpos: @myloc -query decpos
