@@ -83,7 +83,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include -s t.joblist.ublu t.joblist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test joblist }$		
     \\ ${ include -s t.joblog.ublu t.joblog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test joblog }$		
     \\ ${ include -s t.jrnl.ublu t.jrnl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jrnl }$		
-    \\ ${ include -s t.json.ublu t.json ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test json }$		
+    include -s t.json.ublu t.json ( @@work_dir @testsys @testrptpf )      \\ ${ test json }$		
     \\ ${ include -s t.jvm.ublu t.jvm ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jvm }$		
     include -s t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf )     \\ ${ test LOCAL }$		
     \\ ${ include -s t.license.ublu t.license ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test license }$		
