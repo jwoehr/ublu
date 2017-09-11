@@ -74,6 +74,7 @@ All rights reserved.
     * t.DO
     * t.dpoint
     * t.dq
+    * t.dta
     * t.FOR
     * t.IF
     * t.LOCAL
