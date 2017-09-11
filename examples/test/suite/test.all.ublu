@@ -41,94 +41,94 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     tuple -assign @testrptpf ~
     @testrptpf -open RW
     
-    \\ ${ include t.as400.ublu t.as400 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test as400 }$
-    \\ ${ include t.ask.ublu t.ask ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ask }$		
-    \\ ${ include t.BREAK.ublu t.BREAK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test BREAK }$		
-    \\ ${ include t.bye.ublu t.bye ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test bye }$		
-    \\ ${ include t.CALL.ublu t.CALL ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test CALL }$		
-    \\ ${ include t.calljava.ublu t.calljava ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test calljava }$
-    \\ ${ include t.cim.ublu t.cim ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cim }$
-    \\ ${ include t.cimi.ublu t.cimi ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cimi }$
-    \\ ${ include t.collection.ublu t.collection ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test collection }$		
-    \\ ${ include t.commandcall.ublu t.commandcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test commandcall }$		
-    \\ ${ include t.const.ublu t.const ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test const }$		
-    \\ ${ include t.cs.ublu t.cs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cs }$		
-    \\ ${ include t.db.ublu t.db ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test db }$		
-    \\ ${ include t.dbug.ublu t.dbug ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dbug }$		
-    \\ ${ include t.defun.ublu t.defun ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test defun }$		
-    \\ ${ include t.dict.ublu t.dict ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dict }$		
+    \\ ${ include -s t.as400.ublu t.as400 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test as400 }$
+    \\ ${ include -s t.ask.ublu t.ask ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ask }$		
+    \\ ${ include -s t.BREAK.ublu t.BREAK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test BREAK }$		
+    \\ ${ include -s t.bye.ublu t.bye ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test bye }$		
+    \\ ${ include -s t.CALL.ublu t.CALL ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test CALL }$		
+    \\ ${ include -s t.calljava.ublu t.calljava ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test calljava }$
+    \\ ${ include -s t.cim.ublu t.cim ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cim }$
+    \\ ${ include -s t.cimi.ublu t.cimi ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cimi }$
+    \\ ${ include -s t.collection.ublu t.collection ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test collection }$		
+    \\ ${ include -s t.commandcall.ublu t.commandcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test commandcall }$		
+    \\ ${ include -s t.const.ublu t.const ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test const }$		
+    \\ ${ include -s t.cs.ublu t.cs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cs }$		
+    \\ ${ include -s t.db.ublu t.db ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test db }$		
+    \\ ${ include -s t.dbug.ublu t.dbug ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dbug }$		
+    \\ ${ include -s t.defun.ublu t.defun ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test defun }$		
+    \\ ${ include -s t.dict.ublu t.dict ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dict }$		
     include -s t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf )   \\ ${ test DO }$		
     include -s t.dpoint.ublu t.dpoint ( @@work_dir @testsys @testrptpf )      \\ ${ test dpoint }$		
     include -s t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
-    include t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf )      \\ ${ test dta }$		
-    \\ ${ include t.ELSE.ublu t.ELSE ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ELSE }$		
-    \\ ${ include t.eval.ublu t.eval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test eval }$		
-    \\ ${ include t.exit.ublu t.exit ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test exit }$		
-    \\ ${ include t.file.ublu t.file ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test file }$		
+    include -s t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf )      \\ ${ test dta }$		
+    \\ ${ include -s t.ELSE.ublu t.ELSE ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ELSE }$		
+    \\ ${ include -s t.eval.ublu t.eval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test eval }$		
+    \\ ${ include -s t.exit.ublu t.exit ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test exit }$		
+    \\ ${ include -s t.file.ublu t.file ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test file }$		
     include -s t.FOR.ublu t.FOR ( @@work_dir @testsys @testrptpf ) \\ ${ test FOR }$		
-    \\ ${ include t.ftp.ublu t.ftp ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ftp }$		
-    \\ ${ include t.FUN.ublu t.FUN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUN }$		
-    \\ ${ include t.FUNC.ublu t.FUNC ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUNC }$		
-    \\ ${ include t.gensh.ublu t.gensh ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test gensh }$		
-    \\ ${ include t.help.ublu t.help ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test help }$
-    \\ ${ include t.histlog.ublu t.histlog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test histlog }$		
-    \\ ${ include t.history.ublu t.history ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test history }$	
-    \\ ${ include t.host.ublu t.host ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test host }$		
+    \\ ${ include -s t.ftp.ublu t.ftp ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ftp }$		
+    \\ ${ include -s t.FUN.ublu t.FUN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUN }$		
+    \\ ${ include -s t.FUNC.ublu t.FUNC ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUNC }$		
+    \\ ${ include -s t.gensh.ublu t.gensh ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test gensh }$		
+    \\ ${ include -s t.help.ublu t.help ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test help }$
+    \\ ${ include -s t.histlog.ublu t.histlog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test histlog }$		
+    \\ ${ include -s t.history.ublu t.history ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test history }$	
+    \\ ${ include -s t.host.ublu t.host ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test host }$		
     include -s t.IF.ublu t.IF ( @@work_dir @testsys @testrptpf )      \\ ${ test IF }$		
-    \\ ${ include t.ifs.ublu t.ifs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ifs }$		
-    \\ ${ include t.include.ublu t.include ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test include }$		
-    \\ ${ include t.interpret.ublu t.interpret ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test interpret }$		
-    \\ ${ include t.jmx.ublu t.jmx ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jmx }$		
-    \\ ${ include t.job.ublu t.job ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test job }$		
-    \\ ${ include t.joblist.ublu t.joblist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test joblist }$		
-    \\ ${ include t.joblog.ublu t.joblog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test joblog }$		
-    \\ ${ include t.jrnl.ublu t.jrnl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jrnl }$		
-    \\ ${ include t.json.ublu t.json ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test json }$		
-    \\ ${ include t.jvm.ublu t.jvm ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jvm }$		
+    \\ ${ include -s t.ifs.ublu t.ifs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ifs }$		
+    \\ ${ include -s t.include.ublu t.include ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test include }$		
+    \\ ${ include -s t.interpret.ublu t.interpret ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test interpret }$		
+    \\ ${ include -s t.jmx.ublu t.jmx ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jmx }$		
+    \\ ${ include -s t.job.ublu t.job ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test job }$		
+    \\ ${ include -s t.joblist.ublu t.joblist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test joblist }$		
+    \\ ${ include -s t.joblog.ublu t.joblog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test joblog }$		
+    \\ ${ include -s t.jrnl.ublu t.jrnl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jrnl }$		
+    \\ ${ include -s t.json.ublu t.json ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test json }$		
+    \\ ${ include -s t.jvm.ublu t.jvm ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test jvm }$		
     include -s t.LOCAL.ublu t.LOCAL ( @@work_dir @testsys @testrptpf )     \\ ${ test LOCAL }$		
-    \\ ${ include t.license.ublu t.license ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test license }$		
+    \\ ${ include -s t.license.ublu t.license ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test license }$		
     include -s t.lifo.ublu t.lifo ( @@work_dir @testsys @testrptpf )      \\ ${ test lifo }$		
-    \\ ${ include t.list.ublu t.list ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test list }$		
-    \\ ${ include t.monitor.ublu t.monitor ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test monitor }$		
-    \\ ${ include t.msg.ublu t.msg ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msg }$		
-    \\ ${ include t.msgq.ublu t.msgq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msgq }$		
-    \\ ${ include t.num.ublu t.num ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test num }$		
-    \\ ${ include t.objlist.ublu t.objlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test objlist }$		
-    \\ ${ include t.objdesc.ublu t.objdesc ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test objdesc }$		
-    \\ ${ include t.outq.ublu t.outq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test outq }$		
-    \\ ${ include t.ppl.ublu t.ppl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ppl }$		
-    \\ ${ include t.printer.ublu t.printer ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test printer }$		
-    \\ ${ include t.programcall.ublu t.programcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test programcall }$		
-    \\ ${ include t.props.ublu t.props ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test props }$		
-    \\ ${ include t.put.ublu t.put ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test put }$		
+    \\ ${ include -s t.list.ublu t.list ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test list }$		
+    \\ ${ include -s t.monitor.ublu t.monitor ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test monitor }$		
+    \\ ${ include -s t.msg.ublu t.msg ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msg }$		
+    \\ ${ include -s t.msgq.ublu t.msgq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msgq }$		
+    \\ ${ include -s t.num.ublu t.num ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test num }$		
+    \\ ${ include -s t.objlist.ublu t.objlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test objlist }$		
+    \\ ${ include -s t.objdesc.ublu t.objdesc ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test objdesc }$		
+    \\ ${ include -s t.outq.ublu t.outq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test outq }$		
+    \\ ${ include -s t.ppl.ublu t.ppl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ppl }$		
+    \\ ${ include -s t.printer.ublu t.printer ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test printer }$		
+    \\ ${ include -s t.programcall.ublu t.programcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test programcall }$		
+    \\ ${ include -s t.props.ublu t.props ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test props }$		
+    \\ ${ include -s t.put.ublu t.put ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test put }$		
     include -s t.record.ublu t.record ( @@work_dir @testsys @testrptpf )     \\ ${ test record }$		
-    \\ ${ include t.rs.ublu t.rs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test rs }$
-    \\ ${ include t.savf.ublu t.savf ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savf }$		
-    \\ ${ include t.savef.ublu t.savef ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savef }$		
-    \\ ${ include t.savesys.ublu t.savesys ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savesys }$		
-    \\ ${ include t.server.ublu t.server ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test server }$		
-    \\ ${ include t.session.ublu t.session ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test session }$
-    \\ ${ include t.sleep.ublu t.sleep ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sleep }$		
-    \\ ${ include t.smapi.ublu t.smapi ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test smapi }$		
-    \\ ${ include t.sock.ublu t.sock ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sock }$		
-    \\ ${ include t.spoolf.ublu t.spoolf ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test spoolf }$		
-    \\ ${ include t.spoolflist.ublu t.spoolflist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test spoolflist }$		
-    \\ ${ include t.string.ublu t.string ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test string }$		
-    \\ ${ include t.subsys.ublu t.subsys ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test subsys }$		
+    \\ ${ include -s t.rs.ublu t.rs ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test rs }$
+    \\ ${ include -s t.savf.ublu t.savf ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savf }$		
+    \\ ${ include -s t.savef.ublu t.savef ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savef }$		
+    \\ ${ include -s t.savesys.ublu t.savesys ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test savesys }$		
+    \\ ${ include -s t.server.ublu t.server ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test server }$		
+    \\ ${ include -s t.session.ublu t.session ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test session }$
+    \\ ${ include -s t.sleep.ublu t.sleep ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sleep }$		
+    \\ ${ include -s t.smapi.ublu t.smapi ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test smapi }$		
+    \\ ${ include -s t.sock.ublu t.sock ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sock }$		
+    \\ ${ include -s t.spoolf.ublu t.spoolf ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test spoolf }$		
+    \\ ${ include -s t.spoolflist.ublu t.spoolflist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test spoolflist }$		
+    \\ ${ include -s t.string.ublu t.string ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test string }$		
+    \\ ${ include -s t.subsys.ublu t.subsys ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test subsys }$		
     include -s t.SWITCH.ublu t.SWITCH ( @@work_dir @testsys @testrptpf )      \\ ${ test SWITCH }$		
-    \\ ${ include t.system.ublu t.system ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test system }$		
-    \\ ${ include t.sysval.ublu t.sysval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sysval }$		
-    \\ ${ include t.TASK.ublu t.TASK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test TASK }$		
-    \\ ${ include t.test.ublu t.test ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test test }$		
-    \\ ${ include t.thread.ublu t.thread ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test thread }$		
-    \\ ${ include t.THEN.ublu t.THEN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test THEN }$		
-    \\ ${ include t.THROW.ublu t.THROW ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test THROW }$		
-    \\ ${ include t.tn5250.ublu t.tn5250 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test tn5250 }$		
-    \\ ${ include t.trace.ublu t.trace ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test trace }$		
+    \\ ${ include -s t.system.ublu t.system ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test system }$		
+    \\ ${ include -s t.sysval.ublu t.sysval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test sysval }$		
+    \\ ${ include -s t.TASK.ublu t.TASK ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test TASK }$		
+    \\ ${ include -s t.test.ublu t.test ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test test }$		
+    \\ ${ include -s t.thread.ublu t.thread ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test thread }$		
+    \\ ${ include -s t.THEN.ublu t.THEN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test THEN }$		
+    \\ ${ include -s t.THROW.ublu t.THROW ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test THROW }$		
+    \\ ${ include -s t.tn5250.ublu t.tn5250 ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test tn5250 }$		
+    \\ ${ include -s t.trace.ublu t.trace ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test trace }$		
     include -s t.TRY.ublu t.TRY ( @@work_dir @testsys @testrptpf )      \\ ${ test TRY }$		
     include -s t.tuple.ublu t.tuple ( @@work_dir @testsys @testrptpf )      \\ ${ test tuple }$		
-    \\ ${ include t.user.ublu t.user ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test user }$		
-    \\ ${ include t.userlist.ublu t.userlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test userlist }$		
+    \\ ${ include -s t.user.ublu t.user ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test user }$		
+    \\ ${ include -s t.userlist.ublu t.userlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test userlist }$		
     include -s t.WHILE.ublu t.WHILE ( @@work_dir @testsys @testrptpf )     \\ ${ test WHILE }$
     
     @testrptpf -close
