@@ -92,7 +92,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include -s t.monitor.ublu t.monitor ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test monitor }$		
     \\ ${ include -s t.msg.ublu t.msg ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msg }$		
     \\ ${ include -s t.msgq.ublu t.msgq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test msgq }$		
-    \\ ${ include -s t.num.ublu t.num ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test num }$		
+    include -s t.num.ublu t.num ( @@work_dir @testsys @testrptpf )      \\ ${ test num }$		
     \\ ${ include -s t.objlist.ublu t.objlist ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test objlist }$		
     \\ ${ include -s t.objdesc.ublu t.objdesc ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test objdesc }$		
     \\ ${ include -s t.outq.ublu t.outq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test outq }$		
