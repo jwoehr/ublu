@@ -60,7 +60,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     include -s t.DO.ublu t.DO ( @@work_dir @testsys @testrptpf )   \\ ${ test DO }$		
     include -s t.dpoint.ublu t.dpoint ( @@work_dir @testsys @testrptpf )      \\ ${ test dpoint }$		
     include -s t.dq.ublu t.dq ( @@work_dir @testsys @testrptpf )     \\ ${ test dq }$		
-    \\ ${ include t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test dta }$		
+    include t.dta.ublu t.dta ( @@work_dir @testsys @testrptpf )      \\ ${ test dta }$		
     \\ ${ include t.ELSE.ublu t.ELSE ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ELSE }$		
     \\ ${ include t.eval.ublu t.eval ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test eval }$		
     \\ ${ include t.exit.ublu t.exit ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test exit }$		
