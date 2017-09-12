@@ -16,7 +16,8 @@ See file LICENSE for license information.
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows. It
 also can run natively on IBM i ®, IBM z/OS USS ® or any other reasonable Java
-platform.
+platform including [GnuRoot Debian](https://github.com/corbinlc/GNURootDebian)
+on your Android ® device.
 
 I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows to
 perform ad-hoc process automation primarily on IBM i Series OS ®. I was
