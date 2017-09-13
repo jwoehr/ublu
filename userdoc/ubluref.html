@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 10 Sep 2017 22:58:49 UTC">
+  "Thu, 14 Sep 2017 22:58:49 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -64,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-10</p>
+  Last edit: 2017-09-14</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -14306,15 +14305,19 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist]
-    [-lib libspec ] [-name objname] [-type objtype]
-    [-new,-instance] [-list]&nbsp; : retrieve a (filtered) object
-    list</tt><br>
-    <br>
-    The objlist command retrieves a ObjectList of OS400 objects
-    from the host.<br>
-    <br>
-    The operations are as follows:
+    <p><code>/0 [-as400 ~@as400] [-to datasink] [--,-objlist
+    ~@objlist] [-lib libspec ] [-name objname] [-type objtype]
+    [-asp ~@{ALL|ALLAVL|CURASPGRP|SYSBAS}] [-new,-instance] [-list]
+    : retrieve a (filtered) object list</code>
+    </p>
+
+
+    <p>The objlist command retrieves a ObjectList of OS400 objects
+    from the host.</p>
+
+
+    <p>The operations are as follows:</p>
+
 
     <ul>
       <li>
@@ -14330,6 +14333,28 @@ exit <span class="syntax-KEYWORD2">$?</span>
           <li>Generics are supported, e.g., if you are looking for
           an object with a name of either HAPPY or HAPLESS, you can
           use <tt>-name HAP*</tt>.</li>
+        </ul>
+      </li>
+
+
+      <li>
+        <code>-asp ~@{ALL|ALLAVL|CURASPGRP|SYSBAS</code> indicates
+        which ASP group(s) the object(s) are to be found
+
+        <ul>
+          <li><code>ALL</code> - The ASPs in the thread's library
+          name space.</li>
+
+
+          <li><code>ALLAVL</code> - All available ASPs.</li>
+
+
+          <li><code>CURASPGRP</code> - The ASPs in the current
+          thread's ASP group.</li>
+
+
+          <li><code>SYSBAS</code> - The system ASP (ASP 1) and
+          defined basic user ASPs (ASPs 2-32).</li>
         </ul>
       </li>
 

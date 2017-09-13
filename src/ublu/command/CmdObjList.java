@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +47,7 @@ import java.util.logging.Level;
 public class CmdObjList extends Command {
 
     {
-        setNameAndDescription("objlist", "/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist] [-lib libspec ] [-name objname] [-type objtype] [-new,-instance] [-list]  : retrieve a (filtered) object list");
+        setNameAndDescription("objlist", "/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist] [-lib libspec ] [-name objname] [-type objtype] [-asp ~@{ALL|ALLAVL|CURASPGRP|SYSBAS}] [-new,-instance] [-list]  : retrieve a (filtered) object list");
 
     }
 
@@ -81,6 +83,7 @@ public class CmdObjList extends Command {
         String libspec = "*ALL";
         String objname = "*ALL";
         String objtype = "*ALL";
+        String aspDevName = ObjectList.ASP_NAME_ALL;
         ObjectList objList = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -96,14 +99,16 @@ public class CmdObjList extends Command {
                     objList = argArray.nextTupleOrPop().value(ObjectList.class);
                     break;
                 case "-lib":
-                    libspec = argArray.nextMaybeQuotationTuplePopString();
+                    libspec = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-name":
-                    objname = argArray.nextMaybeQuotationTuplePopString();
+                    objname = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-type":
-                    objtype = argArray.nextMaybeQuotationTuplePopString();
+                    objtype = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
+                case "-asp":
+                    aspDevName = aspDeviceName(argArray.nextMaybeQuotationTuplePopStringTrim());
                 case "-list":
                     op = OPS.LIST;
                     break;
@@ -124,15 +129,20 @@ public class CmdObjList extends Command {
                         getLogger().log(Level.SEVERE, "No as400 instance provided in {0}", getNameAndDescription());
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        objList = new ObjectList(getAs400(), libspec, objname, objtype);
-                        try {
-                            put(objList);
-                        } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
-                            getLogger().log(Level.SEVERE, "Exception putting objlist in " + getNameAndDescription(), ex);
+                        if (aspDevName == null) {
+                            getLogger().log(Level.SEVERE, "Unknown ASP selector provided in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } catch (SQLException ex) {
-                            getLogger().log(Level.SEVERE, "SQL Exception putting objlist in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            objList = new ObjectList(getAs400(), libspec, objname, objtype, aspDevName);
+                            try {
+                                put(objList);
+                            } catch (AS400SecurityException | RequestNotSupportedException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException ex) {
+                                getLogger().log(Level.SEVERE, "Exception putting objlist in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            } catch (SQLException ex) {
+                                getLogger().log(Level.SEVERE, "SQL Exception putting objlist in " + getNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                     }
                     break;
@@ -157,6 +167,27 @@ public class CmdObjList extends Command {
             }
         }
         return argArray;
+    }
+
+    private String aspDeviceName(String s) {
+        String result = null;
+        switch (s.toUpperCase()) {
+            case "ALL": // ASP_NAME_ALL - The ASPs in the thread's library name space.
+                result = ObjectList.ASP_NAME_ALL;
+                break;
+            case "ALLAVL":// ASP_NAME_ALLAVL - All available ASPs.
+                result = ObjectList.ASP_NAME_ALLAVL;
+                break;
+            case "CURASPGRP": // ASP_NAME_CURASPGRP - The ASPs in the current thread's ASP group.
+                result = ObjectList.ASP_NAME_CURASPGRP;
+                break;
+            case "SYSBAS": // ASP_NAME_SYSBAS - The system ASP (ASP 1) and defined basic user ASPs (ASPs 2-32).
+                result = ObjectList.ASP_NAME_SYSBAS;
+                break;
+            default:
+                getLogger().log(Level.SEVERE, "Unknown ASP selector {0} provided in {1}", new Object[]{s, getNameAndDescription()});
+        }
+        return result;
     }
 
     @Override
