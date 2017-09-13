@@ -32,6 +32,7 @@ All rights reserved.
     	* -geterr
     	* -seterr
     * `map` creates user tuple maps
+    * `objlist -asp`
     * `props` picks up System property ublu.usage.linelength at startup
     * `put` -# now is Long and can take tuple and pop for numberstring
     * `rs`
