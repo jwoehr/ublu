@@ -1,0 +1,110 @@
+# ux.cmdmap.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Manipulate Ublu's internal command map
+#
+# I wrote this when running Ublu under GnuRoot Debian on Android which
+# lacks java.sql.SQLType class, which made the Ublu 'help' command crash
+# Ublu when it went to load the ublu.command.CmdCs class.
+#
+# Example usage:
+#
+# help -- cs
+#
+# cs /4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call]
+# [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} 
+# ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]]                     
+# : instance and execute callable statements which JDBC uses to execute SQL stored procedures                            
+#                                                                                                                        
+# removeCommand ( cs )                                                                                                    
+#                                                                                                                       
+# help -- cs                                                                                                              
+# No such command or functor: cs 
+#
+# putCommand ( cs ~ )
+# help -- cs
+#
+# cs /4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call]
+# [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} 
+# ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]]                     
+# : instance and execute callable statements which JDBC uses to execute SQL stored procedures                            
+# 
+
+# Push the Ublu class
+FUNC pushUblu ( ) $[
+    calljava -to ~ -forname ublu.Ublu
+]$
+
+# Push the main interpreter for an Ublu instance 
+FUNC pushInterp ( ublu ) $[
+    calljava -to ~ -method getMainInterpreter -obj @@ublu
+]$
+
+# Push the command map for a given interpreter  
+FUNC pushCmdMap ( interp ) $[
+    calljava -to ~ -method getCmdMap -obj @@interp
+]$
+
+# Push the command map for Ublu's main interpreter  
+FUNC pushCommandMap ( ) $[
+  pushUblu ( )
+  pushInterp ( ~ )
+  pushCmdMap ( ~ )
+]$
+
+# Remove a given command name from a given command map,
+# pushing the removed mapped command class  
+FUNC rmvPushCmd ( cmdname cmdmap ) $[
+    LOCAL @thecmdname
+    put -to @thecmdname @@cmdname
+    calljava -to ~ -obj @@cmdmap -method remove -arg @thecmdname
+]$
+
+# Put a command class to a command map keyed to given command name  
+FUNC putCmd ( cmdname cmd cmap ) $[
+    LOCAL @thecmdname LOCAL @thecmd LOCAL @thecmdmap
+    put -to @thecmdname @@cmdname
+    tuple -assign @thecmd @@cmd
+    tuple -assign @thecmdmap @@cmap
+    calljava -to NULL: -obj @thecmdmap -method put -arg @thecmdname -arg @thecmd
+]$
+
+# Find a command name in a command map and push the command class  
+FUNC pushCmd ( cmdname cmdmap ) $[
+    LOCAL @thecmdname LOCAL @thecmdmap
+    put -to @thecmdname @@cmdname
+    tuple -assign @thecmdmap @@cmdmap
+    calljava -to ~ -obj @thecmdmap -method get -castarg @thecmdname java.lang.Object
+]$
+
+# Find a command in the main interpreter and push its command class  
+FUNC pushCommand ( cmdname ) $[
+    pushUblu ( )
+    pushInterp ( ~ )
+    pushCmdMap ( ~ )
+    pushCmd ( @@cmdname ~ )    
+]$  
+  
+# Remove a command from the main interpreter's command map,
+# pushing its command class 
+FUNC removeCommand ( cmdname ) $[
+    pushUblu ( )
+    pushInterp ( ~ )
+    pushCmdMap ( ~ )
+    rmvPushCmd ( @@cmdname ~ )
+]$
+
+# Put a command class to the main interpreter's command map
+# keyed to a command name  
+FUNC putCommand ( cmdname cmd ) $[
+    LOCAL @thecmd LOCAL @thecmdname
+    put -to @thecmdname @@cmdname
+    tuple -assign @thecmd @@cmd
+    pushCommandMap ( )
+    putCmd ( @thecmdname @thecmd ~ )
+]$    
+   
+# end
