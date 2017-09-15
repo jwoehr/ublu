@@ -16,4 +16,4 @@ put -to ~ ${ this is token 3 }$
 \\ ${ }$
 testTokenPaste ( @tok1 ${ this is token 2 }$ ~ )
 
-tuple -map
+# end
