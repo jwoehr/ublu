@@ -81,6 +81,7 @@ All rights reserved.
     * t.dq
     * t.dta
     * t.FOR
+    * t.FUNC
     * t.IF
     * t.LOCAL
     * t.lifo
