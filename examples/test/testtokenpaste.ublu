@@ -1,0 +1,19 @@
+# testtokenpaste.ublu
+
+# regression test for fixed error in parameter substitution regex
+# clobbering longer params after short params which are substrings of
+# longer param
+
+FUNC testTokenPaste ( a aa aaa ) $[
+    put @@a
+    put @@aa
+    put @@aaa
+]$
+
+put -to @tok1 ${ this is token 1 }$
+put -to ~ ${ this is token 3 }$
+
+\\ ${ }$
+testTokenPaste ( @tok1 ${ this is token 2 }$ ~ )
+
+tuple -map
