@@ -39,7 +39,7 @@ FUNC t.FOR ( work_dir testsys testrptpf ) $[
 
     string -to @FILNAM -trim t.FOR.ublu
     @result -> @FILNAM
-    
+
     string -to @DESC -cat ${ testfor:test nested FOR loops:diff in }$ @difflist
     @result -> @DESC
     
