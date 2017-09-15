@@ -64,11 +64,11 @@ FUNC rmvPushCmd ( cmdname cmdmap ) $[
 ]$
 
 # Put a command class to a command map keyed to given command name  
-FUNC putCmd ( cmdname cmd cmap ) $[
+FUNC putCmd ( cmdname cmd cmdmap ) $[
     LOCAL @thecmdname LOCAL @thecmd LOCAL @thecmdmap
     put -to @thecmdname @@cmdname
     tuple -assign @thecmd @@cmd
-    tuple -assign @thecmdmap @@cmap
+    tuple -assign @thecmdmap @@cmdmap
     calljava -to NULL: -obj @thecmdmap -method put -arg @thecmdname -arg @thecmd
 ]$
 
