@@ -149,8 +149,8 @@ public class Functor implements Serializable {
         String s = getBlock();
         String y;
         for (int i = 0; i < fpl.size(); i++) {
-            String rgx = "@@" + fpl.get(i);
-            y = s.replaceAll(rgx, tnl.get(i));
+            String rgx = "@@" + fpl.get(i) + "\\s";
+            y = s.replaceAll(rgx, tnl.get(i) + " ");
             s = y;
             // /* Debug */ System.err.println("block after ParamSubstitutionTuple replacement " + s);
         }
