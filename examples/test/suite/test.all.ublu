@@ -68,7 +68,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     include -s t.FOR.ublu t.FOR ( @@work_dir @testsys @testrptpf ) \\ ${ test FOR }$		
     \\ ${ include -s t.ftp.ublu t.ftp ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ftp }$		
     \\ ${ include -s t.FUN.ublu t.FUN ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUN }$		
-    \\ ${ include -s t.FUNC.ublu t.FUNC ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test FUNC }$		
+    include -s t.FUNC.ublu t.FUNC ( @@work_dir @testsys @testrptpf )     \\ ${ test FUNC }$		
     \\ ${ include -s t.gensh.ublu t.gensh ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test gensh }$		
     \\ ${ include -s t.help.ublu t.help ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test help }$
     \\ ${ include -s t.histlog.ublu t.histlog ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test histlog }$		
