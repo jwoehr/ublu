@@ -4,10 +4,13 @@ All rights reserved.
 
 1.1.8
 -----
-* Optimizations
-    * various
+* System
+    * Fixed bug in function argument token pasting ... a tuple in the list
+      with a longer name than a previous element in the list where the prev
+      element was a substring of the longer name got clobbered by the regex.
     * string parsing now assimilates a block as well as a quotation
     * better Goublu support
+    * some optimizations
 * Documentation
     * Explained how to make SSL connection 
     * Guide enhanced
