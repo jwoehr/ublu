@@ -37,7 +37,7 @@ FUNC t.FUNC ( work_dir testsys testrptpf ) $[
     
     map -to @result
 
-    string -to @FILNAM -trim t.FOR.ublu
+    string -to @FILNAM -trim t.FUNC.ublu
     @result -> @FILNAM
     
     string -to @DESC -cat ${ testtokenpaste:test func parameter token pasting:diff in }$ @difflist
