@@ -48,7 +48,7 @@ FUNC t.LOCAL ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
     
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redirall ( @tmpfile $[ include ../testnewbind.ublu ]$ )
+    redirall ( @tmpfile $[ include -s ../testnewbind.ublu ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~
