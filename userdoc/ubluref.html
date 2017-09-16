@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 14 Sep 2017 22:58:49 UTC">
+  "Sun, 17 Sep 2017 22:58:49 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-14</p>
+  Last edit: 2017-09-17</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -11410,11 +11411,15 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <p><tt>/3 [-as400 ~@as400] [-to datasink] [-username userfilter
-    ] [-jobname jobfilter] [-jobnumber jobnumfilter] [-jobtype
-    JOBTYPE] [-active [-disconnected]] system userid
-    password</tt><br>
-    retrieves a joblist from <em>system</em> on behalf of
+    <p><code>/3? [-as400 ~@as400] [-to datasink] [-username
+    ~@{userfilter}] [-jobname ~@{jobfilter}] [-jobnumber
+    ~@{jobnumfilter}] [-jobtype ~@{jobtype}] [-active
+    [-disconnected]] system userid passwd : retrieve a (filtered)
+    joblist</code>
+    </p>
+    &gt;
+
+    <p>retrieves a joblist from <em>system</em> on behalf of
     <em>userid</em> with <em>password</em> filtered by the filters
     indicated by the dash-commands <tt>-username -jobname</tt>
     and/or <tt>-jobnumber</tt>. Output is to standard out unless
@@ -11429,7 +11434,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
     <p>The <tt>-jobtype</tt> dash-command takes one of the
-    following for its <tt>JOBTYPE</tt> argument:<br></p>
+    following for its <em>jobtype</em> argument:</p>
 
 
     <ul>
