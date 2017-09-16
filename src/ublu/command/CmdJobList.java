@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +48,7 @@ import java.util.logging.Level;
 public class CmdJobList extends Command {
 
     {
-        setNameAndDescription("joblist", "/3? [-as400 ~@as400] [-to datasink] [-username userfilter ] [-jobname jobfilter] [-jobnumber jobnumfilter] [-jobtype JOBTYPE] [-active [-disconnected]] system userid passwd : retrieve a (filtered) joblist");
+        setNameAndDescription("joblist", "/3? [-as400 ~@as400] [-to datasink] [-username ~@{userfilter}] [-jobname ~@{jobfilter}] [-jobnumber ~@{jobnumfilter}] [-jobtype ~@{jobtype}] [-active [-disconnected]] system userid passwd : retrieve a (filtered) joblist");
 
     }
 
@@ -80,16 +82,16 @@ public class CmdJobList extends Command {
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
                 case "-username":
-                    username = argArray.nextMaybeTupleString();
+                    username = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-jobname":
-                    jobname = argArray.nextMaybeTupleString();
+                    jobname = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-jobnumber":
-                    jobnumber = argArray.nextMaybeTupleString();
+                    jobnumber = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-jobtype":
-                    jobtype = argArray.nextMaybeTupleString();
+                    jobtype = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-active":
                     active = true;
@@ -150,7 +152,7 @@ public class CmdJobList extends Command {
     }
 
     private void setSelectionActiveJobStatus(JobList jl, String jobtype) throws PropertyVetoException {
-        switch (jobtype) {
+        switch (jobtype.toUpperCase()) {
             case "AUTOSTART":
                 jl.addJobSelectionCriteria(JobList.SELECTION_JOB_TYPE, Job.JOB_TYPE_AUTOSTART);
                 break;
