@@ -47,7 +47,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include -s t.bye.ublu t.bye ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test bye }$		
     \\ ${ include -s t.CALL.ublu t.CALL ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test CALL }$		
     \\ ${ include -s t.calljava.ublu t.calljava ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test calljava }$
-    \\ ${ include -s t.cim.ublu t.cim ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cim }$
+    include -s t.cim.ublu t.cim ( @@work_dir @testsys @testrptpf )      \\ ${ test cim }$
     \\ ${ include -s t.cimi.ublu t.cimi ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test cimi }$
     \\ ${ include -s t.collection.ublu t.collection ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test collection }$		
     \\ ${ include -s t.commandcall.ublu t.commandcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test commandcall }$		

@@ -16,6 +16,8 @@ const *t_library MYLIB              # test library on IBM i system
 const *t_sourcepf MYSRCPF           # source phys file for record file tests
 const *t_sourcembr MYSRCMBR         # member to use for record file tests
 const *t_dataq MYDATAQ              # data queue to test on
+const *t_cimurl https://MYSYSTEM:5989   # Common Info Model URL
+const *t_cimdomain root/cimv2       # Common Info Model domain
 
 # Using ssl is of course the default.
 tuple -true @ssl 
