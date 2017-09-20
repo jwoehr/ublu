@@ -101,7 +101,8 @@ public class LocaleHelper {
      */
     public LocaleHelper(LocaleHelper lh) {
         setLocale(lh.currentLocale.getLanguage(), lh.currentLocale.getCountry());
-        setMessageBundle(lh.messages.getBaseBundleName());
+        // /* 1.8 */ setMessageBundle(lh.messages.getBaseBundleName());
+        this.messages = lh.messages;
     }
 
     /**
