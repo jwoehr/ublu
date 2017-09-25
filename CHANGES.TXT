@@ -5,6 +5,7 @@ All rights reserved.
 1.1.8
 -----
 * System
+	* JTOpen 9.4
     * Fixed bug in function argument token pasting ... a tuple in the list
       with a longer name than a previous element in the list where the prev
       element was a substring of the longer name got clobbered by the regex.
