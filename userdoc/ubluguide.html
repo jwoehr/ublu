@@ -15,7 +15,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Sat, 2 Sep 2017 02:53:27 UTC">
+  "Sun, 24 Sep 2017 22:53:27 UTC">
 </head>
 
 <body>
@@ -247,6 +247,10 @@
 
 
         <li><a href="#Ublu_as_window">Running Ublu as a window</a>
+        </li>
+
+
+        <li><a href="#Ublu_Android">Running Ublu on Android</a>
         </li>
 
 
@@ -3602,6 +3606,89 @@ UbluInputAreaFGColor=ff36b80b</code>
   prompts graphically instead of to the console. See the Ublu
   Reference on the <a href="ubluref.html/#props">props</a>
   command.</p>
+
+
+  <h2><a name="Ublu_Android">Running Ublu on Android</a>
+  </h2>
+
+
+  <p>Ublu can run under <a href=
+  "https://github.com/corbinlc/GNURootDebian">GnuRoot
+  Debian</a>.</p>
+
+
+  <ol>
+    <li>Install GnuRoot Debian</li>
+
+
+    <li>Open a GnuRoot Debian terminal</li>
+
+
+    <li>Finish install steps as prompted</li>
+
+
+    <li>Test Xwindowing support to confirm install of base system
+    finished</li>
+
+
+    <li><code>apt-get upgrade</code>
+    </li>
+
+
+    <li><code>apt update</code>
+    </li>
+
+
+    <li><code>apt upgrade</code>
+    </li>
+
+
+    <li>
+      <code>apt install jedit</code>
+
+      <ul>
+        <li>This is the quickest way I have found to install Java
+        under GnuRoot Debian.</li>
+      </ul>
+    </li>
+
+
+    <li>Use ssh to copy your Ublu .zip archive to a directory such
+    as <code>/opt/ublu</code></li>
+
+
+    <li>Unpack archive</li>
+
+
+    <li>Run Ublu from the terminal or open XWindows to run Ublu in
+    a Window</li>
+  </ol>
+
+
+  <p>Learning GnuRoot Debian can require some patience. You may
+  have to install manually via <code>apt</code> or
+  <code>apt-get</code> some packages I have not mentioned
+  above.</p>
+
+
+  <table>
+    <tr>
+      <td><img src="images/Screenshot_2017-09-14-09-56-18.png"
+      width="360" height="640" alt=
+      "Ublu in a terminal under GnuRoot Debian on Android">
+      </td>
+
+      <td><img src="images/Screenshot_2017-09-12-17-05-56.png"
+      width="375" height="640" alt=
+      "Ublu in an xterm under GnuRoot Debian on Android">
+      </td>
+
+      <td><img src="images/Screenshot_2017-09-15-22-06-44.png"
+      width="1024" height="600" alt=
+      "Ublu in a window under GnuRoot Debian on Android">
+      </td>
+    </tr>
+  </table>
 
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
