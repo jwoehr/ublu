@@ -414,6 +414,23 @@ public abstract class Db {
      * Create a Statement for use with a query via Statement.execute(String
      * sqlQuery).
      * <p>
+     * The statement is instanced with the scroll sensitivy and updatability
+     * desired.</p>
+     *
+     * @param resultSetType scroll sensitivity per {@link java.sql.ResultSet}
+     * @param resultSetConcurrency updatability per {@link java.sql.ResultSet}
+     * @param resultSetHoldability holdability per {@link java.sql.ResultSet}
+     * @return the Statement
+     * @throws SQLException
+     */
+    public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+        return getConnection().createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
+    }
+
+    /**
+     * Create a Statement for use with a query via Statement.execute(String
+     * sqlQuery).
+     * <p>
      * The statement is instanced with scroll insensitivy and no updatability.
      * This is the simplest, for read-only-once ResultSets or no result
      * sets.</p>
