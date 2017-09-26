@@ -126,25 +126,27 @@ public class CmdGenSh extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else if (argArray.size() < 3) {
-            logArgArrayTooShortError(argArray);
-            setCommandResult(COMMANDRESULT.FAILURE);
         } else if (getCommandResult() != COMMANDRESULT.FAILURE) {
-            genSh.setStrictPosix(strictPosix);
-            String scriptname = argArray.nextMaybeQuotationTuplePopString();
-            String includename = argArray.nextMaybeQuotationTuplePopString();
-            String functionInvocation = argArray.nextMaybeQuotationTuplePopString();
-            genSh.setScriptName(scriptname);
-            genSh.accumulateCommandQuoted(scriptname);
-            genSh.setIncludeName(includename);
-            genSh.accumulateCommand(includename);
-            genSh.setFunctionInvocation(functionInvocation);
-            genSh.accumulateCommandQuoted(functionInvocation);
-            try {
-                put(genSh.genSh());
-            } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                getLogger().log(Level.SEVERE, "Could not put script in " + getNameAndDescription(), ex);
+            if (argArray.size() < 3) {
+                logArgArrayTooShortError(argArray);
                 setCommandResult(COMMANDRESULT.FAILURE);
+            } else {
+                genSh.setStrictPosix(strictPosix);
+                String scriptname = argArray.nextMaybeQuotationTuplePopString();
+                String includename = argArray.nextMaybeQuotationTuplePopString();
+                String functionInvocation = argArray.nextMaybeQuotationTuplePopString();
+                genSh.setScriptName(scriptname);
+                genSh.accumulateCommandQuoted(scriptname);
+                genSh.setIncludeName(includename);
+                genSh.accumulateCommand(includename);
+                genSh.setFunctionInvocation(functionInvocation);
+                genSh.accumulateCommandQuoted(functionInvocation);
+                try {
+                    put(genSh.genSh());
+                } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                    getLogger().log(Level.SEVERE, "Could not put script in " + getNameAndDescription(), ex);
+                    setCommandResult(COMMANDRESULT.FAILURE);
+                }
             }
         }
         return argArray;
