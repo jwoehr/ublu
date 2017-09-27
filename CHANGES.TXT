@@ -4,6 +4,10 @@ All rights reserved.
 
 1.1.9
 -----
+* Commands
+	* `num` Remove 1.8-ism
+* Testing
+	* Test suite now runs on Android
 
 1.1.8 2017-09-27
 -----
