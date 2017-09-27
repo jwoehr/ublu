@@ -65,7 +65,15 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
+                "/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] "
+                + "[-qopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] "
+                + "[-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} "
+                + "| -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata "
+                + "| -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} "
+                + "| -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} "
+                + "| -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] "
+                + "[-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] "
+                + "~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
@@ -269,6 +277,34 @@ public class CmdDb extends Command {
         this.sqlQuery = sqlQuery;
     }
 
+    Integer resultSetType = ResultSet.TYPE_SCROLL_SENSITIVE;
+    Integer resultSetConcurrency = ResultSet.CONCUR_UPDATABLE;
+    Integer resultSetHoldability = null;
+
+    private Integer getResultSetType() {
+        return resultSetType;
+    }
+
+    private void setResultSetType(Integer resultSetType) {
+        this.resultSetType = resultSetType;
+    }
+
+    private Integer getResultSetConcurrency() {
+        return resultSetConcurrency;
+    }
+
+    private void setResultSetConcurrency(Integer resultSetConcurrency) {
+        this.resultSetConcurrency = resultSetConcurrency;
+    }
+
+    private Integer getResultSetHoldability() {
+        return resultSetHoldability;
+    }
+
+    private void setResultSetHoldability(Integer resultSetHoldability) {
+        this.resultSetHoldability = resultSetHoldability;
+    }
+
     /**
      * Execute a db operation
      *
@@ -285,9 +321,8 @@ public class CmdDb extends Command {
         String destDatabaseName = "";
         String destUser = "";
         String destPassword = "";
-        PrimaryKeyList primaryKeyList = new PrimaryKeyList(); // used by REPLICATE
-        //
-        while (argArray.hasDashCommand()) {
+        PrimaryKeyList primaryKeyList = new PrimaryKeyList(); // used by REPLICATE       
+        while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
                 case "-to":
@@ -385,13 +420,16 @@ public class CmdDb extends Command {
                     setFunction(FUNCTIONS.QUERY_NORS);
                     setSqlQuery(argArray.nextMaybeQuotationTuplePopString());
                     break;
+                case "-qopt":
+                    resultSetOption(argArray.nextMaybeQuotationTuplePopStringTrim());
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else {
+        } else if (getCommandResult() != COMMANDRESULT.FAILURE) {
             if (!getDb().isConnected()) {
                 if (argArray.size() < 4) { // here's where we fall out if new ArgArray()
                     logArgArrayTooShortError(argArray);
@@ -460,7 +498,12 @@ public class CmdDb extends Command {
                             break;
                         case QUERY:
                             // /* Debug */ getLogger().log(Level.INFO, "The query is {0}", getSqlQuery());
-                            Statement statement = getDb().createScrollableUpdateableStatement();
+                            Statement statement;
+                            if (resultSetHoldability == null) {
+                                statement = getDb().createStatement(getResultSetType(), getResultSetConcurrency());
+                            } else {
+                                statement = getDb().createStatement(getResultSetType(), getResultSetConcurrency(), getResultSetHoldability());
+                            }
                             rs = statement.executeQuery(getSqlQuery());
                             rsc = new ResultSetClosure(getDb(), rs, statement);
                             // put(rsc, charsetName == null ? charsetNameFromDb() : charsetName);
@@ -555,6 +598,35 @@ public class CmdDb extends Command {
                 charsetName = "ASCII";
         }
         return charsetName;
+    }
+
+    private void resultSetOption(String s) {
+        switch (s.toLowerCase()) {
+            case "close":
+                setResultSetHoldability(ResultSet.CLOSE_CURSORS_AT_COMMIT);
+                break;
+            case "hold":
+                setResultSetHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                break;
+            case "ro":
+                setResultSetConcurrency(ResultSet.CONCUR_READ_ONLY);
+                break;
+            case "update":
+                setResultSetConcurrency(ResultSet.CONCUR_UPDATABLE);
+                break;
+            case "forward":
+                setResultSetType(ResultSet.TYPE_FORWARD_ONLY);
+                break;
+            case "insensitive":
+                setResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE);
+                break;
+            case "sensitive":
+                setResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE);
+                break;
+            default:
+                getLogger().log(Level.SEVERE, "unknown qopt {0} in {1}", new Object[]{s, getNameAndDescription()});
+                setCommandResult(COMMANDRESULT.FAILURE);
+        }
     }
 
     @Override

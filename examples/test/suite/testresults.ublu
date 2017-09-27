@@ -52,8 +52,10 @@ FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
     
     chooseBrowse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS @PASSRS @FAILRS )
     
-        @PASSRS -close
-        @FAILRS -close
+        \\ ${ @PASSRS -close }$
+        \\ ${ @FAILRS -close }$
+        \\ ${ Apparently not necessary to close where the RS is RO }$
+        
         @DB -disconnect
     @SYSTEM -disconnect
 
@@ -83,7 +85,7 @@ FUNC selectPassFail ( dbinst filename passfail ) $[
             @q -to @q -cat 'F'
     ]$
       
-    @@dbinst -to ~ -query @q
+    @@dbinst -to ~ -qopt ro -query @q
 ]$
   
 # Get the file  

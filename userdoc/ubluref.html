@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 23 Sep 2017 23:09:49 UTC">
+  "Wed, 27 Sep 2017 00:34:35 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-09-20</p>
+  Last edit: 2017-09-26</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -5212,17 +5212,19 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
   <blockquote>
     <tt>/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type}
-    [-charsetname ~@{charsetname}] [-catalog | -columnnames
-    ~@{tablename} | -columntypes ~@{tablename} | -connect | -csv
-    ~@{tablename} [-separator ~@{separator} ] | -json ~@{tablename}
-    | -disconnect | -metadata | -primarykeys ~@{tablename} | -query
-    ~@{SQL string} | -query_nors ~@{SQL string} | -replicate
-    ~@{tableName} ~@{destDbName} ~@{destDbType}
-    ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star
-    ~@{tablename}] [-pklist ~@{ space separated primary keys }]
-    [-port ~@{portnum] [-property ~@{key} ~@{value} [-property
-    ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid}
-    ~@{password} : perform various operations on databases</tt><br>
+    [-charsetname ~@{charsetname}] [-qopt
+    ~@{close|hold|ro|update|forward|insensitive|sensitive}]
+    [-catalog | -columnnames ~@{tablename} | -columntypes
+    ~@{tablename} | -connect | -csv ~@{tablename} [-separator
+    ~@{separator} ] | -json ~@{tablename} | -disconnect | -metadata
+    | -primarykeys ~@{tablename} | -query ~@{SQL string} |
+    -query_nors ~@{SQL string} | -replicate ~@{tableName}
+    ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser}
+    ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space
+    separated primary keys }] [-port ~@{portnum] [-property ~@{key}
+    ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system}
+    ~@{database} ~@{userid} ~@{password} : perform various
+    operations on databases</tt><br>
     <br>
     The <tt>db</tt> command performs a database operation on
     <em>system</em>'s <em>database</em> for <em>userid</em> with
@@ -5308,6 +5310,60 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
           <li><tt>CP037</tt>
           </li>
+        </ul>
+      </li>
+
+
+      <li>
+        <code>-qopt
+        ~@{close|hold|ro|update|forward|insensitive|sensitive}</code>
+        sets options for the <code>-query</code> result set.
+
+        <ul>
+          <li><code>close</code> : ResultSet objects with this
+          holdability will be closed when the current transaction
+          is committed.</li>
+
+
+          <li><code>hold</code> : ResultSet objects with this
+          holdability will remain open when the current transaction
+          is committed.</li>
+
+
+          <li><code>ro</code> : ResultSet object that may NOT be
+          updated</li>
+
+
+          <li><code>update</code> : ResultSet object that may be
+          updated</li>
+
+
+          <li><code>forward</code> : ResultSet object whose cursor
+          may move only forward</li>
+
+
+          <li><code>insensitive</code> : ResultSet object that is
+          scrollable but generally not sensitive to changes to the
+          data that underlies the ResultSet</li>
+
+
+          <li><code>sensitive</code> : ResultSet object that is
+          scrollable and generally sensitive to changes to the data
+          that underlies the ResultSet</li>
+        </ul>
+        The defaults are
+
+        <ul>
+          <li><code>update</code>
+          </li>
+
+
+          <li><code>sensitive</code>
+          </li>
+
+
+          <li>holdability determined by the defaults of the JDBC
+          driver</li>
         </ul>
       </li>
 
