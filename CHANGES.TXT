@@ -2,10 +2,10 @@ CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
 Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved.
 
-1.1.8
+1.1.8 2017-09-27
 -----
 * System
-	* JTOpen 9.4
+    * JTOpen 9.4
     * Fixed bug in function argument token pasting ... a tuple in the list
       with a longer name than a previous element in the list where the prev
       element was a substring of the longer name got clobbered by the regex.
