@@ -187,7 +187,7 @@ public class CmdFile extends Command {
      */
     public ArgArray doFile(ArgArray argArray) {
         FUNCTIONS function = FUNCTIONS.INSTANCE;
-        Object o; // used for unloading tuples
+//        Object o; // used for unloading tuples
         Boolean keyedNotSequential = null;
 //        Tuple fileTuple;
         Tuple formatTuple = null;
@@ -239,7 +239,7 @@ public class CmdFile extends Command {
                     keyedNotSequential = false;
                     break;
                 case "-add":
-                    function=FUNCTIONS.ADD;
+                    function = FUNCTIONS.ADD;
                     pfmName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     pfmDesc = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
@@ -403,7 +403,7 @@ public class CmdFile extends Command {
                 case ADD:
                     if (aS400File != null) {
                         try {
-                            aS400File.addPhysicalFileMember(pfmName,pfmDesc);
+                            aS400File.addPhysicalFileMember(pfmName, pfmDesc);
                         } catch (IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException ex) {
                             getLogger().log(Level.SEVERE,
                                     "Encountered an exception adding member " + pfmName + " to AS400File in " + getNameAndDescription(), ex);
