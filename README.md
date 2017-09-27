@@ -43,9 +43,9 @@ Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/
 
 The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is [version 1.1.7](https://github.com/jwoehr/ublu/releases/tag/v1.1.7).
+The latest release version of Ublu is [version 1.1.8](https://github.com/jwoehr/ublu/releases/tag/v1.1.8).
 
-The tip of the master branch calls itself 1.1.7+ as we head for 1.1.8
+The tip of the master branch calls itself 1.1.8+ as we head for 1.1.9
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -104,4 +104,4 @@ that hosts the Ublu forum.
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
 
-Jack Woehr 2017-09-26
+Jack Woehr 2017-09-27
