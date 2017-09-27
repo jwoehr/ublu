@@ -101,4 +101,6 @@ Discuss Ublu in the [IBMiOSS Ublu forum on Ryver](https://ibmioss.ryver.com/inde
 Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
 
-Jack Woehr 2017-07-05
+![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
+
+Jack Woehr 2017-09-26
