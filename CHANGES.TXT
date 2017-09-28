@@ -8,6 +8,8 @@ All rights reserved.
 	* `num` Remove 1.8-ism
 * Testing
 	* Test suite now runs on Android
+* Windowing
+	* command-line recall better
 
 1.1.8 2017-09-27
 -----
