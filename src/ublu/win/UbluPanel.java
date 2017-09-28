@@ -58,8 +58,8 @@ public class UbluPanel extends javax.swing.JPanel {
     private String foreCommand() {
         String result = "";
         if (commands.size() > 0) {
-            result = commands.get(pointer);
             incPointer();
+            result = commands.get(pointer);
         }
         return result;
     }
@@ -67,8 +67,8 @@ public class UbluPanel extends javax.swing.JPanel {
     private String backCommand() {
         String result = "";
         if (commands.size() > 0) {
-            result = commands.get(pointer);
             decPointer();
+            result = commands.get(pointer);
         }
         return result;
     }
@@ -185,7 +185,7 @@ public class UbluPanel extends javax.swing.JPanel {
                 String ubluText = ubluInputField.getText();
                 if (!ubluText.equals("")) {
                     commands.add(ubluText);
-                    pointer = commands.size() - 1;
+                    pointer = commands.size();
                 }
                 ubluText = ubluText + '\n';
                 // jEPOS.write((ubluText).getBytes());
