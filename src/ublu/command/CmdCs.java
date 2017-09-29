@@ -40,7 +40,7 @@ import java.sql.CallableStatement;
 import java.sql.Clob;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.SQLType;
+// import java.sql.SQLType;
 import java.util.logging.Level;
 import ublu.db.Db;
 import ublu.db.ResultSetClosure;
@@ -419,7 +419,8 @@ public class CmdCs extends Command {
     }
 
     private void setOut(CallableStatement cs, int index, String typename, String typeDescription, Integer scale) throws SQLException {
-        SQLType sqlType = java.sql.JDBCType.valueOf(typename);
+        // 1.8 // SQLType sqlType = java.sql.JDBCType.valueOf(typename);
+        int sqlType = typenameToSQLTypeInt(typename);
         if (typeDescription != null) {
             cs.registerOutParameter(index, sqlType, typeDescription);
         } else if (scale != null) {

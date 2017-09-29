@@ -5,6 +5,7 @@ All rights reserved.
 1.1.9
 -----
 * Commands
+	* `cs` Remove 1.8-ism
 	* `num` Remove 1.8-ism
 * Testing
 	* Test suite now runs on Android
