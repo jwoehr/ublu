@@ -60,6 +60,7 @@ All rights reserved.
     	* -rownum
     	* -rawrs
     * `sess` command missing break after -to
+    * `splfol` spooled file open list api
     * `streamf -file`
     * `string -lcase -upcase`
     * `TASK -local`
