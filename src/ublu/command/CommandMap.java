@@ -120,6 +120,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("sleep", CmdSleep.class);
         put("smapi", CmdSmapi.class);
         put("sock", CmdSocket.class);
+        put("splfol", CmdSpoolFOpenList.class);
         put("spoolf", CmdSpoolF.class);
         put("spoolflist", CmdSpoolFList.class);
         put("streamf", CmdStreamFile.class);

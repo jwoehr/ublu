@@ -54,6 +54,7 @@ import com.ibm.as400.access.SpooledFileList;
 import com.ibm.as400.access.Subsystem;
 import com.ibm.as400.access.User;
 import com.ibm.as400.access.UserList;
+import com.ibm.as400.access.list.SpooledFileOpenList;
 import java.net.Socket;
 import java.sql.CallableStatement;
 import java.util.Iterator;
@@ -126,6 +127,7 @@ public class Autonome {
         AUTONOMY.put(Listener.class, "server");
         AUTONOMY.put(Sess5250.class, "sess");
         AUTONOMY.put(Socket.class, "sock");
+        AUTONOMY.put(SpooledFileOpenList.class, "splfol");
         AUTONOMY.put(SpooledFile.class, "spoolf");
         AUTONOMY.put(SpooledFileList.class, "spoolflist");
         AUTONOMY.put(StreamFileHelper.class, "streamf");
