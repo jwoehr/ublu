@@ -1,7 +1,7 @@
 # ux.sfli.ublu
 # Extension to Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
-# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
 # Methods to call on the com.ibm.as400.access.list.SpooledFileListItem object
