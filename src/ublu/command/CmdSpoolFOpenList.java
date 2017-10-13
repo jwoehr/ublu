@@ -66,7 +66,14 @@ public class CmdSpoolFOpenList extends Command {
         CLOSE,
         ADDSORT,
         CLEARSORT,
-        FILTER,
+        FILTER_DATE,
+        FILTER_DEVS,
+        FILTER_FORM,
+        FILTER_JOB,
+        FILTER_OUTQ,
+        FILTER_STAT,
+        FILTER_UDATA,
+        FILTER_USERS,
         FORMAT,
         GET,
         GETSOME,
@@ -92,6 +99,7 @@ public class CmdSpoolFOpenList extends Command {
         Integer count = null;
         Integer blocksize = null;
         String formatSelector = null;
+        ThingArrayList f_users = null;
         while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -124,8 +132,30 @@ public class CmdSpoolFOpenList extends Command {
                     break;
                 case "-close":
                     break;
-                case "-filter":
-                    op = OPS.FILTER;
+                case "-fdate":
+                    op = OPS.FILTER_DATE;
+                    break;
+                case "-fdevs":
+                    op = OPS.FILTER_DEVS;
+                    break;
+                case "-fform":
+                    op = OPS.FILTER_FORM;
+                    break;
+                case "-fjob":
+                    op = OPS.FILTER_JOB;
+                    break;
+                case "-foutq":
+                    op = OPS.FILTER_OUTQ;
+                    break;
+                case "-fstat":
+                    op = OPS.FILTER_STAT;
+                    break;
+                case "-fudata":
+                    op = OPS.FILTER_UDATA;
+                    break;
+                case "-fusers":
+                    op = OPS.FILTER_USERS;
+                    f_users = argArray.nextTupleOrPop().value(ThingArrayList.class);
                     break;
                 case "-format":
                     op = OPS.FORMAT;
@@ -208,7 +238,59 @@ public class CmdSpoolFOpenList extends Command {
                             }
                         }
                         break;
-                    case FILTER:
+                    case FILTER_DATE:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_DEVS:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_FORM:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_JOB:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_OUTQ:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_STAT:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_UDATA:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                        }
+                        break;
+                    case FILTER_USERS:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                            if (f_users != null) {
+                                splfolist.setFilterUsers(f_users.toStringArray());
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty user list provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
                         break;
                     case FORMAT:
                         if (splfolist == null) {
