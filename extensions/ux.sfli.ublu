@@ -1,0 +1,29 @@
+# ux.sfli.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Methods to call on the com.ibm.as400.access.list.SpooledFileListItem object
+# returned in Ublu lists (ublu.util.Generics.ThingArrayList) by Ublu's
+# splfol command ("SpooledFileOpenList").
+#
+# Operate on the lists via the Ublu list command or iterate over such lists
+# in FOR loops.
+
+# ux.sfli.itemToSpoolF ( sys item )
+# Pushes spooled file object ready to fetch from list item 'item' on sys 'sys'.
+FUNC ux.sfli.itemToSpoolF ( sys item ) $[
+    LOCAL @afile
+    tuple -assign @afile @@item
+    
+    calljava -- @afile -to ~ -method getJobNumber
+    calljava -- @afile -to ~ -method getJobUser
+    calljava -- @afile -to ~ -method getJobName
+    calljava -- @afile -to ~ -method getNumber
+    calljava -- @afile -to ~ -method getName
+    
+    spoolf  -to ~ -as400 @@sys ~ ~ ~ ~ ~
+]$
+  
+# end

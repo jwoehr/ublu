@@ -5,12 +5,15 @@ All rights reserved.
 1.1.9
 -----
 * Commands
-	* `cs` Remove 1.8-ism
-	* `num` Remove 1.8-ism
+    * `cs` Remove 1.8-ism
+    * `num` Remove 1.8-ism
+    * `splfol` spooled file open list api
+* Extensions
+    * `ux.sfli.ublu` call on the com.ibm.as400.access.list.SpooledFileListItem
 * Testing
-	* Test suite now runs on Android
+    * Test suite now runs on Android
 * Windowing
-	* command-line recall better
+    * command-line recall better
 
 1.1.8 2017-09-27
 -----
@@ -60,7 +63,6 @@ All rights reserved.
     	* -rownum
     	* -rawrs
     * `sess` command missing break after -to
-    * `splfol` spooled file open list api
     * `streamf -file`
     * `string -lcase -upcase`
     * `TASK -local`
