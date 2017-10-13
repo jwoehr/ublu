@@ -51,7 +51,11 @@ import ublu.util.Generics.ThingArrayList;
 public class CmdSpoolFOpenList extends Command {
 
     {
-        setNameAndDescription("splfol", "/3? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} : fetch a list of the given user's spooled files as objects");
+        setNameAndDescription("splfol", "/0 [-as400 ~@as400] [-to datasink] [--,-splfol @splfol] [-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE | DATE_OPENED | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER | JOB_SYSTEM | JOB_USER | NAME | NUMBER | OUTPUT_QUEUE_LIBRARY | OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED | PRINTER_NAME | PRIORITY | SCHEDULE | SIZE | STATUS | TIME_OPENED | TOTAL_PAGES | USER_DATA} @tf "
+                + "| -blocksize ~@{ numentries } | -clearsort | -close "
+                + "| -fdate | -fdevs | -fform | -fjob | -foutq | -fstat | -fudata | -fusers ~@list_of_users | -format ~@{100 | 200 | 300} "
+                + "| -get | -getsome ~@{offset} ~@{length} | -length | -new | -open | -qblocksize | -qformat  | -qsystem] "
+                + ": open list of the spooled files on system sorted and filtered");
     }
 
     /**
@@ -110,7 +114,7 @@ public class CmdSpoolFOpenList extends Command {
                     setDataDestfromArgArray(argArray);
                     break;
                 case "--":
-                case "-splfolist":
+                case "-splfol":
                     splfolist = argArray.nextTupleOrPop().value(SpooledFileOpenList.class);
                     break;
                 case "-addsort":
