@@ -197,5 +197,125 @@ FUNC ux.sfli.getTotalPages ( item ) $[
 FUNC ux.sfli.getUserData ( item ) $[
     calljava -to ~ -- @@item -method getUserData
 ]$
+  
+# Constant indicating the spooled file is assigned to multiple printers.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field ASSIGNED_MULTIPLE
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.ASSIGNED_MULTIPLE ~
+
+# Constant indicating the spooled file is not assigned to a printer.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field ASSIGNED_NONE
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.ASSIGNED_NONE ~
+
+# Constant indicating the spooled file is assigned to a specific printer.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field ASSIGNED_SPECIFIC
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.ASSIGNED_SPECIFIC ~
+
+# Constant indicating the spooled file is intended for a diskette device.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field DEVICE_TYPE_DISKETTE
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.DEVICE_TYPE_DISKETTE ~
+
+# Constant indicating the spooled file is intended for a printer device.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field DEVICE_TYPE_PRINTER
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.DEVICE_TYPE_PRINTER ~
+
+# Constant indicating the spooled file is schedule file end.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field SCHEDULE_FILE_END
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.SCHEDULE_FILE_END ~
+
+# Constant indicating the spooled file is schedule immediate.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field SCHEDULE_IMMEDIATE
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.SCHEDULE_IMMEDIATE ~
+
+# Constant indicating the spooled file is schedule job end.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field SCHEDULE_JOB_END
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.SCHEDULE_JOB_END ~
+
+# Constant indicating the spooled file has been processed completely by a program, but SCHEDULE(*ux.sfli.JOBEND) was specified.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_CLOSED
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_CLOSED ~
+
+# Constant indicating the spooled file has been deferred from printing.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_DEFERRED
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_DEFERRED ~
+
+# Constant indicating the spooled file is no longer in the system.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_FINISHED
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_FINISHED ~
+
+# Constant indicating the spooled file has been held.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_HELD
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_HELD ~
+
+# Constant indicating the spooled file has a message that needs a reply or needs an action to be taken.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_MESSAGE_WAIT
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_MESSAGE_WAIT ~
+
+# Constant indicating the spooled file has not been completely processed and is not ready to be selected by a writer.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_OPEN
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_OPEN ~
+
+# Constant indicating the spooled file is pending (waiting) to be printed.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_PENDING
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_PENDING ~
+
+# Constant indicating the spooled file has been completely sent to the printer, but the print complete status has not been sent back.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_PRINTING
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_PRINTING ~
+
+# Constant indicating the spooled file is available to be written to an output device by a writer.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_READY
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_READY ~
+
+# Constant indicating the spooled file has been written and then saved.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_SAVED
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_SAVED ~
+
+# Constant indicating the spooled file is being sent or has been sent to a remote system.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_SENDING
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_SENDING ~
+
+# Constant indicating the spooled file currently is being produced by the writer on an output device.
+lifo -null
+calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field STATUS_WRITING
+calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+const *ux.sfli.STATUS_WRITING ~
 
 # end
