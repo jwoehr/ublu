@@ -38,6 +38,7 @@ import com.ibm.as400.access.list.SpooledFileOpenList;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import ublu.util.Generics.ThingArrayList;
@@ -53,7 +54,7 @@ public class CmdSpoolFOpenList extends Command {
     {
         setNameAndDescription("splfol", "/0 [-as400 ~@as400] [-to datasink] [--,-splfol @splfol] [-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE | DATE_OPENED | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER | JOB_SYSTEM | JOB_USER | NAME | NUMBER | OUTPUT_QUEUE_LIBRARY | OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED | PRINTER_NAME | PRIORITY | SCHEDULE | SIZE | STATUS | TIME_OPENED | TOTAL_PAGES | USER_DATA} @tf "
                 + "| -blocksize ~@{ numentries } | -clearsort | -close "
-                + "| -fdate | -fdevs | -fform | -fjob | -foutq | -fstat | -fudata | -fusers ~@list_of_users | -format ~@{100 | 200 | 300} "
+                + "| -fdate ~@{sy} ~@{sm} ~@{sd} ~@{ey} ~@{em} ~@{ed} | -fdevs | -fform | -fjob | -foutq | -fstat | -fudata | -fusers ~@list_of_users | -format ~@{100 | 200 | 300} "
                 + "| -get | -getsome ~@{offset} ~@{length} | -length | -new | -open | -qblocksize | -qformat  | -qsystem] "
                 + ": open list of the spooled files on system sorted and filtered");
     }
@@ -104,6 +105,7 @@ public class CmdSpoolFOpenList extends Command {
         Integer blocksize = null;
         String formatSelector = null;
         ThingArrayList f_users = null;
+        int sy = 0, sm = 0, sd = 0, ey = 0, em = 0, ed = 0;
         while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -138,6 +140,12 @@ public class CmdSpoolFOpenList extends Command {
                     break;
                 case "-fdate":
                     op = OPS.FILTER_DATE;
+                    sy = argArray.nextIntMaybeQuotationTuplePopString();
+                    sm = argArray.nextIntMaybeQuotationTuplePopString();
+                    sd = argArray.nextIntMaybeQuotationTuplePopString();
+                    ey = argArray.nextIntMaybeQuotationTuplePopString();
+                    em = argArray.nextIntMaybeQuotationTuplePopString();
+                    ed = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-fdevs":
                     op = OPS.FILTER_DEVS;
@@ -246,6 +254,11 @@ public class CmdSpoolFOpenList extends Command {
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            Calendar startC = Calendar.getInstance();
+                            startC.set(sy, sm, sd, 0, 0, 0);
+                            Calendar endC = Calendar.getInstance();
+                            endC.set(ey, em, ed, 0, 0, 0);
+                            splfolist.setFilterCreationDate(startC.getTime(), endC.getTime());
                         }
                         break;
                     case FILTER_DEVS:
