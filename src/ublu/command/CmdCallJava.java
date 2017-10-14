@@ -48,7 +48,7 @@ import java.util.logging.Level;
 public class CmdCallJava extends Command {
 
     {
-        setNameAndDescription("calljava", "/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | --,-obj ~@object [field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
+        setNameAndDescription("calljava", "/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | --,-obj ~@object [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields");
     }
 
     /**
