@@ -4,12 +4,11 @@
 # Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# Methods to call on the com.ibm.as400.access.list.SpooledFileListItem object
+# Methods to operate on the com.ibm.as400.access.list.SpooledFileListItem object
 # returned in Ublu lists (ublu.util.Generics.ThingArrayList) by Ublu's
 # splfol command ("SpooledFileOpenList").
-#
-# Operate on the lists via the Ublu list command or iterate over such lists
-# in FOR loops.
+# Operate on such lists via the Ublu list command.
+# Iterate over such lists in FOR loops.
 
 # ux.sfli.itemToSpoolF ( sys item )
 # Pushes spooled file object ready to fetch from list item 'item' on sys 'sys'.
@@ -25,5 +24,178 @@ FUNC ux.sfli.itemToSpoolF ( sys item ) $[
     
     spoolf  -to ~ -as400 @@sys ~ ~ ~ ~ ~
 ]$
-  
+
+# int  getASP()
+# Push the aFUNC uxiliary storage pool (ASP) in which the spooled file resides.
+FUNC ux.sfli.getASP ( item ) $[
+    calljava -to ~ -- @@item -method getASP
+]$
+
+# int  getCopiesLeftToPrint()
+# Push the remaining number of copies to be printed.
+FUNC ux.sfli.getCopiesLeftToPrint ( item ) $[
+    calljava -to ~ -- @@item -method getCopiesLeftToPrint
+]$
+
+# Date  getCreationDate()
+# Push the date and time the spooled file was created.
+FUNC ux.sfli.getCreationDate ( item ) $[
+    calljava -to ~ -- @@item -method getCreationDate
+]$
+
+# int  getCurrentPage()
+# Push the page number or record number currently being written.
+FUNC ux.sfli.getCurrentPage ( item ) $[
+    calljava -to ~ -- @@item -method getCurrentPage
+]$
+
+# String  getDateOpened()
+# Push the date the spooled file was created.
+FUNC ux.sfli.getDateOpened ( item ) $[
+    calljava -to ~ -- @@item -method getDateOpened
+]$
+
+# String  getDeviceType()
+# Push the type of device for which the spooled file is intended.
+FUNC ux.sfli.getDeviceType ( item ) $[
+    calljava -to ~ -- @@item -method getDeviceType
+]$
+
+# String  getFormat()
+# Push the format that was used by SpooledFileOpenList to generate this item.
+FUNC ux.sfli.getFormat ( item ) $[
+    calljava -to ~ -- @@item -method getFormat
+]$
+
+# String  getFormType()
+# Push the type of forms that should be loaded on the printer before this spooled file is printed.
+FUNC ux.sfli.getFormType ( item ) $[
+    calljava -to ~ -- @@item -method getFormType
+]$
+
+# byte[]  getInternalJobIdentifier()
+# Push the internal job identifier for the job that created the spooled file.
+FUNC ux.sfli.getInternalJobIdentifier ( item ) $[
+    calljava -to ~ -- @@item -method getInternalJobIdentifier
+]$
+
+# byte[]  getInternalSpooledFileIdentifier()
+# Push the internal spooled file identifier for the spooled file.
+FUNC ux.sfli.getInternalSpooledFileIdentifier ( item ) $[
+    calljava -to ~ -- @@item -method getInternalSpooledFileIdentifier
+]$
+
+# int  getIPPJobIdentifier()
+# Push the Internet Print Protocol (IPP) job identifier assigned by the system based on the output queue to which the file was added or moved.
+FUNC ux.sfli.getIPPJobIdentifier ( item ) $[
+    calljava -to ~ -- @@item -method getIPPJobIdentifier
+]$
+
+# String  getJobName()
+# Push the name of the job that created the spooled file.
+FUNC ux.sfli.getJobName ( item ) $[
+    calljava -to ~ -- @@item -method getJobName
+]$
+
+# String  getJobNumber()
+# Push the number of the job that created the spooled file.
+FUNC ux.sfli.getJobNumber ( item ) $[
+    calljava -to ~ -- @@item -method getJobNumber
+]$
+
+# String  getJobSystemName()
+# Push the name of the system where the job that created the spooled file ran.
+FUNC ux.sfli.getJobSystemName ( item ) $[
+    calljava -to ~ -- @@item -method getJobSystemName
+]$
+
+# String  getJobUser()
+# Push the user of the job that created the spooled file.
+FUNC ux.sfli.getJobUser ( item ) $[
+    calljava -to ~ -- @@item -method getJobUser
+]$
+
+# String  getName()
+# Push the name of the spooled file.
+FUNC ux.sfli.getName ( item ) $[
+    calljava -to ~ -- @@item -method getName
+]$
+
+# int  getNumber()
+# Push the number of the spooled file.
+FUNC ux.sfli.getNumber ( item ) $[
+    calljava -to ~ -- @@item -method getNumber
+]$
+
+# String  getOutputQueue()
+# Push the fully-qualified integrated file system path of the output queue in which the spooled file is located.
+FUNC ux.sfli.getOutputQueue ( item ) $[
+    calljava -to ~ -- @@item -method getOutputQueue
+]$
+
+# String  getOutputQueueLibrary()
+# Push the library of the output queue in which the spooled file is located.
+FUNC ux.sfli.getOutputQueueLibrary ( item ) $[
+    calljava -to ~ -- @@item -method getOutputQueueLibrary
+]$
+
+# String  getOutputQueueName()
+# Push the name of the output queue in which the spooled file is located.
+FUNC ux.sfli.getOutputQueueName ( item ) $[
+    calljava -to ~ -- @@item -method getOutputQueueName
+]$
+
+# String  getPrinterAssignment()
+# Push how the spooled file is assigned.
+FUNC ux.sfli.getPrinterAssignment ( item ) $[
+    calljava -to ~ -- @@item -method getPrinterAssignment
+]$
+
+# String  getPrinterName()
+# Push the name of the printer the spooled file has been assigned to print on.
+FUNC ux.sfli.getPrinterName ( item ) $[
+    calljava -to ~ -- @@item -method getPrinterName
+]$
+
+# String  getPriority()
+# Push the priority of the spooled file.
+FUNC ux.sfli.getPriority ( item ) $[
+    calljava -to ~ -- @@item -method getPriority
+]$
+
+# String  getSchedule()
+# Push the schedule of the spooled file.
+FUNC ux.sfli.getSchedule ( item ) $[
+    calljava -to ~ -- @@item -method getSchedule
+]$
+
+# long  getSize()
+# Push the spooled file size in bytes.
+FUNC ux.sfli.getSize ( item ) $[
+    calljava -to ~ -- @@item -method getSize
+]$
+
+# String  getStatus()
+# Push the status of the spooled file.
+FUNC ux.sfli.getStatus ( item ) $[
+    calljava -to ~ -- @@item -method getStatus
+]$
+
+# String  getTimeOpened()
+# Push the time the spooled file was created.
+FUNC ux.sfli.getTimeOpened ( item ) $[
+    calljava -to ~ -- @@item -method getTimeOpened
+]$
+
+# int  getTotalPages()
+# Push the total number of pages or number of records for this spooled file.
+FUNC ux.sfli.getTotalPages ( item ) $[
+    calljava -to ~ -- @@item -method getTotalPages
+]$
+
+# String  getUserData()
+FUNC ux.sfli.getUserData ( item ) $[
+    calljava -to ~ -- @@item -method getUserData
+]$
+
 # end
