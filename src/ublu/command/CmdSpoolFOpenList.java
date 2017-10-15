@@ -52,9 +52,14 @@ import ublu.util.Generics.ThingArrayList;
 public class CmdSpoolFOpenList extends Command {
 
     {
-        setNameAndDescription("splfol", "/0 [-as400 ~@as400] [-to datasink] [--,-splfol @splfol] [-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE | DATE_OPENED | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER | JOB_SYSTEM | JOB_USER | NAME | NUMBER | OUTPUT_QUEUE_LIBRARY | OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED | PRINTER_NAME | PRIORITY | SCHEDULE | SIZE | STATUS | TIME_OPENED | TOTAL_PAGES | USER_DATA} @tf "
+        setNameAndDescription("splfol", "/0 [-as400 ~@as400] [-to datasink] [--,-splfol ~@splfol] "
+                + "[-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE | DATE_OPENED | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER | JOB_SYSTEM | JOB_USER | NAME | NUMBER | OUTPUT_QUEUE_LIBRARY | OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED | PRINTER_NAME | PRIORITY | SCHEDULE | SIZE | STATUS | TIME_OPENED | TOTAL_PAGES | USER_DATA} @tf "
                 + "| -blocksize ~@{ numentries } | -clearsort | -close "
-                + "| -fdate ~@{sy} ~@{sm} ~@{sd} ~@{ey} ~@{em} ~@{ed} | -fdevs | -fform | -fjob | -foutq | -fstat | -fudata | -fusers ~@list_of_users | -format ~@{100 | 200 | 300} "
+                + "| -fdate ~@{sy} ~@{sm} ~@{sd} ~@{ey} ~@{em} ~@{ed} | -fdevs  ~@list_of_devs "
+                + "| -fform ~@{formType} | -fjob  ~@{jobName} ~@{jobUser} ~@{jobNumber} | -fjobsys ~@{sysname} "
+                + "| -foutq  ~@{list_of_ifsOutQs} "
+                + "| -fstat ~@list_of[*CLOSED | *DEFERRED | *SENDING | *FINISHED | *HELD | *MESSAGE | *OPEN | *PENDING | *PRINTER | *READY | *SAVED | *WRITING] "
+                + "| -fudata ~@{userData} | -fusers ~@list_of_users | -format ~@{100 | 200 | 300} "
                 + "| -get | -getsome ~@{offset} ~@{length} | -length | -new | -open | -qblocksize | -qformat  | -qsystem] "
                 + ": open list of the spooled files on system sorted and filtered");
     }
@@ -75,6 +80,7 @@ public class CmdSpoolFOpenList extends Command {
         FILTER_DEVS,
         FILTER_FORM,
         FILTER_JOB,
+        FILTER_JOBSYS,
         FILTER_OUTQ,
         FILTER_STAT,
         FILTER_UDATA,
@@ -105,6 +111,15 @@ public class CmdSpoolFOpenList extends Command {
         Integer blocksize = null;
         String formatSelector = null;
         ThingArrayList f_users = null;
+        ThingArrayList f_devs = null;
+        String formType = null;
+        String jobName = null;
+        String jobUser = null;
+        String jobNumber = null;
+        String jobSystem = null;
+        ThingArrayList f_ifsOutQs = null;
+        ThingArrayList f_statuses = null;
+        String userData = null;
         int sy = 0, sm = 0, sd = 0, ey = 0, em = 0, ed = 0;
         while (argArray.hasDashCommand() && getCommandResult() != COMMANDRESULT.FAILURE) {
             String dashCommand = argArray.parseDashCommand();
@@ -137,6 +152,7 @@ public class CmdSpoolFOpenList extends Command {
                     op = OPS.CLEARSORT;
                     break;
                 case "-close":
+                    op = OPS.CLOSE;
                     break;
                 case "-fdate":
                     op = OPS.FILTER_DATE;
@@ -149,21 +165,33 @@ public class CmdSpoolFOpenList extends Command {
                     break;
                 case "-fdevs":
                     op = OPS.FILTER_DEVS;
+                    f_devs = argArray.nextTupleOrPop().value(ThingArrayList.class);
                     break;
                 case "-fform":
                     op = OPS.FILTER_FORM;
+                    formType = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-fjob":
                     op = OPS.FILTER_JOB;
+                    jobName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    jobUser = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    jobNumber = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "fjobsys":
+                    op = OPS.FILTER_JOBSYS;
+                    jobSystem = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-foutq":
                     op = OPS.FILTER_OUTQ;
+                    f_ifsOutQs = argArray.nextTupleOrPop().value(ThingArrayList.class);
                     break;
                 case "-fstat":
                     op = OPS.FILTER_STAT;
+                    f_statuses = argArray.nextTupleOrPop().value(ThingArrayList.class);
                     break;
                 case "-fudata":
                     op = OPS.FILTER_UDATA;
+                    userData = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-fusers":
                     op = OPS.FILTER_USERS;
@@ -265,38 +293,87 @@ public class CmdSpoolFOpenList extends Command {
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            if (f_devs != null) {
+                                splfolist.setFilterDevices(f_devs.toStringArray());
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty dev list provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
                     case FILTER_FORM:
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            if (formType != null) {
+                                splfolist.setFilterFormType(formType);
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty form type provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
                     case FILTER_JOB:
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            if (jobName != null && jobNumber != null && jobUser != null) {
+                                splfolist.setFilterJobInformation(jobName, jobNumber, jobUser);
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty job filter {0} {1} {2} provided to {3}", new Object[]{jobName, jobNumber, jobUser, getNameAndDescription()});
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
+                        }
+                        break;
+                    case FILTER_JOBSYS:
+                        if (splfolist == null) {
+                            noSplfOL();
+                        } else {
+                            if (jobSystem != null) {
+                                splfolist.setFilterJobSystemName(jobSystem);
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty sysname provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
                     case FILTER_OUTQ:
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            if (f_ifsOutQs != null) {
+                                splfolist.setFilterOutputQueues(f_ifsOutQs.toStringArray());
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty outq list provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
                     case FILTER_STAT:
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            if (f_statuses != null) {
+                                splfolist.setFilterStatuses(f_statuses.toStringArray());
+                            } else {
+                                getLogger().log(Level.SEVERE, "Empty status list provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
                     case FILTER_UDATA:
                         if (splfolist == null) {
                             noSplfOL();
                         } else {
+                            if (userData != null) {
+                                splfolist.setFilterUserData(userData);
+                            } else {
+                                getLogger().log(Level.SEVERE, "Invalid user data provided to {0}", getNameAndDescription());
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                         break;
+
                     case FILTER_USERS:
                         if (splfolist == null) {
                             noSplfOL();
