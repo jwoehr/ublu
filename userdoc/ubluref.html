@@ -5,7 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 5 Oct 2017 00:45:36 UTC">
+  "Sun, 15 Oct 2017 10:45:36 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -64,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-10-04</p>
+  Last edit: 2017-10-15</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -627,6 +626,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
             <li><tt><a href="#sock">sock</a><br></tt>
+            </li>
+
+
+            <li><a href="#splfol"><code>splfol</code></a>
             </li>
 
 
@@ -2659,14 +2662,15 @@ Type help for help. Type license for license. Type bye to exit.
         <a href="#savef">savef</a></tt><tt><br>
         <a href="#session">session</a><br></tt> <tt><a href=
         "#smapi">smapi</a></tt><tt><br>
-        <a href="#sock">sock</a><br></tt> <tt><a href=
-        "#spoolf">spoolf</a></tt><tt><br></tt> <tt><a href=
-        "#spoolflist">spoolflist</a></tt><tt><br></tt> <tt><a href=
-        "#streamf">streamf</a></tt><tt><br></tt> <tt><a href=
-        "#subsys">subsys</a></tt><tt><br></tt> <tt><a href=
-        "#sysval">sysval</a></tt><tt><br></tt> <tt><a href=
-        "#tn5250">tn5250</a></tt> <tt><br></tt> <tt><a href=
-        "#user">user</a></tt><tt><br></tt> <tt><a href=
+        <a href="#sock">sock</a></tt><br>
+        <a href="#splfol"><code>splfol</code></a><br>
+        <tt><a href="#spoolf">spoolf</a></tt><tt><br></tt>
+        <tt><a href="#spoolflist">spoolflist</a></tt><tt><br></tt>
+        <tt><a href="#streamf">streamf</a></tt><tt><br></tt>
+        <tt><a href="#subsys">subsys</a></tt><tt><br></tt>
+        <tt><a href="#sysval">sysval</a></tt><tt><br></tt>
+        <tt><a href="#tn5250">tn5250</a></tt> <tt><br></tt>
+        <tt><a href="#user">user</a></tt><tt><br></tt> <tt><a href=
         "#userlist">userlist</a></tt><tt><br></tt></td>
 
         <td valign="top"><code><a href=
@@ -2917,8 +2921,8 @@ Type help for help. Type license for license. Type bye to exit.
         </ul>
         Otherwise, the <code>as400</code> command automatically
         sets the ports to their defaults, after which invocations
-        of <code>-sockets</code> and <code>-netsockets</code>
-        will cause an exception.
+        of <code>-sockets</code> and <code>-netsockets</code> will
+        cause an exception.
       </li>
 
 
@@ -16630,6 +16634,247 @@ exit <span class="syntax-KEYWORD2">$?</span>
     80&lt;/address&gt;</tt><tt><br></tt>
     <tt>&lt;/body&gt;&lt;/html&gt;</tt><br>
     <tt>&gt; sock -- @s -close</tt>
+  </blockquote>
+
+
+  <h4><a name="splfol"><code>splfol</code></a>
+  </h4>
+
+
+  <blockquote>
+    <code>/0 [-as400 ~@as400] [-to datasink] [--,-splfol ~@splfol]
+    [-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE | DATE_OPENED
+    | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER | JOB_SYSTEM
+    | JOB_USER | NAME | NUMBER | OUTPUT_QUEUE_LIBRARY |
+    OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED | PRINTER_NAME | PRIORITY
+    | SCHEDULE | SIZE | STATUS | TIME_OPENED | TOTAL_PAGES |
+    USER_DATA} @tf | -blocksize ~@{ numentries } | -clearsort |
+    -close | -fdate ~@{sy} ~@{sm} ~@{sd} ~@{ey} ~@{em} ~@{ed} |
+    -fdevs ~@list_of_devs | -fform ~@{formType} | -fjob ~@{jobName}
+    ~@{jobUser} ~@{jobNumber} | -fjobsys ~@{sysname} | -foutq
+    ~@{list_of_ifsOutQs} | -fstat ~@list_of[*CLOSED | *DEFERRED |
+    *SENDING | *FINISHED | *HELD | *MESSAGE | *OPEN | *PENDING |
+    *PRINTER | *READY | *SAVED | *WRITING] | -fudata ~@{userData} |
+    -fusers ~@list_of_users | -format ~@{100 | 200 | 300} | -get |
+    -getsome ~@{offset} ~@{length} | -length | -new | -open |
+    -qblocksize | -qformat | -qsystem] : open list of the spooled
+    files on system sorted and filtered</code>
+
+    <p>The <code>splfol</code> command ("Spooled File Open List",
+    based on the QGY* APIs of the IBM i operating system) returns a
+    filtered, sorted list of spooled file list objects. These
+    objects may be examined and the spooled files they represent
+    may subsquently be fetched from the system via the <a href=
+    "#spoolf"><code>spoolf</code></a> command.</p>
+
+
+    <p>In contrast to the <a href=
+    "#spoolflist"><code>spoolflist</code></a> command which returns
+    a list of spooled files belonging to a user profile,
+    <code>splfol</code></p>
+
+
+    <ul>
+      <li>operates on all spooled files in the system returning a
+      carefully tailored list</li>
+
+
+      <li>returns a list of description objects rather than a list
+      of actual spooled file objects</li>
+    </ul>
+
+
+    <p>The Ublu-coded extension
+    <code>extensions/ux.sfli.ublu</code> provides constants and
+    functions pertaining to the list items in the list returned by
+    <code>splfol</code>, including deriving a <code>spoolf</code>
+    object from a list item.</p>
+
+
+    <p>The regimen is</p>
+
+
+    <ul>
+      <li>Create a splofl object via <code>-new</code> (the default
+      operation)</li>
+
+
+      <li>Set filters using the filter <a href=
+      "#Dash_Command">dash-commands</a> such as
+      <code>-fuser</code>, <code>-fdate</code>, etc.</li>
+
+
+      <li>Set sort orders using the <code>-addsort</code>
+      dash-command.</li>
+
+
+      <li>Set other characteristics of the list such as
+      <code>-blocksize</code> and <code>-format</code> etc.</li>
+
+
+      <li><code>-get</code> or <code>-getsome</code> the list.</li>
+
+
+      <li>Examine the resulting list in a <a href=
+      "#FOR"><code>FOR</code></a> loop, possibly examining
+      characteristics and/or dereferencing list objects using the
+      code in <code>extensions/ux.splfi.ublu</code> .</li>
+
+
+      <li><strong>Close</strong> the list when done via
+      <code>-close</code> .</li>
+    </ul>
+
+
+    <p>The <a href="#Dash_Command">dash-commands</a> are as
+    follows:</p>
+
+
+    <ul>
+      <li><code>-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE |
+      DATE_OPENED | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER
+      | JOB_SYSTEM | JOB_USER | NAME | NUMBER |
+      OUTPUT_QUEUE_LIBRARY | OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED |
+      PRINTER_NAME | PRIORITY | SCHEDULE | SIZE | STATUS |
+      TIME_OPENED | TOTAL_PAGES | USER_DATA} @tf</code> adds a sort
+      characteristic, with the sort ascending if <em>@tf</em> is
+      <code>@true</code> and descending if
+      <code>@false</code>.</li>
+
+
+      <li><code>-blocksize ~@{ numentries }</code> sets the number
+      of list items fetched per network access.</li>
+
+
+      <li><code>-clearsort</code> clears all sort characteristics
+      set by the user.</li>
+
+
+      <li><code>-close</code> closes the list and frees resources
+      locally and remotely.</li>
+
+
+      <li><code>-fdate ~@{sy} ~@{sm} ~@{sd} ~@{ey} ~@{em}
+      ~@{ed}</code> filters by start to end date. <em>sy sm sd</em>
+      are start date year/month/day and <em>ey em ed</em> are end
+      date year/month/day. Peculiarly, the month is 0-based
+      (January). The time is set to 0:00:00 in all instances.</li>
+
+
+      <li><code>-fdevs ~@list_of_devs</code> takes a list of device
+      names created via the <a href="#list"><code>list</code></a>
+      command and filters the list by those devices.</li>
+
+
+      <li><code>-fform ~@{formType}</code> filters by form type.
+      Specify <code>*STD</code> for the standard form type. Specify
+      null to clear the form type filter, so that spooled files in
+      the list are no longer filtered based on form type.</li>
+
+
+      <li><code>-fjob ~@{jobName} ~@{jobUser} ~@{jobNumber}</code>
+      filters by the specified job.</li>
+
+
+      <li><code>-fjobsys ~@{sysname}</code> filters by the
+      specified system of origin.</li>
+
+
+      <li><code>-foutq ~@{list_of_ifsOutQs}</code> takes a list of
+      output queue IFS fully qualified pathnames created via the
+      <a href="#list"><code>list</code></a> command and filters the
+      list by those queues.</li>
+
+
+      <li>-<code>fstat ~@list_of[*CLOSED | *DEFERRED | *SENDING |
+      *FINISHED | *HELD | *MESSAGE | *OPEN | *PENDING | *PRINTER |
+      *READY | *SAVED | *WRITING]</code> takes a list of strings
+      representing status constants created via the <a href=
+      "#list"><code>list</code></a> command and filters the list by
+      those devices.
+
+        <ul>
+          <li><strong>Note</strong> that these are string names of
+          system constants, not Ublu constants. If you have defined
+          Ublu constants with identical names to any of these, be
+          careful to pass in the literal strings shown above.</li>
+        </ul>
+      </li>
+
+
+      <li><code>-fudata ~@{userData}</code>
+      </li>
+
+
+      <li><code>-fusers ~@list_of_users</code> takes a list of
+      users created via the <a href="#list"><code>list</code></a>
+      command and filters the list by those users.</li>
+
+
+      <li>
+        <code>-format ~@{100 | 200 | 300}</code> specifies the
+        format of the list items returned.
+
+        <ul>
+          <li><code>100</code> indicates that this list will accept
+          parameters for, and, generate SpooledFileListItem objects
+          in accordance with, the OSPL0100 format of the underlying
+          API. This is faster than <code>200</code>.</li>
+
+
+          <li><code>200</code> indicates that this list will accept
+          parameters for, and, generate SpooledFileListItem objects
+          in accordance with, the OSPL0200 format of the underlying
+          API. Contains more information than
+          <code>100</code>.</li>
+
+
+          <li><code>300</code> indicates that this list will accept
+          parameters for, and, generate SpooledFileListItem objects
+          in accordance with, the OSPL0300 format of the underlying
+          API. This is faster than <code>100</code>.</li>
+        </ul>
+        The default is format 300.
+      </li>
+
+
+      <li><code>-get</code> puts the list of spooled file items
+      corresponding to the filter criteria, sorted in the manner
+      specified, and in the format specified, suitable for
+      iteration.</li>
+
+
+      <li><code>-getsome ~@{offset} ~@{length}</code> puts a subset
+      of the list which would be returned by <code>-get</code>
+      starting at zero-based offset <em>offset</em> into the list
+      for <em>length</em> items.</li>
+
+
+      <li><code>-length</code> puts the length of the list. The
+      list must have been opened, either implicitly via
+      <code>-get</code> or explicitly via <code>-open</code>.</li>
+
+
+      <li><code>-new</code> instances a new <code>splfol</code>. It
+      is the default operation and need not be specified if no
+      other operation is specified.</li>
+
+
+      <li><code>-open</code> opens the list on the server. It is
+      performed by get implicitly and is only needed if another
+      operation such as <code>-length</code> is called before a
+      <code>-get</code>.</li>
+
+
+      <li><code>-qblocksize</code> puts the blocksize.</li>
+
+
+      <li><code>-qformat</code> puts the format.</li>
+
+
+      <li><code>-qsystem</code> puts the system of origin for all
+      items in the list.</li>
+    </ul>
   </blockquote>
 
 
