@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 15 Oct 2017 10:45:36 UTC">
+  "Mon, 16 Oct 2017 15:09:23 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-10-15</p>
+  Last edit: 2017-10-16</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -16670,8 +16670,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
     <p>In contrast to the <a href=
     "#spoolflist"><code>spoolflist</code></a> command which returns
-    a list of spooled files belonging to a user profile,
-    <code>splfol</code></p>
+    a list of spooled files filtered only by a user profile
+    pattern, <code>splfol</code></p>
 
 
     <ul>
@@ -16887,6 +16887,10 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <li><code>-qsystem</code> puts the system of origin for all
       items in the list.</li>
     </ul>
+
+
+    <p><strong>See also</strong>: <a href="#spoolf">spoolf</a>
+    <a href="#spoolflist">spoolflist</a></p>
   </blockquote>
 
 
@@ -17098,8 +17102,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
     </ul>
 
 
-    <p><br>
-    </p>
+    <p><strong>See also</strong>: <a href="#splfol">splfol</a>
+    <a href="#spoolflist">spoolflist</a></p>
 
 
     <p><em>Example</em><br>
@@ -17169,6 +17173,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <tt>spoolflist -to @list -as400 @sys1
     someuser</tt><tt><br></tt> <tt>FOR @i in @list $[ spoolf
     -spoolf @i -delete ]$</tt><tt><br></tt>
+
+    <p><strong>See also</strong>: <a href="#splfol">splfol</a></p>
   </blockquote>
 
 
