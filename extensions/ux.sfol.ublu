@@ -1,0 +1,125 @@
+# ux.sfol.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Methods to operate on the com.ibm.as400.access.list.SpooledFileOpenList object
+# These could have been coded directly into the splfol ("SpooledFileOpenList")
+# command but instead are provided here as extensions.
+# Operate on such lists via the Ublu list command.
+# Iterate over such lists in FOR loops.
+# See also ux.sfli.ublu for methods pertaining to the
+# com.ibm.as400.access.list.SpooledFileListItem objects
+# returned in Ublu lists by the splfol command.
+
+# Date getFilterCreationDateEnd
+# Push the end creation date being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterCreationDateEnd ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterCreationDateEnd
+]$
+
+# Date getFilterCreationDateStart
+# Push the start creation date being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterCreationDateStart ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterCreationDateStart
+]$
+
+# String[]  getFilterDevices
+# Push the printer device names being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterDevices ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterDevices
+]$
+
+# String getFilterFormType
+# Push the form type being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterFormType ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterFormType
+]$
+
+# String getFilterJobName
+# Push the job name portion of the job information used to determine which spooled files belong in the list.
+FUNC ux.sfol.getFilterJobName ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterJobName
+]$
+
+# String getFilterJobNumber
+# Push the job number portion of the job information used to determine which spooled files belong in the list.
+FUNC ux.sfol.getFilterJobNumber ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterJobNumber
+]$
+
+# String getFilterJobSystemName
+# Push the job system name used to determine which spooled files belong in the list.
+FUNC ux.sfol.getFilterJobSystemName ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterJobSystemName
+]$
+
+# String getFilterJobUser
+# Push the user name portion of the job information used to determine which spooled files belong in the list.
+FUNC ux.sfol.getFilterJobUser ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterJobUser
+]$
+
+# String[] getFilterOutputQueues
+# Push the output queue names being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterOutputQueues ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterOutputQueues
+]$
+
+# String[] getFilterStatuses
+# Push the statuses being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterStatuses ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterStatuses
+]$
+
+# String getFilterUserData
+# Push the user data being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterUserData ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterUserData
+]$
+
+# String[] getFilterUsers
+# Push the user names being used to filter the list of spooled files.
+FUNC ux.sfol.getFilterUsers ( olist ) $[
+    calljava -to ~ -- @@olist -method getFilterUsers
+]$
+
+# String getFormat
+# Push the format currently in use by this open list.
+FUNC ux.sfol.getFormat ( olist ) $[
+    calljava -to ~ -- @@olist -method getFormat
+]$
+
+# setFilterCreationDate
+# Set start and end of creation date filter down to the second.
+# splfol's -fdate dash-command only accepts the date and automatically sets
+# the start and end times to 00:00:00
+FUNC ux.sfol.setFilterCreationDate ( olist sy sm sd shr smin ssec ey em ed ehr emin esec ) $[
+    LOCAL @start LOCAL @end
+    
+    num -to ~ @@ssec
+    num -to ~ @@smin
+    num -to ~ @@shr
+    num -to ~ @@sd
+    num -to ~ @@sm
+    num -to ~ @@sy
+    
+    calljava -to @start -class java.util.Calendar -method getInstance
+    calljava -- @start -method set -primarg ~  -primarg ~  -primarg ~  -primarg ~  -primarg ~  -primarg ~
+    
+    num -to ~ @@esec
+    num -to ~ @@emin
+    num -to ~ @@ehr
+    num -to ~ @@ed
+    num -to ~ @@em
+    num -to ~ @@ey
+    
+    calljava -to @end -class java.util.Calendar -method getInstance
+    calljava -- @end -method set -primarg ~  -primarg ~  -primarg ~  -primarg ~  -primarg ~  -primarg ~
+    
+    calljava -to ~ -- @end -method getTime
+    calljava -to ~ -- @start -method getTime 
+    calljava -to ~ -- @@olist -method setFilterCreationDate -arg ~ -arg ~
+]$
+# end
