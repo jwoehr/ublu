@@ -51,8 +51,8 @@ Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
 
 Ublu is already a stable and useful tool which has seen much use in the real world. It is neither complete nor perfect,
-but what is in this world? In any case, there is <b>NO WARRANTY nor GUARANTEE include as regards suitability
-for any application</b>.
+but what is in this world? As with all open source software, there is <b>NO WARRANTY nor GUARANTEE include as regards
+suitability for any given application</b>.
 
 <a name="quickstart"></a>
 ## Quick start instructions
