@@ -50,8 +50,9 @@ The tip of the master branch calls itself 1.1.8+ as we head for 1.1.9
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
 
-Ublu is already a stable and useful tool which has seen much use in the real
-world. It is neither complete nor perfect, but what is in this world?
+Ublu is already a stable and useful tool which has seen much use in the real world. It is neither complete nor perfect,
+but what is in this world? In any case, there is <b>NO WARRANTY nor GUARANTEE include as regards suitability
+for any application</b>.
 
 <a name="quickstart"></a>
 ## Quick start instructions
@@ -71,6 +72,10 @@ Or clone, build and run:
 <li> <tt>./dist/ublu.jar</tt> and its necessary <tt>./dist/lib</tt> directory are the runtime system.</li>
 <li> <tt>java -jar ublu.jar</tt> to run Ublu as a plain Java console application.</li>
 </ul>
+
+<b>Note regarding checking out the current source:</b> Release versions of Ublu come with a standard release of JTOpen. 
+Between Ublu releases, I build and sometimes modify JTOpen so that Ublu can leverage forthcoming features of JTOpen.
+When you check out the source between releases, it is an intermediate version JTOpen that is checked out with Ublu.  
 
 <a name="goublu"></a>
 ## Goublu console support for Ublu

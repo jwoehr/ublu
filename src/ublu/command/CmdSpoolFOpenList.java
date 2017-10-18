@@ -59,7 +59,7 @@ public class CmdSpoolFOpenList extends Command {
                 + "| -fform ~@{formType} | -fjob  ~@{jobName} ~@{jobUser} ~@{jobNumber} | -fjobsys ~@{sysname} "
                 + "| -foutq  ~@{list_of_ifsOutQs} "
                 + "| -fstat ~@list_of[*CLOSED | *DEFERRED | *SENDING | *FINISHED | *HELD | *MESSAGE | *OPEN | *PENDING | *PRINTER | *READY | *SAVED | *WRITING] "
-                + "| -fudata ~@{userData} | -fusers ~@list_of_users | -format ~@{100 | 200 | 300} "
+                + "| -fudata ~@{userData} | -fusers ~@list_of_users | -format ~@{100 | 200 | 300 | 400} "
                 + "| -get | -getsome ~@{offset} ~@{length} | -length | -new | -open | -qblocksize | -qformat  | -qsystem] "
                 + ": open list of the spooled files on system sorted and filtered");
     }
@@ -532,6 +532,9 @@ public class CmdSpoolFOpenList extends Command {
                 break;
             case 300:
                 result = SpooledFileOpenList.FORMAT_0300;
+                break;
+            case 400:
+                result = SpooledFileOpenList.FORMAT_0400;
                 break;
         }
         return result;
