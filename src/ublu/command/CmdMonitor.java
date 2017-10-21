@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class CmdMonitor extends Command {
 
     {
-        setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-worklib ~@{libname}] [-none|-diskstatus|-status|-version|-all] system userid passwd : fetch system monitor data and create System Shepherd [TM API] datapoints");
+        setNameAndDescription("monitor", "/3? [-as400 ~@as400] [-none|-status|-version|-all] system userid passwd : fetch system monitor data and create System Shepherd [TM API] datapoints");
     }
 
     /**
@@ -58,7 +58,7 @@ public class CmdMonitor extends Command {
 
     private enum MONPOINTS {
 
-        NONE, VERSION, DISKSTATUS, STATUS, ALL
+        NONE, VERSION, STATUS, ALL
     }
     private MONPOINTS monPoint;
 
@@ -83,7 +83,6 @@ public class CmdMonitor extends Command {
      * @return what's left of arguments
      */
     public ArgArray monitor(ArgArray argArray) {
-        String worklibName = "APITESTXYZ";
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -100,14 +99,8 @@ public class CmdMonitor extends Command {
                 case "-none":
                     setMonPoint(MONPOINTS.NONE);
                     break;
-                case "-diskstatus":
-                    setMonPoint(MONPOINTS.DISKSTATUS);
-                    break;
                 case "-status":
                     setMonPoint(MONPOINTS.STATUS);
-                    break;
-                case "-worklib":
-                    worklibName = argArray.nextMaybeQuotationTuplePopString().toUpperCase();
                     break;
                 case "-version":
                     setMonPoint(MONPOINTS.VERSION);
@@ -144,11 +137,6 @@ public class CmdMonitor extends Command {
                             sb.append(oS400Monitors.osVersionVRM());
                             sb.append('\n');
                             sb.append(oS400Monitors.systemStatus());
-                            sb.append('\n');
-                            sb.append(oS400Monitors.diskStatus(worklibName));
-                            break;
-                        case DISKSTATUS:
-                            sb.append(oS400Monitors.diskStatus(worklibName));
                             break;
                         case STATUS:
                             sb.append(oS400Monitors.systemStatus());

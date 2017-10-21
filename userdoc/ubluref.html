@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Weds, 18 Oct 2017 04:29:21 UTC">
+  "Sun, 22 Oct 2017 03:31:49 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-10-17</p>
+  Last edit: 2017-10-22</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -13401,24 +13401,27 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <p><tt>/3? [-as400 ~@as400] [-worklib ~@{libname}]
-    [-none|-diskstatus|-status|-version|-all] system userid passwd
-    : fetch system monitor data and create System Shepherd [TM API]
-    datapoints</tt>
+    <p><tt>/3? [-as400 ~@as400] [-none|-status|-version|-all]
+    system userid passwd : fetch system monitor data and create
+    System Shepherd [TM API] datapoints</tt>
     </p>
 
 
-    <p><code>monitor</code> performs one pass of gathering
-    monitoring data on <em>system</em> on behalf of <em>userid</em>
-    with <em>password</em> and <tt>put</tt>ting the data as System
-    Shepherd [TM Absolute Performance, Inc.] datapoints.<br></p>
+    <p><code>monitor</code> performs one pass of gathering a very
+    limited subset of monitoring data on <em>system</em> on behalf
+    of <em>userid</em> with <em>password</em> and <tt>put</tt>ting
+    the data as System Shepherd [TM Absolute Performance, Inc.]
+    datapoints.<br></p>
+
+
+    <p>Future Ublu monitoring tools will be coded as extensions
+    leveraging <a href=
+    "https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_73/rzajq/rzajqservicessys.htm">
+    Db2 IBM i Services (QSYS2)</a></p>
 
 
     <ul>
       <li><tt>-none</tt> (we mean none!)</li>
-
-
-      <li><tt>-diskstatus</tt> disk statistics</li>
 
 
       <li><tt>-status</tt> various status information</li>
@@ -13427,20 +13430,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <li><tt>-version</tt> the OS version maj/min</li>
 
 
-      <li><tt>-all</tt> version + diskstatus + status</li>
-
-
-      <li><tt>-worklib</tt> <tt>~@{libname}</tt> identifies a
-      temporary library the <tt>monitor</tt> command will use when
-      generating disk status information. If the library does not
-      exist, it is created on the target server as a PROD library.
-      If this <a href="#Dash_Command">dash-command</a> is omitted,
-      the library name used is <tt>APITESTXYZ</tt>. An output queue
-      named DSKSTS is created in the library. A spooled file is
-      also created in the spool of the user whose login is used for
-      <tt>monitor</tt>. None of those creations, the library nor
-      the output queue nor the spooled file, are deleted when the
-      <tt>monitor</tt> command exits.</li>
+      <li><tt>-all</tt> version + status</li>
     </ul>
 
 
@@ -13450,7 +13440,13 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <p><strong>Note:</strong> It is a good idea to
     <tt>-disconnect</tt> the <a href="#as400"><tt>as400</tt></a>
     object used by the <tt>monitor</tt> command after the command
-    is finished.<br></p>
+    is finished.</p>
+
+
+    <p><strong>Note:</strong> The <code>-diskstatus</code>
+    operation is broken in JTOpenLite and has been removed.
+    Monitoring of diskstatus should be done via the Ublu extension
+    <code>extensions/sysshep/sysshep.qsys2.system_status.ublu</code></p>
   </blockquote>
 
 

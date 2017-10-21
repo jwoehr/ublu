@@ -33,11 +33,6 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.SystemStatus;
-import com.ibm.jtopenlite.SignonConnection;
-import com.ibm.jtopenlite.command.CommandConnection;
-import com.ibm.jtopenlite.components.ListDiskStatuses;
-import com.ibm.jtopenlite.components.DiskStatus;
-import com.ibm.jtopenlite.ddm.DDMConnection;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 
@@ -132,123 +127,6 @@ public class Monitors {
         }
         return SysShepHelper.format(metricName, vrm, status, message);
 
-    }
-
-    /**
-     * Get disk status as SysShep datapoints
-     *
-     * @param workLibName a temp library space for the command to work. Must
-     * have permissions to same.
-     * @return String representing disk status as SysShep datapoints
-     * @throws IOException
-     */
-    public String diskStatus(String workLibName) throws IOException {
-        StringBuilder result = new StringBuilder();
-        ListDiskStatuses lds = new ListDiskStatuses();
-        SignonConnection sc = SignonConnection.getConnection(
-                getAs400() instanceof SecureAS400Extender,
-                getAs400().getSystemName(),
-                getAs400().getUserId(),
-                AS400Extender.getCachedPassword(getAs400()),
-                getAs400().getServicePort(AS400.SIGNON));
-        CommandConnection cc = CommandConnection.getConnection(
-                getAs400() instanceof SecureAS400Extender,
-                sc.getInfo(),
-                getAs400().getUserId(),
-                AS400Extender.getCachedPassword(getAs400()),
-                getAs400().getServicePort(AS400.COMMAND),
-                false);
-        DDMConnection ddmc = DDMConnection.getConnection(
-                getAs400() instanceof SecureAS400Extender,
-                sc.getInfo(), getAs400().getUserId(),
-                AS400Extender.getCachedPassword(getAs400()),
-                getAs400().getServicePort(AS400.RECORDACCESS));
-        DiskStatus[] statusList = (lds.getDiskStatuses(cc, ddmc, workLibName));
-        for (DiskStatus ds : statusList) {
-            // System.out.print(ds);
-            result.append(diskStatusToDatapoints(ds)).append('\n');
-        }
-        cc.close();
-        return result.toString();
-    }
-
-    /**
-     * Get disk status as SysShep datapoints
-     *
-     * @return String representing disk status as SysShep datapoints
-     * @throws IOException
-     */
-    public String diskStatus() throws IOException {
-        return diskStatus("APITESTXYZ");
-    }
-
-    /**
-     * Convert a DiskStatus object to SysShep datapoints.
-     *
-     * @param ds a DiskStatus object
-     * @return SysShep datapoints
-     */
-    public String diskStatusToDatapoints(DiskStatus ds) {
-        String metric;
-        int value;
-        float floatValue;
-        long longValue;
-        StringBuilder sb = new StringBuilder();
-        String asp = ds.getASP();
-        String unit = ds.getUnit();
-        final String metricStub = "OS400|DiskStatus|" + asp + "|" + unit;
-        metric = metricStub + "|Type|" + ds.getType();
-        value = 0;
-        sb.append(SysShepHelper.format(metric, value, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|Size";
-        longValue = Long.parseLong(ds.getSize());
-        sb.append(SysShepHelper.format(metric, longValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|PctUsed";
-        floatValue = Float.parseFloat(ds.getPercentUsed());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|PctBusy";
-        value = Integer.parseInt(ds.getPercentBusy());
-        sb.append(SysShepHelper.format(metric, value, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|Compression|" + ds.getCompression();
-        value = 0;
-        sb.append(SysShepHelper.format(metric, value, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|IORequests";
-        floatValue = Float.parseFloat(ds.getIORequests());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|ProtectionStatus|" + ds.getProtectionStatus();
-        value = 0;
-        sb.append(SysShepHelper.format(metric, value, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|ProtectionType|" + ds.getProtectionType();
-        value = 0;
-        sb.append(SysShepHelper.format(metric, value, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|ReadKb";
-        floatValue = Float.parseFloat(ds.getReadKB());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|ReadRequests";
-        floatValue = Float.parseFloat(ds.getReadRequests());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|RequestSize";
-        floatValue = Float.parseFloat(ds.getRequestSize());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|WriteKb";
-        floatValue = Float.parseFloat(ds.getWriteKB());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        sb.append("\n");
-        metric = metricStub + "|WriteRequests";
-        floatValue = Float.parseFloat(ds.getWriteRequests());
-        sb.append(SysShepHelper.format(metric, floatValue, SysShepHelper.STATUS.OK, null));
-        return sb.toString();
     }
 
     /**
@@ -617,10 +495,5 @@ public class Monitors {
         System.out.println(os400monitors.osMajorVersion());
         System.out.println(os400monitors.osVersionVRM());
         System.out.println(os400monitors.systemStatus());
-        try {
-            System.out.println(os400monitors.diskStatus());
-        } catch (IOException ex) {
-            System.out.println("Exception getting disk status" + ex.getMessage());
-        }
     }
 }
