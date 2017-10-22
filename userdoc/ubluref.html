@@ -510,7 +510,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </li>
 
 
-            <li><tt><a href="#jrnl">jrnl</a></tt>
+            <li><tt><a href="#jrnl"><del>jrnl</del></a></tt>
             </li>
 
 
@@ -2646,7 +2646,7 @@ Type help for help. Type license for license. Type bye to exit.
         "#job">job</a></tt><tt><br></tt> <tt><a href=
         "#joblist">joblist</a></tt><tt><br></tt> <tt><a href=
         "#joblog">joblog</a></tt><tt><br></tt> <tt><a href=
-        "#jrnl">jrnl</a></tt><tt><br></tt> <tt><a href=
+        "#jrnl"><del>jrnl</del></a></tt><tt><br></tt> <tt><a href=
         "#monitor">monitor</a></tt><tt><br></tt> <tt><a href=
         "#msg">msg</a></tt><tt><br></tt> <tt><a href=
         "#msgq">msgq</a></tt><tt><br></tt> <tt><a href=
@@ -12103,208 +12103,17 @@ exit <span class="syntax-KEYWORD2">$?</span>
   </blockquote>
 
 
-  <h4><a name="jrnl" id="jrnl"></a> <tt>jrnl</tt></h4>
+  <h4><a name="jrnl" id="jrnl"></a> <tt><del>jrnl</del></tt></h4>
 
 
   <blockquote>
-    <tt>/3? [-to datasink] [--,-jrnl ~@jrnl] [-as400 ~@as400 ] [-to
-    @variable] [-new,-instance] [-lib ~@{libname}] [-journal
-    ~@{journal}] [-get ~@###] [-size ~@intval (default 1024)]&nbsp;
-    : get journal entries</tt><tt><br></tt><br>
-    The <tt>jrnl</tt> commanda fetches entries from database
-    journals and the audit journal. You provide an <a href=
-    "#as400"><tt>as400</tt></a> instance to <tt>jrnl</tt> via the
-    <tt>-as400</tt> <a href="#Dash_Command">dash-command</a> to
-    instance a journal helper object, along with the name of the
-    library (<tt>-lib ~@{libname}</tt>) and the journal name
-    (<tt>-journal ~@{journal}</tt>), storing the result to a tuple
-    variable via the -to Thereafter, you access the journal
-    providing the journal helper instance to the <tt>jrnl</tt>
-    command via the <tt>-jrnl ~@jrnl</tt> dash-command along with
-    the operation dash-command and any other options. With the
-    journal helper instance in hand, you do not provide the
-    <tt>-as400</tt> dash-command. Of course the output of the
-    <tt>-get</tt> operation can be put to the desired <a href=
-    "#Datasinks">datasink</a> via the <tt>-to</tt>
-    dash-command.<br>
-    <br>
-    The operations and options are as follows:<br>
-
-
-    <ul>
-      <li><tt>-lib ~@{libname}</tt> specifies the library
-      containing the journal in OFS form. It only is specified
-      while instancing the journal helper.</li>
-
-
-      <li><tt>-journal ~@{journal}</tt> specifies the journal in
-      OFS form. It only is specified while instancing the journal
-      helper.</li>
-
-
-      <li><tt>-get ~@###</tt> specifes the number of entries to
-      get</li>
-
-
-      <li><tt>-size ~@intval</tt> specifies the approximate size of
-      each entry. If this amount is too small, you will not
-      retrieve the number of entries you expected. The default is
-      1024.</li>
-    </ul>
-    The default operation is <tt>-new,-instance</tt>.
-    <em><tt>-instance</tt> is deprecated, use <tt>-new</tt>
-    instead</em><br>
-    <br>
-    <em>Example</em> (<tt>examples/audjournal.ublu</tt>)
-
-    <pre>
-<span class="syntax0"><span class="gutter">   1 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">audJournal.ublu</span>
-<span class="gutter">   2 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Example</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">from</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Ublu</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Midrange</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">and</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Mainframe</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Life</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Cycle</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Extension</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">language</span>
-<span class="gutter">   3 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">https://github.com/jwoehr/ublu</span>
-<span class="gutter">   4 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Copyright</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">(C)</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">2016</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Jack</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">J.</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Woehr</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">http://www.softwoehr.com</span>
-<span class="gutterH">   5 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">See</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">the</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Ublu</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">license</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">(BSD-2</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">open</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">source)</span>
-<span class="gutter">   6 </span>
-<span class="gutter">   7 </span><span class=
-"syntax-COMMENT1">#</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">Read</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">a</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">number</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">of</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">entries</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">from</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">the</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">audit</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">journal</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">and</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">write</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">them</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">to</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">a</span><span class=
-"syntax-COMMENT1"> </span><span class=
-"syntax-COMMENT1">file.</span>
-<span class="gutter">   8 </span><span class=
-"syntax-KEYWORD1">FUNC</span> audJournal <span class=
-"syntax-OPERATOR">(</span> sys userid password numentries filename <span class="syntax-OPERATOR">)</span>  <span class="syntax-OPERATOR">$[</span>
-<span class="gutter">   9 </span>    <span class=
-"syntax-KEYWORD1">LOCAL</span> <span class=
-"syntax-MARKUP">@as400</span>
-<span class="gutterH">  10 </span>    <span class=
-"syntax-KEYWORD1">LOCAL</span> <span class=
-"syntax-MARKUP">@journal</span>
-<span class="gutter">  11 </span>    <span class=
-"syntax-KEYWORD1">LOCAL</span> <span class=
-"syntax-MARKUP">@entries</span>
-<span class="gutter">  12 </span>    <span class=
-"syntax-KEYWORD2">as400</span> <span class=
-"syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@as400</span> <span class=
-"syntax-LITERAL4">@@sys</span> <span class=
-"syntax-LITERAL4">@@userid</span> <span class=
-"syntax-LITERAL4">@@password</span>
-<span class="gutter">  13 </span>    <span class=
-"syntax-KEYWORD2">jrnl</span> <span class=
-"syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@journal</span> <span class=
-"syntax-KEYWORD3">-as400</span> <span class=
-"syntax-MARKUP">@as400</span>
-<span class="gutter">  14 </span>    <span class=
-"syntax-KEYWORD2">jrnl</span> <span class=
-"syntax-KEYWORD3">--</span><span class=
-"syntax-KEYWORD3"> </span><span class=
-"syntax-MARKUP">@journal</span> <span class=
-"syntax-KEYWORD3">-lib</span> QSYS <span class=
-"syntax-KEYWORD3">-journal</span> QAUDJRN <span class=
-"syntax-KEYWORD3">-get</span> <span class=
-"syntax-LITERAL4">@@numentries</span> <span class=
-"syntax-KEYWORD3">-to</span> <span class=
-"syntax-MARKUP">@entries</span>
-<span class="gutterH">  15 </span>    <span class=
-"syntax-KEYWORD2">put</span> <span class=
-"syntax-KEYWORD3">-from</span> <span class=
-"syntax-MARKUP">@entries</span> <span class=
-"syntax-KEYWORD3">-tofile</span> <span class=
-"syntax-LITERAL4">@@filename</span>
-<span class="gutter">  16 </span>    <span class=
-"syntax-KEYWORD2">as400</span> <span class=
-"syntax-KEYWORD3">--</span><span class=
-"syntax-KEYWORD3"> </span><span class=
-"syntax-MARKUP">@as400</span> <span class=
-"syntax-KEYWORD3">-disconnect</span>
-<span class="gutter">  17 </span><span class=
-"syntax-OPERATOR">]$</span>
-<span class="gutter">  18 </span>
-</span></pre>
+    This command has been removed along with all other dependencies
+    on jtopenlite. Its functionality can be surpassed using Db2 for
+    i Services <a href=
+    "https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_73/rzajq/rzajqviewjournalinfo.htm">
+    <code>QSYS2.JOURNAL_INFO()</code></a> and <a href=
+    "https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_73/rzajq/rzajqudfdisplayjournal.htm">
+    <code>QSYS2.DISPLAY_JOURNAL()</code></a>.
   </blockquote>
 
 

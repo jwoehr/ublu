@@ -36,6 +36,7 @@ package ublu;
  */
 import ublu.util.Interpreter;
 import com.ibm.as400.access.AS400;
+import com.ibm.as400.access.SecureAS400;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,8 +139,8 @@ public class AS400Factory {
     protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type, SIGNON_HANDLER_TYPE signon_handler_type, String systemName, String userId, String password) {
         AS400 as400
                 = signon_security_type == SIGNON_SECURITY_TYPE.NONE
-                        ? new AS400Extender(systemName, userId, password)
-                        : new SecureAS400Extender(systemName, userId, password);
+                        ? new AS400(systemName, userId, password)
+                        : new SecureAS400(systemName, userId, password);
         switch (signon_handler_type) {
             case CUSTOM:
                 as400.setSignonHandler(new SignonHandler());
@@ -240,24 +241,6 @@ public class AS400Factory {
     private static SIGNON_SECURITY_TYPE getSignonSecurityType(Interpreter interpreter) {
         String s = interpreter.getProperty("signon.security.type", "NONE");
         return propertyStringToSignonSecurityType(s);
-    }
-
-    /**
-     * Retrieve the original password supplied by user for use with JTOpenLite
-     *
-     * @param as400 the instance which ostensibly is actually an instance of
-     * either AS400Extender or SecureAS400Extender
-     * @return the original password supplied by user for use with JTOpenLite
-     * classes
-     */
-    public static String retrievePassword(AS400 as400) {
-        String password = null;
-        if (as400 instanceof AS400Extender) {
-            password = AS400Extender.class.cast(as400).getCachedPassword();
-        } else if (as400 instanceof SecureAS400Extender) {
-            password = SecureAS400Extender.class.cast(as400).getCachedPassword();
-        }
-        return password;
     }
 
     /**

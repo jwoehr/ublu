@@ -63,8 +63,6 @@ import java.util.Set;
 import javax.cim.CIMInstance;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ublu.AS400Extender;
-import ublu.SecureAS400Extender;
 import ublu.db.Db;
 import ublu.db.ResultSetClosure;
 import ublu.server.Listener;
@@ -90,8 +88,6 @@ public class Autonome {
         AUTONOMY = new LinkedHashMap<>();
         AUTONOMY.put(AS400.class, "as400");
         AUTONOMY.put(SecureAS400.class, "as400");
-        AUTONOMY.put(AS400Extender.class, "as400");
-        AUTONOMY.put(SecureAS400Extender.class, "as400");
         AUTONOMY.put(CallableStatement.class, "cs");
         AUTONOMY.put(CimUbluHelper.class, "cim");
         AUTONOMY.put(CIMInstance.class, "cimi");
@@ -110,7 +106,6 @@ public class Autonome {
         AUTONOMY.put(Job.class, "job");
         AUTONOMY.put(JobList.class, "joblist");
         AUTONOMY.put(JobLog.class, "joblog");
-        AUTONOMY.put(JournalHelper.class, "jrnl");
         AUTONOMY.put(JSONObject.class, "json");
         AUTONOMY.put(JSONArray.class, "json");
         AUTONOMY.put(ThingArrayList.class, "list");
