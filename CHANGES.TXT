@@ -4,8 +4,13 @@ All rights reserved.
 
 1.1.9
 -----
+* System
+	* All dependencies on JTOpenLite removed and that jar removed.
 * Commands
     * `cs` Remove 1.8-ism
+    * `jrnl` Removed this command for its dependency on JTOpenLite
+    	* Its functionality can be surpassed by Ublu code using Db2 for i Services
+    * `monitor` Removed `-diststatus` which is broken in JTOpenLite
     * `num` Remove 1.8-ism
     * `splfol` spooled file open list api
 * Extensions
