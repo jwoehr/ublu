@@ -246,6 +246,7 @@ public class Ublu {
         sb.append("  -t [filename, --]\t\topen history file filename or default if --\n");
         sb.append("  -w [propsfilename]\t\tstart Ublu in a window [loading properties from propsfile] and execute commands\n");
         sb.append("  -h\t\t\t\tdisplay this help and then exit\n");
+        sb.append("  -v\t\t\t\tdisplay version info and then exit\n");
         return sb.toString();
     }
 
@@ -383,7 +384,9 @@ public class Ublu {
     public static int niam(String[] args) {
         int result = 0;
         Ublu ublu = new Ublu(args);
-        if (ublu.myGetArgs.containsOpt("-w")) {
+        if (ublu.myGetArgs.containsOpt("-v")) {
+            System.out.println(Ublu.startupMessage());
+        } else if (ublu.myGetArgs.containsOpt("-w")) {
             windowing = true;
             ublu.setMyUbluWin(new UbluWin(ublu));
             ublu.getMyUbluWin().go();
