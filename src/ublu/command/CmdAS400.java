@@ -278,10 +278,6 @@ public class CmdAS400 extends Command {
                         if (getCommandResult() != COMMANDRESULT.FAILURE) {
                             try {
                                 if (defaultServicePorts) // defaults to true
-                                // Set to defaults because they aren't set by JTOpen
-                                // which apparently sets them when services are invoked
-                                // whereas we sometimes look at them in jtopenlite code
-                                // so as to feed redirected ports to CmdMonitor.
                                 // However, this is undesirable if application wants to set service ports
                                 // or use native access on IBM i.
                                 {
