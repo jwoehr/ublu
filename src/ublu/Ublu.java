@@ -185,9 +185,9 @@ public class Ublu {
         org.postgresql.Driver d = new org.postgresql.Driver();
         return sb.append(utilities.AboutToolbox.getVersionDescription())
                 .append("\n---\n")
-                .append("Postgresql ")
-                .append(d.getMajorVersion()).append('.').append(d.getMinorVersion()).append('\n')
-                .append("Copyright (c) 1997-2011, PostgreSQL Global Development Group\n")
+                .append("Postgresql JDBC Driver - JDBC 4.1 42.1.4.jre7")
+                .append(" (").append(d.getMajorVersion()).append('.').append(d.getMinorVersion()).append(")\n")
+                .append("Copyright (c) 1997, PostgreSQL Global Development Group\n")
                 .append("All rights reserved http://www.postgresql.org")
                 .append("\n---\n")
                 .append("tn5250j http://tn5250j.sourceforge.net/\n")
