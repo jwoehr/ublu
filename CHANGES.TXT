@@ -7,6 +7,7 @@ All rights reserved.
 * System
     * All dependencies on JTOpenLite removed and that jar removed.
     * -v invocation shows version and exits.
+    * PostgreSQL driver 42.1.4
 * Commands
     * `cs` Remove 1.8-ism
     * `jrnl` Removed this command for its dependency on JTOpenLite
