@@ -10,6 +10,7 @@ All rights reserved.
     * PostgreSQL driver 42.1.4
 * Commands
     * `cs` Remove 1.8-ism
+    * `db` accepts `-as400`
     * `jrnl` Removed this command for its dependency on JTOpenLite
         * Its functionality can be surpassed by Ublu code using Db2 for i Services
     * `monitor` Removed `-diststatus` which is broken in JTOpenLite
