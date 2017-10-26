@@ -132,7 +132,7 @@ FUNC procrec ( rec ) $[
     eval -to ~ - ~ ~
     @recmap -add millisecs ~
     
-    @@rec -to ~ -getfieldbyname DESC
+    @@rec -to ~ -getfieldbyname DESCR
     ~ -to ~ -trim
     @recmap -add description ~
     
@@ -183,7 +183,7 @@ FUNC procrow ( zrs ) $[
     eval -to ~ - ~ ~
     @recmap -add millisecs ~
     
-    @@zrs -to ~ -lget DESC
+    @@zrs -to ~ -lget DESCR
     ~ -to ~ -trim
     @recmap -add description ~
     

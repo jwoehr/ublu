@@ -20,7 +20,7 @@ include -s ../../../examples/redir.ublu
 # ... testrptpf - open pf to write test report records
 FUNC t.TRY ( work_dir testsys testrptpf ) $[
     LOCAL @TMSTRT  LOCAL @TMEND 
-    LOCAL @DESC    LOCAL @PFAIL
+    LOCAL @DESCR    LOCAL @PFAIL
     LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
     
     put ${ ----------- }$
@@ -40,8 +40,8 @@ FUNC t.TRY ( work_dir testsys testrptpf ) $[
     string -to @FILNAM -trim t.TRY.ublu
     @result -> @FILNAM
     
-    string -to @DESC -cat ${ testtry:test TRY/THROW/CATCH:diff in }$ @difflist
-    @result -> @DESC
+    string -to @DESCR -cat ${ testtry:test TRY/THROW/CATCH:diff in }$ @difflist
+    @result -> @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~

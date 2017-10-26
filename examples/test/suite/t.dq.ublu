@@ -19,7 +19,7 @@ include -s ../../../extensions/ux.dqentry.ublu
 # ... testsys - the server against which tests to be run
 # ... testrptpf - open pf to write test report records
 FUNC t.dq ( work_dir testsys testrptpf ) $[
-    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESC LOCAL @PFAIL
+    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESCR LOCAL @PFAIL
     LOCAL @result
     LOCAL @qifqp LOCAL @qs LOCAL @qk
     LOCAL @expect LOCAL @output LOCAL @dqe
@@ -46,11 +46,11 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     string -to @qdesc -trim ${ test sequential queue }$
     
-    string -to @DESC -trim ${ seq queue:create and exists: }$
-    @DESC -to @DESC -cat @qifqp
-    @result -> @DESC
+    string -to @DESCR -trim ${ seq queue:create and exists: }$
+    @DESCR -to @DESCR -cat @qifqp
+    @result -> @DESCR
     
-    put -n -s ${ *** }$ put -n -s @DESC
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -71,8 +71,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
     
-    string -to @DESC -trim ${ seq queue:write and peek }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:write and peek }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -92,8 +92,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
 
-    string -to @DESC -trim ${ seq queue:read }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:read }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -111,8 +111,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )
     
-    string -to @DESC -trim ${ seq queue:query ccsid }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query ccsid }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -129,8 +129,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result ) 
 
-    string -to @DESC -trim ${ seq queue:query description }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query description }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -149,8 +149,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result ) 
     
-    string -to @DESC -trim ${ seq queue:query fifo }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query fifo }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -166,8 +166,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
 
     writeMapToRecord ( @@testrptpf @result ) 
     
-    string -to @DESC -trim ${ seq queue:query forceauxstorage }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query forceauxstorage }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -183,8 +183,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )     
 
-    string -to @DESC -trim ${ seq queue:query maxentrylength }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query maxentrylength }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -201,8 +201,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )     
  
-    string -to @DESC -trim ${ seq queue:query name }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query name }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -219,8 +219,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )  
     
-    string -to @DESC -trim ${ seq queue:query path }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query path }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -237,8 +237,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )
     
-    string -to @DESC -trim ${ seq queue:query savesender }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:query savesender }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -254,8 +254,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )     
 
-    string -to @DESC -trim ${ seq queue:delete and exists }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ seq queue:delete and exists }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -279,10 +279,10 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     fqp_obj ( *t_library @kqname DTAQ )
     tuple -assign @qifqp ~
 
-    string -to @DESC -trim ${ keyed queue:create and exists: }$
-    @DESC -to @DESC -cat @qifqp
+    string -to @DESCR -trim ${ keyed queue:create and exists: }$
+    @DESCR -to @DESCR -cat @qifqp
     
-    put -n -s ${ *** }$ put -n -s @DESC
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -300,8 +300,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
 
-    string -to @DESC -trim ${ keyed queue:write and peek }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:write and peek }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -321,8 +321,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
 
-    string -to @DESC -trim ${ keyed queue:read }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:read }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -338,8 +338,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     put @PFAIL
 
-    string -to @DESC -trim ${ keyed queue:bwrite and bpeek }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:bwrite and bpeek }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -362,8 +362,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
 
-    string -to @DESC -trim ${ keyed queue:bread }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:bread }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -381,8 +381,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     
     writeMapToRecord ( @@testrptpf @result )
 
-    string -to @DESC -trim ${ keyed queue:query keylen }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query keylen }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -398,8 +398,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
     put @PFAIL
       
     writeMapToRecord ( @@testrptpf @result ) 
-    string -to @DESC -trim ${ keyed queue:query ccsid }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query ccsid }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -416,8 +416,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result ) 
 
-    string -to @DESC -trim ${ keyed queue:query description }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query description }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -436,8 +436,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result ) 
     
-    string -to @DESC -trim ${ keyed queue:query fifo }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query fifo }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -453,8 +453,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
 
     writeMapToRecord ( @@testrptpf @result ) 
     
-    string -to @DESC -trim ${ keyed queue:query forceauxstorage }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query forceauxstorage }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -470,8 +470,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
   
     writeMapToRecord ( @@testrptpf @result )     
 
-    string -to @DESC -trim ${ keyed queue:query maxentrylength }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query maxentrylength }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -488,8 +488,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )     
  
-    string -to @DESC -trim ${ keyed queue:query name }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query name }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -506,8 +506,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )  
     
-    string -to @DESC -trim ${ keyed queue:query path }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query path }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -524,8 +524,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )
     
-    string -to @DESC -trim ${ keyed queue:query savesender }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:query savesender }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
@@ -541,8 +541,8 @@ FUNC t.dq ( work_dir testsys testrptpf ) $[
       
     writeMapToRecord ( @@testrptpf @result )     
 
-    string -to @DESC -trim ${ keyed queue:delete and exists }$
-    put -n -s ${ *** }$ put -n -s @DESC
+    string -to @DESCR -trim ${ keyed queue:delete and exists }$
+    put -n -s ${ *** }$ put -n -s @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~

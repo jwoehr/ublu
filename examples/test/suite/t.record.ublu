@@ -19,7 +19,7 @@ include -s ../../../examples/listsrc.ublu
 # ... testsys - the server against which tests to be run
 # ... testrptpf - open pf to write test report records
 FUNC t.record ( work_dir testsys testrptpf ) $[
-    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESC LOCAL @PFAIL
+    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESCR LOCAL @PFAIL
     LOCAL @result LOCAL @results
     LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
     
@@ -40,8 +40,8 @@ FUNC t.record ( work_dir testsys testrptpf ) $[
     string -to @FILNAM -trim t.record.ublu
     @result -> @FILNAM
     
-    string -to @DESC -cat ${ listsrc:diff in }$ @difflist
-    @result -> @DESC
+    string -to @DESCR -cat ${ listsrc:diff in }$ @difflist
+    @result -> @DESCR
     
     currentTimeMillis ( )
     tuple -assign @TMSTRT ~
