@@ -5,6 +5,8 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +17,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 22 Oct 2017 03:31:49 UTC">
+  "Thu, 26 Oct 2017 00:47:20 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +65,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-10-22</p>
+  Last edit: 2017-10-26</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -5206,8 +5208,8 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
   <blockquote>
-    <tt>/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type}
-    [-charsetname ~@{charsetname}] [-qopt
+    <tt>/4? [--,-dbconnected ~@dbconnected] [-as400 ~@as400]
+    -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-qopt
     ~@{close|hold|ro|update|forward|insensitive|sensitive}]
     [-catalog | -columnnames ~@{tablename} | -columntypes
     ~@{tablename} | -connect | -csv ~@{tablename} [-separator
@@ -5244,11 +5246,6 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     <tt>-dbconnected</tt><br></p>
 
 
-    <p><strong>Note:</strong> This command and the Ublu database
-    code of which it is part is some of the oldest code in Ublu. It
-    is being reworked somewhat.</p>
-
-
     <p><em>See also:</em> <code><a href="#cs">cs</a></code>
     <code><a href="#rs">rs</a></code></p>
 
@@ -5272,6 +5269,22 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
     <ul>
+      <li>
+        <code>-as400 ~@as400</code> is the means to provide at
+        <code>-connect</code> time an instanced <code><a href=
+        "#as400">as400</a></code> in which case <em>system</em>,
+        <em>database</em>, <em>userid</em>, and <em>password</em>
+        should be omitted from the command arguments. Connection is
+        to the system database; tables will have to addressed fully
+        qualified, e.g., <code>MYLIB.MYTABLE</code> .
+
+        <ul>
+          <li>This dash-command is only applicable if
+          <code>-dbtype</code> is <code>as400</code>.</li>
+        </ul>
+      </li>
+
+
       <li>
         <tt>-dbtype type</tt> is obligatory unless the database
         object is provided via <tt>---,-dbconnected

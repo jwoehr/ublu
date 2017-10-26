@@ -65,7 +65,7 @@ public class CmdDb extends Command {
 
     {
         setNameAndDescription("db",
-                "/4? [--,-dbconnected ~@dbconnected] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] "
+                "/4? [--,-dbconnected ~@dbconnected] [-as400 ~@as400] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] "
                 + "[-qopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] "
                 + "[-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} "
                 + "| -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata "
@@ -328,6 +328,9 @@ public class CmdDb extends Command {
                 case "-to":
                     setDataDestfromArgArray(argArray);
                     break;
+                case "-as400":
+                    setAs400fromTupleOrPop(argArray);
+                    break;
                 case "-dbtype":
                 case "-db":
                     if (getDb() == null) {
@@ -431,28 +434,37 @@ public class CmdDb extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else if (getCommandResult() != COMMANDRESULT.FAILURE) {
             if (!getDb().isConnected()) {
-                if (argArray.size() < 4) { // here's where we fall out if new ArgArray()
-                    logArgArrayTooShortError(argArray);
-                    setCommandResult(COMMANDRESULT.FAILURE);
+                if (getDb() instanceof DbAS400 && getAs400() != null) {
+                    try {
+                        getDb().connect(getAs400(), getPort(), getConnectionProperties());
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        getLogger().log(Level.SEVERE, "Could not connect to " + getAs400() + " " /* + database */ + inNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                 } else {
-                    String system = argArray.nextMaybeQuotationTuplePopString();
-                    String database = argArray.nextMaybeQuotationTuplePopString();
-                    String userid = argArray.nextMaybeQuotationTuplePopString();
-                    String password = argArray.nextMaybeQuotationTuplePopString();
-                    if (getDb() == null || getFunction() == null) {
-                        getLogger().log(Level.SEVERE, "-db dbtype and a choice of function required for {0}", getNameAndDescription());
+                    if (argArray.size() < 4) { // here's where we fall out if new ArgArray()
+                        logArgArrayTooShortError(argArray);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
-                        /* Uncomment the following if you are adding MSSQL support */
+                        String system = argArray.nextMaybeQuotationTuplePopString();
+                        String database = argArray.nextMaybeQuotationTuplePopString();
+                        String userid = argArray.nextMaybeQuotationTuplePopString();
+                        String password = argArray.nextMaybeQuotationTuplePopString();
+                        if (getDb() == null || getFunction() == null) {
+                            getLogger().log(Level.SEVERE, "-db dbtype and a choice of function required for {0}", getNameAndDescription());
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        } else {
+                            /* Uncomment the following if you are adding MSSQL support */
 //                        if (getDb().getDbType() == Db.DBTYPE.MSSQL && getPort() == null) {
 //                            setPort(DbMSSQL.MSSQL_DEFAULT_PORT); // MSSQL connect needs a specific port number
 //                        }
-                        /* End Uncomment */
-                        try {
-                            getDb().connect(system, getPort(), database, getConnectionProperties(), userid, password);
-                        } catch (ClassNotFoundException | SQLException ex) {
-                            getLogger().log(Level.SEVERE, "Could not connect to " + system + " " + database + inNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
+                            /* End Uncomment */
+                            try {
+                                getDb().connect(system, getPort(), database, getConnectionProperties(), userid, password);
+                            } catch (ClassNotFoundException | SQLException ex) {
+                                getLogger().log(Level.SEVERE, "Could not connect to " + system + " " + database + inNameAndDescription(), ex);
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            }
                         }
                     }
                 }

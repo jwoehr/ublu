@@ -27,6 +27,9 @@
  */
 package ublu.db;
 
+import com.ibm.as400.access.AS400;
+import com.ibm.as400.access.AS400JDBCDataSource;
+import com.ibm.as400.access.AS400JDBCDriver;
 import ublu.Ublu;
 import ublu.util.Generics.ConnectionProperties;
 import java.io.IOException;
@@ -293,7 +296,7 @@ public abstract class Db {
     }
 
     /**
-     * Connect to the database
+     * Connect to the database specifying by strings
      *
      * @param system host
      * @param port jdbc port
@@ -311,6 +314,52 @@ public abstract class Db {
         String url = buildURL(system, port, database, connectionProperties);
         // /* Debug */ getLogger().log(Level.INFO, "URL is " + url);
         setConnection(DriverManager.getConnection(url, userid, password));
+        return getConnection();
+    }
+
+    /**
+     * Connect to the database passing an AS400 object
+     *
+     * @param as400
+     * @param port jdbc port
+     * @param database name of database
+     * @param connectionProperties any desired connection properties
+     * @return the connection
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public Connection connect(AS400 as400, String port, String database, ConnectionProperties connectionProperties)
+            throws ClassNotFoundException, SQLException {
+        AS400JDBCDataSource asjdbcds = new AS400JDBCDataSource(as400);
+        if (port != null) {
+            asjdbcds.setPortNumber(Integer.parseInt(port));
+        }
+        if (database != null) {
+            asjdbcds.setDatabaseName(database);
+        }
+        asjdbcds.setProperties(connectionProperties);
+        setConnection(asjdbcds.getConnection());
+        return getConnection();
+    }
+
+    /**
+     * Connect to the database passing an AS400 object
+     *
+     * @param as400
+     * @param port jdbc port
+     * @param connectionProperties any desired connection properties
+     * @return the connection
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public Connection connect(AS400 as400, String port, ConnectionProperties connectionProperties)
+            throws ClassNotFoundException, SQLException {
+        AS400JDBCDataSource asjdbcds = new AS400JDBCDataSource(as400);
+        if (port != null) {
+            asjdbcds.setPortNumber(Integer.parseInt(port));
+        }
+        asjdbcds.setProperties(connectionProperties);
+        setConnection(asjdbcds.getConnection());
         return getConnection();
     }
 
