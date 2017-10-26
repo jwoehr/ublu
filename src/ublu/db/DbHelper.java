@@ -561,10 +561,7 @@ public class DbHelper {
      */
     public static ResultSetClosure selectStarFrom(Db db, String tablename) throws SQLException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM ");
-        sql.append("\"");
-        sql.append(tablename);
-        sql.append("\"");
+        sql.append("SELECT * FROM ").append(tablename);
         Statement statement = db.getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = statement.executeQuery(sql.toString());
@@ -583,10 +580,7 @@ public class DbHelper {
      */
     public static DbHelper newDbHelperStarFrom(Db db, String tablename) throws SQLException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM ");
-        sql.append("\"");
-        sql.append(tablename);
-        sql.append("\"");
+        sql.append("SELECT * FROM ").append(tablename);
         Statement statement = db.getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
         ResultSet rs = statement.executeQuery(sql.toString());
