@@ -5,8 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -17,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 26 Oct 2017 00:47:20 UTC">
+  "Thu, 26 Oct 2017 21:47:20 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -19460,8 +19458,8 @@ ciptool
   FROM "ARF.FILE" }$ -to @srctable anothersys farfel fred
   *********</tt><tt><br></tt> <tt>db -db postgres -query ${ SELECT
   * FROM "ARF.FILE" }$ -to @desttable onesys test fred
-  *********</tt><tt><br></tt> <tt>rs -insert -toascii 3 1 2 3 -from
-  @srctable -to @desttable<br></tt> <tt>rs -closedb @desttable<br>
+  *********</tt><tt><br></tt> <tt>rs -insert -from @srctable -to
+  @desttable<br></tt> <tt>rs -closedb @desttable<br>
   rs -closedb @srctable<br>
   put ${ Done replication and data copy. }$</tt></p>
 
@@ -19483,7 +19481,7 @@ ciptool
   testsojac farfel fred *********</tt><tt><br></tt> <tt>:: db -db
   postgres -query ${ SELECT * FROM "ARF.FILE" }$ -to @desttable
   sojac test fred *********</tt><tt><br></tt> <tt>:: rs -insert
-  -toascii 3 1 2 3 -from @srctable -to @desttable<br>
+  -from @srctable -to @desttable<br>
   :: rs -closedb @desttable<br>
   :: rs -closedb @srctable<br>
   :: put ${ Done replication and data copy. }$<br>
