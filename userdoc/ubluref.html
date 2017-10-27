@@ -15707,11 +15707,11 @@ exit <span class="syntax-KEYWORD2">$?</span>
     EBCDIC to ASCII:<br></p>
 
 
-    <p><tt>db -db as400 -query ${ SELECT * FROM "ARF.FILE" }$ -to
+    <p><tt>db -db as400 -query ${ SELECT * FROM ARF.WOOF }$ -to
     @srctable onesys farfel fred ********</tt><tt><br></tt> <tt>db
-    -db postgres -query ${ SELECT * FROM "ARF.FILE" }$ -to
-    @desttable anothersys test fred ********</tt><tt><br></tt>
-    <tt>rs -insert -toascii 3 1 2 3 -from @srctable -to
+    -db postgres -query ${ SELECT * FROM ARF.WOOF }$ -to @desttable
+    anothersys test fred ********</tt><tt><br></tt> <tt>rs -insert
+    -toascii 3 1 2 3 -from @srctable -to
     @desttable</tt><tt><br></tt> <tt>rs -close @srctable<br>
     rs -close @desttable<br></tt></p>
 
@@ -15726,7 +15726,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <p><tt>db -db postgres -query_nors ${ create table woof (a
     varchar, b varchar, c varchar, d varchar, e varchar, primary
     key (a,b,c,d,e)) }$ onesys test fred ******</tt><tt>**<br></tt>
-    <tt>db -db as400 -query ${ SELECT * FROM "ARF.FILE" }$ -to
+    <tt>db -db as400 -query ${ SELECT * FROM ARF.WOOF }$ -to
     @srctable anothersys farfel bluto ********</tt><tt><br></tt>
     <tt>db -db postgres -query ${ SELECT * FROM woof }$ -to
     @desttable onesys test fred ********</tt><tt><br></tt> <tt>rs
@@ -19405,7 +19405,7 @@ ciptool
   bytea, buncha_nonsense bytea, primary key
   (active,id,name,addr_1,addr_2,addr_3,city,state,weird_bitmap,buncha_ns,buncha_nonsense))
   }$ onesys test fred ********</tt><tt><br></tt> <tt>db -db as400
-  -star ARF.FILE -to @srctable anothersys farfel fred
+  -star ARF.WOOF -to @srctable anothersys farfel fred
   ********</tt><tt><br></tt> <tt>db -db postgres -star ap_avend -to
   @desttable onesys test fred ********</tt><tt><br></tt> <tt>rs
   -split 3 9 35 35 35 35 20 2 44 9 94 -toascii 3 1 2 3 -from
@@ -19452,12 +19452,12 @@ ciptool
 
   <p><tt>#! /usr/bin/java -jar
   /Users/jwoehr/NetBeansProjects/Ublu/dist/ublu.jar
-  include</tt><tt><br></tt> <tt>db -db as400 -replicate ARF.FILE
+  include</tt><tt><br></tt> <tt>db -db as400 -replicate ARF.WOOF
   onesys postgres test fred ********* testsojac farfel fred
   *********</tt><tt><br></tt> <tt>db -db as400 -query ${ SELECT *
-  FROM "ARF.FILE" }$ -to @srctable anothersys farfel fred
+  FROM ARF.WOOF }$ -to @srctable anothersys farfel fred
   *********</tt><tt><br></tt> <tt>db -db postgres -query ${ SELECT
-  * FROM "ARF.FILE" }$ -to @desttable onesys test fred
+  * FROM ARF.WOOF }$ -to @desttable onesys test fred
   *********</tt><tt><br></tt> <tt>rs -insert -from @srctable -to
   @desttable<br></tt> <tt>rs -closedb @desttable<br>
   rs -closedb @srctable<br>
@@ -19470,18 +19470,18 @@ ciptool
   <p><tt>$ ./testreplicate.ublu</tt> <tt><br></tt> <tt>:: #!
   /usr/bin/java -jar
   /Users/jwoehr/NetBeansProjects/Ublu/dist/ublu.jar
-  include</tt><tt><br></tt> <tt>:: db -db as400 -replicate ARF.FILE
+  include</tt><tt><br></tt> <tt>:: db -db as400 -replicate ARF.WOOF
   sojac postgres test fred ********* testsojac farfel fred
   *********</tt><tt><br></tt> <tt>Aug 04, 2013 5:57:46 PM
   ublu.db.TableReplicator replicate</tt><tt><br></tt> <tt>INFO:
-  Table creation SQL is CREATE TABLE "ARF.FILE" ( F00001 varchar
-  NOT NULL, K00001 varchar NOT NULL, F00002 varchar NOT NULL,
-  PRIMARY KEY (F00001, K00001, F00002) )</tt><tt><br></tt> <tt>::
-  db -db as400 -query ${ SELECT * FROM "ARF.FILE" }$ -to @srctable
-  testsojac farfel fred *********</tt><tt><br></tt> <tt>:: db -db
-  postgres -query ${ SELECT * FROM "ARF.FILE" }$ -to @desttable
-  sojac test fred *********</tt><tt><br></tt> <tt>:: rs -insert
-  -from @srctable -to @desttable<br>
+  Table creation SQL is CREATE TABLE ARF.WOOF ( F00001 varchar NOT
+  NULL, K00001 varchar NOT NULL, F00002 varchar NOT NULL, PRIMARY
+  KEY (F00001, K00001, F00002) )</tt><tt><br></tt> <tt>:: db -db
+  as400 -query ${ SELECT * FROM ARF.WOOF }$ -to @srctable testsojac
+  farfel fred *********</tt><tt><br></tt> <tt>:: db -db postgres
+  -query ${ SELECT * FROM ARF.WOOF }$ -to @desttable sojac test
+  fred *********</tt><tt><br></tt> <tt>:: rs -insert -from
+  @srctable -to @desttable<br>
   :: rs -closedb @desttable<br>
   :: rs -closedb @srctable<br>
   :: put ${ Done replication and data copy. }$<br>
@@ -19492,9 +19492,9 @@ ciptool
   above with the following lines:<br></p>
 
 
-  <p><tt>db -db as400 -star ARF.FILE -to @srctable testsojac farfel
+  <p><tt>db -db as400 -star ARF.WOOF -to @srctable testsojac farfel
   fred *********</tt><tt><br></tt> <tt>db -db postgres -star
-  ARF.FILE -to @desttable sojac test fred *********</tt><br></p>
+  ARF.WOOF -to @desttable sojac test fred *********</tt><br></p>
 
 
   <p>using <tt><a href="#db">db -star</a></tt> to formulate
@@ -19504,7 +19504,7 @@ ciptool
   <p>Afterwards of course you can view your handiwork:</p>
 
 
-  <p><tt>java -jar ublu.jar db -db postgres -star ARF.FILE sojac
+  <p><tt>java -jar ublu.jar db -db postgres -star ARF.WOOF sojac
   test fred ********</tt><br>
   </p>
 
