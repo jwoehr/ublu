@@ -1,0 +1,23 @@
+# ux.qsys2.journal.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# System Shepherd is Copyright (C) 2016 Absolute Performance, Inc.
+# Copyright (C) 2016 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# ux.qsys2.journal.ublu
+# journal methods from db2 services
+#
+# Usage example:
+
+# TBD
+# TBD
+
+# getJournalInfo ( sysobj ) where sysobj is an as400 instance
+# pushes the result set of journal info
+# when done, close the result set with -closedb
+FUNC getJournalInfo ( sysobj ) $[
+    db -to ~ -dbtype as400 -as400 @@sysobj -connect
+    ~ -to ~ -query ${ SELECT * FROM QSYS2.JOURNAL_INFO }$
+]$
+    
