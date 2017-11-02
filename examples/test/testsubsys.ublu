@@ -1,0 +1,16 @@
+# testsubsys.ublu ... test Subsystem support
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+
+# testsubsys ( asys ) ... display QINTER subsys and then list them all
+# ... asys is AS400 object
+FUNC testsubsys ( asys ) $[
+    subsys -as400 @@asys -to ~ -new -subsyspath /QSYS.LIB/QINTER.SBSD
+    ~ -query status
+    subsys -as400 @@asys -list
+]$
+
+# end

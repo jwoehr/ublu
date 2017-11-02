@@ -21,6 +21,7 @@ All rights reserved.
     * `ux.sfli.ublu` call on the com.ibm.as400.access.list.SpooledFileListItem
 * Testing
     * Test suite now runs on Android
+        * t.subsys
 * Windowing
     * command-line recall better
 
