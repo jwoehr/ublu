@@ -27,6 +27,7 @@
  */
 package ublu.util;
 
+import com.ibm.as400.access.AS400Exception;
 import ublu.command.CommandInterface;
 import ublu.command.CommandMap;
 import com.ibm.as400.access.AS400Message;
@@ -1313,6 +1314,25 @@ public class Generics {
          */
         public SubsystemArrayList(Subsystem[] sarray) {
             addAll(Arrays.asList(sarray));
+        }
+
+        /**
+         * Runs refresh on each subsystem object in the list so the list is
+         * up-to-date.
+         *
+         * @return this list
+         * @throws AS400SecurityException
+         * @throws ErrorCompletingRequestException
+         * @throws AS400Exception
+         * @throws InterruptedException
+         * @throws IOException
+         * @throws ObjectDoesNotExistException
+         */
+        public SubsystemArrayList refresh() throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, InterruptedException, IOException, ObjectDoesNotExistException {
+            for (Subsystem s : this) {
+                s.refresh();
+            }
+            return this;
         }
     }
 

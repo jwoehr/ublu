@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -48,14 +48,14 @@ import java.util.logging.Level;
  * @author jwoehr
  */
 public class CmdSubSystem extends Command {
-    
+
     {
         setNameAndDescription("subsys",
                 "/3? [-as400 ~@as400] [--,-subsys ~@subsys] [-to datasink] [-subsyspath ~@{subsysIFSpath}] [-authoritystring ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared ~@{sequencenumber} ~@{poolname} | -change [description ~@{text} | displayfile ~@{path} | languagelibrary ~@{lib}} | maxactivejobs ~@${int}] | -create | -delete | -end | -endall | -new,-instance | -list | -query [description | activejobs | displayfilepath | languagelibrary | library | maxactivejobs | monitorjob | name | objectdescription | path | pool | pools ~@{sequencenumber} | status | system] | -refresh | -remove ~@{sequencenumber} | -start ] system userid password : manipulate subsystems");
     }
-    
+
     enum OPS {
-        
+
         ASSIGNPRIVATE, ASSIGNSHARED, CREATE, CHANGE, DELETE, END, ENDALL, EXISTS, INSTANCE, LIST, QUERY, REFRESH, REMOVE, START
     }
 
@@ -191,6 +191,7 @@ public class CmdSubSystem extends Command {
                     }
                     if (subsystem != null) {
                         try {
+                            subsystem.refresh();
                             put(subsystem);
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting subsystem in " + getNameAndDescription(), ex);
@@ -204,7 +205,7 @@ public class CmdSubSystem extends Command {
                 case LIST:
                     if (getAs400() != null) {
                         try {
-                            put(new SubsystemArrayList(Subsystem.listAllSubsystems(getAs400())));
+                            put(new SubsystemArrayList(Subsystem.listAllSubsystems(getAs400())).refresh());
                         } catch (AS400SecurityException | ErrorCompletingRequestException | InterruptedException | IOException | ObjectDoesNotExistException | SQLException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting subsystem list in " + getNameAndDescription(), ex);
                             setCommandResult(COMMANDRESULT.FAILURE);
@@ -304,7 +305,7 @@ public class CmdSubSystem extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
-                
+
                 case CREATE:
                     if (subsystem == null) {
                         subsystem = getSubsystem(subsystemIFSPath);
@@ -472,7 +473,7 @@ public class CmdSubSystem extends Command {
         }
         return argArray;
     }
-    
+
     private Subsystem getSubsystem(String subsystemIFSPath) {
         Subsystem subsystem = null;
         if (getAs400() != null) {
@@ -485,7 +486,7 @@ public class CmdSubSystem extends Command {
         }
         return subsystem;
     }
-    
+
     private Object querySubSystem(Subsystem subsys, String queryString, Integer sequenceNumber) throws AS400SecurityException, ErrorCompletingRequestException, AS400Exception, InterruptedException, IOException, ObjectDoesNotExistException {
         Object result = null;
         switch (queryString.toLowerCase()) {
@@ -537,13 +538,13 @@ public class CmdSubSystem extends Command {
         }
         return result;
     }
-    
+
     @Override
     public ArgArray cmd(ArgArray args) {
         reinit();
         return cmdSubsys(args);
     }
-    
+
     @Override
     public COMMANDRESULT getResult() {
         return getCommandResult();

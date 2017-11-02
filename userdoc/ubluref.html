@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 26 Oct 2017 21:47:20 UTC">
+  "Thu, 2 Nov 2017 02:06:20 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-10-26</p>
+  Last edit: 2017-11-02</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -17624,12 +17625,16 @@ ciptool
 
 
       <li><tt>-new,-instance</tt> is the default operation,
-      instancing the subsystem object for Ublu use.
-      <em><tt>-instance</tt> is deprecated, use <tt>-new</tt>
-      instead</em></li>
+      instancing the subsystem object for Ublu use. The subsystem
+      object is refreshed. <em><tt>-instance</tt> is deprecated,
+      use <tt>-new</tt> instead</em></li>
 
 
-      <li><tt>-list</tt> lists all subsystems.</li>
+      <li><tt>-list</tt> provides a <a href="#list">list</a>
+      containing objects for all subsystems. Each individual
+      subsystem object in the list is <code>refresh</code>ed, so
+      the operation can take several seconds from remote depending
+      on the number of subsystems and system load.</li>
 
 
       <li>
