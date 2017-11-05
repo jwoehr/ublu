@@ -191,7 +191,9 @@ public class CmdSubSystem extends Command {
                     }
                     if (subsystem != null) {
                         try {
-                            subsystem.refresh();
+                            if (subsystem.exists()) {
+                                subsystem.refresh();
+                            }
                             put(subsystem);
                         } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                             getLogger().log(Level.SEVERE, "Error putting subsystem in " + getNameAndDescription(), ex);
