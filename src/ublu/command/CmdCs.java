@@ -518,9 +518,9 @@ public class CmdCs extends Command {
             case "REF":
                 sqlTypeInt = java.sql.Types.REF;
                 break;
-            case "REF_CURSOR": // 1.8
-                sqlTypeInt = java.sql.Types.REF_CURSOR;
-                break;
+//            case "REF_CURSOR": // 1.8
+//                sqlTypeInt = java.sql.Types.REF_CURSOR;
+//                break;
             case "ROWID":
                 sqlTypeInt = java.sql.Types.ROWID;
                 break;
@@ -536,15 +536,15 @@ public class CmdCs extends Command {
             case "TIME":
                 sqlTypeInt = java.sql.Types.TIME;
                 break;
-            case "TIME_WITH_TIMEZONE": // 1.8
-                sqlTypeInt = java.sql.Types.TIME_WITH_TIMEZONE;
-                break;
+//            case "TIME_WITH_TIMEZONE": // 1.8
+//                sqlTypeInt = java.sql.Types.TIME_WITH_TIMEZONE;
+//                break;
             case "TIMESTAMP":
                 sqlTypeInt = java.sql.Types.TIMESTAMP;
                 break;
-            case "TIMESTAMP_WITH_TIMEZONE": // 1.8
-                sqlTypeInt = java.sql.Types.TIMESTAMP_WITH_TIMEZONE;
-                break;
+//            case "TIMESTAMP_WITH_TIMEZONE": // 1.8
+//                sqlTypeInt = java.sql.Types.TIMESTAMP_WITH_TIMEZONE;
+//                break;
             case "TINYINT":
                 sqlTypeInt = java.sql.Types.TINYINT;
                 break;
