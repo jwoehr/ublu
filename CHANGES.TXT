@@ -8,8 +8,9 @@ All rights reserved.
     * All dependencies on JTOpenLite removed and that jar removed.
     * -v invocation shows version and exits.
     * PostgreSQL driver 42.1.4
+    * Remove 1.8-isms for builds under Java 1.7.
 * Commands
-    * `cs` Remove 1.8-ism
+    * `cs` Remove 1.8-isms
     * `db` accepts `-as400`
     * `jrnl` Removed this command for its dependency on JTOpenLite
         * Its functionality can be surpassed by Ublu code using Db2 for i Services
@@ -18,12 +19,15 @@ All rights reserved.
     * `splfol` spooled file open list api
     * `subsys` command now populates subsystem attributes with a refresh (https://github.com/jwoehr/ublu/issues/19)
 * Extensions
+    * `ux.qsys2.journal.ublu` journal methods from db2 services
+    * `ux.serialize.ublu` Java serialization utilities
     * `ux.sfli.ublu` call on the com.ibm.as400.access.list.SpooledFileListItem
 * Testing
     * Test suite now runs on Android
         * t.subsys
 * Windowing
     * command-line recall better
+    * remove 1.8-isms
 
 1.1.8 2017-09-27
 -----

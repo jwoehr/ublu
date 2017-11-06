@@ -1,0 +1,36 @@
+# ux.serialize.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Absolute Performance, Inc.
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Serialization utilities
+# Author: Taylor Richberger
+
+# Serializes a Serializable java object to a named file
+FUNC ux.serialize.toFile ( object filename ) $[
+    LOCAL @filestream
+    LOCAL @objectstream
+    put -to @filename @@filename
+    calljava -to @filestream -new java.io.FileOutputStream -arg @filename
+    calljava -to @objectstream -new java.io.ObjectOutputStream -castarg @filestream java.io.OutputStream
+    calljava -- @objectstream -method writeObject -castarg @@object java.lang.Object
+    calljava -- @objectstream -method close
+    calljava -- @filestream -method close
+]$
+
+# Deserializes a Serializable java object from a named file
+FUNC ux.serialize.fromFile ( filename ) $[
+    LOCAL @filestream
+    LOCAL @objectstream
+    LOCAL @filename
+    put -to @filename @@filename
+    calljava -to @filestream -new java.io.FileInputStream -arg @filename
+    calljava -to @objectstream -new java.io.ObjectInputStream -castarg @filestream java.io.InputStream
+    calljava -to ~ -- @objectstream -method readObject
+    calljava -- @objectstream -method close
+    calljava -- @filestream -method close
+]$
+
+# end
