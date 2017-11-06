@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.StringArrayList;
@@ -320,7 +321,8 @@ public class StreamFileHelper {
      * @return @throws IOException
      */
     public StringArrayList readAllLines() throws IOException {
-        return new StringArrayList(Files.readAllLines(file.toPath()));
+        // return new StringArrayList(Files.readAllLines(file.toPath())); // 1.8
+        return new StringArrayList(Files.readAllLines(file.toPath(), Charset.defaultCharset())); 
     }
 
     /**

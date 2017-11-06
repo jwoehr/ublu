@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.util.logging.Level;
@@ -74,7 +75,7 @@ public class UbluWinController {
     private Interpreter interpreter;
 
     private Ublu ublu;
-    
+
     private UbluWinInputStream ubluIS;
 
     private TextAreaOutputStream ubluTAOS;
@@ -385,7 +386,8 @@ public class UbluWinController {
         File f = dialogForLoadFile();
         if (f != null) {
             lastOpened = f;
-            for (String s : new Generics.StringArrayList(Files.readAllLines(lastOpened.toPath()))) {
+            // for (String s : new Generics.StringArrayList(Files.readAllLines(lastOpened.toPath()))) // 1.8
+            for (String s : new Generics.StringArrayList(Files.readAllLines(lastOpened.toPath(), Charset.defaultCharset()))) {
                 getUbluFrame().getUbluTextArea().append(s + "\n");
             }
             getUbluFrame().getUbluPanel().scrollToEnd();

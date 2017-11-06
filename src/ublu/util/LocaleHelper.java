@@ -39,7 +39,9 @@ public class LocaleHelper {
 
     private Locale currentLocale;
     private ResourceBundle messages;
-
+    private String myMessageResourcePath; // Needed because not 1.8 yet
+    // See resetMessageBundle()
+    
     /**
      * get language
      *
@@ -135,6 +137,7 @@ public class LocaleHelper {
      * @param messageResourcePath path to messages
      */
     public final void setMessageBundle(String messageResourcePath) {
+        this.myMessageResourcePath = messageResourcePath;
         this.messages = ResourceBundle.getBundle(messageResourcePath, currentLocale);
     }
 
@@ -142,7 +145,8 @@ public class LocaleHelper {
      * reinstance active message bundle for current locale
      */
     public final void resetMessageBundle() {
-        setMessageBundle(messages.getBaseBundleName());
+        // setMessageBundle(messages.getBaseBundleName()); // 1.8
+        setMessageBundle(myMessageResourcePath);
     }
 
     @Override
