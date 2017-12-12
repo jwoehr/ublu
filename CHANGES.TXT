@@ -2,7 +2,7 @@ CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
 Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved.
 
-1.1.9
+1.1.9 2017-12-12
 -----
 * System
     * All dependencies on JTOpenLite removed and that jar removed.
@@ -17,7 +17,7 @@ All rights reserved.
         * Its functionality can be surpassed by Ublu code using Db2 for i Services
     * `monitor` Removed `-diststatus` which is broken in JTOpenLite
     * `num` Remove 1.8-ism
-    * `splfol` spooled file open list api
+    * `splfol` spooled file open list api    	
     * `subsys` command now populates subsystem attributes with a refresh (https://github.com/jwoehr/ublu/issues/19)
 * Extensions
     * `ux.qsys2.journal.ublu` journal methods from db2 services
@@ -29,7 +29,7 @@ All rights reserved.
 * Windowing
     * command-line recall better
     * remove 1.8-isms
-
+    
 1.1.8 2017-09-27
 -----
 * System
