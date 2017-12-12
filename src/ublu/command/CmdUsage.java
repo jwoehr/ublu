@@ -27,6 +27,12 @@
  */
 package ublu.command;
 
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.ObjectDoesNotExistException;
+import com.ibm.as400.access.RequestNotSupportedException;
+import java.io.IOException;
+import java.sql.SQLException;
 import ublu.Ublu;
 import ublu.util.ArgArray;
 import ublu.util.Functor;
@@ -47,7 +53,7 @@ public class CmdUsage extends Command {
         "\tIf no command is present, interprets input until EOF or the 'bye' command is encountered."};
 
     {
-        setNameAndDescription("help or usage", "/0 [[--,-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
+        setNameAndDescription("help or usage", "/0 [-to datasink] [[--,-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message");
     }
 
     private int linelength;
@@ -94,10 +100,13 @@ public class CmdUsage extends Command {
         while (args.hasDashCommand()) {
             String dashCommand = args.parseDashCommand();
             switch (dashCommand) {
+                case "-to":
+                    setDataDestfromArgArray(args);
+                    break;
                 case "-all":
                     longmsg = true;
                     break;
-                case "--":    
+                case "--":
                 case "-cmd":
                     cmdName = args.nextMaybeQuotationTuplePopString();
                     break;
@@ -113,24 +122,31 @@ public class CmdUsage extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
-        } else if (cmdName == null) {
-            getInterpreter().outputln(usageMessage(getInterpreter().getCmdMap(), longmsg));
-        } else if (cmdName.equals("version")) {
-            getInterpreter().outputln(Ublu.startupMessage());
         } else {
-            CommandInterface c = getInterpreter().getCmd(getInterpreter(), cmdName);
-            if (c != null) {
-                if (c instanceof Command) {
-                    Command command = Command.class.cast(c);
-                    getInterpreter().outputln(formatSingleCommand(command));
-                }
-            } else {
-                Functor f = getInterpreter().getFunctor(cmdName);
-                if (f != null) {
-                    getInterpreter().outputln(Utils.breakLines(cmdName + " " + f.toString(), linelength, 0, 0));
+            try {
+                if (cmdName == null) {
+                    put(usageMessage(getInterpreter().getCmdMap(), longmsg));
+                } else if (cmdName.equals("version")) {
+                    put(Ublu.startupMessage());
                 } else {
-                    getInterpreter().outputln("No such command or functor: " + cmdName);
+                    CommandInterface c = getInterpreter().getCmd(getInterpreter(), cmdName);
+                    if (c != null) {
+                        if (c instanceof Command) {
+                            Command command = Command.class.cast(c);
+                            put(formatSingleCommand(command));
+                        }
+                    } else {
+                        Functor f = getInterpreter().getFunctor(cmdName);
+                        if (f != null) {
+                            put(Utils.breakLines(cmdName + " " + f.toString(), linelength, 0, 0));
+                        } else {
+                            put("No such command or functor: " + cmdName);
+                        }
+                    }
                 }
+            } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException | SQLException ex) {
+                getLogger().log(Level.SEVERE, "Exception putting usage in {0} {1}", new Object[]{getNameAndDescription(), ex});
+                setCommandResult(COMMANDRESULT.FAILURE);
             }
         }
         return args;
