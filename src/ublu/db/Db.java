@@ -29,7 +29,6 @@ package ublu.db;
 
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400JDBCDataSource;
-import com.ibm.as400.access.AS400JDBCDriver;
 import ublu.Ublu;
 import ublu.util.Generics.ConnectionProperties;
 import java.io.IOException;
