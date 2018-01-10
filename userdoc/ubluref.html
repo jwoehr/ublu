@@ -4,7 +4,6 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
-  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +14,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 12 Dec 2017 02:09:35 UTC">
+  "Wed, 09 Jan 2018 04:09:35 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,12 +62,12 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2017-12-12</p>
+  Last edit: 2018-01-09</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
- Copyright (c) 2017, Jack J. Woehr
+ Copyright (c) 2018, Jack J. Woehr
   jwoehr@softwoehr.com http://www.softwoehr.com All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -706,6 +705,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
             <li><tt><a href="#userlist">userlist</a></tt>
+            </li>
+
+
+            <li><a href="#watson"><code>watson</code></a>
             </li>
 
 
@@ -2673,7 +2676,8 @@ Type help for help. Type license for license. Type bye to exit.
         <tt><a href="#sysval">sysval</a></tt><tt><br></tt>
         <tt><a href="#tn5250">tn5250</a></tt> <tt><br></tt>
         <tt><a href="#user">user</a></tt><tt><br></tt> <tt><a href=
-        "#userlist">userlist</a></tt><tt><br></tt></td>
+        "#userlist">userlist</a></tt><tt><br></tt> <tt><a href=
+        "#watson">watson</a></tt><br></td>
 
         <td valign="top"><code><a href=
         "#desktop"><code>desktop</code></a></code><br>
@@ -16380,17 +16384,18 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/0 [-to datasink] [--,-sock ~@sock] [-host
+    <p><tt>/0 [-to datasink] [--,-sock ~@sock] [-host
     ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr
-    ~@{local_addr}] [-locport ~@{local_portnum}]&nbsp; [-new |
-    -close | -avail | -read ~@{count} | -write ~@bytes] : create
-    and manipulate sockets</tt><br>
-    <br>
-    The <tt>sock</tt> command creates and manipulate TCP/IP
+    ~@{local_addr}] [-locport ~@{local_portnum}] [-usessl] [-ssl
+    @tf] [-instance | -close | -avail | -read ~@{count} | -write
+    ~@bytes] : create and manipulate sockets</tt>
+    </p>
+
+
+    <p>The <tt>sock</tt> command creates and manipulate TCP/IP
     sockets. Instancing the socket connects it. You can then read,
     write, examine, and close the socket. Operations are as
-    follows:<br>
-    <br>
+    follows:</p>
 
 
     <ul>
@@ -16412,6 +16417,14 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
       <li><tt>-new</tt> creates and connects the socket. This is
       the default operation</li>
+
+
+      <li><code>-usessl</code> indicates the socket should be
+      created as an SSL socket.</li>
+
+
+      <li><code>-ssl @tf</code> if <code>true</code> indicates the
+      socket should be created as an SSL socket.</li>
 
 
       <li><tt>-close</tt> closes the socked provided via
@@ -16665,12 +16678,11 @@ exit <span class="syntax-KEYWORD2">$?</span>
           API. This is faster than <code>100</code>.</li>
 
 
-          <li style="list-style: none">li&gt;<code>400</code>
-          indicates that this list will accept parameters for, and,
-          generate SpooledFileListItem objects in accordance with,
-          the OSPL0400 format of the underlying API. This is like
-          <code>300</code> but creation time is returned in
-          UTC.</li>
+          <li><code>400</code> indicates that this list will accept
+          parameters for, and, generate SpooledFileListItem objects
+          in accordance with, the OSPL0400 format of the underlying
+          API. This is like <code>300</code> but creation time is
+          returned in UTC.</li>
         </ul>
         The default is format 300.
       </li>
@@ -18923,6 +18935,49 @@ ciptool
     <em><tt>...</tt></em><br>
     <br>
     See also: <a href="#user"><tt>user</tt></a><br>
+  </blockquote>
+
+
+  <h4><a name="watson" id="watson"><tt>watson</tt></a>
+  </h4>
+
+
+  <blockquote>
+    <code>/0 [-to datasink] -s ~@{service-url-part} [-p
+    ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM
+    Watson microservice</code>
+
+    <p>The <code>watson</code> command contacts an <a href=
+    "https://watson-api-explorer.mybluemix.net/">IBM public URL
+    offering Watson microservices</a>.</p>
+
+
+    <p>Only HTTPS GET is currently supported and only JSON response
+    is currently supported.</p>
+    The <a href="#Dash_Command">dash-commands</a> are as follows:
+
+    <ul>
+      <li><code>-s ~@{service-url-part}</code> indicates the
+      service-specifying portion of the url, e.g., <code>-s
+      language-translator/api/v2/translate</code></li>
+
+
+      <li><code>-p ~@{watson-parameter</code> indicates a parameter
+      to the service, e.g. <code>-p foo=bar</code></li>
+    </ul>
+
+
+    <p>Example:</p>
+
+    <pre>
+watson -s language-translator/api/v2/translate -p text=hello -p source=en -p target=fr
+<em>{
+  "translations" : [ {
+    "translation" : "Bonjour"
+  } ],
+  "word_count" : 1,
+  "character_count" : 5
+}</em></pre>
   </blockquote>
 
 
