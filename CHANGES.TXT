@@ -4,6 +4,9 @@ All rights reserved.
 
 1.2.0
 -----
+* Commands
+    * `sock` now does SSL sockets
+    * `watson` command added
 
 1.1.9 2017-12-12
 -----
