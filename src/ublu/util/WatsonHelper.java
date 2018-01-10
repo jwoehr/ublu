@@ -37,10 +37,10 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class WatsonHelper {
 
-    public static String HOST = "watson-api-explorer.mybluemix.net";
+    public static String BLUEMIX_HOST = "watson-api-explorer.mybluemix.net";
     public static String URL_BASE = "https://";
 
-    public static String watson(String usrv, String[] parms) throws MalformedURLException, IOException {
+    public static String watson(String host, String usrv, String[] parms) throws MalformedURLException, IOException {
         String method = "GET";
 
         StringBuilder params = new StringBuilder();
@@ -54,7 +54,7 @@ public class WatsonHelper {
                 params.append("&").append(parms[i]);
             }
         }
-        URL url = new URL(URL_BASE + HOST + "/" + usrv + params.toString());
+        URL url = new URL(URL_BASE + host + "/" + usrv + params.toString());
         // /* debug */ System.err.println(url);
 
         HttpURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -84,6 +84,6 @@ public class WatsonHelper {
         for (int i = 1; i < args.length; i++) {
             parms[i - 1] = args[i];
         }
-        System.out.println(watson(usrv, parms));
+        System.out.println(watson(BLUEMIX_HOST, usrv, parms));
     }
 }

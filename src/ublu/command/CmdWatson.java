@@ -47,10 +47,11 @@ public class CmdWatson extends Command {
 
     {
         setNameAndDescription("watson",
-                "/0 [-to datasink] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM Watson microservice");
+                "/0 [-to datasink] [-h ~@{host}] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM Watson microservice");
     }
 
     public ArgArray cmdWatson(ArgArray argArray) {
+        String host = WatsonHelper.BLUEMIX_HOST;
         String usrv = null;
         StringArrayList parms = new StringArrayList();
         while (getCommandResult() != COMMANDRESULT.FAILURE && argArray.hasDashCommand()) {
@@ -59,6 +60,9 @@ public class CmdWatson extends Command {
                 case "-to":
                     String destName = argArray.next();
                     setDataDest(DataSink.fromSinkName(destName));
+                    break;
+                case "-h":
+                    host = argArray.nextMaybeQuotationTuplePopString();
                     break;
                 case "-s":
                     usrv = argArray.nextMaybeQuotationTuplePopString();
@@ -78,7 +82,7 @@ public class CmdWatson extends Command {
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
 
             try {
-                put(WatsonHelper.watson(usrv, parms.toStringArray()));
+                put(WatsonHelper.watson(host, usrv, parms.toStringArray()));
             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                 getLogger().log(Level.SEVERE, "Error in " + getNameAndDescription(), ex);
                 setCommandResult(COMMANDRESULT.FAILURE);

@@ -4,6 +4,7 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -14,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Wed, 09 Jan 2018 04:09:35 UTC">
+  "Wed, 10 Jan 2018 15:55:58 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -45,7 +46,7 @@
         </th>
 
         <td align="center" bgcolor="#000000" valign="middle">
-        Copyright © 2017<br>
+        Copyright © 2018<br>
         Jack. J. Woehr<br>
         jwoehr@softwoehr.com<br>
         All Rights Reserved<br>
@@ -62,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-01-09</p>
+  Last edit: 2018-01-10</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -18943,11 +18944,13 @@ ciptool
 
 
   <blockquote>
-    <code>/0 [-to datasink] -s ~@{service-url-part} [-p
-    ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM
-    Watson microservice</code>
+    <code>/0 [-to datasink] [-h ~@{host}] -s ~@{service-url-part}
+    [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke
+    IBM Watson microservice</code>
 
-    <p>The <code>watson</code> command contacts an <a href=
+    <p>The <code>watson</code> command contacts a URL offering IBM
+    Watson &reg; microservices. By default if no host is specified,
+    the command chooses an <a href=
     "https://watson-api-explorer.mybluemix.net/">IBM public URL
     offering Watson microservices</a>.</p>
 
@@ -18957,6 +18960,12 @@ ciptool
     The <a href="#Dash_Command">dash-commands</a> are as follows:
 
     <ul>
+      <li><code>-h ~@{host}</code> optionally indicates the host
+      portion of the url, e.g., <code>-h
+      watson-api-explorer.mybluemix.net</code> (which is the
+      default if <code>-h</code> is not specified).</li>
+
+
       <li><code>-s ~@{service-url-part}</code> indicates the
       service-specifying portion of the url, e.g., <code>-s
       language-translator/api/v2/translate</code></li>
