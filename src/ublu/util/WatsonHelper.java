@@ -40,23 +40,22 @@ public class WatsonHelper {
     public static String HOST = "watson-api-explorer.mybluemix.net";
     public static String URL_BASE = "https://";
 
-    public static String watson(String[] args) throws MalformedURLException, IOException {
+    public static String watson(String usrv, String[] parms) throws MalformedURLException, IOException {
         String method = "GET";
-        String usrv = args[0];
 
         StringBuilder params = new StringBuilder();
         boolean isFirstParam = true;
-        for (int i = 1; i < args.length; i++) {
+        for (int i = 0; i < parms.length; i++) {
             if (isFirstParam) {
-                params.append("?").append(args[i]);
+                params.append("?").append(parms[i]);
                 isFirstParam = false;
 
             } else {
-                params.append("&").append(args[i]);
+                params.append("&").append(parms[i]);
             }
         }
         URL url = new URL(URL_BASE + HOST + "/" + usrv + params.toString());
-        System.err.println(url);
+        // /* debug */ System.err.println(url);
 
         HttpURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -80,6 +79,11 @@ public class WatsonHelper {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(watson(args));
+        String usrv = args[0];
+        String[] parms = new String[args.length - 1];
+        for (int i = 1; i < args.length; i++) {
+            parms[i - 1] = args[i];
+        }
+        System.out.println(watson(usrv, parms));
     }
 }

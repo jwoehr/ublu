@@ -140,6 +140,7 @@ public class CommandMap extends LinkedHashMap<String, Class<? extends CommandInt
         put("usage", CmdUsage.class);
         put("user", CmdUser.class);
         put("userlist", CmdUserList.class);
+        put("watson", CmdWatson.class);
         put("WHILE", CmdWhile.class);
         put("!", CmdBang.class);
         put("#", CmdComment.class);
