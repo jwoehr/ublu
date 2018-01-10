@@ -45,13 +45,12 @@ public class WatsonHelper {
 
         StringBuilder params = new StringBuilder();
         boolean isFirstParam = true;
-        for (int i = 0; i < parms.length; i++) {
+        for (String parm : parms) {
             if (isFirstParam) {
-                params.append("?").append(parms[i]);
+                params.append("?").append(parm);
                 isFirstParam = false;
-
             } else {
-                params.append("&").append(parms[i]);
+                params.append("&").append(parm);
             }
         }
         URL url = new URL(URL_BASE + host + "/" + usrv + params.toString());
