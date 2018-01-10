@@ -39,9 +39,11 @@ public class WatsonHelper {
 
     public static String BLUEMIX_HOST = "watson-api-explorer.mybluemix.net";
     public static String URL_BASE = "https://";
+    public static String DEFAULT_REQUEST_CONTENT_TYPE = "application/json";
+    public static String DEFAULT_RESPONSE_CONTENT_TYPE = "application/json";
+    public static String DEFAULT_METHOD = "GET";
 
-    public static String watson(String host, String usrv, String[] parms) throws MalformedURLException, IOException {
-        String method = "GET";
+    public static String watson(String host, String usrv, String[] parms, String http_method, String request_content__type, String response_content_type, String request_content) throws MalformedURLException, IOException {
 
         StringBuilder params = new StringBuilder();
         boolean isFirstParam = true;
@@ -53,13 +55,33 @@ public class WatsonHelper {
                 params.append("&").append(parm);
             }
         }
-        URL url = new URL(URL_BASE + host + "/" + usrv + params.toString());
-        // /* debug */ System.err.println(url);
 
-        HttpURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestMethod(method);
+        HttpURLConnection connection = null;
+        URL url;
+        switch (http_method) {
+            case "GET":
+                url = new URL(URL_BASE + host + "/" + usrv + params.toString());
+                connection = (HttpsURLConnection) url.openConnection();
+                connection.setRequestMethod(http_method);
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setRequestProperty("Accept", response_content_type);
+                break;
+
+            case "POST":
+                url = new URL(URL_BASE + host + "/" + usrv);
+                connection = (HttpsURLConnection) url.openConnection();
+                connection.setRequestMethod(http_method);
+                connection.setRequestProperty("Content-Type", request_content__type);
+                connection.setRequestProperty("Accept", response_content_type);
+                connection.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                wr.writeBytes(request_content);
+                wr.flush();
+                wr.close();
+                break;
+            default:
+                throw new UnsupportedOperationException(http_method + " is not supported yet.");
+        }
 
         int returnCode = connection.getResponseCode();
         InputStream connectionIn;
@@ -83,6 +105,6 @@ public class WatsonHelper {
         for (int i = 1; i < args.length; i++) {
             parms[i - 1] = args[i];
         }
-        System.out.println(watson(BLUEMIX_HOST, usrv, parms));
+        System.out.println(watson(BLUEMIX_HOST, usrv, parms, DEFAULT_METHOD, DEFAULT_REQUEST_CONTENT_TYPE, DEFAULT_RESPONSE_CONTENT_TYPE, null));
     }
 }

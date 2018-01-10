@@ -47,13 +47,18 @@ public class CmdWatson extends Command {
 
     {
         setNameAndDescription("watson",
-                "/0 [-to datasink] [-h ~@{host}] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM Watson microservice");
+                "/0 [-to datasink] [-h ~@{host}] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] [-m ~@{http_method}]"
+                + " [-req_type ~@{request_content_type}] [-resp_type ~@{response_content_type}] [-req ~@{request_content}] : invoke IBM Watson microservice");
     }
 
     public ArgArray cmdWatson(ArgArray argArray) {
         String host = WatsonHelper.BLUEMIX_HOST;
         String usrv = null;
+        String http_method = WatsonHelper.DEFAULT_METHOD;
+        String request_content_type = WatsonHelper.DEFAULT_REQUEST_CONTENT_TYPE;
+        String response_content_type = WatsonHelper.DEFAULT_RESPONSE_CONTENT_TYPE;
         StringArrayList parms = new StringArrayList();
+        String request_content = "";
         while (getCommandResult() != COMMANDRESULT.FAILURE && argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -62,13 +67,25 @@ public class CmdWatson extends Command {
                     setDataDest(DataSink.fromSinkName(destName));
                     break;
                 case "-h":
-                    host = argArray.nextMaybeQuotationTuplePopString();
+                    host = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-s":
-                    usrv = argArray.nextMaybeQuotationTuplePopString();
+                    usrv = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-p":
-                    parms.add(argArray.nextMaybeQuotationTuplePopString());
+                    parms.add(argArray.nextMaybeQuotationTuplePopStringTrim());
+                    break;
+                case "-m":
+                    http_method = argArray.nextMaybeQuotationTuplePopStringTrim().toUpperCase();
+                    break;
+                case "-req_type":
+                    request_content_type = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-resp_type":
+                    response_content_type = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-req":
+                    request_content = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -82,7 +99,7 @@ public class CmdWatson extends Command {
         if (getCommandResult() != COMMANDRESULT.FAILURE) {
 
             try {
-                put(WatsonHelper.watson(host, usrv, parms.toStringArray()));
+                put(WatsonHelper.watson(host, usrv, parms.toStringArray(), http_method, request_content_type, response_content_type, request_content));
             } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                 getLogger().log(Level.SEVERE, "Error in " + getNameAndDescription(), ex);
                 setCommandResult(COMMANDRESULT.FAILURE);

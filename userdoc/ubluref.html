@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -18945,8 +18946,10 @@ ciptool
 
   <blockquote>
     <code>/0 [-to datasink] [-h ~@{host}] -s ~@{service-url-part}
-    [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke
-    IBM Watson microservice</code>
+    [-p ~@{watson-parameter [p ~@{watson-parameter ..]] [-m
+    ~@{http_method}] [-req_type ~@{request_content_type}]
+    [-resp_type ~@{response_content_type}] [-req
+    ~@{request_content}] : invoke IBM Watson microservice</code>
 
     <p>The <code>watson</code> command contacts a URL offering IBM
     Watson &reg; microservices. By default if no host is specified,
@@ -18955,9 +18958,12 @@ ciptool
     offering Watson microservices</a>.</p>
 
 
-    <p>Only HTTPS GET is currently supported and only JSON response
-    is currently supported.</p>
-    The <a href="#Dash_Command">dash-commands</a> are as follows:
+    <p>Only HTTPS GET and POST are currently supported.</p>
+
+
+    <p>The <a href="#Dash_Command">dash-commands</a> are as
+    follows:</p>
+
 
     <ul>
       <li><code>-h ~@{host}</code> optionally indicates the host
@@ -18971,12 +18977,49 @@ ciptool
       language-translator/api/v2/translate</code></li>
 
 
-      <li><code>-p ~@{watson-parameter</code> indicates a parameter
-      to the service, e.g. <code>-p foo=bar</code></li>
+      <li>
+        <code>-p ~@{watson-parameter</code> indicates a parameter
+        to the service, e.g. <code>-p foo=bar</code>
+
+        <ul>
+          <li>This is for <code>GET</code> and is ignored on a
+          <code>POST</code>.</li>
+        </ul>
+      </li>
+
+
+      <li>
+        <code>-m ~@{http_method}</code> indicates the HTTP method
+        to use, one of
+
+        <ul>
+          <li><code>GET</code>
+          </li>
+
+
+          <li><code>POST</code>
+          </li>
+        </ul>
+        The default is <code>GET</code>.
+      </li>
+
+
+      <li><code>-req_type ~@{request_content_type}</code> specifies
+      request content type on <code>POST</code>. The default is
+      <code>application/json</code>.</li>
+
+
+      <li><code>-resp_type ~@{response_content_type}</code>
+      specifies response content type and defaults to
+      <code>application/json</code>.</li>
+
+
+      <li><code>-req ~@{request_content}</code> provides the
+      content of a <code>POST</code>.</li>
     </ul>
 
 
-    <p>Example:</p>
+    <p>Examples:</p>
 
     <pre>
 watson -s language-translator/api/v2/translate -p text=hello -p source=en -p target=fr
@@ -18986,7 +19029,16 @@ watson -s language-translator/api/v2/translate -p text=hello -p source=en -p tar
   } ],
   "word_count" : 1,
   "character_count" : 5
-}</em></pre>
+}</em>
+watson -s language-translator/api/v2/translate -m POST -req ${ { "text": [ "elephant" ], "source": "en", "target": "fr" } }$
+<em>{
+  "translations" : [ {
+    "translation" : "L'éléphant"
+  } ],
+  "word_count" : 1,
+  "character_count" : 8
+}</em>
+</pre>
   </blockquote>
 
 
