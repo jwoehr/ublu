@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2018, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -38,8 +38,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocketFactory;
 import ublu.util.Generics.ByteArrayList;
 
 /**
@@ -50,7 +53,7 @@ import ublu.util.Generics.ByteArrayList;
 public class CmdSocket extends Command {
 
     {
-        setNameAndDescription("sock", "/0 [-to datasink] [--,-sock ~@sock] [-host ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr ~@{local_addr}] [-locport ~@{local_portnum}]  [-instance | -close | -avail | -read ~@{count} | -write ~@bytes] : create and manipulate sockets");
+        setNameAndDescription("sock", "/0 [-to datasink] [--,-sock ~@sock] [-host ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr ~@{local_addr}] [-locport ~@{local_portnum}] [-usessl] [-ssl @tf] [-instance | -close | -avail | -read ~@{count} | -write ~@bytes] : create and manipulate sockets");
     }
 
     /**
@@ -98,6 +101,7 @@ public class CmdSocket extends Command {
     private Integer portnum = null;
     private String localAddr = null;
     private Integer localPort = null;
+    private boolean usessl = false;
     private Tuple sockTuple = null;
     private Tuple writeTuple = null;
     private int readCount = 0;
@@ -135,6 +139,12 @@ public class CmdSocket extends Command {
                 case "-locport":
                     localPort = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
+                case "-usessl":
+                    usessl = true;
+                    break;
+                case "-ssl":
+                    usessl = argArray.nextBooleanTupleOrPop().booleanValue();
+                    break;
                 case "-close":
                     op = OPS.CLOSE;
                     break;
@@ -162,7 +172,7 @@ public class CmdSocket extends Command {
             switch (op) {
                 case INSTANCE: {
                     try {
-                        socket = sockInstance();
+                        socket = usessl ? sslSockInstance() : sockInstance();
                     } catch (IOException ex) {
                         getLogger().log(Level.SEVERE, "Exception creating socket in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
@@ -258,6 +268,27 @@ public class CmdSocket extends Command {
             so = new Socket(InetAddress.getByName(host), portnum);
         } else {
             so = new Socket(InetAddress.getByName(host), portnum, InetAddress.getByName(localAddr), localPort);
+        }
+        return so;
+    }
+
+    private Socket sslSockInstance() throws UnknownHostException, IOException {
+        Socket so = null;
+        if ((localAddr == null && localPort != null)
+                || (localAddr != null && localPort == null)
+                || host == null || portnum == null) {
+            getLogger().log(Level.WARNING, "Incompatible settings (missing value?) in instancing socket in {0}", getNameAndDescription());
+            setCommandResult(COMMANDRESULT.FAILURE);
+        } else {
+
+            SocketFactory sf = SSLSocketFactory.getDefault();
+
+            if (localAddr == null) {
+
+                so = sf.createSocket(InetAddress.getByName(host), portnum);
+            } else {
+                so = sf.createSocket(InetAddress.getByName(host), portnum, InetAddress.getByName(localAddr), localPort);
+            }
         }
         return so;
     }
