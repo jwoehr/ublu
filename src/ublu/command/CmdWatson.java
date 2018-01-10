@@ -47,7 +47,7 @@ public class CmdWatson extends Command {
 
     {
         setNameAndDescription("watson",
-                "/? [-to datasink] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM Watson microservice");
+                "/0 [-to datasink] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] : invoke IBM Watson microservice");
     }
 
     public ArgArray cmdWatson(ArgArray argArray) {
