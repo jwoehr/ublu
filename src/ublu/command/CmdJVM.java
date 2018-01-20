@@ -44,7 +44,7 @@ import java.util.logging.Level;
 public class CmdJVM extends Command {
 
     {
-        setNameAndDescription("jvm", "/0 [-to @datasink] [ -new | -gc | -set key val | -get key] : manipulate or report on the JVM on which this program is executing");
+        setNameAndDescription("jvm", "/0 [-to @datasink] [-new | -gc | -set ~@{key} ~@{val} | -get ~@{key}] : manipulate or report on the JVM on which this program is executing");
     }
 
     /**

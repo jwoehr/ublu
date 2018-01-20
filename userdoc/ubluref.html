@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -17,7 +18,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sat, 20 Jan 2018 04:16:23 UTC">
+  "Sun, 21 Jan 2018 14:16:23 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -65,7 +66,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-01-19</p>
+  Last edit: 2018-01-21</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -12544,14 +12545,23 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/0 [-to @datasink] [ -new | -gc ] : do gc or put an object
-    whose string value is a display of copious information on the
-    Java platform on which this program is executing</tt><br>
+    <tt>/0 [-to @datasink] [ -new | -gc | -set ~@{key} ~@{val} |
+    -get ~@{key}] : manipulate or report on the JVM on which this
+    program is executing</tt><br>
 
 
     <ul>
       <li>The default operation is <code>-new</code> which puts an
-      instance.</li>
+      instance, effectively dumping a great deal of info about the
+      JVM.</li>
+
+
+      <li><code>-set ~@{key} ~@{val}</code> sets a Java System
+      property</li>
+
+
+      <li><code>-get ~@{key}</code> gets a Java System
+      property</li>
 
 
       <li><code>-gc</code> signals the JVM to do garbage
