@@ -37,17 +37,14 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
- * Report on the JVM we are running in
+ * Manipulate and report on the JVM we are running in
  *
  * @author jwoehr
  */
 public class CmdJVM extends Command {
 
     {
-        setNameAndDescription("jvm", "/0 [-to @datasink] [ -new | -gc ] : do gc or put an object "
-                + "whose string value is a display of copious information on the "
-                + "Java platform on which this program is "
-                + "executing");
+        setNameAndDescription("jvm", "/0 [-to @datasink] [ -new | -gc | -set key val | -get key] : manipulate or report on the JVM on which this program is executing");
     }
 
     /**
@@ -66,7 +63,15 @@ public class CmdJVM extends Command {
         /**
          * Do nothing
          */
-        NOOP
+        NOOP,
+        /**
+         * set sys prop
+         */
+        SET,
+        /**
+         * get sys prop
+         */
+        GET
     }
 
     /**
@@ -77,6 +82,8 @@ public class CmdJVM extends Command {
      */
     public ArgArray cmdJvm(ArgArray argArray) {
         OPS op = OPS.GET_SINGLETON;
+        String key = null;
+        String val = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -89,6 +96,15 @@ public class CmdJVM extends Command {
                     break;
                 case "-gc":
                     op = OPS.GC;
+                    break;
+                case "-set":
+                    op = OPS.SET;
+                    key = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    val = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-get":
+                    op = OPS.GET;
+                    key = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -105,6 +121,17 @@ public class CmdJVM extends Command {
                 case GET_SINGLETON:
                     try {
                         put(jvmh);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Error putting JVMHelper instance in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+                case SET:
+                    System.setProperty(key, val);
+                    break;
+                case GET:
+                    try {
+                        put(System.getProperty(key));
                     } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
                         getLogger().log(Level.SEVERE, "Error putting JVMHelper instance in " + getNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
