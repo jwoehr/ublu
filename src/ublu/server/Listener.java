@@ -31,6 +31,7 @@ import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.SSLServerSocketFactory;
 import ublu.util.Interpreter;
 
 /**
@@ -382,7 +383,10 @@ public class Listener extends Thread {
     protected void listen() {
         setListening(true);
         try {
-            setServerSocket(new ServerSocket(getPortnum()));
+            setServerSocket(isUseSSL()
+                    ? SSLServerSocketFactory.getDefault().createServerSocket(getPortnum())
+                    : new ServerSocket(getPortnum())
+            );
             getServerSocket().setSoTimeout(getAcceptTimeoutMS());
             try {
                 while (listening) {

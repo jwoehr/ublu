@@ -93,8 +93,6 @@ public class CmdServer extends Command {
     public CmdServer() {
     }
 
-    private Tuple listenerTuple = null;
-
     /**
      * Carry out the server command to launch or stop or manage the tcpip thread
      * server
