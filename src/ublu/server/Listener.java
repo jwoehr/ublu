@@ -274,6 +274,15 @@ public class Listener extends Thread {
     }
 
     /**
+     * Applies SSLParameters to newly accepted connections.
+     *
+     * @param sslp the SSLParameters
+     */
+    public void setSSLParameters(SSLParameters sslp) {
+        getSSLServerSocket().setSSLParameters(sslp);
+    }
+
+    /**
      * Returns the names of the cipher suites which could be enabled for use on
      * an SSL connection.
      *
