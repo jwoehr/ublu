@@ -47,7 +47,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [-to datasink] [-- @listener]  [-port ~@{portnum}] [-useSSL ] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
+                "/0  [-to datasink] [-- @listener]  [-port ~@{portnum}] [-usessl ] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
     }
 
     /**
@@ -139,7 +139,7 @@ public class CmdServer extends Command {
                 case "-port":
                     port = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
-                case "-useSSL":
+                case "-usessl":
                     useSSL = true;
                     break;
                 case "-ssl":
