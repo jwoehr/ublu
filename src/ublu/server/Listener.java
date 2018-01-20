@@ -47,6 +47,55 @@ public class Listener extends Thread {
     private int acceptTimeoutMS = DEFAULT_ACCEPT_TIMEOUT_MS;
     private int spawns = 0;
     private Interpreter parentInterpreter;
+    private boolean useSSL;
+
+    /**
+     *
+     * @return true if SSL
+     */
+    public boolean isUseSSL() {
+        return useSSL;
+    }
+
+    /**
+     *
+     * @param useSSL true if SSL
+     */
+    public final void setUseSSL(boolean useSSL) {
+        this.useSSL = useSSL;
+    }
+
+    /**
+     *
+     * @return default accept timeout for class
+     */
+    public static int getDEFAULT_ACCEPT_TIMEOUT_MS() {
+        return DEFAULT_ACCEPT_TIMEOUT_MS;
+    }
+
+    /**
+     *
+     * @param DEFAULT_ACCEPT_TIMEOUT_MS default accept timeout for class
+     */
+    public static void setDEFAULT_ACCEPT_TIMEOUT_MS(int DEFAULT_ACCEPT_TIMEOUT_MS) {
+        Listener.DEFAULT_ACCEPT_TIMEOUT_MS = DEFAULT_ACCEPT_TIMEOUT_MS;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Interpreter getParentInterpreter() {
+        return parentInterpreter;
+    }
+
+    /**
+     *
+     * @param parentInterpreter
+     */
+    public void setParentInterpreter(Interpreter parentInterpreter) {
+        this.parentInterpreter = parentInterpreter;
+    }
 
     /**
      * Get the timeout before we recycle our accept().
@@ -215,6 +264,7 @@ public class Listener extends Thread {
      * Create instance and set listening false/
      */
     protected Listener() {
+        setUseSSL(false);
         setListening(false);
     }
 
@@ -248,6 +298,24 @@ public class Listener extends Thread {
 
     /**
      * Create new instance with associated Ublu instance and choice of
+     * portnumber recorded and Interpreter to spawn server's interpreter from,
+     * possibly using SSL.
+     *
+     * @param ublu application controller
+     * @param portnum port to listen on
+     * @param parentInterpreter Interpreter to spawn server's interpreter from
+     * @param useSSL true if SSL desired
+     */
+    public Listener(Ublu ublu, int portnum, Interpreter parentInterpreter, boolean useSSL) {
+        this();
+        setUseSSL(useSSL);
+        this.ublu = ublu;
+        this.portnum = portnum;
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
+     * Create new instance with associated Ublu instance and choice of
      * portnumber recorded.
      *
      * @param ublu application controller
@@ -272,6 +340,26 @@ public class Listener extends Thread {
      */
     public Listener(Ublu ublu, int portnum, String executionBlock, Interpreter parentInterpreter) {
         this();
+        this.ublu = ublu;
+        this.portnum = portnum;
+        this.executionBlock = executionBlock;
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
+     * Create new instance with associated Ublu instance and choice of
+     * portnumber recorded and Interpreter to spawn server's interpreter from
+     * possibly using SSL.
+     *
+     * @param ublu application controller
+     * @param portnum port to listen on
+     * @param executionBlock block for server thread to execute
+     * @param parentInterpreter Interpreter to spawn server's interpreter from
+     * @param useSSL true if SSL socket desired
+     */
+    public Listener(Ublu ublu, int portnum, String executionBlock, Interpreter parentInterpreter, boolean useSSL) {
+        this();
+        setUseSSL(useSSL);
         this.ublu = ublu;
         this.portnum = portnum;
         this.executionBlock = executionBlock;

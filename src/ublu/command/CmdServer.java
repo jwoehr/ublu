@@ -47,7 +47,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [-to datasink] [-- @listener]  [-port ~@{portnum}] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
+                "/0  [-to datasink] [-- @listener]  [-port ~@{portnum}] [-useSSL ] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
     }
 
     /**
@@ -106,6 +106,7 @@ public class CmdServer extends Command {
         Listener listener = null;
         int port = DEFAULT_SERVER_PORT;
         int timeoutMs = Listener.DEFAULT_ACCEPT_TIMEOUT_MS;
+        boolean useSSL = false;
         String executionBlock = null;
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -138,6 +139,12 @@ public class CmdServer extends Command {
                 case "-port":
                     port = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
+                case "-useSSL":
+                    useSSL = true;
+                    break;
+                case "-ssl":
+                    useSSL = argArray.nextBooleanTupleOrPop();
+                    break;
                 case "-timeout":
                     timeoutMs = argArray.nextInt();
                     break;
@@ -164,9 +171,9 @@ public class CmdServer extends Command {
                     break;
                 case START:
                     if (executionBlock != null) {
-                        listener = new Listener(getUblu(), port, executionBlock, getInterpreter());
+                        listener = new Listener(getUblu(), port, executionBlock, getInterpreter(), useSSL);
                     } else {
-                        listener = new Listener(getUblu(), port, getInterpreter());
+                        listener = new Listener(getUblu(), port, getInterpreter(), useSSL);
                     }
                     listener.setAcceptTimeoutMS(timeoutMs);
                     listener.start();
