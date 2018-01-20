@@ -5,8 +5,11 @@ All rights reserved.
 1.2.0
 -----
 * Commands
+    * `jvm` -set -get manipulate Java System properties
+    * `server` now does SSL
     * `sock` now does SSL sockets
     * `watson` command added
+
 * Extensions
 	* ux.string.ublu
 
