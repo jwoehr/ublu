@@ -7,6 +7,8 @@ All rights reserved.
 * Commands
     * `sock` now does SSL sockets
     * `watson` command added
+* Extensions
+	* ux.string.ublu
 
 1.1.9 2017-12-12
 -----

@@ -1,0 +1,36 @@
+# ux.string.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Some string functions available in Java that aren't part of Ublu's `string` command
+
+# Pushes boolean result of regex match
+# put -to @a r.*x
+# put -to @b regex
+# ux.string.matches ( @a @b )
+# put ~
+FUNC ux.string.matches ( regexstr sourcestr ) $[
+    calljava -to ~ -method matches -obj @@sourcestr -arg @@regexstr
+]$
+
+# Pushes index result of search
+# put -to @a foo
+# put -to @b ${ arthur is a foo king }$
+# ux.string.indexOf ( @a @b )
+# put ~
+FUNC ux.string.indexOf ( substr sourcestr ) $[
+    calljava -to ~ -method indexOf -obj @@sourcestr -arg @@substr
+]$
+
+# Pushes index result of search
+# put -to @a foo
+# put -to @b ${ arthur is a foo king foo bar}$
+# ux.string.lastIndexOf ( @a @b )
+# put ~
+FUNC ux.string.lastIndexOf ( substr sourcestr ) $[
+    calljava -to ~ -method lastIndexOf -obj @@sourcestr -arg @@substr
+]$
+
+# end
