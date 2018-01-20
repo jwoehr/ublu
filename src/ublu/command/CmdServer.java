@@ -36,7 +36,6 @@ import java.sql.SQLException;
 import ublu.server.Listener;
 import ublu.util.ArgArray;
 import java.util.logging.Level;
-import ublu.util.Tuple;
 
 /**
  * Command to manage a thread server that interprets over tcpip
