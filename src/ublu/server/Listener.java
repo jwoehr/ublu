@@ -31,7 +31,12 @@ import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
+import ublu.util.Generics;
+import ublu.util.Generics.StringArrayList;
+import ublu.util.Generics.ThingArrayList;
 import ublu.util.Interpreter;
 
 /**
@@ -232,6 +237,60 @@ public class Listener extends Thread {
      */
     public ServerSocket getServerSocket() {
         return serverSocket;
+    }
+
+    /**
+     * Get Socket instance as SSL
+     *
+     * @return Socket instance
+     */
+    public SSLServerSocket getSSLServerSocket() {
+        return SSLServerSocket.class.cast(serverSocket);
+    }
+
+    public StringArrayList getEnabledCipherSuites() {
+        return new StringArrayList(getSSLServerSocket().getEnabledCipherSuites());
+    }
+
+    public void setEnabledCipherSuites(ThingArrayList tal) {
+        getSSLServerSocket().setEnabledCipherSuites(tal.toStringArray());
+    }
+
+    public StringArrayList getEnabledProtocols() {
+        return new StringArrayList(getSSLServerSocket().getEnabledProtocols());
+    }
+
+    public void setEnabledProtocols(ThingArrayList tal) {
+        getSSLServerSocket().setEnabledProtocols(tal.toStringArray());
+    }
+
+    /**
+     * Returns the SSLParameters in effect for newly accepted connections.
+     *
+     * @return the SSLParameters in effect for newly accepted connections.
+     */
+    public SSLParameters getSSLParameters() {
+        return getSSLServerSocket().getSSLParameters();
+    }
+
+    /**
+     * Returns the names of the cipher suites which could be enabled for use on
+     * an SSL connection.
+     *
+     * @return the names of the cipher suites which could be enabled for use on
+     * an SSL connection.
+     */
+    public StringArrayList getSupportedCipherSuites() {
+        return new StringArrayList(getSSLServerSocket().getSupportedCipherSuites());
+    }
+
+    /**
+     * Returns the names of the protocols which could be enabled for use.
+     *
+     * @return the names of the protocols which could be enabled for use.
+     */
+    public StringArrayList getSupportedProtocols() {
+        return new StringArrayList(getSSLServerSocket().getSupportedProtocols());
     }
 
     /**
