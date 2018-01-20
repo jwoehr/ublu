@@ -178,6 +178,7 @@ public class JavaCallHelper {
      * @throws InvocationTargetException
      */
     public Object callJava() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        zMethod.setAccessible(true);
         return zMethod.invoke(zObject, zArgs);
     }
 
