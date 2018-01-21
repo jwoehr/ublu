@@ -8,6 +8,7 @@
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16124,6 +16125,10 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <tt>-status</tt>.<br>
 
 
+    <p>There are extensions to the server command in
+    <code>extensions/ux.server.ublu</code></p>
+
+
     <ul>
       <li><tt>-port ~@{portnum}</tt> sets the port on which the
       <tt>-start</tt> operation will start the listener.</li>
@@ -16154,14 +16159,21 @@ exit <span class="syntax-KEYWORD2">$?</span>
       of the instance provided via the <tt>--</tt>
       <tt>@listener</tt> dash-command.</li>
     </ul>
-    <strong>There is currently no security paradigm. Using the
+
+
+    <p><strong>There is currently no security paradigm. Using the
     server grants any caller without authentication the full rights
-    of the user who launched Ublu.<br>
-    <br></strong> The safe(st) way (available) to use the server is
+    of the user who launched Ublu.</strong>
+    </p>
+
+
+    <p>Therefore, the safe(st) way (available) to use the server is
     to write a <a href="#FUNC"><tt>FUNC</tt></a> to service the
     user and call that <tt>FUNC</tt> in a block provided with the
-    <tt>-block $[execution block]$</tt> dash-command.<br>
-    <br>
+    <tt>-block $[execution block]$</tt> dash-command. When the
+    execution block completes, or when an error is encountered, the
+    server will disconnect from the client, so the client is
+    prevented from executing arbitrary commands.</p>
     <em>Example:</em><br>
   </blockquote>
 
@@ -18637,22 +18649,22 @@ ciptool
 
 
   <blockquote>
-    <tt>/0 [-assign targetname ~@valuesource | -delete @tuplename |
-    -exists @tuplename | -istuplename @tuplename | -null @tuplename
-    | -true @tuplename | -false @tuplename | -name @tuplename |
-    -realname @tuplename | -value ~@tuplename | -sub @subname
-    ~@tuple | -type ~@tuple | -typename ~@tuple | -map | -autonome
-    ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on
-    tuple variables</tt><br>
+    <tt>/0 [-assign ~@targetname ~@valuesource | -delete @tuplename
+    | -exists @tuplename | -istuplename @tuplename | -null
+    @tuplename | -true @tuplename | -false @tuplename | -name
+    @tuplename | -realname @tuplename | -value ~@tuplename | -sub
+    @subname ~@tuple | -type ~@tuple | -typename ~@tuple | -map |
+    -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] :
+    operations on tuple variables</tt><br>
     <br>
     Operations on <a href="#Tuple_Variables">tuple
     variables</a>.<br>
 
 
     <ul>
-      <li><code>-assign targetname ~@valuesource</code> assigns to
-      the tuple specified by <em>targetname</em> (or pushes an
-      anonymous tuple to the stack if <em>targetname</em> is the
+      <li><code>-assign ~@targetname ~@valuesource</code> assigns
+      to the tuple specified by <em>~@targetname</em> (or pushes an
+      anonymous tuple to the stack if <em>~@targetname</em> is the
       stack push symbol <code><strong>~</strong></code>) the value
       of the tuple or stack pop represented by
       <em>~@valuesource</em></li>

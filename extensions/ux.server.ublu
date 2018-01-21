@@ -1,0 +1,30 @@
+# ux.server.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2017 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Utilities for use with the Ublu `server` command
+
+FUNC startServerSSL ( portnum keystorefqp keystorepasswd ) $[
+    jvm -set javax.net.ssl.keyStore @@keystorefqp
+    jvm -set javax.net.ssl.keyStorePassword @@keystorepasswd
+    server -to ~ -port @@portnum -usessl -start
+]$ 
+  
+FUNC getEnabledProtocols ( serverinstance ) $[
+    calljava -to ~ -obj @@serverinstance -method getEnabledProtocols
+]$
+
+FUNC setEnabledProtocols ( serverinstance protocollist ) $[
+    calljava -obj @@serverinstance -method setEnabledProtocols -arg @@protocollist
+]$
+    
+FUNC getEnabledCipherSuites ( serverinstance ) $[
+    calljava -to ~ -obj @@serverinstance -method getEnabledCipherSuites
+]$
+
+FUNC setEnabledCipherSuites ( serverinstance suitelist ) $[
+    calljava -obj @@serverinstance -method  setEnabledCipherSuites -arg @@suitelist
+]$
+
