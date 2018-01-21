@@ -9,6 +9,7 @@
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
   <meta name="generator" content="Bluefish 2.2.9">
+  <meta name="generator" content="Bluefish 2.2.9">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -16096,15 +16097,17 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <tt>/0 [-to datasink] [-- @listener] [-port ~@{portnum}] [[
-    -block ~@{executionBlock} | $[execution block]$ ] | -getport |
-    -start | -status | -stop ] : start, stop or monitor status of a
-    thread server<br></tt><br>
-    <br>
-    Starts, stops, or displays status of a TCP/IP listener over
+    <p><code>/0 [-to datasink] [-- @listener] [-port ~@{portnum}]
+    [-usessl] [-ssl @~t/f] [[ -block ~@{executionBlock} |
+    $[execution block]$ ] | -getport | -start | -status | -stop ] :
+    start, stop or monitor status of a thread server</code>
+    </p>
+
+
+    <p>Starts, stops, or displays status of a TCP/IP listener over
     <em>portnum</em> (defaulting to port 43860) which spawns server
     threads. The server threads spawned by the listener either
-    will:<br>
+    will:</p>
 
 
     <ul>
@@ -16119,10 +16122,12 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
     <p>Whichever is chosen, all server threads spawned by one
-    instance do the same thing.<br></p>
-    When executed without any <a href=
+    instance do the same thing.</p>
+
+
+    <p>When executed without any <a href=
     "#Dash_Command">dashcommand</a>, the default action is
-    <tt>-status</tt>.<br>
+    <tt>-status</tt>.</p>
 
 
     <p>There are extensions to the server command in
@@ -16139,7 +16144,15 @@ exit <span class="syntax-KEYWORD2">$?</span>
       listener to execute when a connection is made.</li>
 
 
-      <li><tt>-start</tt>; creates and starts and instance of the
+      <li><code>-usessl</code> causes the server to be created to
+      listen for an SSL connection.</li>
+
+
+      <li><code>-ssl @~t/f</code> if <code>true</code>, the server
+      will be created to listen for an SSL connection.</li>
+
+
+      <li><tt>-start</tt> creates and starts and instance of the
       listener and puts the listener to the destination <a href=
       "#Datasinks">datasink</a> for use later in referencing this
       server instance.</li>
