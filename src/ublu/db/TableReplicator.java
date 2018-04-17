@@ -191,6 +191,36 @@ public class TableReplicator extends DbHelper {
         setPrimaryKeyList(primaryKeyList);
     }
 
+    Integer destResultSetType = ResultSet.TYPE_SCROLL_SENSITIVE;
+    Integer destResultSetConcurrency = ResultSet.CONCUR_UPDATABLE;
+    Integer destResultSetHoldability = null;
+
+    /**
+     * Instance with the important factors set plus a primary key list
+     *
+     * @param srcDb source database instance
+     * @param tableName target table
+     * @param resultSet result set SELECT * FROM source
+     * @param resultSetMetaData metadata for the result set
+     * @param destDb destination database instance
+     * @param primaryKeyList a list of primary keys for table creation
+     * @param destResultSetType
+     * @param destResultSetHoldability
+     * @param destResultSetConcurrency
+     * @throws SQLException
+     */
+    public TableReplicator(Db srcDb, ResultSet resultSet, ResultSetMetaData resultSetMetaData, Db destDb, String tableName, PrimaryKeyList primaryKeyList,
+            Integer destResultSetType,
+            Integer destResultSetConcurrency,
+            Integer destResultSetHoldability
+    ) throws SQLException {
+        this(srcDb, resultSet, resultSetMetaData, destDb, tableName);
+        setPrimaryKeyList(primaryKeyList);
+        this.destResultSetType = destResultSetType;
+        this.destResultSetConcurrency = destResultSetConcurrency;
+        this.destResultSetHoldability = destResultSetHoldability;
+    }
+
     /**
      * Set up a table replicator from the minimum.
      * <p>
@@ -398,7 +428,12 @@ public class TableReplicator extends DbHelper {
         // fetchSrcColumnList();
         String destTableSQL = createDestTableSQL();
         /* Debug */ getLogger().log(Level.INFO, "Table creation SQL is {0}", destTableSQL);
-        Statement s = getDestDb().createStatement();
+        Statement s /* = getDestDb().createStatement() */;
+        if (destResultSetHoldability == null) {
+            s = getDestDb().createStatement(destResultSetType, destResultSetConcurrency);
+        } else {
+            s = getDestDb().createStatement(destResultSetType, destResultSetConcurrency, destResultSetHoldability);
+        }
         s.execute(destTableSQL);
     }
 
@@ -409,7 +444,7 @@ public class TableReplicator extends DbHelper {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, Exception {
         if (args.length != 11) {
             System.err.println(" args are: srcSystem srcDbName srcDbType srcUserId srcPasswd destSystem destDbName destDbType destUserId destPasswd tableName");
             System.exit(1);
@@ -447,13 +482,12 @@ public class TableReplicator extends DbHelper {
                 break;
         }
         if (srcDb == null || destDb == null) {
-            System.err.println("Couldn't instance one or both databases");
-            System.exit(1);
+            throw new Exception("Couldn't instance one or both databases");
         }
-        if (srcDb != null && destDb != null) {
-            srcDb.connect(srcSystem, null, srcDbName, null, srcUserId, srcPasswd);
-            destDb.connect(destSystem, null, destDbName, null, destUserId, destPasswd);
-        }
+
+        srcDb.connect(srcSystem, null, srcDbName, null, srcUserId, srcPasswd);
+        destDb.connect(destSystem, null, destDbName, null, destUserId, destPasswd);
+
         TableReplicator tr = newTableReplicator(srcDb, destDb, tableName);
         tr.replicate();
         // tr.closeAll();

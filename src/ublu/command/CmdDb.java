@@ -67,12 +67,13 @@ public class CmdDb extends Command {
         setNameAndDescription("db",
                 "/4? [--,-dbconnected ~@dbconnected] [-as400 ~@as400] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] "
                 + "[-qopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] "
+                + "[-destqopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] "
                 + "[-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} "
                 + "| -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata "
                 + "| -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} "
                 + "| -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} "
                 + "| -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] "
-                + "[-port ~@{portnum] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] "
+                + "[-port ~@{portnum}] [-destport ~@{destportnum}] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] "
                 + "~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
@@ -184,7 +185,9 @@ public class CmdDb extends Command {
     }
     private FUNCTIONS function;
     private ConnectionProperties connectionProperties;
+    private ConnectionProperties destConnectionProperties;
     private String port;
+    private String destPort;
 
     /**
      * Get db port
@@ -204,6 +207,14 @@ public class CmdDb extends Command {
         this.port = port;
     }
     private String csvTableName;
+
+    public String getDestPort() {
+        return destPort;
+    }
+
+    public void setDestPort(String destPort) {
+        this.destPort = destPort;
+    }
 
     /**
      * Get name of table we want
@@ -260,6 +271,14 @@ public class CmdDb extends Command {
         this.connectionProperties = connectionProperties;
     }
 
+    public ConnectionProperties getDestConnectionProperties() {
+        return destConnectionProperties;
+    }
+
+    public void setDestConnectionProperties(ConnectionProperties destConnectionProperties) {
+        this.destConnectionProperties = destConnectionProperties;
+    }
+
     private FUNCTIONS getFunction() {
         return function;
     }
@@ -280,6 +299,9 @@ public class CmdDb extends Command {
     Integer resultSetType = ResultSet.TYPE_SCROLL_SENSITIVE;
     Integer resultSetConcurrency = ResultSet.CONCUR_UPDATABLE;
     Integer resultSetHoldability = null;
+    Integer destResultSetType = ResultSet.TYPE_SCROLL_SENSITIVE;
+    Integer destResultSetConcurrency = ResultSet.CONCUR_UPDATABLE;
+    Integer destResultSetHoldability = null;
 
     private Integer getResultSetType() {
         return resultSetType;
@@ -303,6 +325,30 @@ public class CmdDb extends Command {
 
     private void setResultSetHoldability(Integer resultSetHoldability) {
         this.resultSetHoldability = resultSetHoldability;
+    }
+
+    public Integer getDestResultSetType() {
+        return destResultSetType;
+    }
+
+    public void setDestResultSetType(Integer destResultSetType) {
+        this.destResultSetType = destResultSetType;
+    }
+
+    public Integer getDestResultSetConcurrency() {
+        return destResultSetConcurrency;
+    }
+
+    public void setDestResultSetConcurrency(Integer destResultSetConcurrency) {
+        this.destResultSetConcurrency = destResultSetConcurrency;
+    }
+
+    public Integer getDestResultSetHoldability() {
+        return destResultSetHoldability;
+    }
+
+    public void setDestResultSetHoldability(Integer destResultSetHoldability) {
+        this.destResultSetHoldability = destResultSetHoldability;
     }
 
     /**
@@ -396,6 +442,9 @@ public class CmdDb extends Command {
                 case "-port":
                     setPort(argArray.nextMaybeQuotationTuplePopString());
                     break;
+                case "-destport":
+                    setDestPort(argArray.nextMaybeQuotationTuplePopString());
+                    break;
                 case "-property":
                     getConnectionProperties().put(argArray.nextMaybeQuotationTuplePopString(), argArray.nextMaybeQuotationTuplePopString());
                     break;
@@ -425,6 +474,9 @@ public class CmdDb extends Command {
                     break;
                 case "-qopt":
                     resultSetOption(argArray.nextMaybeQuotationTuplePopStringTrim());
+                    break;
+                case "-destqopt":
+                    destResultSetOption(argArray.nextMaybeQuotationTuplePopStringTrim());
                     break;
                 default:
                     unknownDashCommand(dashCommand);
@@ -542,8 +594,9 @@ public class CmdDb extends Command {
                             }
                             if (destDb != null) {
                                 rs = getDb().selectStarFrom(starTableName);
-                                destDb.connect(destDbName, null, destDatabaseName, null, destUser, destPassword);
-                                new TableReplicator(destDb, rs, rs.getMetaData(), destDb, starTableName, primaryKeyList).replicate();
+                                destDb.connect(destDbName, getDestPort(), destDatabaseName, getDestConnectionProperties(), destUser, destPassword);
+                                new TableReplicator(destDb, rs, rs.getMetaData(), destDb, starTableName, primaryKeyList, getDestResultSetType(), getDestResultSetConcurrency(),
+                                        getDestResultSetHoldability()).replicate();
                                 rs.close();
                                 getDb().disconnect();
                                 destDb.disconnect();
@@ -634,6 +687,35 @@ public class CmdDb extends Command {
                 break;
             case "sensitive":
                 setResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE);
+                break;
+            default:
+                getLogger().log(Level.SEVERE, "unknown qopt {0} in {1}", new Object[]{s, getNameAndDescription()});
+                setCommandResult(COMMANDRESULT.FAILURE);
+        }
+    }
+
+    private void destResultSetOption(String s) {
+        switch (s.toLowerCase()) {
+            case "close":
+                setDestResultSetHoldability(ResultSet.CLOSE_CURSORS_AT_COMMIT);
+                break;
+            case "hold":
+                setDestResultSetHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                break;
+            case "ro":
+                setDestResultSetConcurrency(ResultSet.CONCUR_READ_ONLY);
+                break;
+            case "update":
+                setDestResultSetConcurrency(ResultSet.CONCUR_UPDATABLE);
+                break;
+            case "forward":
+                setDestResultSetType(ResultSet.TYPE_FORWARD_ONLY);
+                break;
+            case "insensitive":
+                setDestResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE);
+                break;
+            case "sensitive":
+                setDestResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE);
                 break;
             default:
                 getLogger().log(Level.SEVERE, "unknown qopt {0} in {1}", new Object[]{s, getNameAndDescription()});

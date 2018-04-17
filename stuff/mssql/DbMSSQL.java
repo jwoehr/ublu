@@ -58,7 +58,7 @@ public class DbMSSQL extends Db {
         ds.setUser(userid);
         ds.setPassword(password);
         ds.setServerName(system);
-        ds.setPortNumber(Integer.parseInt(port));
+        ds.setPortNumber(Integer.parseInt(port == null ? MSSQL_DEFAULT_PORT : port));
         ds.setDatabaseName(database);
         setConnection(ds.getConnection());
         return getConnection();
