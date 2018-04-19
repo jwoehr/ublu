@@ -603,7 +603,7 @@ public class CmdDb extends Command {
                             }
                             break;
                         case STAR:
-                            rsc = DbHelper.selectStarFrom(db, starTableName);
+                            rsc = DbHelper.selectStarFrom(db, starTableName, getResultSetType(), getResultSetConcurrency(), getResultSetHoldability());
                             put(rsc, charsetName);
                             break;
                         case TABLECSV:

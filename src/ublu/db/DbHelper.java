@@ -553,20 +553,28 @@ public class DbHelper {
      * Making the return a ResultSetClosure is for use with a
      * {@link ublu.util.Putter}.</p>
      *
+     * @param resultSetType
+     * @param resultSetConcurrency
+     * @param resultSetHoldability
      * @see ublu.command.CmdDb
      * @param db
      * @param tablename
      * @return result set
      * @throws SQLException
      */
-    public static ResultSetClosure selectStarFrom(Db db, String tablename) throws SQLException {
+    public static ResultSetClosure selectStarFrom(Db db, String tablename, Integer resultSetType, Integer resultSetConcurrency, Integer resultSetHoldability) throws SQLException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT * FROM ").append(tablename);
-        Statement statement = db.getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
+
+        Statement statement;
+        if (resultSetHoldability == null) {
+            statement = db.getConnection().createStatement(resultSetType, resultSetConcurrency);
+        } else {
+            statement = db.getConnection().createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
+        }
+
         ResultSet rs = statement.executeQuery(sql.toString());
         return new ResultSetClosure(db, rs, statement);
-
     }
 
     /**
