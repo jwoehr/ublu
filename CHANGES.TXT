@@ -9,9 +9,12 @@ All rights reserved.
     * `server` now does SSL
     * `sock` now does SSL sockets
     * `watson` command added
-
+    * `db`
+        * better support for TableReplicator `-destqopt` `-destport`
+        * `-star` changed to work like other queries w/r/t concurrency and holdability.
+        * stub for mssql support updated on user bug report
 * Extensions
-	* ux.string.ublu
+    * ux.string.ublu
 
 1.1.9 2017-12-12
 -----
