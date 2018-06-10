@@ -132,9 +132,11 @@ public class CmdProgramCall extends Command {
                     try {
                         programCall = new ProgramCall(getAs400());
                         programCall.setProgram(programFQP);
+                        /* DEBUG */ getLogger().log(Level.INFO, "ManagedProgramParameterList before runProgramCall: " + mppl.toString());
                         ProgramCallHelper pch = new ProgramCallHelper(programCall, mppl);
                         pch.addInputParameters();
                         if ((msgOpt == null) ? true : pch.setMessageOptions(msgOpt)) {
+                            /* DEBUG */ getLogger().log(Level.INFO, "ProgramCallHelper before runProgramCall: " + pch.toString());
                             if (pch.runProgramCall()) {
                                 pch.processOutputParameters();
                             } else {
@@ -143,6 +145,7 @@ public class CmdProgramCall extends Command {
                             }
                             // Show the messages (returned whether or not there was an error.)
                             put(pch.getMessageList());
+                            /* DEBUG */ getLogger().log(Level.INFO, "ProgramCallHelper after runProgramCall: " + pch.toString());
                         } else {
                             getLogger().log(Level.SEVERE, "Invalid message option in {0}", getNameAndDescription());
                             setCommandResult(COMMANDRESULT.FAILURE);
