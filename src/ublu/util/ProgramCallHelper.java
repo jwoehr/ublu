@@ -69,7 +69,10 @@ public class ProgramCallHelper {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append('\n')
                 .append(this.programCall).append('\n')
-                .append(this.managedProgramParameterList).append('\n');
+                .append(this.managedProgramParameterList != null
+                        ? this.managedProgramParameterList.toString()
+                        : "[missing ManagedProgramParameterList]")
+                .append('\n');
         return sb.toString();
 
     }
@@ -193,9 +196,12 @@ public class ProgramCallHelper {
         public String toString() {
             StringBuilder sb = new StringBuilder(super.toString());
             sb.append('\n')
-                    .append(this.programParameter.toString()).append('\n')
-                    .append(this.tuple.toString()).append('\n')
-                    .append(this.vartype.name()).append('\n');
+                    .append(this.programParameter != null ? this.programParameter.toString() : "no program parameter")
+                    .append('\n')
+                    .append(this.tuple != null ? this.tuple.toString() : "no tuple")
+                    .append('\n')
+                    .append(this.vartype != null ? this.vartype.name() : "no vartype")
+                    .append('\n');
             return sb.toString();
         }
 
