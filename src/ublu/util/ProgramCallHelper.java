@@ -127,7 +127,9 @@ public class ProgramCallHelper {
      */
     public boolean runProgramCall() throws AS400SecurityException, ErrorCompletingRequestException, IOException, InterruptedException, ObjectDoesNotExistException {
         // /* DEBUG */ programCall.setMessageOption(AS400Message.MESSAGE_OPTION_NONE);
+        /* DEBUG */ System.err.println("before running the program call");
         boolean result = programCall.run();
+        /* DEBUG */ System.err.println("after running the program call");
         return result;
     }
 

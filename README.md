@@ -43,9 +43,11 @@ Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/
 
 The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is [version 1.1.8](https://github.com/jwoehr/ublu/releases/tag/v1.1.8).
+The latest release version of Ublu is [version 1.1.9](https://github.com/jwoehr/ublu/releases/tag/v1.1.9).
 
-The tip of the master branch calls itself 1.1.8+ as we head for 1.1.9
+It is strongly advised you use a release version of Ublu, preferably the latest.
+
+The tip of the master branch calls itself 1.1.9+ as we head for 1.2.0
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
