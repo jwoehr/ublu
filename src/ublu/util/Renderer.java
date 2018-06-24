@@ -57,6 +57,8 @@ import com.ibm.as400.access.SaveFileEntry;
 import com.ibm.as400.access.SpooledFile;
 import com.ibm.as400.access.Subsystem;
 import com.ibm.as400.access.User;
+import com.ibm.as400.access.list.OpenListException;
+import com.ibm.as400.access.list.SpooledFileOpenList;
 import com.softwoehr.pigiron.access.ParameterArray;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -201,6 +203,8 @@ public class Renderer {
             s = stringFrom(SpooledFile.class.cast(theObject));
         } else if (theObject instanceof SpooledFileArrayList) {
             s = stringFrom(SpooledFileArrayList.class.cast(theObject));
+        } else if (theObject instanceof SpooledFileOpenList) {
+            s = stringFrom(SpooledFileOpenList.class.cast(theObject));
         } else if (theObject instanceof DataQueueEntry) {
             s = stringFrom(DataQueueEntry.class.cast(theObject));
         } else if (theObject instanceof ObjectLockListEntry) {
@@ -855,6 +859,38 @@ public class Renderer {
         for (SpooledFile splf : splfal) {
             sb.append(stringFrom(splf)).append("\n");
         }
+        return sb.toString();
+    }
+
+    /**
+     * Make an output string from a SpooledFileOpenList
+     *
+     * @param spfol SpooledFileOpenList
+     * @return string representation
+     */
+    public String stringFrom(SpooledFileOpenList spfol) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(spfol.toString()).append('\n');
+        sb.append("EnumerationBlockSize : ").append(spfol.getEnumerationBlockSize()).append('\n');
+        sb.append("FilterCreationDateStart : ").append(spfol.getFilterCreationDateStart()).append('\n');
+        sb.append("FilterCreationDateEnd : ").append(spfol.getFilterCreationDateEnd()).append('\n');
+        sb.append("FilterDevices : ").append(spfol.getFilterDevices()).append('\n');
+        sb.append("FilterFormType : ").append(spfol.getFilterFormType()).append('\n');
+        sb.append("FilterJobName : ").append(spfol.getFilterJobName()).append('\n');
+        sb.append("FilterJobNumber : ").append(spfol.getFilterJobNumber()).append('\n');
+        sb.append("FilterJobSystemName : ").append(spfol.getFilterJobSystemName()).append('\n');
+        sb.append("FilterJobUser : ").append(spfol.getFilterJobUser()).append('\n');
+        sb.append("FilterOutputQueues : ").append(spfol.getFilterOutputQueues()).append('\n');
+        sb.append("FilterStatuses : ").append(spfol.getFilterStatuses()).append('\n');
+        sb.append("FilterUserData : ").append(spfol.getFilterUserData()).append('\n');
+        sb.append("FilterUsers : ").append(spfol.getFilterUsers()).append('\n');
+        sb.append("Format : ").append(spfol.getFormat()).append('\n');
+        try {
+            sb.append("Length : ").append(spfol.getLength()).append('\n');
+        } catch (AS400SecurityException | ErrorCompletingRequestException | IOException | InterruptedException | ObjectDoesNotExistException | OpenListException ex) {
+            sb.append("Length : error ").append(ex).append('\n');
+        }
+        sb.append("System : ").append(spfol.getSystem()).append('\n');
         return sb.toString();
     }
 
