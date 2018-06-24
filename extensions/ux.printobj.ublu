@@ -26,7 +26,7 @@
 #   com/ibm/as400/access/doc-files/PrintAttributes.html
 #   com/ibm/as400/access/PrintObject.html
 #   constant-values.html#com.ibm.as400.access.PrintObject.ATTR_3812SCS
-######################################################################
+# #####################################################################
 const *ATTR_3812SCS 	287
 const *ATTR_ACCOUNT_CODE 	265
 const *ATTR_AFP 	10
@@ -307,5 +307,26 @@ const *ATTR_WTRJOBSTS 	123
 const *ATTR_WTRJOBUSER 	124
 const *ATTR_WTRSTRPAGE 	143
 const *ATTR_WTRSTRTD 	193
+
+# Use these functions which push to LIFO for spooled files
+# ########################################################
+
+# Get string attribute of print object such as SpooledFIle by constant selector
+FUNC getStringAttribute ( pobj attr ) $[
+    num -to ~ @@attr
+    calljava -to ~ -- @@pobj -method getStringAttribute -primarg ~
+]$
+
+# Get int attribute of print object such as SpooledFIle by constant selector  
+  FUNC getIntegerAttribute ( pobj attr ) $[
+    num -to ~ @@attr
+    calljava -to ~ -- @@pobj -method getIntegerAttribute -primarg ~
+]$
+  
+# Get float attribute of print object such as SpooledFIle by constant selector  
+ FUNC getFloatAttribute ( pobj attr ) $[
+    num -to ~ @@attr
+    calljava -to ~ -- @@pobj -method getFloatAttribute -primarg ~
+]$
 
 # End
