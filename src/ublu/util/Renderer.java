@@ -883,7 +883,14 @@ public class Renderer {
         sb.append("FilterOutputQueues : ").append(spfol.getFilterOutputQueues()).append('\n');
         sb.append("FilterStatuses : ").append(spfol.getFilterStatuses()).append('\n');
         sb.append("FilterUserData : ").append(spfol.getFilterUserData()).append('\n');
-        sb.append("FilterUsers : ").append(spfol.getFilterUsers()).append('\n');
+        sb.append("FilterUsers : ");
+        final String[] users = spfol.getFilterUsers();
+        if (users != null) {
+            for (String user : users) {
+                sb.append(user).append(" ");
+            }
+        }
+        sb.append('\n');
         sb.append("Format : ").append(spfol.getFormat()).append('\n');
         try {
             sb.append("Length : ").append(spfol.getLength()).append('\n');
