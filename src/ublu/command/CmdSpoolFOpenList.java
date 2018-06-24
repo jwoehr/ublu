@@ -304,6 +304,7 @@ public class CmdSpoolFOpenList extends Command {
                     case FILTER_FORM:
                         if (splfolist == null) {
                             noSplfOL();
+                            
                         } else {
                             if (formType != null) {
                                 splfolist.setFilterFormType(formType);
@@ -318,7 +319,7 @@ public class CmdSpoolFOpenList extends Command {
                             noSplfOL();
                         } else {
                             if (jobName != null && jobNumber != null && jobUser != null) {
-                                splfolist.setFilterJobInformation(jobName, jobNumber, jobUser);
+                                splfolist.setFilterJobInformation(jobName, jobUser, jobNumber);
                             } else {
                                 getLogger().log(Level.SEVERE, "Empty job filter {0} {1} {2} provided to {3}", new Object[]{jobName, jobNumber, jobUser, getNameAndDescription()});
                                 setCommandResult(COMMANDRESULT.FAILURE);
