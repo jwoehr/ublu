@@ -88,6 +88,9 @@ public class CmdDesktop extends Command {
                     op = OPS.MAILTO;
                     uri = argArray.nextMaybeQuotationTuplePopString();
                     break;
+                case "-supported":
+                    op = OPS.SUPPORTED;
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
