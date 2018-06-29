@@ -2,7 +2,7 @@
 " Language: Ublu scripts
 " Maintainer: https://github.com/Taywee
 " Latest Revision: 2016-09-29
-" Revised by jwoehr@softwoehr.com 2016 October 06
+" Revised by jwoehr@softwoehr.com 20180628
 
 if exists("b:current_syntax")
     finish
@@ -14,7 +14,7 @@ syn keyword basicKeywords CALL CATCH LOCAL TASK BREAK RETURN TASK THROW TRY
 syn keyword repeat DO FOR in IN WHILE
 syn keyword function FUN FUNC
 syn keyword conditional IF THEN ELSE SWITCH
-syn keyword commandKeywords as400 ask bye calljava cim cimi collection commandcall const cs db dbug defun desktop dict dpoint dq eval exit file ftp gensh help histlog history h host ifs interpret include jmx job joblist joblog jrnl json jvm license lifo list map monitor msg msgq num objdesc objlist outq ppl printer programcall props put record rs savf savef server sess session smapi sock spoolf spoolflist streamf string subsys system sysval test thread tn5250 trace tuple usage user userlist
+syn keyword commandKeywords as400 ask bye calljava cim cimi collection commandcall const cs db dbug defun desktop dict dpoint dq eval exit file ftp gensh help histlog history h host ifs interpret include jmx job joblist joblog jrnl json jvm license lifo list map monitor msg msgq num objdesc objlist outq ppl printer programcall props put record rs savf savef server sess session smapi sock splfol spoolf spoolflist streamf string subsys system sysval test thread tn5250 trace tuple usage user userlist watson
 syn keyword constants AUTOSTART BATCH INTERACTIVE SUBSYSTEM_MONITOR SPOOLED_READER SYSTEM SPOOLED_WRITER SCPF_SYSTEM ALL
 
 syn match number '\<[0-9]\+\>'
