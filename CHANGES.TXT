@@ -13,6 +13,8 @@ All rights reserved.
         * better support for TableReplicator `-destqopt` `-destport`
         * `-star` changed to work like other queries w/r/t concurrency and holdability.
         * stub for mssql support updated on user bug report
+    * `desktop`
+        * `-supported` was missing
     * splfol
         * bug fixes
         * rendering
