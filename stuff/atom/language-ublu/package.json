@@ -1,0 +1,15 @@
+{
+  "name": "language-ublu",
+  "main": "./lib/language-ublu",
+  "version": "0.0.0",
+  "description": "A grammar for Ublu github/jwoehr/ublu",
+  "keywords": [
+  ],
+  "repository": "https://github.com/atom/language-ublu",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
