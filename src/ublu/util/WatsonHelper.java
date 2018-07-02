@@ -37,12 +37,45 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class WatsonHelper {
 
+    /**
+     *
+     */
     public static String BLUEMIX_HOST = "watson-api-explorer.mybluemix.net";
+
+    /**
+     *
+     */
     public static String URL_BASE = "https://";
+
+    /**
+     *
+     */
     public static String DEFAULT_REQUEST_CONTENT_TYPE = "application/json";
+
+    /**
+     *
+     */
     public static String DEFAULT_RESPONSE_CONTENT_TYPE = "application/json";
+
+    /**
+     *
+     */
     public static String DEFAULT_METHOD = "GET";
 
+    /**
+     * Perform a Watson operation
+     *
+     * @param host Watson host
+     * @param usrv service url
+     * @param parms params to service call
+     * @param http_method HTTP method
+     * @param request_content__type content type
+     * @param response_content_type content type
+     * @param request_content request content
+     * @return result
+     * @throws MalformedURLException
+     * @throws IOException
+     */
     public static String watson(String host, String usrv, String[] parms, String http_method, String request_content__type, String response_content_type, String request_content) throws MalformedURLException, IOException {
 
         StringBuilder params = new StringBuilder();
@@ -83,22 +116,32 @@ public class WatsonHelper {
                 throw new UnsupportedOperationException(http_method + " is not supported yet.");
         }
 
-        int returnCode = connection.getResponseCode();
-        InputStream connectionIn;
-        if (returnCode == 200) {
-            connectionIn = connection.getInputStream();
-        } else {
-            connectionIn = connection.getErrorStream();
-        }
         StringBuilder result = new StringBuilder();
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(connectionIn));
-        String inputLine;
-        while ((inputLine = buffer.readLine()) != null) {
-            result.append(inputLine).append('\n');
+        if (connection != null) {
+            int returnCode = connection.getResponseCode();
+            InputStream connectionIn;
+            if (returnCode == 200) {
+                connectionIn = connection.getInputStream();
+            } else {
+                connectionIn = connection.getErrorStream();
+            }
+
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(connectionIn));
+            String inputLine;
+            while ((inputLine = buffer.readLine()) != null) {
+                result.append(inputLine).append('\n');
+            }
+        } else {
+            throw new Error("NO CONNECTION TO WATSON");
         }
         return result.toString();
     }
 
+    /**
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         String usrv = args[0];
         String[] parms = new String[args.length - 1];
