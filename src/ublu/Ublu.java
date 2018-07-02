@@ -437,21 +437,6 @@ public class Ublu {
         this.originalArgs = originalArgs;
     }
 
-//    private String[] oldProcessArgs(String[] args) {
-//        StringArrayList remainderArgs = new StringArrayList(args);
-//        setOriginalArgs(new StringArrayList(args));
-//        for (String s : getOriginalArgs()) {
-//            if (s.startsWith("-")) {
-//                getSwitches().add(s);
-//            } else {
-//                break;
-//            }
-//        }
-//        for (String switche : getSwitches()) {
-//            remainderArgs.remove(0);
-//        }
-//        return remainderArgs.toStringArray();
-//    }
     private String[] processArgs(String[] args) {
         // /* Debug */ System.err.println("args are " + Arrays.toString(args));
         myGetArgs = new GetArgs(args);
