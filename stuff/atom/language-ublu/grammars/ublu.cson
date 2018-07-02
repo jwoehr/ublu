@@ -407,11 +407,11 @@ patterns: [
     name: 'keyword2.as400.ublu'
   }
 {
-  match: '\\b\\@\\@\\w\+\\b'
+  match: '\\@\\@\\w\+\\b'
   name: 'variable.as400.ublu'
 }
   {
-    match: '\\b\\@\\w\+\\b'
+    match: '\\@\\w\+\\b'
     name: 'variable.as400.ublu'
   }
 ]
