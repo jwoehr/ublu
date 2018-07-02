@@ -90,7 +90,7 @@ public class CmdDb extends Command {
      *
      * @return type of the database
      */
-    public String getDbType() {
+    private String getDbType() {
         return dbType;
     }
 
@@ -99,7 +99,7 @@ public class CmdDb extends Command {
      *
      * @param dbType
      */
-    public void setDbType(String dbType) {
+    private void setDbType(String dbType) {
         this.dbType = dbType;
     }
 
@@ -108,7 +108,7 @@ public class CmdDb extends Command {
      *
      * @return the database instance
      */
-    public Db getDb() {
+    private Db getDb() {
         return db;
     }
 
@@ -117,14 +117,14 @@ public class CmdDb extends Command {
      *
      * @param db the database instance
      */
-    public void setDb(Db db) {
+    private void setDb(Db db) {
         this.db = db;
     }
 
     /**
      * The functions this command knows
      */
-    protected static enum FUNCTIONS {
+    private static enum FUNCTIONS {
 
         /**
          * Do nothing
@@ -194,7 +194,7 @@ public class CmdDb extends Command {
      *
      * @return db port
      */
-    public String getPort() {
+    private String getPort() {
         return port;
     }
 
@@ -203,16 +203,16 @@ public class CmdDb extends Command {
      *
      * @param port db port
      */
-    public void setPort(String port) {
+    private void setPort(String port) {
         this.port = port;
     }
     private String csvTableName;
 
-    public String getDestPort() {
+    private String getDestPort() {
         return destPort;
     }
 
-    public void setDestPort(String destPort) {
+    private void setDestPort(String destPort) {
         this.destPort = destPort;
     }
 
@@ -221,7 +221,7 @@ public class CmdDb extends Command {
      *
      * @return name of table we want
      */
-    public String getCsvTableName() {
+    private String getCsvTableName() {
         return csvTableName;
     }
 
@@ -230,7 +230,7 @@ public class CmdDb extends Command {
      *
      * @param csvTableName name of table we want
      */
-    public void setCsvTableName(String csvTableName) {
+    private void setCsvTableName(String csvTableName) {
         this.csvTableName = csvTableName;
     }
     private String csvSeparator;
@@ -240,7 +240,7 @@ public class CmdDb extends Command {
      *
      * @return char to use as separator
      */
-    public String getCsvSeparator() {
+    private String getCsvSeparator() {
         return csvSeparator;
     }
 
@@ -249,7 +249,7 @@ public class CmdDb extends Command {
      *
      * @param csvSeparator char to use as separator
      */
-    public final void setCsvSeparator(String csvSeparator) {
+    private final void setCsvSeparator(String csvSeparator) {
         this.csvSeparator = csvSeparator;
     }
 
@@ -258,7 +258,7 @@ public class CmdDb extends Command {
      *
      * @return list of connection properties
      */
-    public ConnectionProperties getConnectionProperties() {
+    private ConnectionProperties getConnectionProperties() {
         return connectionProperties;
     }
 
@@ -267,15 +267,15 @@ public class CmdDb extends Command {
      *
      * @param connectionProperties list of connection properties
      */
-    public final void setConnectionProperties(ConnectionProperties connectionProperties) {
+    private final void setConnectionProperties(ConnectionProperties connectionProperties) {
         this.connectionProperties = connectionProperties;
     }
 
-    public ConnectionProperties getDestConnectionProperties() {
+    private ConnectionProperties getDestConnectionProperties() {
         return destConnectionProperties;
     }
 
-    public void setDestConnectionProperties(ConnectionProperties destConnectionProperties) {
+    private void setDestConnectionProperties(ConnectionProperties destConnectionProperties) {
         this.destConnectionProperties = destConnectionProperties;
     }
 
@@ -327,27 +327,27 @@ public class CmdDb extends Command {
         this.resultSetHoldability = resultSetHoldability;
     }
 
-    public Integer getDestResultSetType() {
+    private Integer getDestResultSetType() {
         return destResultSetType;
     }
 
-    public void setDestResultSetType(Integer destResultSetType) {
+    private void setDestResultSetType(Integer destResultSetType) {
         this.destResultSetType = destResultSetType;
     }
 
-    public Integer getDestResultSetConcurrency() {
+    private Integer getDestResultSetConcurrency() {
         return destResultSetConcurrency;
     }
 
-    public void setDestResultSetConcurrency(Integer destResultSetConcurrency) {
+    private void setDestResultSetConcurrency(Integer destResultSetConcurrency) {
         this.destResultSetConcurrency = destResultSetConcurrency;
     }
 
-    public Integer getDestResultSetHoldability() {
+    private Integer getDestResultSetHoldability() {
         return destResultSetHoldability;
     }
 
-    public void setDestResultSetHoldability(Integer destResultSetHoldability) {
+    private void setDestResultSetHoldability(Integer destResultSetHoldability) {
         this.destResultSetHoldability = destResultSetHoldability;
     }
 

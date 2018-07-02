@@ -51,6 +51,12 @@ public class CmdWatson extends Command {
                 + " [-req_type ~@{request_content_type}] [-resp_type ~@{response_content_type}] [-req ~@{request_content}] : invoke IBM Watson microservice");
     }
 
+    /**
+     * Perform a Watson operation
+     *
+     * @param argArray passed-in args
+     * @return What's left of the args
+     */
     public ArgArray cmdWatson(ArgArray argArray) {
         String host = WatsonHelper.BLUEMIX_HOST;
         String usrv = null;
