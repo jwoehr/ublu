@@ -117,9 +117,9 @@ public class UbluPanel extends javax.swing.JPanel {
     }
 
     /**
-     *
+     * Like it sez
      */
-    public void scrollToEnd() {
+    protected void scrollToEnd() {
         JScrollBar jsb = jScrollPane1.getVerticalScrollBar();
         jsb.setValue(jsb.getMaximum());
     }

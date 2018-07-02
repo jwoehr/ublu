@@ -195,7 +195,7 @@ public final class FontChooser extends JDialog implements ActionListener {
     /**
      *
      */
-    protected void updatePreviewColor() {
+    private void updatePreviewColor() {
         previewLabel.setForeground(colorChooser.getColor());
         // Manually force the label to repaint
         previewLabel.repaint();

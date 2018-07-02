@@ -64,9 +64,9 @@ public class UbluWinController {
     public static final String PRODUCT_NAME = java.util.ResourceBundle.getBundle("ublu/win/Bundle").getString("productName");
 
     /**
-     *
+     * About message dialog
      */
-    public final void aboutUblu() {
+    protected final void aboutUblu() {
         JOptionPane.showMessageDialog(ubluFrame, Ublu.startupMessage(), PRODUCT_NAME, JOptionPane.PLAIN_MESSAGE, ubluIcon);
     }
 
@@ -206,9 +206,9 @@ public class UbluWinController {
     }
 
     /**
-     *
+     * Set things up
      */
-    public void startup() {
+    protected void startup() {
         ubluFrame = new UbluFrame();
         ubluFrame.setUbluWinController(this);
         ubluTAOS = ubluFrame.getUbluPanel().getjTAOS();
@@ -492,9 +492,9 @@ public class UbluWinController {
     }
 
     /**
-     *
+     * Load setting from properties
      */
-    public void restoreSettingsFromProps() {
+    protected void restoreSettingsFromProps() {
         Integer ubluTextAreaFontStyle = Integer.parseInt(myWinProps.get("UbluTextAreaFontStyle", "0"));
         Integer ubluInputAreaFontStyle = Integer.parseInt(myWinProps.get("UbluInputAreaFontStyle", "0"));
         String ubluTextAreaFont = myWinProps.get("UbluTextAreaFont", "Lucida Sans Typewriter");
@@ -568,7 +568,7 @@ public class UbluWinController {
     }
 
     /**
-     *
+     * Show simple help message
      */
     protected void help() {
         JOptionPane.showMessageDialog(null, windowingHelp(), "Ublu Windowing Help", JOptionPane.PLAIN_MESSAGE, ubluIcon);
