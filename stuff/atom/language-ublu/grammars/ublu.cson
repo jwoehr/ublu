@@ -6,21 +6,412 @@ fileTypes: [ # An array of file extensions.
 ]
 limitLineLength: false
 maxTokensPerLine: 300
-# firstLineMatch: '' # A regular expression that is matched against the first line of the document when Atom is trying to decide if the grammar is appropriate. Useful for shell scripts, mostly.
+# firstLinematch: '\\b' # A regular expression that is matched against the first line of the document when Atom is trying to decide if the grammar is appropriate. Useful for shell scripts, mostly.
 # foldingStartMarker: '' # A regular expression that checks for the start of a foldable area (such as `{`).
 # foldingStopMarker: '' # A regular expression that checks for the end of a foldable area (such as `}`). If both folding markers are matched in the same line, there will be no foldable area.
 patterns: [
   {
-    match: 'as400\\b'
+    match: '\\bas400\\b'
     name: 'keyword.as400.ublu'
   }
-
+  {
+    match: '\\bask\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bBREAK\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bbye\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bCALL\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bcalljava\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bCATCH\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bcim\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bcimi\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bcollection\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bcommandcall\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bconst\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bcs\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdb\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdbug\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdefun\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdesktop\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdict\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bDO\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdpoint\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdq\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bdta\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bELSE\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\beval\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bexit\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bfile\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bFOR\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bftp\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bFUN\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bFUNC\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bgensh\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bhelp\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\busage\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bhistlog\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bhistory\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bh\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bhost\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bIF\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bifs\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\binclude\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\binterpret\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\binterpreter\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjmx\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjob\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjoblist\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjoblog\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjrnl\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjson\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bjvm\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bLOCAL\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\blicense\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\blifo\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\blist\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bmap\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bmonitor\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bmsg\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bmsgq\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bnum\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bobjlist\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bobjdesc\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\boutq\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bppl\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bprinter\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bprogramcall\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bprops\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bput\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\brecord\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bRETURN\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\brs\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsavf\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsavef\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bserver\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsess\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsession\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsleep\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsmapi\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsock\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsplfol\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bspoolf\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bspoolflist\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bstreamf\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bstring\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsubsys\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bSWITCH\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsystem\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bsysval\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bTASK\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\btest\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bthread\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bTHEN\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\btn5250\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bTHROW\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\btrace\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bTRY\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\btuple\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\buser\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\buserlist\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bwatson\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bWHILE\\b'
+    name: 'keyword2.as400.ublu'
+  }
 {
-  match: '\\@\\@\\w\+\\b'
+  match: '\\b\\@\\@\\w\+\\b'
   name: 'variable.as400.ublu'
 }
   {
-    match: '\\@\\w\+\\b'
+    match: '\\b\\@\\w\+\\b'
     name: 'variable.as400.ublu'
   }
 ]
@@ -28,7 +419,7 @@ patterns: [
 # {
 #
 #
-#     match: '' # A regular expression that matches some content. Optional.
+#     match: '\\b' # A regular expression that matches some content. Optional.
 #     begin: '' # A regular expression that precedes the content. Optional.
 #     end: '' # A regular expression that follows the content. Optional.
 #     name: '' # A period-delimited list of classes that will be applied to the content identified by `match`. Optional.
@@ -49,7 +440,7 @@ patterns: [
 #
 #
 #   {
-#     match: ''
+#     match: '\\b'
 #     begin: ''
 #     end: ''
 #     name: ''
@@ -70,7 +461,7 @@ patterns: [
 #   ruleName: # Can be anything.
 #     {
 #       name: ''
-#       match: ''
+#       match: '\\b'
 #       end: ''
 #       endCaptures:
 #         0:
