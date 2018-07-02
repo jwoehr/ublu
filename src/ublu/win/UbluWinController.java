@@ -165,7 +165,7 @@ public class UbluWinController {
     }
 
     /**
-     *
+     * ctor/0
      */
     public UbluWinController() {
         myWinProps = new WinProps(this);

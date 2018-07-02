@@ -248,19 +248,19 @@ public class Listener extends Thread {
         return SSLServerSocket.class.cast(serverSocket);
     }
 
-    public StringArrayList getEnabledCipherSuites() {
+    private StringArrayList getEnabledCipherSuites() {
         return new StringArrayList(getSSLServerSocket().getEnabledCipherSuites());
     }
 
-    public void setEnabledCipherSuites(ThingArrayList tal) {
+    private void setEnabledCipherSuites(ThingArrayList tal) {
         getSSLServerSocket().setEnabledCipherSuites(tal.toStringArray());
     }
 
-    public StringArrayList getEnabledProtocols() {
+    private StringArrayList getEnabledProtocols() {
         return new StringArrayList(getSSLServerSocket().getEnabledProtocols());
     }
 
-    public void setEnabledProtocols(ThingArrayList tal) {
+    private void setEnabledProtocols(ThingArrayList tal) {
         getSSLServerSocket().setEnabledProtocols(tal.toStringArray());
     }
 
