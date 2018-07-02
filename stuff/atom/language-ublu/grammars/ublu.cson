@@ -1,0 +1,470 @@
+# Regex to convert keys to unquoted: '(include|match|captures|begin|end|beginCaptures|endCaptures|name|patterns|0|1|2|3|4|5|6|7|8|9|comment|fileTypes|scopeName|repository|contentName|firstLineMatch|foldingStartMarker|foldingStopMarker)':
+scopeName: 'source.ublu' # <scope> should be a short, unique indicator for the language ("js", "php", "c", etc.)
+name: 'Ublu' # The title that will show up in grammar selection and on your status bar.
+fileTypes: [ # An array of file extensions.
+  'ublu'
+]
+limitLineLength: false
+maxTokensPerLine: 300
+# firstLinematch: '\\b' # A regular expression that is matched against the first line of the document when Atom is trying to decide if the grammar is appropriate. Useful for shell scripts, mostly.
+# foldingStartMarker: '' # A regular expression that checks for the start of a foldable area (such as `{`).
+# foldingStopMarker: '' # A regular expression that checks for the end of a foldable area (such as `}`). If both folding markers are matched in the same line, there will be no foldable area.
+patterns: [
+  {
+    match: '\\bas400\\b'
+    name: 'keyword.as400.ublu'
+  }
+  {
+    match: '\\bask\\b'
+    name: 'keyword.ask.ublu'
+  }
+  {
+    match: '\\bBREAK\\b'
+    name: 'keyword.BREAK.ublu'
+  }
+  {
+    match: '\\bbye\\b'
+    name: 'keyword.bye.ublu'
+  }
+  {
+    match: '\\bCALL\\b'
+    name: 'keyword.CALL.ublu'
+  }
+  {
+    match: '\\bcalljava\\b'
+    name: 'keyword.calljava.ublu'
+  }
+  {
+    match: '\\bCATCH\\b'
+    name: 'keyword.CATCH.ublu'
+  }
+  {
+    match: '\\bcim\\b'
+    name: 'keyword.cim.ublu'
+  }
+  {
+    match: '\\bcimi\\b'
+    name: 'keyword.cimi.ublu'
+  }
+  {
+    match: '\\bcollection\\b'
+    name: 'keyword.collection.ublu'
+  }
+  {
+    match: '\\bcommandcall\\b'
+    name: 'keyword.commandcall.ublu'
+  }
+  {
+    match: '\\bconst\\b'
+    name: 'keyword.const.ublu'
+  }
+  {
+    match: '\\bcs\\b'
+    name: 'keyword.cs.ublu'
+  }
+  {
+    match: '\\bdb\\b'
+    name: 'keyword.db.ublu'
+  }
+  {
+    match: '\\bdbug\\b'
+    name: 'keyword.dbug.ublu'
+  }
+  {
+    match: '\\bdefun\\b'
+    name: 'keyword.defun.ublu'
+  }
+  {
+    match: '\\bdesktop\\b'
+    name: 'keyword.desktop.ublu'
+  }
+  {
+    match: '\\bdict\\b'
+    name: 'keyword.dict.ublu'
+  }
+  {
+    match: '\\bDO\\b'
+    name: 'keyword.DO.ublu'
+  }
+  {
+    match: '\\bdpoint\\b'
+    name: 'keyword.dpoint.ublu'
+  }
+  {
+    match: '\\bdq\\b'
+    name: 'keyword.dq.ublu'
+  }
+  {
+    match: '\\bdta\\b'
+    name: 'keyword.dta.ublu'
+  }
+  {
+    match: '\\bELSE\\b'
+    name: 'keyword.ELSE.ublu'
+  }
+  {
+    match: '\\beval\\b'
+    name: 'keyword.eval.ublu'
+  }
+  {
+    match: '\\bexit\\b'
+    name: 'keyword.exit.ublu'
+  }
+  {
+    match: '\\bfile\\b'
+    name: 'keyword.file.ublu'
+  }
+  {
+    match: '\\bFOR\\b'
+    name: 'keyword.FOR.ublu'
+  }
+  {
+    match: '\\bftp\\b'
+    name: 'keyword.ftp.ublu'
+  }
+  {
+    match: '\\bFUN\\b'
+    name: 'keyword.FUN.ublu'
+  }
+  {
+    match: '\\bFUNC\\b'
+    name: 'keyword.FUNC.ublu'
+  }
+  {
+    match: '\\bgensh\\b'
+    name: 'keyword.gensh.ublu'
+  }
+  {
+    match: '\\bhelp\\b'
+    name: 'keyword.help.ublu'
+  }
+  {
+    match: '\\busage\\b'
+    name: 'keyword.usage.ublu'
+  }
+  {
+    match: '\\bhistlog\\b'
+    name: 'keyword.histlog.ublu'
+  }
+  {
+    match: '\\bhistory\\b'
+    name: 'keyword.history.ublu'
+  }
+  {
+    match: '\\bh\\b'
+    name: 'keyword.h.ublu'
+  }
+  {
+    match: '\\bhost\\b'
+    name: 'keyword.host.ublu'
+  }
+  {
+    match: '\\bIF\\b'
+    name: 'keyword.IF.ublu'
+  }
+  {
+    match: '\\bifs\\b'
+    name: 'keyword.ifs.ublu'
+  }
+  {
+    match: '\\binclude\\b'
+    name: 'keyword.include.ublu'
+  }
+  {
+    match: '\\binterpret\\b'
+    name: 'keyword.interpret.ublu'
+  }
+  {
+    match: '\\binterpreter\\b'
+    name: 'keyword.interpreter.ublu'
+  }
+  {
+    match: '\\bjmx\\b'
+    name: 'keyword.jmx.ublu'
+  }
+  {
+    match: '\\bjob\\b'
+    name: 'keyword.job.ublu'
+  }
+  {
+    match: '\\bjoblist\\b'
+    name: 'keyword.joblist.ublu'
+  }
+  {
+    match: '\\bjoblog\\b'
+    name: 'keyword.joblog.ublu'
+  }
+  {
+    match: '\\bjrnl\\b'
+    name: 'keyword.jrnl.ublu'
+  }
+  {
+    match: '\\bjson\\b'
+    name: 'keyword.json.ublu'
+  }
+  {
+    match: '\\bjvm\\b'
+    name: 'keyword.jvm.ublu'
+  }
+  {
+    match: '\\bLOCAL\\b'
+    name: 'keyword.LOCAL.ublu'
+  }
+  {
+    match: '\\blicense\\b'
+    name: 'keyword.license.ublu'
+  }
+  {
+    match: '\\blifo\\b'
+    name: 'keyword.lifo.ublu'
+  }
+  {
+    match: '\\blist\\b'
+    name: 'keyword.list.ublu'
+  }
+  {
+    match: '\\bmap\\b'
+    name: 'keyword.map.ublu'
+  }
+  {
+    match: '\\bmonitor\\b'
+    name: 'keyword.monitor.ublu'
+  }
+  {
+    match: '\\bmsg\\b'
+    name: 'keyword.msg.ublu'
+  }
+  {
+    match: '\\bmsgq\\b'
+    name: 'keyword.msgq.ublu'
+  }
+  {
+    match: '\\bnum\\b'
+    name: 'keyword.num.ublu'
+  }
+  {
+    match: '\\bobjlist\\b'
+    name: 'keyword.objlist.ublu'
+  }
+  {
+    match: '\\bobjdesc\\b'
+    name: 'keyword.objdesc.ublu'
+  }
+  {
+    match: '\\boutq\\b'
+    name: 'keyword.outq.ublu'
+  }
+  {
+    match: '\\bppl\\b'
+    name: 'keyword.ppl.ublu'
+  }
+  {
+    match: '\\bprinter\\b'
+    name: 'keyword.printer.ublu'
+  }
+  {
+    match: '\\bprogramcall\\b'
+    name: 'keyword.programcall.ublu'
+  }
+  {
+    match: '\\bprops\\b'
+    name: 'keyword.props.ublu'
+  }
+  {
+    match: '\\bput\\b'
+    name: 'keyword.put.ublu'
+  }
+  {
+    match: '\\brecord\\b'
+    name: 'keyword.record.ublu'
+  }
+  {
+    match: '\\bRETURN\\b'
+    name: 'keyword.RETURN.ublu'
+  }
+  {
+    match: '\\brs\\b'
+    name: 'keyword.rs.ublu'
+  }
+  {
+    match: '\\bsavf\\b'
+    name: 'keyword.savf.ublu'
+  }
+  {
+    match: '\\bsavef\\b'
+    name: 'keyword.savef.ublu'
+  }
+  {
+    match: '\\bserver\\b'
+    name: 'keyword.server.ublu'
+  }
+  {
+    match: '\\bsess\\b'
+    name: 'keyword.sess.ublu'
+  }
+  {
+    match: '\\bsession\\b'
+    name: 'keyword.session.ublu'
+  }
+  {
+    match: '\\bsleep\\b'
+    name: 'keyword.sleep.ublu'
+  }
+  {
+    match: '\\bsmapi\\b'
+    name: 'keyword.smapi.ublu'
+  }
+  {
+    match: '\\bsock\\b'
+    name: 'keyword.sock.ublu'
+  }
+  {
+    match: '\\bsplfol\\b'
+    name: 'keyword.splfol.ublu'
+  }
+  {
+    match: '\\bspoolf\\b'
+    name: 'keyword.spoolf.ublu'
+  }
+  {
+    match: '\\bspoolflist\\b'
+    name: 'keyword.spoolflist.ublu'
+  }
+  {
+    match: '\\bstreamf\\b'
+    name: 'keyword.streamf.ublu'
+  }
+  {
+    match: '\\bstring\\b'
+    name: 'keyword.string.ublu'
+  }
+  {
+    match: '\\bsubsys\\b'
+    name: 'keyword.subsys.ublu'
+  }
+  {
+    match: '\\bSWITCH\\b'
+    name: 'keyword.SWITCH.ublu'
+  }
+  {
+    match: '\\bsystem\\b'
+    name: 'keyword.system.ublu'
+  }
+  {
+    match: '\\bsysval\\b'
+    name: 'keyword.sysval.ublu'
+  }
+  {
+    match: '\\bTASK\\b'
+    name: 'keyword.TASK.ublu'
+  }
+  {
+    match: '\\btest\\b'
+    name: 'keyword.test.ublu'
+  }
+  {
+    match: '\\bthread\\b'
+    name: 'keyword.thread.ublu'
+  }
+  {
+    match: '\\bTHEN\\b'
+    name: 'keyword.THEN.ublu'
+  }
+  {
+    match: '\\btn5250\\b'
+    name: 'keyword.tn5250.ublu'
+  }
+  {
+    match: '\\bTHROW\\b'
+    name: 'keyword.THROW.ublu'
+  }
+  {
+    match: '\\btrace\\b'
+    name: 'keyword.trace.ublu'
+  }
+  {
+    match: '\\bTRY\\b'
+    name: 'keyword.TRY.ublu'
+  }
+  {
+    match: '\\btuple\\b'
+    name: 'keyword.tuple.ublu'
+  }
+  {
+    match: '\\buser\\b'
+    name: 'keyword.user.ublu'
+  }
+  {
+    match: '\\buserlist\\b'
+    name: 'keyword.userlist.ublu'
+  }
+  {
+    match: '\\bwatson\\b'
+    name: 'keyword.watson.ublu'
+  }
+  {
+    match: '\\bWHILE\\b'
+    name: 'keyword.WHILE.ublu'
+  }
+
+  {
+    match: '\\b\\@\\@\\w\+\\b'
+    name: 'variable.pastetoken.ublu'
+  }
+  {
+    match: '\\b\\@\\w\+\\b'
+    name: 'variable.tuple.ublu'
+  }
+]
+
+# {
+#
+#
+#     match: '\\b\\b' # A regular expression that matches some content. Optional.
+#     begin: '' # A regular expression that precedes the content. Optional.
+#     end: '' # A regular expression that follows the content. Optional.
+#     name: '' # A period-delimited list of classes that will be applied to the content identified by `match`. Optional.
+#     contentName: '' # A period-delimited list of classes that will be applied to the content within `begin` and `end`. Optional.
+#     captures: # An array of `name` designations for `match` expressions that capture multiple bits. Optional.
+#       0: # Arrays start at zero. This one will catch the whole regex. 1+ will catch the capture groups.
+#         name: '' # This should be self-explanatory by now.
+#     beginCaptures: # An array of `name` designations for `begin` expressions that capture multiple bits. Optional.
+#       0:
+#         name: ''
+#     endCaptures: # An array of `name` designations for `end` expressions that capture multiple bits. Optional.
+#       0:
+#         name: ''
+#     include: '' # This can be a reference to another grammar (by scope name), the current grammar (with `$self`), or a rule from the grammar's repository (with `#<rule>`). Optional.
+#     patterns: [] # This is where you can get tricky. When you have matched content, Atom will search within it for anything in the child array. You can have `patterns[]` within `patterns[]`, then throw an `include` in to jump to some other rule or refer back to the root of the grammar. If you are making a rule that captures a block that might contain other tags, you should refer back to the root. Optional, naturally.
+#   }
+
+#
+#
+#   {
+#     match: '\\b\\b'
+#     begin: ''
+#     end: ''
+#     name: ''
+#     contentName: ''
+#     captures:
+#       0:
+#         name: ''
+#     beginCaptures:
+#       0:
+#         name: ''
+#     endCaptures:
+#       0:
+#         name: ''
+#     include: ''
+#   }
+# ]
+# repository: # An array of rules. If you're going to be referencing one bit of code over and over again, stick it here so that you can edit all in one place.
+#   ruleName: # Can be anything.
+#     {
+#       name: ''
+#       match: '\\b\\b'
+#       end: ''
+#       endCaptures:
+#         0:
+#           name: ''
+# }
