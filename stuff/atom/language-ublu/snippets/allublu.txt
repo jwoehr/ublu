@@ -1,0 +1,194 @@
+<ublu_command>as400</ublu_command>
+	<ublu_command-description>/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-nodefault] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system<ublu_command-description>
+<ublu_command>ask</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [-from datasink] [-nocons] [-say ~@{prompt string}] : get input from user<ublu_command-description>
+<ublu_command>BREAK</ublu_command>
+	<ublu_command-description>/0 : exit from innermost enclosing DO|FOR|WHILE block<ublu_command-description>
+<ublu_command>bye</ublu_command>
+	<ublu_command-description>/0 : terminate the session<ublu_command-description>
+<ublu_command>CALL</ublu_command>
+	<ublu_command-description>/? ~@tuple ( [@parm] .. ) : Call a functor<ublu_command-description>
+<ublu_command>calljava</ublu_command>
+	<ublu_command-description>/0 [-to @datasink] -forname ~@{classname} | -class ~@{classname} [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | -new ~@{classname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] [-castarg ~@argobj ~@{classname} [-castarg ..]] | --,-obj ~@object [-field ~@{fieldName} | -method ~@{methodname} [-arg ~@argobj [-arg ..]] [-primarg ~@argobj [-primarg ..]] : call Java methods and fields<ublu_command-description>
+<ublu_command>cim</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [--,-cim @cimclient] [-keys ~@propertyKeyArray] [-namespace ~@{namespace}] [-objectname ~@{objectname}] [-plist ~@arraylist] [-url ~@{https://server:port}] [-xmlschema ~@{xmlschemaname}] [-new | -close | -path | -cred ~@{user} ~@{password} | -init ~@cimobjectpath | -ec ~@cimobjectpath ~@deep_tf | -ei ~@cimobjectpath | -trace ~@tf] : CIM client<ublu_command-description>
+<ublu_command>cimi</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [--,-cimi @ciminstance] [-class | -classname | -hashcode | -keys | -key ~@{keyname} | -properties | -propint ~@{intindex} | -propname ~@{name} | -path] : manipulate CIM Instances<ublu_command-description>
+<ublu_command>collection</ublu_command>
+	<ublu_command-description>/0? [--,-collection ~@collection] [-to datasink] [-show | -size] : manipulate collections of objects<ublu_command-description>
+<ublu_command>commandcall</ublu_command>
+	<ublu_command-description>/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{commandstring} : execute a CL command<ublu_command-description>
+<ublu_command>const</ublu_command>
+	<ublu_command-description>/2? [-to datasink] [-list | -create | -clear | -drop ~@{ *constname } | -save | -restore | -merge ] *name ~@{value} : create a constant value<ublu_command-description>
+<ublu_command>cs</ublu_command>
+	<ublu_command-description>/4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures<ublu_command-description>
+<ublu_command>db</ublu_command>
+	<ublu_command-description>/4? [--,-dbconnected ~@dbconnected] [-as400 ~@as400] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-qopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] [-destqopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] [-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} | -connect | -csv ~@{tablename} [-separator ~@{separator} ] | -json ~@{tablename} | -disconnect | -metadata | -primarykeys ~@{tablename} | -query ~@{SQL string} | -query_nors ~@{SQL string} | -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] [-port ~@{portnum}] [-destport ~@{destportnum}] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases<ublu_command-description>
+<ublu_command>dbug</ublu_command>
+	<ublu_command-description>/0 [-init] [-info] [-brk ~@opname] [-clr ~@opname] [[-step]|[-go]] [--,-dbug $[ execution block ]$] : dbug your program<ublu_command-description>
+<ublu_command>defun</ublu_command>
+	<ublu_command-description>/2? [[-define] | [-list] | [-show name]] name tuplename | define a function from a name and a functor<ublu_command-description>
+<ublu_command>desktop</ublu_command>
+	<ublu_command-description>/0 [-browse ~@{uri} | -mail | -mailto ~@{uri} | -supported] : desktop browser or mail<ublu_command-description>
+<ublu_command>dict</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [-from datasink] [-list | -save | -restore | -merge | -peek] : save and restore function dictionary<ublu_command-description>
+<ublu_command>DO</ublu_command>
+	<ublu_command-description>/5 [-undo] ~@iterator [to|TO] ~@limit $[ cmd .. ]$ : DO iterative from @iterator to @limit exclusive of limit incrementing/decrementing @iterator<ublu_command-description>
+<ublu_command>dpoint</ublu_command>
+	<ublu_command-description>/0? [--,-dpoint @dpoint] [-to datasink] [[-dup] | [-dkey ~@{keytext}] [-addkey ~@{keytext}] [-type ~@{int|long|float} [-value ~@{value}] [-alertlevel ~@{alertlevel}] [-compare ~@{gt|gte|lt|lte|info|warn|crit}] [-msg ~@{msg}]] : create and manipulate monitoring datapoints<ublu_command-description>
+<ublu_command>dq</ublu_command>
+	<ublu_command-description>/4? [-as400 @as400] [--,-dq ~@dq] [-wait ~@{intwaitseconds}] [-authority *ALL|*CHANGE|*EXCLUDE|*USE|*LIBCRTAUT] [-saveSenderInformation ~@tf] [-FIFO ~@tf] [-forceToAuxiliaryStorage ~@tf] [-desc ~@{description}] [-keyed ~@tf] [-keylen ~@{intlength}] [-key ~@{key}] [-bkey ~@bytekey] [-searchtype EQ|NE|LT|LE|GT|GE] [-clear | -create ~@{maxentrylength} | -delete | -exists | -new,-instance | -peek | -query [ ccsid | description | fifo | forceauxstorage | keylen | maxentrylength | name | path | savesender | system ] | -read | -write ~@{data to write} | writeb ~@bytedata] ~@{dataqueuepath} ~@{system} ~@{userid} ~@{password} : manipulate a data queue on the host<ublu_command-description>
+<ublu_command>dta</ublu_command>
+	<ublu_command-description>/0 [-as400 ~@as400] [-to datasink] [--,-dataarea ~@dataarea] [-path ~@{ifspath}] [-bytes] [-biditype ~@{biditype}] [-buffoffset ~@{buffoffset}] [-offset ~@{offset}] [-length ~@{length}] [-initlen ~@{initlen}] [-initdecpos ~@{initdecpos}] [-initval ~@{initval}] [-initauth ~@{initval}] [-initdesc ~@{initdesc}] [-new,-instance CHAR|DEC|LOC|LOG | -create | -delete | -refresh | -query ~@{query(name|sys|length|path|decpos)} | -write ~@data | -read | -clear] : create and use data areas<ublu_command-description>
+<ublu_command>ELSE</ublu_command>
+	<ublu_command-description>/1.. $[ an execution block possibly spanning lines ]$ : the ELSE block for an IF THEN<ublu_command-description>
+<ublu_command>eval</ublu_command>
+	<ublu_command-description>/2/3 [-to @var] ~@[inc dec max min + - * / % << >> ! & | ^ && || == > < <= >= != pct] ~@operand [~@operand] : arithmetic<ublu_command-description>
+<ublu_command>exit</ublu_command>
+	<ublu_command-description>/0 [-rc ~@int] : perform System.exit()<ublu_command-description>
+<ublu_command>file</ublu_command>
+	<ublu_command-description>/4? [-to @var ] [--,-file ~@file] [-as400 ~@as400] [-blocking ~@{numrecs}] [-keyed | -sequential] [-new | -add ~@{membername} ~@{description} | -create ~@{recordLength} ~@{fileType([*DATA|*SOURCE])} ~@{textDescription} | -createdds ~@{ddsPath} ~@{textDescription} | -createfmt ~@recFormat ~@{textDescription} | -commitstart ~@{lockLevel([ALL|CHANGE|STABLE])} | -commit | -rollback | -commitend | -lock ~@{locktype(RX|RSR|RSW|WX|WSR|WSW)} | -unlock | -del | -delmemb | -delrec | -getfmt | -setfmt ~@format | -open ~@{R|W|RW} | -close | -list | -pos ~@{B|F|P|N|L|A} | -recfmtnum ~@{int} | -read ~@{CURR|FIRST|LAST|NEXT|PREV|ALL} | -update ~@record | -write ~@record | -writeall ~@recordarray | -refresh] [-to datasink] ~@{/fully/qualified/ifspathname} ~@{system} ~@{user} ~@{password} : record file access<ublu_command-description>
+<ublu_command>FOR</ublu_command>
+	<ublu_command-description>/5 @iteratorvar ~@valuevar $[ cmd .. ]$ : FOR enumerable @valuevar execute block instancing @iteratorvar<ublu_command-description>
+<ublu_command>ftp</ublu_command>
+	<ublu_command-description>/3? [ -to datasink ] [ -tofile ~@destfile ] [ -pushrc ] -new [ -as400 ] [ -mode ~@{act|pas} ] [ -port ~@{portnum} ] [ -type ~@{asc|bin} ] | --,-session ~@session [ -cd ~@{path} | -cmd ~@{ command string } | -connect | -disconnect | -get ~@{remotefilepath} [-target ~@{localfilepath}] | -dir | -ls ~@{filespec} | -put ~@{localfilepath} [-target ~@{remotefilepath}] | -pwd ] ~@{system} ~@{userid} ~@{password} : FTP client with AS400-specific extensions<ublu_command-description>
+<ublu_command>FUN</ublu_command>
+	<ublu_command-description>/6.. [-to @tuplename] ( parameter name list ) $[ an execution block possibly spanning lines ]$ : create a functor<ublu_command-description>
+<ublu_command>FUNC</ublu_command>
+	<ublu_command-description>/7?.. [-to datasink] [[-delete name] | [-list] | [-show name]] name ( parameter name list ) $[ an execution block possibly spanning lines ]$ : define a named function<ublu_command-description>
+<ublu_command>gensh</ublu_command>
+	<ublu_command-description>/5+ [-to datasink] [-strictPosix] [ [-path ~@{fullyqualifiedjarpath}] [-includepath ~@{searchpath}] [-opt optchar assignment_name tuplename ${ description }$ ..] [-optr optchar assignment_name tuplename ${ description }$ ..] [-opts optchar assignment_name ${ description }$ ..] [-optx optchar multiple_assignment_name tuplename ${ description }$ ..] [-prelude ~@{prelude command string ..] ] ~@{scriptname} ~@{includename} ~@{ functionCall ( @a @b ... ) } : generate launcher shell script<ublu_command-description>
+<ublu_command>help</ublu_command>
+	<ublu_command-description>or usage		 /0 [-to datasink] [[--,-cmd ~@{commandname}] | [-all] | [-version]] [-linelen ~@{optional_line_length}] : display usage and help message<ublu_command-description>
+<ublu_command>histlog</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [--,-histlog @histlog] [-as400 ~@as400 ] [-new,-instance] [-close] [-get] [-examine] [-jobs ~@listofjobs] [-severity 0-99] [-startdate yyyy/mm/dd] [-enddate yyyy/mm/dd] [-msgids ~@list] [-msgidsinc omit|select] [-msgtypes ~@list] [-msgtypesinc omit|select] : get (filtered) server history log<ublu_command-description>
+<ublu_command>history</ublu_command>
+	<ublu_command-description>or h		 /0 [-on | -off | -onfile filename | -to datasink | -do linenum [-change expr1 expr2] | -show [-to datasink] | -head numlines | -tail numlines | -name | -range firstline lastline] : turns history file recording on to default, off, on to a filename, or does a numbered line again, shows history, head or tail numlines or a range or set history filename<ublu_command-description>
+<ublu_command>host</ublu_command>
+	<ublu_command-description>/3 [-to @var] [-new,-instance] [-port ~@{portnum}] [-ssl ~@tf] [-usessl] ~@{hostname} ~@{user} ~@{password} : instance a smapi host, default port 44444<ublu_command-description>
+<ublu_command>IF</ublu_command>
+	<ublu_command-description>/1 [-!] ~@var : IF tests boolean @var (inverted by -!) and executes THEN $[ cmd cmd .. ]$ if true, ELSE $[ cmd cmd .. ]$ if false<ublu_command-description>
+<ublu_command>ifs</ublu_command>
+	<ublu_command-description>/4? [-ifs,-- ~@ifsfile] [-as400 @as400] [-to datasink] [-tofile ~@filepath] [-from datasink] [-fromfile ~@{filepath}] [-length ~@{length}] [-offset ~@{offset}] [-pattern ~@{pattern}] [-b] [-t] [-create | -delete | -exists | -file | -list | -mkdirs | -query ~@{[ccsid|name|ownername|owneruid|path|r|w|x} | -read | -rename ~@{/fully/qualified/path/name} | -set ~@{[ccsid|readonly]} ~@{value} | -size | -write [~@{string }] | -writebin ] ~@{/fully/qualified/pathname} ~@{system} ~@{user} ~@{password} : integrated file system access<ublu_command-description>
+<ublu_command>include</ublu_command>
+	<ublu_command-description>/0 /1 [-from datasink] [-s,-silent] ~@{filepath} : include commands from a text file or from another datasink for interpretation<ublu_command-description>
+<ublu_command>interpret</ublu_command>
+	<ublu_command-description>/0 [-block [~@{ block ... }$ | $[ block ...]$]] : run the interpreter, possibly on a provided block<ublu_command-description>
+<ublu_command>interpreter</ublu_command>
+	<ublu_command-description>/0 [-all | -getlocale | -setlocale ~@{lang} ~@{country} | -getmessage ~@{key} | -args | -opts | -arg ~@{nth} | -opt ~@{nth} | -optarg ~@{nth} | -allargs | -geterr | -getout | -seterr ~@printstream | -setout ~@printstream | -q,-query framedepth|instancedepth|forblock|breakissued|goublu|window] : info on and control of Ublu and the interpreter at the level this command is invoked<ublu_command-description>
+<ublu_command>jmx</ublu_command>
+	<ublu_command-description>/0 [-from datasink] [-to datasink] [--,-jmx @jmx_instance] [-obj @obj_instance] [-protocol ~@rmi|iop|?] [-host ~@hostname|hostip] [-port ~@portnum] [-url ~@/remainder_of_url] [-role ~@${ rolename }$ ] [-password ~@${ password }$] [-connect | -close | -new,-instance | -get ~@${}domain ~@${}type ~@${}name | -attrib ~@${ attribute }$ | -attribs ~@${ attrib attrib ... }$ | -cdi ~@attribute | -datakey ~@attribute ~@key | -mbeaninfo |-query [ names | mbeans | class classname]] : perform JMX access to a JVM<ublu_command-description>
+<ublu_command>job</ublu_command>
+	<ublu_command-description>/6? [-as400 ~@as400] [--,-job ~@job] [-to datasink] [-refresh] [-end ~@{delaytime} (-1 for "controlled") | -get ~@{property([name|number|system|user|description|type])} | -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance | -noop | -query ~@{property([user|curlibname|number|subsystem|status|activejobstatus|user|description|type|auxioreq|breakmsghandling|cachechanges|callstack|ccsid|completionstatus|countryid|cpuused|curlib|date|defaultwait|endseverity|funcname|functype|inqmsgreply|internaljobident|jobactivedate|jobdate|jobenddate|jobentersysdate|joblog|msgqfullaction|msgqmaxsize|jobqueuedate|statusinjobq|switches|outqpriority|poolident|prtdevname|purge|q|qpriority|routingdata|runpriority|scheddate|timeslice|workidunit])} | -release | -spec] ~@{jobName} ~@{userName} ~@{jobNumber} ~@{system} ~@{userid} ~@{password} : manipulate jobs on the host<ublu_command-description>
+<ublu_command>joblist</ublu_command>
+	<ublu_command-description>/3? [-as400 ~@as400] [-to datasink] [-username ~@{userfilter}] [-jobname ~@{jobfilter}] [-jobnumber ~@{jobnumfilter}] [-jobtype ~@{jobtype}] [-active [-disconnected]] system userid passwd : retrieve a (filtered) joblist<ublu_command-description>
+<ublu_command>joblog</ublu_command>
+	<ublu_command-description>/0 [-as400 ~@as400] [--,-joblog ~@joblog] [-to datasink] [-msgfile ~@{/full/ifs/path/}] [-onthread ~@tf] [-subst ~@{message_substitution}] [ -add ~@{int_attrib} | -clear | -close | -dir ~@tf | -length | -new ~@{jobname} ~@{jobuser} ~@{jobnumber} | -qm ~@{offset} ~@{number} | -query ~@{dir|name|user|number|sys} | -write ~@{message_id} ~@{COMPLETION|DIAGNOSTIC|INFORMATIONAL|ESCAPE} ] : manipulate job logs on the host<ublu_command-description>
+<ublu_command>json</ublu_command>
+	<ublu_command-description>/0 [-from datasink] [-to datasink] [--,-json ~@json] [ [-add ~@object ] | [-addkey ~@key ~@object] | [ -at ~@{index} ~@object] | [-array] | [-cdl ~@{cdl}] | [-get ~@{index}] | [-key ~@{key}] | [-keys] | [-length] | [-list] | [-object] [-remove ~@{key}] : create and unpack JSON<ublu_command-description>
+<ublu_command>jvm</ublu_command>
+	<ublu_command-description>/0 [-to @datasink] [-new | -gc | -set ~@{key} ~@{val} | -get ~@{key}] : manipulate or report on the JVM on which this program is executing<ublu_command-description>
+<ublu_command>LOCAL</ublu_command>
+	<ublu_command-description>/1 @localvar : declare local variable<ublu_command-description>
+<ublu_command>license</ublu_command>
+	<ublu_command-description>/0 : [-to (@)datasink] : show software license<ublu_command-description>
+<ublu_command>lifo</ublu_command>
+	<ublu_command-description>/0 [-to datasink] -push @tuplevar | -pop | -popval | -dup | -swap | -over | -pick ~@{0index} | -rot | -depth | -clear | -drop | -show | -true | -false | -null : operate on the tuple stack<ublu_command-description>
+<ublu_command>list</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [--,-list ~@list] [[-new,-instance] | [-source ~@enumeration|~@collection|~@string|~@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and manage lists of objects<ublu_command-description>
+<ublu_command>map</ublu_command>
+	<ublu_command-description>/0? [--,-map ~@map] [-to datasink] [-new | -> ~@tuple | -clear | -add ~@{key} ~@tuple | -~,-push ~@{key} | -.,-get ~@{key} | -drop ~@{key} | -keys | -size] : create and manipulate maps of tuples<ublu_command-description>
+<ublu_command>monitor</ublu_command>
+	<ublu_command-description>/3? [-as400 ~@as400] [-none|-status|-version|-all] system userid passwd : fetch system monitor data and create System Shepherd [TM API] datapoints<ublu_command-description>
+<ublu_command>msg</ublu_command>
+	<ublu_command-description>/0 --,-msg ~@message [-to datasink] [-sender | -user | -key | -fromjob | -fromjobnumber | -fromprogram | -message | -queue] : examine queued messages<ublu_command-description>
+<ublu_command>msgq</ublu_command>
+	<ublu_command-description>/4? [[-as400 @as400] [--,-msgq ~@messagequeue]] [-to datasink] [-new,-instance | -close | -query | -remove messagekey | -removeall | -sendinfo ~@{message text ...} | -sendinquiry ~@{message text} ~@replyqueueIFSpath | -sendreply messagekey ~@{reply text} | -sendreplybinkey ~@bytearraykey ~@{reply text}] [[-all ] | [[-none] [-reply] [-noreply] [-copyreply]]] ~@system ~@fullyqualifiedifspath ~@userid ~@passwd : send, retrieve, remove or reply messages<ublu_command-description>
+<ublu_command>num</ublu_command>
+	<ublu_command-description>/1 [-to (@)datasink] [[-bin] | [-byte] | [-int] | [-short] | [-double] | [-long] | [-float] | [-bigdec] [-radix ~@{radix}] ~@{numstring} : convert string to number class instance<ublu_command-description>
+<ublu_command>objlist</ublu_command>
+	<ublu_command-description>/0 [-as400 ~@as400] [-to datasink] [--,-objlist ~@objlist] [-lib libspec ] [-name objname] [-type objtype] [-asp ~@{ALL|ALLAVL|CURASPGRP|SYSBAS}] [-new,-instance] [-list] : retrieve a (filtered) object list<ublu_command-description>
+<ublu_command>objdesc</ublu_command>
+	<ublu_command-description>/0 [-as400 ~@as400] [-to datasink] [--,-objdesc ~@objdesc] [-path ~@{ifspath}] [-new,-instance] | [-refresh}] | [-query exists | library | name | path | type] | [-valuestring ~@{attribute}] | -refresh | -locks] : examine an object description<ublu_command-description>
+<ublu_command>outq</ublu_command>
+	<ublu_command-description>/4? [-as400 @as400] [--,-outq ~@outqueue] [-to @var] [-from @qnamevar] [[-clear [[user jobuser] | [form formtype] | all]] | [-get ~@{attributename}] | [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] | [-hold] | [-new,-instance] | [-noop] | [-release]] outputqueuename system user password : operate on output queues<ublu_command-description>
+<ublu_command>ppl</ublu_command>
+	<ublu_command-description>/0 [--,-ppl ~@ppl] [-new,-instance] [-get[int|float|string] ~@{paramid}] | -set[int|float|string] ~@{paramid} ~@{value} : create and manipulate print parameter list<ublu_command-description>
+<ublu_command>printer</ublu_command>
+	<ublu_command-description>/4? [-as400 @as400] [--,-printer ~@printer] [-to @var] [[-get ~@{attributename}] | [-getfloat ~@{attr_int}] [-getfloat ~@{attr_int}] | [-getint ~@{attr_int}] | [-getstring ~@{attr_int}] | [-new,-instance] | [-set ~@{attribute} ~@{value}] [-wtrjob]] ~@{printername} ~@{system} ~@{user} ~@{password} : instance as400 printer and get/set attributes<ublu_command-description>
+<ublu_command>programcall</ublu_command>
+	<ublu_command-description>/3? [-as400 ~@as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout} ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host<ublu_command-description>
+<ublu_command>props</ublu_command>
+	<ublu_command-description>/0 [-to datasink] -set ~@${ name }$ ~@${ value }$ | -get ~@${ name }$ | -list | -read ~@${filepath}$ | -write ~@${filepath}$ ~@${comment}$ : manage properties<ublu_command-description>
+<ublu_command>put</ublu_command>
+	<ublu_command-description>/1? [-to datasink] [-tofile ~@filepath] [-from datasink ] [-fromfile ~@filepath] [-append] [ -toascii ] [ -charset srccharsetname ] [-n] [-s] [ -# ~@{numberstring} | ~@{object or a string} | a single lex ] : put data from datasink to datasink, typically in string form (with some exceptions), optionally translating charset if -toascii or -charset are set<ublu_command-description>
+<ublu_command>record</ublu_command>
+	<ublu_command-description>/0 [-to @var] [--,-record ~@record] [ -getfmt | -getcontents | -getfield ~@{index} | -getfieldbyname ~@{fieldname} | -getfields | -new | -setcontents ~@contents | -setfield ~@{index} ~@object | -setfieldbyname ~@{fieldname} ~@object | -setfmt ~@format | -tostring ] : manipulate record file records.<ublu_command-description>
+<ublu_command>rs</ublu_command>
+	<ublu_command-description>/0 [--,-rs ~@rs] [-to datasink] [-tofile ~@filepath] [-from datasink] [[-abs ~@{row}] | [-rel ~@{rows}] | [-before] | [-after] | [-first] | [-last] | [-rownum] | [-rawrs] | [-autocommit 0|1] | [-bytes ~@{index}] | [-close{|db|st} [tuplename]] | [-commit ~@resultSet] | [-fetchsize numrows] | [-get ~@{index}] | [-lget ~@{label}] | [-getblob ~@{index}] | [-lgetblob ~@{label}] | -insert | [-json ~@db ~@{tablename}] | [-next] | [-split split_specification] | [-toascii numindices index index ..] | [-metadata]] : operate on result sets<ublu_command-description>
+<ublu_command>savf</ublu_command>
+	<ublu_command-description>/5 -create | -delete | -exists | -list | -restore | -save [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] ~@{system} ~@}library} ~@{savefilename} ~@{userid} ~@{password} : perform various savefile operations<ublu_command-description>
+<ublu_command>savef</ublu_command>
+	<ublu_command-description>/2? [-as400 ~@as400] [-to datasink] [--,-savef ~@savef] [ -lib ~@libname ] [ -obj ~@objectname [ -obj ~@objname ...]] [ -path ~@pathname [ -path ~@pathname ...]] [-tolib ~@{libname}] [-create | -delete | -exists | -list | -new | -restore | -save ] ~@{libraryname} ~@{savefilename} : instance and perform various savefile operations<ublu_command-description>
+<ublu_command>savesys</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [-from datasink] [-merge] [-save | -restore] : save and restore compiled code<ublu_command-description>
+<ublu_command>server</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [-- @listener] [-port ~@{portnum}] [-usessl] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server<ublu_command-description>
+<ublu_command>session</ublu_command>
+	<ublu_command-description>or sess		 /0 --,-sess @sess [-to datasink] [-from datasink] [-nt] [[-? ~@${question}$] | [-close] | [-disconnect] | [-dump] | [-getcursor] | [-setcursor x y] | [-send [~@${ send string including [tab] metakeys etc. }$] ] : interact with a tn5250 session<ublu_command-description>
+<ublu_command>sleep</ublu_command>
+	<ublu_command-description>/0 [-m ~@{milliseconds}] [-n ~@{nanoseconds}] Sleep milliseconds (default 0) plus nanoseconds (default 0)<ublu_command-description>
+<ublu_command>smapi</ublu_command>
+	<ublu_command-description>/2? [-to @var] ~@host ~@{funcname} [~@{parm} [~{@parm} ..]] : make a smapi call to a host<ublu_command-description>
+<ublu_command>sock</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [--,-sock ~@sock] [-host ~@{host_or_ip_addr}] [-port ~@{portnum}] [-locaddr ~@{local_addr}] [-locport ~@{local_portnum}] [-usessl] [-ssl @tf] [-instance | -close | -avail | -read ~@{count} | -write ~@bytes] : create and manipulate sockets<ublu_command-description>
+<ublu_command>splfol</ublu_command>
+	<ublu_command-description>/0 [-as400 ~@as400] [-to datasink] [--,-splfol ~@splfol] [-addsort ~@{COPIES_LEFT_TO_PRINT | CURRENT_PAGE | DATE_OPENED | DEVICE_TYPE | FORM_TYPE | JOB_NAME | JOB_NUMBER | JOB_SYSTEM | JOB_USER | NAME | NUMBER | OUTPUT_QUEUE_LIBRARY | OUTPUT_QUEUE_NAME | PRINTER_ASSIGNED | PRINTER_NAME | PRIORITY | SCHEDULE | SIZE | STATUS | TIME_OPENED | TOTAL_PAGES | USER_DATA} @tf | -blocksize ~@{ numentries } | -clearsort | -close | -fdate ~@{sy} ~@{sm} ~@{sd} ~@{ey} ~@{em} ~@{ed} | -fdevs ~@list_of_devs | -fform ~@{formType} | -fjob ~@{jobName} ~@{jobUser} ~@{jobNumber} | -fjobsys ~@{sysname} | -foutq ~@{list_of_ifsOutQs} | -fstat ~@list_of[*CLOSED | *DEFERRED | *SENDING | *FINISHED | *HELD | *MESSAGE | *OPEN | *PENDING | *PRINTER | *READY | *SAVED | *WRITING] | -fudata ~@{userData} | -fusers ~@list_of_users | -format ~@{100 | 200 | 300 | 400} | -get | -getsome ~@{offset} ~@{length} | -length | -new | -open | -qblocksize | -qformat | -qsystem] : open list of the spooled files on system sorted and filtered<ublu_command-description>
+<ublu_command>spoolf</ublu_command>
+	<ublu_command-description>/8? [-as400 ~@as400] [--,-spoolf ~@spoolf] [-to datasink] [-tofile ~@filename ] [-pure ~@tf] [[-answermsg ~@{ some text }] | [-copy] | [-copyto ~@remote_as400] | [-copyq ~@outq] | [-create] | [-delete] | -fetch | [-get createdate | createtime | jobname | jobnumber | jobsysname | jobuser | message | name | number] | [-hold [-immed|-pageend]] | [-new,-instance ] | [-move ~@spoolf_before_me] | [-moveq ~@{outq_on_same_system}] | [-release] | [-sendtcp ~@remotesysname ~@remoteprintqueuepath] [-top] [printerfile ~@printerfile] [-ppl ~@ppl] [-outq ~@outq]] ~@{system} ~@{user} ~@{password} ~@{name} ~@{number} ~@{jobname} ~@{jobuser} ~@{jobnumber} : operate on an individual spooled file<ublu_command-description>
+<ublu_command>spoolflist</ublu_command>
+	<ublu_command-description>/4? [-as400 ~@as400] [-to datasink] ~@{system} ~@{userid} ~@{passwd} ~@{spoolfileowner} : fetch a list of the given user's spooled files as objects<ublu_command-description>
+<ublu_command>streamf</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [-from datasink] [--,-streamf @streamfileinstance] [ -list | -new ~@{fqp} | -open ~@{mode RB|RC|W} | -close | -create | -delete | -file | -rename ~@streamf | -mkdirs | -rball | -rcall | -rline | -read ~@{offset} ~@{length} | -write ~@{data} ~@{offset} ~@{length} | -q,-query ~@{qstring [af|ap|c|d|e|f|length|n|p|r|w|x]}] : manipulate stream files<ublu_command-description>
+<ublu_command>string</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [--,-string ~@{lopr}] [-limit ~@{ntimes}] [-uchar ~@{ 0x???? 0x???? ...} | -bl ~@{string} | -bls ~@{string} ~@{n} | -cat ~@{string1} ~@{string2} | -charat ~@{intoffset} | -eq ~@{string1} ~@{string2} | -escape ~@{string} | -frombytes ~@byte_array | -len ~@{string} | -new | -nl ~@{string} | -pad ~@{string} ~@{fillchar} ~@{fillcount} | -repl ~@{string} ~@{target} ~@{replacement} | -repl1 ~@{string} ~@{target} ~@{replacement} | -replregx ~@{string} ~@{regex} ~@{replacement} | -split ~@{string} ~@{regex} | -startswith ~@{string} ~@{substr} | -substr ~@{string} ~@{intoffset} ~@{intend} | -tobytes ~@{string} | -toas400 ~@as400 ~@{string} ~@{ccsid} | -toascii ~@as400 ~@bytes ~@{ccsid} | -trim ~@{string} | -unescape ~@{string} | -upcase ~@{string} | -lcase ~@{string} ] : string operations<ublu_command-description>
+<ublu_command>subsys</ublu_command>
+	<ublu_command-description>/3? [-as400 ~@as400] [--,-subsys ~@subsys] [-to datasink] [-subsyspath ~@{subsysIFSpath}] [-authoritystring ~@{authoritystring}] [-timelimit ~@{intval}] [-assignprivate ~@{sequencenumber} ~@{size} ~@{activityLevel} | -assignshared ~@{sequencenumber} ~@{poolname} | -change [description ~@{text} | displayfile ~@{path} | languagelibrary ~@{lib}} | maxactivejobs ~@${int}] | -create | -delete | -end | -endall | -new,-instance | -list | -query [description | activejobs | displayfilepath | languagelibrary | library | maxactivejobs | monitorjob | name | objectdescription | path | pool | pools ~@{sequencenumber} | status | system] | -refresh | -remove ~@{sequencenumber} | -start ] system userid password : manipulate subsystems<ublu_command-description>
+<ublu_command>SWITCH</ublu_command>
+	<ublu_command-description>~@stringselector [-case ~@{string} $[ block ]$ [[-case ~@{string} $[ block ]$] ...] [-default $[ block ]$] : language switch statement<ublu_command-description>
+<ublu_command>system</ublu_command>
+	<ublu_command-description>/1 [-to datasink] [-from datasink] [-s] ~@{ system command } : execute a system command<ublu_command-description>
+<ublu_command>sysval</ublu_command>
+	<ublu_command-description>/0 [-as400 ~@as400] [-to datasink] [--,-sysval ~@sysval] [[-new,-instance alc|all|dattim|edt|libl|msg|net|sec|stg|sysctl] | [haskey ~@{ key }] | [-value ~@{ key }] | -set ~@{ key } ~@value] | [-systemvalue] | [-list] | [-map]] : retrieve a system value list<ublu_command-description>
+<ublu_command>TASK</ublu_command>
+	<ublu_command-description>/1? [-from ~@datasink] [-to ~@datasink] [-local @tuplename ~@tuple [-local ..]] [-start] $[ BLOCK TO EXECUTE ]$ : create a background thread to execute a block, putting the thread and starting the thread if specified<ublu_command-description>
+<ublu_command>test</ublu_command>
+	<ublu_command-description>/0 [-to @var] [[[-eq | -ne] @var @var] | [-null @var] | [-nnull @var ] | [-jcls @tuple full.javaclass.name]]: compare and return boolean result<ublu_command-description>
+<ublu_command>thread</ublu_command>
+	<ublu_command-description>/0 [-from datasink] [-to datasink ] [--,-thread ~@thread] -new,-instance | -start | -stop : interpret in a background thread<ublu_command-description>
+<ublu_command>THEN</ublu_command>
+	<ublu_command-description>/3.. $[ an execution block possibly spanning lines ]$ : the THEN block for an IF<ublu_command-description>
+<ublu_command>THROW</ublu_command>
+	<ublu_command-description>/1 ~@{log string} : THROW from a TRY block<ublu_command-description>
+<ublu_command>tn5250</ublu_command>
+	<ublu_command-description>/0 [-tn5250 @tn5250] [-to datasink] [[-new,-instance] | [-my5250] | [-run] | [-session] | [-sessionlist]] [-args ~@${ arg string }$] ~@system : instance a programmable or interactive tn5250j<ublu_command-description>
+<ublu_command>trace</ublu_command>
+	<ublu_command-description>/0 [-tofile ~@{filename}] [-on] [-off] [-set ~@{all|conversion|datastream|diagnostic|error|info|jdbc|pcml|proxy|thread|warning} ~@{on|off}]: set JTOpen tracing<ublu_command-description>
+<ublu_command>TRY</ublu_command>
+	<ublu_command-description>/3 $[ try block ]$ CATCH $[ catch block ]$ : TRY and CATCH on error or THROW<ublu_command-description>
+<ublu_command>tuple</ublu_command>
+	<ublu_command-description>/0 [-assign ~@targetname ~@valuesource | -delete @tuplename | -exists @tuplename | -istuplename @tuplename | -null @tuplename | -true @tuplename | -false @tuplename | -name @tuplename | -realname @tuplename | -value ~@tuplename | -sub @subname ~@tuple | -type ~@tuple | -typename ~@tuple | -map | -autonome ~@tuple | -autonomic ~@tuple | -autonomes ] : operations on tuple variables<ublu_command-description>
+<ublu_command>user</ublu_command>
+	<ublu_command-description>/3? [-as400 @as400] [--,-user ~@user] [-to datasink] [-userprofile ~@{username}] [-enable | -disable | -new,-instance | -query ~@{property} | -refresh ] system userid password : manipulate user profile<ublu_command-description>
+<ublu_command>userlist</ublu_command>
+	<ublu_command-description>/3? [-as400 ~@as400] [-to datasink] [-userinfo ~@{ALL|USER|GROUP|MEMBER}] [-groupinfo ~@{NONE|NOGROUP|profilename}] [-userprofile ~@{username|*ALL}] ~@{system} ~@{userid} ~@{password} : return a list of users<ublu_command-description>
+<ublu_command>watson</ublu_command>
+	<ublu_command-description>/0 [-to datasink] [-h ~@{host}] -s ~@{service-url-part} [-p ~@{watson-parameter [p ~@{watson-parameter ..]] [-m ~@{http_method}] [-req_type ~@{request_content_type}] [-resp_type ~@{response_content_type}] [-req ~@{request_content}] : invoke IBM Watson microservice<ublu_command-description>
+<ublu_command>WHILE</ublu_command>
+	<ublu_command-description>/4 ~@whiletrue $[ cmd .. ]$ : WHILE @whiletrue iterate over block<ublu_command-description>
+<ublu_command>!</ublu_command>
+	<ublu_command-description>/1 linenumber | ! : repeat a command from the history list (short for history -do)<ublu_command-description>
+<ublu_command>#</ublu_command>
+	<ublu_command-description>or #!		 /? discards the rest of the line as a comment<ublu_command-description>
+<ublu_command>\\</ublu_command>
+	<ublu_command-description>/1 [-to datasink] ${ some text, usually a comment }$ : redirect a quotation to a datasink or simply make an enclosed comment<ublu_command-description>
