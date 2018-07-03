@@ -21,6 +21,16 @@ patterns: [
   }
 
   {
+    match: '\\$\\{.*\\}\\$'
+    name: 'string.quotedstring.ublu'
+  }
+
+  {
+    match: '\\$\\[.*\\]\\$'
+    name: 'string.quotedstring.ublu'
+  }
+
+  {
     match: '\\bas400\\b'
     name: 'keyword.as400.ublu'
   }
@@ -419,7 +429,7 @@ patterns: [
 
   {
     match: '\\@\\@\\w\+\\b'
-    name: 'variable.pastetoken.ublu'
+    name: 'variable.parameter.ublu'
   }
   {
     match: '\\@\\w\+\\b'
