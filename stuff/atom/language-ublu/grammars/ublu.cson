@@ -12,7 +12,7 @@ maxTokensPerLine: 300
 patterns: [
   {
     match: '-\\w+\\b'
-    name: 'option.dashcommand.ublu'
+    name: 'entity.other.attribute.dashcommand.ublu'
   }
 
   {
@@ -148,7 +148,7 @@ patterns: [
   }
   {
     match: '\\bFUNC\\b'
-    name: 'keyword.FUNC.ublu'
+    name: 'keyword.control.FUNC.ublu'
   }
   {
     match: '\\bgensh\\b'
@@ -240,7 +240,7 @@ patterns: [
   }
   {
     match: '\\blist\\b'
-    name: 'keyword.list.ublu'
+    name: 'keyword.other.list.ublu'
   }
   {
     match: '\\bmap\\b'
