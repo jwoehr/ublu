@@ -16,12 +16,12 @@ patterns: [
   }
 
   {
-    match: '#\\s.*$'
+    match: '#\\s+.*$'
     name: 'comment.linecomment.ublu'
   }
 
   {
-    match: '\\d+\\b'
+    match: '\[0-9\]+'
     name: 'number.decimal.ublu'
   }
 
