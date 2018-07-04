@@ -58,11 +58,15 @@ atom-text-editor {
   color: @light-gray;
 }
 
+.syntax--number {
+  color: @blue;
+}
+
 .syntax--keyword {
   color: @purple;
 
   &.syntax--control {
-    color: @purple;
+    color: @red;
   }
 
   &.syntax--operator {
@@ -76,6 +80,10 @@ atom-text-editor {
   &.syntax--other.syntax--unit {
     color: @orange;
   }
+}
+
+.syntax--dashcommand {
+    color: @green
 }
 
 .syntax--storage {

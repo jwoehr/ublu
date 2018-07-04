@@ -1,0 +1,4 @@
+'.source.ublu':
+  'as400.to':
+    'prefix': 'as400'
+    'body': 'as400 ${1:\\-to } $2'

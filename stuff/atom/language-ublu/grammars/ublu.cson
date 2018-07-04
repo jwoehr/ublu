@@ -11,13 +11,18 @@ maxTokensPerLine: 300
 # foldingStopMarker: '' # A regular expression that checks for the end of a foldable area (such as `}`). If both folding markers are matched in the same line, there will be no foldable area.
 patterns: [
   {
-    match: '-\\w+\\b'
-    name: 'entity.other.attribute.dashcommand.ublu'
+    match: '\\s+-\\w+\\b'
+    name: 'dashcommand.ublu'
   }
 
   {
     match: '#\\s.*$'
     name: 'comment.linecomment.ublu'
+  }
+
+  {
+    match: '\\d+\\b'
+    name: 'number.decimal.ublu'
   }
 
   {
