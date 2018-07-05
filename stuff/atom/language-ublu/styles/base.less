@@ -54,8 +54,12 @@ atom-text-editor {
 // Syntax styles
 
 .syntax--comment {
-  color: @purple;
+  color: @light-gray;
+  &.syntax--linecomment {
+    color: @light-orange;
+  }
 }
+
 
 .syntax--number {
   color: @purple;
