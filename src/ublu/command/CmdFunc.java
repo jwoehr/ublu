@@ -35,6 +35,7 @@ import com.ibm.as400.access.RequestNotSupportedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Command to create a named function
@@ -44,12 +45,12 @@ import java.util.logging.Level;
 public class CmdFunc extends Command {
 
     {
-        setNameAndDescription("FUNC", "/7?.. [-to datasink] [[-delete name] | [-list] | [-show name]] name ( parameter name list )  $[ an execution block possibly spanning lines ]$ : define a named function");
+        setNameAndDescription("FUNC", "/7?.. [-to datasink] [ -delete ~@{name} | -get ~@{name} | -list | -show ~@{name}] | name ( parameter name list )  $[ an execution block possibly spanning lines ]$ : define, display, delete, fetch functor for a named function");
     }
 
     enum OPERATIONS {
 
-        LIST, DEFINE, DELETE, SHOW
+        LIST, DEFINE, DELETE, GET, SHOW
     }
 
     /**
@@ -62,6 +63,7 @@ public class CmdFunc extends Command {
         OPERATIONS operation = OPERATIONS.DEFINE;
         String deleteName = "";
         String showName = "";
+        String getName = "";
         while (argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
             switch (dashCommand) {
@@ -73,11 +75,15 @@ public class CmdFunc extends Command {
                     break;
                 case "-delete":
                     operation = OPERATIONS.DELETE;
-                    deleteName = argArray.next();
+                    deleteName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-show":
                     operation = OPERATIONS.SHOW;
-                    showName = argArray.next();
+                    showName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    break;
+                case "-get":
+                    operation = OPERATIONS.GET;
+                    getName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-define":
                     operation = OPERATIONS.DEFINE;
@@ -98,6 +104,7 @@ public class CmdFunc extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+
                 case SHOW:
                     try {
                         put(getInterpreter().showFunction(showName));
@@ -106,11 +113,22 @@ public class CmdFunc extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+
                 case DELETE:
                     if (!getInterpreter().deleteFunction(deleteName)) {
                         getLogger().log(Level.WARNING, "Function {0} not found to delete in {1}", new Object[]{deleteName, getNameAndDescription()});
                     }
                     break;
+
+                case GET:
+                    try {
+                        put(getInterpreter().getFunctor(getName));
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception getting function " + showName + inNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
+
                 case DEFINE:
                     if (argArray.size() < 2) { // here's where we fall out if new ArgArray()
                         logArgArrayTooShortError(argArray);
