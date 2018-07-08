@@ -113,3 +113,17 @@ FUNC writeMapToRecord ( tfile tmap )  $[
     @@tfile -pos A
     @@tfile -write @rec
 ]$
+
+# runtest ( includefile testfunc work_dir testsys testrptpf )
+# include the testfile and run an individual test
+# take action on exception
+FUNC runtest ( includefile testfunc work_dir testsys testrptpf ) $[
+    TRY $[
+        include -s @@includefile
+        FUNC -to ~ -get @@testfunc
+        CALL ~ ( @@work_dir @@testsys @@testrptpf )
+    ]$ CATCH $[
+        put -n ${ ERROR: Test }$ put -n -s @@testfunc put ${ failed to run due to an exception. }$
+    ]$
+]$
+      
