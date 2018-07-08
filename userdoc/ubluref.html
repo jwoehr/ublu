@@ -14,7 +14,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 24 Jun 2018 03:31:08 UTC">
+  "Sun, 8 Jul 2018 03:51:26 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -62,7 +62,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-06-24</p>
+  Last edit: 2018-07-08</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -14833,26 +14833,28 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
   <blockquote>
     <tt>/3? [-as400 ~@as400] [-to datasink] -program
-    fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in
-    ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..]
-    [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout}
-    ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke
-    a program with parameters on the host</tt><br>
-    <br>
-    The <tt>programcall</tt> command invokes a program to run on
+    fullyqualifiedprogrampath [-in ~@tuple ~@{length}
+    ~@{vartypename} [-in ..]] [-inout ~@tuple ~@{length}
+    ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out
+    ~@tuple ~@{length} ~@{vartypename} [-out ..]] ~@system ~@userid
+    ~@passwd : invoke a program with parameters on the
+    host</tt>&lt;
+
+    <p>The <tt>programcall</tt> command invokes a program to run on
     the server and <tt>put</tt>s an object representing the result
-    of the call.<br>
-    <br>
-    To&nbsp; use <tt>programcall</tt> you must understand precisely
+    of the call.</p>
+
+
+    <p>To use <tt>programcall</tt> you must understand precisely
     the program you are invoking, its input and output
-    parameters.<br>
-    <br>
-    In specifying parameters, they are added to the array of
+    parameters.</p>
+
+
+    <p>In specifying parameters, they are added to the array of
     parameters to be passed to the program in the order you specify
     them to the command. Any number used by the program can be
     specified and they are added to the array as you specify
-    them.<br>
-    <br>
+    them.</p>
     When a variable type is called for, that value is one of:<br>
 
 
@@ -14896,34 +14898,34 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <tt>/QSYS.LIB/QGPL.LIB/MYPROG.PGM</tt></li>
 
 
-      <li><tt>-in ~@tuple ~@{vartypename}</tt> adds an <tt>IN</tt>
-      parameter in order to the parameter list to be passed to the
-      program. The <tt>tuple</tt> contains the value and
-      <tt>vartypename</tt> is the i OS program type of the
+      <li><tt>-in ~@tuple ~@{length} ~@{vartypename}</tt> adds an
+      <tt>IN</tt> parameter in order to the parameter list to be
+      passed to the program. The <tt>tuple</tt> contains the
+      <em>value</em>, declared <em>length</em> and
+      <em>vartypename</em>, which latter is the i5OS type of the
       variable, one of the list specified above.</li>
 
 
-      <li><tt>-inout ~@tuple ~@{sizeout} ~@{vartypename}</tt> adds
+      <li><tt>-inout ~@tuple ~@{length} ~@{vartypename}</tt> adds
       an <tt>INOUT</tt> parmeter in order to the parameter list to
-      be passed to the program. The <tt>tuple</tt> contains the
-      value. <tt>sizeout</tt> is the length of the parameter.
-      <tt>vartypename</tt> is the i OS program type of the
+      be passed to the program. The <em>tuple</em> contains the
+      value. <em>length</em> is the length of the parameter.
+      <em>vartypename</em> is the i OS program type of the
       variable, one of the list specified above.</li>
 
 
-      <li><tt>-out ~@tuple ~@{sizeout} ~@{vartypename}</tt> adds an
+      <li><tt>-out ~@tuple ~@{length} ~@{vartypename}</tt> adds an
       <tt>OUT</tt> parmeter in order to the parameter list to be
-      passed to the program. The <tt>tuple</tt> contains the value.
-      <tt>sizeout</tt> is the length of the parameter.
-      <tt>vartypename</tt> is the i OS program type of the
+      passed to the program. The <em>tuple</em> contains the value.
+      <em>length</em> is the length of the parameter.
+      <em>vartypename</em> is the i OS program type of the
       variable, one of the list specified above.</li>
 
 
       <li><tt>-msgopt ~@{all|none|10}</tt> specifies how many
       messages will be accepted returned from the program call. The
-      choices are&nbsp; <tt>all</tt> , <tt>none</tt> , or
-      <tt>10</tt> for a maximum of 10. Any other value generates an
-      error.</li>
+      choices are <tt>all</tt> , <tt>none</tt> , or <tt>10</tt> for
+      a maximum of 10. Any other value generates an error.</li>
     </ul>
   </blockquote>
 

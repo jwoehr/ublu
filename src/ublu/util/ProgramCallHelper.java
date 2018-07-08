@@ -86,6 +86,7 @@ public class ProgramCallHelper {
         Iterator<ManagedProgramParameter> it = managedProgramParameterList.iterator();
         while (it.hasNext()) {
             ManagedProgramParameter mpp = it.next();
+            // /* DEBUG */ System.err.println(mpp);
             programCall.addParameter(mpp.getProgramParameter());
         }
     }
@@ -280,11 +281,11 @@ public class ProgramCallHelper {
          * Create new in-param
          *
          * @param t tuple with param value
+         * @param length declared length of param in target program
          * @param vartype string describing type
-         * @param len declared length of param in target program
          * @return the param
          */
-        public static ManagedProgramParameter newInParam(Tuple t, String vartype, int len) {
+        public static ManagedProgramParameter newInParam(Tuple t, int length, String vartype) {
             ProgramParameter pp;
             Object o = t.getValue();
             if (o instanceof byte[]) {
@@ -292,7 +293,7 @@ public class ProgramCallHelper {
             } else {
                 String s = o.toString();
                 // /* DEBUG */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
-                AS400Text a = new AS400Text(len);
+                AS400Text a = new AS400Text(length);
                 pp = new ProgramParameter(a.toBytes(s));
             }
             return new ManagedProgramParameter(pp, t, vartype);
