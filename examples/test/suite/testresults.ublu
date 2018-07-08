@@ -11,51 +11,51 @@ include -s ansiesc.ublu
 
 # Interactively browse test results
 FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
-    LOCAL @SYSTEM LOCAL @TESTFILE 
-    LOCAL @OBJDESC LOCAL @FILENAME 
+    LOCAL @SYSTEM LOCAL @TESTFILE
+    LOCAL @OBJDESC LOCAL @FILENAME
     LOCAL @LIBNAME LOCAL @RECORDS
     LOCAL @USESSL LOCAL @DB
     LOCAL @PASSRS LOCAL @FAILRS
-    
+
     put -to ~ @@usessl
     ~ -to @USESSL -eq Y
-    
+
     as400 -to @SYSTEM -ssl @USESSL @@sysname @@uid @@passwd
-    
+
     getfile ( @SYSTEM @@ifsfqp )
     tuple -assign @TESTFILE ~
-    
+
     getdesc ( @SYSTEM @@ifsfqp )
     tuple -assign @OBJDESC ~
-    
+
     fname ( @TESTFILE )
     tuple -assign @FILENAME ~
-    
+
     libname ( @TESTFILE )
     tuple -assign @LIBNAME ~
-    
-    put ${ Retrieving all records via record access .. }$ 
+
+    put ${ Retrieving all records via record access .. }$
     rall ( @TESTFILE )
     tuple -assign @RECORDS ~
-    
-    put ${ Connecting to database via JDBC .. }$ 
+
+    put ${ Connecting to database via JDBC .. }$
     getDB ( @@sysname @USESSL @LIBNAME @@uid @@passwd  )
     tuple -assign @DB ~
-    
-    put ${ Retrieving all passers via JDBC .. }$ 
+
+    put ${ Retrieving all passers via JDBC .. }$
     selectPassFail ( @DB @FILENAME @true )
     tuple -assign @PASSRS ~
-    
-    put ${ Retrieving all failers via JDBC .. }$ 
+
+    put ${ Retrieving all failers via JDBC .. }$
     selectPassFail ( @DB @FILENAME @false )
     tuple -assign @FAILRS ~
-    
+
     chooseBrowse ( @SYSTEM @TESTFILE @OBJDESC @FILENAME @LIBNAME @RECORDS @PASSRS @FAILRS )
-    
+
         \\ ${ @PASSRS -close }$
         \\ ${ @FAILRS -close }$
         \\ ${ Apparently not necessary to close where the RS is RO }$
-        
+
         @DB -disconnect
     @SYSTEM -disconnect
 
@@ -65,84 +65,84 @@ FUNC testresults ( sysname usessl uid passwd ifsfqp ) $[
 # Get JDBC instance
 FUNC getDB ( sysname usessl libname uid passwd  ) $[
     IF @@usessl THEN $[
-        db -to ~ -dbtype as400 -property secure yes 
+        db -to ~ -dbtype as400 -property secure yes
         -connect @@sysname @@libname @@uid @@passwd
     ]$ ELSE $[
         db -to ~ -dbtype as400 -connect @@sysname @@libname @@uid @@passwd
     ]$
 ]$
 
-# PUsh result set of test results by pass or fail
+# Push result set of test results by pass or fail
 FUNC selectPassFail ( dbinst filename passfail ) $[
     LOCAL @q
     string -to @q -cat ${ SELECT * FROM }$ @@filename
     @q -to @q -bl
     @q -to @q -cat ${ WHERE PFAIL = }$
-   
+
     IF @@passfail THEN $[
             @q -to @q -cat 'P'
     ]$ ELSE $[
             @q -to @q -cat 'F'
     ]$
-      
+
     @@dbinst -to ~ -qopt ro -query @q
 ]$
-  
-# Get the file  
+
+# Get the file
 FUNC getfile ( sys ifsfqp ) $[
     file -to ~ -as400 @@sys -keyed @@ifsfqp
 ]$
 
-# Get file's object description  
+# Get file's object description
 FUNC getdesc ( sys ifsfqp ) $[
     objdesc -to ~ -as400 @@sys -path @@ifsfqp
 ]$
-  
+
 # Load all records from the file
-FUNC loadall ( thefile ) $[ 
+FUNC loadall ( thefile ) $[
     @@thefile -to ~ -read ALL
 ]$
 
-# Get filename  
+# Get filename
 FUNC fname ( thefile ) $[
     calljava -to ~ -method getFileName -obj @@thefile
 ]$
 
-# Get libname  
+# Get libname
 FUNC libname ( thefile ) $[
-    calljava -to ~ -method getLibraryName -obj @@thefile   
+    calljava -to ~ -method getLibraryName -obj @@thefile
 ]$
-  
-# Read in all records 
+
+# Read in all records
 FUNC rall ( thefile ) $[
     @@thefile -to ~ -read ALL
-]$    
-  
+]$
+
 # Map one record
 FUNC procrec ( rec ) $[
     LOCAL @recmap
     map -to @recmap
-    
+
     @@rec -to ~ -getfieldbyname FILNAM
     ~ -to ~ -trim
     @recmap -add filename ~
-    
+
     @@rec -to ~ -getfieldbyname TMSTRT
     @@rec -to ~ -getfieldbyname TMEND
     eval -to ~ - ~ ~
     @recmap -add millisecs ~
-    
+
     @@rec -to ~ -getfieldbyname DESCR
     ~ -to ~ -trim
     @recmap -add description ~
-    
+
     @@rec -to ~ -getfieldbyname PFAIL
     @recmap -add pfail ~
-    
+
     tuple -assign ~ @recmap
 ]$
 
-# Proc all recs into maps and add to list  
+# Proc all recs into maps and add to list
 FUNC procrecs ( recarray ) $[
     LOCAL @l
     list -to @l
@@ -153,7 +153,7 @@ FUNC procrecs ( recarray ) $[
     tuple -assign ~ @l
 ]$
 
-# Proc all recs whose modname starts with @@modname into maps and add to list  
+# Proc all recs whose modname starts with @@modname into maps and add to list
 FUNC seekrecs ( recarray modname ) $[
     LOCAL @l LOCAL @MODNAME
     tuple -assign @MODNAME @@modname
@@ -173,27 +173,27 @@ FUNC seekrecs ( recarray modname ) $[
 FUNC procrow ( zrs ) $[
     LOCAL @recmap
     map -to @recmap
-    
+
     @@zrs -to ~ -lget FILNAM
     ~ -to ~ -trim
     @recmap -add filename ~
-    
+
     @@zrs -to ~ -lget TMSTRT
     @@zrs -to ~ -lget TMEND
     eval -to ~ - ~ ~
     @recmap -add millisecs ~
-    
+
     @@zrs -to ~ -lget DESCR
     ~ -to ~ -trim
     @recmap -add description ~
-    
+
     @@zrs -to ~ -lget PFAIL
     @recmap -add pfail ~
-    
+
     tuple -assign ~ @recmap
 ]$
 
-# Proc all result set rows into maps and add to list  
+# Proc all result set rows into maps and add to list
 FUNC procrows ( zrs ) $[
     LOCAL @l
     list -to @l
@@ -210,7 +210,7 @@ FUNC procrows ( zrs ) $[
 FUNC whiteOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes -s -append *ans_FgWhite
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
 ]$
 
@@ -218,57 +218,57 @@ FUNC boldRedOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
     put -to @modes -s -append *ans_FgRed
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
 ]$
 FUNC boldGreenOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
     put -to @modes -s -append *ans_FgGreen
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
 ]$
-  
+
 FUNC boldBlueOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
     put -to @modes -s -append *ans_FgBlue
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
-]$  
+]$
 
 FUNC boldYellowOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
     put -to @modes -s -append *ans_FgYellow
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
 ]$
-  
+
 FUNC boldMagentaOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
     put -to @modes -s -append *ans_FgMagenta
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
 ]$
-  
+
 FUNC boldCyanOnBlack ( ) $[
     put -to @modes *ans_AllOff
     put -to @modes *ans_Bold
     put -to @modes -s -append *ans_FgCyan
-    put -to @modes -s -append *ans_BgBlack   
+    put -to @modes -s -append *ans_BgBlack
     ansSetGraphicsMode ( @modes )
-]$    
+]$
 
 # FUNC linepostinc ( linenum )
 # Move cursor to 0 , @@linenum and increment @@linenum
 # (Ublu is call by reference.)
 FUNC linepostinc ( linenum ) $[
     ansCursorPos ( 0 @@linenum )
-    eval -to @@linenum inc @@linenum 
+    eval -to @@linenum inc @@linenum
 ]$
-  
+
 # Draw one screen of data
 # dataScreen ( sys tfile od fname lname rec )
 #   sys - as400
@@ -276,78 +276,78 @@ FUNC linepostinc ( linenum ) $[
 #   od - object desc object for file
 #   fname - name of file
 #   lname - name of lib
-#   rec - mapped record to draw 
+#   rec - mapped record to draw
 FUNC dataScreen ( sys tfile od fname lname rec ) $[
     LOCAL @sysname LOCAL @linenum
     LOCAL @therec tuple -assign @therec @@rec
-    
+
     calljava -to @sysname -method getSystemName -obj @@sys
-    
+
     put -to @linenum 1
-        
+
     ansEraseDisplay ( )
-    
-    linepostinc ( @linenum ) 
-    
-    boldBlueOnBlack ( ) put -n -s System:  
+
+    linepostinc ( @linenum )
+
+    boldBlueOnBlack ( ) put -n -s System:
     boldYellowOnBlack ( ) put -n -s @sysname
-    
+
     boldBlueOnBlack ( ) put -n -s Library:
     boldYellowOnBlack ( ) put -n -s @@lname
-    
+
     boldBlueOnBlack ( ) put -n -s File:
     boldYellowOnBlack ( ) put -n -s @@fname
-    
-    linepostinc ( @linenum ) 
-    
+
+    linepostinc ( @linenum )
+
     @@od -to ~ -valuestring TEXT_DESCRIPTION
-    
+
     boldBlueOnBlack ( ) put -n -s Run:
     boldYellowOnBlack ( ) put -n -s ~
-    
+
     @@od -to ~ -valuestring CHANGE_DATE
     boldBlueOnBlack ( ) put -n -s Changed:
     boldYellowOnBlack ( ) put -n ~
-    
-    linepostinc ( @linenum ) 
-    
+
+    linepostinc ( @linenum )
+
     @therec -to ~ -. filename
-    boldCyanOnBlack ( ) put -n ${ Test module: }$ 
+    boldCyanOnBlack ( ) put -n ${ Test module: }$
     whiteOnBlack ( ) put -n -s ~
-    @therec -to ~ -. millisecs 
+    @therec -to ~ -. millisecs
     boldCyanOnBlack ( ) put -n ${ Milliseconds: }$
     whiteOnBlack ( ) put -n -s ~
     boldCyanOnBlack ( ) put -n ${ Pass/Fail: }$
-    @therec -to ~ -. pfail lifo -dup  
+    @therec -to ~ -. pfail lifo -dup
     ~ -to ~ -eq P
     IF ~ THEN $[
        ansSetGraphicsMode ( *ans_FgGreen )
        put -n PASS
-       ansSetGraphicsMode ( *ans_FgCyan ) 
+       ansSetGraphicsMode ( *ans_FgCyan )
     ]$ ELSE $[
        ansSetGraphicsMode ( *ans_FgRed )
        put -n FAIL
        ansSetGraphicsMode ( *ans_FgCyan )
     ]$
-      
+
     @therec -to ~ -. description
     ~ -to ~ -split \:
     list -to ~ -source ~
     FOR @j ~ $[
-        linepostinc ( @linenum )         
+        linepostinc ( @linenum )
         boldCyanOnBlack ( ) put -n ${ Description: }$
         whiteOnBlack ( ) put -n @j
     ]$
-    linepostinc ( @linenum ) 
-]$      
-     
+    linepostinc ( @linenum )
+]$
+
 # Review records one at a time
 #   sys - as400
 #   tfile - file obj
 #   od - object desc object for file
 #   fname - name of file
 #   lname - name of lib
-#   recs - list of mapped records to review 
+#   recs - list of mapped records to review
 FUNC review ( sys tfile od fname lname recs ) $[
     LOCAL @l tuple -assign @l @@recs
     LOCAL @llen @l -to @llen -size
@@ -356,38 +356,38 @@ FUNC review ( sys tfile od fname lname recs ) $[
     LOCAL @prompt
     LOCAL @promptlen
     LOCAL @ans
-    put -to @prompt ${ Record number/(P)rev/(N)ext (or [ENTER])/(Q)uit? }$ 
+    put -to @prompt ${ Record number/(P)rev/(N)ext (or [ENTER])/(Q)uit? }$
     @prompt -to @promptlen -len
-    
+
     WHILE @true $[
         @l -to ~ -get @ptr
         dataScreen ( @@sys @@tfile @@od @@fname @@lname ~ )
-        
+
         boldBlueOnBlack ( ) put -n -s Record
         eval -to ~ inc @ptr
         boldYellowOnBlack ( ) put -n -s ~
         boldBlueOnBlack ( ) put -n -s of
         boldYellowOnBlack ( ) put -n @llen
-        
+
         ansCursorDown ( 1 )
         ansCursorBackward ( 100 )
         ansCursorForward ( @promptlen )
-        boldYellowOnBlack ( ) 
+        boldYellowOnBlack ( )
         ansSaveCursorPos ( )
         put -n ____
         ansRestoreCursorPos ( )
         ansCursorBackward ( @promptlen )
-        boldMagentaOnBlack ( ) 
-        put -n @prompt 
+        boldMagentaOnBlack ( )
+        put -n @prompt
         ansRestoreCursorPos ( )
         ansSetGraphicsMode ( *ans_Underscore )
         ask -to @ans
         ansSetGraphicsMode ( *ans_AllOff )
-        
-        num -to ~ @ans       
+
+        num -to ~ @ans
         lifo -dup
         test -to ~ -nnull ~
-        
+
         IF ~ THEN $[
             eval -to @ptr dec ~
             eval -to @ptr max @ptr 0
@@ -409,17 +409,17 @@ FUNC review ( sys tfile od fname lname recs ) $[
             ]$ -default $[
             eval -to @ptr inc @ptr
             eval -to ~ dec @llen
-            eval -to @ptr min @ptr ~ 
+            eval -to @ptr min @ptr ~
             ]$
         ]$
     ]$
-]$    
+]$
 
-# Browse test records   
+# Browse test records
 FUNC browse ( sys tfile od fname lname reclist ) $[
     LOCAL @LIST
     tuple -assign @LIST @@reclist
-    
+
     @LIST -to ~ -size
     eval -to ~ > ~ 0
     IF ~ THEN $[
@@ -429,21 +429,21 @@ FUNC browse ( sys tfile od fname lname reclist ) $[
         put ${ 0 results, Press ENTER to continue }$
         ask -to NULL:
     ]$
-    
-    ansSetGraphicsMode ( *ans_AllOff ) 
+
+    ansSetGraphicsMode ( *ans_AllOff )
     ansEraseDisplay ( )
-    ansCursorPos ( 0 1 )    
+    ansCursorPos ( 0 1 )
 ]$
 
-# Browse result set  
+# Browse result set
 FUNC browseRs ( sys tfile od fname lname zrs ) $[
     LOCAL @ZRS
     tuple -assign @ZRS @@zrs
     LOCAL @LIST
-    
+
     procrows ( @ZRS )
     tuple -assign @LIST ~
-    
+
     @LIST -to ~ -size
     eval -to ~ > ~ 0
     IF ~ THEN $[
@@ -453,10 +453,10 @@ FUNC browseRs ( sys tfile od fname lname zrs ) $[
         put ${ 0 results, Press ENTER to continue }$
         ask -to NULL:
     ]$
-    
-    ansSetGraphicsMode ( *ans_AllOff ) 
+
+    ansSetGraphicsMode ( *ans_AllOff )
     ansEraseDisplay ( )
-    ansCursorPos ( 0 1 )    
+    ansCursorPos ( 0 1 )
 ]$
 
 # Draw choice screen of data and push user's choice
@@ -471,61 +471,61 @@ FUNC browseRs ( sys tfile od fname lname zrs ) $[
 FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
     LOCAL @sysname LOCAL @linenum
     LOCAL @prompt LOCAL @promptlen
-    
+
     calljava -to @sysname -method getSystemName -obj @@sys
 
     put -to @linenum 1
-    
+
     ansEraseDisplay ( )
-    
-    linepostinc ( @linenum ) 
-    
-    boldBlueOnBlack ( ) put -n -s System:  
+
+    linepostinc ( @linenum )
+
+    boldBlueOnBlack ( ) put -n -s System:
     boldYellowOnBlack ( ) put -n -s @sysname
-    
+
     boldBlueOnBlack ( ) put -n -s Library:
     boldYellowOnBlack ( ) put -n -s @@lname
-    
+
     boldBlueOnBlack ( ) put -n -s File:
     boldYellowOnBlack ( ) put -n -s @@fname
-    
-    linepostinc ( @linenum ) 
-    
+
+    linepostinc ( @linenum )
+
     boldBlueOnBlack ( ) put -n -s Run:
     @@od -to ~ -valuestring TEXT_DESCRIPTION
-    boldYellowOnBlack ( ) put -n -s ~    
-    
+    boldYellowOnBlack ( ) put -n -s ~
+
     boldBlueOnBlack ( ) put -n -s Changed:
     @@od -to ~ -valuestring CHANGE_DATE
     boldYellowOnBlack ( ) put -n ~
-    
+
     linepostinc ( @linenum )
-    
+
     boldBlueOnBlack ( ) put -n -s Passes:
     boldGreenOnBlack ( ) @@passrs -to NULL: -last @@passrs -to ~ -rownum put -n -s ~
     boldBlueOnBlack ( ) put -n -s Fails:
     boldRedOnBlack ( ) @@failrs -to NULL: -last @@failrs -to ~ -rownum put -n ~
 
-    put -to @prompt ${ Browse /(A)ll (or [ENTER])/(S)eek/(P)ass/(F)ail/(Q)uit? }$ 
+    put -to @prompt ${ Browse /(A)ll (or [ENTER])/(S)eek/(P)ass/(F)ail/(Q)uit? }$
     @prompt -to @promptlen -len
-   
+
     ansCursorDown ( 1 )
     ansCursorBackward ( 100 )
     ansCursorForward ( @promptlen )
-    boldYellowOnBlack ( ) 
+    boldYellowOnBlack ( )
     ansSaveCursorPos ( )
     put -n ____
     ansRestoreCursorPos ( )
     ansCursorBackward ( @promptlen )
-    boldMagentaOnBlack ( ) 
-    put -n @prompt 
+    boldMagentaOnBlack ( )
+    put -n @prompt
     ansRestoreCursorPos ( )
     ansSetGraphicsMode ( *ans_Underscore )
-    
+
     ask -to ~
-    
+
     ansSetGraphicsMode ( *ans_AllOff )
-]$      
+]$
 
 # Draw seek screen of data and push user's sought module choice
 # seekScreen ( sys tfile od fname lname )
@@ -537,89 +537,89 @@ FUNC choiceScreen ( sys tfile od fname lname passrs failrs ) $[
 FUNC seekScreen ( sys tfile od fname lname ) $[
     LOCAL @sysname LOCAL @linenum
     LOCAL @prompt LOCAL @promptlen
-    
+
     calljava -to @sysname -method getSystemName -obj @@sys
 
     put -to @linenum 1
-    
+
     ansEraseDisplay ( )
-    
-    linepostinc ( @linenum ) 
-    
-    boldBlueOnBlack ( ) put -n -s System:  
+
+    linepostinc ( @linenum )
+
+    boldBlueOnBlack ( ) put -n -s System:
     boldYellowOnBlack ( ) put -n -s @sysname
-    
+
     boldBlueOnBlack ( ) put -n -s Library:
     boldYellowOnBlack ( ) put -n -s @@lname
-    
+
     boldBlueOnBlack ( ) put -n -s File:
     boldYellowOnBlack ( ) put -n -s @@fname
-    
-    linepostinc ( @linenum ) 
-    
+
+    linepostinc ( @linenum )
+
     boldBlueOnBlack ( ) put -n -s Run:
     @@od -to ~ -valuestring TEXT_DESCRIPTION
-    boldYellowOnBlack ( ) put -n -s ~    
-    
+    boldYellowOnBlack ( ) put -n -s ~
+
     boldBlueOnBlack ( ) put -n -s Changed:
     @@od -to ~ -valuestring CHANGE_DATE
     boldYellowOnBlack ( ) put -n ~
-    
+
     linepostinc ( @linenum )
-   
-    put -to @prompt ${ Browse module(s) whose names start with: }$ 
+
+    put -to @prompt ${ Browse module(s) whose names start with: }$
     @prompt -to @promptlen -len
-   
+
     ansCursorDown ( 1 )
     ansCursorBackward ( 100 )
     ansCursorForward ( @promptlen )
-    boldYellowOnBlack ( ) 
+    boldYellowOnBlack ( )
     ansSaveCursorPos ( )
     put -n ___________________________________
     ansRestoreCursorPos ( )
     ansCursorBackward ( @promptlen )
-    boldMagentaOnBlack ( ) 
-    put -n @prompt 
+    boldMagentaOnBlack ( )
+    put -n @prompt
     ansRestoreCursorPos ( )
     ansSetGraphicsMode ( *ans_Underscore )
-    
+
     ask -to ~
-    
+
     ansSetGraphicsMode ( *ans_AllOff )
 ]$
-  
+
 # Choose which records to browse and browse 'em
 FUNC chooseBrowse ( sys tfile od fname lname recs passrs failrs ) $[
     LOCAL @ans
-    
+
     WHILE @true $[
         choiceScreen ( @@sys @@tfile @@od @@fname @@lname @@passrs @@failrs )
-        
+
         string -to @ans -bl ~ \\ ${ in case it's empty }$
             @ans -to @ans -substr 0 1
             @ans -to @ans -upcase
-            
+
         SWITCH @ans -case Q $[
                 BREAK
-            ]$ -case A $[                
-                procrecs ( @@recs )                
-                browse ( @@sys @@tfile @@od @@fname @@lname ~ )  
+            ]$ -case A $[
+                procrecs ( @@recs )
+                browse ( @@sys @@tfile @@od @@fname @@lname ~ )
             ]$ -case S $[
                 seekScreen ( @@sys @@tfile @@od @@fname @@lname )
-                seekrecs ( @@recs ~ )                
-                browse ( @@sys @@tfile @@od @@fname @@lname ~ )  
-            ]$ -case P $[                
-                browseRs ( @@sys @@tfile @@od @@fname @@lname @@passrs )                
+                seekrecs ( @@recs ~ )
+                browse ( @@sys @@tfile @@od @@fname @@lname ~ )
+            ]$ -case P $[
+                browseRs ( @@sys @@tfile @@od @@fname @@lname @@passrs )
             ]$ -case F $[
-                browseRs ( @@sys @@tfile @@od @@fname @@lname @@failrs )                 
+                browseRs ( @@sys @@tfile @@od @@fname @@lname @@failrs )
             ]$ -case ${ }$ $[
-                procrecs ( @@recs )                
-                browse ( @@sys @@tfile @@od @@fname @@lname ~ ) 
+                procrecs ( @@recs )
+                browse ( @@sys @@tfile @@od @@fname @@lname ~ )
             ]$
     ]$
-      
-    ansSetGraphicsMode ( *ans_AllOff ) 
+
+    ansSetGraphicsMode ( *ans_AllOff )
     ansEraseDisplay ( )
-    ansCursorPos ( 0 1 )       
-]$    
+    ansCursorPos ( 0 1 )
+]$
 # end
