@@ -98,7 +98,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ include -s t.outq.ublu t.outq ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test outq }$
     \\ ${ include -s t.ppl.ublu t.ppl ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test ppl }$
     \\ ${ include -s t.printer.ublu t.printer ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test printer }$
-    \\ ${ include -s t.programcall.ublu t.programcall ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test programcall }$
+    include -s t.programcall.ublu t.programcall ( @@work_dir @testsys @testrptpf )     \\ ${ test programcall }$
     \\ ${ include -s t.props.ublu t.props ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test props }$
     \\ ${ include -s t.put.ublu t.put ( @@work_dir @testsys @testrptpf ) }$     \\ ${ test put }$
     include -s t.record.ublu t.record ( @@work_dir @testsys @testrptpf )     \\ ${ test record }$
