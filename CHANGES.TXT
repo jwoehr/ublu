@@ -15,14 +15,18 @@ All rights reserved.
         * stub for mssql support updated on user bug report
     * `desktop`
         * `-supported` was missing
+    * `programcall`
+    	* bug fixes
     * splfol
         * bug fixes
         * rendering
 * Extensions
-    * ux.string.ublu
-    * ux.printobj.ublu
+    * `ux.string.ublu`
+    * `ux.printobj.ublu`
         * extended with functions for spooled files
-*Miscellaneous
+* Test Suite
+	* `programcall`
+* Miscellaneous
     * Cleanup README.md
     * More work on docs
     * Begin Atom editor language-ublu support
@@ -42,7 +46,7 @@ All rights reserved.
         * Its functionality can be surpassed by Ublu code using Db2 for i Services
     * `monitor` Removed `-diststatus` which is broken in JTOpenLite
     * `num` Remove 1.8-ism
-    * `splfol` spooled file open list api    	
+    * `splfol` spooled file open list api
     * `subsys` command now populates subsystem attributes with a refresh (https://github.com/jwoehr/ublu/issues/19)
 * Extensions
     * `ux.qsys2.journal.ublu` journal methods from db2 services
@@ -54,7 +58,7 @@ All rights reserved.
 * Windowing
     * command-line recall better
     * remove 1.8-isms
-    
+
 1.1.8 2017-09-27
 -----
 * System
@@ -66,7 +70,7 @@ All rights reserved.
     * better Goublu support
     * some optimizations
 * Documentation
-    * Explained how to make SSL connection 
+    * Explained how to make SSL connection
     * Guide enhanced
 * Commands
     * `as400 -nodefault` prevents setting service ports at instancing
@@ -163,10 +167,10 @@ Commands
 * interpreter
     * -args
     * -opts
-    * -arg 
-    * -opt 
-    * -optarg 
-    * -allargs   
+    * -arg
+    * -opt
+    * -optarg
+    * -allargs
 * streamf -read (byte reads)
 
 1.1.6 2017-06-01
@@ -198,7 +202,7 @@ Commands
     * -assign
         * -type returns class object
     * handle the tuple stack on -true -false -null
-    
+
 Examples
 * clHelp.ublu
 * delspoolf.ublu
@@ -236,7 +240,7 @@ Commands
         * bug: -bytes
     * dpoint
         * WARNING status now has message
-        * dpoint allows a crit and warn alert comparator to work without value 
+        * dpoint allows a crit and warn alert comparator to work without value
     * dta command for data areas
     * file
         * -createdds
@@ -281,7 +285,7 @@ Extensions
 * updated
     * sysshep.qsys2.sysdiskstat.ublu
         * changed format
-        
+
 Examples
 * fileAllBlobs.ublu
 
@@ -307,12 +311,12 @@ Commands
         * -get -lget
         * -abs -rel -next
     * savesys
-    
+
 Extensions
 * new
     * ux.printobj.ublu
     * sysshep directory
-    
+
 1.1.3 2016-10-14
 System:
 * Much refactoring at the Java level
@@ -320,14 +324,14 @@ System:
 * autonomic tuple variables
 * save and restore const map
 * ublu.util.Renderer
-    * ObjectLockListEntry    
+    * ObjectLockListEntry
 
 Commands:
 * general
     * deprecate -instance in favor of -new
     * command descriptions cleaned up
     * some commands' argument parsing modernized
-* individual commands    
+* individual commands
     * const -list
     * db -json
     * IF now tests for null as well as not-true-not-false
@@ -364,9 +368,9 @@ Examples:
     * dbexample.ublu
     * msgstuff.ublu
     * test/testlist.ublu
-    
+
 Extensions (extending Ublu in Ublu) in the new extensions subdir:
-* ux.objectlock.ublu 
+* ux.objectlock.ublu
 * ux.user.ublu
 
 1.1.2
@@ -381,7 +385,7 @@ Changes to commands:
 * trace command added
 * server command now allows execution of a "canned" program rather
       than simple direct access to the Ublu interpreter.
-* multiple server instances now allowed.  
+* multiple server instances now allowed.
 * string -uchar now can take a string of hexvals instead of only one
 * removed -from from commandcall and parse arguments better
 * programcall works better
@@ -389,7 +393,7 @@ Changes to commands:
 * added -byte to num command
 * list command supports object arrays and -toarray
 * put command wraps non-tuples in anonymous tuple to push to tuple stack
-    
+
 New examples:
 * dbexample.ublu
 * ifsstuff.ublu
@@ -410,21 +414,21 @@ Miscellaneous:
 1.1.1
 Bug fix and feature add revision. Many bugs fixed and much code cleaned up.
 Documentation improved.
-    
+
 Changes to commands:
 * DO now has -undo to allow decremental looping
 * IF now has -! to invert the sense of the logical test
 * monitor
     * now takes an as400 instance instead of credentials
-    * now takes worklib ~@{libname} for it working library on the server        
+    * now takes worklib ~@{libname} for it working library on the server
 * RETURN command (new) leaves a FUNC or defun
 * tn5250 and session commands (new) allow a screen-scraping telnet 5250
 * tuple now takes -istuplename to test for validity of tuple name
-    
+
 New examples:
 * connect5250.ublu
 * describe_object.ublu
-    
+
 1.1.0
     - Code cleanup
     - More documentation
