@@ -127,6 +127,7 @@ public class TransformedSpooledFileFetcher {
         // ppl.setParameter(PrintObject.ATTR_MFGTYPE, "*IBM4019");
         // ppl.setParameter(PrintObject.ATTR_MFGTYPE, "*IBM4029");
         ppl.setParameter(PrintObject.ATTR_MFGTYPE, "*IBM4019");
+        // ppl.setParameter(PrintObject.ATTR_MFGTYPE, "*HP4");
         // ppl.setParameter(PrintObject.ATTR_SCS2ASCII, "*YES");
         try (PrintObjectTransformedInputStream printObjectTransformedInputStream = mySpooledFile.getTransformedInputStream(ppl)) {
             int available = printObjectTransformedInputStream.available();
