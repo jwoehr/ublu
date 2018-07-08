@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2018, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -127,11 +127,10 @@ public class ProgramCallHelper {
      */
     public boolean runProgramCall() throws AS400SecurityException, ErrorCompletingRequestException, IOException, InterruptedException, ObjectDoesNotExistException {
 
-
         // /* DEBUG */ programCall.setMessageOption(AS400Message.MESSAGE_OPTION_NONE);
-        /* DEBUG */ System.err.println("before running the program call");
+        // /* DEBUG */ System.err.println("before running the program call");
         boolean result = programCall.run();
-        /* DEBUG */ System.err.println("after running the program call");
+        // /* DEBUG */ System.err.println("after running the program call");
         return result;
     }
 
@@ -249,7 +248,7 @@ public class ProgramCallHelper {
                 pp = new ProgramParameter(byte[].class.cast(o));
             } else {
                 String s = o.toString();
-                /* Debug */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
+                // /* DEBUG */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
                 AS400Text a = new AS400Text(s.length());
                 pp = new ProgramParameter(a.toBytes(s));
             }
@@ -270,7 +269,7 @@ public class ProgramCallHelper {
                 pp = new ProgramParameter(byte[].class.cast(o));
             } else {
                 String s = o.toString();
-                /* Debug */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
+                // /* DEBUG */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
                 AS400Text a = new AS400Text(10);
                 pp = new ProgramParameter(a.toBytes(s));
             }
@@ -292,7 +291,7 @@ public class ProgramCallHelper {
                 pp = new ProgramParameter(byte[].class.cast(o));
             } else {
                 String s = o.toString();
-                /* Debug */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
+                // /* DEBUG */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
                 AS400Text a = new AS400Text(len);
                 pp = new ProgramParameter(a.toBytes(s));
             }
@@ -410,7 +409,7 @@ public class ProgramCallHelper {
                     this.tuple.setValue(o.toString());
                     break;
                 case INT:
-                    // /* Debug */ System.err.println("output to string is " + o.toString());
+                    // /* DEBUG */ System.err.println("output to string is " + o.toString());
 //                    ByteBuffer bb = ByteBuffer.wrap(output);
 //                    this.tuple.setValue(bb.getInt());
                     this.tuple.setValue(Integer.decode(o.toString().trim()));
