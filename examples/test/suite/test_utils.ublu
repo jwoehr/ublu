@@ -14,15 +14,15 @@ FUNC fqp_obj ( library objname objtype ) $[
   ~ -to ~ -cat .
   ~ -to ~ -cat @@objtype
 ]$
-  
+
 # fqp_file ( library filename )
 # push ifs fqp from library and filename
 FUNC fqp_file ( library filename ) $[
     fqp_obj ( @@library @@filename FILE )
 ]$
-  
+
 #  fqp_mbr ( fqp_file mbrname )
-# push ifs fqp from file fqp and membername 
+# push ifs fqp from file fqp and membername
 FUNC fqp_mbr ( fqp_file mbrname ) $[
     string -to ~ -cat @@fqp_file /
     ~ -to ~ -cat @@mbrname
@@ -35,26 +35,26 @@ FUNC cat_fp ( fqdirpath filename ) $[
     string -to ~ -cat @@fqdirpath /
      ~ -to ~ -cat @@filename
 ]$
-  
-# Push current time in milliseconds since 1970  
+
+# Push current time in milliseconds since 1970
 FUNC currentTimeMillis ( ) $[
     calljava -to ~ -class java.lang.System -method currentTimeMillis
     calljava -to ~ -class java.math.BigInteger -method valueOf -primarg ~
 ]$
-  
+
 # Push record format for testing. Format will persist and can be reused to create records
 FUNC createTestRecordFormat ( ) $[
     LOCAL @fmt LOCAL @filnam LOCAL @tmstrt LOCAL @tmend LOCAL @desc LOCAL @xpfail
-    
+
     string -to ~ -trim FILNAM
     num -to ~ -int 50
     calljava -to ~ -new com.ibm.as400.access.AS400Text -primarg ~
     calljava -to @filnam -new com.ibm.as400.access.CharacterFieldDescription -arg ~ -primarg ~
 
     string -to ~ -trim TMSTRT
-    calljava -to ~ -new com.ibm.as400.access.AS400UnsignedBin8 
+    calljava -to ~ -new com.ibm.as400.access.AS400UnsignedBin8
     calljava -to @tmstrt -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
-    
+
     string -to ~ -trim TMEND
     calljava -to ~ -new com.ibm.as400.access.AS400UnsignedBin8
     calljava -to @tmend -new com.ibm.as400.access.BinaryFieldDescription -arg ~ -primarg ~
@@ -84,10 +84,10 @@ FUNC createTestRecordFormat ( ) $[
     calljava -method addKeyFieldDescription -obj @fmt -primarg ~
     string -to ~ -trim TMEND
     calljava -method addKeyFieldDescription -obj @fmt -primarg ~
-    
-    tuple -assign ~ @fmt    
+
+    tuple -assign ~ @fmt
 ]$
-  
+
 # createPF ( sys ifspath fmt desc )
 # Create physical file at ifspath with format fmt on system sys
 # with description desc.
@@ -97,7 +97,7 @@ FUNC createPF ( sys ifspath fmt desc ) $[
     lifo -dup
     ~ -createfmt @@fmt @@desc
 ]$
-  
+
 # writeMapToRecord ( tfile tmap )
 # Given an open pf and a map whose keys are the same as field names,
 # get a new record, fill it out and write it to the end of the phys test file.
@@ -116,14 +116,35 @@ FUNC writeMapToRecord ( tfile tmap )  $[
 
 # runtest ( includefile testfunc work_dir testsys testrptpf )
 # include the testfile and run an individual test
-# take action on exception
+# take action on exception, writing failure to test report pf
 FUNC runtest ( includefile testfunc work_dir testsys testrptpf ) $[
+    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESCR LOCAL @PFAIL
+    LOCAL @result
+
+    map -to @result
+
+    string -to @FILNAM -trim @@includefile
+    @result -> @FILNAM
+
+    currentTimeMillis ( )
+    tuple -assign @TMSTRT ~
+    @result -> @TMSTRT
+
     TRY $[
         include -s @@includefile
         FUNC -to ~ -get @@testfunc
         CALL ~ ( @@work_dir @@testsys @@testrptpf )
     ]$ CATCH $[
+        currentTimeMillis ( )
+        tuple -assign @TMEND ~
+        @result -> @TMEND
+        put -to @DESCR @@testfunc
+        @DESCR -to @DESCR -bl
+        @DESCR -to @DESCR -cat ${ failed to run due to an exception. }$
+        @result -> @DESCR
+        put -to @PFAIL F
+        @result -> @PFAIL
+        writeMapToRecord ( @@testrptpf @result )
         put -n ${ ERROR: Test }$ put -n -s @@testfunc put ${ failed to run due to an exception. }$
     ]$
 ]$
-      
