@@ -4,6 +4,7 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
+  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -14,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 8 Jul 2018 03:51:26 UTC">
+  "Sun, 8 Jul 2018 19:40:11 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -8690,17 +8691,18 @@ PF
 
 
   <blockquote>
-    <tt>/7?.. [-to datasink] [[-delete name] | [-list] | [-show
-    name]] name ( parameter name list ) $[ an execution block
-    possibly spanning lines ]$ : define a named function</tt><br>
-    <br>
-    A <a href="#Functions">function</a> is created and added to the
-    command lookup so that it will be found in normal command
-    processing.<br>
-    <br>
-    The default operation is <tt>-define</tt>. This <a href=
-    "#Dash_Command">dash-command</a> need not be present.<br>
-    <br>
+    <tt>/7?.. [-to datasink] [ -delete ~@{name} | -get ~@{name} |
+    -list | -show ~@{name}] | name ( parameter name list ) $[ an
+    execution block possibly spanning lines ]$ : define, display,
+    delete, fetch functor for a named function</tt>
+
+    <p>A <a href="#Functions">function</a> is created and added to
+    the command lookup so that it will be found in normal command
+    processing.</p>
+
+
+    <p>The default operation is <tt>-define</tt>. This <a href=
+    "#Dash_Command">dash-command</a> need not be present.</p>
     The operations are:<br>
 
 
@@ -8712,8 +8714,14 @@ PF
       stream.</li>
 
 
-      <li><tt>-delet</tt><tt>e</tt> <em>name</em> deletes the
-      function <em>name</em> from the dictionary.</li>
+      <li><tt>-delete</tt> <em>name</em> deletes the function
+      <em>name</em> from the dictionary.</li>
+
+
+      <li><code>-get</code> <em>name</em> puts the <a href=
+      "#Functors">functor</a> for the named function, or
+      <code>null</code> if the function name is not found in the
+      dictionary.</li>
 
 
       <li><tt>-list</tt> lists the dictionary of defined functions
@@ -8724,10 +8732,10 @@ PF
       definition as found by command lookup in a code-reusable
       form.</li>
     </ul>
-    If the <tt>-list</tt> or <tt>-delete</tt> or <tt>-show
-    <em>name</em></tt> <a href="Dash_Command">dash-command</a> is
-    present no other arguments should be present, and no arguments
-    are consumed.<br>
+    If the <tt>-list</tt> or <tt>-delete</tt> <em>name</em> or
+    <code>-get</code> <em>name</em> or <tt>-show</tt> <em>name</em>
+    <a href="Dash_Command">dash-command</a> is present no other
+    arguments should be present, and no arguments are consumed.<br>
     <br>
     When the function is defined, a list of form parameter names is
     provided. The names are plain in the list, but if they appear
