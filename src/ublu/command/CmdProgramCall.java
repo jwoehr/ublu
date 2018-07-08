@@ -48,7 +48,7 @@ import java.util.logging.Level;
 public class CmdProgramCall extends Command {
 
     {
-        setNameAndDescription("programcall", "/3? [-as400 ~@as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename} [-in ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout} ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
+        setNameAndDescription("programcall", "/3? [-as400 ~@as400] [-to datasink] -program fullyqualifiedprogrampath [-in ~@tuple ~@{vartypename ~@len} [-in ..]] [-inout ~@tuple ~@{sizeout} ~@{vartypename} [-inout] ..] [-msgopt ~@{all|none|10}] [-out ~@tuple ~@{sizeout} ~@{vartypename} [-out ..]] ~@system ~@userid ~@passwd : invoke a program with parameters on the host");
     }
 
     /**
@@ -87,7 +87,9 @@ public class CmdProgramCall extends Command {
 //                    break;
                 case "-in":
                     t = argArray.nextTupleOrPop();
-                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInParam(t, argArray.nextMaybeQuotationTuplePopString().toUpperCase()));
+                    mppl.add(ProgramCallHelper.ManagedProgramParameter.newInParam(t,
+                            argArray.nextMaybeQuotationTuplePopString().toUpperCase(),
+                            argArray.nextIntMaybeQuotationTuplePopString()));
                     break;
                 case "-inout":
                     t = argArray.nextTupleOrPop();

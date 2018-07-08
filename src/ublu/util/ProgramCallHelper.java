@@ -126,6 +126,8 @@ public class ProgramCallHelper {
      * @throws ObjectDoesNotExistException
      */
     public boolean runProgramCall() throws AS400SecurityException, ErrorCompletingRequestException, IOException, InterruptedException, ObjectDoesNotExistException {
+
+
         // /* DEBUG */ programCall.setMessageOption(AS400Message.MESSAGE_OPTION_NONE);
         /* DEBUG */ System.err.println("before running the program call");
         boolean result = programCall.run();
@@ -247,6 +249,7 @@ public class ProgramCallHelper {
                 pp = new ProgramParameter(byte[].class.cast(o));
             } else {
                 String s = o.toString();
+                /* Debug */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
                 AS400Text a = new AS400Text(s.length());
                 pp = new ProgramParameter(a.toBytes(s));
             }
@@ -267,7 +270,30 @@ public class ProgramCallHelper {
                 pp = new ProgramParameter(byte[].class.cast(o));
             } else {
                 String s = o.toString();
-                AS400Text a = new AS400Text(s.length());
+                /* Debug */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
+                AS400Text a = new AS400Text(10);
+                pp = new ProgramParameter(a.toBytes(s));
+            }
+            return new ManagedProgramParameter(pp, t, vartype);
+        }
+
+        /**
+         * Create new in-param
+         *
+         * @param t tuple with param value
+         * @param vartype string describing type
+         * @param len declared length of param in target program
+         * @return the param
+         */
+        public static ManagedProgramParameter newInParam(Tuple t, String vartype, int len) {
+            ProgramParameter pp;
+            Object o = t.getValue();
+            if (o instanceof byte[]) {
+                pp = new ProgramParameter(byte[].class.cast(o));
+            } else {
+                String s = o.toString();
+                /* Debug */ System.err.println("Parameter " + o + " with string value " + s + " and length " + s.length() + ".");
+                AS400Text a = new AS400Text(len);
                 pp = new ProgramParameter(a.toBytes(s));
             }
             return new ManagedProgramParameter(pp, t, vartype);
