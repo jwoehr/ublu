@@ -40,7 +40,7 @@ FUNC t.programcall ( work_dir testsys testrptpf ) $[
     string -to @FILNAM -trim t.programcall.ublu
     @result -> @FILNAM
 
-    string -to @DESCR -cat ${ listsrc:diff in }$ @difflist
+    string -to @DESCR -cat ${ testpcall:test programcall:diff in }$ @difflist
     @result -> @DESCR
 
     currentTimeMillis ( )
