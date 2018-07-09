@@ -28,11 +28,11 @@ FUNC t.programcall ( work_dir testsys testrptpf ) $[
     put ${ ------------------- }$
     put ${ }$
 
-    cat_fp ( @@work_dir t.programcall.listsrc.txt )
+    cat_fp ( @@work_dir t.programcall.txt )
     put -to @tmpfile ~
-    cat_fp ( *t_paradigm t.programcall.listsrc.txt )
+    cat_fp ( *t_paradigm t.programcall.txt )
     put -to @paradigm ~
-    cat_fp ( @@work_dir t.programcall.listsrc.diff.txt )
+    cat_fp ( @@work_dir t.programcall.diff.txt )
     put -to @difflist ~
 
     map -to @result
