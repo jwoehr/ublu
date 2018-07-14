@@ -94,6 +94,7 @@ public class WatsonHelper {
         switch (http_method) {
             case "GET":
                 url = new URL(URL_BASE + host + "/" + usrv + params.toString());
+                // /* DEBUG */ System.err.println("watson url is " + url);
                 connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod(http_method);
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -102,6 +103,7 @@ public class WatsonHelper {
 
             case "POST":
                 url = new URL(URL_BASE + host + "/" + usrv);
+                // /* DEBUG */ System.err.println("watson url is " + url);
                 connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod(http_method);
                 connection.setRequestProperty("Content-Type", request_content__type);
