@@ -559,7 +559,13 @@ FUNC ux.user.dump ( userobj dest ) $[
     ]$ CATCH $[ put ${ Error in ux.user.getHomeDirectory }$ ]$
     TRY $[
     ux.user.getIASPNames ( @@userobj )
-    string -to @@dest -cat @@dest ${ ux.user.getIASPNames }$ string -to @@dest -cat @@dest ~ 
+    string -to @@dest -cat @@dest ${ ux.user.getIASPNames }$
+    LOCAL @IASPList
+    list -to @IASPList -source ~
+    FOR @i in @IASPList $[
+        string -to @@dest -cat @@dest @i
+        string -to @@dest -bl @@dest
+    ]$
     string -to @@dest -nl @@dest
     ]$ CATCH $[ put ${ Error in ux.user.getIASPNames }$ ]$
     \\ ${

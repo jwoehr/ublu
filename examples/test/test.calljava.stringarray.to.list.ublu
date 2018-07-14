@@ -1,0 +1,14 @@
+# Test creating a string array and making it into a list.
+FUNC test.calljava.stringarray.to.list ( ) $[
+    LOCAL @a LOCAL @c LOCAL @l LOCAL @n LOCAL @s0 LOCAL @s1
+    calljava -to @c -forname java.lang.String
+    num -to ~ 2
+    calljava -to @a -class java.lang.reflect.Array -method newInstance -arg @c -primarg ~
+    put @a
+    put -to @s0 ${ string one }$ put -to @s1 ${ num two }$
+    num -to @n 0 calljava -class java.lang.reflect.Array -method set -arg @a -primarg @n -arg @s0
+    num -to @n 1 calljava -class java.lang.reflect.Array -method set -arg @a -primarg @n -arg @s1
+    put -from @a
+    list -to @l -source @a
+    put -from @l
+]$
