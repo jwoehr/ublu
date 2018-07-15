@@ -32,6 +32,8 @@ All rights reserved.
 * Miscellaneous
     * Cleanup README.md
     * More work on docs
+    	* SSL info
+    	* Various
     * Begin Atom editor language-ublu support
 
 1.1.9 2017-12-12

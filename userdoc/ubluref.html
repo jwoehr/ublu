@@ -4,7 +4,6 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
-  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +14,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 8 Jul 2018 19:40:11 UTC">
+  "Sun, 15 Jul 2018 21:04:31 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +62,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-07-08</p>
+  Last edit: 2018-07-15</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -2863,12 +2862,43 @@ Type help for help. Type license for license. Type bye to exit.
       <li>You must launch Ublu with the appropriate Java property
       pointing to the keystore, e.g <code>java
       -Djavax.net.ssl.trustStore=/full/path/to/mykeystore -jar
-      /opt/ublu/ublu.jar</code> <em>arguments...</em></li>
+      /opt/ublu/ublu.jar</code> <em>arguments...</em>
+
+        <ul>
+          <li><strong>NOTE</strong> that creating your own trust
+          store and making it the trust store for Ublu's Java VM
+          disconnects the VM from the default Java keystore, making
+          CA certs there inaccessible.</li>
+
+
+          <li>If you need both various servers' self-signed certs
+          and the Java store of CA certs to help validate public
+          sites, add the default Java certs to the store of your
+          self-signed certs. E.g., here's what I did on my
+          installation:
+
+            <ul>
+              <li><code>cp ublutruststore ublutruststore.bak;
+              keytool -importkeystore -deststorepass
+              <em>yyyyyyy</em> -destkeystore ublutruststore
+              -srckeystore /usr/local/jdk/jre/lib/security/cacerts
+              -srcstorepass <em>xxxxxxx</em></code>
+              </li>
+            </ul>
+          </li>
+
+
+          <li>This allows me to connect via SSL to various sites
+          featuring self-signed certs and also to IBM Bluemix for
+          the <a href="#watson"><code>watson</code></a>
+          command.</li>
+        </ul>
+      </li>
 
 
       <li>The setup of the keystore is discussed in the IBM Support
       document <a href=
-      "https://www-304.ibm.com/support/entdocview.wss?uid=nas8N1014468">
+      "http://www-01.ibm.com/support/docview.wss?crawler=1&amp;uid=nas8N1014468">
       Setup Instructions for Making Secure Sockets Layer (SSL)
       Connections with the IBM Toolbox for Java</a>.</li>
     </ul>
