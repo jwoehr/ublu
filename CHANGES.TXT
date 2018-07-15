@@ -24,6 +24,8 @@ All rights reserved.
     * `ux.string.ublu`
     * `ux.printobj.ublu`
         * extended with functions for spooled files
+    * `ux.user.ublu`
+        * prints iASP list
 * Test Suite
 	* `programcall`
 * Miscellaneous
