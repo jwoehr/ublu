@@ -27,6 +27,7 @@ All rights reserved.
     * `ux.user.ublu`
         * prints iASP list
 * Test Suite
+        * `calljava`
 	* `programcall`
 * Miscellaneous
     * Cleanup README.md

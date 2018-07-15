@@ -46,7 +46,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ runtest ( t.BREAK.ublu t.BREAK @@work_dir @testsys @testrptpf ) }$     \\ ${ test BREAK }$
     \\ ${ runtest ( t.bye.ublu t.bye @@work_dir @testsys @testrptpf ) }$     \\ ${ test bye }$
     \\ ${ runtest ( t.CALL.ublu t.CALL @@work_dir @testsys @testrptpf ) }$     \\ ${ test CALL }$
-    \\ ${ runtest ( t.calljava.ublu t.calljava @@work_dir @testsys @testrptpf ) }$     \\ ${ test calljava }$
+    runtest ( t.calljava.ublu t.calljava @@work_dir @testsys @testrptpf )      \\ ${ test calljava }$
     runtest ( t.cim.ublu t.cim @@work_dir @testsys @testrptpf )      \\ ${ test cim }$
     \\ ${ runtest ( t.cimi.ublu t.cimi @@work_dir @testsys @testrptpf ) }$     \\ ${ test cimi }$
     \\ ${ runtest ( t.collection.ublu t.collection @@work_dir @testsys @testrptpf ) }$     \\ ${ test collection }$
