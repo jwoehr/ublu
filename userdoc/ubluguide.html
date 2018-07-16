@@ -7,6 +7,7 @@
   <meta name="generator" content="Bluefish 2.2.10">
   <meta name="generator" content="Bluefish 2.2.10">
   <meta name="generator" content="Bluefish 2.2.10">
+  <meta name="generator" content="Bluefish 2.2.10">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
 
@@ -2414,10 +2415,9 @@ message queue instance."<br>
 
   <p>An <strong>object</strong> represents something or other,
   often a something-or-other on a remote server but it's pretty
-  opaque and you just have to know which&nbsp; objects you have in
-  hand go with which Ublu commands. It's mostly simple to do
-  because the same commands that use the objects typically provide
-  the objects in the first place.</p>
+  opaque. You generally know which objects you have in hand go with
+  which Ublu commands. It's simple because the same commands that
+  use the objects provide the objects in the first place.</p>
 
 
   <p>Objects are passed around in <strong>variables</strong>
@@ -3025,6 +3025,26 @@ block, so a local variable cannot be passed to the thread.<br>
     <code>@job -info</code>
   </blockquote>
 
+
+  <p>And in</p>
+
+
+  <blockquote>
+    <code>user -to @someuser -as400 @myserver FRED</code><br>
+    <code>@someuser -enable</code>
+  </blockquote>
+  the phrase
+
+  <blockquote>
+    <code>@someuser -enable</code>
+  </blockquote>
+  will enable <tt>FRED</tt>'s account precisely the same as
+
+  <blockquote>
+    <code>user -- @someuser -enable</code>
+  </blockquote>
+  "Precisely" because, in fact, autonomism is effected by editing
+  in place the input stream.
 
   <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
   Stack</h2>
