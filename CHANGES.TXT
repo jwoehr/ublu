@@ -20,6 +20,8 @@ All rights reserved.
     * `splfol`
         * bug fixes
         * rendering
+* Examples
+    * `endJobName.ublu` ends first instance of a job by name
 * Extensions
     * `ux.string.ublu`
     * `ux.printobj.ublu`
