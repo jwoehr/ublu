@@ -1,0 +1,25 @@
+# endJobName.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# End first instance found of a given job name.
+# FUNC endJobName ( sys jobname )
+# ... sys - instanced AS400 object
+# ... jobname - name of sought job
+# ... endtype - -1 controlled | 0 immediate | n seconds grace
+FUNC endJobName ( sys jobname endtype ) $[
+    LOCAL @jl LOCAL @l
+    joblist -as400 @@sys -to @jl -active -jobname @@jobname
+    list -to @l
+    FOR @i in @jl $[ @l -add @i ]$
+    @l -to ~ -size
+    eval -to ~ > ~ 0
+    IF ~ THEN $[
+        @l -to ~ -get 0
+        ~ -end @@endtype
+    ]$
+]$
+
+# end
