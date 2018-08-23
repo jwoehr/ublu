@@ -22,4 +22,17 @@ FUNC endJobName ( sys jobname endtype ) $[
     ]$
 ]$
 
+# End first instance found of a given job name passing in system as text
+# Used for gensh scripting of endJobName
+# ... sysname - AS400 system name
+# ... uprof - user profile name
+# ... passwd - password
+# ... jobname - name of sought job
+# ... endtype - -1 controlled | 0 immediate | n seconds grace
+FUNC endJobNamebyGensh ( sysname uprof passwd jobname endtype ) $[
+    LOCAL @a
+    as400 -to @a @@sysname @@uprof @@passwd
+    endJobName ( @a @@jobname @@endtype )
+]$
+  
 # end
