@@ -80,6 +80,13 @@
         <copy file="stuff/_proto_Version.java" tofile="${src.dir}/ublu/Version.java" filtering="true" overwrite="true"/>
     </target>
     
+    <target name="distbin" description="copy bin directory to dist dir for zipitup and zipprojup">
+        <copy todir="${dist.dir}/bin">
+            <fileset dir="${basedir}/bin">               
+            </fileset>
+        </copy>
+    </target>
+    
     <!-- Make zip archive of distribution -->
     <target name="zipitup" description="Make zip archive of distribution">
         <property file="nbproject/project.properties"/>
@@ -87,7 +94,7 @@
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
         <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.zip" excludes="**">
-            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**"/>
+            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**,bin/**"/>
             <zipfileset dir="." includes="examples/**,extensions/**,userdoc/**"/>
         </zip>        
     </target>
@@ -106,6 +113,7 @@
     
     <!-- finish our distrib -->
     <target name="-post-jar">
+        <antcall target="distbin"/>
         <antcall target="zipitup"/>
     </target>
         

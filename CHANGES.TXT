@@ -32,6 +32,7 @@ All rights reserved.
         * `calljava`
 	* `programcall`
 * Miscellaneous
+    * bin/ublu a shell script (bash/ksh) to start ublu
     * Cleanup README.md
     * More work on docs
     	* SSL info

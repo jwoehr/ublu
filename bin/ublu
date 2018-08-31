@@ -1,0 +1,56 @@
+# ublu startup script
+# Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Usage message
+function usage {
+echo "ublu"
+echo "This shell script starts Ublu if it is installed in a standard fashion in /opt/ublu/"
+echo "Usage: [CLASSPATH=whatever:...] $0 [-Xopt ...] [-Dprop=val ...] [-u ubluclasspath] [-w [optionsFile]] [--] [arg arg ..]" 
+echo "where:"
+echo "	-h	display this help message and exit 0"
+echo "	-X xOpt	pass a -X option to the JVM (can be used multiple times)"
+echo "	-D some.property=\"some value\"	pass a property to the JVM (can be used multiple times)"
+echo "	-u ubluclasspath change Ublu's own classpath (default /opt/ublu/ublu.jar)"
+echo "	-w optionsFile	launch Ublu in windowing mode with windowing mode optionsFile"
+echo "		... If -w is present, it must be last option."
+echo "		... If present, must be followed by an options file path or no more arguments accepted."
+echo "	--	ends option processing"
+echo "		... Must be used if next following Ublu argument starts with dash (-) "
+echo "	[arg arg ...]	commands to Ublu"
+echo "If there is an extant CLASSPATH, the classpath for Ublu is that path postpended to Ublu's classpath."
+echo "Exit code is the result of execution, or 0 for -h or 2 if there is an error in processing options."
+}
+
+# Process options
+while getopts D:X:u:wh the_opt
+do
+	case "$the_opt" in
+		h)	usage;exit 0;;
+		w)	WINOPTS="-w ";;	
+		u)  UBLU_CLASSPATH="${OPTARG}";;
+		D)	JVMPROPS="${JVMPROPS} -D${OPTARG}";;
+		X)	JVMOPTS="${JVMOPTS} -X${OPTARG}";;
+		[?])	usage;exit 2;;
+
+	esac
+done
+shift `expr ${OPTIND} - 1`
+
+REMAINING_ARGS="$*"
+
+if [ "$UBLU_CLASSPATH" == "" ]
+then
+	UBLU_CLASSPATH="/opt/ublu/ublu.jar"
+fi
+
+if [ "$CLASSPATH" != "" ]
+then
+	UBLU_CLASSPATH="${UBLU_CLASSPATH}:"
+fi
+	
+# Invocation
+java${JVMOPTS}${JVMPROPS} -cp ${UBLU_CLASSPATH}${CLASSPATH} ublu.Ublu $WINOPTS $REMAINING_ARGS
+exit $?
