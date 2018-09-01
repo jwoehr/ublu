@@ -139,6 +139,8 @@
         </tar>        
     </target>
     
+    <target name="allarchives" depends="zipitup,zipprojup,taritup,tarprojup"/>
+    
     <!-- finish our distrib -->
     <target name="-post-jar">
         <antcall target="distextras"/>
