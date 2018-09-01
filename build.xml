@@ -77,9 +77,9 @@
         </tstamp>
         <filter token="compile.date.time" value="${COMPILE_DATE_TIME}"/>
         <filter token="ublu.version" value="${ublu.version}"/>
-        <copy file="stuff/_proto_Version.java" tofile="${src.dir}/ublu/Version.java" filtering="true" overwrite="true"/>
+        <copy file="share/_proto_Version.java" tofile="${src.dir}/ublu/Version.java" filtering="true" overwrite="true"/>
     </target>
-    
+
     <target name="distextras" description="copy bin and share directories to dist dir for zipitup">
         <copy todir="${dist.dir}/bin">
             <fileset dir="${basedir}/bin">               
@@ -140,6 +140,33 @@
     </target>
     
     <target name="allarchives" depends="zipitup,zipprojup,taritup,tarprojup"/>
+    
+    <target name="rpm-setup" description="Setup to build an RPM - depends on RPM.dir being set">
+         <copy todir="${RPM.dir}/TEMP/src">
+            <fileset dir="${basedir}/src">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/share">
+            <fileset dir="${basedir}/share">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/bin">
+            <fileset dir="${basedir}/bin">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/userdoc">
+            <fileset dir="${basedir}/userdoc">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/userdoc">
+            <fileset dir="${basedir}/userdoc">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/userdoc">
+            <fileset dir="${basedir}/userdoc">               
+            </fileset>
+        </copy>
+    </target>
     
     <!-- finish our distrib -->
     <target name="-post-jar">
