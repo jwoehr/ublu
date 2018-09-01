@@ -32,12 +32,14 @@ All rights reserved.
         * `calljava`
 	* `programcall`
 * Miscellaneous
+    * Changed `stuff` to `share`
     * `bin/ublu` a shell script (bash/ksh) to start ublu
     * `share/ubluwin.properties` default windowing ublu properties file
     * Cleanup `README.md`
     * More work on docs
     	* SSL info
     	* various
+    * Generate RPM
     * Begin Atom editor language-ublu support
 
 1.1.9 2017-12-12
