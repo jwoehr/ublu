@@ -32,11 +32,12 @@ All rights reserved.
         * `calljava`
 	* `programcall`
 * Miscellaneous
-    * bin/ublu a shell script (bash/ksh) to start ublu
-    * Cleanup README.md
+    * `bin/ublu` a shell script (bash/ksh) to start ublu
+    * `share/ubluwin.properties` default windowing ublu properties file
+    * Cleanup `README.md`
     * More work on docs
     	* SSL info
-    	* Various
+    	* various
     * Begin Atom editor language-ublu support
 
 1.1.9 2017-12-12
