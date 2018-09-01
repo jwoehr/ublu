@@ -99,7 +99,7 @@
         </zip>        
     </target>
 
-    <!-- Make zip archive of distribution -->
+    <!-- Make zip archive of distribution plus source and javadocs  -->
     <target name="zipprojup" description="Make zip archive of project with all sources and libs">
         <property file="nbproject/project.properties"/>
         <tstamp>
@@ -109,6 +109,30 @@
             <zipfileset dir="${dist.dir}" includes="ublu.jar,javadoc/**"/>
             <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**,oldlib/**"/>
         </zip>        
+    </target>
+
+    <!-- Make tar archive of distribution -->
+    <target name="taritup" description="Make tar archive of distribution">
+        <property file="nbproject/project.properties"/>
+        <tstamp>
+            <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
+        </tstamp>
+        <tar basedir="${dist.dir}/.." compression="gzip" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.tar.gz" excludes="**">
+            <tarfileset dir="${dist.dir}" includes="ublu.jar,lib/**,bin/**"/>
+            <tarfileset dir="." includes="examples/**,extensions/**,userdoc/**"/>
+        </tar>        
+    </target>
+
+    <!-- Make tar archive of distribution plus source and javadocs -->
+    <target name="tarprojup" description="Make tar archive of project with all sources and libs">
+        <property file="nbproject/project.properties"/>
+        <tstamp>
+            <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
+        </tstamp>
+        <tar basedir="${basedir}" compression="gzip" destfile="dist/ublu_${ublu.version}.all.${ZIP_DATE_TIME}.tar.gz" excludes="**">
+            <tarfileset dir="${dist.dir}" includes="ublu.jar,javadoc/**"/>
+            <tarfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**,oldlib/**"/>
+        </tar>        
     </target>
     
     <!-- finish our distrib -->
