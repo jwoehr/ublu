@@ -1,39 +1,50 @@
-# ublu startup script
+# ublu startup script for bash or ksh
 # Ublu Midrange and Mainframe Life Cycle Extension language
 # https://github.com/jwoehr/ublu
 # Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
+MYPGM=$0
+
 # Usage message
 function usage {
-echo "ublu"
-echo "This shell script starts Ublu if it is installed in a standard fashion in /opt/ublu/"
-echo "Usage: [CLASSPATH=whatever:...] $0 [-Xopt ...] [-Dprop=val ...] [-u ubluclasspath] [-w [optionsFile]] [--] [arg arg ..]" 
+echo "Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including as regards fitness for any application."
+echo "See the file LICENSE you should have received with the Ublu distribution."
+echo "This bash/ksh shell script $MYPGM starts Ublu if it is installed in a standard fashion in /opt/ublu/"
+echo "Usage: [CLASSPATH=whatever:...] $MYPGM [-Xopt ...] [-Dprop=val ...] [-u ubluclasspath] [-w [propertiesfile]] [--] [arg arg ..]"
 echo "where:"
-echo "	-h	display this help message and exit 0"
+echo "	-h | --help	display this help message and exit 0"
 echo "	-X xOpt	pass a -X option to the JVM (can be used multiple times)"
 echo "	-D some.property=\"some value\"	pass a property to the JVM (can be used multiple times)"
 echo "	-u ubluclasspath change Ublu's own classpath (default /opt/ublu/ublu.jar)"
-echo "	-w optionsFile	launch Ublu in windowing mode with windowing mode optionsFile"
+echo "	-w propertiesfile	launch Ublu in windowing mode with properties from propertiesfile"
 echo "		... If -w is present, it must be last option."
-echo "		... If present, must be followed by an options file path or no more arguments accepted."
+echo "		... If present, must be followed by a properties file path or no more arguments accepted."
+echo "		... A default share/ubluwin.properties is included with the Ublu distribution."
 echo "	--	ends option processing"
 echo "		... Must be used if next following Ublu argument starts with dash (-) "
 echo "	[arg arg ...]	commands to Ublu"
 echo "If there is an extant CLASSPATH, the classpath for Ublu is that path postpended to Ublu's classpath."
-echo "Exit code is the result of execution, or 0 for -h or 2 if there is an error in processing options."
+echo "Exit code is the result of execution, or 0 for -h | --help, or 2 if there is an error in processing options."
+echo "On options error, this usage message is issued to stderr instead of to stdout."
+echo "Copyright (C) 2018 Jack J. Woehr https://github.com/jwoehr/ublu jwoehr@softwoehr.com"
 }
+
+if [ "$1" == "--help" ]
+then
+	usage;exit 0
+fi
 
 # Process options
 while getopts D:X:u:wh the_opt
 do
 	case "$the_opt" in
 		h)	usage;exit 0;;
-		w)	WINOPTS="-w ";;	
+		w)	WINOPTS="-w ";;
 		u)  UBLU_CLASSPATH="${OPTARG}";;
 		D)	JVMPROPS="${JVMPROPS} -D${OPTARG}";;
 		X)	JVMOPTS="${JVMOPTS} -X${OPTARG}";;
-		[?])	usage;exit 2;;
+		[?])	(>&2 usage);exit 2;;
 
 	esac
 done
@@ -50,7 +61,7 @@ if [ "$CLASSPATH" != "" ]
 then
 	UBLU_CLASSPATH="${UBLU_CLASSPATH}:"
 fi
-	
+
 # Invocation
 java${JVMOPTS}${JVMPROPS} -cp ${UBLU_CLASSPATH}${CLASSPATH} ublu.Ublu $WINOPTS $REMAINING_ARGS
 exit $?
