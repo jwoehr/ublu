@@ -80,26 +80,30 @@
         <copy file="stuff/_proto_Version.java" tofile="${src.dir}/ublu/Version.java" filtering="true" overwrite="true"/>
     </target>
     
-    <target name="distbin" description="copy bin directory to dist dir for zipitup and zipprojup">
+    <target name="distextras" description="copy bin and share directories to dist dir for zipitup">
         <copy todir="${dist.dir}/bin">
             <fileset dir="${basedir}/bin">               
             </fileset>
         </copy>
+        <copy todir="${dist.dir}/share">
+            <fileset dir="${basedir}/share">               
+            </fileset>
+        </copy>
     </target>
     
-    <!-- Make zip archive of distribution -->
+    <!-- Make zip archive of installable distribution -->
     <target name="zipitup" description="Make zip archive of distribution">
         <property file="nbproject/project.properties"/>
         <tstamp>
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
         <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.zip" excludes="**">
-            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**,bin/**"/>
+            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**,bin/**,share/**"/>
             <zipfileset dir="." includes="examples/**,extensions/**,userdoc/**"/>
         </zip>        
     </target>
 
-    <!-- Make zip archive of distribution -->
+    <!-- Make zip archive of source and installable distribution -->
     <target name="zipprojup" description="Make zip archive of project with all sources and libs">
         <property file="nbproject/project.properties"/>
         <tstamp>
@@ -107,13 +111,13 @@
         </tstamp>
         <zip basedir="${basedir}" compress="yes" destfile="dist/ublu_${ublu.version}.all.${ZIP_DATE_TIME}.zip" excludes="**">
             <zipfileset dir="${dist.dir}" includes="ublu.jar,javadoc/**"/>
-            <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**,oldlib/**"/>
+            <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**"/>
         </zip>        
     </target>
     
     <!-- finish our distrib -->
     <target name="-post-jar">
-        <antcall target="distbin"/>
+        <antcall target="distextras"/>
         <antcall target="zipitup"/>
     </target>
         
