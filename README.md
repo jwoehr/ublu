@@ -24,7 +24,7 @@ perform ad-hoc process automation primarily on IBM i Series OS ®. I was
 supporting consulting clients by writing individual utility programs using JTOpen
 which I  have used since 1998 to control the AS/400. I decided to consolidate
 the programs in a language, and the result is Ublu. Ublu is a work in progress,
-as there is always more one could add. 
+as there is always more one could add.
 
 Additionally, Ublu can call Java directly allowing the user to extend the
 language interpretively in nearly any direction desired.
@@ -75,7 +75,7 @@ Or clone, build and run:
 <li> <tt>java -jar ublu.jar</tt> to run Ublu as a plain Java console application.</li>
 </ul>
 
-<b>Note regarding checking out the current source:</b> Release versions of Ublu come with a standard release of JTOpen. 
+<b>Note regarding checking out the current source:</b> Release versions of Ublu come with a standard release of JTOpen.
 Between Ublu releases, I build and sometimes modify JTOpen so that Ublu can leverage forthcoming features of JTOpen.
 When you check out the source between releases, it is an intermediate version JTOpen that is checked out with Ublu.  
 
@@ -85,25 +85,27 @@ When you check out the source between releases, it is an intermediate version JT
 Ublu's interpreter relies on Java's console support, which is very weak.
 So I have coded [Goublu](https://github.com/jwoehr/goublu) in [Go language](https://golang.org/).
 
+![goublu_screenshot](https://user-images.githubusercontent.com/4604036/28322382-317d05fa-6b93-11e7-8457-b07eec2873af.png)
+
 Goublu is a console front-end that provides an editable Ublu command line. The go command
 
 `go get -u github.com/jwoehr/goublu`
 
 will fetch the source to your `$GOPATH/src` directory. Use `go build main/goublu.go` to build Goublu for your architecture.
 
-<a name="discussion"></a>
+
 
 ## Ublu in a Window
 You can start Ublu in a window with the `-w [propsfilepath]` switch.
 ![Ublu in a Window](https://user-images.githubusercontent.com/4604036/27810879-ed42fa88-601c-11e7-9415-83437266c091.jpg)
 
-## Discussion of Ublu
+## <a name="discussion">Discussion of Ublu</a>
 
 Report bugs or make feature requests in the [Issue Tracker](https://github.com/jwoehr/ublu/issues)
 
 There is some more information in the [Ublu Wiki](https://github.com/jwoehr/ublu/wiki) including zine article references.
 
-Discuss Ublu in the [IBMiOSS Ublu forum on Ryver](https://ibmioss.ryver.com/index.html#forums/1057363).
+Discuss Ublu in the [IBMiOSS Java forum on Ryver](https://ibmioss.ryver.com/index.html#forums/1057363).
 
 Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
 that hosts the Ublu forum.
@@ -111,4 +113,4 @@ that hosts the Ublu forum.
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
 
-Jack Woehr 2018-06-12
+Jack Woehr 2018-09-02
