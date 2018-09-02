@@ -142,30 +142,42 @@
     <target name="allarchives" depends="zipitup,zipprojup,taritup,tarprojup"/>
     
     <target name="rpm-setup" description="Setup to build an RPM - depends on RPM.dir being set">
-         <copy todir="${RPM.dir}/TEMP/src">
+        <property file="nbproject/project.properties"/>
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/nbproject">
+            <fileset dir="${basedir}/nbproject">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/src">
             <fileset dir="${basedir}/src">               
             </fileset>
         </copy>
-        <copy todir="${RPM.dir}/TEMP/share">
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/lib">
+            <fileset dir="${basedir}/lib">               
+            </fileset>
+        </copy>
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/share">
             <fileset dir="${basedir}/share">               
             </fileset>
         </copy>
-        <copy todir="${RPM.dir}/TEMP/bin">
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/bin">
             <fileset dir="${basedir}/bin">               
             </fileset>
         </copy>
-        <copy todir="${RPM.dir}/TEMP/userdoc">
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/userdoc">
             <fileset dir="${basedir}/userdoc">               
             </fileset>
         </copy>
-        <copy todir="${RPM.dir}/TEMP/userdoc">
-            <fileset dir="${basedir}/userdoc">               
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/examples">
+            <fileset dir="${basedir}/examples">               
             </fileset>
         </copy>
-        <copy todir="${RPM.dir}/TEMP/userdoc">
-            <fileset dir="${basedir}/userdoc">               
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/extensions">
+            <fileset dir="${basedir}/extensions">               
             </fileset>
         </copy>
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}" file="${basedir}/share/RPM/Makefile"/>
+        <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}" file="${basedir}/build.xml"/>
+        <tar basedir="${RPM.dir}/TEMP" compression="gzip" destfile="${RPM.dir}/SOURCES/ublu-${ublu.version}.tar.gz"/>
     </target>
     
     <!-- finish our distrib -->
