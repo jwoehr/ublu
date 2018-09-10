@@ -12,6 +12,7 @@
 %define ubludoc %{ubluroot}/userdoc
 %define ubluexamp %{ubluroot}/examples
 %define ubluext %{ubluroot}/extensions
+%define ubluscript %{ubluroot}/scripts
 %define bindir %{pkgroot}/bin
  
 BuildRoot:  %{buildroot}
@@ -36,26 +37,40 @@ make -f share/RPM/Makefile
 
 %install
 mkdir -p %{ubluroot}
-mkdir -p %{ublulib}
-mkdir -p %{ublushare}
-mkdir -p %{ubludoc}
-mkdir -p %{ubluexamp}
-mkdir -p %{ubluext}
 mkdir -p %{bindir}
+mkdir -p %{ublulib}
+mkdir -p %{ubluexamp}
+mkdir -p %{ubluexamp}/test
+mkdir -p %{ubluexamp}/test/suite
+mkdir -p %{ubluexamp}/pigiron
+mkdir -p %{ubluexamp}/pigiron/test                                        
+mkdir -p %{ubluext}
+mkdir -p %{ubluext}/sysshep
+mkdir -p %{ublushare} 
+mkdir -p %{ublushare}/atom                
+mkdir -p %{ublushare}/atom/language-ublu
+mkdir -p %{ublushare}/atom/language-ublu/grammars
+mkdir -p %{ublushare}/atom/language-ublu/spec
+mkdir -p %{ublushare}/atom/language-ublu/lib
+mkdir -p %{ublushare}/atom/language-ublu/lib/flyover
+mkdir -p %{ublushare}/atom/language-ublu/snippets
+mkdir -p %{ublushare}/atom/language-ublu/styles
+mkdir -p %{ublushare}/jEdit
+mkdir -p %{ublushare}/mssql
+mkdir -p %{ublushare}/perl                                  
+mkdir -p %{ublushare}/RPM
+mkdir -p %{ublushare}/tn5250j
+mkdir -p %{ublushare}/ublu-vimfiles-master
+mkdir -p %{ublushare}/ublu-vimfiles-master/indent
+mkdir -p %{ublushare}/ublu-vimfiles-master/syntax
+mkdir -p %{ublushare}/ublu-vimfiles-master/ftdetect
+mkdir -p %{ubluscript}
+mkdir -p %{ubludoc}
+mkdir -p %{ubludoc}/images
 
 make -f share/RPM/Makefile install prefix=$RPM_BUILD_ROOT/QOpenSys/pkgs
   
 %files
 %defattr(-,qsys,-,-)
-/bin/ublu
-/opt/ublu
-/opt/ublu/*
-
-%doc %attr(0555,root,root) /opt/ublu/userdoc
-%doc %attr(0444,root,root) /opt/ublu/userdoc/*
-%doc %attr(0555,root,root) /opt/ublu/lib
-%doc %attr(0444,root,root) /opt/ublu/lib/*
-%doc %attr(0555,root,root) /opt/ublu/lib/images
-%doc %attr(0444,root,root) /opt/ublu/lib/images/*
-%doc %attr(0555,root,root) /opt/ublu/share
-%doc %attr(0444,root,root) /opt/ublu/share/*
+/QOpenSys/pkgs/bin/ublu
+/QOpenSys/pkgs/opt/ublu
