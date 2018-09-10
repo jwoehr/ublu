@@ -20,16 +20,20 @@ install:
 	install -d examples/test ${prefix}/opt/ublu
 	install -d examples/test/suite ${prefix}/opt/ublu
 	install -m 644 -t ${prefix}/opt/ublu/examples examples/*.ublu
-	install -m 644 -t ${prefix}/opt/ublu/examples examples/*.sh
+	install -m 755 -t ${prefix}/opt/ublu/examples examples/*.sh
 	install -m 644 -t ${prefix}/opt/ublu/examples/pigiron examples/pigiron/*.txt
 	install -m 644 -t ${prefix}/opt/ublu/examples/pigiron examples/pigiron/*.ublu
 	install -m 644 -t ${prefix}/opt/ublu/examples/pigiron/test examples/pigiron/test/*
 	install -m 644 -t ${prefix}/opt/ublu/examples/test examples/test/*.ublu
-	install -m 644 -t ${prefix}/opt/ublu/examples/test examples/test/*.sh
+	install -m 755 -t ${prefix}/opt/ublu/examples/test examples/test/*.sh
 	install -m 644 -t ${prefix}/opt/ublu/examples/test/suite examples/test/suite/*.ublu
-	install -m 644 -t ${prefix}/opt/ublu/examples/test/suite examples/test/suite/*.sh
+	install -m 755 -t ${prefix}/opt/ublu/examples/test/suite examples/test/suite/*.sh
 	install -d extensions ${prefix}/opt/ublu
 	install -d extensions/sysshep ${prefix}/opt/ublu
+	install -m 644 -t ${prefix}/opt/ublu/extensions extensions/*.ublu
+#	install -m 755 -t ${prefix}/opt/ublu/extensions extensions/*.sh
+	install -m 644 -t ${prefix}/opt/ublu/extensions/sysshep extensions/sysshep/*.ublu
+#	install -m 755 -t ${prefix}/opt/ublu/extensions/sysshep extensions/sysshep/*.sh
 	install -d share ${prefix}/opt/ublu
 	install -d share/atom ${prefix}/opt/ublu
 	install -d share/atom/language-ublu ${prefix}/opt/ublu
@@ -48,10 +52,31 @@ install:
 	install -d share/ublu-vimfiles-master/indent ${prefix}/opt/ublu/share
 	install -d share/ublu-vimfiles-master/syntax ${prefix}/opt/ublu/share
 	install -d share/ublu-vimfiles-master/ftdetect ${prefix}/opt/ublu/share
+	install -m 644 share/RPM/Makefile ${prefix}/opt/ublu/share/RPM
+	install -m 644 share/RPM/ublu.PASE.spec ${prefix}/opt/ublu/share/RPM
+	install -m 644 share/atom/language-ublu/package.json ${prefix}/opt/ublu/share/atom/language-ublu
+	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/grammars share/atom/language-ublu/grammars/*.cson
+	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/spec share/atom/language-ublu/spec/*.js
+	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/lib/flyover share/atom/language-ublu/lib/flyover/*.txt
+	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/snippets share/atom/language-ublu/snippets/*.cson
+	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/styles share/atom/language-ublu/styles/*.less
+	install -m 644 share/jEdit/ublu.xml ${prefix}/opt/ublu/share/jEdit
+	install -m 644 share/mssql/DbMSSQL.java ${prefix}/opt/ublu/share/mssql
+	install -m 644 share/mssql/README.DbMSSQL.txt ${prefix}/opt/ublu/share/mssql
+	install -m 755 -t ${prefix}/opt/ublu/share/perl share/perl/*.pl
+	install -m 644 share/tn5250j/My5250.diff ${prefix}/opt/ublu/share/tn5250j
+	install -m 644 share/tn5250j/My5250.java ${prefix}/opt/ublu/share/tn5250j
+	install -m 644 share/tn5250j/README.txt ${prefix}/opt/ublu/share/tn5250j	
 	install -m 644 share/ubluwin.properties ${prefix}/opt/ublu/share
 	install -d userdoc ${prefix}/opt/ublu
 	install -d userdoc/images ${prefix}/opt/ublu
+	install -m 644 -t ${prefix}/opt/ublu/userdoc userdoc/*.html
+	install -m 644 -t ${prefix}/opt/ublu/userdoc userdoc/*.css
+	install -m 644 -t ${prefix}/opt/ublu/userdoc/images userdoc/images/*.jpg
+	install -m 644 -t ${prefix}/opt/ublu/userdoc/images userdoc/images/*.png
+	install -m 644 -t ${prefix}/opt/ublu/userdoc/images userdoc/images/*.ico
 	install -d scripts 	${prefix}/opt/ublu
+	install -m 755 -t ${prefix}/opt/ublu/scripts scripts/*.sh
 	install	-m 644 JSON.license.txt  ${prefix}/opt/ublu
 	install	-m 644 JTOPEN_LICENSE.html  ${prefix}/opt/ublu
 	install	-m 644 LICENSE  ${prefix}/opt/ublu

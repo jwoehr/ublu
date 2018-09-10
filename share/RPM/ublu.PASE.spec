@@ -71,6 +71,6 @@ mkdir -p %{ubludoc}/images
 make -f share/RPM/Makefile install prefix=$RPM_BUILD_ROOT/QOpenSys/pkgs
   
 %files
-%defattr(-,qsys,-,-)
+%defattr(-,qsys,0,-)
 /QOpenSys/pkgs/bin/ublu
 /QOpenSys/pkgs/opt/ublu
