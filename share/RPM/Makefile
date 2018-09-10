@@ -1,14 +1,21 @@
-# Makefile to install Ublu from within an RPM
-install_sh_DATA = $(install_sh) -c -m 644
-install_sh_PROGRAM = $(install_sh) -c
-install_sh_SCRIPT = $(install_sh) -c
+# Makefile to build and install Ublu from within an RPM build
 
 all:
 	ant
 	
 install:
-	cp dist/ublu.jar ${prefix}/opt/ublu
-	cp -R dist/lib ${prefix}/opt/ublu
-	cp -R dist/userdoc ${prefix}/opt/ublu
-	cp -R dist/share ${prefix}/opt/ublu
-	cp -R dist/lib ${prefix}/opt/ublu
+	install    dist/ublu.jar ${prefix}/opt/ublu
+	install -d dist/lib ${prefix}/opt/ublu
+	install    bin/ublu ${prefix}/bin
+	install -d examples ${prefix}/opt/ublu
+	install -d extensions ${prefix}/opt/ublu
+	install -d userdoc ${prefix}/opt/ublu
+	install -d scripts 	${prefix}/opt/ublu
+	install -d share ${prefix}/opt/ublu
+	install		JSON.license.txt  ${prefix}/opt/ublu
+	install		JTOPEN_LICENSE.html  ${prefix}/opt/ublu
+	install		LICENSE  ${prefix}/opt/ublu
+	install		PIGIRON_LICENSE.txt  ${prefix}/opt/ublu
+	install		POSTGRESQL_LICENSE  ${prefix}/opt/ublu
+	install		README.md  ${prefix}/opt/ublu
+	install		tn5250_LICENSE  ${prefix}/opt/ublu
