@@ -10,7 +10,8 @@ MYPGM=$0
 function usage {
 echo "Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including as regards fitness for any application."
 echo "See the file LICENSE you should have received with the Ublu distribution."
-echo "This bash/ksh shell script $MYPGM starts Ublu if it is installed in a standard fashion in /opt/ublu/"
+echo "This bash/ksh shell script $MYPGM starts Ublu if Ublu is installed in a standard fashion in /opt/ublu/"
+echo "If Ublu is installed elsewhere, use the -u ubluclasspath switch to point this script to the Ublu components."
 echo "Usage: [CLASSPATH=whatever:...] $MYPGM [-Xopt ...] [-Dprop=val ...] [-u ubluclasspath] [-w [propertiesfile]] [--] [arg arg ..]"
 echo "where:"
 echo "	-h | --help	display this help message and exit 0"
