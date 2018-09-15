@@ -12763,21 +12763,23 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
   <blockquote>
     <tt>/0 [-to datasink] [--,-list ~@list] [[-new,-instance] |
-    [-source ~@enumeration|~@collection|~@string|-@array] | [-add
-    ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get
-    ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove
-    ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]:
-    create and manage lists of objects<br></tt><br>
-    The <tt>list</tt> command creates and manages lists of objects,
-    any objects which you add with the <tt>-source</tt>
+    [-source.-src ~@enumeration|~@collection|~@string|~@array] |
+    [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] |
+    [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove
+    ~@object] | [-removeat ~@{intindex}] | [-size,-len] |
+    [-toarray]]: create and manage lists of objects</tt>
+
+    <p>The <tt>list</tt> command creates and manages lists of
+    objects, any objects which you add with the <tt>-source</tt>
     <tt>-add</tt> or <tt>-set</tt> <a href=
     "#Dash_Command">dash-commands</a>. The list can be kept in a
     <a href="#Tuple_Variables">tuple variable</a>, further
     manipulated by the <tt>list</tt> command when referenced via
     the <tt>-list @list</tt> dash-command, and iterated over by
-    <a href="#FOR"><tt>FOR</tt></a>.<br>
-    <br>
-    The operations are as follows:<br>
+    <a href="#FOR"><tt>FOR</tt></a>.</p>
+
+
+    <p>The operations are as follows:</p>
 
 
     <ul>
@@ -12786,7 +12788,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <tt>-new</tt> instead</em></li>
 
 
-      <li><tt>-source
+      <li><tt>-source,-src
       ~@enumeration|~@collection</tt><tt>|~@string</tt>|<tt>-@array]</tt>
       creates a new list containing the members of the enumeration
       or collection or space-separated items from a string (in the
@@ -12815,7 +12817,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
       removed object.</li>
 
 
-      <li><tt>-size put</tt>s the number of items of the list</li>
+      <li><tt>-size,-len put</tt>s the number of items of the
+      list</li>
 
 
       <li><tt>-remove (@)object</tt> removes the identical

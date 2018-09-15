@@ -15,6 +15,9 @@ All rights reserved.
         * stub for mssql support updated on user bug report
     * `desktop`
         * `-supported` was missing
+    * `list`
+    	* `-len` same as `-size`
+    	* `-src` same as `-source`
     * `programcall`
     	* bug fixes
     * `splfol`

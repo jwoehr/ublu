@@ -49,7 +49,7 @@ public class CmdList extends Command {
 
     {
         setNameAndDescription("list",
-                "/0 [-to datasink] [--,-list ~@list] [[-new,-instance] | [-source ~@enumeration|~@collection|~@string|~@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size] | [-toarray]]: create and manage lists of objects");
+                "/0 [-to datasink] [--,-list ~@list] [[-new,-instance] | [-source.-src ~@enumeration|~@collection|~@string|~@array] | [-add ~@object ] | [-addstr ~@{ some string }] | [-clear] | [-get ~@{intindex}] | [-set ~@{intindex} ~@object] | [-remove ~@object] | [-removeat ~@{intindex}] | [-size,-len] | [-toarray]]: create and manage lists of objects");
     }
 
     /**
@@ -133,6 +133,7 @@ public class CmdList extends Command {
                     operation = OPERATIONS.INSTANCE;
                     break;
                 case "-source":
+                case "-src":
                     operation = OPERATIONS.SOURCE;
                     sourceTuple = argArray.nextTupleOrPop();
                     break;
@@ -165,6 +166,7 @@ public class CmdList extends Command {
                     operation = OPERATIONS.REMOVEAT;
                     break;
                 case "-size":
+                case "-len":
                     operation = OPERATIONS.SIZE;
                     break;
                 case "-toarray":
