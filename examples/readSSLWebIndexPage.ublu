@@ -1,0 +1,45 @@
+# readSSLWebIndexPage
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Make https connection and read the index page from some website
+# FUNC readSSLWebIndexPage ( svrname port ) 
+# ... svrname - e.g., github.com
+# ... port - the ssl port number, typically 443 
+FUNC readSSLWebIndexPage ( svrname port ) $[
+    LOCAL @servername LOCAL @portnum
+    LOCAL @fac
+    LOCAL @sk  LOCAL @sslsk
+    put -to @servername @@svrname
+    num -to @portnum -int @@port     
+    put @servername
+    put @portnum
+    calljava -to @fac -class javax.net.ssl.SSLSocketFactory -method getDefault
+   \\ ${ calljava -obj @fac -method getSupportedCipherSuites }$
+   \\ ${ calljava -obj @fac -method getDefaultCipherSuites }$
+    sock -to @sk -host @servername -port @portnum
+    put @sk
+    calljava -to @sslsk -obj @fac -method createSocket -arg @sk -arg @servername -primarg @portnum -primarg @true
+    put -to ~ ${ GET /index.html }$
+    ~ -to ~ -nl
+    string -to @b -tobytes ~
+    @sslsk -write @b
+    @sslsk -to ~ -read 20000
+    lifo -dup
+    list -to ~ -source ~
+    ~ -to ~ -size
+    eval -to ~ > ~ 0
+    WHILE ~ $[
+        string -frombytes ~
+        @sslsk -to ~ -read 20000
+        lifo -dup
+        list -to ~ -source ~
+        ~ -to ~ -size
+        eval -to ~ > ~ 0
+    ]$
+    lifo -drop
+]$
+  
+# end  
