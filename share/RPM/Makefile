@@ -14,6 +14,8 @@ install:
 	install -m 644 lib/sblim-slp-client2.properties ${prefix}/opt/ublu/lib
 	install -m 644 lib/tn5250j.jar ${prefix}/opt/ublu/lib
 	install -m 755 bin/ublu ${prefix}/bin
+	gzip man/ublu.1
+	install -m 644 man/ublu.1.gz ${prefix}/man/man1
 	install -d examples ${prefix}/opt/ublu
 	install -d examples/pigiron ${prefix}/opt/ublu
 	install -d examples/pigiron/test ${prefix}/opt/ublu

@@ -14,6 +14,7 @@
 %define ubluext %{ubluroot}/extensions
 %define ubluscript %{ubluroot}/scripts
 %define bindir %{pkgroot}/bin
+%define mandir %{pkgroot}/man
  
 BuildRoot:  %{buildroot}
 
@@ -38,6 +39,8 @@ make -f share/RPM/Makefile
 %install
 mkdir -p %{ubluroot}
 mkdir -p %{bindir}
+mkdir -p %{mandir}
+mkdir -p %{mandir}/man1
 mkdir -p %{ublulib}
 mkdir -p %{ubluexamp}
 mkdir -p %{ubluexamp}/test

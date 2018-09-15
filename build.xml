@@ -80,7 +80,7 @@
         <copy file="share/_proto_Version.java" tofile="${src.dir}/ublu/Version.java" filtering="true" overwrite="true"/>
     </target>
 
-    <target name="distextras" description="copy bin and share directories to dist dir for zipitup">
+<!--    <target name="distextras" description="copy bin and share directories to dist dir for zipitup">
         <copy todir="${dist.dir}/bin">
             <fileset dir="${basedir}/bin">               
             </fileset>
@@ -89,7 +89,11 @@
             <fileset dir="${basedir}/share">               
             </fileset>
         </copy>
-    </target>
+        <copy todir="${dist.dir}/man">
+            <fileset dir="${basedir}/man">               
+            </fileset>
+        </copy>
+    </target>-->
     
     <!-- Make zip archive of installable distribution -->
     <target name="zipitup" description="Make zip archive of distribution">
@@ -98,8 +102,8 @@
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
         <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.zip" excludes="**">
-            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**,bin/**,share/**"/>
-            <zipfileset dir="." includes="examples/**,extensions/**,userdoc/**"/>
+            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**"/>
+            <zipfileset dir="." includes="examples/**,extensions/**,userdoc/**,bin/**,share/**,man/**"/>
         </zip>        
     </target>
 
@@ -172,7 +176,7 @@
     
     <!-- finish our distrib -->
     <target name="-post-jar">
-        <antcall target="distextras"/>
+<!--        <antcall target="distextras"/>-->
         <antcall target="zipitup"/>
     </target>
         
