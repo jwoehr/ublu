@@ -4,7 +4,6 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
-  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +14,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sat, 1 Sep 2018 21:39:42 UTC">
+  "Sat, 15 Sep 2018 19:10:23 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +62,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-09-02</p>
+  Last edit: 2018-09-16</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -1127,6 +1126,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <p><code>bin/ublu</code> is a bash/ksh invocation script. If it
   is in your path, then <code>ublu --help</code> will tell you what
   you need to know about invoking Ublu in this manner.</p>
+
+
+  <blockquote>
+    <pre>
+./ublu --help
+Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including as regards fitness for any application.
+See the file LICENSE you should have received with the Ublu distribution.
+This bash/ksh shell script ./ublu starts Ublu if Ublu is installed in a standard fashion in /opt/ublu/
+If Ublu is installed elsewhere, use the -u ubluclasspath switch to point this script to the Ublu components.
+Usage: [CLASSPATH=whatever:...] ./ublu [-Xopt ...] [-Dprop=val ...] [-u ubluclasspath] [-w [propertiesfile]] [--] [arg arg ..]
+where:
+        -h | --help     display this help message and exit 0
+        -X xOpt pass a -X option to the JVM (can be used multiple times)
+        -D some.property="some value"   pass a property to the JVM (can be used multiple times)
+        -u ubluclasspath change Ublu's own classpath (default /opt/ublu/ublu.jar)
+        -w propertiesfile       launch Ublu in windowing mode with properties from propertiesfile
+                ... If -w is present, it must be last option.
+                ... If present, must be followed by a properties file path or no more arguments accepted.
+                ... A default share/ubluwin.properties is included with the Ublu distribution.
+        --      ends option processing
+                ... Must be used if next following Ublu argument starts with dash (-) 
+        [arg arg ...]   commands to Ublu
+If there is an extant CLASSPATH, the classpath for Ublu is that path postpended to Ublu's classpath.
+Exit code is the result of execution, or 0 for -h | --help, or 2 if there is an error in processing options.
+On options error, this usage message is issued to stderr instead of to stdout.
+Copyright (C) 2018 Jack J. Woehr https://github.com/jwoehr/ublu jwoehr@softwoehr.com
+  </pre>
+  </blockquote>
 
 
   <h3><a name="Ublu_Startup">Ublu Startup</a>

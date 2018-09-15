@@ -1,0 +1,116 @@
+.TH ublu 1 "26 September 2018" "version 1.2.0"
+.SH NAME
+ublu - launch Ublu Midrange and Mainframe Life Cycle Extension Language
+.SH SYNOPSIS
+.BI [CLASSPATH= path1:path2
+.RB ... ] " " ublu " " [-h|--help]
+.BI [-X opt " "
+.RB ... ] " " [-D
+.I prop=val
+.RB  ... ] " " [-u
+.IR ubluclasspathelement1:
+.RB ... ] " " [-w
+.BI [ propertiesfilepath ]]
+.B [--]
+.BI [ arg
+.RB ... ]
+
+.SH DESCRIPTION
+.B ublu
+is a bash/ksh shell script which launches the Ublu Midrange and Mainframe Life
+Cycle Extension Language (http://github.com/jwoehr/ublu) which is a Java
+program.
+
+After the options on the command line, all further arguments are taken as
+input to Ublu itself.
+
+The ublu.jar file must be installed and Ublu's lib directory must be
+present and populated, either in the default layout:
+
+/opt/ublu +
+          | ublu.jar
+          | lib/ +
+                 |
+.I liba.jar
+                 |
+.I libb.jar
+                 | ...
+
+or elsewhere and specified in an ublu class path passed to the
+.B -u
+switch of the ublu launcher script.
+
+If the
+.B -w
+option is passed without the (optional) name of a properties file, the
+.B --
+option ender must be provided before any arguments intended to be passed to Ublu
+itself.
+
+.B ublu
+exits with a return code of:
+.IP \(bu 4
+the return value of Ublu execution if Ublu is successfully invoked
+.IP \(bu
+-2 if there is an error in invocation
+.IP \(bu 
+0 if
+.B -h
+or
+.B --help
+is invoked.
+
+.SH OPTIONS
+
+.TP
+.BI CLASSPATH= "path1:path2" ...
+Provide before invocation a Java classpath accessible to Ublu while it executes.
+Ublu allows interactive calls into Java libraries so this is a means to make
+sure these libraries are findable from within Ublu.
+
+This is a "pre-option" processed by the shell, not the script, and must precede
+on the command line the invocation of the ublu shell script.
+
+.TP
+.BR -h " or " --help
+issues as usage message and exits with a return code of 0.
+
+.TP
+.BI -X xopt
+Passes a Java -X option to the JVM. The option must not provide an extra leading
+"X" itself; correct is, e.g. -X ms512m or -Xms512m
+
+This option can be used multiple times.
+
+.TP
+.BI -D " prop=val"
+Pass a Java property=value pair to the JVM. Ublu respects several properties
+itself, refer to the Ublu Reference.
+
+This option can be used multiple times.
+
+.TP
+.BI -u " ubluclasspathelement1:" ...
+If Ublu is not installed in /opt/ublu with its support libraries in
+/opt/ublu/lib the locations of each element must be passed in the classpath.
+Use the -u option to pass all these (multiple) elements in one option.
+
+.TP
+.BI -w " [propertiesfilepath]"
+Invokes Ublu in a Swing window with an optional properties file. See the Ublu
+Reference for a description of Ublu windowing mode and its optional properties
+file.
+
+If the
+.B -w
+option is passed without the (optional) name of a properties file, the
+.B --
+option ender must be provided before any arguments intended to be passed to Ublu
+itself.
+
+.SH DISCLAIMER
+Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including as regards fitness for any application.
+See the file LICENSE you should have received with the Ublu distribution.
+
+.SH AUTHOR
+Jack J. Woehr jwoehr@softwoehr.com
