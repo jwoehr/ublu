@@ -40,6 +40,7 @@ All rights reserved.
     	* SSL info
     	* various
     * Generate RPM
+        * PASE
     * Begin Atom editor language-ublu support
 
 1.1.9 2017-12-12
