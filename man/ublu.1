@@ -97,6 +97,9 @@ This option can be used multiple times.
 If Ublu is not installed in /opt/ublu with its support libraries in
 /opt/ublu/lib the locations of each element must be passed in the classpath.
 Use the -u option to pass all these (multiple) elements in one option.
+.B Note
+It is only necessary to reference the classpath to ublu.jar if ublu.ar sits
+in the directory above Ublu's lib/ directory.
 
 .TP
 .BI -w " [propertiesfilepath]"
@@ -115,6 +118,39 @@ itself.
 .B --
 ends shell script option processing. All further options and arguments
 are passed to Ublu itself.
+
+.SH EXAMPLES
+ 
+ublu -Djavax.net.ssl.trustStore=/home/me/work/security/keystores/ublutruststore \\
+ -Dublu.includepath=/home/me/myublusrc:/opt/ublu/examples:/opt/ublu/extensions \\
+ -Dublu.usage.linelength=100 -- -i myfile.ublu
+ 
+Invokes Ublu
+
+.IP \(bu 4
+with a trust store for SSL connections
+
+.IP \(bu
+with an include path consisting of the default include path supplemented by the
+user's own ublu source
+
+.IP \(bu
+with a line wrap at 100 characters for those Ublu commands that recognize
+the line wrap
+
+.IP \(bu
+including
+.I myfile.ublu
+from the current directory or the search path.
+
+.LP
+ublu -Xmx2g -Xms2g \\
+ -Djavax.net.ssl.trustStore=/home/me/work/security/keystores/ublutruststore \\
+ -Dublu.includepath=/home/me/myublusrc:/opt/ublu/examples:/opt/ublu/extensions \\
+ -Dublu.usage.linelength=100 -w -- -i myfile.ublu
+ 
+.IP \(bu
+Invokes Ublu as above, but in a window and with a heap of 2 gigabytes.
 
 .SH DISCLAIMER
 Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including
