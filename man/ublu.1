@@ -4,7 +4,7 @@ ublu - launch Ublu Midrange and Mainframe Life Cycle Extension Language
 .SH SYNOPSIS
 .BI [CLASSPATH= path1:path2
 .RB ... ] " " ublu " " [-h|--help]
-.BI [-X opt " "
+.BI [-X opt " "q
 .RB ... ] " " [-D
 .I prop=val
 .RB  ... ] " " [-u
@@ -21,9 +21,6 @@ is a bash/ksh shell script which launches the Ublu Midrange and Mainframe Life
 Cycle Extension Language (http://github.com/jwoehr/ublu) which is a Java
 program.
 
-After the options on the command line, all further arguments are taken as
-input to Ublu itself.
-
 The ublu.jar file must be installed and Ublu's lib directory must be
 present and populated, either in the default layout:
 
@@ -38,14 +35,20 @@ present and populated, either in the default layout:
 
 or elsewhere and specified in an ublu class path passed to the
 .B -u
-switch of the ublu launcher script.
+option of the ublu launcher script.
 
 If the
 .B -w
 option is passed without the (optional) name of a properties file, the
 .B --
 option ender must be provided before any arguments intended to be passed to Ublu
-itself.
+itself. This option ender must also be used before any dashed options intended
+for Ublu itself appear on the command line.
+
+After the shell script options on the command line are exhausted (or ended via
+the option ender
+.BR -- )
+all further arguments are passed to Ublu itself, options and/or commands.
 
 .B ublu
 exits with a return code of:
@@ -108,9 +111,22 @@ option is passed without the (optional) name of a properties file, the
 option ender must be provided before any arguments intended to be passed to Ublu
 itself.
 
-.SH DISCLAIMER
-Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including as regards fitness for any application.
-See the file LICENSE you should have received with the Ublu distribution.
+.TP
+.B --
+ends shell script option processing. All further options and arguments
+are passed to Ublu itself.
 
+.SH DISCLAIMER
+Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including
+as regards fitness for any application. See the file LICENSE which you should
+have received with the Ublu distribution.
+
+.SH SEE ALSO
+.I The concise reference to the Ublu Midrange and Mainframe Life Cycle Extension Language 
+http://softwoehr.com/softwoehr/oss/ubludoc/ubluref.html
+
+.I Guide to the Ublu Midrange and Mainframe Life Cycle Extension Language
+http://softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html
+	
 .SH AUTHOR
 Jack J. Woehr jwoehr@softwoehr.com
