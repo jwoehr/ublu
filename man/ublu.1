@@ -8,7 +8,7 @@ ublu - launch Ublu Midrange and Mainframe Life Cycle Extension Language
 .RB ... ] " " [-D
 .I prop=val
 .RB  ... ] " " [-u
-.IR ubluclasspathelement1:
+.IR ubluclasspathelement:
 .RB ... ] " " [-w
 .BI [ propertiesfilepath ]]
 .B [--]
@@ -93,13 +93,17 @@ itself, refer to the Ublu Reference.
 This option can be used multiple times.
 
 .TP
-.BI -u " ubluclasspathelement1:" ...
+.BI -u " ubluclasspathelement:" ...
 If Ublu is not installed in /opt/ublu with its support libraries in
 /opt/ublu/lib the locations of each element must be passed in the classpath.
 Use the -u option to pass all these (multiple) elements in one option.
-.B Note
-It is only necessary to reference the classpath to ublu.jar if ublu.ar sits
-in the directory above Ublu's lib/ directory.
+
+.B Note:
+If you are referencing classpath because ublu.jar is in a non-standard location,
+then if ublu.jar sits in the directory above Ublu's lib/ directory, it is only
+necessary to reference the classpath to ublu.jar itself. You need to reference
+classpath to the individual libs only if they are in some other location than
+the directory lib/ under ublu.jar.
 
 .TP
 .BI -w " [propertiesfilepath]"
