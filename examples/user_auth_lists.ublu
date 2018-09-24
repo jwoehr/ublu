@@ -1,0 +1,56 @@
+# user_auth_lists.ublu ... generate 2 lists, one of basic auth info, the other of ALLOBJ authorized accounts
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Get interesting auth data about user profiles
+
+# Get all the provided auth lists
+FUNC user_auth_lists ( sysname uname passwd basicAcctListName allobjAcctListName ) $[
+    LOCAL @myDb LOCAL @mySys
+    getDbConnAS400 ( @@sysname @@uname @@passwd )
+    tuple -assign @myDb ~
+    tuple -assign @mySys ~
+    basicAcctList ( @myDb @@basicAcctListName )
+    allobjAcctList ( @myDb @@allobjAcctListName )
+    @myDb -disconnect
+    @mySys -disconnect
+]$
+
+# Connect and instance db
+FUNC getDbConnAS400 ( sysname uname passwd ) $[
+    as400 -to ~ @@sysname @@uname @@passwd
+    lifo -dup
+    db -to ~ -as400 ~ -dbtype as400 -connect
+]$
+
+# Get a list of users, auth names, enabled/disabled/ no-password, signon data, description
+FUNC basicAcctList ( conn filename ) $[
+    @@conn -to ~ -query ${
+    SELECT ACCOUNTING_CODE, AUTHORIZATION_NAME, STATUS, NO_PASSWORD_INDICATOR,
+    PREVIOUS_SIGNON, TEXT_DESCRIPTION
+    FROM QSYS2.USER_INFO
+    }$
+
+    put -tofile @@filename -from ~ -toascii
+]$
+
+# Get list of *ALLOBJ users of any kind
+FUNC allobjAcctList ( conn filename ) $[
+    @@conn -to ~ -query ${
+    SELECT AUTHORIZATION_NAME, STATUS, NO_PASSWORD_INDICATOR, PREVIOUS_SIGNON,
+    TEXT_DESCRIPTION
+    FROM QSYS2.USER_INFO
+    WHERE SPECIAL_AUTHORITIES LIKE '%*ALLOBJ%' OR AUTHORIZATION_NAME IN
+    (SELECT USER_PROFILE_NAME FROM QSYS2.GROUP_PROFILE_ENTRIES
+    WHERE GROUP_PROFILE_NAME IN
+    (SELECT AUTHORIZATION_NAME FROM QSYS2.USER_INFO
+    WHERE SPECIAL_AUTHORITIES LIKE '%*ALLOBJ%'))
+    ORDER BY AUTHORIZATION_NAME
+    }$
+
+    put -tofile @@filename -from ~ -toascii
+]$
+
+# end
