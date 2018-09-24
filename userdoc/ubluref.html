@@ -4,6 +4,7 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
+  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -14,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 23 Sep 2018 19:10:23 UTC">
+  "Mon, 24 Sep 2018 17:28:39 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -62,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-09-23</p>
+  Last edit: 2018-09-24</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -202,11 +203,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <a href="#Tuple_Variables">Tuple variables</a>
 
       <ul>
-        <li><a href="#Default_Tuples">Default Tuples</a>
+        <li><a href="#Tuple_naming">Tuple naming</a>
         </li>
 
 
-        <li><a href="#Tuple_naming">Tuple naming</a>
+        <li><a href="#Default_Tuples">Default Tuples</a>
         </li>
 
 
@@ -1679,16 +1680,38 @@ Type help for help. Type license for license. Type bye to exit.
   function definition via the <a href=
   "#LOCAL"><code>LOCAL</code></a> command. Tuples are always
   referenced with a "@" as the first character of their name, e.g.,
-  <code>@session</code>. You can direct any kind of object to a
-  tuple with the <code>-to</code> <code>@<em>tuplename</em></code>
-  <a href="#Dash_Command">dash-command</a> (adjunct to commands
-  which support that) and retrieve the value with <code>-from
+  <code>@session</code>.
+
+  <p>You can direct any kind of object to a tuple with the
+  <code>-to</code> <code>@<em>tuplename</em></code> <a href=
+  "#Dash_Command">dash-command</a> (adjunct to commands which
+  support that) and retrieve the value with <code>-from
   @<em>tuplename</em></code> (adjunct to commands which support
-  that).<br>
-  <br>
-  Tuples can be directly manipulated via the <a href=
+  that).</p>
+
+
+  <p>You can assign an object from one to another tuple or from the
+  tuple stack to the stack or to a tuple with <code>tuple
+  -assign</code> feature.</p>
+
+
+  <p>Tuples can be directly manipulated via the <a href=
   "#put"><code>put</code></a> and <a href=
-  "#tuple"><code>tuple</code></a> commands.<br>
+  "#tuple"><code>tuple</code></a> commands.</p>
+
+
+  <h4><a name="Tuple_naming" id="Tuple_naming"></a>Tuple
+  naming</h4>
+
+
+  <p>Tuple variables must be named with one (1) <code>@</code>
+  character followed by letters, numbers, and underscores in any
+  combination, length, and order. You might see in the debugger a
+  tuple name of the form <code>@///19</code> which denotes a
+  temporary variable used in function argument binding. Currently
+  protection from creating illegal tuple names is not enforced by
+  the interpreter. <strong>Unpredictable results</strong> can occur
+  if you use illegal tuple variable names.</p>
 
 
   <h4><a name="Default_Tuples" id="Default_Tuples">Default
@@ -1740,19 +1763,6 @@ Type help for help. Type license for license. Type bye to exit.
 
   <p>These defaults are not constant and can be overwritten at
   runtime via normal tuple manipulation.</p>
-
-
-  <h4><a name="Tuple_naming" id="Tuple_naming"></a>Tuple
-  naming</h4>
-  A tuple name can consist of any string of printable characters
-  starting with the initial <code>@</code> marker <em>except</em>
-  that the name may not start with the reserved sequence
-  <code>@///</code><em>number</em>. A tuple name of this form
-  (e.g., <code>@///19</code>) denotes a temporary variable used in
-  function argument binding. Currently the protection of this form
-  of tuple name is not enforced by the interpreter.
-  <strong>Unpredictable results</strong> can occur if you use this
-  form to name a tuple variable.<br>
 
 
   <h4><a name="Tuple_autoinstancing" id=
@@ -2116,11 +2126,31 @@ Type help for help. Type license for license. Type bye to exit.
 
 
   <ul>
-    <li>If the argument provided is a simple lex, e.g.,
+    <li>If the argument provided is a plainword, e.g.,
     <code>foo</code> or <code>1234</code>, or a <a href=
     "#const">*const</a>, that text is substituted uncritically at
     runtime for all references to that argument in the function
-    body.</li>
+    body.
+
+      <ul>
+        <li>
+          <p><strong>CAUTION</strong>: The "uncritical
+          substitution" of arguments is performed via regular
+          expression substitution. Thus, if a string or plainword
+          containing a regular expression metacharacter is provided
+          in the arguments to a function, this will cause the
+          substitution to fail.</p>
+
+
+          <p>So if an argument contains, for instance, the
+          character <code><strong>$</strong></code> you should
+          either escape it (e.g., <code>FOO\$</code> instead of
+          <code>FOO$</code>) or instead provide the argument in a
+          @variable, rather than attempting to pass a string or
+          plainword.</p>
+        </li>
+      </ul>
+    </li>
 
 
     <li>If the argument provided is a <a href=
