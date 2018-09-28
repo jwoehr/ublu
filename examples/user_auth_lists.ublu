@@ -7,13 +7,14 @@
 # Get interesting auth data about user profiles
 
 # Get all the provided auth lists
-FUNC user_auth_lists ( sysname uname passwd basicAcctListName allobjAcctListName ) $[
+FUNC user_auth_lists ( sysname uname passwd basicAcctListName allobjAcctListName notLoggedSinceListName timestamp ) $[
     LOCAL @myDb LOCAL @mySys
     getDbConnAS400 ( @@sysname @@uname @@passwd )
     tuple -assign @myDb ~
     tuple -assign @mySys ~
     basicAcctList ( @myDb @@basicAcctListName )
     allobjAcctList ( @myDb @@allobjAcctListName )
+    notLoggedOnSinceList ( @myDb @@notLoggedSinceListName @@timestamp )
     @myDb -disconnect
     @mySys -disconnect
 ]$
@@ -53,4 +54,22 @@ FUNC allobjAcctList ( conn filename ) $[
     put -tofile @@filename -from ~ -toascii
 ]$
 
+# Get list of users not logged on since Db2 timestamp
+# An example of generating such a timestamp in the shell is:
+# DATE_MINUS_SIXTY=`date -v -60d +%Y-%m-%d`
+FUNC notLoggedOnSinceList ( conn filename timestamp ) $[
+    LOCAL @q
+    put -to ~ ${ ' }$
+    ~ -to ~ -trim
+    ~ -to ~ -cat @@timestamp
+    ~ -to ~ -bl
+    ~ -to ~ -cat 00:00:00.00000' 
+    put -to ~ ${
+    SELECT AUTHORIZATION_NAME, STATUS, NO_PASSWORD_INDICATOR, PREVIOUS_SIGNON,
+    TEXT_DESCRIPTION FROM QSYS2.USER_INFO WHERE PREVIOUS_SIGNON <=
+    }$
+    ~ -to ~ -cat ~
+    @@conn -to ~ -query ~
+    put -tofile @@filename -from ~ -toascii
+]$
 # end
