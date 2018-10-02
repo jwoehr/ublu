@@ -15,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 24 Sep 2018 17:28:39 UTC">
+  "Tue, 2 Oct 2018 19:02:41 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-09-24</p>
+  Last edit: 2018-10-02</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -624,7 +624,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </li>
 
 
-            <li><code><a href="#server">server</a></code>
+            <li>
+              <code><a href="#server">server</a></code>
+
+              <ul>
+                <li><a href="#sslserver">Using SSL with the
+                <code>server</code></a>
+                </li>
+              </ul>
             </li>
 
 
@@ -16529,8 +16536,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <code>server</code></h5>
     You can instance an Ublu server to accept only SSL connections.
     Serving up <em>only</em> a specified server program via
-    <code>-block $[execution block]$</code> and using SSL is most
-    secure path to creating an Ublu server.
+    <code>-block $[execution block]$</code> and using SSL is the
+    most secure path to creating an Ublu server.
 
     <p>Using SSL requires that you:</p>
 
@@ -16574,7 +16581,7 @@ Warning:
 The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format using "keytool -importkeystore -srckeystore ubluserverstore -destkeystore ubluserverstore -deststoretype pkcs12".
 </em>
 java -Djavax.net.ssl.keyStore=/opt/ublu/keystore/ubluserverstore\
-  -Djavax.net.ssl.keyStorePassword=abc1234\
+  -Djavax.net.ssl.keyStorePassword=aaa4321\
   -Dublu.includepath=/opt/ublu/examples:/opt/ublu/extensions\
   -cp /opt/ublu/ublu.jar:$CLASSPATH\
   ublu.Ublu
