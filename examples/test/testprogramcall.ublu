@@ -29,8 +29,21 @@ FUNC testProgramCall ( sys uid passwd ssl fqp date ) $[
     put -to @3 0
     programcall -as400 @s -to @result -program @@fqp -inout @1 10 CHAR -out @2 25 CHAR -out @3 10 CHAR
     put -n ${ result array is }$ put @result
-    put -n ${ param 1 is }$ put @1 
+    put -n ${ param 1 is }$ put @1
     put -n ${ param 2 is }$ put @2
     put -n ${ param 3 is }$ put @3
     @s -disconnect
+]$
+
+# Same as above, only with the system already connected
+FUNC testProgramCallSys ( sysconn fqp date ) $[
+    LOCAL @1 LOCAL @2 LOCAL @3 LOCAL @result
+    put -to @1 @@date
+    put -to @2 0
+    put -to @3 0
+    programcall -as400 @@sysconn -to @result -program @@fqp -inout @1 10 CHAR -out @2 25 CHAR -out @3 10 CHAR
+    put -n ${ result array is }$ put @result
+    put -n ${ param 1 is }$ put @1
+    put -n ${ param 2 is }$ put @2
+    put -n ${ param 3 is }$ put @3
 ]$

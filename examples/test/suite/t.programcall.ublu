@@ -12,21 +12,26 @@
 # ... is already included from test.all.ublu
 #
 # Assumes the present file is residing in examples/test/suite
-include -s ../../../examples/test/testpcall.ublu
+include -s ../../../examples/test/testprogramcall.ublu
+include -s ../../../examples/test/testprogramcall1.ublu
 
 # t.programcall ( work_dir testsys testrptpf )
 # ... work_dir - where tests can create files and leave them
 # ... testsys - the server against which tests to be run
 # ... testrptpf - open pf to write test report records
 FUNC t.programcall ( work_dir testsys testrptpf ) $[
-    LOCAL @FILNAM LOCAL @TMSTRT  LOCAL @TMEND LOCAL @DESCR LOCAL @PFAIL
+    LOCAL @FILNAM LOCAL @TMSTRT LOCAL @TMEND LOCAL @DESCR LOCAL @PFAIL
     LOCAL @result LOCAL @results
     LOCAL @tmpfile LOCAL @paradigm LOCAL @difflist
+    LOCAL @dateparmfqp LOCAL @testdate
 
     put ${ ------------------- }$
     put ${ Start t.programcall }$
     put ${ ------------------- }$
     put ${ }$
+
+    put -to @dateparmfqp /QSYS.LIB/JWOEHR.LIB/DATEPARMSR.PGM
+    put -to @testdate 10/31/2018
 
     cat_fp ( @@work_dir t.programcall.txt )
     put -to @tmpfile ~
@@ -48,7 +53,7 @@ FUNC t.programcall ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
 
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redirall ( @tmpfile $[ testpcall ( @@testsys ) ]$ )
+    redirall ( @tmpfile $[ testProgramCallSys ( @@testsys @dateparmfqp @testdate ) testprogramcall1 ( @@testsys ) ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~
