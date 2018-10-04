@@ -27,6 +27,8 @@ All rights reserved.
     * `endJobName.ublu` ends first instance of a job by name
     * `readSSLWebIndexPage` make https connection and read the index page
     * `SSLServerTest` runs the Ublu server with SSL
+    * `testprogramcall.ublu` calls an RPGLE program and returns params
+        * see `share/rpgle/dateParm.txt` for RPGLE source for testprogramcall.ublu 
     * `user_auth_lists` gets interesting auth info about user profiles
 * Extensions
     * `ux.string.ublu`

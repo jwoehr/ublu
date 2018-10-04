@@ -48,14 +48,22 @@ install:
 	install -d share/jEdit ${prefix}/opt/ublu
 	install -d share/mssql ${prefix}/opt/ublu
 	install -d share/perl ${prefix}/opt/ublu
+	install -d share/rpgle ${prefix}/opt/ublu
 	install -d share/RPM ${prefix}/opt/ublu
 	install -d share/tn5250j ${prefix}/opt/ublu
-	install -d share/ublu-vimfiles-master ${prefix}/opt/ublu/share
-	install -d share/ublu-vimfiles-master/indent ${prefix}/opt/ublu/share
-	install -d share/ublu-vimfiles-master/syntax ${prefix}/opt/ublu/share
-	install -d share/ublu-vimfiles-master/ftdetect ${prefix}/opt/ublu/share
+	install -d share/ublu-vimfiles-master ${prefix}/opt/ublu
+	install -d share/ublu-vimfiles-master/indent ${prefix}/opt/ublu
+	install -d share/ublu-vimfiles-master/syntax ${prefix}/opt/ublu
+	install -d share/ublu-vimfiles-master/ftdetect ${prefix}/opt/ublu
+	install -m 644 -t ${prefix}/opt/ublu/share/ublu-vimfiles-master/indent share/ublu-vimfiles-master/ftdetect/*.vim
+	install -m 644 -t ${prefix}/opt/ublu/share/ublu-vimfiles-master/syntax share/ublu-vimfiles-master/ftdetect/*.vim
+	install -m 644 -t ${prefix}/opt/ublu/share/ublu-vimfiles-master/ftdetect share/ublu-vimfiles-master/ftdetect/*.vim
+	install -m 644 share/ublu-vimfiles-master/Makefile ${prefix}/opt/ublu/share/ublu-vimfiles-master
+	install -m 644 share/ublu-vimfiles-master/LICENSE ${prefix}/opt/ublu/share/ublu-vimfiles-master
+	install -m 644 share/ublu-vimfiles-master/README.md ${prefix}/opt/ublu/share/ublu-vimfiles-master
 	install -m 644 share/RPM/Makefile ${prefix}/opt/ublu/share/RPM
 	install -m 644 share/RPM/ublu.PASE.spec ${prefix}/opt/ublu/share/RPM
+	install -m 644 -t ${prefix}/opt/ublu/share/rpgle share/rpgle/*.txt
 	install -m 644 share/atom/language-ublu/package.json ${prefix}/opt/ublu/share/atom/language-ublu
 	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/grammars share/atom/language-ublu/grammars/*.cson
 	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/spec share/atom/language-ublu/spec/*.js
@@ -68,7 +76,7 @@ install:
 	install -m 755 -t ${prefix}/opt/ublu/share/perl share/perl/*.pl
 	install -m 644 share/tn5250j/My5250.diff ${prefix}/opt/ublu/share/tn5250j
 	install -m 644 share/tn5250j/My5250.java ${prefix}/opt/ublu/share/tn5250j
-	install -m 644 share/tn5250j/README.txt ${prefix}/opt/ublu/share/tn5250j	
+	install -m 644 share/tn5250j/README.txt ${prefix}/opt/ublu/share/tn5250j
 	install -m 644 share/ubluwin.properties ${prefix}/opt/ublu/share
 	install -d userdoc ${prefix}/opt/ublu
 	install -d userdoc/images ${prefix}/opt/ublu

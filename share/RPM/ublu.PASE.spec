@@ -1,7 +1,7 @@
 # This is a spec file for installing Ublu native on IBM i under PASE
- 
+
 %define _topdir     /home/jax/rpmbuild
-%define name            ublu 
+%define name            ublu
 %define release     1
 %define version     1.1.9+
 %define buildroot %{_topdir}/%{name}-%{version}-root
@@ -15,7 +15,7 @@
 %define ubluscript %{ubluroot}/scripts
 %define bindir %{pkgroot}/bin
 %define mandir %{pkgroot}/man
- 
+
 BuildRoot:  %{buildroot}
 
 Name:           %{name}
@@ -26,10 +26,10 @@ License:        BSD-2
 Source:         %{name}-%{version}.tar.gz
 Prefix:         /QOpenSys/pkgs
 Group:          Development/Tools
- 
-%description                                                                             
+
+%description
 Ublu allows you to write programs which locally or remotely control IBM i and other platforms.
- 
+
 %prep
 %setup -q
 
@@ -46,11 +46,11 @@ mkdir -p %{ubluexamp}
 mkdir -p %{ubluexamp}/test
 mkdir -p %{ubluexamp}/test/suite
 mkdir -p %{ubluexamp}/pigiron
-mkdir -p %{ubluexamp}/pigiron/test                                        
+mkdir -p %{ubluexamp}/pigiron/test
 mkdir -p %{ubluext}
 mkdir -p %{ubluext}/sysshep
-mkdir -p %{ublushare} 
-mkdir -p %{ublushare}/atom                
+mkdir -p %{ublushare}
+mkdir -p %{ublushare}/atom
 mkdir -p %{ublushare}/atom/language-ublu
 mkdir -p %{ublushare}/atom/language-ublu/grammars
 mkdir -p %{ublushare}/atom/language-ublu/spec
@@ -60,7 +60,8 @@ mkdir -p %{ublushare}/atom/language-ublu/snippets
 mkdir -p %{ublushare}/atom/language-ublu/styles
 mkdir -p %{ublushare}/jEdit
 mkdir -p %{ublushare}/mssql
-mkdir -p %{ublushare}/perl                                  
+mkdir -p %{ublushare}/perl
+mkdir -p %{ublushare}/rpgle
 mkdir -p %{ublushare}/RPM
 mkdir -p %{ublushare}/tn5250j
 mkdir -p %{ublushare}/ublu-vimfiles-master
@@ -72,7 +73,7 @@ mkdir -p %{ubludoc}
 mkdir -p %{ubludoc}/images
 
 make -f share/RPM/Makefile install prefix=$RPM_BUILD_ROOT/QOpenSys/pkgs
-  
+
 %files
 %defattr(-,qsys,0,-)
 /QOpenSys/pkgs/man/man1/ublu.1.gz

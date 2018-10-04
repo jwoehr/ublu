@@ -1,0 +1,80 @@
+     h option(*nodebugio) dftactgrp(*no) actgrp(*caller)
+
+      // Work fields
+     d wDate           s               d
+     d wTestDate       s               d   inz(d'1800-01-06')
+     d dayOfWeek       s             25
+     d julianDate      s             10
+     d wNdx            s             10i 0
+
+       // ....................... Procedure prototype
+     d DATEPARMSR      pr
+     d                               10    options(*omit)
+     d                               25    options(*omit)
+     d                               10    options(*omit)
+       // ....................... Procedure interface
+     d DATEPARMSR      pi
+     d  pdateIn                      10    options(*omit)
+     d  pdayOfWeek                   25    options(*omit)
+     d  pjulianDate                  10    options(*omit)
+
+      /FREE
+        //====================================================================*
+        // MAINLINE                                                           *
+        //====================================================================*
+        if %parms = 0;
+          wDate = %date();
+        else;
+          monitor;
+            wDate = %date(pdateIn: *USA);
+          on-error;
+            dayOfWeek = 'Bad Date';
+          endmon;
+        endif;
+        if wDate = *loval;
+          dayOfWeek = 'Out of range or bad date';
+        else;
+          exsr GetDayOfWeek;
+          exsr GetJulianDate;
+        endif;
+        if %parms = 3;
+          pdayOfWeek = dayOfWeek;
+          pJulianDate = julianDate;
+        endif;
+        *inlr = *on;
+        return;
+        // ===================================================================*
+        // MAINLINE-END                                                       *
+        // ===================================================================*
+         // ------------------------------*  Sub-Routine  *
+         // GetDayOfWeek()                *---------------*
+         // Get the day of the week                       *
+         // ----------------------------------------------*
+         begsr GetDayOfWeek;
+            wNdx = %diff(wDate: wTestDate: *days);
+            wNdx = %rem(wNdx: 7);
+            select;
+            when wNdx = 0;
+              dayOfWeek = 'Monday';
+            when wNdx = 1;
+              dayOfWeek = 'Tuesday';
+            when wNdx = 2;
+              dayOfWeek = 'Wednesday';
+            when wNdx = 3;
+              dayOfWeek = 'Thursday';
+            when wNdx = 4;
+              dayOfWeek = 'Friday';
+            when wNdx = 5;
+              dayOfWeek = 'Saturday';
+            when wNdx = 6;
+              dayOfWeek = 'Sunday';
+            endsl;
+         endsr;
+         // ------------------------------*  Sub-Routine  *
+         // GetJulianDate()               *---------------*
+         // Get the Julian date                           *
+         // ----------------------------------------------*
+         begsr GetJulianDate;
+           julianDate = %char(wDate: *longjul);
+         endsr;
+         // ------------------------------------------------ 

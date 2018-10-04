@@ -1,0 +1,36 @@
+# testProgramCall.ublu ... test the Ublu programcall with a known RPGLE
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# See share/rpgle/dateparm.txt for the RPGLE source
+# Copy it up to the IFS and compile it something like:
+# CRTBNDRPG PGM(JWOEHR/DATEPARMSR) +
+#  SRCSTMF('/home/jwoehr/work/rpgle/dateparm.txt') +
+#  TEXT('Multiparm program Booth Martin to test Ublu')
+# Thanks to Booth Martin for his help!
+
+# testProgramCall ( sys uid passwd ssl fqp date )
+# where ...
+#   sys     ... IBM i system name or IP
+#   uid     ... user profile
+#   passwd  ... password
+#   ssl     ... @true for SSL @false otherwise
+#   fqp     ... IFS-style path to OS/400 program DATEPARMSR, e,g.
+#               /QSYS.LIB/JWOEHR.LIB/DATEPARMSR.PGM
+#   date    ... *USA date, e.g, 10/03/2018
+#               (try it with 10-03-2018 and see the failure message)
+FUNC testProgramCall ( sys uid passwd ssl fqp date ) $[
+    LOCAL @s LOCAL @1 LOCAL @2 LOCAL @3 LOCAL @result
+    as400 -to @s -ssl @@ssl @@sys @@uid @@passwd
+    put -to @1 @@date
+    put -to @2 0
+    put -to @3 0
+    programcall -as400 @s -to @result -program @@fqp -inout @1 10 CHAR -out @2 25 CHAR -out @3 10 CHAR
+    put -n ${ result array is }$ put @result
+    put -n ${ param 1 is }$ put @1 
+    put -n ${ param 2 is }$ put @2
+    put -n ${ param 3 is }$ put @3
+    @s -disconnect
+]$
