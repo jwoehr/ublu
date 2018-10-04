@@ -144,7 +144,7 @@ public class CmdSocket extends Command {
                     usessl = true;
                     break;
                 case "-ssl":
-                    usessl = argArray.nextBooleanTupleOrPop().booleanValue();
+                    usessl = argArray.nextBooleanTupleOrPop();
                     break;
                 case "-close":
                     op = OPS.CLOSE;
