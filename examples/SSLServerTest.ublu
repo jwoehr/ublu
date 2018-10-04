@@ -4,20 +4,84 @@
 # Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
-# See ubluref.html#sslserver for documentation on setting up SSL serving
+# See ubluref.html#sslserver for documentation on setting up serving SSL
 # After you have your keystore, Ublu must be invoked something like:
 #    java -Djavax.net.ssl.keyStore=/opt/ublu/keystore/ubluserverstore\
 #     -Djavax.net.ssl.keyStorePassword=aaa4321\
 #     -Dublu.includepath=/opt/ublu/examples:/opt/ublu/extensions\
 #     -cp /opt/ublu/ublu.jar:$CLASSPATH\
 #      ublu.Ublu
+# Also, your local self-signed cert has to be in your trust store if your
+# local host doesn't have a CA cert.
 
 # startServerSSL ( portnum )
 # Start the server on port @@portnum with a block
 # Pushes the listener object, e.g., tuple -assign @listener ~ @listener -stop
-FUNC startServerSSL ( portnum ) $[    
+FUNC startServerSSL ( portnum ) $[
     server -to ~ -port @@portnum -usessl -block $[
         ask -say ${ how are you? }$ -to @foo put -n ${ you are }$  put @foo
     ]$ -start
 ]$
-  
+
+# callSSLServer ( portnum )
+# Connect SSL to the local server, send a response and read answer.
+# Not sure why I have to read a couple of times with 0 available.
+# Someone who understands sockets better than I do should look at this!
+FUNC callSSLServer ( portnum ) $[
+    LOCAL @response
+    LOCAL @sk
+    LOCAL @bytes
+    LOCAL @tf
+    put -to @response ${ very fine }$
+    @response -to @response -nl
+    list -to @bytes
+    sock -to @sk -host localhost -port @@portnum -usessl
+
+    @sk -to ~ -read 1
+    @bytes -add ~
+    @sk -to ~ -avail
+    eval -to @tf > ~ 0
+    WHILE @tf $[
+        @sk -to ~ -read 1
+        @bytes -add ~
+        @sk -to ~ -avail
+        eval -to @tf > ~ 0
+    ]$
+
+    FOR @b in @bytes $[
+        put @b
+    ]$
+
+    @sk -write @response
+    @bytes -clear
+
+    @sk -to ~ -read 1
+    @bytes -add ~
+    @sk -to ~ -avail
+    eval -to @tf > ~ 0
+    WHILE @tf $[
+        @sk -to ~ -read 1
+        @bytes -add ~
+        @sk -to ~ -avail
+        eval -to @tf > ~ 0
+    ]$
+
+    @sk -to ~ -read 1
+    @bytes -add ~
+    @sk -to ~ -avail
+    eval -to @tf > ~ 0
+    WHILE @tf $[
+        @sk -to ~ -read 1
+        @bytes -add ~
+        @sk -to ~ -avail
+        eval -to @tf > ~ 0
+    ]$
+
+    FOR @b in @bytes $[
+        put @b
+    ]$
+
+    @sk -close
+]$
+
+# end
