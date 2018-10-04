@@ -1,0 +1,23 @@
+# SSLServerTest.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# See ubluref.html#sslserver for documentation on setting up SSL serving
+# After you have your keystore, Ublu must be invoked something like:
+#    java -Djavax.net.ssl.keyStore=/opt/ublu/keystore/ubluserverstore\
+#     -Djavax.net.ssl.keyStorePassword=aaa4321\
+#     -Dublu.includepath=/opt/ublu/examples:/opt/ublu/extensions\
+#     -cp /opt/ublu/ublu.jar:$CLASSPATH\
+#      ublu.Ublu
+
+# startServerSSL ( portnum )
+# Start the server on port @@portnum with a block
+# Pushes the listener object, e.g., tuple -assign @listener ~ @listener -stop
+FUNC startServerSSL ( portnum ) $[    
+    server -to ~ -port @@portnum -usessl -block $[
+        ask -say ${ how are you? }$ -to @foo put -n ${ you are }$  put @foo
+    ]$ -start
+]$
+  

@@ -42,6 +42,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import ublu.util.Generics.ByteArrayList;
 
@@ -191,8 +192,10 @@ public class CmdSocket extends Command {
                     socket = sockFromTuple();
                     if (socket != null) {
                         try {
-                            socket.shutdownInput();
-                            socket.shutdownOutput();
+                            if (!(socket instanceof SSLSocket)) {
+                                socket.shutdownInput();
+                                socket.shutdownOutput();
+                            }
                             socket.close();
                         } catch (IOException ex) {
                             getLogger().log(Level.SEVERE, "Exception closing socket in " + getNameAndDescription(), ex);
@@ -273,22 +276,13 @@ public class CmdSocket extends Command {
     }
 
     private Socket sslSockInstance() throws UnknownHostException, IOException {
-        Socket so = null;
-        if ((localAddr == null && localPort != null)
-                || (localAddr != null && localPort == null)
-                || host == null || portnum == null) {
-            getLogger().log(Level.WARNING, "Incompatible settings (missing value?) in instancing socket in {0}", getNameAndDescription());
+        Socket so = sockInstance();
+        if (so == null) {
+            getLogger().log(Level.WARNING, "Couldn't create underlying socket for ssl socket in {0}", getNameAndDescription());
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
-
             SocketFactory sf = SSLSocketFactory.getDefault();
-
-            if (localAddr == null) {
-
-                so = sf.createSocket(InetAddress.getByName(host), portnum);
-            } else {
-                so = sf.createSocket(InetAddress.getByName(host), portnum, InetAddress.getByName(localAddr), localPort);
-            }
+            so = ((SSLSocketFactory) sf).createSocket(so, host, portnum, false);
         }
         return so;
     }
