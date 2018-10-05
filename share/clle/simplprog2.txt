@@ -1,0 +1,5 @@
+             PGM        PARM(&FILE &RES)
+             DCL        VAR(&FILE) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&RES) TYPE(*CHAR) LEN(4) VALUE(DONE)
+             CPYF       FROMFILE(UBLUTEST/&FILE) TOFILE(*PRINT)
+             ENDPGM

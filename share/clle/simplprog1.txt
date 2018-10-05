@@ -1,0 +1,4 @@
+             PGM        PARM(&FILE)
+             DCL        VAR(&FILE) TYPE(*CHAR) LEN(10)
+             CPYF       FROMFILE(UBLUTEST/&FILE) TOFILE(*PRINT)
+             ENDPGM
