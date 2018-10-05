@@ -58,6 +58,7 @@ mkdir -p %{ublushare}/atom/language-ublu/lib
 mkdir -p %{ublushare}/atom/language-ublu/lib/flyover
 mkdir -p %{ublushare}/atom/language-ublu/snippets
 mkdir -p %{ublushare}/atom/language-ublu/styles
+mkdir -p %{ublushare}/clle
 mkdir -p %{ublushare}/jEdit
 mkdir -p %{ublushare}/mssql
 mkdir -p %{ublushare}/perl

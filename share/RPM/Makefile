@@ -45,6 +45,7 @@ install:
 	install -d share/atom/language-ublu/lib/flyover ${prefix}/opt/ublu
 	install -d share/atom/language-ublu/snippets ${prefix}/opt/ublu
 	install -d share/atom/language-ublu/styles ${prefix}/opt/ublu
+	install -d share/clle ${prefix}/opt/ublu
 	install -d share/jEdit ${prefix}/opt/ublu
 	install -d share/mssql ${prefix}/opt/ublu
 	install -d share/perl ${prefix}/opt/ublu
@@ -63,6 +64,7 @@ install:
 	install -m 644 share/ublu-vimfiles-master/README.md ${prefix}/opt/ublu/share/ublu-vimfiles-master
 	install -m 644 share/RPM/Makefile ${prefix}/opt/ublu/share/RPM
 	install -m 644 share/RPM/ublu.PASE.spec ${prefix}/opt/ublu/share/RPM
+	install -m 644 -t ${prefix}/opt/ublu/share/clle share/clle/*.txt
 	install -m 644 -t ${prefix}/opt/ublu/share/rpgle share/rpgle/*.txt
 	install -m 644 share/atom/language-ublu/package.json ${prefix}/opt/ublu/share/atom/language-ublu
 	install -m 644 -t ${prefix}/opt/ublu/share/atom/language-ublu/grammars share/atom/language-ublu/grammars/*.cson
