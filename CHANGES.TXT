@@ -41,6 +41,7 @@ All rights reserved.
 	* `programcall`
 * Miscellaneous
     * Changed `stuff` to `share`
+    * RPG and CL source used in testing added under share
     * `bin/ublu` a shell script (bash/ksh) to start ublu
     * `share/ubluwin.properties` default windowing ublu properties file
     * Cleanup `README.md`
