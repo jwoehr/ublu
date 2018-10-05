@@ -18,6 +18,7 @@ const *t_sourcembr MYSRCMBR         # member to use for record file tests
 const *t_dataq MYDATAQ              # data queue to test on
 const *t_cimurl https://MYSYSTEM:5989   # Common Info Model URL
 const *t_cimdomain root/cimv2       # Common Info Model domain
+const *t_ublusrvport 8089           # Port to run Ublu server on for test
 
 # Using ssl is of course the default.
 tuple -true @ssl 

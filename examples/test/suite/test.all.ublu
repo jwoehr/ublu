@@ -106,7 +106,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ runtest ( t.savf.ublu t.savf @@work_dir @testsys @testrptpf ) }$     \\ ${ test savf }$
     \\ ${ runtest ( t.savef.ublu t.savef @@work_dir @testsys @testrptpf ) }$     \\ ${ test savef }$
     \\ ${ runtest ( t.savesys.ublu t.savesys @@work_dir @testsys @testrptpf ) }$     \\ ${ test savesys }$
-    \\ ${ runtest ( t.server.ublu t.server @@work_dir @testsys @testrptpf ) }$     \\ ${ test server }$
+    runtest ( t.server.ublu t.server @@work_dir @testsys @testrptpf )     \\ ${ test server }$
     \\ ${ runtest ( t.session.ublu t.session @@work_dir @testsys @testrptpf ) }$     \\ ${ test session }$
     \\ ${ runtest ( t.sleep.ublu t.sleep @@work_dir @testsys @testrptpf ) }$     \\ ${ test sleep }$
     \\ ${ runtest ( t.smapi.ublu t.smapi @@work_dir @testsys @testrptpf ) }$     \\ ${ test smapi }$
