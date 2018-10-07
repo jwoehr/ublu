@@ -45,9 +45,9 @@ The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provid
 
 The latest release version of Ublu is [version 1.1.9](https://github.com/jwoehr/ublu/releases/tag/v1.1.9).
 
-It is strongly advised you use a release version of Ublu, preferably the latest.
+It is strongly advised you use a release version of Ublu, preferably the latest, 1.2.0
 
-The tip of the master branch calls itself 1.1.9+ as we head for 1.2.0
+Ublu build from the tip of the master branch calls itself 1.2.0+ as we head for 1.2.1
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -59,7 +59,7 @@ suitability for any given application</b>.
 <a name="quickstart"></a>
 ## Quick start instructions
 
-Download the release and <code>java -jar ublu.jar</code> to run Ublu.
+Download the release, unpack <code>/opt/ublu/</code> and <code>java -jar /opt/ublu/ublu.jar</code> to run Ublu.
 
 Or clone, build and run:
 <ul>
@@ -113,4 +113,4 @@ that hosts the Ublu forum.
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
 
-Jack Woehr 2018-09-02
+Jack Woehr 2018-10-07
