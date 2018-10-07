@@ -51,6 +51,8 @@ All rights reserved.
     * Generate RPM
         * PASE
     * Begin Atom editor language-ublu support
+* JTOpen is JTOpen 9.6 with one personal modification
+	* added format OSPL0400 to SpooledFileOpenList
 
 1.1.9 2017-12-12
 -----
