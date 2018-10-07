@@ -1,0 +1,120 @@
+# spooledFileOpenListUser.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+include ux.sfli.ublu
+
+# List first chunk of spooled files for user with info about files
+# FUNC spooledFileOpenListUser ( sys jobname )
+# ... sys - instanced AS400 object
+# ... USERNAME in correct case
+FUNC spooledFileOpenListUser ( sys USERNAME ) $[
+    LOCAL @spfl LOCAL @ul LOCAL @files
+    put -to ~ @@USERNAME
+    list -to @ul
+    @ul -add ~
+    splfol -to @spfl -as400 @@sys
+    @spfl -fusers @ul
+    @spfl -open
+    @spfl -to @files -get
+
+    FOR @item in @files $[
+
+    ux.sfli.itemToSpoolF ( @@sys @item )
+    put ~
+
+    ux.sfli.getASP ( @item )
+    put -n -s getASP put ~
+
+    ux.sfli.getCopiesLeftToPrint ( @item )
+    put -n -s getCopiesLeftToPrint put ~
+
+    ux.sfli.getCreationDate ( @item )
+    put -n -s getCreationDate put ~
+
+    ux.sfli.getCurrentPage ( @item )
+    put -n -s getCurrentPage put ~
+
+    ux.sfli.getDateOpened ( @item )
+    put -n -s getDateOpened put ~
+
+    ux.sfli.getDeviceType ( @item )
+    put -n -s getDeviceType put ~
+
+    ux.sfli.getFormat ( @item )
+    put -n -s getFormat put ~
+
+    ux.sfli.getFormType ( @item )
+    put -n -s getFormType put ~
+
+    ux.sfli.getInternalJobIdentifier ( @item )
+    put -n -s getInternalJobIdentifier put ~
+
+    ux.sfli.getInternalSpooledFileIdentifier ( @item )
+    put -n -s getInternalSpooledFileIdentifier put ~
+
+    ux.sfli.getIPPJobIdentifier ( @item )
+    put -n -s getIPPJobIdentifier put ~
+
+    ux.sfli.getJobName ( @item )
+    put -n -s getJobName put ~
+
+    ux.sfli.getJobNumber ( @item )
+    put -n -s getJobNumber put ~
+
+    ux.sfli.getJobSystemName ( @item )
+    put -n -s getJobSystemName put ~
+
+    ux.sfli.getJobUser ( @item )
+    put -n -s getJobUser put ~
+
+    ux.sfli.getName ( @item )
+    put -n -s getName put ~
+
+    ux.sfli.getNumber ( @item )
+    put -n -s getNumber put ~
+
+    ux.sfli.getOutputQueue ( @item )
+    put -n -s getOutputQueue put ~
+
+    ux.sfli.getOutputQueueLibrary ( @item )
+    put -n -s getOutputQueueLibrary put ~
+
+    ux.sfli.getOutputQueueName ( @item )
+    put -n -s getOutputQueueName put ~
+
+    ux.sfli.getPrinterAssignment ( @item )
+    put -n -s getPrinterAssignment put ~
+
+    ux.sfli.getPrinterName ( @item )
+    put -n -s getPrinterName put ~
+
+    ux.sfli.getPriority ( @item )
+    put -n -s getPriority put ~
+
+    ux.sfli.getSchedule ( @item )
+    put -n -s getSchedule put ~
+
+    ux.sfli.getSize ( @item )
+    put -n -s getSize put ~
+
+    ux.sfli.getStatus ( @item )
+    put -n -s getStatus put ~
+
+    ux.sfli.getTimeOpened ( @item )
+    put -n -s getTimeOpened put ~
+
+    ux.sfli.getTotalPages ( @item )
+    put -n -s getTotalPages put ~
+
+    ux.sfli.getUserData ( @item )
+    put -n -s getUserData put ~
+
+    put ${ /* --- */ }$
+    ]$
+    @spfl -close
+]$
+
+# end
