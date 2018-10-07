@@ -15,18 +15,18 @@
 FUNC ux.sfli.itemToSpoolF ( sys item ) $[
     LOCAL @afile
     tuple -assign @afile @@item
-    
+
     calljava -- @afile -to ~ -method getJobNumber
     calljava -- @afile -to ~ -method getJobUser
     calljava -- @afile -to ~ -method getJobName
     calljava -- @afile -to ~ -method getNumber
     calljava -- @afile -to ~ -method getName
-    
+
     spoolf  -to ~ -as400 @@sys ~ ~ ~ ~ ~
 ]$
 
 # int  getASP()
-# Push the aFUNC uxiliary storage pool (ASP) in which the spooled file resides.
+# Push the auxiliary storage pool (ASP) in which the spooled file resides.
 FUNC ux.sfli.getASP ( item ) $[
     calljava -to ~ -- @@item -method getASP
 ]$
@@ -197,7 +197,7 @@ FUNC ux.sfli.getTotalPages ( item ) $[
 FUNC ux.sfli.getUserData ( item ) $[
     calljava -to ~ -- @@item -method getUserData
 ]$
-  
+
 # Constant indicating the spooled file is assigned to multiple printers.
 lifo -null
 calljava -to ~ -class com.ibm.as400.access.list.SpooledFileListItem -field ASSIGNED_MULTIPLE
