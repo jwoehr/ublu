@@ -33,6 +33,18 @@ FUNC addJobAttributeToRetrieve ( jl attr ) $[
     calljava -to ~ -obj @jlist -method addJobAttributeToRetrieve -primarg @attrib
 ]$
 
+# Add an attribute to sort on for the jobs to appear in the list
+# You need to add an attribute to make it a selection criterion
+# ... jl the joblist object
+# ... attr the attribue constant
+# ... boolsort asc/!desc
+FUNC addJobAttributeToSortOn ( jl attr boolsort ) $[
+    LOCAL @jlist LOCAL @attrib
+    tuple -assign @jlist @@jl
+    num -to @attrib -int @@attr
+    calljava -to ~ -obj @jlist -method addJobAttributeToSortOn -primarg @attrib -primarg @@boolsort
+]$
+
 # Constant indicating the joblist selection criterion JOB_NAME
 fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_NAME *ux.jlsc.SELECTION_JOB_NAME )
 
