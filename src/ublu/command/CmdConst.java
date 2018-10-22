@@ -54,11 +54,11 @@ public class CmdConst extends Command {
 
     {
         setNameAndDescription("const",
-                "/2? [-to datasink] [-list | -create | -clear | -drop ~@{ *constname } | -save | -restore | -merge ] ~@{*name} ~@{value} : create a constant value");
+                "/2? [-to datasink] [-list | -create | -clear | -defined ~@{*constname} | -drop ~@{*constname} | -save | -restore | -merge ] ~@{*constname} ~@{value} : create a constant value");
     }
 
     enum OPS {
-        CREATE, CLEAR, DROP, LIST, SAVE, RESTORE
+        CREATE, CLEAR, DEFINED, DROP, LIST, SAVE, RESTORE
     }
 
     /**
@@ -69,6 +69,7 @@ public class CmdConst extends Command {
      */
     public ArgArray doConst(ArgArray argArray) {
         OPS op = OPS.CREATE; // default
+        String definedName = null;
         boolean isMerging = false;
         while (getCommandResult() != COMMANDRESULT.FAILURE && argArray.hasDashCommand()) {
             String dashCommand = argArray.parseDashCommand();
@@ -87,6 +88,10 @@ public class CmdConst extends Command {
                     break;
                 case "-clear":
                     op = OPS.CLEAR;
+                    break;
+                case "-defined":
+                    op = OPS.DEFINED;
+                    definedName = argArray.next();
                     break;
                 case "-drop":
                     op = OPS.DROP;
@@ -134,6 +139,18 @@ public class CmdConst extends Command {
                     break;
                 case CLEAR:
                     getInterpreter().clearConstMap();
+                    break;
+                case DEFINED:
+                    if (!Const.isConstName(definedName)) {
+                        getLogger().log(Level.SEVERE, "{0}" + " is not a const name starting with \"" + Const.CONSTNAMECHAR + "\" in {1}", new Object[]{definedName, getNameAndDescription()});
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    try {
+                        put(getInterpreter().getConst(definedName) != null);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting result of defined const in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
                     break;
                 case DROP:
                     if (Const.isConstName(argArray.peekNext())) {
