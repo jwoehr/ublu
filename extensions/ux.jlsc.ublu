@@ -12,7 +12,7 @@ include -!if ~ ux.utils.ublu
 
 # Add a selection criterion to the job list
 # ... jl the joblist object
-# ... crit the criiterion constant
+# ... crit the criterion constant
 # ... value the value
 FUNC addJobSelectionCriteria ( jl crit value ) $[
     LOCAL @jlist LOCAL @criterion LOCAL @val
@@ -20,6 +20,17 @@ FUNC addJobSelectionCriteria ( jl crit value ) $[
     num -to @criterion -int @@crit
     tuple -assign @val @@value
     calljava -to ~ -obj @jlist -method addJobSelectionCriteria -primarg @criterion -primarg @val
+]$
+
+# Add an attribute to retrieve for the jobs to appear in the list
+# You need to add an attribute to make it a selection criterion
+# ... jl the joblist object
+# ... attr the attribue constant
+FUNC addJobAttributeToRetrieve ( jl attr ) $[
+    LOCAL @jlist LOCAL @attrib
+    tuple -assign @jlist @@jl
+    num -to @attrib -int @@attr
+    calljava -to ~ -obj @jlist -method addJobAttributeToRetrieve -primarg @attrib
 ]$
 
 # Constant indicating the joblist selection criterion JOB_NAME
@@ -66,4 +77,5 @@ fieldConst ( com.ibm.as400.access.JobList SELECTION_SERVER_TYPE *ux.jlsc.SELECTI
 
 # Constant indicating the joblist selection criterion JOB_TYPE_ENHANCED
 fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_TYPE_ENHANCED *ux.jlsc.SELECTION_JOB_TYPE_ENHANCED )
- 
+
+# end

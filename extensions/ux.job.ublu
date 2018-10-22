@@ -1,0 +1,1499 @@
+# ux.job.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+const -to ~ -defined *ux.utils.ublu_included
+include -!if ~ ux.utils.ublu
+
+const *ux.job.ublu_included x
+
+# Methods and constants for Job
+# Used with objects returned by the Ublu job command
+
+# int ACCOUNTING_CODE
+# Job attribute representing an identifier assigned to the job by the system to collect resource use information for the job when job accounting is active.
+fieldConst ( com.ibm.as400.access.Job ACCOUNTING_CODE *ux.job.ACCOUNTING_CODE )
+
+# java.lang.String ACCOUNTING_CODE_BLANK
+# Constant indicating the accounting code is changed to all blanks.
+fieldConst ( com.ibm.as400.access.Job ACCOUNTING_CODE_BLANK *ux.job.ACCOUNTING_CODE_BLANK )
+
+# int ACTIVE_JOB_STATUS
+# Job attribute representing the active status of the initial thread of a job.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS *ux.job.ACTIVE_JOB_STATUS )
+
+# java.lang.String ACTIVE_JOB_STATUS_DISCONNECTED
+# Constant indicating that a job was disconnected from a work station display.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_DISCONNECTED *ux.job.ACTIVE_JOB_STATUS_DISCONNECTED )
+
+# java.lang.String ACTIVE_JOB_STATUS_ENDED
+# Constant indicating that a job has been ended with the *IMMED option, or its delay time has ended with the *CNTRLD option.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_ENDED *ux.job.ACTIVE_JOB_STATUS_ENDED )
+
+# java.lang.String ACTIVE_JOB_STATUS_ENDING
+# Constant indicating that a job is ending for a reason other than running the End Job (ENDJOB) or End Subsystem (ENDSBS) commands, such as a SIGNOFF command, an End Group Job (ENDGRPJOB) command, or an exception that is not handled.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_ENDING *ux.job.ACTIVE_JOB_STATUS_ENDING )
+
+# int ACTIVE_JOB_STATUS_FOR_JOBS_ENDING
+# Job attribute representing the status of what the initial thread of a job is currently doing, when the active job status is ACTIVE_JOB_STATUS_ENDED or ACTIVE_JOB_STATUS_ENDING.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_FOR_JOBS_ENDING *ux.job.ACTIVE_JOB_STATUS_FOR_JOBS_ENDING )
+
+# java.lang.String ACTIVE_JOB_STATUS_HELD
+# Constant indicating that a job is held.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_HELD *ux.job.ACTIVE_JOB_STATUS_HELD )
+
+# java.lang.String ACTIVE_JOB_STATUS_HELD_THREAD
+# Constant indicating that a job is held due to a suspended thread.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_HELD_THREAD *ux.job.ACTIVE_JOB_STATUS_HELD_THREAD )
+
+# java.lang.String ACTIVE_JOB_STATUS_INELIGIBLE
+# Constant indicating that a job is ineligible and not currently in a pool activity level.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_INELIGIBLE *ux.job.ACTIVE_JOB_STATUS_INELIGIBLE )
+
+# java.lang.String ACTIVE_JOB_STATUS_NONE
+# Constant indicating that a job is in transition or is not active.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_NONE *ux.job.ACTIVE_JOB_STATUS_NONE )
+
+# java.lang.String ACTIVE_JOB_STATUS_RUNNING
+# Constant indicating that a job is currently running in a pool activity level.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_RUNNING *ux.job.ACTIVE_JOB_STATUS_RUNNING )
+
+# java.lang.String ACTIVE_JOB_STATUS_STOPPED
+# Constant indicating that a job has stopped as the result of a signal.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_STOPPED *ux.job.ACTIVE_JOB_STATUS_STOPPED )
+
+# java.lang.String ACTIVE_JOB_STATUS_SUSPENDED
+# Constant indicating that a job is suspended by a Transfer Group Job (TFRGRPJOB) command.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_SUSPENDED *ux.job.ACTIVE_JOB_STATUS_SUSPENDED )
+
+# java.lang.String ACTIVE_JOB_STATUS_SUSPENDED_SYSTEM_REQUEST
+# Constant indicating that a job is the suspended half of a system request job pair.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_SUSPENDED_SYSTEM_REQUEST *ux.job.ACTIVE_JOB_STATUS_SUSPENDED_SYSTEM_REQUEST )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_BIN_SYNCH_DEVICE
+# Constant indicating that a job is waiting for the completion of an I/O operation to a binary synchronous device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_BIN_SYNCH_DEVICE *ux.job.ACTIVE_JOB_STATUS_WAIT_BIN_SYNCH_DEVICE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_BIN_SYNCH_DEVICE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to a binary synchronous device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_BIN_SYNCH_DEVICE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_BIN_SYNCH_DEVICE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_CHECKPOINT
+# Constant indicating that a job is waiting for the completion of save-while-active checkpoint processing in another job.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_CHECKPOINT *ux.job.ACTIVE_JOB_STATUS_WAIT_CHECKPOINT )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_COMM_DEVICE
+# Constant indicating that a job is waiting for the completion of an I/O operation to a communications device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_COMM_DEVICE *ux.job.ACTIVE_JOB_STATUS_WAIT_COMM_DEVICE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_COMM_DEVICE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to a communications device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_COMM_DEVICE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_COMM_DEVICE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_CONDITION
+# Constant indicating that a job is waiting on a handle-based condition.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_CONDITION *ux.job.ACTIVE_JOB_STATUS_WAIT_CONDITION )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_CPI_COMM
+# Constant indicating that a job is waiting for the completion of a CPI communications call.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_CPI_COMM *ux.job.ACTIVE_JOB_STATUS_WAIT_CPI_COMM )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DATABASE_EOF
+# Constant indicating that a job is waiting to try a read operation again on a database file after the end-of-file (EOF) has been reached.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DATABASE_EOF *ux.job.ACTIVE_JOB_STATUS_WAIT_DATABASE_EOF )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DATABASE_EOF_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level to try a read operation again on a database file after the end-of-file (EOF) has been reached.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DATABASE_EOF_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_DATABASE_EOF_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DELAY
+# Constant indicating that a job is waiting for a specified time interval to end, or for a specific delay end time, as specified on the Delay Job (DLYJOB) command.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DELAY *ux.job.ACTIVE_JOB_STATUS_WAIT_DELAY )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DELAYED
+# Constant indicating that a job is waiting for a specified time interval to end, or for a specific delay end time, as specified on the Delay Job (DLYJOB) command.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DELAYED *ux.job.ACTIVE_JOB_STATUS_WAIT_DELAYED )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DEQUEUE
+# Constant indicating that a job is waiting for completion of a dequeue operation.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DEQUEUE *ux.job.ACTIVE_JOB_STATUS_WAIT_DEQUEUE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DEQUEUE_AND_ACTIVE
+# Constant indicating that a job is waiting in the pool activity level for completion of a dequeue operation.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DEQUEUE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_DEQUEUE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DISKETTE
+# Constant indicating that a job is waiting for the completion of an I/O operation to a diskette unit.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DISKETTE *ux.job.ACTIVE_JOB_STATUS_WAIT_DISKETTE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DISKETTE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to a diskette unit.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DISKETTE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_DISKETTE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DISPLAY
+# Constant indicating that a job is waiting for input from a work station display.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DISPLAY *ux.job.ACTIVE_JOB_STATUS_WAIT_DISPLAY )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_DISPLAY_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for input from a work station display.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_DISPLAY_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_DISPLAY_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_EVENT
+# Constant indicating that a job is waiting for an event.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_EVENT *ux.job.ACTIVE_JOB_STATUS_WAIT_EVENT )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_ICF_FILE
+# Constant indicating that a job is waiting for the completion of an I/O operation to an intersystem communications function (ICF) file.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_ICF_FILE *ux.job.ACTIVE_JOB_STATUS_WAIT_ICF_FILE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_ICF_FILE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to an intersystem communications function (ICF) file.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_ICF_FILE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_ICF_FILE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_JAVA
+# Constant indicating that a job is waiting for a Java program operation to complete.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_JAVA *ux.job.ACTIVE_JOB_STATUS_WAIT_JAVA )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_JAVA_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for a Java program operation to complete.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_JAVA_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_JAVA_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_LOCK
+# Constant indicating that a job is waiting for a lock.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_LOCK *ux.job.ACTIVE_JOB_STATUS_WAIT_LOCK )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_LOCK_SPACE
+# Constant indicating that a job is waiting for a lock space to be attached.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_LOCK_SPACE *ux.job.ACTIVE_JOB_STATUS_WAIT_LOCK_SPACE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_LOCK_SPACE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for for a lock space to be attached.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_LOCK_SPACE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_LOCK_SPACE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_MESSAGE
+# Constant indicating that a job is waiting for a message from a message queue.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_MESSAGE *ux.job.ACTIVE_JOB_STATUS_WAIT_MESSAGE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_MIXED_DEVICE_FILE
+# Constant indicating that a job is waiting for the completion of an I/O operation to a mixed device file.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_MIXED_DEVICE_FILE *ux.job.ACTIVE_JOB_STATUS_WAIT_MIXED_DEVICE_FILE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_MULTIPLE_FILES
+# Constant indicating that a job is waiting for the completion of an I/O operation to multiple files.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_MULTIPLE_FILES *ux.job.ACTIVE_JOB_STATUS_WAIT_MULTIPLE_FILES )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_MULTIPLE_FILES_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to multiple files.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_MULTIPLE_FILES_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_MULTIPLE_FILES_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_MUTEX
+# Constant indicating that a job is waiting for a mutex.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_MUTEX *ux.job.ACTIVE_JOB_STATUS_WAIT_MUTEX )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_OPTICAL_DEVICE
+# Constant indicating that a job is waiting for the completion of an I/O operation to an optical device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_OPTICAL_DEVICE *ux.job.ACTIVE_JOB_STATUS_WAIT_OPTICAL_DEVICE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_OPTICAL_DEVICE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to an optical device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_OPTICAL_DEVICE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_OPTICAL_DEVICE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_OSI
+# Constant indicating that a job is waiting for the completion of an OSI Communications Subsystem operation.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_OSI *ux.job.ACTIVE_JOB_STATUS_WAIT_OSI )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_PRESTART
+# Constant indicating that a prestart job is waiting for a program start request.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_PRESTART *ux.job.ACTIVE_JOB_STATUS_WAIT_PRESTART )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_PRINT
+# Constant indicating that a job is waiting for output to a printer to complete.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_PRINT *ux.job.ACTIVE_JOB_STATUS_WAIT_PRINT )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_PRINT_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for output to a printer to complete.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_PRINT_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_PRINT_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_SAVE_FILE
+# Constant indicating that a job is waiting for the completion of a save file operation.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_SAVE_FILE *ux.job.ACTIVE_JOB_STATUS_WAIT_SAVE_FILE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_SAVE_FILE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of a save file operation.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_SAVE_FILE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_SAVE_FILE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_SELECTION
+# Constant indicating that a job is waiting for a selection to complete.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_SELECTION *ux.job.ACTIVE_JOB_STATUS_WAIT_SELECTION )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_SEMAPHORE
+# Constant indicating that a job is waiting for a semaphore.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_SEMAPHORE *ux.job.ACTIVE_JOB_STATUS_WAIT_SEMAPHORE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_SIGNAL
+# Constant indicating that a job is waiting for a signal.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_SIGNAL *ux.job.ACTIVE_JOB_STATUS_WAIT_SIGNAL )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_TAPE_DEVICE
+# Constant indicating that a job is waiting for the completion of an I/O operation to a tape device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_TAPE_DEVICE *ux.job.ACTIVE_JOB_STATUS_WAIT_TAPE_DEVICE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_TAPE_DEVICE_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for the completion of an I/O operation to a tape device.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_TAPE_DEVICE_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_TAPE_DEVICE_AND_ACTIVE )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_THREAD
+# Constant indicating that a job is waiting for another thread to complete an operation.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_THREAD *ux.job.ACTIVE_JOB_STATUS_WAIT_THREAD )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_TIME_INTERVAL
+# Constant indicating that a job is waiting for a time interval to end.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_TIME_INTERVAL *ux.job.ACTIVE_JOB_STATUS_WAIT_TIME_INTERVAL )
+
+# java.lang.String ACTIVE_JOB_STATUS_WAIT_TIME_INTERVAL_AND_ACTIVE
+# Constant indicating that a job is waiting in a pool activity level for a time interval to end.
+fieldConst ( com.ibm.as400.access.Job ACTIVE_JOB_STATUS_WAIT_TIME_INTERVAL_AND_ACTIVE *ux.job.ACTIVE_JOB_STATUS_WAIT_TIME_INTERVAL_AND_ACTIVE )
+
+# int ALLOW_MULTIPLE_THREADS
+# Job attribute representing whether a job allows multiple user threads.
+fieldConst ( com.ibm.as400.access.Job ALLOW_MULTIPLE_THREADS *ux.job.ALLOW_MULTIPLE_THREADS )
+
+# java.lang.String ALLOW_MULTIPLE_THREADS_NO
+# Constant indicating that a job does not allow multiple user threads.
+fieldConst ( com.ibm.as400.access.Job ALLOW_MULTIPLE_THREADS_NO *ux.job.ALLOW_MULTIPLE_THREADS_NO )
+
+# java.lang.String ALLOW_MULTIPLE_THREADS_YES
+# Constant indicating that a job allows multiple user threads.
+fieldConst ( com.ibm.as400.access.Job ALLOW_MULTIPLE_THREADS_YES *ux.job.ALLOW_MULTIPLE_THREADS_YES )
+
+# int ASP_GROUP
+# Job attribute representing the ASP group information Read-only: true Type: String Only valid on V5R1 systems and higher.
+fieldConst ( com.ibm.as400.access.Job ASP_GROUP *ux.job.ASP_GROUP )
+
+# int AUXILIARY_IO_REQUESTS
+# Job attribute representing the number of auxiliary I/O requests performed by the job across all routing steps.
+fieldConst ( com.ibm.as400.access.Job AUXILIARY_IO_REQUESTS *ux.job.AUXILIARY_IO_REQUESTS )
+
+# int AUXILIARY_IO_REQUESTS_LARGE
+# Job attribute representing the number of auxiliary I/O requests performed by the job across all routing steps.
+fieldConst ( com.ibm.as400.access.Job AUXILIARY_IO_REQUESTS_LARGE *ux.job.AUXILIARY_IO_REQUESTS_LARGE )
+
+# int BREAK_MESSAGE_HANDLING
+# Job attribute representing how a job handles break messages.
+fieldConst ( com.ibm.as400.access.Job BREAK_MESSAGE_HANDLING *ux.job.BREAK_MESSAGE_HANDLING )
+
+# java.lang.String BREAK_MESSAGE_HANDLING_HOLD
+# Constant indicating that the message queue holds break messages until a user or program requests them.
+fieldConst ( com.ibm.as400.access.Job BREAK_MESSAGE_HANDLING_HOLD *ux.job.BREAK_MESSAGE_HANDLING_HOLD )
+
+# java.lang.String BREAK_MESSAGE_HANDLING_NORMAL
+# Constant indicating that the message queue status determines break message handling.
+fieldConst ( com.ibm.as400.access.Job BREAK_MESSAGE_HANDLING_NORMAL *ux.job.BREAK_MESSAGE_HANDLING_NORMAL )
+
+# java.lang.String BREAK_MESSAGE_HANDLING_NOTIFY
+# Constant indicating that the system notifies the job's message queue when a message arrives.
+fieldConst ( com.ibm.as400.access.Job BREAK_MESSAGE_HANDLING_NOTIFY *ux.job.BREAK_MESSAGE_HANDLING_NOTIFY )
+
+# int CCSID
+# Job attribute representing the coded character set identifier used for this job.
+fieldConst ( com.ibm.as400.access.Job CCSID *ux.job.CCSID )
+
+# int CCSID_INITIAL_USER
+# Constant indicating that the CCSID specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job CCSID_INITIAL_USER *ux.job.CCSID_INITIAL_USER )
+
+# int CCSID_SYSTEM_VALUE
+# Constant indicating that the CCSID specified in the system value QCCSID is used.
+fieldConst ( com.ibm.as400.access.Job CCSID_SYSTEM_VALUE *ux.job.CCSID_SYSTEM_VALUE )
+
+# int CHARACTER_ID_CONTROL
+# Job attribute representing the character identifier control for a job.
+fieldConst ( com.ibm.as400.access.Job CHARACTER_ID_CONTROL *ux.job.CHARACTER_ID_CONTROL )
+
+# java.lang.String CHARACTER_ID_CONTROL_DEVICE
+# Constant indicating to perform the same function for *DEVD as on the CHRID command parameter for display files, printer files, and panel groups.
+fieldConst ( com.ibm.as400.access.Job CHARACTER_ID_CONTROL_DEVICE *ux.job.CHARACTER_ID_CONTROL_DEVICE )
+
+# java.lang.String CHARACTER_ID_CONTROL_INITIAL_USER
+# Constant indicating the CHRIDCTL specified in the user profile under which this thread was initially running will be used.
+fieldConst ( com.ibm.as400.access.Job CHARACTER_ID_CONTROL_INITIAL_USER *ux.job.CHARACTER_ID_CONTROL_INITIAL_USER )
+
+# java.lang.String CHARACTER_ID_CONTROL_JOB
+# Constant indicating to perform the same function for *JOBCCSID as on the CHRID command parameter for display files, printer files, and panel groups.
+fieldConst ( com.ibm.as400.access.Job CHARACTER_ID_CONTROL_JOB *ux.job.CHARACTER_ID_CONTROL_JOB )
+
+# java.lang.String CHARACTER_ID_CONTROL_SYSTEM_VALUE
+# Constant indicating the value in the QCHRIDCTL system value will be used.
+fieldConst ( com.ibm.as400.access.Job CHARACTER_ID_CONTROL_SYSTEM_VALUE *ux.job.CHARACTER_ID_CONTROL_SYSTEM_VALUE )
+
+# int CLIENT_IP_ADDRESS
+# Job attribute representing the IPv4 address of the client for which this system is doing work.
+fieldConst ( com.ibm.as400.access.Job CLIENT_IP_ADDRESS *ux.job.CLIENT_IP_ADDRESS )
+
+# int COMPLETION_STATUS
+# Job attribute representing the completion status for a job.
+fieldConst ( com.ibm.as400.access.Job COMPLETION_STATUS *ux.job.COMPLETION_STATUS )
+
+# java.lang.String COMPLETION_STATUS_COMPLETED_ABNORMALLY
+# Constant indicating that the job completed abnormally.
+fieldConst ( com.ibm.as400.access.Job COMPLETION_STATUS_COMPLETED_ABNORMALLY *ux.job.COMPLETION_STATUS_COMPLETED_ABNORMALLY )
+
+# java.lang.String COMPLETION_STATUS_COMPLETED_NORMALLY
+# Constant indicating that the job completed normally.
+fieldConst ( com.ibm.as400.access.Job COMPLETION_STATUS_COMPLETED_NORMALLY *ux.job.COMPLETION_STATUS_COMPLETED_NORMALLY )
+
+# java.lang.String COMPLETION_STATUS_NOT_COMPLETED
+# Constant indicating that the job has not completed.
+fieldConst ( com.ibm.as400.access.Job COMPLETION_STATUS_NOT_COMPLETED *ux.job.COMPLETION_STATUS_NOT_COMPLETED )
+
+# int CONTROLLED_END_REQUESTED
+# Job attribute representing whether or not the system issued a controlled cancellation.
+fieldConst ( com.ibm.as400.access.Job CONTROLLED_END_REQUESTED *ux.job.CONTROLLED_END_REQUESTED )
+
+# int COUNTRY_ID
+# Job attribute representing the country or region identifier associated with this job.
+fieldConst ( com.ibm.as400.access.Job COUNTRY_ID *ux.job.COUNTRY_ID )
+
+# java.lang.String COUNTRY_ID_INITIAL_USER
+# Constant indicating the country or region ID specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job COUNTRY_ID_INITIAL_USER *ux.job.COUNTRY_ID_INITIAL_USER )
+
+# java.lang.String COUNTRY_ID_SYSTEM_VALUE
+# Constant indicating the system value QCNTRYID is used.
+fieldConst ( com.ibm.as400.access.Job COUNTRY_ID_SYSTEM_VALUE *ux.job.COUNTRY_ID_SYSTEM_VALUE )
+
+# int CPU_TIME_USED
+# Job attribute representing the amount of processing unit time (in milliseconds) that the job used.
+fieldConst ( com.ibm.as400.access.Job CPU_TIME_USED *ux.job.CPU_TIME_USED )
+
+# int CPU_TIME_USED_FOR_DATABASE
+# Job attribute representing the amount of processing unit time (in milliseconds) that the job used for processing data base requests across all routing steps.
+fieldConst ( com.ibm.as400.access.Job CPU_TIME_USED_FOR_DATABASE *ux.job.CPU_TIME_USED_FOR_DATABASE )
+
+# int CPU_TIME_USED_LARGE
+# Job attribute representing the amount of processing unit time (in milliseconds) that the job used across all routing steps.
+fieldConst ( com.ibm.as400.access.Job CPU_TIME_USED_LARGE *ux.job.CPU_TIME_USED_LARGE )
+
+# int CURRENT_LIBRARY
+# Job attribute representing the name of the current library for the initial thread of the job.
+fieldConst ( com.ibm.as400.access.Job CURRENT_LIBRARY *ux.job.CURRENT_LIBRARY )
+
+# int CURRENT_LIBRARY_EXISTENCE
+# Job attribute representing whether or not a current library exists for the job.
+fieldConst ( com.ibm.as400.access.Job CURRENT_LIBRARY_EXISTENCE *ux.job.CURRENT_LIBRARY_EXISTENCE )
+
+# int CURRENT_SYSTEM_POOL_ID
+# Job attribute representing the identifier of the system-related pool from which main storage is currently being allocated for the job's initial thread.
+fieldConst ( com.ibm.as400.access.Job CURRENT_SYSTEM_POOL_ID *ux.job.CURRENT_SYSTEM_POOL_ID )
+
+# int CURRENT_USER
+# Job attribute representing the user profile that the initial thread of the job for which information is being retrieved is currently running under.
+fieldConst ( com.ibm.as400.access.Job CURRENT_USER *ux.job.CURRENT_USER )
+
+# int DATE_ENDED
+# Job attribute representing the date and time when the job completed running on the system.
+fieldConst ( com.ibm.as400.access.Job DATE_ENDED *ux.job.DATE_ENDED )
+
+# int DATE_ENTERED_SYSTEM
+# Job attribute representing the date and time when the job was placed on the system.
+fieldConst ( com.ibm.as400.access.Job DATE_ENTERED_SYSTEM *ux.job.DATE_ENTERED_SYSTEM )
+
+# int DATE_FORMAT
+# Job attribute representing the format in which dates are presented.
+fieldConst ( com.ibm.as400.access.Job DATE_FORMAT *ux.job.DATE_FORMAT )
+
+# java.lang.String DATE_FORMAT_DMY
+# Constant indicating a date format of day, month, and year.
+fieldConst ( com.ibm.as400.access.Job DATE_FORMAT_DMY *ux.job.DATE_FORMAT_DMY )
+
+# java.lang.String DATE_FORMAT_JULIAN
+# Constant indicating a Julian date format (year and day).
+fieldConst ( com.ibm.as400.access.Job DATE_FORMAT_JULIAN *ux.job.DATE_FORMAT_JULIAN )
+
+# java.lang.String DATE_FORMAT_MDY
+# Constant indicating a date format of month, day, and year.
+fieldConst ( com.ibm.as400.access.Job DATE_FORMAT_MDY *ux.job.DATE_FORMAT_MDY )
+
+# java.lang.String DATE_FORMAT_SYSTEM_VALUE
+# Constant indicating the system value QDATFMT is used.
+fieldConst ( com.ibm.as400.access.Job DATE_FORMAT_SYSTEM_VALUE *ux.job.DATE_FORMAT_SYSTEM_VALUE )
+
+# java.lang.String DATE_FORMAT_YMD
+# Constant indicating a date format of year, month, and day.
+fieldConst ( com.ibm.as400.access.Job DATE_FORMAT_YMD *ux.job.DATE_FORMAT_YMD )
+
+# int DATE_SEPARATOR
+# Job attribute representing the value used to separate days, months, and years when presenting a date.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR *ux.job.DATE_SEPARATOR )
+
+# java.lang.String DATE_SEPARATOR_BLANK
+# Constant indicating a blank is used for the date separator.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR_BLANK *ux.job.DATE_SEPARATOR_BLANK )
+
+# java.lang.String DATE_SEPARATOR_COMMA
+# Constant indicating a comma (,) is used for the date separator.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR_COMMA *ux.job.DATE_SEPARATOR_COMMA )
+
+# java.lang.String DATE_SEPARATOR_DASH
+# Constant indicating a dash (-) is used for the date separator.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR_DASH *ux.job.DATE_SEPARATOR_DASH )
+
+# java.lang.String DATE_SEPARATOR_PERIOD
+# Constant indicating a period (.) is used for the date separator.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR_PERIOD *ux.job.DATE_SEPARATOR_PERIOD )
+
+# java.lang.String DATE_SEPARATOR_SLASH
+# Constant indicating a slash (/) is used for the date separator.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR_SLASH *ux.job.DATE_SEPARATOR_SLASH )
+
+# java.lang.String DATE_SEPARATOR_SYSTEM_VALUE
+# Constant indicating the system value QDATSEP is used for the date separator.
+fieldConst ( com.ibm.as400.access.Job DATE_SEPARATOR_SYSTEM_VALUE *ux.job.DATE_SEPARATOR_SYSTEM_VALUE )
+
+# int DATE_STARTED
+# Job attribute representing the date and time when the job began to run on the system.
+fieldConst ( com.ibm.as400.access.Job DATE_STARTED *ux.job.DATE_STARTED )
+
+# int DBCS_CAPABLE
+# Job attribute representing whether the job is DBCS-capable or not.
+fieldConst ( com.ibm.as400.access.Job DBCS_CAPABLE *ux.job.DBCS_CAPABLE )
+
+# java.lang.String DBCS_CAPABLE_NO
+# Constant indicating that the job is not DBCS-capable.
+fieldConst ( com.ibm.as400.access.Job DBCS_CAPABLE_NO *ux.job.DBCS_CAPABLE_NO )
+
+# java.lang.String DBCS_CAPABLE_YES
+# Constant indicating that the job is DBCS-capable.
+fieldConst ( com.ibm.as400.access.Job DBCS_CAPABLE_YES *ux.job.DBCS_CAPABLE_YES )
+
+# int DECIMAL_FORMAT
+# Job attribute representing the decimal format used for this job.
+fieldConst ( com.ibm.as400.access.Job DECIMAL_FORMAT *ux.job.DECIMAL_FORMAT )
+
+# java.lang.String DECIMAL_FORMAT_COMMA_I
+# Constant indicating a decimal format that uses a comma for a decimal point, a period for a 3-digit grouping character, and zero-suppresses to the left of the decimal point.
+fieldConst ( com.ibm.as400.access.Job DECIMAL_FORMAT_COMMA_I *ux.job.DECIMAL_FORMAT_COMMA_I )
+
+# java.lang.String DECIMAL_FORMAT_COMMA_J
+# Constant indicating a decimal format that uses a comma for a decimal point and a period for a 3-digit grouping character.
+fieldConst ( com.ibm.as400.access.Job DECIMAL_FORMAT_COMMA_J *ux.job.DECIMAL_FORMAT_COMMA_J )
+
+# java.lang.String DECIMAL_FORMAT_PERIOD
+# Constant indicating a decimal format that uses a period for a decimal point, a comma for a 3-digit grouping character, and zero-suppresses to the left of the decimal point.
+fieldConst ( com.ibm.as400.access.Job DECIMAL_FORMAT_PERIOD *ux.job.DECIMAL_FORMAT_PERIOD )
+
+# java.lang.String DECIMAL_FORMAT_SYSTEM_VALUE
+# Constant indicating the value in the system value QDECFMT is used as the decimal format for this job.
+fieldConst ( com.ibm.as400.access.Job DECIMAL_FORMAT_SYSTEM_VALUE *ux.job.DECIMAL_FORMAT_SYSTEM_VALUE )
+
+# int DEFAULT_CCSID
+# Job attribute representing the default coded character set identifier (CCSID) used for this job.
+fieldConst ( com.ibm.as400.access.Job DEFAULT_CCSID *ux.job.DEFAULT_CCSID )
+
+# int DEFAULT_WAIT_TIME
+# Job attribute representing the default maximum time (in seconds) that a thread in the job waits for a system instruction, such as a LOCK machine interface (MI) instruction, to acquire a resource.
+fieldConst ( com.ibm.as400.access.Job DEFAULT_WAIT_TIME *ux.job.DEFAULT_WAIT_TIME )
+
+# int DEVICE_RECOVERY_ACTION
+# Job attribute representing the action taken for interactive jobs when an I/O error occurs for the job's requesting program device.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION *ux.job.DEVICE_RECOVERY_ACTION )
+
+# java.lang.String DEVICE_RECOVERY_ACTION_DISCONNECT_END_REQUEST
+# Constant indicating a device recovery action that disconnects the job when an I/O error occurs.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION_DISCONNECT_END_REQUEST *ux.job.DEVICE_RECOVERY_ACTION_DISCONNECT_END_REQUEST )
+
+# java.lang.String DEVICE_RECOVERY_ACTION_DISCONNECT_MESSAGE
+# Constant indicating a device recovery action that disconnects the job when an I/O error occurs.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION_DISCONNECT_MESSAGE *ux.job.DEVICE_RECOVERY_ACTION_DISCONNECT_MESSAGE )
+
+# java.lang.String DEVICE_RECOVERY_ACTION_END_JOB
+# Constant indicating a device recovery action that ends the job when an I/O error occurs.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION_END_JOB *ux.job.DEVICE_RECOVERY_ACTION_END_JOB )
+
+# java.lang.String DEVICE_RECOVERY_ACTION_END_JOB_NO_LIST
+# Constant indicating a device recovery action that ends the job when an I/O error occurs.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION_END_JOB_NO_LIST *ux.job.DEVICE_RECOVERY_ACTION_END_JOB_NO_LIST )
+
+# java.lang.String DEVICE_RECOVERY_ACTION_MESSAGE
+# Constant indicating a device recovery action that signals the I/O error message to the application and lets the application program perform error recovery.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION_MESSAGE *ux.job.DEVICE_RECOVERY_ACTION_MESSAGE )
+
+# java.lang.String DEVICE_RECOVERY_ACTION_SYSTEM_VALUE
+# Constant indicating the value in the system value QDEVRCYACN is used as the device recovery action for this job.
+fieldConst ( com.ibm.as400.access.Job DEVICE_RECOVERY_ACTION_SYSTEM_VALUE *ux.job.DEVICE_RECOVERY_ACTION_SYSTEM_VALUE )
+
+# int ELAPSED_CPU_PERCENT_USED
+# Job attribute representing the percentage of processing time used during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_CPU_PERCENT_USED *ux.job.ELAPSED_CPU_PERCENT_USED )
+
+# int ELAPSED_CPU_PERCENT_USED_FOR_DATABASE
+# Job attribute representing the percentage of processing unit used for database processing during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_CPU_PERCENT_USED_FOR_DATABASE *ux.job.ELAPSED_CPU_PERCENT_USED_FOR_DATABASE )
+
+# int ELAPSED_CPU_TIME_USED
+# Job attribute representing the amount of processing unit time (in milliseconds) used during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_CPU_TIME_USED *ux.job.ELAPSED_CPU_TIME_USED )
+
+# int ELAPSED_CPU_TIME_USED_FOR_DATABASE
+# Job attribute representing the amount of processing unit time (in milliseconds) used for database processing during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_CPU_TIME_USED_FOR_DATABASE *ux.job.ELAPSED_CPU_TIME_USED_FOR_DATABASE )
+
+# int ELAPSED_DISK_IO
+# Job attribute representing the number of disk I/O operations performed by the job during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_DISK_IO *ux.job.ELAPSED_DISK_IO )
+
+# int ELAPSED_DISK_IO_ASYNCH
+# Job attribute representing the number of asynchronous (physical) disk I/O operations performed by the job during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_DISK_IO_ASYNCH *ux.job.ELAPSED_DISK_IO_ASYNCH )
+
+# int ELAPSED_DISK_IO_SYNCH
+# Job attribute representing the number of synchronous (physical) disk I/O operations performed by the job during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_DISK_IO_SYNCH *ux.job.ELAPSED_DISK_IO_SYNCH )
+
+# int ELAPSED_INTERACTIVE_RESPONSE_TIME
+# Job attribute representing the total interactive response time for the initial thread (in hundredths of seconds) for the job during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_INTERACTIVE_RESPONSE_TIME *ux.job.ELAPSED_INTERACTIVE_RESPONSE_TIME )
+
+# int ELAPSED_INTERACTIVE_TRANSACTIONS
+# Job attribute representing the number of user interactions, such as pressing the Enter key or a function key, for the job during the elapsed time for the initial thread.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_INTERACTIVE_TRANSACTIONS *ux.job.ELAPSED_INTERACTIVE_TRANSACTIONS )
+
+# int ELAPSED_LOCK_WAIT_TIME
+# Job attribute representing the amount of time (in milliseconds) that the initial thread has to wait to obtain database, nondatabase, and internal machine locks during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_LOCK_WAIT_TIME *ux.job.ELAPSED_LOCK_WAIT_TIME )
+
+# int ELAPSED_PAGE_FAULTS
+# Job attribute representing the number of times an active program referenced an address that is not in main storage for the current routing step during the elapsed time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_PAGE_FAULTS *ux.job.ELAPSED_PAGE_FAULTS )
+
+# int ELAPSED_TIME
+# Job attribute representing the time (in milliseconds) that has elapsed between the measurement start time and the current system time.
+fieldConst ( com.ibm.as400.access.Job ELAPSED_TIME *ux.job.ELAPSED_TIME )
+
+# int ELIGIBLE_FOR_PURGE
+# Job attribute representing whether or not the job is eligible to be moved out of main storage and put into auxiliary storage at the end of a time slice or when entering a long wait (such as waiting for a work station user's response).
+fieldConst ( com.ibm.as400.access.Job ELIGIBLE_FOR_PURGE *ux.job.ELIGIBLE_FOR_PURGE )
+
+# java.lang.String ELIGIBLE_FOR_PURGE_IGNORED
+# Constant indicating that whether a job is eligible for purge or not is ignored because the job type is either *JOBQ or *OUTQ, or the job is not valid.
+fieldConst ( com.ibm.as400.access.Job ELIGIBLE_FOR_PURGE_IGNORED *ux.job.ELIGIBLE_FOR_PURGE_IGNORED )
+
+# java.lang.String ELIGIBLE_FOR_PURGE_NO
+# Constant indicating that a job is not eligible to be moved out of main storage and put into auxiliary storage.
+fieldConst ( com.ibm.as400.access.Job ELIGIBLE_FOR_PURGE_NO *ux.job.ELIGIBLE_FOR_PURGE_NO )
+
+# java.lang.String ELIGIBLE_FOR_PURGE_YES
+# Constant indicating that the job is eligible to be moved out of main storage and put into auxiliary storage.
+fieldConst ( com.ibm.as400.access.Job ELIGIBLE_FOR_PURGE_YES *ux.job.ELIGIBLE_FOR_PURGE_YES )
+
+# int END_SEVERITY
+# Job attribute representing the message severity level of escape messages that can cause a batch job to end.
+fieldConst ( com.ibm.as400.access.Job END_SEVERITY *ux.job.END_SEVERITY )
+
+# java.lang.String END_STATUS_CANCELLED
+# Constant indicating that the system, the subsystem in which a job is running, or the job itself is cancelled.
+fieldConst ( com.ibm.as400.access.Job END_STATUS_CANCELLED *ux.job.END_STATUS_CANCELLED )
+
+# java.lang.String END_STATUS_JOB_NOT_RUNNING
+# Constant indicating that the job is not running.
+fieldConst ( com.ibm.as400.access.Job END_STATUS_JOB_NOT_RUNNING *ux.job.END_STATUS_JOB_NOT_RUNNING )
+
+# java.lang.String END_STATUS_NOT_CANCELLED
+# Constant indicating that the system, the subsystem in which a job is running, or the job itself is not cancelled.
+fieldConst ( com.ibm.as400.access.Job END_STATUS_NOT_CANCELLED *ux.job.END_STATUS_NOT_CANCELLED )
+
+# int FUNCTION_NAME
+# Job attribute representing additional information (as described by the FUNCTION_TYPE attribute) about the last high-level function initiated by the initial thread.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_NAME *ux.job.FUNCTION_NAME )
+
+# int FUNCTION_TYPE
+# Job attribute representing the last high-level function initiated by the initial thread.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE *ux.job.FUNCTION_TYPE )
+
+# java.lang.String FUNCTION_TYPE_BLANK
+# Constant indicating that the system is not performing a logged function.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_BLANK *ux.job.FUNCTION_TYPE_BLANK )
+
+# java.lang.String FUNCTION_TYPE_COMMAND
+# Constant indicating that a command is running interactively, or it is in a batch input stream, or it was requested from a system menu.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_COMMAND *ux.job.FUNCTION_TYPE_COMMAND )
+
+# java.lang.String FUNCTION_TYPE_DELAY
+# Constant indicating that the initial thread of the job is processing a Delay Job (DLYJOB) command.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_DELAY *ux.job.FUNCTION_TYPE_DELAY )
+
+# java.lang.String FUNCTION_TYPE_GROUP
+# Constant indicating that the Transfer Group Job (TFRGRPJOB) command suspended the job.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_GROUP *ux.job.FUNCTION_TYPE_GROUP )
+
+# java.lang.String FUNCTION_TYPE_INDEX
+# Constant indicating that the initial thread of the job is rebuilding an index (access path).
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_INDEX *ux.job.FUNCTION_TYPE_INDEX )
+
+# java.lang.String FUNCTION_TYPE_IO
+# Constant indicating that the job is a subsystem monitor that is performing input/output (I/O) operations to a work station.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_IO *ux.job.FUNCTION_TYPE_IO )
+
+# java.lang.String FUNCTION_TYPE_JAVA
+# Constant indicating that the initial thread of the job is running a Java Vertual Machine (JVM).
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_JAVA *ux.job.FUNCTION_TYPE_JAVA )
+
+# java.lang.String FUNCTION_TYPE_LOG
+# Constant indicating that the system logs history information in a database file.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_LOG *ux.job.FUNCTION_TYPE_LOG )
+
+# java.lang.String FUNCTION_TYPE_MENU
+# Constant indicating that the initial thread of the job is currently at a system menu.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_MENU *ux.job.FUNCTION_TYPE_MENU )
+
+# java.lang.String FUNCTION_TYPE_MRT
+# Constant indicating that the job is a multiple requester terminal (MRT) job if the JOB_TYPE is JOB_TYPE_BATCH and the JOB_SUBTYPE is JOB_SUBTYPE_MRT, or it is an interactive job attached to an MRT job if the JOB_TYPE is JOB_TYPE_INTERACTIVE.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_MRT *ux.job.FUNCTION_TYPE_MRT )
+
+# java.lang.String FUNCTION_TYPE_PROCEDURE
+# Constant indicating that the initial thread of the job is running a procedure.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_PROCEDURE *ux.job.FUNCTION_TYPE_PROCEDURE )
+
+# java.lang.String FUNCTION_TYPE_PROGRAM
+# Constant indicating that the initial thread of the job is running a program.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_PROGRAM *ux.job.FUNCTION_TYPE_PROGRAM )
+
+# java.lang.String FUNCTION_TYPE_SPECIAL
+# Constant indicating that the function type is a special function.
+fieldConst ( com.ibm.as400.access.Job FUNCTION_TYPE_SPECIAL *ux.job.FUNCTION_TYPE_SPECIAL )
+
+# long INITIAL_THREAD
+# Constant indicating that the initial thread of the job should be used when retrieving the call stack.
+fieldConst ( com.ibm.as400.access.Job INITIAL_THREAD *ux.job.INITIAL_THREAD )
+
+# int INQUIRY_MESSAGE_REPLY
+# Job attribute representing how the job answers inquiry messages.
+fieldConst ( com.ibm.as400.access.Job INQUIRY_MESSAGE_REPLY *ux.job.INQUIRY_MESSAGE_REPLY )
+
+# java.lang.String INQUIRY_MESSAGE_REPLY_DEFAULT
+# Constant indicating that the system uses the default message reply to answer any inquiry messages issued while this job is running.
+fieldConst ( com.ibm.as400.access.Job INQUIRY_MESSAGE_REPLY_DEFAULT *ux.job.INQUIRY_MESSAGE_REPLY_DEFAULT )
+
+# java.lang.String INQUIRY_MESSAGE_REPLY_REQUIRED
+# Constant indicating that the job requires an answer for any inquiry messages that occur while this job is running.
+fieldConst ( com.ibm.as400.access.Job INQUIRY_MESSAGE_REPLY_REQUIRED *ux.job.INQUIRY_MESSAGE_REPLY_REQUIRED )
+
+# java.lang.String INQUIRY_MESSAGE_REPLY_SYSTEM_REPLY_LIST
+# Constant indicating that the system reply list is checked to see if there is an entry for an inquiry message issued while this job is running.
+fieldConst ( com.ibm.as400.access.Job INQUIRY_MESSAGE_REPLY_SYSTEM_REPLY_LIST *ux.job.INQUIRY_MESSAGE_REPLY_SYSTEM_REPLY_LIST )
+
+# int INSTANCE
+# Job attribute representing the instance portion of the unit of work ID.
+fieldConst ( com.ibm.as400.access.Job INSTANCE *ux.job.INSTANCE )
+
+# int INTERACTIVE_TRANSACTIONS
+# Job attribute representing the count of operator interactions, such as pressing the Enter key or a function key.
+fieldConst ( com.ibm.as400.access.Job INTERACTIVE_TRANSACTIONS *ux.job.INTERACTIVE_TRANSACTIONS )
+
+# int INTERNAL_JOB_ID
+# Deprecated. Use INTERNAL_JOB_IDENTIFIER instead. The internal job identifier should be treated as a byte array of 16 bytes.
+fieldConst ( com.ibm.as400.access.Job INTERNAL_JOB_ID *ux.job.INTERNAL_JOB_ID )
+
+# int INTERNAL_JOB_IDENTIFIER
+# Job attribute representing the value input to other APIs to increase the speed of locating the job on the system.
+fieldConst ( com.ibm.as400.access.Job INTERNAL_JOB_IDENTIFIER *ux.job.INTERNAL_JOB_IDENTIFIER )
+
+# int JOB_DATE
+# Job attribute representing the date used for the job.
+fieldConst ( com.ibm.as400.access.Job JOB_DATE *ux.job.JOB_DATE )
+
+# int JOB_DESCRIPTION
+# Job attribute representing a set of job-related attributes used for one or more jobs on the system.
+fieldConst ( com.ibm.as400.access.Job JOB_DESCRIPTION *ux.job.JOB_DESCRIPTION )
+
+# int JOB_END_REASON
+# Job attribute representing the most recent action that caused the job to end.
+fieldConst ( com.ibm.as400.access.Job JOB_END_REASON *ux.job.JOB_END_REASON )
+
+# int JOB_LOG_OUTPUT
+# Job attribute representing how a job log will be produced when the job completes.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_OUTPUT *ux.job.JOB_LOG_OUTPUT )
+
+# java.lang.String JOB_LOG_OUTPUT_JOB_END
+# Constant indicating that the job log will be produced by the job itself.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_OUTPUT_JOB_END *ux.job.JOB_LOG_OUTPUT_JOB_END )
+
+# java.lang.String JOB_LOG_OUTPUT_JOB_LOG_SERVER
+# Constant indicating that the job log will be produced by a job log server.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_OUTPUT_JOB_LOG_SERVER *ux.job.JOB_LOG_OUTPUT_JOB_LOG_SERVER )
+
+# java.lang.String JOB_LOG_OUTPUT_PENDING
+# Constant indicating that the job log will not be produced.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_OUTPUT_PENDING *ux.job.JOB_LOG_OUTPUT_PENDING )
+
+# java.lang.String JOB_LOG_OUTPUT_SYSTEM_VALUE
+# Constant indicating that the value is specifed by the QLOGOUTPUT system value.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_OUTPUT_SYSTEM_VALUE *ux.job.JOB_LOG_OUTPUT_SYSTEM_VALUE )
+
+# int JOB_LOG_PENDING
+# Job attribute representing whether a job's log has been written or not.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_PENDING *ux.job.JOB_LOG_PENDING )
+
+# java.lang.String JOB_LOG_PENDING_NO
+# Constant indicating that the job log is not pending.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_PENDING_NO *ux.job.JOB_LOG_PENDING_NO )
+
+# java.lang.String JOB_LOG_PENDING_YES
+# Constant indicating that the job log is pending and waiting to be written.
+fieldConst ( com.ibm.as400.access.Job JOB_LOG_PENDING_YES *ux.job.JOB_LOG_PENDING_YES )
+
+# int JOB_NAME
+# Job attribute representing the name of the job as identified to the system.
+fieldConst ( com.ibm.as400.access.Job JOB_NAME *ux.job.JOB_NAME )
+
+# java.lang.String JOB_NAME_CURRENT
+# Constant indicating the job that this program is running in.
+fieldConst ( com.ibm.as400.access.Job JOB_NAME_CURRENT *ux.job.JOB_NAME_CURRENT )
+
+# java.lang.String JOB_NAME_INTERNAL
+# Constant indicating that the INTERNAL_JOB_ID locates the job.
+fieldConst ( com.ibm.as400.access.Job JOB_NAME_INTERNAL *ux.job.JOB_NAME_INTERNAL )
+
+# int JOB_NUMBER
+# Job attribute representing the system-generated job number.
+fieldConst ( com.ibm.as400.access.Job JOB_NUMBER *ux.job.JOB_NUMBER )
+
+# java.lang.String JOB_NUMBER_BLANK
+# Constant indicating a blank job number.
+fieldConst ( com.ibm.as400.access.Job JOB_NUMBER_BLANK *ux.job.JOB_NUMBER_BLANK )
+
+# int JOB_QUEUE
+# Job attribute representing the name of the job queue that the job is currently on, or that the job was on if it is currently active.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE *ux.job.JOB_QUEUE )
+
+# int JOB_QUEUE_DATE
+# Job attribute representing the date and time this job was put on this job queue.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_DATE *ux.job.JOB_QUEUE_DATE )
+
+# int JOB_QUEUE_PRIORITY
+# Job attribute representing the scheduling priority of the job compared to other jobs on the same job queue.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_PRIORITY *ux.job.JOB_QUEUE_PRIORITY )
+
+# int JOB_QUEUE_STATUS
+# Job attribute representing the status of this job on the job queue.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_STATUS *ux.job.JOB_QUEUE_STATUS )
+
+# java.lang.String JOB_QUEUE_STATUS_BLANK
+# Constant indicating that this job was not on a job queue.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_STATUS_BLANK *ux.job.JOB_QUEUE_STATUS_BLANK )
+
+# java.lang.String JOB_QUEUE_STATUS_HELD
+# Constant indicating that this job is being held on the job queue.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_STATUS_HELD *ux.job.JOB_QUEUE_STATUS_HELD )
+
+# java.lang.String JOB_QUEUE_STATUS_READY
+# Constant indicating that this job is ready to be selected.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_STATUS_READY *ux.job.JOB_QUEUE_STATUS_READY )
+
+# java.lang.String JOB_QUEUE_STATUS_SCHEDULED
+# Constant indicating that this job will run as scheduled.
+fieldConst ( com.ibm.as400.access.Job JOB_QUEUE_STATUS_SCHEDULED *ux.job.JOB_QUEUE_STATUS_SCHEDULED )
+
+# int JOB_STATUS
+# Job attribute representing the status of this job.
+fieldConst ( com.ibm.as400.access.Job JOB_STATUS *ux.job.JOB_STATUS )
+
+# java.lang.String JOB_STATUS_ACTIVE
+# Constant indicating this job is an active job.
+fieldConst ( com.ibm.as400.access.Job JOB_STATUS_ACTIVE *ux.job.JOB_STATUS_ACTIVE )
+
+# java.lang.String JOB_STATUS_JOBQ
+# Constant indicating this job is currently on a job queue.
+fieldConst ( com.ibm.as400.access.Job JOB_STATUS_JOBQ *ux.job.JOB_STATUS_JOBQ )
+
+# java.lang.String JOB_STATUS_OUTQ
+# Constant indicating this job has completed running, but still has output on an output queue.
+fieldConst ( com.ibm.as400.access.Job JOB_STATUS_OUTQ *ux.job.JOB_STATUS_OUTQ )
+
+# int JOB_SUBTYPE
+# Job attribute representing additional information about the job type (if any exists).
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE *ux.job.JOB_SUBTYPE )
+
+# java.lang.String JOB_SUBTYPE_ALTERNATE_SPOOL_USER
+# Constant indicating that the job is an alternate spool user job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_ALTERNATE_SPOOL_USER *ux.job.JOB_SUBTYPE_ALTERNATE_SPOOL_USER )
+
+# java.lang.String JOB_SUBTYPE_BLANK
+# Constant indicating that the job has no special subtype or is not a valid job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_BLANK *ux.job.JOB_SUBTYPE_BLANK )
+
+# java.lang.String JOB_SUBTYPE_IMMEDIATE
+# Constant indicating that the job is an immediate job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_IMMEDIATE *ux.job.JOB_SUBTYPE_IMMEDIATE )
+
+# java.lang.String JOB_SUBTYPE_MACHINE_SERVER_JOB
+# Constant indicating that the job is an AS/400 Advanced 36 machine server job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_MACHINE_SERVER_JOB *ux.job.JOB_SUBTYPE_MACHINE_SERVER_JOB )
+
+# java.lang.String JOB_SUBTYPE_MRT
+# Constant indicating that the job is a System/36 multiple requester terminal (MRT) job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_MRT *ux.job.JOB_SUBTYPE_MRT )
+
+# java.lang.String JOB_SUBTYPE_PRESTART
+# Constant indicating that the job is a prestart job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_PRESTART *ux.job.JOB_SUBTYPE_PRESTART )
+
+# java.lang.String JOB_SUBTYPE_PRINT_DRIVER
+# Constant indicating that the job is a print driver job.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_PRINT_DRIVER *ux.job.JOB_SUBTYPE_PRINT_DRIVER )
+
+# java.lang.String JOB_SUBTYPE_PROCEDURE_START_REQUEST
+# Constant indicating that the job started with a procedure start request.
+fieldConst ( com.ibm.as400.access.Job JOB_SUBTYPE_PROCEDURE_START_REQUEST *ux.job.JOB_SUBTYPE_PROCEDURE_START_REQUEST )
+
+# int JOB_SWITCHES
+# Job attribute representing the current setting of the job switches used by this job.
+fieldConst ( com.ibm.as400.access.Job JOB_SWITCHES *ux.job.JOB_SWITCHES )
+
+# int JOB_TYPE
+# Job attribute representing the type of job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE *ux.job.JOB_TYPE )
+
+# java.lang.String JOB_TYPE_AUTOSTART
+# Constant indicating that the job is an autostart job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_AUTOSTART *ux.job.JOB_TYPE_AUTOSTART )
+
+# java.lang.String JOB_TYPE_BATCH
+# Constant indicating that the job is a batch job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_BATCH *ux.job.JOB_TYPE_BATCH )
+
+# int JOB_TYPE_ENHANCED
+# Job attribute representing the type of job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED *ux.job.JOB_TYPE_ENHANCED )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_AUTOSTART
+# Constant indicating that the job is an autostart job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_AUTOSTART *ux.job.JOB_TYPE_ENHANCED_AUTOSTART )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_BATCH
+# Constant indicating that the job is a batch job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_BATCH *ux.job.JOB_TYPE_ENHANCED_BATCH )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_BATCH_ALTERNATE_SPOOL_USER
+# Constant indicating that the job is a batch alternate spool user job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_BATCH_ALTERNATE_SPOOL_USER *ux.job.JOB_TYPE_ENHANCED_BATCH_ALTERNATE_SPOOL_USER )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_BATCH_IMMEDIATE
+# Constant indicating that the job is a batch immediate job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_BATCH_IMMEDIATE *ux.job.JOB_TYPE_ENHANCED_BATCH_IMMEDIATE )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_BATCH_MRT
+# Constant indicating that the job is a batch System/36 multiple requester terminal (MRT) job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_BATCH_MRT *ux.job.JOB_TYPE_ENHANCED_BATCH_MRT )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_COMM_PROCEDURE_START_REQUEST
+# Constant indicating that the job is a communications procedure start request job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_COMM_PROCEDURE_START_REQUEST *ux.job.JOB_TYPE_ENHANCED_COMM_PROCEDURE_START_REQUEST )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_INTERACTIVE
+# Constant indicating that the job is an interactive job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_INTERACTIVE *ux.job.JOB_TYPE_ENHANCED_INTERACTIVE )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_INTERACTIVE_GROUP
+# Constant indicating that the job is an interactive job that is part of a group.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_INTERACTIVE_GROUP *ux.job.JOB_TYPE_ENHANCED_INTERACTIVE_GROUP )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_INTERACTIVE_SYSREQ
+# Constant indicating that the job is an interactive job that is part of a system request pair.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_INTERACTIVE_SYSREQ *ux.job.JOB_TYPE_ENHANCED_INTERACTIVE_SYSREQ )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_INTERACTIVE_SYSREQ_AND_GROUP
+# Constant indicating that the job is an interactive job that is part of a system request pair and part of a group.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_INTERACTIVE_SYSREQ_AND_GROUP *ux.job.JOB_TYPE_ENHANCED_INTERACTIVE_SYSREQ_AND_GROUP )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_PRESTART
+# Constant indicating that the job is a prestart job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_PRESTART *ux.job.JOB_TYPE_ENHANCED_PRESTART )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_PRESTART_BATCH
+# Constant indicating that the job is a prestart batch job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_PRESTART_BATCH *ux.job.JOB_TYPE_ENHANCED_PRESTART_BATCH )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_PRESTART_COMM
+# Constant indicating that the job is a prestart communications job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_PRESTART_COMM *ux.job.JOB_TYPE_ENHANCED_PRESTART_COMM )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_READER
+# Constant indicating that the job is a reader job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_READER *ux.job.JOB_TYPE_ENHANCED_READER )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_SUBSYSTEM
+# Constant indicating that the job is a subsystem job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_SUBSYSTEM *ux.job.JOB_TYPE_ENHANCED_SUBSYSTEM )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_SYSTEM
+# Constant indicating that the job is a system job (all system jobs including SCPF).
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_SYSTEM *ux.job.JOB_TYPE_ENHANCED_SYSTEM )
+
+# java.lang.Integer JOB_TYPE_ENHANCED_WRITER
+# Constant indicating that the job is a writer job (including both spool writers and print drivers).
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_ENHANCED_WRITER *ux.job.JOB_TYPE_ENHANCED_WRITER )
+
+# java.lang.String JOB_TYPE_INTERACTIVE
+# Constant indicating that the job is an interactive job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_INTERACTIVE *ux.job.JOB_TYPE_INTERACTIVE )
+
+# java.lang.String JOB_TYPE_NOT_VALID
+# Constant indicating that the job is not a valid job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_NOT_VALID *ux.job.JOB_TYPE_NOT_VALID )
+
+# java.lang.String JOB_TYPE_SCPF_SYSTEM
+# Constant indicating that the job is the SCPF system job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_SCPF_SYSTEM *ux.job.JOB_TYPE_SCPF_SYSTEM )
+
+# java.lang.String JOB_TYPE_SPOOLED_READER
+# Constant indicating that the job is a spooled reader job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_SPOOLED_READER *ux.job.JOB_TYPE_SPOOLED_READER )
+
+# java.lang.String JOB_TYPE_SPOOLED_WRITER
+# Constant indicating that the job is a spooled writer job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_SPOOLED_WRITER *ux.job.JOB_TYPE_SPOOLED_WRITER )
+
+# java.lang.String JOB_TYPE_SUBSYSTEM_MONITOR
+# Constant indicating that the job is a subsystem monitor job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_SUBSYSTEM_MONITOR *ux.job.JOB_TYPE_SUBSYSTEM_MONITOR )
+
+# java.lang.String JOB_TYPE_SYSTEM
+# Constant indicating that the job is a system job.
+fieldConst ( com.ibm.as400.access.Job JOB_TYPE_SYSTEM *ux.job.JOB_TYPE_SYSTEM )
+
+# int JOB_USER_IDENTITY
+# Job attribute representing the user profile name by which the job is known to other jobs on the system.
+fieldConst ( com.ibm.as400.access.Job JOB_USER_IDENTITY *ux.job.JOB_USER_IDENTITY )
+
+# int JOB_USER_IDENTITY_SETTING
+# Job attribute representing the method by which the job user identity was set.
+fieldConst ( com.ibm.as400.access.Job JOB_USER_IDENTITY_SETTING *ux.job.JOB_USER_IDENTITY_SETTING )
+
+# java.lang.String JOB_USER_IDENTITY_SETTING_APPLICATION
+# Constant indicating that the job user identity was explicitly set by an application using one of the Set Job User Identity APIs, QWTSJUID or QwtSetJuid().
+fieldConst ( com.ibm.as400.access.Job JOB_USER_IDENTITY_SETTING_APPLICATION *ux.job.JOB_USER_IDENTITY_SETTING_APPLICATION )
+
+# java.lang.String JOB_USER_IDENTITY_SETTING_DEFAULT
+# Constant indicating that the job is currently running single threaded and the job user identity is the name of the user profile under which the job is currently running.
+fieldConst ( com.ibm.as400.access.Job JOB_USER_IDENTITY_SETTING_DEFAULT *ux.job.JOB_USER_IDENTITY_SETTING_DEFAULT )
+
+# java.lang.String JOB_USER_IDENTITY_SETTING_SYSTEM
+# Constant indicating that the job is currently running multithreaded and the job user identity was implicitly set by the system when the job became multithreaded.
+fieldConst ( com.ibm.as400.access.Job JOB_USER_IDENTITY_SETTING_SYSTEM *ux.job.JOB_USER_IDENTITY_SETTING_SYSTEM )
+
+# int KEEP_DDM_CONNECTIONS_ACTIVE
+# Job attribute representing whether connections using distributed data management (DDM) protocols remain active when they are not being used.
+fieldConst ( com.ibm.as400.access.Job KEEP_DDM_CONNECTIONS_ACTIVE *ux.job.KEEP_DDM_CONNECTIONS_ACTIVE )
+
+# java.lang.String KEEP_DDM_CONNECTIONS_ACTIVE_DROP
+# Constant indicating that the system ends a DDM connection when there are no users.
+fieldConst ( com.ibm.as400.access.Job KEEP_DDM_CONNECTIONS_ACTIVE_DROP *ux.job.KEEP_DDM_CONNECTIONS_ACTIVE_DROP )
+
+# java.lang.String KEEP_DDM_CONNECTIONS_ACTIVE_KEEP
+# Constant indicating that the system keeps DDM connections active when there are no users, except for the following: The routing step ends on the source system.
+fieldConst ( com.ibm.as400.access.Job KEEP_DDM_CONNECTIONS_ACTIVE_KEEP *ux.job.KEEP_DDM_CONNECTIONS_ACTIVE_KEEP )
+
+# int LANGUAGE_ID
+# Job attribute representing the language identifier associated with this job.
+fieldConst ( com.ibm.as400.access.Job LANGUAGE_ID *ux.job.LANGUAGE_ID )
+
+# java.lang.String LANGUAGE_ID_INITIAL_USER
+# Constant indicating the language ID specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job LANGUAGE_ID_INITIAL_USER *ux.job.LANGUAGE_ID_INITIAL_USER )
+
+# java.lang.String LANGUAGE_ID_SYSTEM_VALUE
+# Constant indicating the system value QLANGID is used.
+fieldConst ( com.ibm.as400.access.Job LANGUAGE_ID_SYSTEM_VALUE *ux.job.LANGUAGE_ID_SYSTEM_VALUE )
+
+# int LOCATION_NAME
+# Job attribute representing the location name portion of the unit of work ID.
+fieldConst ( com.ibm.as400.access.Job LOCATION_NAME *ux.job.LOCATION_NAME )
+
+# int LOG_CL_PROGRAMS
+# Job attribute representing whether or not commands are logged for CL programs that are run.
+fieldConst ( com.ibm.as400.access.Job LOG_CL_PROGRAMS *ux.job.LOG_CL_PROGRAMS )
+
+# java.lang.String LOG_CL_PROGRAMS_NO
+# Constant indicating that commands are not logged for CL programs that are run.
+fieldConst ( com.ibm.as400.access.Job LOG_CL_PROGRAMS_NO *ux.job.LOG_CL_PROGRAMS_NO )
+
+# java.lang.String LOG_CL_PROGRAMS_YES
+# Constant indicating that commands are logged for CL programs that are run.
+fieldConst ( com.ibm.as400.access.Job LOG_CL_PROGRAMS_YES *ux.job.LOG_CL_PROGRAMS_YES )
+
+# int LOGGING_LEVEL
+# Job attribute representing what type of information is logged.
+fieldConst ( com.ibm.as400.access.Job LOGGING_LEVEL *ux.job.LOGGING_LEVEL )
+
+# java.lang.String LOGGING_LEVEL_ALL_REQUESTS_AND_ASSOCIATED_MESSAGES
+# Constant indicating that the following information is logged: Logging level 1 and 2 information is logged.
+fieldConst ( com.ibm.as400.access.Job LOGGING_LEVEL_ALL_REQUESTS_AND_ASSOCIATED_MESSAGES *ux.job.LOGGING_LEVEL_ALL_REQUESTS_AND_ASSOCIATED_MESSAGES )
+
+# java.lang.String LOGGING_LEVEL_ALL_REQUESTS_AND_MESSAGES
+# Constant indicating that the following information is logged: All request messages and all messages with a severity greater than or equal to the message logging severity, including trace messages.
+fieldConst ( com.ibm.as400.access.Job LOGGING_LEVEL_ALL_REQUESTS_AND_MESSAGES *ux.job.LOGGING_LEVEL_ALL_REQUESTS_AND_MESSAGES )
+
+# java.lang.String LOGGING_LEVEL_MESSAGES_BY_SEVERITY
+# Constant indicating that all messages sent to the job's external message queue with a severity greater than or equal to the message logging severity are logged.
+fieldConst ( com.ibm.as400.access.Job LOGGING_LEVEL_MESSAGES_BY_SEVERITY *ux.job.LOGGING_LEVEL_MESSAGES_BY_SEVERITY )
+
+# java.lang.String LOGGING_LEVEL_NONE
+# Constant indicating that no messages are logged.
+fieldConst ( com.ibm.as400.access.Job LOGGING_LEVEL_NONE *ux.job.LOGGING_LEVEL_NONE )
+
+# java.lang.String LOGGING_LEVEL_REQUESTS_BY_SEVERITY_AND_ASSOCIATED_MESSAGES
+# Constant indicating that the following information is logged: Logging level 1 information.
+fieldConst ( com.ibm.as400.access.Job LOGGING_LEVEL_REQUESTS_BY_SEVERITY_AND_ASSOCIATED_MESSAGES *ux.job.LOGGING_LEVEL_REQUESTS_BY_SEVERITY_AND_ASSOCIATED_MESSAGES )
+
+# int LOGGING_SEVERITY
+# Job attribute representing the severity level that is used in conjunction with the logging level to determine which error messages are logged in the job log.
+fieldConst ( com.ibm.as400.access.Job LOGGING_SEVERITY *ux.job.LOGGING_SEVERITY )
+
+# int LOGGING_TEXT
+# Job attribute representing the level of message text that is written in the job log when a message is logged according to the LOGGING_LEVEL and LOGGING_SEVERITY.
+fieldConst ( com.ibm.as400.access.Job LOGGING_TEXT *ux.job.LOGGING_TEXT )
+
+# java.lang.String LOGGING_TEXT_MESSAGE
+# Constant indicating that only the message text is written to the job log.
+fieldConst ( com.ibm.as400.access.Job LOGGING_TEXT_MESSAGE *ux.job.LOGGING_TEXT_MESSAGE )
+
+# java.lang.String LOGGING_TEXT_NO_LIST
+# Constant indicating that if the job ends normally, no job log is produced.
+fieldConst ( com.ibm.as400.access.Job LOGGING_TEXT_NO_LIST *ux.job.LOGGING_TEXT_NO_LIST )
+
+# java.lang.String LOGGING_TEXT_SECLVL
+# Constant indicating that both the message text and the message help (cause and recovery) of the error message are written to the job log.
+fieldConst ( com.ibm.as400.access.Job LOGGING_TEXT_SECLVL *ux.job.LOGGING_TEXT_SECLVL )
+
+# int MAX_CPU_TIME
+# Job attribute representing the maximum processing unit time (in milliseconds) that the job can use.
+fieldConst ( com.ibm.as400.access.Job MAX_CPU_TIME *ux.job.MAX_CPU_TIME )
+
+# int MAX_TEMP_STORAGE
+# Job attribute representing the maximum amount of auxiliary storage (in kilobytes) that the job can use.
+fieldConst ( com.ibm.as400.access.Job MAX_TEMP_STORAGE *ux.job.MAX_TEMP_STORAGE )
+
+# int MAX_TEMP_STORAGE_LARGE
+# Job attribute representing the maximum amount of auxiliary storage (in megabytes) that the job can use.
+fieldConst ( com.ibm.as400.access.Job MAX_TEMP_STORAGE_LARGE *ux.job.MAX_TEMP_STORAGE_LARGE )
+
+# int MAX_THREADS
+# Job attribute representing the maximum number of threads that a job can run with at any time.
+fieldConst ( com.ibm.as400.access.Job MAX_THREADS *ux.job.MAX_THREADS )
+
+# int MEMORY_POOL
+# Job attribute representing the name of the memory pool in which the job started running.
+fieldConst ( com.ibm.as400.access.Job MEMORY_POOL *ux.job.MEMORY_POOL )
+
+# java.lang.String MEMORY_POOL_BASE
+# Constant indicating that this job is running in the base system pool, which can be shared with other subsystems.
+fieldConst ( com.ibm.as400.access.Job MEMORY_POOL_BASE *ux.job.MEMORY_POOL_BASE )
+
+# java.lang.String MEMORY_POOL_INTERACTIVE
+# Constant indicating that this job is running in the shared pool used for interactive work.
+fieldConst ( com.ibm.as400.access.Job MEMORY_POOL_INTERACTIVE *ux.job.MEMORY_POOL_INTERACTIVE )
+
+# java.lang.String MEMORY_POOL_MACHINE
+# Constant indicating that this job is running in the machine pool.
+fieldConst ( com.ibm.as400.access.Job MEMORY_POOL_MACHINE *ux.job.MEMORY_POOL_MACHINE )
+
+# java.lang.String MEMORY_POOL_SPOOL
+# Constant indicating that this job is running in the shared pool for spooled writers.
+fieldConst ( com.ibm.as400.access.Job MEMORY_POOL_SPOOL *ux.job.MEMORY_POOL_SPOOL )
+
+# int MESSAGE_QUEUE_ACTION
+# Job attribute representing the action to take when the message queue is full.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_QUEUE_ACTION *ux.job.MESSAGE_QUEUE_ACTION )
+
+# java.lang.String MESSAGE_QUEUE_ACTION_NO_WRAP
+# Constant indicating that when the job message queue is full, do not wrap.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_QUEUE_ACTION_NO_WRAP *ux.job.MESSAGE_QUEUE_ACTION_NO_WRAP )
+
+# java.lang.String MESSAGE_QUEUE_ACTION_PRINT_WRAP
+# Constant indicating that when the job message queue is full, wrap the message queue and print the messages that are being overlaid because of the wrapping.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_QUEUE_ACTION_PRINT_WRAP *ux.job.MESSAGE_QUEUE_ACTION_PRINT_WRAP )
+
+# java.lang.String MESSAGE_QUEUE_ACTION_SYSTEM_VALUE
+# Constant indicating the value specified for the QJOBMSGQFL system value is used.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_QUEUE_ACTION_SYSTEM_VALUE *ux.job.MESSAGE_QUEUE_ACTION_SYSTEM_VALUE )
+
+# java.lang.String MESSAGE_QUEUE_ACTION_WRAP
+# Constant indicating that when the job message queue is full, wrap to the beginning and start filling again.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_QUEUE_ACTION_WRAP *ux.job.MESSAGE_QUEUE_ACTION_WRAP )
+
+# int MESSAGE_QUEUE_MAX_SIZE
+# Job attribute representing the maximum size (in megabytes) that the job message queue can become.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_QUEUE_MAX_SIZE *ux.job.MESSAGE_QUEUE_MAX_SIZE )
+
+# int MESSAGE_REPLY
+# Job attribute representing whether the job is waiting for a reply to a specific message.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_REPLY *ux.job.MESSAGE_REPLY )
+
+# java.lang.String MESSAGE_REPLY_NOT_IN_MESSAGE_WAIT
+# Constant indicating that the job currently is not in message wait status.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_REPLY_NOT_IN_MESSAGE_WAIT *ux.job.MESSAGE_REPLY_NOT_IN_MESSAGE_WAIT )
+
+# java.lang.String MESSAGE_REPLY_NOT_WAITING
+# Constant indicating that the job is not waiting for a reply to a message.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_REPLY_NOT_WAITING *ux.job.MESSAGE_REPLY_NOT_WAITING )
+
+# java.lang.String MESSAGE_REPLY_WAITING
+# Constant indicating that the job is waiting for a reply to a message.
+fieldConst ( com.ibm.as400.access.Job MESSAGE_REPLY_WAITING *ux.job.MESSAGE_REPLY_WAITING )
+
+# int MODE
+# Job attribute representing the mode name of the advanced program-to-program communications (APPC) device that started the job.
+fieldConst ( com.ibm.as400.access.Job MODE *ux.job.MODE )
+
+# int NETWORK_ID
+# Job attribute representing the network ID portion of the unit of work ID.
+fieldConst ( com.ibm.as400.access.Job NETWORK_ID *ux.job.NETWORK_ID )
+
+# int OUTPUT_QUEUE
+# Job attribute representing the name of the default output queue that is used for spooled output produced by this job.
+fieldConst ( com.ibm.as400.access.Job OUTPUT_QUEUE *ux.job.OUTPUT_QUEUE )
+
+# java.lang.String OUTPUT_QUEUE_DEVICE
+# Constant indicating the device specified on the Create Printer File (CRTPRTF), Change Printer File (CHGPRTF), or Override with Printer File (OVRPRTF) commands is used.
+fieldConst ( com.ibm.as400.access.Job OUTPUT_QUEUE_DEVICE *ux.job.OUTPUT_QUEUE_DEVICE )
+
+# java.lang.String OUTPUT_QUEUE_INITIAL_USER
+# Constant indicating the output queue name specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job OUTPUT_QUEUE_INITIAL_USER *ux.job.OUTPUT_QUEUE_INITIAL_USER )
+
+# int OUTPUT_QUEUE_PRIORITY
+# Job attribute representing the output priority for spooled output files that this job produces.
+fieldConst ( com.ibm.as400.access.Job OUTPUT_QUEUE_PRIORITY *ux.job.OUTPUT_QUEUE_PRIORITY )
+
+# java.lang.String OUTPUT_QUEUE_WORK_STATION
+# Constant indicating the default output queue that is used with this job is the output queue that is assigned to the work station associated with the job at the time the job is started.
+fieldConst ( com.ibm.as400.access.Job OUTPUT_QUEUE_WORK_STATION *ux.job.OUTPUT_QUEUE_WORK_STATION )
+
+# int PRINT_KEY_FORMAT
+# Job attribute representing whether border and header information is provided when the Print key is pressed.
+fieldConst ( com.ibm.as400.access.Job PRINT_KEY_FORMAT *ux.job.PRINT_KEY_FORMAT )
+
+# java.lang.String PRINT_KEY_FORMAT_ALL
+# Constant indicating that the border and header information is included with output from the Print key.
+fieldConst ( com.ibm.as400.access.Job PRINT_KEY_FORMAT_ALL *ux.job.PRINT_KEY_FORMAT_ALL )
+
+# java.lang.String PRINT_KEY_FORMAT_BORDER
+# Constant indicating that the border information is included with output from the Print key.
+fieldConst ( com.ibm.as400.access.Job PRINT_KEY_FORMAT_BORDER *ux.job.PRINT_KEY_FORMAT_BORDER )
+
+# java.lang.String PRINT_KEY_FORMAT_HEADER
+# Constant indicating that the header information is included with output from the Print key.
+fieldConst ( com.ibm.as400.access.Job PRINT_KEY_FORMAT_HEADER *ux.job.PRINT_KEY_FORMAT_HEADER )
+
+# java.lang.String PRINT_KEY_FORMAT_NONE
+# Constant indicating that the border and header information is not included with output from the Print key.
+fieldConst ( com.ibm.as400.access.Job PRINT_KEY_FORMAT_NONE *ux.job.PRINT_KEY_FORMAT_NONE )
+
+# java.lang.String PRINT_KEY_FORMAT_SYSTEM_VALUE
+# Constant indicating that the value specified on the system value QPRTKEYFMT determines whether header or border information is printed.
+fieldConst ( com.ibm.as400.access.Job PRINT_KEY_FORMAT_SYSTEM_VALUE *ux.job.PRINT_KEY_FORMAT_SYSTEM_VALUE )
+
+# int PRINT_TEXT
+# Job attribute representing the line of text (if any) that is printed at the bottom of each page of printed output for the job.
+fieldConst ( com.ibm.as400.access.Job PRINT_TEXT *ux.job.PRINT_TEXT )
+
+# java.lang.String PRINT_TEXT_BLANK
+# Constant indicating that no text is printed on printed output.
+fieldConst ( com.ibm.as400.access.Job PRINT_TEXT_BLANK *ux.job.PRINT_TEXT_BLANK )
+
+# java.lang.String PRINT_TEXT_SYSTEM_VALUE
+# Constant indicating the system value QPRTTXT is used.
+fieldConst ( com.ibm.as400.access.Job PRINT_TEXT_SYSTEM_VALUE *ux.job.PRINT_TEXT_SYSTEM_VALUE )
+
+# int PRINTER_DEVICE_NAME
+# Job attribute representing the printer device used for printing output from this job.
+fieldConst ( com.ibm.as400.access.Job PRINTER_DEVICE_NAME *ux.job.PRINTER_DEVICE_NAME )
+
+# java.lang.String PRINTER_DEVICE_NAME_INITIAL_USER
+# Constant indicating that the printer device name specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job PRINTER_DEVICE_NAME_INITIAL_USER *ux.job.PRINTER_DEVICE_NAME_INITIAL_USER )
+
+# java.lang.String PRINTER_DEVICE_NAME_SYSTEM_VALUE
+# Constant indicating the value in the system value QPRTDEV is used as the printer device.
+fieldConst ( com.ibm.as400.access.Job PRINTER_DEVICE_NAME_SYSTEM_VALUE *ux.job.PRINTER_DEVICE_NAME_SYSTEM_VALUE )
+
+# java.lang.String PRINTER_DEVICE_NAME_WORK_STATION
+# Constant indicating that the default printer device used with this job is the printer device assigned to the work station that is associated with the job.
+fieldConst ( com.ibm.as400.access.Job PRINTER_DEVICE_NAME_WORK_STATION *ux.job.PRINTER_DEVICE_NAME_WORK_STATION )
+
+# int PRODUCT_LIBRARIES
+# Job attribute representing the libraries that contain product information for the initial thread of the job.
+fieldConst ( com.ibm.as400.access.Job PRODUCT_LIBRARIES *ux.job.PRODUCT_LIBRARIES )
+
+# int PRODUCT_RETURN_CODE
+# Job attribute representing the return code set by the compiler for Integrated Language Environment (ILE) languages.
+fieldConst ( com.ibm.as400.access.Job PRODUCT_RETURN_CODE *ux.job.PRODUCT_RETURN_CODE )
+
+# int PROGRAM_RETURN_CODE
+# Job attribute representing the completion status of the last program that has finished running, if the job contains any RPG, COBOL, data file utility (DFU), or sort utility programs.
+fieldConst ( com.ibm.as400.access.Job PROGRAM_RETURN_CODE *ux.job.PROGRAM_RETURN_CODE )
+
+# int ROUTING_DATA
+# Job attribute representing the routing data that is used to determine the routing entry that identifies the program to start for the routing step.
+fieldConst ( com.ibm.as400.access.Job ROUTING_DATA *ux.job.ROUTING_DATA )
+
+# int RUN_PRIORITY
+# Job attribute representing the priority at which the job is currently running, relative to other jobs on the system.
+fieldConst ( com.ibm.as400.access.Job RUN_PRIORITY *ux.job.RUN_PRIORITY )
+
+# int SCHEDULE_DATE
+# Job attribute representing the date on which the submitted job becomes eligible to run.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE *ux.job.SCHEDULE_DATE )
+
+# java.lang.String SCHEDULE_DATE_CURRENT
+# Constant indicating the submitted job becomes eligible to run on the current date.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_CURRENT *ux.job.SCHEDULE_DATE_CURRENT )
+
+# java.lang.String SCHEDULE_DATE_FRIDAY
+# Constant indicating the job becomes eligible to run on Friday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_FRIDAY *ux.job.SCHEDULE_DATE_FRIDAY )
+
+# java.lang.String SCHEDULE_DATE_MONDAY
+# Constant indicating the job becomes eligible to run on Monday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_MONDAY *ux.job.SCHEDULE_DATE_MONDAY )
+
+# java.lang.String SCHEDULE_DATE_MONTH_END
+# Constant indicating the submitted job becomes eligible to run on the last day of the month.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_MONTH_END *ux.job.SCHEDULE_DATE_MONTH_END )
+
+# java.lang.String SCHEDULE_DATE_MONTH_START
+# Constant indicating the submitted job becomes eligible to run on the first day of the month.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_MONTH_START *ux.job.SCHEDULE_DATE_MONTH_START )
+
+# java.lang.String SCHEDULE_DATE_SATURDAY
+# Constant indicating the job becomes eligible to run on Saturday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_SATURDAY *ux.job.SCHEDULE_DATE_SATURDAY )
+
+# java.lang.String SCHEDULE_DATE_SUNDAY
+# Constant indicating the job becomes eligible to run on Sunday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_SUNDAY *ux.job.SCHEDULE_DATE_SUNDAY )
+
+# java.lang.String SCHEDULE_DATE_THURSDAY
+# Constant indicating the job becomes eligible to run on Thursday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_THURSDAY *ux.job.SCHEDULE_DATE_THURSDAY )
+
+# java.lang.String SCHEDULE_DATE_TUESDAY
+# Constant indicating the job becomes eligible to run on Tuesday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_TUESDAY *ux.job.SCHEDULE_DATE_TUESDAY )
+
+# java.lang.String SCHEDULE_DATE_WEDNESDAY
+# Constant indicating the job becomes eligible to run on Wednesday.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_DATE_WEDNESDAY *ux.job.SCHEDULE_DATE_WEDNESDAY )
+
+# int SCHEDULE_TIME
+# Job attribute representing the time on the scheduled date at which the job becomes eligible to run.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_TIME *ux.job.SCHEDULE_TIME )
+
+# java.lang.String SCHEDULE_TIME_CURRENT
+# Constant indicating the job is submitted on the current time.
+fieldConst ( com.ibm.as400.access.Job SCHEDULE_TIME_CURRENT *ux.job.SCHEDULE_TIME_CURRENT )
+
+# int SEQUENCE_NUMBER
+# Job attribute representing the sequence number portion of the unit of work ID.
+fieldConst ( com.ibm.as400.access.Job SEQUENCE_NUMBER *ux.job.SEQUENCE_NUMBER )
+
+# int SERVER_TYPE
+# Job attribute representing the type of server represented by the job.
+fieldConst ( com.ibm.as400.access.Job SERVER_TYPE *ux.job.SERVER_TYPE )
+
+# int SIGNED_ON_JOB
+# Job attribute representing whether the job is to be treated like a signed-on user on the system.
+fieldConst ( com.ibm.as400.access.Job SIGNED_ON_JOB *ux.job.SIGNED_ON_JOB )
+
+# java.lang.String SIGNED_ON_JOB_FALSE
+# Constant indicating that the job should not be treated like a signed-on user.
+fieldConst ( com.ibm.as400.access.Job SIGNED_ON_JOB_FALSE *ux.job.SIGNED_ON_JOB_FALSE )
+
+# java.lang.String SIGNED_ON_JOB_TRUE
+# Constant indicating that the job should be treated like a signed-on user.
+fieldConst ( com.ibm.as400.access.Job SIGNED_ON_JOB_TRUE *ux.job.SIGNED_ON_JOB_TRUE )
+
+# int SORT_SEQUENCE_TABLE
+# Job attribute representing the sort sequence table associated with this job.
+fieldConst ( com.ibm.as400.access.Job SORT_SEQUENCE_TABLE *ux.job.SORT_SEQUENCE_TABLE )
+
+# java.lang.String SORT_SEQUENCE_TABLE_INITIAL_USER
+# Constant indicating the sort sequence table specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job SORT_SEQUENCE_TABLE_INITIAL_USER *ux.job.SORT_SEQUENCE_TABLE_INITIAL_USER )
+
+# java.lang.String SORT_SEQUENCE_TABLE_LANGUAGE_SHARED_WEIGHT
+# Constant indicating that the sort sequence table used can contain the same weight for multiple characters, and it is the shared weight sort table associated with the language specified in the LANGUAGE_ID attribute.
+fieldConst ( com.ibm.as400.access.Job SORT_SEQUENCE_TABLE_LANGUAGE_SHARED_WEIGHT *ux.job.SORT_SEQUENCE_TABLE_LANGUAGE_SHARED_WEIGHT )
+
+# java.lang.String SORT_SEQUENCE_TABLE_LANGUAGE_UNIQUE_WEIGHT
+# Constant indicating that the sort sequence table used must contain a unique weight for each character in the code page, and it is the unique weight sort table associated with the language specified in the LANGUAGE_ID parameter.
+fieldConst ( com.ibm.as400.access.Job SORT_SEQUENCE_TABLE_LANGUAGE_UNIQUE_WEIGHT *ux.job.SORT_SEQUENCE_TABLE_LANGUAGE_UNIQUE_WEIGHT )
+
+# java.lang.String SORT_SEQUENCE_TABLE_NONE
+# Constant indicating that no sort sequence table is used.
+fieldConst ( com.ibm.as400.access.Job SORT_SEQUENCE_TABLE_NONE *ux.job.SORT_SEQUENCE_TABLE_NONE )
+
+# java.lang.String SORT_SEQUENCE_TABLE_SYSTEM_VALUE
+# Constant indicating the system value QSRTSEQ is used.
+fieldConst ( com.ibm.as400.access.Job SORT_SEQUENCE_TABLE_SYSTEM_VALUE *ux.job.SORT_SEQUENCE_TABLE_SYSTEM_VALUE )
+
+# int SPECIAL_ENVIRONMENT
+# Job attribute representing whether a job is running in a particular environment.
+fieldConst ( com.ibm.as400.access.Job SPECIAL_ENVIRONMENT *ux.job.SPECIAL_ENVIRONMENT )
+
+# java.lang.String SPECIAL_ENVIRONMENT_NONE
+# Constant indicating that the job is not running in any special environment.
+fieldConst ( com.ibm.as400.access.Job SPECIAL_ENVIRONMENT_NONE *ux.job.SPECIAL_ENVIRONMENT_NONE )
+
+# java.lang.String SPECIAL_ENVIRONMENT_NOT_ACTIVE
+# Constant indicating that the special environment is ignored because the job is not currently active.
+fieldConst ( com.ibm.as400.access.Job SPECIAL_ENVIRONMENT_NOT_ACTIVE *ux.job.SPECIAL_ENVIRONMENT_NOT_ACTIVE )
+
+# java.lang.String SPECIAL_ENVIRONMENT_SYSTEM_36
+# Constant indicating that the job is running in the System/36 environment.
+fieldConst ( com.ibm.as400.access.Job SPECIAL_ENVIRONMENT_SYSTEM_36 *ux.job.SPECIAL_ENVIRONMENT_SYSTEM_36 )
+
+# int SPOOLED_FILE_ACTION
+# Job attribute representing whether spooled files can be accessed through job interfaces once a job has completed its normal activity.
+fieldConst ( com.ibm.as400.access.Job SPOOLED_FILE_ACTION *ux.job.SPOOLED_FILE_ACTION )
+
+# java.lang.String SPOOLED_FILE_ACTION_DETACH
+# Constant indicating that spooled files are detached from the job when the job completes its activity.
+fieldConst ( com.ibm.as400.access.Job SPOOLED_FILE_ACTION_DETACH *ux.job.SPOOLED_FILE_ACTION_DETACH )
+
+# java.lang.String SPOOLED_FILE_ACTION_KEEP
+# Constant indicating that when the job completes its activity, as long as at least one spooled file for the job exists in the system auxiliary storage pool (ASP 1) or in a basic user ASP (ASPs 2-32), the spooled files are kept with the job and the status of the job is updated to indicate that the job has completed.
+fieldConst ( com.ibm.as400.access.Job SPOOLED_FILE_ACTION_KEEP *ux.job.SPOOLED_FILE_ACTION_KEEP )
+
+# java.lang.String SPOOLED_FILE_ACTION_SYSTEM_VALUE
+# Constant indicating the job will take the spooled file action specified by the QSPLFACN system value.
+fieldConst ( com.ibm.as400.access.Job SPOOLED_FILE_ACTION_SYSTEM_VALUE *ux.job.SPOOLED_FILE_ACTION_SYSTEM_VALUE )
+
+# int STATUS_MESSAGE_HANDLING
+# Job attribute representing whether status messages are displayed for this job.
+fieldConst ( com.ibm.as400.access.Job STATUS_MESSAGE_HANDLING *ux.job.STATUS_MESSAGE_HANDLING )
+
+# java.lang.String STATUS_MESSAGE_HANDLING_INITIAL_USER
+# Constant indicating the status message handling that is specified in the user profile under which this thread was initially running is used.
+fieldConst ( com.ibm.as400.access.Job STATUS_MESSAGE_HANDLING_INITIAL_USER *ux.job.STATUS_MESSAGE_HANDLING_INITIAL_USER )
+
+# java.lang.String STATUS_MESSAGE_HANDLING_NONE
+# Constant indicating that this job does not display status messages.
+fieldConst ( com.ibm.as400.access.Job STATUS_MESSAGE_HANDLING_NONE *ux.job.STATUS_MESSAGE_HANDLING_NONE )
+
+# java.lang.String STATUS_MESSAGE_HANDLING_NORMAL
+# Constant indicating that this job displays status messages.
+fieldConst ( com.ibm.as400.access.Job STATUS_MESSAGE_HANDLING_NORMAL *ux.job.STATUS_MESSAGE_HANDLING_NORMAL )
+
+# java.lang.String STATUS_MESSAGE_HANDLING_SYSTEM_VALUE
+# Constant indicating the system value QSTSMSG is used.
+fieldConst ( com.ibm.as400.access.Job STATUS_MESSAGE_HANDLING_SYSTEM_VALUE *ux.job.STATUS_MESSAGE_HANDLING_SYSTEM_VALUE )
+
+# int SUBMITTED_BY_JOB_NAME
+# Job attribute representing the job name of the submitter's job.
+fieldConst ( com.ibm.as400.access.Job SUBMITTED_BY_JOB_NAME *ux.job.SUBMITTED_BY_JOB_NAME )
+
+# int SUBMITTED_BY_JOB_NUMBER
+# Job attribute representing the job number of the submitter's job.
+fieldConst ( com.ibm.as400.access.Job SUBMITTED_BY_JOB_NUMBER *ux.job.SUBMITTED_BY_JOB_NUMBER )
+
+# int SUBMITTED_BY_USER
+# Job attribute representing the user name of the submitter.
+fieldConst ( com.ibm.as400.access.Job SUBMITTED_BY_USER *ux.job.SUBMITTED_BY_USER )
+
+# int SUBSYSTEM
+# Job attribute representing the subsystem description in which an active job is running.
+fieldConst ( com.ibm.as400.access.Job SUBSYSTEM *ux.job.SUBSYSTEM )
+
+# int SYSTEM_LIBRARY_LIST
+# Job attribute representing the system portion of the library list of the initial thread of the job.
+fieldConst ( com.ibm.as400.access.Job SYSTEM_LIBRARY_LIST *ux.job.SYSTEM_LIBRARY_LIST )
+
+# int SYSTEM_POOL_ID
+# Job attribute representing the identifier of the system-related pool from which the job's main storage is allocated.
+fieldConst ( com.ibm.as400.access.Job SYSTEM_POOL_ID *ux.job.SYSTEM_POOL_ID )
+
+# int TEMP_STORAGE_USED
+# Job attribute representing the amount of auxiliary storage (in kilobytes) that is currently allocated to this job.
+fieldConst ( com.ibm.as400.access.Job TEMP_STORAGE_USED *ux.job.TEMP_STORAGE_USED )
+
+# int TEMP_STORAGE_USED_LARGE
+# Job attribute representing the amount of auxiliary storage (in megabytes) that is currently allocated to this job.
+fieldConst ( com.ibm.as400.access.Job TEMP_STORAGE_USED_LARGE *ux.job.TEMP_STORAGE_USED_LARGE )
+
+# int THREAD_COUNT
+# Job attribute representing the count of the current number of active threads in the process at the time of the materialization.
+fieldConst ( com.ibm.as400.access.Job THREAD_COUNT *ux.job.THREAD_COUNT )
+
+# int TIME_SEPARATOR
+# Job attribute representing the value used to separate hours, minutes, and seconds when presenting a time.
+fieldConst ( com.ibm.as400.access.Job TIME_SEPARATOR *ux.job.TIME_SEPARATOR )
+
+# java.lang.String TIME_SEPARATOR_BLANK
+# Constant indicating a blank is used for the time separator.
+fieldConst ( com.ibm.as400.access.Job TIME_SEPARATOR_BLANK *ux.job.TIME_SEPARATOR_BLANK )
+
+# java.lang.String TIME_SEPARATOR_COLON
+# Constant indicating a colon (:) is used for the time separator.
+fieldConst ( com.ibm.as400.access.Job TIME_SEPARATOR_COLON *ux.job.TIME_SEPARATOR_COLON )
+
+# java.lang.String TIME_SEPARATOR_COMMA
+# Constant indicating a comma (,) is used for the time separator.
+fieldConst ( com.ibm.as400.access.Job TIME_SEPARATOR_COMMA *ux.job.TIME_SEPARATOR_COMMA )
+
+# java.lang.String TIME_SEPARATOR_PERIOD
+# Constant indicating a period (.) is used for the time separator.
+fieldConst ( com.ibm.as400.access.Job TIME_SEPARATOR_PERIOD *ux.job.TIME_SEPARATOR_PERIOD )
+
+# java.lang.String TIME_SEPARATOR_SYSTEM_VALUE
+# Constant indicating the time separator specified in the system value QTIMSEP is used.
+fieldConst ( com.ibm.as400.access.Job TIME_SEPARATOR_SYSTEM_VALUE *ux.job.TIME_SEPARATOR_SYSTEM_VALUE )
+
+# int TIME_SLICE
+# Job attribute representing the maximum amount of processor time (in milliseconds) given to each thread in this job before other threads in this job and in other jobs are given the opportunity to run.
+fieldConst ( com.ibm.as400.access.Job TIME_SLICE *ux.job.TIME_SLICE )
+
+# int TIME_SLICE_END_POOL
+# Job attribute representing whether a thread in an interactive job moves to another main storage pool at the end of its time slice.
+fieldConst ( com.ibm.as400.access.Job TIME_SLICE_END_POOL *ux.job.TIME_SLICE_END_POOL )
+
+# java.lang.String TIME_SLICE_END_POOL_BASE
+# Constant indicating that a thread in the job moves to the base pool when it reaches the end of its time slice.
+fieldConst ( com.ibm.as400.access.Job TIME_SLICE_END_POOL_BASE *ux.job.TIME_SLICE_END_POOL_BASE )
+
+# java.lang.String TIME_SLICE_END_POOL_NONE
+# Constant indicating that a thread in the job does not move to another main storage pool when it reaches the end of its time slice.
+fieldConst ( com.ibm.as400.access.Job TIME_SLICE_END_POOL_NONE *ux.job.TIME_SLICE_END_POOL_NONE )
+
+# java.lang.String TIME_SLICE_END_POOL_SYSTEM_VALUE
+# Constant indicating the value in the system value QTSEPPOOL is used.
+fieldConst ( com.ibm.as400.access.Job TIME_SLICE_END_POOL_SYSTEM_VALUE *ux.job.TIME_SLICE_END_POOL_SYSTEM_VALUE )
+
+# int TOTAL_RESPONSE_TIME
+# Job attribute representing the total amount of response time for the initial thread, in milliseconds.
+fieldConst ( com.ibm.as400.access.Job TOTAL_RESPONSE_TIME *ux.job.TOTAL_RESPONSE_TIME )
+
+# int UNIT_OF_WORK_ID
+# Job attribute representing the unit of work ID used to track jobs across multiple systems.
+fieldConst ( com.ibm.as400.access.Job UNIT_OF_WORK_ID *ux.job.UNIT_OF_WORK_ID )
+
+# int USER_LIBRARY_LIST
+# Job attribute representing the user portion of the library list for the initial thread of the job.
+fieldConst ( com.ibm.as400.access.Job USER_LIBRARY_LIST *ux.job.USER_LIBRARY_LIST )
+
+# int USER_NAME
+# Job attribute representing the user name of the job, which is the same as the name of the user profile under which the job was started.
+fieldConst ( com.ibm.as400.access.Job USER_NAME *ux.job.USER_NAME )
+
+# java.lang.String USER_NAME_BLANK
+# Constant indicating a blank user name.
+fieldConst ( com.ibm.as400.access.Job USER_NAME_BLANK *ux.job.USER_NAME_BLANK )
+
+# int USER_RETURN_CODE
+# Job attribute representing the user-defined return code set by ILE high-level language constructs.
+fieldConst ( com.ibm.as400.access.Job USER_RETURN_CODE *ux.job.USER_RETURN_CODE )
+
+# end

@@ -8,14 +8,16 @@ const *ux.utils.ublu_included x
 
 # Utility functions
 
-# Define a constant representing a field member of a class 
+# Define a constant representing a field member of a class
 FUNC fieldConst ( classname fieldname constname ) $[
     LOCAL @clname LOCAL @fname LOCAL @cname
     string -to @clname -trim @@classname
     string -to @fname -trim @@fieldname
-    string -to @cname -trim @@constname    
+    string -to @cname -trim @@constname
     lifo -null
     calljava -to ~ -class @clname -field @fname
     calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
     const @cname ~
 ]$
+
+# end
