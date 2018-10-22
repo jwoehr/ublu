@@ -54,7 +54,7 @@ public class CmdConst extends Command {
 
     {
         setNameAndDescription("const",
-                "/2? [-to datasink] [-list | -create | -clear | -drop ~@{ *constname } | -save | -restore | -merge ] *name ~@{value} : create a constant value");
+                "/2? [-to datasink] [-list | -create | -clear | -drop ~@{ *constname } | -save | -restore | -merge ] ~@{*name} ~@{value} : create a constant value");
     }
 
     enum OPS {
@@ -117,7 +117,7 @@ public class CmdConst extends Command {
                         logArgArrayTooShortError(argArray);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-                    name = argArray.next();
+                    name = argArray.nextMaybeQuotationTuplePopString();
                     String value = argArray.nextMaybeQuotationTuplePopString();
                     if (Const.isConstName(name)) {
                         if (getInterpreter().getConst(name) != null) {

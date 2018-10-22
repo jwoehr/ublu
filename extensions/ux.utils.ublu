@@ -1,0 +1,19 @@
+# ux.utils.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Utility functions
+
+# Define a constant representing a field member of a class 
+FUNC fieldConst ( classname fieldname constname ) $[
+    LOCAL @clname LOCAL @fname LOCAL @cname
+    string -to @clname -trim @@classname
+    string -to @fname -trim @@fieldname
+    string -to @cname -trim @@constname    
+    lifo -null
+    calljava -to ~ -class @clname -field @fname
+    calljava -to ~ -obj ~ -method get -castarg ~ java.lang.Object
+    const @cname ~
+]$

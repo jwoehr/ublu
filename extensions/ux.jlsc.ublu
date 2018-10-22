@@ -1,0 +1,68 @@
+# ux.jlsc.ublu
+# Extension to Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# Methods and constants for JobList selection criteria
+# Used with objects returned by the Ublu joblist command
+
+include ux.utils.ublu
+
+# Add a selection criterion to the job list
+# ... jl the joblist object
+# ... crit the criiterion constant
+# ... value the value
+FUNC addJobSelectionCriteria ( jl crit value ) $[
+    LOCAL @jlist LOCAL @criterion LOCAL @val
+    tuple -assign @jlist @@jl
+    num -to @criterion -int @@crit
+    tuple -assign @val @@value
+    calljava -to ~ -obj @jlist -method addJobSelectionCriteria -primarg @criterion -primarg @val
+]$
+
+# Constant indicating the joblist selection criterion JOB_NAME
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_NAME *ux.jlsc.SELECTION_JOB_NAME )
+
+# Constant indicating the joblist selection criterion USER_NAME
+fieldConst ( com.ibm.as400.access.JobList SELECTION_USER_NAME *ux.jlsc.SELECTION_USER_NAME )
+
+# Constant indicating the joblist selection criterion JOB_NUMBER
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_NUMBER *ux.jlsc.SELECTION_JOB_NUMBER )
+
+# Constant indicating the joblist selection criterion JOB_TYPE
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_TYPE *ux.jlsc.SELECTION_JOB_TYPE )
+
+# Constant indicating the joblist selection criterion PRIMARY_JOB_STATUS_ACTIVE
+fieldConst ( com.ibm.as400.access.JobList SELECTION_PRIMARY_JOB_STATUS_ACTIVE *ux.jlsc.SELECTION_PRIMARY_JOB_STATUS_ACTIVE )
+
+# Constant indicating the joblist selection criterion PRIMARY_JOB_STATUS_JOBQ
+fieldConst ( com.ibm.as400.access.JobList SELECTION_PRIMARY_JOB_STATUS_JOBQ *ux.jlsc.SELECTION_PRIMARY_JOB_STATUS_JOBQ )
+
+# Constant indicating the joblist selection criterion PRIMARY_JOB_STATUS_OUTQ
+fieldConst ( com.ibm.as400.access.JobList SELECTION_PRIMARY_JOB_STATUS_OUTQ *ux.jlsc.SELECTION_PRIMARY_JOB_STATUS_OUTQ )
+
+# Constant indicating the joblist selection criterion ACTIVE_JOB_STATUS
+fieldConst ( com.ibm.as400.access.JobList SELECTION_ACTIVE_JOB_STATUS *ux.jlsc.SELECTION_ACTIVE_JOB_STATUS )
+
+# Constant indicating the joblist selection criterion JOB_QUEUE_STATUS_SCHEDULE
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_QUEUE_STATUS_SCHEDULE *ux.jlsc.SELECTION_JOB_QUEUE_STATUS_SCHEDULE )
+
+# Constant indicating the joblist selection criterion JOB_QUEUE_STATUS_READY
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_QUEUE_STATUS_READY *ux.jlsc.SELECTION_JOB_QUEUE_STATUS_READY )
+
+# Constant indicating the joblist selection criterion JOB_QUEUE_STATUS_HELD
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_QUEUE_STATUS_HELD *ux.jlsc.SELECTION_JOB_QUEUE_STATUS_HELD )
+
+# Constant indicating the joblist selection criterion JOB_QUEUE
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_QUEUE *ux.jlsc.SELECTION_JOB_QUEUE )
+
+# Constant indicating the joblist selection criterion INITIAL_USER
+fieldConst ( com.ibm.as400.access.JobList SELECTION_INITIAL_USER *ux.jlsc.SELECTION_INITIAL_USER )
+
+# Constant indicating the joblist selection criterion SERVER_TYPE
+fieldConst ( com.ibm.as400.access.JobList SELECTION_SERVER_TYPE *ux.jlsc.SELECTION_SERVER_TYPE )
+
+# Constant indicating the joblist selection criterion JOB_TYPE_ENHANCED
+fieldConst ( com.ibm.as400.access.JobList SELECTION_JOB_TYPE_ENHANCED *ux.jlsc.SELECTION_JOB_TYPE_ENHANCED )
+ 
