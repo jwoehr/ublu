@@ -6,6 +6,7 @@
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.10">
   <meta name="generator" content="Bluefish 2.2.10">
+  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -11077,10 +11078,11 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <p><code>/0 or /1 [-from datasink] [-s,-silent]
-    filepath</code><br>
-    loads all lines from <em>datasink</em>, or, in the absence of
-    the <code>-from</code> <a href=
+    <p><code>/1 [-from datasink] [-s,-silent] [-if ~@tf | -!if
+    ~@tf] ~@{filepath} : include commands from a text file or from
+    another datasink for interpretation</code><br>
+    <code>include</code> loads all lines from <em>datasink</em>,
+    or, in the absence of the <code>-from</code> <a href=
     "#Dash_Command">dash-command</a>, from the file specified by
     <em>filepath</em> and interprets each line of commands as if
     they were entered interpretively. Multiple commands with their
@@ -11169,6 +11171,29 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <code>FileNotFoundException</code> will be raised and the
       command fails.</li>
     </ul>
+
+
+    <p>Conditional inclusion can be effected via the
+    <code>-if</code> and <code>-!if</code> dash-commands.</p>
+
+
+    <ul>
+      <li><code>-if @true</code> includes</li>
+
+
+      <li><code>-if @false</code> does not include</li>
+
+
+      <li><code>-!if @true</code> does not include</li>
+
+
+      <li><code>-!if @false</code> includes</li>
+    </ul>
+
+
+    <p>The source of the flag for conditional inclusion can be
+    either a tuple variable or the <a href="#lifo">lifo</a>
+    stack.</p>
   </blockquote>
 
 

@@ -6,6 +6,7 @@ All rights reserved.
 -----
 * Commands
     * `const -defined` .. also, `const` now takes any source data sink for name
+    `include` `-if` `-!if` conditional inclusion
 
 * Extensions
     * `ux.utils.ublu` compilation utils
