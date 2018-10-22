@@ -11,6 +11,7 @@ All rights reserved.
 * Extensions
     * `ux.utils.ublu` compilation utils
     * `ux.jlsc.ublu` job list selection criteria
+    * `ux.job.ublu` jobs
 
 1.2.0 2018-10-07
 -----
