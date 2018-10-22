@@ -42,7 +42,7 @@ import java.util.logging.Level;
 public class CmdInclude extends Command {
 
     {
-        setNameAndDescription("include", "/0 /1 [-from datasink] [-s,-silent] [-if ~@tf | -!if ~@tf] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
+        setNameAndDescription("include", "/1 [-from datasink] [-s,-silent] [-if ~@tf | -!if ~@tf] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
     }
 
     /**
