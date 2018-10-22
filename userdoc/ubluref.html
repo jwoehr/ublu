@@ -5,6 +5,7 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.10">
+  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +16,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Thu, 11 Oct 2018 00:19:01 UTC">
+  "Mon, 22 Oct 2018 15:09:04 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,7 +64,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-10-10</p>
+  Last edit: 2018-10-22</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -4918,18 +4919,40 @@ Type help for help. Type license for license. Type bye to exit.
 
 
   <blockquote>
-    <p><code>/2? [-to datasink] [-list | -create | -clear | -drop
-    ~@{ *constname } | -save | -restore | -merge ] *name ~@{value}
-    : create a constant value</code>
+    <p><code>/2? [-to datasink] [-list | -create | -clear |
+    -defined ~@{*constname} | -drop ~@{*constname} | -save |
+    -restore | -merge ] ~@{*constname} ~@{value} : create a
+    constant value</code>
     </p>
 
 
-    <p>The <code>const</code> command creates a named constant with
-    a string value.<br></p>
+    <p>The <code>const</code> command:</p>
+
+
+    <ul>
+      <li>creates a named constant with a string value</li>
+
+
+      <li>drops a named constant from the map of named
+      constants</li>
+
+
+      <li>queries the existence of a named constant</li>
+
+
+      <li>displays the map of named constants</li>
+
+
+      <li>clears the map of named constants</li>
+    </ul>
+
+
+    <p>The default action is <code>-create</code>.</p>
 
 
     <p>The name of the constant must start with an asterisk
-    character *.<br></p>
+    character <code>*</code> e.g.,
+    <code>*someconstant</code>.<br></p>
 
 
     <p>A constant can be used as the <a href=
@@ -4937,6 +4960,11 @@ Type help for help. Type license for license. Type bye to exit.
     <a href="#Dash_Command">dash-command</a> where the syntax
     notation represent the argument as <code>~@{something}</code>
     and only in such position.<br></p>
+
+
+    <p>If an operation expects a number, the constant when used may
+    need to be converted via the <a href="#num">num</a> command,
+    e.g., <code>num -to ~ *someconstant</code></p>
 
 
     <ul>
@@ -4968,16 +4996,21 @@ Type help for help. Type license for license. Type bye to exit.
     The operations are as follows:
 
     <ul>
-      <li><code>-create</code> creates constant <em>*name</em> with
-      string value <em>value</em>. It is the default
-      operation.</li>
+      <li><code>-create ~@{*constname} ~@{value}</code> creates
+      constant <em>*constname</em> with string value
+      <em>value</em>. It is the default operation.</li>
 
 
       <li><code>-clear</code> clears (empties) the constant
       map.</li>
 
 
-      <li><code>-drop ~@{ *constname }</code> removes the given
+      <li><code>-defined ~@{*constname}</code> puts
+      <code>true</code> if the constant exists the constant map,
+      <code>false</code> otherwise.</li>
+
+
+      <li><code>-drop ~@{*constname}</code> removes the given
       constant from the constant map.</li>
 
 

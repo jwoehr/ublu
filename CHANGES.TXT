@@ -4,7 +4,12 @@ All rights reserved.
 
 1.2.1
 -----
+* Commands
+    * `const -defined` .. also, `const` now takes any source data sink for name
 
+* Extensions
+    * `ux.utils.ublu` compilation utils
+    * `ux.jlsc.ublu` job list selection criteria
 
 1.2.0 2018-10-07
 -----
