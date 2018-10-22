@@ -5,7 +5,7 @@
 # See the Ublu license (BSD-2 open source)
 
 const *foo ${ this is a test }$
-put *foo
+put -n -s ${ *foo is }$ put *foo
 const *arf 111
 num -to @n -long *arf
 put @n
@@ -19,4 +19,34 @@ woo ( *foo )
 const -list
 const -to @bar -list
 put -from @bar
+
+string -to @name -trim ${ *test1 }$
+const @name x
+put -n -s ${ *test1 is }$ put *test1
+
+string -to ~ -trim ${ *test2 }$
+const ~ y
+put -n -s ${ *test2 is }$ put *test2
+
+TRY $[ const *foo zog ]$ CATCH $[ put ${ Couldn't recreate *foo via plainword }$ ]$
+  
+string -to @name -trim ${ *foo }$
+TRY $[ const @name zog ]$ CATCH $[ put ${ Couldn't recreate *foo via tuple }$ ]$
+
+
+string -to ~ -trim ${ *foo }$
+TRY $[ const ~ zog ]$ CATCH $[ put ${ Couldn't recreate *foo via stacked name }$ ]$
+
+const -list
+
+const -drop *foo
+const -list
+string -to ~ -trim ${ *arf }$
+const -drop ~
+const -list
+string -to @name -trim ${ *test1 }$
+const -drop @name
+const -list
+const -clear
+const -list
 # end

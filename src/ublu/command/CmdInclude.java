@@ -42,7 +42,7 @@ import java.util.logging.Level;
 public class CmdInclude extends Command {
 
     {
-        setNameAndDescription("include", "/0 /1 [-from datasink] [-s,-silent] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
+        setNameAndDescription("include", "/0 /1 [-from datasink] [-s,-silent] [-if ~@tf | -!if ~@tf] ~@{filepath} : include commands from a text file or from another datasink for interpretation");
     }
 
     /**
@@ -60,6 +60,7 @@ public class CmdInclude extends Command {
      * command
      */
     public ArgArray include(ArgArray args) {
+        boolean includeIf = true;
         boolean isSilent = false;
         Path filepath;
         while (args.hasDashCommand()) {
@@ -69,6 +70,12 @@ public class CmdInclude extends Command {
                     String srcName = args.next();
                     setDataSrc(DataSink.fromSinkName(srcName));
                     wasSetFromDataSink = true;
+                    break;
+                case "-if":
+                    includeIf = args.nextTupleOrPop().value(Boolean.class);
+                    break;
+                case "-!if":
+                    includeIf = !args.nextTupleOrPop().value(Boolean.class);
                     break;
                 case "-s":
                 case "-silent":
@@ -80,6 +87,8 @@ public class CmdInclude extends Command {
         }
         if (havingUnknownDashCommand()) {
             setCommandResult(COMMANDRESULT.FAILURE);
+        } else if (!includeIf) {
+            args.nextMaybeQuotationTuplePopString(); // discard unused include name
         } else {
             String filepathspec;
             boolean wasPrompting = getInterpreter().isPrompting();

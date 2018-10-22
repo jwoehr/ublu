@@ -7,7 +7,8 @@
 # Methods and constants for JobList selection criteria
 # Used with objects returned by the Ublu joblist command
 
-include ux.utils.ublu
+const -to ~ -defined *ux.utils.ublu_included
+include -!if ~ ux.utils.ublu
 
 # Add a selection criterion to the job list
 # ... jl the joblist object

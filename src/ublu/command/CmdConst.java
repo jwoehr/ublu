@@ -122,21 +122,33 @@ public class CmdConst extends Command {
                         logArgArrayTooShortError(argArray);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
-                    name = argArray.nextMaybeQuotationTuplePopString();
-                    String value = argArray.nextMaybeQuotationTuplePopString();
-                    if (Const.isConstName(name)) {
+                    name = argArray.peekNext(); // we have to peek first
+                    if (Const.isConstName(name)) { // because nextMaybeEtc.() will convert const to its value
                         if (getInterpreter().getConst(name) != null) {
                             getLogger().log(Level.SEVERE, "\"{0}\" already exists as a const with value \"{1}\" in {2}", new Object[]{name, getInterpreter().getConst(name), getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
-                        } else if (!getInterpreter().setConst(name, value)) {
-                            getLogger().log(Level.SEVERE, "Attempt to set a const with null value in {0}", getNameAndDescription());
+                        }
+                    }
+                    if (getCommandResult() != COMMANDRESULT.FAILURE) {
+                        name = argArray.nextMaybeQuotationTuplePopString();
+                        if (Const.isConstName(name)) { // because nextMaybeEtc.() will convert const to its value
+                            if (getInterpreter().getConst(name) != null) {
+                                getLogger().log(Level.SEVERE, "\"{0}\" already exists as a const with value \"{1}\" in {2}", new Object[]{name, getInterpreter().getConst(name), getNameAndDescription()});
+                                setCommandResult(COMMANDRESULT.FAILURE);
+                            } else {
+                                String value = argArray.nextMaybeQuotationTuplePopString();
+                                if (!getInterpreter().setConst(name, value)) {
+                                    getLogger().log(Level.SEVERE, "Attempt to set a const with null value in {0}", getNameAndDescription());
+                                    setCommandResult(COMMANDRESULT.FAILURE);
+                                }
+                            }
+                        } else {
+                            getLogger().log(Level.SEVERE, "{0}" + " is not a const name starting with \"" + Const.CONSTNAMECHAR + "\" in {1}", new Object[]{name, getNameAndDescription()});
                             setCommandResult(COMMANDRESULT.FAILURE);
                         }
-                    } else {
-                        getLogger().log(Level.SEVERE, "{0}" + " is not a const name starting with \"" + Const.CONSTNAMECHAR + "\" in {1}", new Object[]{name, getNameAndDescription()});
-                        setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+
                 case CLEAR:
                     getInterpreter().clearConstMap();
                     break;

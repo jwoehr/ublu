@@ -4,6 +4,8 @@
 # Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
 # See the Ublu license (BSD-2 open source)
 
+const *ux.utils.ublu_included x
+
 # Utility functions
 
 # Define a constant representing a field member of a class 
