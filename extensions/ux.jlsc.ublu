@@ -14,12 +14,17 @@ include -!if ~ ux.utils.ublu
 # ... jl the joblist object
 # ... crit the criterion constant
 # ... value the value
-FUNC addJobSelectionCriteria ( jl crit value ) $[
+# ... isprim is a primitive type? t/f
+FUNC addJobSelectionCriteria ( jl crit value isprim ) $[
     LOCAL @jlist LOCAL @criterion LOCAL @val
     tuple -assign @jlist @@jl
     num -to @criterion -int @@crit
     tuple -assign @val @@value
-    calljava -to ~ -obj @jlist -method addJobSelectionCriteria -primarg @criterion -primarg @val
+    IF @@isprim THEN $[
+        calljava -to ~ -obj @jlist -method addJobSelectionCriteria -primarg @criterion -primarg @val
+    ]$ ELSE $[
+        calljava -to ~ -obj @jlist -method addJobSelectionCriteria -primarg @criterion -arg @val
+    ]$
 ]$
 
 # Add an attribute to retrieve for the jobs to appear in the list
@@ -30,6 +35,7 @@ FUNC addJobAttributeToRetrieve ( jl attr ) $[
     LOCAL @jlist LOCAL @attrib
     tuple -assign @jlist @@jl
     num -to @attrib -int @@attr
+    \\ ${ calljava -to ~ -obj @jlist -method addJobAttributeToRetrieve -primarg @attrib }$
     calljava -to ~ -obj @jlist -method addJobAttributeToRetrieve -primarg @attrib
 ]$
 
