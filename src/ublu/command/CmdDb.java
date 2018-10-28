@@ -399,7 +399,6 @@ public class CmdDb extends Command {
                 case "--":
                 case "-dbconnected":
                     setDb(argArray.nextTupleOrPop().value(Db.class));
-                    // setDb(Db.class.cast(getTuple(argArray.next()).getValue()));
                     break;
                 case "-catalog":
                     setFunction(FUNCTIONS.CATALOG);
