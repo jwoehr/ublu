@@ -363,6 +363,29 @@ public abstract class Db {
     }
 
     /**
+     * Connect to the database passing an AS400 object and an SSL flag
+     *
+     * @param as400
+     * @param port jdbc port
+     * @param useSSL true means use ssl to connect
+     * @param connectionProperties any desired connection properties
+     * @return the connection
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public Connection connect(AS400 as400, String port, boolean useSSL, ConnectionProperties connectionProperties)
+            throws ClassNotFoundException, SQLException {
+        AS400JDBCDataSource asjdbcds = new AS400JDBCDataSource(as400);
+        asjdbcds.setSecure(useSSL);
+        if (port != null) {
+            asjdbcds.setPortNumber(Integer.parseInt(port));
+        }
+        asjdbcds.setProperties(connectionProperties);
+        setConnection(asjdbcds.getConnection());
+        return getConnection();
+    }
+
+    /**
      * Disconnect from the database.
      *
      * @throws SQLException
