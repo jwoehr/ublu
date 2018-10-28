@@ -57,7 +57,11 @@ public class CmdCs extends Command {
 
     {
         setNameAndDescription("cs",
-                "/4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db] [[[-new] -sq1 ~@{ SQL code ... }] | [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] | [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] | [-rs] | [-nextrs] | [-uc]] : instance and execute callable statements which JDBC uses to execute SQL stored procedures");
+                "/4? [-to @var ] [--,-cs ~@cs] [-db,-dbconnected ~@db] [[[-new] -sql ~@{ SQL code ... }] "
+                        + "| [-call] | [-in ~@{index} ~@object ~@{sqltypename}] | [-innull ~@{index} ~@{sqltypename}] "
+                        + "| [-out ~@{index} ~@{sql_type} [-scale ~@{scale}] [-typedescription ~@{user_typename}]] "
+                        + "| [-rs] | [-nextrs] | [-uc]] "
+                        + ": instance and execute callable statements which JDBC uses to execute SQL stored procedures");
     }
 
     /**
@@ -147,7 +151,7 @@ public class CmdCs extends Command {
                     function = FUNCTIONS.IN;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
                     inParameterTuple = argArray.nextTupleOrPop();
-                    sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
+                    sqlTypeName = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-inarray":
                     function = FUNCTIONS.NOOP;
@@ -158,8 +162,8 @@ public class CmdCs extends Command {
                 case "-innull":
                     function = FUNCTIONS.INNULL;
                     index = argArray.nextIntMaybeQuotationTuplePopString();
-                    sqlTypeName = argArray.nextMaybeQuotationTuplePopString();
-                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    sqlTypeName = argArray.nextMaybeQuotationTuplePopStringTrim();
+                    typeDescription = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-call":
                     function = FUNCTIONS.CALL;
@@ -176,13 +180,13 @@ public class CmdCs extends Command {
                     scale = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
                 case "-typedescription":
-                    typeDescription = argArray.nextMaybeQuotationTuplePopString();
+                    typeDescription = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-rs":
                     function = FUNCTIONS.RS;
                     break;
                 case "-sql":
-                    sql = argArray.nextMaybeQuotationTuplePopString();
+                    sql = argArray.nextMaybeQuotationTuplePopStringTrim();
                     break;
                 case "-uc":
                     function = FUNCTIONS.UC;
