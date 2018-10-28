@@ -6,8 +6,11 @@ All rights reserved.
 -----
 * Commands
     * `const -defined` .. also, `const` now takes any source data sink for name
+    * `db -usessl -ssl`
+        * clarify schema vs database
     `include` `-if` `-!if` conditional inclusion
-
+* Documentation
+    * `db` clarify schema vs database
 * Extensions
     * `ux.utils.ublu` compilation utils
     * `ux.jlsc.ublu` job list selection criteria
