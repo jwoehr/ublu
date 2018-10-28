@@ -74,7 +74,8 @@ public class CmdDb extends Command {
                 + "| -replicate ~@{tableName} ~@{destDbName} ~@{destDbType} ~@{destDatabaseName} ~@{destUser} ~@{destPassword} "
                 + "| -star ~@{tablename}] [-pklist ~@{ space separated primary keys }] "
                 + "[-port ~@{portnum}] [-destport ~@{destportnum}] [-property ~@{key} ~@{value} [-property ~@{key} ~@{value}] ..] "
-                + "~@{system} ~@{database} ~@{userid} ~@{password} : perform various operations on databases");
+                + "[-ssl @tf | -usessl] "
+                + "~@{system} ~@{schema} ~@{userid} ~@{password} : perform various operations on databases");
     }
 
     /**
@@ -188,6 +189,25 @@ public class CmdDb extends Command {
     private ConnectionProperties destConnectionProperties;
     private String port;
     private String destPort;
+    private boolean usessl = false;
+
+    /**
+     * Get ssl flag
+     *
+     * @return ssl flag
+     */
+    public boolean getUsessl() {
+        return usessl;
+    }
+
+    /**
+     * Set ssl flag
+     *
+     * @return ssl flag
+     */
+    public void setUsessl(Boolean usessl) {
+        this.usessl = usessl;
+    }
 
     /**
      * Get db port
@@ -275,10 +295,9 @@ public class CmdDb extends Command {
         return destConnectionProperties;
     }
 
-    private void setDestConnectionProperties(ConnectionProperties destConnectionProperties) {
-        this.destConnectionProperties = destConnectionProperties;
-    }
-
+//    private void setDestConnectionProperties(ConnectionProperties destConnectionProperties) {
+//        this.destConnectionProperties = destConnectionProperties;
+//    }
     private FUNCTIONS getFunction() {
         return function;
     }
@@ -477,6 +496,11 @@ public class CmdDb extends Command {
                 case "-destqopt":
                     destResultSetOption(argArray.nextMaybeQuotationTuplePopStringTrim());
                     break;
+                case "-ssl":
+                    setUsessl(argArray.nextBooleanTupleOrPop());
+                case "-usessl":
+                    setUsessl(true);
+                    break;
                 default:
                     unknownDashCommand(dashCommand);
             }
@@ -487,9 +511,9 @@ public class CmdDb extends Command {
             if (!getDb().isConnected()) {
                 if (getDb() instanceof DbAS400 && getAs400() != null) {
                     try {
-                        getDb().connect(getAs400(), getPort(), getConnectionProperties());
+                        getDb().connect(getAs400(), getPort(), getUsessl(), getConnectionProperties());
                     } catch (ClassNotFoundException | SQLException ex) {
-                        getLogger().log(Level.SEVERE, "Could not connect to " + getAs400() + " " /* + database */ + inNameAndDescription(), ex);
+                        getLogger().log(Level.SEVERE, "Could not connect to " + getAs400() + " " /* + schema */ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                 } else {
@@ -498,7 +522,7 @@ public class CmdDb extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     } else {
                         String system = argArray.nextMaybeQuotationTuplePopString();
-                        String database = argArray.nextMaybeQuotationTuplePopString();
+                        String schema = argArray.nextMaybeQuotationTuplePopString();
                         String userid = argArray.nextMaybeQuotationTuplePopString();
                         String password = argArray.nextMaybeQuotationTuplePopString();
                         if (getDb() == null || getFunction() == null) {
@@ -511,9 +535,9 @@ public class CmdDb extends Command {
 //                        }
                             /* End Uncomment */
                             try {
-                                getDb().connect(system, getPort(), database, getConnectionProperties(), userid, password);
+                                getDb().connect(system, getPort(), schema, getConnectionProperties(), userid, password);
                             } catch (ClassNotFoundException | SQLException ex) {
-                                getLogger().log(Level.SEVERE, "Could not connect to " + system + " " + database + inNameAndDescription(), ex);
+                                getLogger().log(Level.SEVERE, "Could not connect to " + system + " " + schema + inNameAndDescription(), ex);
                                 setCommandResult(COMMANDRESULT.FAILURE);
                             }
                         }
@@ -556,7 +580,7 @@ public class CmdDb extends Command {
                             break;
                         case PRIMARYKEYS:
                             // String catalogName =  getDb().getDbType() == Db.DBTYPE.AS400 ? "SYSKEYCST" :  null;
-                            ResultSet primaryKeys = getDb().getMetaData().getPrimaryKeys( /* catalogName */null, /* database */ null, starTableName);
+                            ResultSet primaryKeys = getDb().getMetaData().getPrimaryKeys( /* catalogName */null, /* schema */ null, starTableName);
                             put(primaryKeys);
                             break;
                         case QUERY:
