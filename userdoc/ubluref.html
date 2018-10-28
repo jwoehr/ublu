@@ -5,8 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.10">
-  <meta name="generator" content="Bluefish 2.2.10">
-  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -17,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 22 Oct 2018 15:09:04 UTC">
+  "Sun, 28 Oct 2018 16:26:28 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -65,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-10-22</p>
+  Last edit: 2018-10-28</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -5444,12 +5442,34 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     ~@{destPassword} | -star ~@{tablename}] [-pklist ~@{ space
     separated primary keys }] [-port ~@{portnum}] [-destport
     ~@{destportnum}] [-property ~@{key} ~@{value} [-property
-    ~@{key} ~@{value}] ..] ~@{system} ~@{database} ~@{userid}
-    ~@{password} : perform various operations on databases</code>
+    ~@{key} ~@{value}] ..] [-ssl @tf | -usessl] ~@{system}
+    ~@{schema} ~@{userid} ~@{password} : perform various operations
+    on databases</code>
 
-    <p>The <code>db</code> command performs a database operation on
-    <em>system</em>'s <em>database</em> for <em>userid</em> with
-    <em>password</em>.</p>
+    <p>The <code>db</code> command performs database operations on
+    <em>system</em>'s database <em>schema</em> for <em>userid</em>
+    with <em>password</em>.</p>
+
+
+    <ul>
+      <li>When connecting to IBM i Db2 (<code>-dbtype as400</code>)
+      then the database is the system database and the
+      <code>schema</code> argument (if provided) refers to the
+      schema (library).
+
+        <ul>
+          <li>When connecting providing an <code>as400</code>
+          object then no default schema is instanced and all table
+          references are <code>someschema.sometable</code></li>
+        </ul>
+      </li>
+
+
+      <li>When connecting to Postgresql (<code>-dbtype
+      postgres</code>) the <code>schema</code> argument refers to
+      the database and all tables are addressed
+      <code>someschema.sometable</code>.</li>
+    </ul>
 
 
     <p>Alternatively, a connected database object can be provided
@@ -5477,17 +5497,22 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
     <h5><a name="JDBC_IBM_i_SSL" id="JDBC_IBM_i_SSL">JDBC to the
     IBM i over SSL</a>
     </h5>
+    Set your local environment up for SSL as described in the
+    <a href="#NoteOnSSL">Note on SSL</a>.
+
+    <ul>
+      <li>If connecting via specifying system/schema/user/password
+      then the last <code>-property ~@{key} ~@{value}</code>
+      setting in your connection command should be <code>-property
+      secure true</code>.</li>
 
 
-    <ol>
-      <li>Set your local environment up for SSL as described in the
-      <a href="#NoteOnSSL">Note on SSL</a>.</li>
-
-
-      <li>The last <code>-property ~@{key} ~@{value}</code> setting
-      in your connection command should be <code>-property secure
-      true</code>.</li>
-    </ol>
+      <li>If connecting via providing an <a href=
+      "#as400"><code>as400</code></a> object to the
+      <code>-as400</code> dash-command, provide either the
+      <code>-ssl @true</code> dash-command or
+      <code>-usessl</code>.</li>
+    </ul>
 
 
     <h5>Operations<br></h5>
@@ -5498,7 +5523,7 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
         <code>-as400 ~@as400</code> is the means to provide at
         <code>-connect</code> time an instanced <code><a href=
         "#as400">as400</a></code> in which case <em>system</em>,
-        <em>database</em>, <em>userid</em>, and <em>password</em>
+        <em>schema</em>, <em>userid</em>, and <em>password</em>
         should be omitted from the command arguments. Connection is
         to the system database; tables will have to addressed fully
         qualified, e.g., <code>MYLIB.MYTABLE</code> .
@@ -20103,7 +20128,7 @@ watson -s language-translator/api/v2/translate -m POST -req ${ { "text": [ "elep
 
   <blockquote>
     <p><strong><code>java -jar ublu.jar db -db as400 -csv SOMETABLE
-    somehost somedatabase someuser ******** | awk 'BEGIN {FS=","}
+    somehost someschema someuser ******** | awk 'BEGIN {FS=","}
     {printf("%s,%s,%s\n",$2,$4,$6)}'
     &gt;SOMETABLE.txt</code></strong>
     </p>
