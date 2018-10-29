@@ -6,7 +6,9 @@ All rights reserved.
 -----
 * Commands
     * `const -defined` .. also, `const` now takes any source data sink for name
-    * `db -usessl -ssl`
+    * `db`
+        * `-usessl -ssl`
+        * `-rdb ~@{rdbname}`
         * clarify schema vs database
     `include` `-if` `-!if` conditional inclusion
 * Documentation
