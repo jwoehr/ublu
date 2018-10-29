@@ -95,6 +95,21 @@ public abstract class Db {
         this.connection = null;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString());
+        try {
+            sb.append('\n')
+                    .append(this.driver).append('\n')
+                    .append(this.dbType).append('\n')
+                    .append(this.connection).append('\n')
+                    .append(this.connection.getMetaData()).append('\n');
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sb.toString();
+    }
+
     /**
      * The Database types we support
      */
@@ -381,6 +396,34 @@ public abstract class Db {
             asjdbcds.setPortNumber(Integer.parseInt(port));
         }
         asjdbcds.setProperties(connectionProperties);
+        setConnection(asjdbcds.getConnection());
+        return getConnection();
+    }
+
+    /**
+     * Connect to the database passing an AS400 object and an SSL flag
+     *
+     * @param as400
+     * @param port jdbc port
+     * @param useSSL true means use ssl to connect
+     * @param rdbName remote db dir entry name (if any)
+     * @param connectionProperties any desired connection properties
+     * @return the connection
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public Connection connect(AS400 as400, String port, boolean useSSL, String rdbName, ConnectionProperties connectionProperties)
+            throws ClassNotFoundException, SQLException {
+        AS400JDBCDataSource asjdbcds = new AS400JDBCDataSource(as400);
+        asjdbcds.setSecure(useSSL);
+        if (port != null) {
+            asjdbcds.setPortNumber(Integer.parseInt(port));
+        }
+        asjdbcds.setProperties(connectionProperties);
+        if (rdbName != null) {
+            /* Debug */ System.err.println("rdbName is " + rdbName);
+            asjdbcds.setDatabaseName(rdbName);
+        }
         setConnection(asjdbcds.getConnection());
         return getConnection();
     }

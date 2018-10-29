@@ -66,7 +66,7 @@ public class CmdDb extends Command {
     {
         setNameAndDescription("db",
                 "/4? [--,-dbconnected ~@dbconnected] [-as400 ~@as400] -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] "
-                + "[-qopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] "
+                + "[-qopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] [-rdb ~@{rdbname}] "
                 + "[-destqopt ~@{close|hold|ro|update|forward|insensitive|sensitive}] "
                 + "[-catalog | -columnnames ~@{tablename} | -columntypes ~@{tablename} "
                 + "| -connect | -csv ~@{tablename} [-separator ~@{separator} ] |  -json ~@{tablename} | -disconnect | -metadata "
@@ -190,6 +190,25 @@ public class CmdDb extends Command {
     private String port;
     private String destPort;
     private boolean usessl = false;
+    private String rbdName = null;
+
+    /**
+     * Get remote db name (AS400 only)
+     *
+     * @return remote db name (AS400 only)
+     */
+    public String getRbdName() {
+        return rbdName;
+    }
+
+    /**
+     * Set remote db name (AS400 only)
+     *
+     * @param rbdName
+     */
+    public void setRbdName(String rbdName) {
+        this.rbdName = rbdName;
+    }
 
     /**
      * Get ssl flag
@@ -203,7 +222,7 @@ public class CmdDb extends Command {
     /**
      * Set ssl flag
      *
-     * @return ssl flag
+     * @param usessl
      */
     public void setUsessl(Boolean usessl) {
         this.usessl = usessl;
@@ -496,6 +515,9 @@ public class CmdDb extends Command {
                 case "-destqopt":
                     destResultSetOption(argArray.nextMaybeQuotationTuplePopStringTrim());
                     break;
+                case "-rdb":
+                    setRbdName(argArray.nextMaybeQuotationTuplePopStringTrim());
+                    break;
                 case "-ssl":
                     setUsessl(argArray.nextBooleanTupleOrPop());
                 case "-usessl":
@@ -511,7 +533,7 @@ public class CmdDb extends Command {
             if (!getDb().isConnected()) {
                 if (getDb() instanceof DbAS400 && getAs400() != null) {
                     try {
-                        getDb().connect(getAs400(), getPort(), getUsessl(), getConnectionProperties());
+                        getDb().connect(getAs400(), getPort(), getUsessl(), getRbdName(), getConnectionProperties());
                     } catch (ClassNotFoundException | SQLException ex) {
                         getLogger().log(Level.SEVERE, "Could not connect to " + getAs400() + " " /* + schema */ + inNameAndDescription(), ex);
                         setCommandResult(COMMANDRESULT.FAILURE);

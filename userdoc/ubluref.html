@@ -5430,8 +5430,8 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
   <blockquote>
     <code>/4? [--,-dbconnected ~@dbconnected] [-as400 ~@as400]
     -dbtype,-db ~@{type} [-charsetname ~@{charsetname}] [-qopt
-    ~@{close|hold|ro|update|forward|insensitive|sensitive}]
-    [-destqopt
+    ~@{close|hold|ro|update|forward|insensitive|sensitive}] [-rdb
+    ~@{rdbname}] [-destqopt
     ~@{close|hold|ro|update|forward|insensitive|sensitive}]
     [-catalog | -columnnames ~@{tablename} | -columntypes
     ~@{tablename} | -connect | -csv ~@{tablename} [-separator
@@ -5461,6 +5461,12 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
           <li>When connecting providing an <code>as400</code>
           object then no default schema is instanced and all table
           references are <code>someschema.sometable</code></li>
+
+
+          <li>You can also reference a remote database which
+          appears in as in entry in WRKRDBDIRE on <em>system</em>
+          by adding the <code>-rdb ~@{rdbname}</code> dash-command
+          at connect time (see below).</li>
         </ul>
       </li>
 
@@ -5546,6 +5552,32 @@ woo <span class="syntax-OPERATOR">(</span> <span class=
 
 
           <li><code>postgres</code>
+          </li>
+        </ul>
+      </li>
+
+
+      <li>
+        <code>-rdb ~@{rdbname}</code> (as400 only) provided at
+        <code>-connect</code> time with a connection created using
+        <code>-as400 ~@as400</code> allows remote database
+        connectivity through the new connection (as well as local
+        connectivity).
+
+        <ul>
+          <li>The <em>rdbname</em> must exist in the remote
+          database directory as seen in the CL command
+          <code>WRKRDBDIRE</code>.</li>
+
+
+          <li>Remote queries use the form
+          <em>rdbentry.schema.table</em>, e.g., given two systems
+          XYZ and ABC
+
+            <pre>as400 -to @xyz XYZ MYUID mypassword
+db -to @xyzdb -dbtype as400 -as400 @xyz -rdb ABC -connect
+@xyzdb -query ${ select * from ABC.SOMELIB.SOMEPF }$
+</pre>
           </li>
         </ul>
       </li>
