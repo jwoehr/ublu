@@ -7,8 +7,16 @@
 # Methods and constants for JobList selection criteria
 # Used with objects returned by the Ublu joblist command
 
+const *ux.jlsc.ublu_included x
+
 const -to ~ -defined *ux.utils.ublu_included
 include -!if ~ ux.utils.ublu
+
+# Clear all selection criteria from the job list
+# ... jlist the joblist object
+FUNC clearJobSelectionCriteria ( jlist ) $[
+    calljava -to ~ -obj @@jlist -method clearJobSelectionCriteria
+]$
 
 # Add a selection criterion to the job list
 # ... jl the joblist object
