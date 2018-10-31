@@ -1,0 +1,58 @@
+# testdbrepl.ublu
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# testDbRepl -- replicate a table IBM i -> default schema "public" of a PostgreSQL db
+# ... srcsys as400
+# ... srcschema library
+# ... srcusr userprof
+# ... srcpasswd password
+# ... srtable source table
+# ... destsys postgres host
+# ... destdb postgres db
+# ... destusr postgres user
+# ... destpasswd postgres password
+# All args should be tuples!
+FUNC testDbRepl ( srcsys srcschema srcusr srcpasswd srctable srcssl destsys destdb destusr destpasswd destssl ) $[
+    LOCAL @adb LOCAL @pdb
+    LOCAL @srcquery
+    LOCAL @destquery
+    LOCAL @srcrs LOCAL @destrs
+    
+    const *star ${ SELECT * FROM }$
+    
+    put -to @srcquery *star
+    @srcquery -to @srcquery -cat @@srctable
+    
+    put -to @destquery *star
+    @destquery -to @destquery -cat public.
+    @destquery -to @destquery -cat "
+    @destquery -to @destquery -cat @@srctable
+    @destquery -to @destquery -cat "
+    
+    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd        
+    @adb -replicate @@srctable @@destsys postgres @@destdb @@destusr @@destpasswd
+    
+    put ${ replicated table structure }$
+    
+    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd
+    @adb -to @srcrs -query @srcquery
+    
+    put ${ got source query }$
+    
+    db -to @pdb -dbtype postgres -ssl @@destssl -connect @@destsys @@destdb @@destusr @@destpasswd
+    @pdb -to @destrs -query @destquery
+    
+    put ${ got destination query }$
+    
+    rs -insert -from @srcrs -to @destrs
+    
+    rs -closedb @destrs
+    rs -closedb @srcrs
+    
+    put ${ Done replication and data copy. }$
+    
+    const -drop *star
+]$
