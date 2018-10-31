@@ -13,6 +13,9 @@ All rights reserved.
     `include` `-if` `-!if` conditional inclusion
 * Documentation
     * `db` clarify schema vs database
+* Examples
+	* Test
+		* `testdbrepl.ublu` example of db table replication
 * Extensions
     * `ux.utils.ublu` compilation utils
     * `ux.jlsc.ublu` job list selection criteria
