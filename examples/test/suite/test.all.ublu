@@ -53,7 +53,7 @@ FUNC test.all ( test_defaults_filepath work_dir ifspath description ) $[
     \\ ${ runtest ( t.commandcall.ublu t.commandcall @@work_dir @testsys @testrptpf ) }$     \\ ${ test commandcall }$
     \\ ${ runtest ( t.const.ublu t.const @@work_dir @testsys @testrptpf ) }$     \\ ${ test const }$
     \\ ${ runtest ( t.cs.ublu t.cs @@work_dir @testsys @testrptpf ) }$     \\ ${ test cs }$
-    \\ ${ runtest ( t.db.ublu t.db @@work_dir @testsys @testrptpf ) }$     \\ ${ test db }$
+    runtest ( t.db.ublu t.db @@work_dir @testsys @testrptpf )     \\ ${ test db }$
     \\ ${ runtest ( t.dbug.ublu t.dbug @@work_dir @testsys @testrptpf ) }$     \\ ${ test dbug }$
     \\ ${ runtest ( t.defun.ublu t.defun @@work_dir @testsys @testrptpf ) }$     \\ ${ test defun }$
     \\ ${ runtest ( t.dict.ublu t.dict @@work_dir @testsys @testrptpf ) }$     \\ ${ test dict }$

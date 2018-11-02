@@ -16,6 +16,8 @@ All rights reserved.
 * Examples
 	* Test
 		* `testdbrepl.ublu` example of db table replication
+                * Suite
+                    * `t.db.ublu` test database
 * Extensions
     * `ux.utils.ublu` compilation utils
     * `ux.jlsc.ublu` job list selection criteria

@@ -6,7 +6,7 @@
 # See the Ublu license (BSD-2 open source)
 
 # Assumes called from an includer of test_utils.ublu
-# e.g., test.all.ublu                    
+# e.g., test.all.ublu
 
 const *t_paradigm /some/dir/path    # path to exemplars
 const *t_server MYSYSTEM            # target IBM i system
@@ -19,9 +19,18 @@ const *t_dataq MYDATAQ              # data queue to test on
 const *t_cimurl https://MYSYSTEM:5989   # Common Info Model URL
 const *t_cimdomain root/cimv2       # Common Info Model domain
 const *t_ublusrvport 8089           # Port to run Ublu server on for test
+const *t_postgres_host localhost    # PostgreSQL host
+const *t_postgres_user myuserid     # PostgreSQL user
+const *t_postgres_passwd AAAA1234   # PostgreSQL password
+const *t_postgres_db mydb           # PostgreSQL db, schema will be 'public'
+const *t_src_repl_schema SOMEPF     # Server file in which to find repl table
+const *t_repl_table XAMPL           # Table to replicated PostgreSQL host
 
 # Using ssl is of course the default.
-tuple -true @ssl 
+tuple -true @ssl
+
+# Use SSL for replication target PostgreSQL ?
+tuple -false @pg_ssl
 
 const *t_record_file_1 RECFILE1
 const *t_record_file_2 RECFILE2

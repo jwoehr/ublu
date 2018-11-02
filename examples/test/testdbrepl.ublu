@@ -20,39 +20,122 @@ FUNC testDbRepl ( srcsys srcschema srcusr srcpasswd srctable srcssl destsys dest
     LOCAL @srcquery
     LOCAL @destquery
     LOCAL @srcrs LOCAL @destrs
-    
+
     const *star ${ SELECT * FROM }$
-    
+
     put -to @srcquery *star
     @srcquery -to @srcquery -cat @@srctable
-    
+
     put -to @destquery *star
     @destquery -to @destquery -cat public.
     @destquery -to @destquery -cat "
     @destquery -to @destquery -cat @@srctable
     @destquery -to @destquery -cat "
-    
-    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd        
+
+    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd
     @adb -replicate @@srctable @@destsys postgres @@destdb @@destusr @@destpasswd
-    
+
     put ${ replicated table structure }$
-    
+
     db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd
     @adb -to @srcrs -query @srcquery
-    
+
     put ${ got source query }$
-    
+
     db -to @pdb -dbtype postgres -ssl @@destssl -connect @@destsys @@destdb @@destusr @@destpasswd
     @pdb -to @destrs -query @destquery
-    
+
     put ${ got destination query }$
-    
+
     rs -insert -from @srcrs -to @destrs
-    
+
     rs -closedb @destrs
     rs -closedb @srcrs
-    
+
     put ${ Done replication and data copy. }$
-    
+
+    const -drop *star
+]$
+
+# testSuiteDbRepl -- replicate a table IBM i -> default schema "public" of a PostgreSQL db
+#                    for the Ublu test suite, displaying then deleting target
+# ... srcsys as400
+# ... srcschema library
+# ... srcusr userprof
+# ... srcpasswd password
+# ... srtable source table
+# ... destsys postgres host
+# ... destdb postgres db
+# ... destusr postgres user
+# ... destpasswd postgres password
+# All args should be tuples!
+FUNC testSuiteDbRepl ( srcsys srcschema srcusr srcpasswd srctable srcssl destsys destdb destusr destpasswd destssl ) $[
+    LOCAL @adb LOCAL @pdb
+    LOCAL @srcquery
+    LOCAL @destquery
+    LOCAL @dropquery
+    LOCAL @srcrs LOCAL @destrs
+
+    const *star ${ SELECT * FROM }$
+
+    put -to @srcquery *star
+    @srcquery -to @srcquery -cat @@srctable
+
+    put -to @destquery *star
+    @destquery -to @destquery -cat public.
+    @destquery -to @destquery -cat "
+    @destquery -to @destquery -cat @@srctable
+    @destquery -to @destquery -cat "
+
+    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd
+    @adb -replicate @@srctable @@destsys postgres @@destdb @@destusr @@destpasswd
+
+    put ${ replicated table structure }$
+
+    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd
+    @adb -to @srcrs -query @srcquery
+
+    put ${ got source query }$
+
+    db -to @pdb -dbtype postgres -ssl @@destssl -connect @@destsys @@destdb @@destusr @@destpasswd
+    @pdb -to @destrs -query @destquery
+
+    put ${ got destination query }$
+
+    rs -insert -from @srcrs -to @destrs
+
+    rs -closedb @destrs
+    rs -closedb @srcrs
+
+    put ${ Done replication and data copy. }$
+
+    db -to @adb -dbtype as400 -ssl @@srcssl -connect @@srcsys @@srcschema @@srcusr @@srcpasswd
+
+    put ${ Display source table }$
+    @adb -to @srcrs -query @srcquery
+    \\ ${ put -from @srcrs }$
+    put -from @srcrs -toascii
+    \\ ${ @adb -query @srcquery }$
+
+    db -to @pdb -dbtype postgres -ssl @@destssl -connect @@destsys @@destdb @@destusr @@destpasswd
+    @pdb -to @destrs -query @destquery
+
+    put ${ Display target table }$
+    put -from @destrs
+
+    put -to @dropquery ${ DROP TABLE }$
+    @dropquery -to @dropquery -cat public.
+    @dropquery -to @dropquery -cat "
+    @dropquery -to @dropquery -cat @@srctable
+    @dropquery -to @dropquery -cat "
+
+    put -n ${ Dropping target table using }$  put @dropquery
+    @pdb -query_nors @dropquery
+
+    put ${ Done dropping table. }$
+
+    rs -closedb @destrs
+    rs -closedb @srcrs
+
     const -drop *star
 ]$
