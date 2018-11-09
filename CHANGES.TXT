@@ -10,6 +10,7 @@ All rights reserved.
         * `-usessl -ssl`
         * `-rdb ~@{rdbname}`
         * clarify schema vs database
+    * `gensh` now by default noglobs the arguments passed to it, `glob` keyword if globbing desired
     `include` `-if` `-!if` conditional inclusion
 * Documentation
     * `db` clarify schema vs database
