@@ -308,16 +308,30 @@ public class GenSh {
                 .append(" by ")
                 .append(generatingUser)
                 .append(".\"\n")
-                .append("echo \"Usage: $0 [silent] ")
+                .append("echo \"Usage: $0 [glob] [silent] ")
                 .append(genUsageOptions())
                 .append("\"\n")
                 .append("echo \"\twhere\"\n")
                 .append(genUsageDescriptions())
                 .append("echo \"---\"\n")
-                .append("echo \"If the keyword 'silent' appears ahead of all options, then included files will not echo and prompting is suppressed.\"\n")
-                .append("echo \"Exit code is the result of execution, or 0 for -h or 2 if there is an error in processing options\"\n")
+                .append("echo \"If the keyword 'glob' appears ahead of all other options and arguments, only then will arguments be globbed by the executing shell (noglob default).\"\n")
+                .append("echo \"If the keyword 'silent' appears ahead of all options except 'glob' (if the latter is present), then included files will not echo and prompting is suppressed.\"\n")
+                .append("echo \"Exit code is the result of execution, or 0 for -h or 2 if there is an error in processing options.\"\n")
                 .append("echo \"This script sets \\$SCRIPTDIR to the script's directory prior to executing prelude commands and Ublu invocation.\"\n")
                 .append("}");
+        return sb.toString();
+    }
+
+    private String genGlobSection() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("#Test if user wants arguments globbed - default noglob\n")
+                .append("if [ \"$1\" == \"glob\" ]\n")
+                .append("then\n")
+                .append("\tset +o noglob # POSIX\n")
+                .append("\tshift\n")
+                .append("else\n")
+                .append("\tset -o noglob # POSIX\n")
+                .append("fi");
         return sb.toString();
     }
 
@@ -444,6 +458,8 @@ public class GenSh {
                 .append(" using command:\n")
                 .append("# ").append(accumulatedCommand).append("\n\n")
                 .append(genUsage())
+                .append("\n\n")
+                .append(genGlobSection())
                 .append("\n\n")
                 .append(genSilentSection())
                 .append("\n\n")
