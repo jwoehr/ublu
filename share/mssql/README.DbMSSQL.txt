@@ -19,7 +19,9 @@ This means:
     2. As built and distributed, if you have *not* downloaded on your own the MSSQL
        JDBC driver, the db command will fail for -dbtype mssql.
     3. To build Ublu from soure, you must either:
-        a. Comment out MSSQL support
+        a. Comment out MSSQL support, or
+        b. Download the MSSQL JDBC driver (any recent level) and place in the
+        lib directory of the source distribution.
 
 Therefor you may wish to execute the REMOVING MSSQL SUPPORT instructions in order
 to remove MSSQL support if you do not want to download the driver.
