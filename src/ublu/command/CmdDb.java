@@ -54,7 +54,7 @@ import org.json.JSONObject;
 import ublu.db.Json;
 
 /* Uncomment the following if you are adding MSSQL support */
-// import ublu.db.DbMSSQL;
+import ublu.db.DbMSSQL;
 /* End Uncomment */
 /**
  * Command to perform certain database operations.
@@ -427,9 +427,9 @@ public class CmdDb extends Command {
                                 setDb(new DbPostgres());
                                 break;
                             /* Uncomment the following if you are adding MSSQL support */
-//                            case "mssql":
-//                                setDb(new DbMSSQL());
-//                                break;
+                            case "mssql":
+                                setDb(new DbMSSQL());
+                                break;
                             /* End Uncomment */
                         }
                     }
@@ -552,9 +552,9 @@ public class CmdDb extends Command {
                             setCommandResult(COMMANDRESULT.FAILURE);
                         } else {
                             /* Uncomment the following if you are adding MSSQL support */
-//                        if (getDb().getDbType() == Db.DBTYPE.MSSQL && getPort() == null) {
-//                            setPort(DbMSSQL.MSSQL_DEFAULT_PORT); // MSSQL connect needs a specific port number
-//                        }
+                        if (getDb().getDbType() == Db.DBTYPE.MSSQL && getPort() == null) {
+                            setPort(DbMSSQL.MSSQL_DEFAULT_PORT); // MSSQL connect needs a specific port number
+                        }
                             /* End Uncomment */
                             try {
                                 getDb().connect(system, getPort(), schema, getConnectionProperties(), userid, password);

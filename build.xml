@@ -102,7 +102,7 @@
             <format property="ZIP_DATE_TIME" pattern="yyyyMMdd.HHmm"/>
         </tstamp>
         <zip basedir="${dist.dir}/.." compress="yes" destfile="${dist.dir}/ublu_${ublu.version}.${ZIP_DATE_TIME}.zip" excludes="**">
-            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**"/>
+            <zipfileset dir="${dist.dir}" includes="ublu.jar,lib/**" excludes="lib/mssql*"/>
             <zipfileset dir="." includes="examples/**,extensions/**,userdoc/**,bin/**,share/**,man/**"/>
         </zip>        
     </target>
@@ -115,7 +115,7 @@
         </tstamp>
         <zip basedir="${basedir}" compress="yes" destfile="dist/ublu_${ublu.version}.all.${ZIP_DATE_TIME}.zip" excludes="**">
             <zipfileset dir="${dist.dir}" includes="ublu.jar,javadoc/**"/>
-            <zipfileset dir="${basedir}" excludes="build/**,dist/**,nbproject/private/**"/>
+            <zipfileset dir="${basedir}" excludes="build/**,dist/**,lib/mssql*,nbproject/private/**"/>
         </zip>        
     </target>
 
@@ -129,7 +129,7 @@
              compression="gzip" 
              destfile="${dist.dir}/ublu-${ublu.version}.${ZIP_DATE_TIME}.tar.gz" 
              excludes="**/**">
-            <tarfileset dir="." excludes="build/**,dist/**,test**" prefix="ublu-${ublu.version}"/>
+            <tarfileset dir="." excludes="build/**,dist/**,lib/mssql*,test**" prefix="ublu-${ublu.version}"/>
         </tar>        
     </target>
     
@@ -146,7 +146,7 @@
             </fileset>
         </copy>
         <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/lib">
-            <fileset dir="${basedir}/lib">               
+            <fileset dir="${basedir}/lib" excludes="mssql*">               
             </fileset>
         </copy>
         <copy todir="${RPM.dir}/TEMP/ublu-${ublu.version}/share">

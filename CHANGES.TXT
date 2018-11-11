@@ -23,6 +23,9 @@ All rights reserved.
     * `ux.utils.ublu` compilation utils
     * `ux.jlsc.ublu` job list selection criteria
     * `ux.job.ublu` jobs
+* Miscellaneous
+    * Ublu now by default compiles in Microsoft MSSQL [TM] support.
+        * The MSSQL JDBC driver is not included in the distribution.
 
 1.2.0 2018-10-07
 -----
