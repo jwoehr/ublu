@@ -21,7 +21,9 @@ This means:
     3. To build Ublu from soure, you must either:
         a. Comment out MSSQL support, or
         b. Download the MSSQL JDBC driver (any recent level) and place in the
-        lib directory of the source distribution.
+        lib directory of the source distribution. You will need to modify the
+        lines referring to this jar in nbproject/project.properties if you
+        are using a different level of the driver than the one we are using.
 
 Therefor you may wish to execute the REMOVING MSSQL SUPPORT instructions in order
 to remove MSSQL support if you do not want to download the driver.
