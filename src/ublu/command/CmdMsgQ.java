@@ -395,12 +395,12 @@ public class CmdMsgQ extends Command {
             setMq(mq, reply, noreply, copyreply);
         }
         mq.load();
-        int mqLength = mq.getLength();
-        for (int i = 0; i < mqLength; i += 1000) { // MessageQueue.getMessages() retrieves in blocks of 1000 (com/ibm/as400/access/MessageQueue.html)
-            Enumeration e = mq.getMessages();
-            while (e.hasMoreElements()) {
-                qml.add(QueuedMessage.class.cast(e.nextElement()));
-            }
+//        int mqLength = mq.getLength();
+//        for (int i = 0; i < mqLength; i += 1000) { // MessageQueue.getMessages() retrieves in blocks of 1000 (com/ibm/as400/access/MessageQueue.html)
+        Enumeration e = mq.getMessages();
+        while (e.hasMoreElements()) {
+            qml.add(QueuedMessage.class.cast(e.nextElement()));
+//      }
         }
         return qml;
     }
