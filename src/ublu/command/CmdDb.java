@@ -520,6 +520,7 @@ public class CmdDb extends Command {
                     break;
                 case "-ssl":
                     setUsessl(argArray.nextBooleanTupleOrPop());
+                    break;
                 case "-usessl":
                     setUsessl(true);
                     break;
