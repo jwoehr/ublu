@@ -16,6 +16,7 @@ All rights reserved.
     * `db` clarify schema vs database
 * Examples
 	* Test
+                * `recordCount.ublu` SQL put count of records in schema.file
 		* `testdbrepl.ublu` example of db table replication
                 * Suite
                     * `t.db.ublu` test database

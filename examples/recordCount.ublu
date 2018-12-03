@@ -1,0 +1,75 @@
+# recordCount.ublu ... SQL get count of records in schema.file
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2018 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+
+# SQL put count of records in a schema.filename by system name
+# recordCount ( sysname schema fname uname passwd isssl )
+# ... sysname   - name of AS400 system
+# ... schema    - schema name
+# ... fname     - file name
+# ... uname     - user name
+# ... passwd    - password
+# ... isssl     - textual T|t or F|f
+FUNC recordCount ( sysname schema fname uname passwd tfstring ) $[
+    LOCAL @isssl
+    string -to ~ -upcase @@tfstring
+    ~ -to ~ -substr 0 1
+    ~ -to ~ -eq T
+    IF ~ THEN $[
+        tuple -true @isssl
+    ]$ ELSE $[
+        tuple -false @isssl
+    ]$    
+    recordCountFromSysFilename ( @@sysname @@schema @@fname @@uname @@passwd @isssl )
+    put ~
+]$
+
+# SQL push count of records in a schema.filename by system name
+# recordCountFromSysFilename ( sysname schema fname uname passwd isssl )
+# ... sysname   - name of AS400 system
+# ... schema    - schema name
+# ... fname     - file name
+# ... uname     - user name
+# ... passwd    - password
+# ... isssl     - @true or @false 
+FUNC recordCountFromSysFilename ( sysname schema fname uname passwd isssl ) $[
+    LOCAL @sysobj
+    as400 -to @sysobj -ssl @@isssl @@sysname @@uname @@passwd
+    recordCountFromFilename ( @sysobj @@schema @@fname @@isssl )
+]$
+
+# SQL push count of records in a schema.filename by instanced as400 object
+# recordCountFromFilename ( sysobj schema fname isssl )
+# ... sysobj    - instanced as400 object
+# ... schema    - schema name
+# ... fname     - file name
+# ... uname     - user name
+# ... passwd    - password
+# ... isssl     - @true or @false 
+FUNC recordCountFromFilename ( sysobj schema fname isssl ) $[
+    LOCAL @dbobj
+    db -to @dbobj -dbtype as400 -as400 @@sysobj -ssl @@isssl -connect
+    recordCountFromDbobj ( @dbobj @@schema @@fname )
+    @dbobj -disconnect
+]$
+
+# SQL push count of records in a schema.filename by instanced db object
+# recordCountFromDbobj ( dbobj schema fname )
+# ... dbobj    - instanced db object
+# ... schema    - schema name
+# ... fname     - file name
+FUNC recordCountFromDbobj ( dbobj schema fname ) $[
+    LOCAL @q LOCAL @qrs   
+    put -to @q ${ select count(*) from }$
+    @q -to @q -cat @@schema
+    @q -to @q -cat .
+    @q -to @q -cat @@fname
+    @dbobj -to @qrs -query @q
+    @qrs -to NULL: -next
+    @qrs -to ~ -get 1
+    @qrs -to -closest
+]$
+  
+# end
