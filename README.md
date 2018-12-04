@@ -1,7 +1,7 @@
 # ublu
 Ublu Midrange and Mainframe Life Cycle Extension Language<br>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com<br>
-Copyright (c) 2017, Jack J. Woehr http://www.softwoehr.com<br>
+Copyright (c) 2018, Jack J. Woehr http://www.softwoehr.com<br>
 All rights reserved.<br>
 See file LICENSE for license information.
 
@@ -22,7 +22,7 @@ on your Android ® device.
 I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows to
 perform ad-hoc process automation primarily on IBM i Series OS ®. I was
 supporting consulting clients by writing individual utility programs using JTOpen
-which I  have used since 1998 to control the AS/400. I decided to consolidate
+which I have used since 1998 to control the AS/400. I decided to consolidate
 the programs in a language, and the result is Ublu. Ublu is a work in progress,
 as there is always more one could add.
 
@@ -43,11 +43,11 @@ Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/
 
 The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is [version 1.1.9](https://github.com/jwoehr/ublu/releases/tag/v1.1.9).
+The latest release version of Ublu is [version 1.2.1](https://github.com/jwoehr/ublu/releases/tag/v1.2.1).
 
-It is strongly advised you use a release version of Ublu, preferably the latest, 1.2.0
+It is strongly advised you use a release version of Ublu, preferably the latest.
 
-Ublu build from the tip of the master branch calls itself 1.2.0+ as we head for 1.2.1
+Ublu built from the tip of the master branch between releases calls itself v_n_._n_._n_+ where _n_._n_._n_ is the previous release
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
@@ -77,7 +77,7 @@ Or clone, build and run:
 
 <b>Note regarding checking out the current source:</b> Release versions of Ublu come with a standard release of JTOpen.
 Between Ublu releases, I build and sometimes modify JTOpen so that Ublu can leverage forthcoming features of JTOpen.
-When you check out the source between releases, it is an intermediate version JTOpen that is checked out with Ublu.  
+When you check out the source between releases, it is an intermediate version JTOpen that is checked out with Ublu.
 
 <a name="goublu"></a>
 ## Goublu console support for Ublu
@@ -92,8 +92,6 @@ Goublu is a console front-end that provides an editable Ublu command line. The g
 `go get -u github.com/jwoehr/goublu`
 
 will fetch the source to your `$GOPATH/src` directory. Use `go build main/goublu.go` to build Goublu for your architecture.
-
-
 
 ## Ublu in a Window
 You can start Ublu in a window with the `-w [propsfilepath]` switch.
@@ -113,4 +111,4 @@ that hosts the Ublu forum.
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
 
-Jack Woehr 2018-10-07
+Jack Woehr 2018-12-03
