@@ -47,7 +47,7 @@ The latest release version of Ublu is [version 1.2.1](https://github.com/jwoehr/
 
 It is strongly advised you use a release version of Ublu, preferably the latest.
 
-Ublu built from the tip of the master branch between releases calls itself v_n_._n_._n_+ where _n_._n_._n_ is the previous release
+Ublu built from the tip of the master branch between releases calls itself _n_._n_._n_+ where _n_._n_._n_ is the previous release
 
 Ublu is distributed with the open source libraries it needs and their license
 files which permit such distribution.
