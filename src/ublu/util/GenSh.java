@@ -324,7 +324,7 @@ public class GenSh {
 
     private String genGlobSection() {
         StringBuilder sb = new StringBuilder();
-        sb.append("#Test if user wants arguments globbed - default noglob\n")
+        sb.append("# Test if user wants arguments globbed - default noglob\n")
                 .append("if [ \"$1\" == \"glob\" ]\n")
                 .append("then\n")
                 .append("\tset +o noglob # POSIX\n")
@@ -337,7 +337,7 @@ public class GenSh {
 
     private String genSilentSection() {
         StringBuilder sb = new StringBuilder();
-        sb.append("#Test if user wants silent includes\n")
+        sb.append("# Test if user wants silent includes\n")
                 .append("if [ \"$1\" == \"silent\" ]\n")
                 .append("then\n")
                 .append("\tSILENT=\"-silent \"\n")
