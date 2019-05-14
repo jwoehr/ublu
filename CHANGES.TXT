@@ -4,10 +4,12 @@ All rights reserved.
 
 1.2.2
 -----
+* Bugs
+    * #22 Ublu would exit on missing nested include
 * Commands
-	* `gensh` cleanup comments
+    * `gensh` cleanup comments
 * Examples
-	* `recordCount.sh` cleanup
+    * `recordCount.sh` cleanup
 
 1.2.1 2018-12-03
 -----
