@@ -1390,6 +1390,8 @@ public class Interpreter {
                 }
             } catch (IOException ex) {
                 getLogger().log(Level.SEVERE, "IO error reading included file", ex);
+                setIncluding(false);
+                input = ""; // so we won't exit on file failure because input == null;
             }
         } else if (isConsole()) {
             input = System.console().readLine();
