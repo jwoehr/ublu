@@ -5,8 +5,6 @@
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
   <meta name="generator" content="Bluefish 2.2.10">
-  <meta name="generator" content="Bluefish 2.2.10">
-  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -17,7 +15,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 11 Nov 2018 23:19:00 UTC">
+  "Sun, 26 May 2019 18:54:00 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -48,7 +46,7 @@
         </th>
 
         <td align="center" bgcolor="#000000" valign="middle">
-        Copyright © 2018<br>
+        Copyright © 2019<br>
         Jack. J. Woehr<br>
         jwoehr@softwoehr.com<br>
         All Rights Reserved<br>
@@ -65,7 +63,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2018-11-11</p>
+  Last edit: 2019-05-26</p>
 
   <pre>
  Copyright (c) 2015, Absolute Performance, Inc.
@@ -16775,17 +16773,18 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
   <blockquote>
-    <p><code>/0 [-to datasink] [-- @listener] [-port ~@{portnum}]
-    [-usessl] [-ssl @~t/f] [[ -block ~@{executionBlock} |
-    $[execution block]$ ] | -getport | -start | -status | -stop ] :
-    start, stop or monitor status of a thread server</code>
+    <p><code>/0 [-to datasink] [-- @listener] [-inetaddr
+    ~@{inetaddr}] [-port ~@{portnum}] [-backlog ~@{backlog}]
+    [-usessl] [-ssl @~t/f] [ -block ~@{executionBlock} |
+    $[execution block]$ ] -getip | -getport | -start | -status |
+    -stop : start, stop or monitor status of a thread server</code>
     </p>
 
 
-    <p>Starts, stops, or displays status of a TCP/IP listener over
-    <em>portnum</em> (defaulting to port 43860) which spawns server
-    threads. The server threads spawned by the listener either
-    will:</p>
+    <p>Starts, stops, queries settings, or displays status of a
+    TCP/IP listener over <em>portnum</em> (defaulting to port
+    43860) which spawns server threads. The server threads spawned
+    by the listener either will:</p>
 
 
     <ul>
@@ -16811,7 +16810,7 @@ exit <span class="syntax-KEYWORD2">$?</span>
     <code>server -- @listener stop</code>.</p>
 
 
-    <p>The default action is <code>-status</code>.</p>
+    <p>The default operation is <code>-status</code>.</p>
 
 
     <p>There are extensions to the server command in
@@ -16819,8 +16818,34 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
 
     <ul>
+      <li>
+        <code>-inetaddr ~@{inetaddr}</code> sets the TCP/IP address
+        by name or dotted number on which the <code>-start</code>
+        operation will start the listener. The default is the main
+        interface of the local host, the one returned by
+        <code>InetAddress.getLocalHost()</code>. This is not the
+        loopback address, which can be chosen using this
+        dash-command, e.g,
+
+        <ul>
+          <li><code>-inetaddr 127.0.0.1</code>
+          </li>
+
+
+          <li><code>-inetaddr localhost</code>
+          </li>
+        </ul>
+      </li>
+
+
       <li><code>-port ~@{portnum}</code> sets the port on which the
-      <code>-start</code> operation will start the listener.</li>
+      <code>-start</code> operation will start the listener. The
+      default is 43860.</li>
+
+
+      <li><code>-backlog ~@{backlog}</code> sets the number of
+      requests which may be backlogged before the listener rejects
+      connections. The default is 50.</li>
 
 
       <li><code>-block ~@{executionBlock} | $[execution

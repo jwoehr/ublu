@@ -48,7 +48,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [-to datasink] [-- @listener] [-inetaddr ~@{inetaddr}] [-port ~@{portnum}] [-backlog ~@{backlog}] [-usessl] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
+                "/0  [-to datasink] [-- @listener] [-inetaddr ~@{inetaddr}] [-port ~@{portnum}] [-backlog ~@{backlog}] [-usessl] [-ssl @~t/f] [ -block ~@{executionBlock} | $[execution block]$ ] -getip | -getport | -start | -status | -stop : start, stop or monitor status of a thread server");
     }
 
     /**
@@ -71,7 +71,12 @@ public class CmdServer extends Command {
         /**
          * get port the listener is on
          */
-        GETPORT
+        GETPORT,
+        /**
+         * get IP listener is on
+         */
+        GETIP
+
     }
 
     private FUNCTIONS function;
@@ -86,7 +91,7 @@ public class CmdServer extends Command {
     /**
      * By default we're on port 43860
      */
-    public final static int DEFAULT_SERVER_PORT = 0xab54;
+    public final static int DEFAULT_SERVER_PORT = 0xab54; // 43860
 
     /**
      * Arity-0 ctor
@@ -132,6 +137,9 @@ public class CmdServer extends Command {
                     break;
                 case "-getport":
                     setFunction(FUNCTIONS.GETPORT);
+                    break;
+                case "-getip":
+                    setFunction(FUNCTIONS.GETIP);
                     break;
                 case "-start":
                     setFunction(FUNCTIONS.START);
@@ -188,6 +196,19 @@ public class CmdServer extends Command {
                         setCommandResult(COMMANDRESULT.FAILURE);
                     }
                     break;
+                case GETIP:
+                    if (listener != null) {
+                        try {
+                            put(listener.getInetAddress());
+                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                            getLogger().log(Level.SEVERE, "Exception putting Listener inetaddress in " + getNameAndDescription(), ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    } else {
+                        getLogger().log(Level.SEVERE, "No listener provided to getport in {0}", getNameAndDescription());
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                 case START:
                     if (executionBlock != null) {
                         listener = new Listener(getUblu(), inetAddress, port, backlog, executionBlock, getInterpreter(), useSSL);
@@ -204,7 +225,7 @@ public class CmdServer extends Command {
                     }
                     break;
                 case STATUS:
-                    getInterpreter().output((listener == null ? "No listener provided." : listener.status()) + "\n");
+                    getInterpreter().output((listener == null ? "No listener provided for status in " + getNameAndDescription() : listener.status()) + "\n");
                     break;
                 case STOP:
                     if (listener != null) {
