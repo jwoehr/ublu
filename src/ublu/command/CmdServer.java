@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2019, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -31,7 +31,9 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.ObjectDoesNotExistException;
 import com.ibm.as400.access.RequestNotSupportedException;
+import java.net.InetAddress;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import ublu.server.Listener;
 import ublu.util.ArgArray;
@@ -46,7 +48,7 @@ public class CmdServer extends Command {
 
     {
         setNameAndDescription("server",
-                "/0  [-to datasink] [-- @listener]  [-port ~@{portnum}] [-usessl] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
+                "/0  [-to datasink] [-- @listener] [-inetaddr ~@{inetaddr}] [-port ~@{portnum}] [-backlog ~@{backlog}] [-usessl] [-ssl @~t/f] [[ -block ~@{executionBlock} | $[execution block]$ ] | -getport | -start | -status | -stop ] : start, stop or monitor status of a thread server");
     }
 
     /**
@@ -101,7 +103,14 @@ public class CmdServer extends Command {
      */
     public ArgArray server(ArgArray argArray) {
         Listener listener = null;
+        InetAddress inetAddress = null;
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            getLogger().log(Level.WARNING, "Couldn't get local host address", ex);
+        }
         int port = DEFAULT_SERVER_PORT;
+        int backlog = 50;
         int timeoutMs = Listener.DEFAULT_ACCEPT_TIMEOUT_MS;
         boolean useSSL = false;
         String executionBlock = null;
@@ -133,9 +142,22 @@ public class CmdServer extends Command {
                 case "-status":
                     setFunction(FUNCTIONS.STATUS);
                     break;
+                case "-inetaddr":
+                    String inetaddr = argArray.nextMaybeQuotationTuplePopStringTrim();
+                     {
+                        try {
+                            inetAddress = InetAddress.getByName(inetaddr);
+                        } catch (UnknownHostException ex) {
+                            getLogger().log(Level.SEVERE, "Couldn't get address " + inetaddr, ex);
+                            setCommandResult(COMMANDRESULT.FAILURE);
+                        }
+                    }
+                    break;
                 case "-port":
                     port = argArray.nextIntMaybeQuotationTuplePopString();
                     break;
+                case "-backlog":
+                    backlog = argArray.nextIntMaybeQuotationTuplePopString();
                 case "-usessl":
                     useSSL = true;
                     break;
@@ -149,7 +171,7 @@ public class CmdServer extends Command {
                     unknownDashCommand(dashCommand);
             }
         }
-        if (havingUnknownDashCommand()) {
+        if (havingUnknownDashCommand() || getCommandResult() == COMMANDRESULT.FAILURE) {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
             switch (getFunction()) {
@@ -168,9 +190,9 @@ public class CmdServer extends Command {
                     break;
                 case START:
                     if (executionBlock != null) {
-                        listener = new Listener(getUblu(), port, executionBlock, getInterpreter(), useSSL);
+                        listener = new Listener(getUblu(), inetAddress, port, backlog, executionBlock, getInterpreter(), useSSL);
                     } else {
-                        listener = new Listener(getUblu(), port, getInterpreter(), useSSL);
+                        listener = new Listener(getUblu(), inetAddress, port, backlog, getInterpreter(), useSSL);
                     }
                     listener.setAcceptTimeoutMS(timeoutMs);
                     listener.start();

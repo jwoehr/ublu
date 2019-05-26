@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
+ * Copyright (c) 2019, Jack J. Woehr jwoehr@softwoehr.com 
+ * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,6 +29,7 @@ package ublu.server;
 
 import ublu.Ublu;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
@@ -34,7 +37,6 @@ import java.util.logging.Logger;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import ublu.util.Generics;
 import ublu.util.Generics.StringArrayList;
 import ublu.util.Generics.ThingArrayList;
 import ublu.util.Interpreter;
@@ -54,6 +56,13 @@ public class Listener extends Thread {
     private int spawns = 0;
     private Interpreter parentInterpreter;
     private boolean useSSL;
+    private Ublu ublu;
+    private InetAddress inetAddress;
+    private int portnum;
+    private int backlog;
+    private ServerSocket serverSocket;
+    private boolean listening;
+    private String executionBlock;
 
     /**
      *
@@ -89,7 +98,7 @@ public class Listener extends Thread {
 
     /**
      *
-     * @return
+     * @return the parent Interpreter
      */
     public Interpreter getParentInterpreter() {
         return parentInterpreter;
@@ -97,7 +106,7 @@ public class Listener extends Thread {
 
     /**
      *
-     * @param parentInterpreter
+     * @param parentInterpreter the parent Interpreter
      */
     public void setParentInterpreter(Interpreter parentInterpreter) {
         this.parentInterpreter = parentInterpreter;
@@ -169,12 +178,38 @@ public class Listener extends Thread {
         }
         return sb.toString();
     }
-    private Ublu ublu;
-    private int portnum;
-    private ServerSocket serverSocket;
-    private boolean listening;
 
-    private String executionBlock;
+    /**
+     *
+     * @return the maximum backlog of connections
+     */
+    public int getBacklog() {
+        return backlog;
+    }
+
+    /**
+     *
+     * @param backlog the maximum backlog of connections
+     */
+    public void setBacklog(int backlog) {
+        this.backlog = backlog;
+    }
+
+    /**
+     *
+     * @return inet addr for listener
+     */
+    public InetAddress getInetAddress() {
+        return inetAddress;
+    }
+
+    /**
+     *
+     * @param inetAddress inet addr for listener
+     */
+    public void setInetAddress(InetAddress inetAddress) {
+        this.inetAddress = inetAddress;
+    }
 
     /**
      * Get the value of executionBlock
@@ -338,8 +373,8 @@ public class Listener extends Thread {
     }
 
     /**
-     * Create new instance with associated Ublu instance and choice of
-     * portnumber recorded.
+     * Create new instance with associated Ublu instance and choice of port
+     * number recorded.
      *
      * @param ublu application controller
      * @param portnum port to listen on
@@ -351,8 +386,8 @@ public class Listener extends Thread {
     }
 
     /**
-     * Create new instance with associated Ublu instance and choice of
-     * portnumber recorded and Interpreter to spawn server's interpreter from
+     * Create new instance with associated Ublu instance and choice of port
+     * number recorded and Interpreter to spawn server's interpreter from
      *
      * @param ublu application controller
      * @param portnum port to listen on
@@ -366,8 +401,8 @@ public class Listener extends Thread {
     }
 
     /**
-     * Create new instance with associated Ublu instance and choice of
-     * portnumber recorded and Interpreter to spawn server's interpreter from,
+     * Create new instance with associated Ublu instance and choice of port
+     * number recorded and Interpreter to spawn server's interpreter from,
      * possibly using SSL.
      *
      * @param ublu application controller
@@ -380,6 +415,28 @@ public class Listener extends Thread {
         setUseSSL(useSSL);
         this.ublu = ublu;
         this.portnum = portnum;
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
+     * Create new instance with associated Ublu instance and choice of port
+     * number, inet addr, and backlog recorded and Interpreter to spawn server's
+     * interpreter from, possibly using SSL.
+     *
+     * @param ublu application controller
+     * @param inetAddress inet addr of interface
+     * @param portnum port to listen on
+     * @param backlog the maximum backlog of connections
+     * @param parentInterpreter Interpreter to spawn server's interpreter from
+     * @param useSSL true if SSL desired
+     */
+    public Listener(Ublu ublu, InetAddress inetAddress, int portnum, int backlog, Interpreter parentInterpreter, boolean useSSL) {
+        this();
+        setUseSSL(useSSL);
+        this.ublu = ublu;
+        this.inetAddress = inetAddress;
+        this.portnum = portnum;
+        this.backlog = backlog;
         this.parentInterpreter = parentInterpreter;
     }
 
@@ -436,6 +493,30 @@ public class Listener extends Thread {
     }
 
     /**
+     * Create new instance with associated Ublu instance and choice of port
+     * number, inet addr, and backlog recorded and Interpreter to spawn server's
+     * interpreter from possibly using SSL.
+     *
+     * @param ublu application controller
+     * @param inetAddress inet addr of interface
+     * @param portnum port to listen on
+     * @param backlog the maximum backlog of connections
+     * @param executionBlock block for server thread to execute
+     * @param parentInterpreter Interpreter to spawn server's interpreter from
+     * @param useSSL true if SSL socket desired
+     */
+    public Listener(Ublu ublu, InetAddress inetAddress, int portnum, int backlog, String executionBlock, Interpreter parentInterpreter, boolean useSSL) {
+        this();
+        setUseSSL(useSSL);
+        this.ublu = ublu;
+        this.inetAddress = inetAddress;
+        this.portnum = portnum;
+        this.backlog = backlog;
+        this.executionBlock = executionBlock;
+        this.parentInterpreter = parentInterpreter;
+    }
+
+    /**
      * Get associated logger
      *
      * @return associated logger
@@ -452,8 +533,8 @@ public class Listener extends Thread {
         setListening(true);
         try {
             setServerSocket(isUseSSL()
-                    ? SSLServerSocketFactory.getDefault().createServerSocket(getPortnum())
-                    : new ServerSocket(getPortnum())
+                    ? SSLServerSocketFactory.getDefault().createServerSocket(getPortnum(), getBacklog(), getInetAddress())
+                    : new ServerSocket(getPortnum(), getBacklog(), getInetAddress())
             );
             getServerSocket().setSoTimeout(getAcceptTimeoutMS());
             try {
@@ -461,9 +542,9 @@ public class Listener extends Thread {
                     try {
                         Server s;
                         if (getExecutionBlock() != null) {
-                            s = new Server(getUblu(), getServerSocket().accept(), getExecutionBlock(), parentInterpreter);
+                            s = new Server(getUblu(), getServerSocket().accept(), getExecutionBlock(), getParentInterpreter());
                         } else {
-                            s = new Server(getUblu(), getServerSocket().accept(), parentInterpreter);
+                            s = new Server(getUblu(), getServerSocket().accept(), getParentInterpreter());
                         }
                         s.start();
                         incSpawns(); // If we get here without timeout exception there has been a spawn
