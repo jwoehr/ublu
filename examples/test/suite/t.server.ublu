@@ -48,7 +48,7 @@ FUNC t.server ( work_dir testsys testrptpf ) $[
     @result -> @TMSTRT
 
     \\ ${ Assumes the present file is residing in examples/test/suite }$
-    redirall ( @tmpfile $[ startServerSSL ( *t_ublusrvport ) callSSLServer ( *t_ublusrvport ) ~ -stop ]$ )
+    redirall ( @tmpfile $[ startServerSSL ( localhost *t_ublusrvport ) callSSLServer ( localhost *t_ublusrvport ) ~ -stop ]$ )
 
     currentTimeMillis ( )
     tuple -assign @TMEND ~

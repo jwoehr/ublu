@@ -17,8 +17,8 @@
 # startServerSSL ( portnum )
 # Start the server on port @@portnum with a block
 # Pushes the listener object, e.g., tuple -assign @listener ~ @listener -stop
-FUNC startServerSSL ( portnum ) $[
-    server -to ~ -port @@portnum -usessl -block $[
+FUNC startServerSSL ( inetaddr portnum ) $[
+    server -to ~ -inetaddr @@inetaddr -port @@portnum -usessl -block $[
         ask -say ${ how are you? }$ -to @foo put -n ${ you are }$  put @foo
     ]$ -start
 ]$
@@ -27,7 +27,7 @@ FUNC startServerSSL ( portnum ) $[
 # Connect SSL to the local server, send a response and read answer.
 # Not sure why I have to read a couple of times with 0 available.
 # Someone who understands sockets better than I do should look at this!
-FUNC callSSLServer ( portnum ) $[
+FUNC callSSLServer ( inetaddr portnum ) $[
     LOCAL @response
     LOCAL @sk
     LOCAL @bytes
@@ -35,7 +35,7 @@ FUNC callSSLServer ( portnum ) $[
     put -to @response ${ very fine }$
     @response -to @response -nl
     list -to @bytes
-    sock -to @sk -host localhost -port @@portnum -usessl
+    sock -to @sk -host @@inetaddr -port @@portnum -usessl
 
     @sk -to ~ -read 1
     @bytes -add ~
