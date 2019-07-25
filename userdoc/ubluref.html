@@ -4,7 +4,6 @@
 <head>
   <meta name="generator" content=
   "HTML Tidy for HTML5 for Linux version 5.2.0">
-  <meta name="generator" content="Bluefish 2.2.10">
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
 
@@ -15,7 +14,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 26 May 2019 18:54:00 UTC">
+  "Thu, 25 Jul 2019 03:50:37 UTC">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
@@ -63,12 +62,12 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2019-05-26</p>
+  Last edit: 2019-07-24</p>
 
   <pre>
- Copyright (c) 2015, Absolute Performance, Inc.
+ Copyright © 2015, Absolute Performance, Inc.
   http://www.absolute-performance.com
- Copyright (c) 2018, Jack J. Woehr
+ Copyright © 2019, Jack J. Woehr
   jwoehr@softwoehr.com http://www.softwoehr.com All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -11773,7 +11772,8 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
   <blockquote>
     <code>/6? [-as400 ~@as400] [--,-job ~@job] [-to datasink]
-    [-refresh] [-end ~@{delaytime} (-1 for \"controlled\") | -get
+    [-refresh] [-end ~@{delaytime} (*CNTRLD delaytime in seconds or
+    -1 for default timeout, 0 means *IMMED) | -get
     ~@{property([name|number|system|user|description|type])} |
     -getsys | -hold ~@tf_holdspooledfiles | -info | -new,-instance
     | -noop | -query ~@{property
@@ -11830,28 +11830,21 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
       <li>
         <code>-end</code> ends the job with a delay for ending
-        processing of delaytime.
+        processing of delaytime. By default, the job is ended
+        <code>*CNTRLD</code>.
 
         <ul>
-          <li>-1 means controlled end to the job. This is
-          <em>always</em> preferable from a system administrative
-          point of view.</li>
+          <li>-1 means default <code>*CNTRLD</code> timeout end to
+          the job. This is <em>always</em> preferable from a system
+          administrative point of view.</li>
 
 
-          <li>-0 means immediate end to the job. This is a <em>last
-          resort</em> and is dangerous</li>
+          <li>-0 means immediate end to the job. This is a
+          <em>slightly</em> dangerous</li>
 
 
           <li>Any other value means that number of seconds of delay
-          to end processing in an orderly fashion, after which the
-          job is ended immediately.</li>
-
-
-          <li><strong>Use caution when using the <code>-end</code>
-          dash-command with any value other than -1 for a
-          controlled end to the job!</strong> Any other argument to
-          <code>-end</code> can possibly leave the system in need
-          of a re-IPL.</li>
+          to end processing <code>*CNTRLD</code>.</li>
         </ul>
       </li>
 
