@@ -9,6 +9,8 @@ All rights reserved.
 * Commands
     * `gensh` cleanup comments
     * `server` now can set inetaddr (default main interface) and backlog (default 50)
+* Docs
+    * `job` cmd docs improved
 * Examples
     * `recordCount.sh` cleanup
 
