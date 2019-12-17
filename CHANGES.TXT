@@ -13,6 +13,8 @@ All rights reserved.
     * `job` cmd docs improved
 * Examples
     * `recordCount.sh` cleanup
+* Extensions
+   * `sysshep.qsys2.system_status` typo reference `@stats` changed to `@@stats`
 
 1.2.1 2018-12-03
 -----

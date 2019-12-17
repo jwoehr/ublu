@@ -19,7 +19,7 @@ FUNC sysshep.qsys2.system_status ( qsys2db stats reset_tf ) $[
    LOCAL @valid  LOCAL @tmp
    LOCAL @stem
    put -to @stem OS400|QSYS2|SYSTEM_STATUS
-   string -to @stats -new
+   string -to @@stats -new
    
    IF @@reset_tf THEN $[
        @@qsys2db -to @myRs -query ${ SELECT * FROM TABLE(QSYS2.SYSTEM_STATUS(RESET_STATISTICS=>'YES')) AS X }$
