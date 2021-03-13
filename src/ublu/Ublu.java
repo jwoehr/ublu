@@ -183,7 +183,7 @@ public class Ublu {
     public final static String openSourceList() {
         StringBuilder sb = new StringBuilder();
         org.postgresql.Driver d = new org.postgresql.Driver();
-        return sb.append(utilities.AboutToolbox.getVersionDescription())
+        return sb.append(com.ibm.as400.util.AboutToolbox.getVersionDescription())
                 .append("\n---\n")
                 .append("Postgresql JDBC Driver - JDBC 4.1 42.1.4.jre7")
                 .append(" (").append(d.getMajorVersion()).append('.').append(d.getMinorVersion()).append(")\n")
