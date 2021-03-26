@@ -2,7 +2,11 @@ CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
 Copyright (c) 2019, Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved.
 
-1.2.2
+1.2.3
+-----
+
+
+1.2.2 2020-03-28
 -----
 * Bugs
     * #22 Ublu would exit on missing nested include

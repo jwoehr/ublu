@@ -288,7 +288,7 @@ public class CmdDb extends Command {
      *
      * @param csvSeparator char to use as separator
      */
-    private final void setCsvSeparator(String csvSeparator) {
+    private void setCsvSeparator(String csvSeparator) {
         this.csvSeparator = csvSeparator;
     }
 
@@ -306,7 +306,7 @@ public class CmdDb extends Command {
      *
      * @param connectionProperties list of connection properties
      */
-    private final void setConnectionProperties(ConnectionProperties connectionProperties) {
+    private void setConnectionProperties(ConnectionProperties connectionProperties) {
         this.connectionProperties = connectionProperties;
     }
 
