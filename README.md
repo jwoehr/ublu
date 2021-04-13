@@ -111,4 +111,17 @@ that hosts the Ublu forum.
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
 
-Jack Woehr 2018-12-03
+## Default Branch Renamed
+
+The default branch has been renamed!
+
+`master` is now named `main`
+
+If you have a local clone, you can update it by running:
+```
+git branch -m master main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
+```
+Jack Woehr 2021-04-13
