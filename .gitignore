@@ -1,5 +1,5 @@
-/dist/
-/src/ublu/Version.java
+/target/
+/src/main/java/ublu/Version.java
 /lib/postgresql-9.2-1003.jdbc4.jar
 /oldlib/
 /nbproject/private/

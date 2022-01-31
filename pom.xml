@@ -84,7 +84,7 @@
           <artifactId>exec-maven-plugin</artifactId>
           <version>3.0.0</version>
           <configuration>
-            <mainClass>com.github.theprez.jsheetydriver.App</mainClass>
+            <mainClass>ublu.Ublu</mainClass>
             <includePluginDependencies>false</includePluginDependencies>
           </configuration>
         </plugin>
@@ -124,7 +124,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>com.github.theprez.jsheetydriver.App</mainClass>
+                <mainClass>ublu.Ublu</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
@@ -186,6 +186,13 @@
             <systemPath>${project.basedir}/lib/tn5250j.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>org.sblim.wbem</groupId>
+            <artifactId>sblimCIMClient</artifactId>
+            <scope>system</scope>
+            <version>HEAD</version>
+            <systemPath>${project.basedir}/lib/sblim-cim-client2-HEAD.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.5</version>
@@ -194,13 +201,6 @@
             <groupId>net.sf.jt400</groupId>
             <artifactId>jt400</artifactId>
             <version>10.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sblim.wbem</groupId>
-            <artifactId>sblimCIMClient</artifactId>
-            <scope>system</scope>
-            <version>HEAD</version>
-            <systemPath>${project.basedir}/lib/sblim-cim-client2-HEAD.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
