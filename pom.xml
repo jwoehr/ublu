@@ -88,6 +88,26 @@
             <includePluginDependencies>false</includePluginDependencies>
           </configuration>
         </plugin>
+        <plugin>
+            <artifactId>exec-maven-plugin</artifactId>
+            <groupId>org.codehaus.mojo</groupId>
+            <executions>
+              <execution><!-- Run our version calculation script -->
+                <id>Version Calculation</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>${basedir}/makever.sh</executable>
+                  <arguments>
+                    <argument>${version}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          
   
         <!-- Allows the program to be built into a single executable jar -->
         <plugin>
@@ -181,6 +201,11 @@
             <scope>system</scope>
             <version>HEAD</version>
             <systemPath>${project.basedir}/lib/sblim-cim-client2-HEAD.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>9.4.1.jre8</version>
         </dependency>
                 
   
