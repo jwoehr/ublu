@@ -6,7 +6,7 @@ target/ublu.jar: FORCE
 FORCE:
 
 clean:
-	rm -rf target dist-build ublu-dist.zip
+	rm -rf target dist-build ublu-dist.zip src/main/java/ublu/Version.java
 
 dist: target/ublu.jar
 	rm -fr dist-build
