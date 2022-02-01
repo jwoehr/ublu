@@ -8,3 +8,7 @@
 /ublu-dist.zip
 /dist-build/
 /dist/
+MakeVer.class
+.classpath
+.project
+.settings/
