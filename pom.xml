@@ -27,6 +27,7 @@
     </properties>
     <build>
         <defaultGoal>install</defaultGoal>
+ <pluginManagement>
 
         <plugins>
 
@@ -88,6 +89,7 @@
                     <includePluginDependencies>false</includePluginDependencies>
                 </configuration>
             </plugin>
+
             <plugin>
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
@@ -108,7 +110,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
             <!-- Allows the program to be built into a single executable jar -->
             <plugin>
@@ -164,7 +165,8 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+   </pluginManagement>
+  </build>
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
