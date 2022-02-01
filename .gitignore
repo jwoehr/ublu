@@ -6,4 +6,5 @@
 /build/
 /lib/mssql-jdbc-7.0.0.jre8.jar
 /ublu-dist.zip
-/dist-build
+/dist-build/
+/dist/
