@@ -24,6 +24,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
     </properties>
     <build>
         <defaultGoal>install</defaultGoal>
@@ -77,42 +78,33 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.0.0</version>
-                    <groupId>org.codehaus.mojo</groupId>
+                    <groupId>com.google.code.maven-replacer-plugin</groupId>
+                    <artifactId>maven-replacer-plugin</artifactId>
+                    <version>1.4.0</version>
                     <executions>
                         <execution>
-                            <!-- Run our version calculation script -->
-                            <id>Version Calculation Utility Build</id>
-                            <phase>generate-sources</phase>
+                            <phase>process-sources</phase>
                             <goals>
-                                <goal>exec</goal>
+                                <goal>replace</goal>
                             </goals>
-                            <configuration>
-                                <executable>javac</executable>
-                                <arguments>
-                                    <argument>MakeVer.java</argument>
-                                </arguments>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>Version Calculation</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>exec</goal>
-                            </goals>
-                            <configuration>
-                                <executable>java</executable>
-                                <arguments>
-                                    <argument>MakeVer</argument>
-                                    <argument>${project.version}</argument>
-                                    <argument>${project.basedir}/src/main/java/ublu/Version.java</argument>
-                                </arguments>
-                            </configuration>
                         </execution>
                     </executions>
-                </plugin>
+                    <configuration>
+                        <file>Version.java.tpl</file>
+                        <outputFile>src/main/java/ublu/Version.java</outputFile>
+                        <replacements>
+                            <replacement>
+                                <token>@ubluversion@</token>
+                                <value>${project.version}</value>
+                            </replacement>
 
+                            <replacement>
+                                <token>@timestamp@</token>
+                                <value>${maven.build.timestamp}</value>
+                            </replacement>
+                        </replacements>
+                    </configuration>
+                </plugin>
                 <!-- Allows the program to be built into a single executable jar -->
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
@@ -178,6 +170,10 @@
         <plugins>
 
             <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>maven-replacer-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
@@ -192,10 +188,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>exec-maven-plugin</artifactId>
-                <groupId>org.codehaus.mojo</groupId>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

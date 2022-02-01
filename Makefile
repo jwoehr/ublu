@@ -1,4 +1,5 @@
 target/ublu.jar: FORCE
+	rm -f src/main/java/ublu/Version.java
 	rm -rf target
 	mvn package
 	cp target/ublu-*-with-dependencies.jar target/ublu.jar
