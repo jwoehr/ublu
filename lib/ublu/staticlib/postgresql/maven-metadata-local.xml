@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>ublu.staticlib</groupId>
+  <artifactId>postgresql</artifactId>
+  <versioning>
+    <release>42.2.5-local</release>
+    <versions>
+      <version>42.2.5-local</version>
+    </versions>
+    <lastUpdated>20220201003503</lastUpdated>
+  </versioning>
+</metadata>
