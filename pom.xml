@@ -177,7 +177,7 @@
                                         <artifactId>maven-replacer-plugin</artifactId>
                                         <versionRange>[0.0,)</versionRange>
                                         <goals>
-                                            <goal>process-sources</goal>
+                                            <goal>replace</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
