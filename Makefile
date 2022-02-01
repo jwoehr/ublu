@@ -19,4 +19,7 @@ dist: target/ublu.jar
 	cp -R man dist-build/
 	cp -R share dist-build/
 	cp -R userdoc dist-build/
+	mkdir -p dist-build/licenses
+	cp *license* dist-build/licenses
+	cp *LICENSE* dist-build/licenses
 	cd dist-build/ && zip -rmv ../ublu-dist.zip ./*
