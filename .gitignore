@@ -1,7 +1,14 @@
-/dist/
-/src/ublu/Version.java
+/target/
+/src/main/java/ublu/Version.java
 /lib/postgresql-9.2-1003.jdbc4.jar
 /oldlib/
 /nbproject/private/
 /build/
 /lib/mssql-jdbc-7.0.0.jre8.jar
+/ublu-dist.zip
+/dist-build/
+/dist/
+MakeVer.class
+.classpath
+.project
+.settings/

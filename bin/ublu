@@ -6,6 +6,17 @@
 
 MYPGM=$0
 
+# If we have readlink, use it to resolve the full path to this script.
+# This is needed for the case where 'ublu' is just a symlink to
+# somewhere else
+if [ -x "/QOpenSys/pkgs/bin/readlink" ]
+then
+	MYPGM=$(/QOpenSys/pkgs/bin/readlink -f $0)
+elif [ -x "/usr/bin/readlink" ]
+then
+	MYPGM=$(/usr/bin/readlink -f $0)
+fi
+
 # Usage message
 function usage {
 echo "Ublu is free open source software with NO WARRANTY and NO GUARANTEE, including as regards fitness for any application."
@@ -55,7 +66,16 @@ REMAINING_ARGS="$*"
 
 if [ "$UBLU_CLASSPATH" == "" ]
 then
-	UBLU_CLASSPATH="/opt/ublu/ublu.jar"
+  if [ -f $(dirname $MYPGM)/../ublu.jar ]
+	then
+		UBLU_CLASSPATH="$(dirname $MYPGM)/../ublu.jar"
+	elif [ -f /opt/ublu/ublu.jar ]
+	then
+		UBLU_CLASSPATH="/opt/ublu/ublu.jar"
+	else
+		echo "Ublu not found in /opt/ublu/ublu.jar or $(dirname $MYPGM)/../ublu.jar"
+		exit 1
+	fi
 fi
 
 if [ "$CLASSPATH" != "" ]
