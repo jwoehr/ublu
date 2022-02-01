@@ -5,7 +5,10 @@ target/ublu.jar: FORCE
 
 FORCE:
 
-dist: 
+clean:
+	rm -rf target dist-build ublu-dist.zip
+
+dist: target/ublu.jar
 	rm -fr dist-build
 	mkdir dist-build
 	cp target/ublu.jar dist-build/ublu.jar
