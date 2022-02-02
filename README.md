@@ -59,18 +59,13 @@ suitability for any given application</b>.
 Download the release, unpack and `java -jar ublu.jar` to run Ublu.
 
 Or clone https://maven.apache.org/the source for Ublu and do a `maven` build:
-<ul>
-<li> Clone the [Ublu GitHub repository](https://github.com/jwoehr/ublu.git) or download source from the
-[latest release](https://github.com/jwoehr/ublu/releases)</li>
-<li> Load the project in <a href="http://www.netbeans.org">NetBeans</a> or <a href="https://www.eclipse.org/">Eclipse</a>
-     or cd to the top dir of the checkout and type `make clean dist` which will run the appropriate
-     `maven` commands for you.
-</li>
-<li> `target/ublu.jar` is the runtime system.</li>
-<li> `java -jar target/ublu.jar` to run Ublu as a plain Java console application.</li>
-</ul>
 
-<b>Note regarding checking out the current source:</b> Release versions of Ublu come with a standard release of JTOpen.
+* Clone the [Ublu GitHub repository](https://github.com/jwoehr/ublu.git) or download source from the [latest release](https://github.com/jwoehr/ublu/releases)
+* Load the project in [NetBeans](http://www.netbeans.org) or [Eclipse](https://www.eclipse.org/) or cd to the top dir of the checkout and type `make clean dist` which will run the appropriate `maven` commands for you.
+* `target/ublu.jar` is the runtime system.
+* `java -jar target/ublu.jar` to run Ublu as a plain Java console application.
+
+**Note regarding checking out the current source:** Release versions of Ublu come with a standard release of JTOpen.
 Between Ublu releases, I build and sometimes modify JTOpen so that Ublu can leverage forthcoming features of JTOpen.
 When you check out the source between releases, it is an intermediate version JTOpen that is checked out with Ublu.
 
