@@ -16,11 +16,10 @@ See file LICENSE for license information.
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows. It
 also can run natively on IBM i ®, IBM z/OS USS ® or any other reasonable Java
-platform including [GnuRoot Debian](https://github.com/corbinlc/GNURootDebian)
-on your Android ® device.
+platform.
 
 I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows to
-perform ad-hoc process automation primarily on IBM i Series OS ®. I was
+perform ad-hoc process automation primarily on IBM i. I was
 supporting consulting clients by writing individual utility programs using JTOpen
 which I have used since 1998 to control the AS/400. I decided to consolidate
 the programs in a language, and the result is Ublu. Ublu is a work in progress,
@@ -41,16 +40,14 @@ The full reference is [userdoc/ubluref.html](http://www.softwoehr.com/softwoehr/
 
 Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/jobstuff-example.html)
 
-The example is syntax-colored using a [jEdit](http://jedit.org) edit mode provided with Ublu.
+The example is syntax-colored using a [jEdit](https://jedit.org) edit mode provided with Ublu.
 
-The latest release version of Ublu is [version 1.2.1](https://github.com/jwoehr/ublu/releases/tag/v1.2.1).
+The latest release version of Ublu is [version 2.0.0](https://github.com/jwoehr/ublu/releases/tag/v2.0.0).
 
 It is strongly advised you use a release version of Ublu, preferably the latest.
 
-Ublu built from the tip of the master branch between releases calls itself _n_._n_._n_+ where _n_._n_._n_ is the previous release
-
-Ublu is distributed with the open source libraries it needs and their license
-files which permit such distribution.
+Ublu is distributed with some of the open source libraries it needs and their license files which permit such distribution.
+Others are fetched into the project at build time via <a href="https://maven.apache.org/">`maven`</a>.
 
 Ublu is already a stable and useful tool which has seen much use in the real world. It is neither complete nor perfect,
 but what is in this world? As with all open source software, there is <b>NO WARRANTY nor GUARANTEE include as regards
@@ -59,20 +56,18 @@ suitability for any given application</b>.
 <a name="quickstart"></a>
 ## Quick start instructions
 
-Download the release, unpack <code>/opt/ublu/</code> and <code>java -jar /opt/ublu/ublu.jar</code> to run Ublu.
+Download the release, unpack and `java -jar ublu.jar` to run Ublu.
 
-Or clone, build and run:
+Or clone https://maven.apache.org/the source for Ublu and do a `maven` build:
 <ul>
-<li> Clone the Ublu Git repository https://github.com/jwoehr/ublu.git</li>
-<li> Either load the project in <a href="http://www.netbeans.org">NetBeans</a>
-     or cd to the top dir of the checkout and type <tt>ant</tt>.
-<ul>
-    <li> Of course you have <a href="http://ant.apache.org/">Apache Ant</a>
-        installed, right?!</li>
-</ul>
+<li> Clone the [Ublu GitHub repository](https://github.com/jwoehr/ublu.git) or download source from the
+[latest release](https://github.com/jwoehr/ublu/releases)</li>
+<li> Load the project in <a href="http://www.netbeans.org">NetBeans</a> or <a href="https://www.eclipse.org/">Eclipse</a>
+     or cd to the top dir of the checkout and type `make clean dist` which will run the appropriate
+     `maven` commands for you.
 </li>
-<li> <tt>./dist/ublu.jar</tt> and its necessary <tt>./dist/lib</tt> directory are the runtime system.</li>
-<li> <tt>java -jar ublu.jar</tt> to run Ublu as a plain Java console application.</li>
+<li> `target/ublu.jar` is the runtime system.</li>
+<li> `java -jar target/ublu.jar` to run Ublu as a plain Java console application.</li>
 </ul>
 
 <b>Note regarding checking out the current source:</b> Release versions of Ublu come with a standard release of JTOpen.
@@ -106,7 +101,7 @@ There is some more information in the [Ublu Wiki](https://github.com/jwoehr/ublu
 Discuss Ublu in the [IBMiOSS Java forum on Ryver](https://ibmioss.ryver.com/index.html#forums/1057363).
 
 Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
-that hosts the Ublu forum.
+that hosts Java forum.
 
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
@@ -124,4 +119,4 @@ git fetch origin
 git branch -u origin/main main
 git remote set-head origin -a
 ```
-Jack Woehr 2021-04-13
+Jack Woehr 2022-02-02
