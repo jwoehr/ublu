@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017, Jack J. Woehr jwoehr@softwoehr.com 
- * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
+ * SoftWoehr LLC PO Box 82, Beulah CO 81023-0082 http://www.softwoehr.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
