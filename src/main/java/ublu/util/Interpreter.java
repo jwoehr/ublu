@@ -1430,9 +1430,9 @@ public class Interpreter {
     }
 
     /**
-     * Prompt the user for input. Usually just a <tt>&gt;</tt> sign, but when
-     * parsing a multiline <tt>${ quoted string }$</tt> an intermediate
-     * continuation prompt of <tt>${</tt>
+     * Prompt the user for input. Usually just a <code>&gt;</code> sign, but when
+     * parsing a multiline <code>${ quoted string }$</code> an intermediate
+     * continuation prompt of <code>${</code>
      */
     public void prompt() {
         if (isPrompting()) {

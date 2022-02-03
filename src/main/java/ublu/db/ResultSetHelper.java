@@ -458,7 +458,7 @@ public class ResultSetHelper {
      * any column splitting
      * @param splitting true if we are splitting the current source column
      * @param splitWidths the split widths if we are splitting the current
-     * source column per the <tt>splitting</tt> parameter, ignored otherwise
+     * source column per the <code>splitting</code> parameter, ignored otherwise
      * @throws SQLException
      * @throws UnsupportedEncodingException
      */

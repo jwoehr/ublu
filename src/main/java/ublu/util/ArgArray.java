@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2016, 2022, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -284,7 +284,7 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
-     * Lookahead to find the next open quote ( <tt>${</tt> ) in the ArgArray of
+     * Lookahead to find the next open quote ( <code>${</code> ) in the ArgArray of
      * lexes.
      *
      * @return the zero-based index in the ArgArray of the open-quote
@@ -294,7 +294,7 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
-     * Lookahead to find the next openblock ( <tt>${</tt> ) in the ArgArray of
+     * Lookahead to find the next openblock ( <code>${</code> ) in the ArgArray of
      * lexes.
      *
      * @return the zero-based index in the ArgArray of the openblock

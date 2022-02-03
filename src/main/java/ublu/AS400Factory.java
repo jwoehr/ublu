@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com
- * Copyright (c) 2016, Jack J. Woehr jwoehr@softwoehr.com 
+ * Copyright (c) 2016, 2022, Jack J. Woehr jwoehr@softwoehr.com 
  * SoftWoehr LLC PO Box 51, Golden CO 80402-0051 http://www.softwoehr.com
  * All rights reserved.
  *
@@ -102,9 +102,9 @@ public class AS400Factory {
     /**
      * Create a new AS400 object with our custom signon handler and with the
      * system name, user id and password already set. Connections (when made)
-     * will be via SSL if the property <tt> signon.security.type </tt> is set to
-     * <tt> SSL </tt>, plain if that property is unset or set to <tt> none
-     * </tt>.
+     * will be via SSL if the property <code> signon.security.type </code> is set to
+     * <code> SSL </code>, plain if that property is unset or set to <code> none
+     * </code>.
      *
      * @deprecated use public static AS400 newAS400(Interpreter interpreter,
      * String systemName, String userid, String password) instead
@@ -157,9 +157,9 @@ public class AS400Factory {
     /**
      * Create a new AS400 object with our custom signon handler and with the
      * system name, user id and password already set. Connections (when made)
-     * will be via SSL if the property <tt> signon.security.type </tt> is set to
-     * <tt> SSL </tt>, plain if that property is unset or set to <tt> none
-     * </tt>.
+     * will be via SSL if the property <code> signon.security.type </code> is set to
+     * <code> SSL </code>, plain if that property is unset or set to <code> none
+     * </code>.
      *
      *
      * @return the new AS400 object
@@ -179,8 +179,8 @@ public class AS400Factory {
     /**
      * Create a new AS400 object with our custom signon handler and with the
      * system name, user id and password already set. Connections (when made)
-     * will be via SSL if <tt> signon_security_type </tt> argument is set to
-     * <tt> SSL </tt>.
+     * will be via SSL if <code> signon_security_type </code> argument is set to
+     * <code> SSL </code>.
      *
      * @return the new AS400 object
      * @param interpreter the interpreter calling us
