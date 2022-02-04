@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
 <html>
 <head>
   <meta name="generator" content=
-  "HTML Tidy for HTML5 for Linux version 5.2.0">
+  "HTML Tidy for HTML5 for Linux version 5.6.0">
+  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
-
   <title>Guide to Ublu</title>
   <meta content="Jack J. Woehr" name="author">
   <meta content=
@@ -16,7 +16,6 @@
   <meta http-equiv="Last-Modified" content=
   "Sat, 1 Sep 2018 21:39:36 UTC">
 </head>
-
 <body>
   <table cellspacing="0" height="456" cellpadding="2" width="100%"
   border="0">
@@ -25,20 +24,17 @@
         <td bgcolor="#000000" valign="middle" align="center">
           <font color="#66FFFF"><big><big>Guide</big></big><br>
           to the<br></font>
-
           <h1><a class="mozTocH1" name=
           "mozTocId88081"></a><font color="#66FFFF">Ublu</font>
           </h1>
           <font color="#66FFFF">Midrange and Mainframe<br>
           Life Cycle Extension Language<br></font>
         </td>
-
         <th bgcolor="#000000" valign="middle" align="center">
         <img alt="NASA JPL Candle in Space" title=
         "NASA JPL Candle in Space" src="images/Candlespace.jpg"
         height="444" width="400"><br>
         </th>
-
         <td bgcolor="#000000" valign="middle" align="center">
         <font color="#33FFFF">Copyright &#169; 2016 Jack. J.
         Woehr</font><br>
@@ -57,90 +53,70 @@
     </tbody>
   </table>
 
-
   <h2><a class="mozTocH1" name="mozTocId986452"></a> Table of
   Contents</h2>
-
 
   <ul id="mozToc">
     <!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6-->
 
-
     <li>
       <a href="#mozTocId88081">Ublu</a>
-
       <ul>
         <li><a href="#mozTocId986452">Table of Contents</a>
         </li>
 
-
         <li><a href="#mozTocId754622">Who is this Guide for?</a>
         </li>
-
 
         <li><a href="#mozTocId185961">Why Ublu?</a>
         </li>
 
-
         <li><a href="#mozTocId809903">What does Ublu do?</a>
         </li>
-
 
         <li><a href="#mozTocId190420">Work in Progress</a>
         </li>
 
-
         <li><a href="#Discussing_Ublu">Discussing Ublu Online</a>
         </li>
-
 
         <li><a href="#Invoking_Ublu%3C">Invoking Ublu</a>
         </li>
 
-
         <li>
           <a href="#Typical_Installation">A Typical
           Installation</a>
-
           <ul>
             <li><a href=
             "#Starnix_Installation">Linux/Mac/OpenBSD</a>
             </li>
-
 
             <li><a href="#Windows_Installation">Windows</a>
             </li>
           </ul>
         </li>
 
-
         <li>
           <a href="#mozTocId723509">Quick Tour of the Ublu
           Language</a>
-
           <ul>
             <li><a href="#mozTocId190571">Overview</a>
             </li>
 
-
             <li><a href="#mozTocId994066">Commands</a>
             </li>
-
 
             <li><a href="#mozTocId117788">Language Interpreter</a>
             </li>
           </ul>
         </li>
 
-
         <li>
           <a href="#mozTocId185354">A Full Ublu Program</a>
-
           <ul>
             <li><a href=
             "#mozTocId152770">examples/autoreply.ublu</a>
             </li>
-
 
             <li><a href="#mozTocId987283">Understanding
             examples/autoreply.ublu</a>
@@ -148,56 +124,45 @@
           </ul>
         </li>
 
-
         <li>
           <a href="#mozTocId10736">Generating launcher scripts for
           Ublu programs via gensh</a>
-
           <ul>
             <li><a href="#mozTocId850587">examples/autoreply.sh</a>
             </li>
           </ul>
         </li>
 
-
         <li>
           <a href="#mozTocId625051">Some Obvious Questions about
           Ublu</a>
-
           <ul>
             <li><a href="#mozTocId772969">What are the data types
             in Ublu?</a>
             </li>
 
-
             <li><a href="#mozTocId379708">What are those dash
             thingies after Ublu commands?</a>
             </li>
 
-
             <li><a href="#mozTocId58628">What is a put ?</a>
             </li>
-
 
             <li><a href="#tuple-assign"><code>tuple -assign</code>
             instead of <code>put</code></a>
             </li>
 
-
             <li>
               <a href="#mozTocId56861">How are arguments
               passed?</a>
-
               <ul>
                 <li>
                   <a href="#mozTocId154189">Local variables as
                   arguments</a>
-
                   <ul>
                     <li>
                       <a href="#mozTocId856951">A limit on local
                       variables as arguments</a>
-
                       <ul>
                         <li><a href=
                         "#mozTocId334710">examples/localvarthread</a>
@@ -211,24 +176,19 @@
           </ul>
         </li>
 
-
         <li>
           <a href="#mozTocId241059">The examples directory</a>
-
           <ul>
             <li><a href="#mozTocId992046">The test directory</a>
             </li>
           </ul>
         </li>
 
-
         <li><a href="#extensions">The extensions directory</a>
         </li>
 
-
         <li>
           <a href="#mozTocId163217">Object-disoriented</a>
-
           <ul>
             <li><a href="#Autonomes">Autonomes offer easier
             syntax</a>
@@ -236,30 +196,33 @@
           </ul>
         </li>
 
-
         <li><a href="#TupleStack">The Tuple Stack</a>
         </li>
-
 
         <li><a href="#Calling_Java">Calling Java</a>
         </li>
 
-
         <li><a href="#Goublu">Goublu, the enhanced Ublu console</a>
         </li>
-
 
         <li><a href="#Ublu_as_window">Running Ublu as a window</a>
         </li>
 
+        <li>
+          <a href="#Ublu_Android">Running Ublu on Android</a>
+          <ul>
+            <li><a href="#GNURootDebian">GNURootDebian (before
+            Android 8)</a>
+            </li>
 
-        <li><a href="#Ublu_Android">Running Ublu on Android</a>
+            <li><a href="#UserLAnd">UserLAnd (Android 8 and
+            above)</a>
+            </li>
+          </ul>
         </li>
-
 
         <li>
           <a href="#mozTocId722916">Notes</a>
-
           <ul>
             <li><a href=
             "#mozTocId810320">ublu.util.Interpreter.loop()</a>
@@ -270,10 +233,8 @@
     </li>
   </ul>
 
-
   <h2><a class="mozTocH2" name="mozTocId754622"></a>Who is this
   Guide for?</h2>
-
 
   <p>It's for people who just want an introduction to using Ublu,
   or who have downloaded and built Ublu, read enough of the
@@ -282,21 +243,17 @@
   target="_blank">Ublu</a>, and now want more help understanding
   Ublu.</p>
 
-
   <p>The Guide is meant to be easy to read, and extra stuff you may
   not want to bother with is written <small><em>like this in small
   italics</em><big>.</big></small></p>
 
-
   <h2><a class="mozTocH2" name="mozTocId185961"></a>Why Ublu?</h2>
-
 
   <p>Ublu is an interpretive language for remote systems
   programming of midrange or mainframe hosts from a Java platform
   such as Linux, Mac, OpenBSD or Windows. It also can run natively
   on IBM i &#174;, IBM z/OS USS &#174; or any other reasonable Java
   platform.</p>
-
 
   <p>I wrote Ublu because I wanted a language to run on
   OpenBSD/Mac/Linux/Windows to perform ad-hoc process automation
@@ -306,39 +263,31 @@
   consolidate the programs in a language, and the result is
   Ublu.</p>
 
-
   <p>Additionally, Ublu can call Java directly allowing the user
   him- or herself to extend the language interpretively in nearly
   any direction desired.</p>
 
-
   <p>It is convenient to operate legacy systems remotely from
   modern environments:</p>
-
 
   <ul>
     <li>Use Ublu to empower help-desk folks who know how to feed
     arguments to scripts and answer interactive prompts but are
     challenged by the green screen.</li>
 
-
     <li>Intermediate programmers use Ublu as an easy entry point to
     legacy systems programming.<br></li>
-
 
     <li>Teams working to design add-ons or extensions to legacy
     applications can use Ublu.</li>
 
-
     <li>Teams designing follow-on systems who need to explore the
     legacy environment can use Ublu.</li>
-
 
     <li>Ublu also runs locally on IBM i Series OS and is sometimes
     used to model programs which later may be written in straight
     Java to run locally on the server.</li>
   </ul>
-
 
   <p><small><em>I also previously wrote <a href=
   "http://pigiron.sourceforge.net/">PigIron</a>, a Java bridge to
@@ -354,39 +303,32 @@
   operations.</em></small>
   </p>
 
-
   <p>Ublu is a new language which was coded quick and easy in Java
   on top of other open source libraries. The "quick and easy"
   approach derives from a work environment in which folks just
   wanted results and had no particular interest in the language
   itself.</p>
 
-
   <p>Ublu is easy to build, install, read, and use. It is handsome
   but not beautiful. Ublu works like an interactive shell scripting
   language but also has some advanced language features such as
   compiling, tasking, debugging and a TCP/IP port server mode.</p>
 
-
   <h2><a class="mozTocH2" name="mozTocId809903"></a>What does Ublu
   do?</h2>
-
 
   <ul>
     <li>Ublu is an interpreter with full language features such as
     flow control (<tt>IF ELSE DO WHILE</tt> etc.), exception
     handling, and even a multitasker and debugger.</li>
 
-
     <li>Ublu has commands that manipulate Java objects representing
     objects, services and various facilities on the remote
     server.</li>
 
-
     <li>In Ublu you can define functions to create complex programs
     to manipulate the remote server and its databases, tape drives,
     whatever.</li>
-
 
     <li>You can also do <a href=
     "http://www.postgresql.org/">Postgresql</a> databasing (and
@@ -394,21 +336,17 @@
     to interoperate your local database with the database on the
     remote server.</li>
 
-
     <li>You can do this interactively or load a program from text
     files which can, in turn, <a href=
     "./ubluref.html#include"><tt>include</tt></a> other text
     files.</li>
 
-
     <li>You can automate a telnet 5250 terminal emulator
     session.<br></li>
-
 
     <li>You can interact directly with the underlying Java and
     class libraries.</li>
   </ul>
-
 
   <p>When you've got your complete application written in Ublu,
   there's an Ublu command <a href=
@@ -418,17 +356,14 @@
   your program's top-level function. <small><em>The script effects
   a closure on your top-level function.</em></small></p>
 
-
   <p>For a formal summary of everything, see the <a href=
   "ubluref.html">Ublu Reference</a>. That Reference tells you how
   to install and run Ublu and lists the Open Source project
   dependencies as well as documenting every command and facility
   built into Ublu.</p>
 
-
   <h2><a class="mozTocH3" name="mozTocId190420"></a>Work in
   Progress</h2>
-
 
   <p>Ublu is a work in progress and, like all "living" software,
   likely to remain so. There are always more aspects to IBM i
@@ -443,30 +378,24 @@
   "ubluref.html#record">record</a></tt> commands for classic record
   file access.</p>
 
-
   <p>Increasingly, Ublu is extended in Ublu itself (often using the
   <code><a href="./ubluref.html#calljava">calljava</a></code>
   command). See the <code>extensions</code> directory.</p>
 
-
   <p>If you find Ublu useful, please <a href=
   "http://www.softwoehr.com/">let me know</a>!</p>
-
 
   <p>If you find a bug, or wish to issue a feature request, you can
   <a href="https://github.com/jwoehr/ublu/issues/new" target=
   "_blank">create an issue in the issue tracker</a>.</p>
 
-
   <h2><a name="Discussing_Ublu"></a>Discussing Ublu Online</h2>
-
 
   <p>Currently I discuss Ublu on the <a href=
   "https://ibmioss.ryver.com/index.html#forums/1057363" target=
   "_blank">Ublu, Java &amp; JTOpen forum</a> of the <a href=
   "https://ibmioss.ryver.com/index.html" target="_blank">OSS on IBM
   i Ryver team</a>.</p>
-
 
   <h2><a name="Invoking_Ublu&lt;">Invoking Ublu</a>
   </h2>
@@ -478,18 +407,14 @@
   etc., then you can start simple command-line Ublu via <code>java
   -jar /opt/ublu/ublu.jar</code> or you can proceed to get fancier
   with ...
-
   <h2><a name="Typical_Installation">A Typical Installation</a>
   </h2>
-
 
   <h3><a name="Starnix_Installation">Linux/Mac/OpenBSD</a>
   </h3>
 
-
   <ul>
     <li>Unzip the Ublu distribution in <code>/opt/ublu/</code></li>
-
 
     <li>Create config files (like these samples or altered to your
     needs) in <code>~/.config/ublu/</code>
@@ -526,11 +451,9 @@ UbluInputAreaFGColor=ff36b80b
 </pre>
     </li>
 
-
     <li>With regard to changing the default Java trust store of SSL
     certificates, see the <a href="./ubluref.html#NoteOnSSL">Note
     on SSL</a> in the Ublu Reference.</li>
-
 
     <li>Create aliases e.g., in <code>~/.bash_aliases</code>
 
@@ -539,7 +462,6 @@ UbluInputAreaFGColor=ff36b80b
 alias gu='$GOPATH/bin/goublu -g PropsFile=/home/me/.config/ublu/goublu.properties $*'
 alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar /opt/ublu/ublu.jar -w /home/me/.config/ublu/ubluwin.properties $*'</code>
 </pre>
-
       <ul>
         <li><font size="-1">"So why," you ask, "is the keystore
         path [for <a href="./ubluref.html#NoteOnSSL">SSL
@@ -553,68 +475,53 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
     </li>
   </ul>
 
-
   <p>Now you can run Ublu:</p>
-
 
   <ul>
     <li>In a default console (<code>ublu arg arg ...</code>)</li>
 
-
     <li>In a <a href="#Goublu">goublu</a> console (<code>gu arg arg
     ...</code>)</li>
-
 
     <li><a href="#Ublu_as_window">In a window</a> (<code>gw arg arg
     ...</code>)</li>
   </ul>
 
-
   <p>Of course the config files are entirely optional and can be
   added later, or reference to them omitted entirely from the
   aliases you create to invoke Ublu.</p>
 
-
   <h3><a name="Windows_Installation">Windows</a>
   </h3>
-
 
   <ul>
     <li>Unzip in <code>C:\Ublu</code>, and create Ublu Windowing
     Properties config file as above in
     <code>C:\Users\YourLogin</code></li>
 
-
     <li>Create a shortcut with the Target <code>C:\Ublu\ublu.jar -w
     C:\Users\YourLogin\ubluwin.properties</code></li>
   </ul>
-
 
   <p>Now you can run Ublu <a href="#Ublu_as_window">in windowing
   mode</a>. Alternatively, you can just <code>java -jar
   C:\Ublu\ublu.jar</code> to run Ublu in a Windows command console,
   which works well.</p>
 
-
   <p>Here's a 256x256 Windows icon for your Ublu shortcut, save as
   <code>Ublu.ico</code> and assign to the shortcut:</p>
   <img src="images/Ublu.ico" alt="A windows icon for Ublu">
-
   <h2><a class="mozTocH2" name="mozTocId723509"></a>Quick Tour of
   the Ublu Language</h2>
 
-
   <h3><a class="mozTocH3" name="mozTocId190571"></a>Overview</h3>
-
 
   <p>Ublu is mostly composed of commands and a language
   interpreter. There are also are other Ublu features such as
   server mode and the tasker, but commands and the language
   interpreter are the nexus.<br></p>
 
-
   <h3><a class="mozTocH4" name="mozTocId994066"></a>Commands</h3>
-
 
   <p>Ublu commands are like individual application programs which
   are invoked with their arguments under the language interpreter.
@@ -623,11 +530,9 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
   about objects passed from command to command other than what
   they're supposed to represent.<br></p>
 
-
   <p>Most arguments are passed to the <a href=
   "ubluref.html#Dash_Command">dash-commands</a> associated with the
   command, e.g.<br></p>
-
 
   <blockquote>
     <pre>
@@ -650,7 +555,6 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
 </pre>
   </blockquote>
 
-
   <p>The <tt>ask</tt> command here has two dash-commands,
   <tt>-to</tt> and <tt>-say</tt>. <tt>-to</tt> has an argument
   which says to which <a href=
@@ -659,11 +563,9 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
   a <a href="ubluref.html#Quoted_strings">quoted string</a> which
   is the prompt to the user.</p>
 
-
   <p>Here is a link to the Ublu Reference's list of <a href=
   "ubluref.html#Commands_by_Category">commands by
   category</a>.<br></p>
-
 
   <h3><a class="mozTocH4" name="mozTocId117788"></a>Language
   Interpreter<br></h3>
@@ -714,12 +616,10 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
   can span lines, particularly a delimited string or an execution
   block. Strings are delimited<br>
 
-
   <blockquote>
     <tt>${ like this }$</tt><br>
   </blockquote>
   and execution blocks<br>
-
 
   <blockquote>
     <tt>$[ like this ]$</tt><br>
@@ -731,13 +631,11 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
   Language control flow constructs are just a form of command.
   Typically they consume execution blocks from the input:<br>
 
-
   <blockquote>
     <tt>IF @truefalse THEN $[ command arg arg command arg arg
     command arg ... ]$ ELSE $[ command arg ... ]$<br></tt>
   </blockquote>
   As noted, these execution blocks can span multiple lines.<br>
-
 
   <h2><a class="mozTocH2" name="mozTocId185354"></a> A Full Ublu
   Program</h2>
@@ -766,7 +664,6 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
   Just copy the dir structure under that directory to
   your</small></em> <small><tt>$HOME/.vim</tt>
   <em>directory</em></small><em><small>.</small></em><br>
-
 
   <h3><a class="mozTocH3" name=
   "mozTocId152770"></a><tt>examples/autoreply.ublu</tt>
@@ -1036,7 +933,6 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
 <span class="gutterH">  35 </span>
 </span>
 </pre>
-
   <h3><a class="mozTocH3" name="mozTocId987283"></a><a name=
   "Understanding_examplesautoreply.ublu"></a>Understanding
   <tt>examples/autoreply.ublu</tt></h3>
@@ -1360,13 +1256,11 @@ message queue instance."<br>
   their declared name decorated with <tt>@@</tt> . If a function is
   declared:<br>
 
-
   <blockquote>
     <tt>FUNC foo ( bar )</tt><br>
   </blockquote>
   then the argument <tt>bar</tt> is referenced inside the body of
   the function as <tt>@@bar</tt><br>
-
 
   <blockquote>
     <tt>FUNC foo ( bar ) $[ put -from @@bar ]$</tt><br>
@@ -1390,7 +1284,6 @@ message queue instance."<br>
   replies to the message queue, informing the user via <tt>put</tt>
   that the reply was sent.<br>
 
-
   <h2><a class="mozTocH2" name="mozTocId10736"></a>Generating
   launcher scripts for Ublu programs via <tt>gensh</tt></h2>
   The <tt>autoreply</tt> program would still require understanding
@@ -1405,7 +1298,6 @@ message queue instance."<br>
   Here is the <tt>gensh</tt>-generated&nbsp; shell script to run
   the top-level function <tt>autoreply</tt> from the program
   <tt>autoreply.ublu</tt><br>
-
 
   <h3><a class="mozTocH3" name=
   "mozTocId850587"></a><tt>examples/autoreply.sh</tt>
@@ -2339,82 +2231,62 @@ message queue instance."<br>
 <span class="gutter">  88 </span>
 </span>
 </pre>
-
   <h2><a class="mozTocH2" name="mozTocId625051"></a> Some Obvious
   Questions about Ublu</h2>
   The above explanations raise several new questions:
-
   <ul>
     <li>What are the data types in Ublu?</li>
 
-
     <li>What are those dash thingies after Ublu commands?</li>
 
-
     <li>What is a <tt>put</tt> ?</li>
-
 
     <li>How are arguments passed?</li>
   </ul>
 
-
   <p>We'll answer those questions next.<br></p>
-
 
   <h3><a class="mozTocH2" name="mozTocId772969"></a>What are the
   data types in Ublu?</h3>
 
-
   <p>Ublu can be described as an "object-disoriented
   language".<br></p>
-
 
   <p>Ublu is a form of interpretive Java that hides as much as
   possible about object usage.<br></p>
   There are basically five (5) data types in the Ublu language:<br>
 
-
   <ol>
     <li>plainword</li>
 
-
     <li>object</li>
-
 
     <li>variable</li>
 
-
     <li>string</li>
-
 
     <li>execution block<br></li>
   </ol>
 
-
   <p>A <strong>plainword</strong> is a single whitespace-delimited
   lex<br></p>
-
 
   <ul>
     <li><tt>arthur</tt>
     </li>
 
-
     <li><tt>99999</tt>
     </li>
-
 
     <li><tt>supercalifra$gilist$ticexpialifoobar..**(())</tt>
     </li>
   </ul>
-
 
   <p>An <strong>object</strong> represents something or other,
   often a something-or-other on a remote server but it's pretty
   opaque. You generally know which objects you have in hand go with
   which Ublu commands. It's simple because the same commands that
   use the objects provide the objects in the first place.</p>
-
 
   <p>Objects are passed around in <strong>variables</strong>
   ("tuple variables" or "tuples") marked with the <tt>@</tt> sign.
@@ -2423,7 +2295,6 @@ message queue instance."<br>
   be marked <tt>LOCAL</tt> and disappear at the end of the block.
   Otherwise, they persist until expressly deleted or until the
   interpreter in whose context they reside exits.</p>
-
 
   <p>A <strong>string</strong> in Ublu is parsed from a sequence of
   plainwords wrapped by <tt>${</tt> and <tt>}$</tt> e.g. <tt>${ hi
@@ -2434,25 +2305,21 @@ message queue instance."<br>
   argument to the dash-command can be popped from Ublu's LIFO
   stack.<br></em></small></p>
 
-
   <p>An <strong>execution block</strong> is a body of Ublu program
   text wrapped in <tt>$[</tt> and <tt>]$</tt> . Execution blocks
   are used as the body of control constructs, such as <tt>IF</tt>
   ... <tt>THEN</tt> ... <tt>ELSE</tt> , function definitions and
   <tt>TRY</tt> ... <tt>CATCH</tt> , e.g.</p>
 
-
   <blockquote>
     <tt>IF @trueorfalse THEN $[ joblist -as400 @myserver -to @jl
     ]$</tt><br>
   </blockquote>
 
-
   <h3><a class="mozTocH2" name="mozTocId379708"></a>What are those
   dash thingies after Ublu commands?</h3>
   The dash-commands after Ublu commands pass arguments to the
   command, often objects being kept in variables.
-
   <blockquote>
     <p><tt>as400 -to @myServer somehostname.com someuserid
     somepassword</tt><tt><br></tt><tt>joblist -as400
@@ -2472,7 +2339,6 @@ message queue instance."<br>
   still connected by passing the same variable back to the
   <tt>as400</tt> command like this:<br>
 
-
   <blockquote>
     <tt>as400 -as400 @someServer -connected</tt><br>
   </blockquote>
@@ -2480,23 +2346,19 @@ message queue instance."<br>
   But you could also have simply used the eponymous
   dash-command:<br>
 
-
   <blockquote>
     <tt>as400 -- @someServer -connected</tt><br>
   </blockquote>
   since, for the as400 command, <tt>--</tt> represents
   <tt>-as400</tt>.<br>
 
-
   <h3><a class="mozTocH2" name="mozTocId58628"></a>What is a
   <tt>put</tt> ?</h3>
   &nbsp;The <tt>as400</tt> command stored <tt>-to @myServer</tt>
   which variable was then passed to joblist command as <tt>-as400
   @myServer<br></tt>
-
   <p><tt>-to</tt> is a dash-command to almost every Ublu command.
   It says where the <tt>put</tt> is to go.<br></p>
-
 
   <p>Most Ublu commands <tt>put</tt> a result. That result could be
   text or an object. If no <tt>-to</tt> destination is specified,
@@ -2505,65 +2367,52 @@ message queue instance."<br>
   is rendered in text. Ublu knows how to render objects in text in
   a useful fashion.<br></p>
 
-
   <p>The full discussion of <tt>put</tt> requires an understanding
   of <a href="ubluref.html#Datasinks">Data Sinks</a> discussed in
   the Ublu Reference.<br></p>
 
-
   <h3><a name="tuple-assign"></a><code>tuple -assign</code> instead
   of <code>put</code></h3>
-
 
   <p>Once an object is assigned to a tuple variable,
   <code>put</code> tends to have the sometimes-undesirable effect
   of turning the value it puts into a string.</p>
-
 
   <p>To assign an object from one tuple or another (including from
   the tuple stack), use <code><a href="./ubluref.html#tuple">tuple
   -assign</a></code> <em>@destination-tuple
   ~@value-source</em>.</p>
 
-
   <h3><a class="mozTocH2" name="mozTocId56861"></a>How are
   arguments passed?</h3>
 
-
   <p>Arguments in Ublu are passed by reference, not of by
   value.<br></p>
-
 
   <p>When you pass a variable as an argument to a command or
   function, that variable is accessible to the function and any
   changes the function makes to that argument are changes to the
   variable itself.<br></p>
 
-
   <p>Arguments in function argument lists are actually <a href=
   "./ubluref.html#Function_Parameter_Binding">token-pasted</a> into
   the execution block which is the body of the function.</p>
-
 
   <p>Token pasting in function argument marshalling allows some
   unusual programming techniques as we'll see later, e.g., in the
   section on the <a href="#TupleStack">Tuple Stack</a>.</p>
 
-
   <h4><a class="mozTocH4" name="mozTocId154189"></a>Local variables
   as arguments</h4>
-
 
   <p>Local variables only are accessible within the execution block
   in which they are declared. This encompassed nested blocks within
   the declaring block (unless a local of the same name is declared
   in the inner block, thus hiding the outer block's local).<br></p>
 
-
   <p>This means you can pass a local as a positional argument to a
   function called within a block and that function can reference
   the provided value normally.<br></p>
-
 
   <blockquote>
     <p><tt>FUNC bar ( myarg ) $[ put -from @@myarg
@@ -2572,20 +2421,16 @@ message queue instance."<br>
     </p>
   </blockquote>
 
-
   <p><tt>foo ( )</tt> when invoked will display the number
   17.<br></p>
-
 
   <h5><a class="mozTocH5" name="mozTocId856951"></a><big>A limit on
   local variables as arguments</big>
   </h5>
 
-
   <p>Because calls are by reference and locals have only block
   scope, there exist cases where it appears you can pass a local to
   a function but you really cannot. Here's an instance of that:</p>
-
 
   <h6><a class="mozTocH6" name=
   "mozTocId334710"></a><big><big><big><tt>examples/test/localvarthread.ublu</tt></big></big></big>
@@ -2881,7 +2726,6 @@ same execution block as the local variable declaration, the
 thread's runtime environment is not nested within the execution
 block, so a local variable cannot be passed to the thread.<br>
 
-
   <h2><a class="mozTocH2" name="mozTocId241059"></a>The
   <tt>examples</tt> directory</h2>
   Ublu is distributed with an <tt>examples</tt> directory. Most of
@@ -2895,22 +2739,18 @@ block, so a local variable cannot be passed to the thread.<br>
   examples are pristine examples of Ublu coding style, which is
   evolving. Generally, the more parameterization, the better.<br>
 
-
   <h3><a class="mozTocH3" name="mozTocId992046"></a>The test
   directory</h3>
   Under the <tt>examples</tt> directory is the <tt>test</tt>
   directory which are fairly crude regression code used to test the
   basic functionality of Ublu commands.<br>
 
-
   <h2><a class="extensions" name="extensions"></a>The
   <tt>extensions</tt> directory</h2>
-
 
   <p>Ublu is distributed with an <tt>extensions</tt> directory
   which contains extensions to the base Ublu system which are
   written in Ublu itself.</p>
-
 
   <p>As the IBM i system upon which Ublu primarily operates is so
   feature-rich, it is impractical to put every useful utility in
@@ -2920,11 +2760,9 @@ block, so a local variable cannot be passed to the thread.<br>
   "./ubluref.html#include"><tt>include</tt></a> as needed by the
   application programmer.</p>
 
-
   <p>Again, <strong>there is NO WARRANTY OR GUARANTY of correctness
   or fitness for a given application (see the
   LICENSE)</strong>.</p>
-
 
   <h2><a class="mozTocH2" name=
   "mozTocId163217"></a>Object-disoriented</h2>
@@ -2953,18 +2791,14 @@ block, so a local variable cannot be passed to the thread.<br>
   <br>
   What Ublu's language structure comes down to is that:<br>
 
-
   <ul>
     <li>commands are effectively <em>classes</em></li>
 
-
     <li>dash-commands are effectively <em>methods</em></li>
-
 
     <li>the object values passed in tuple vars to the commands are
     the <em>object instances</em> multiply inheriting from the <em>
       classes</em>.
-
       <ul>
         <li>Multiple inheritance because the <em>object
         instances</em> respond to the <em>methods</em> of many
@@ -2973,9 +2807,7 @@ block, so a local variable cannot be passed to the thread.<br>
     </li>
   </ul>
 
-
   <p>E.g, in the example ...<br></p>
-
 
   <blockquote>
     <tt>as400 -to @sys mysys myuid mypwd</tt><tt><br></tt><tt>as400
@@ -2987,16 +2819,13 @@ block, so a local variable cannot be passed to the thread.<br>
   a method <em>alivesvc(CENTRAL)</em> invoked on it.<br>
   <br>
 
-
   <p>Ublu's default "object-disoriented" syntax is wordier than a
   true object language, in that the class is named each time (the
   "command"), but it tends to be easy to use interpretively. It's
   clunky, yet it is reminiscent of traditional "big iron"-style
   command syntax and is pretty easy to remember.</p>
 
-
   <h3><a name="Autonomes">Autonomes</a> offer easier syntax</h3>
-
 
   <p><a href=
   "./ubluref.html#Autonomic_Tuple_Variables">Autonomes</a> simplify
@@ -3006,42 +2835,34 @@ block, so a local variable cannot be passed to the thread.<br>
   "./ubluref.html#Eponymous_dash-command__--_">eponymous
   dash-command</a>.</p>
 
-
   <p>Thus, assuming that <code>@job</code> contains a valid
   instance created by the <a href=
   "./ubluref.html#job"><code>job</code> command</a>,</p>
-
 
   <blockquote>
     <code>job -- @job -info</code>
   </blockquote>
   can be expressed
-
   <blockquote>
     <code>@job -info</code>
   </blockquote>
 
-
   <p>And in</p>
-
 
   <blockquote>
     <code>user -to @someuser -as400 @myserver FRED</code><br>
     <code>@someuser -enable</code>
   </blockquote>
   the phrase
-
   <blockquote>
     <code>@someuser -enable</code>
   </blockquote>
   will enable <tt>FRED</tt>'s account precisely the same as
-
   <blockquote>
     <code>user -- @someuser -enable</code>
   </blockquote>
   "Precisely" because, in fact, autonomism is effected by editing
   in place the input stream.
-
   <h2><a class="mozTocH2" name="TupleStack"></a>The Tuple
   Stack</h2>
   The <a href=
@@ -3407,15 +3228,12 @@ block, so a local variable cannot be passed to the thread.<br>
 <span class="gutter">28 </span>
 </span>
 </pre>
-
   <h3><a name="TupleStackPopFuncArgs">Tuple Stack Pop in Function
   Arguments</a>
   </h3>
 
-
   <p>Using the <code>~</code> symbol for a tuple stack pop as an
   argument to a function can lead to unexpected results.</p>
-
 
   <p>Function arguments are passed by token pasting as discussed
   above (<a href="mozTocId56861"></a>How are arguments passed?). So
@@ -3460,7 +3278,6 @@ block, so a local variable cannot be passed to the thread.<br>
 "syntax-OPERATOR">]$</span>
 </span>
 </pre>
-
   <p>the function <code>foo ( bar )</code> is incorrect, because
   the second reference to <code>@@bar</code> will find an empty
   stack:</p>
@@ -3473,7 +3290,6 @@ Ublu:1:UbluInterpreter.Thread[main,5,main]:SEVERE:ublu.util.Interpreter.loop():C
 java.util.EmptyStackException
         ...</em>
 </pre>
-
   <p>whereas <code>foo1 ( bar )</code> is correct:</p>
 
   <pre>
@@ -3483,9 +3299,7 @@ java.util.EmptyStackException
 <em>woof
 woof</em>
 </pre>
-
   <h2><a name="Calling_Java"></a>Calling Java</h2>
-
 
   <p>Ublu can call Java directly via the <a href=
   "./ubluref.html#calljava"><tt>calljava</tt></a> command. This
@@ -3493,7 +3307,6 @@ woof</em>
   any direction desired. This is useful, because as I continually
   extend Ublu, it is not practical to support every option for
   every object in the JTOpen library with Ublu sytax</p>
-
 
   <p>For instance, at present writing, there is no Ublu
   dash-command to fetch the reply status of a queued message. Maybe
@@ -3510,48 +3323,39 @@ woof</em>
 &gt; joblog -- @jl -to ~ -qm 0 ~
 &gt; FOR @i in ~ $[ calljava -obj @i -method getReplyStatus -to @result put @result ]$
 </pre>
-
   <p>Of course, in this sort of programming, downloading and
   perusing the Ublu javadocs and JTOpen library javadocs is
   essential. In the example above, one would have to know that
   Ublu's <tt>joblog -qm</tt> is returning a collection of
   <tt>com.ibm.as400.access.QueuedMessage</tt> instances.</p>
 
-
   <h2><a name="Goublu">Goublu</a>, the enhanced Ublu console</h2>
-
 
   <p>Goublu is a <a href="http://golang.org/">Go language</a> front
   end that launches Ublu and provides a better console interface to
   the running Ublu instance than the console support provided by
   Java.</p>
 
-
   <p>On most platforms, the Java console does not provide command
   line editing nor command line recall. Goublu provides both, along
   with other features such as macro expansion for commonly used
   command lines.</p>
 
-
   <p>While "plain" Ublu may be better for running Ublu
   applications, Goublu is a more congenial environment than "plain"
   Ublu for interactive Ublu usage.</p>
-
 
   <p>Goublu must be compiled on the specific platform. You can
   install the Go language development environment and follow the
   <a href="https://github.com/jwoehr/goublu">instructions to get
   Goublu and build it</a> on your machine.</p>
 
-
   <p><img src="images/goublu_screenshot.png" width="1013" height=
   "559" alt="Goublu Screenshot">
   </p>
 
-
   <h2><a name="Ublu_as_window">Running Ublu as a window</a>
   </h2>
-
 
   <p>The <code>-w</code> switch on the Ublu command line starts
   Ublu as a windowing application. This is useful if you want to
@@ -3559,40 +3363,31 @@ woof</em>
   development, it may be less congenial an environment that plain
   Ublu or the Goublu console front end for Ublu.</p>
 
-
   <p>When Ublu is started in windowing mode:</p>
-
 
   <ul>
     <li>No other command line options are processed.</li>
 
-
     <li>There is a large text area at the top.</li>
-
 
     <li>There is an Ublu input line at the bottom. Pressing enter
     on the input line will interpret the input.</li>
 
-
     <li>The entered input and Ublu output appear in the large text
     area.</li>
-
 
     <li>You can select text in the text area and choose the menu
     item <strong>Ublu-&gt;Interpret Selected</strong> and the
     selected text becomes input to Ublu.</li>
-
 
     <li>Multi-line input doesn't work in the input area. Functions,
     strings, blocks extending over multiple lines should be entered
     in the text area above, selected, and passed to Ublu via the
     menu item <strong>Ublu-&gt;Interpret Selected</strong>.</li>
 
-
     <li>You can save the contents of the text area or load a file
     into it at any time using the menu items of the
     <strong>File</strong> menu.</li>
-
 
     <li>You can change settings and save them in a property file.
     This property file can be loaded at startup as the argument to
@@ -3600,15 +3395,12 @@ woof</em>
     mode.</li>
   </ul>
 
-
   <p><img src="images/ubluwin.jpg" width="1058" height="455" alt=
   "Windowing Ublu">
   </p>
 
-
   <p>I use the following properties file
   <code>$HOME/.config/ublu/ubluwin.properties</code> on Ubuntu:</p>
-
 
   <blockquote>
     <pre>
@@ -3627,16 +3419,13 @@ UbluInputAreaFGColor=ff36b80b</code>
 </pre>
   </blockquote>
 
-
   <p>When I start Ublu <code>java -jar /opt/ublu/ublu.jar -w
   $HOME/.config/ublu/ubluwin.properties</code> Ublu looks like
   this:</p>
 
-
   <p><img src="images/ubluprops.png" width="1057" height="659" alt=
   "">
   </p>
-
 
   <p><font size="+2"><strong>!!</strong></font> Windowing Ublu, you
   may wish to set <code>props -set signon.handler.type
@@ -3645,69 +3434,62 @@ UbluInputAreaFGColor=ff36b80b</code>
   Reference on the <a href="ubluref.html/#props">props</a>
   command.</p>
 
-
   <h2><a name="Ublu_Android">Running Ublu on Android</a>
   </h2>
 
+  <h3><a name="GNURootDebian">GNURootDebian (before Android 8)</a>
+  </h3>
+
+  <p><strong>Note:</strong> GNURootDebian stopped working at
+  Android 8 and the project was totally rewritten as <a href=
+  "https://github.com/CypherpunkArmory/UserLAnd">UserLAnd</a>. See
+  the UserLAnd Ubuntu section below for information on current
+  technology.</p>
 
   <p>Ublu can run under <a href=
   "https://github.com/corbinlc/GNURootDebian">GnuRoot
   Debian</a>.</p>
 
-
   <ol>
     <li>Install GnuRoot Debian</li>
 
-
     <li>Open a GnuRoot Debian terminal</li>
 
-
     <li>Finish install steps as prompted</li>
-
 
     <li>Test Xwindowing support to confirm install of base system
     finished</li>
 
-
     <li><code>apt-get upgrade</code>
     </li>
-
 
     <li><code>apt update</code>
     </li>
 
-
     <li><code>apt upgrade</code>
     </li>
 
-
     <li>
       <code>apt install jedit</code>
-
       <ul>
         <li>This is the quickest way I have found to install Java
         under GnuRoot Debian.</li>
       </ul>
     </li>
 
-
     <li>Use ssh to copy your Ublu .zip archive to a directory such
     as <code>/opt/ublu</code></li>
 
-
     <li>Unpack archive</li>
-
 
     <li>Run Ublu from the terminal or open XWindows to run Ublu in
     a Window</li>
   </ol>
 
-
   <p>Learning GnuRoot Debian can require some patience. You may
   have to install manually via <code>apt</code> or
   <code>apt-get</code> some packages I have not mentioned
   above.</p>
-
 
   <table>
     <tr>
@@ -3715,22 +3497,96 @@ UbluInputAreaFGColor=ff36b80b</code>
       width="360" height="640" alt=
       "Ublu in a terminal under GnuRoot Debian on Android">
       </td>
-
       <td><img src="images/Screenshot_2017-09-12-17-05-56.png"
       width="375" height="640" alt=
       "Ublu in an xterm under GnuRoot Debian on Android">
       </td>
-
       <td><img src="images/Screenshot_2017-09-15-22-06-44.png"
       width="1024" height="600" alt=
       "Ublu in a window under GnuRoot Debian on Android">
       </td>
     </tr>
+
+    <tr>
+      <td><em>Ublu on GnuRoot Debian on Android</em>
+      </td>
+      <td><em>Ublu in an xterm under GnuRoot Debian on Android</em>
+      </td>
+      <td><em>Ublu in a window under GnuRoot Debian on Android</em>
+      </td>
+    </tr>
   </table>
 
+  <h3><a name="UserLAnd">UserLAnd (Android 8 and above)</a>
+  </h3>
+
+  <p>The modern Linux environment on Android 8 and above is
+  <a href="https://github.com/CypherpunkArmory/UserLAnd">UserLAnd</a>.</p>
+
+  <p>UserLAnd is very solid and complete. The Ubuntu flavor even
+  has Golang which allows us to build Goublu as well as Ublu. The
+  procedure shown below allows you to build the current main branch
+  of Ublu and Goublu. You can alternatively download a source
+  release of either or both. You can even download a release build
+  of Ublul, but if you want Goublu, you will have to build it.</p>
+
+  <ul>
+    <li>Install UserLAnd</li>
+
+    <li><code>sudo apt install openjdk-11-jdk git maven make
+    golang</code>
+    </li>
+
+    <li><code>cd && mkdir work; cd work; mkdir gopath; export
+    GOPATH=`pwd`/gopath</code>
+    </li>
+
+    <li><code>git clone https://github.com/jwoehr/ublu.git</code>
+    </li>
+
+    <li><code>cd ublu && make dist # ublu.jar will be deposited in
+    the 'target' subdirectory</code>
+    </li>
+
+    <li><code>go get github.com/jwoehr/goublu</code>
+    </li>
+
+    <li><code>cd $GOPATH/src/github/jwoehr/goublu</code>
+    </li>
+
+    <li><code>go build . && go install # goublu will be installed
+    in $GOPATH/bin</code>
+    </li>
+
+    <li><code>cd /opt && sudo mkdir ublu && cd ublu && sudo ln -s
+    $HOME/work/ublu/target/ublu.jar && sudo ln -s
+    $HOME/work/ublu/extensions && sudo ln -s
+    $HOME/work/ublu/extensions &&sudo ln -s
+    $HOME/work/ublu/userdoc</code>
+    </li>
+  </ul>
+
+  <table>
+    <tr>
+      <td><img src="images/ublu_userland_20220203-130148.png"
+      width="360" height="640" alt=
+      "Ublu on UserLAnd Ubuntu on Android 8">
+      </td>
+      <td><img src="images/goublu_userland_20220203-133721.png"
+      width="375" height="640" alt=
+      "Goublu on UserLAnd Ubuntu on Android 8">
+      </td>
+    </tr>
+
+    <tr>
+      <td><em>Ublu on UserLAnd Ubuntu on Android 8</em>
+      </td>
+      <td><em>Goublu on UserLAnd Ubuntu on Android 8</em>
+      </td>
+    </tr>
+  </table>
 
   <h2><a class="mozTocH2" name="mozTocId722916"></a>Notes</h2>
-
 
   <h3><a class="mozTocH3" name="mozTocId810320"></a><a name=
   "ublu.util.Interpreter.loop"></a><tt>ublu.util.Interpreter.loop()</tt>
