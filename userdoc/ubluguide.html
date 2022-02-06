@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="generator" content="Bluefish 2.2.12" >
-  <meta name="generator" content="Bluefish 2.2.12" >
-  <meta name="generator" content="Bluefish 2.2.12" >
-  <meta name="generator" content="Bluefish 2.2.12" >
-  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Linux version 5.6.0">
+  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12">
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <title>Guide to Ublu</title>
@@ -15,7 +17,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Fri, 4 Feb UTC 10:50:36 PM">
+  "Sun, 6 Feb UTC 08:27:26 PM">
 </head>
 <body>
   <table cellspacing="0" height="456" cellpadding="2" width="100%"
@@ -243,8 +245,8 @@
             </li>
 
             <li>
-              <a href="#UserLAnd">UserLAnd (Android 8 and
-              above)</a>
+              <a href="#UserLAnd_Ubuntu">UserLAnd Ubuntu (Android 8
+              and above)</a>
             </li>
           </ul>
         </li>
@@ -450,8 +452,28 @@
   "Starnix_Installation">Linux/Mac/OpenBSD</a>
   </h3>
 
+  <p>The basics are that you can run ublu, goublu, or windowing
+  ublu without any of this setup if you understand the command
+  lines sufficiently. But it's easier just to do it this way:</p>
+
   <ul>
-    <li>Unzip the Ublu distribution in <code>/opt/ublu/</code></li>
+    <li>Unzip the Ublu distribution in a permanent directory of
+    your choice, say, <code>$HOME/work/ublu</code>/li&gt;</li>
+
+    <li><code>sudo mkdir -p /opt/ublu/; cd /opt/ublu;</code>
+    </li>
+
+    <li><code>sudo ln -s $HOME/work/ublu/ublu.jar</code>
+    </li>
+
+    <li><code>sudo ln -s $HOME/work/ublu/extensions</code>
+    </li>
+
+    <li><code>sudo ln -s $HOME/work/ublu/examples</code>
+    </li>
+
+    <li><code>sudo ln -s $HOME/work/ublu/userdoc</code>
+    </li>
 
     <li>Create config files (like these samples or altered to your
     needs) in <code>~/.config/ublu/</code>
@@ -2960,9 +2982,9 @@ Usage: ./test.all.sh [silent] [-h] [-X...] [-Dprop=val] -d DEFAULTS -w WORKDIR -
     <li><code>-c "${COMMENT}" \</code> adds the comment you
     chose.</li>
 
-    <li><code>2&gt;&amp;1 | tee ${RUNNAME}.txt</code> causes all the
-    output from the test run to be output to a file in the current
-    directory named after the <code>RUNNAME</code>.</li>
+    <li><code>2&gt;&amp;1 | tee ${RUNNAME}.txt</code> causes all
+    the output from the test run to be output to a file in the
+    current directory named after the <code>RUNNAME</code>.</li>
   </ul>
 
   <h2><a class="extensions" name="extensions" id=
@@ -3668,11 +3690,11 @@ UbluInputAreaFGColor=ff36b80b</code>
   (before Android 8)</a>
   </h3>
 
-  <p><strong>Note:</strong> GNURootDebian stopped working at
+  <p><strong>Note:</strong> <em>GNURootDebian stopped working at
   Android 8 and the project was totally rewritten as <a href=
   "https://github.com/CypherpunkArmory/UserLAnd">UserLAnd</a>. See
-  the UserLAnd Ubuntu section below for information on current
-  technology.</p>
+  the <a href="#UserLAnd_Ubuntu">UserLAnd Ubuntu</a> section below
+  for information on current technology.</em></p>
 
   <p>Ublu can run under <a href=
   "https://github.com/corbinlc/GNURootDebian">GnuRoot
@@ -3745,8 +3767,8 @@ UbluInputAreaFGColor=ff36b80b</code>
     </tr>
   </table>
 
-  <h3><a name="UserLAnd" id="UserLAnd">UserLAnd (Android 8 and
-  above)</a>
+  <h3><a name="UserLAnd_Ubuntu" id="UserLAnd_Ubuntu" userland=
+  "">UserLAnd Ubuntu(Android 8 and above)</a>
   </h3>
 
   <p>The modern Linux environment on Android 8 and above is
@@ -3760,21 +3782,30 @@ UbluInputAreaFGColor=ff36b80b</code>
   of Ublul, but if you want Goublu, you will have to build it.</p>
 
   <ul>
-    <li>Install UserLAnd</li>
+    <li>Install UserLAnd (Google Play Store).</li>
+
+    <li>Open UserLAnd.</li>
+
+    <li>Choose a distribution. This example assumes Ubuntu.</li>
+
+    <li>Choose the ssh interface rather than the VNC interface. The
+    VNC interface works fine and can be used later as well, it's
+    just simpler for our purposes to start with a terminal
+    interface.</li>
 
     <li><code>sudo apt install openjdk-11-jdk git maven make
     golang</code>
     </li>
 
-    <li><code>cd && mkdir work; cd work; mkdir gopath; export
-    GOPATH=`pwd`/gopath</code>
+    <li><code>cd &amp;&amp; mkdir work; cd work; mkdir gopath;
+    export GOPATH=`pwd`/gopath</code>
     </li>
 
     <li><code>git clone https://github.com/jwoehr/ublu.git</code>
     </li>
 
-    <li><code>cd ublu && make dist # ublu.jar will be deposited in
-    the 'target' subdirectory</code>
+    <li><code>cd ublu &amp;&amp; make dist # ublu.jar will be
+    deposited in the 'target' subdirectory</code>
     </li>
 
     <li><code>go get github.com/jwoehr/goublu</code>
@@ -3783,15 +3814,82 @@ UbluInputAreaFGColor=ff36b80b</code>
     <li><code>cd $GOPATH/src/github/jwoehr/goublu</code>
     </li>
 
-    <li><code>go build . && go install # goublu will be installed
-    in $GOPATH/bin</code>
+    <li><code>go build . &amp;&amp; go install # goublu will be
+    installed in $GOPATH/bin</code>
     </li>
 
-    <li><code>cd /opt && sudo mkdir ublu && cd ublu && sudo ln -s
-    $HOME/work/ublu/target/ublu.jar && sudo ln -s
-    $HOME/work/ublu/extensions && sudo ln -s
-    $HOME/work/ublu/extensions &&sudo ln -s
+    <li><code>cd /opt &amp;&amp; sudo mkdir ublu &amp;&amp; cd ublu
+    &amp;&amp; sudo ln -s $HOME/work/ublu/target/ublu.jar
+    &amp;&amp; sudo ln -s $HOME/work/ublu/extensions &amp;&amp;
+    sudo ln -s $HOME/work/ublu/extensions &amp;&amp;sudo ln -s
     $HOME/work/ublu/userdoc</code>
+    </li>
+  </ul>
+
+  <p>Now you can start Ublu in line mode with <code>java -jar
+  /opt/ublu/ublu.jar</code> or in Goublu terminal mode with
+  <code>$GOPATH/bin/goublu</code>.</p>
+
+  <p>If you want to run Ublu in windowing mode, you will use VNC
+  Viewer which will require some setup.</p>
+
+  <ol>
+    <li>Install VNC Viewer from Google Play Store</li>
+
+    <li>Open VNC Viewer. It will try to get you to create an
+    account and subscribe, but get past that to creating a local
+    connection.</li>
+
+    <li>Create a local connection for 127.0.0.1 port 5901 ... don't
+    start the connection yet, because UserLAnd isn't serving
+    yet.</li>
+
+    <li>In a UserLAnd shell, perform the following:
+      <ol>
+        <li>sudo apt install xfonts-base</li>
+
+        <li>cd /usr/share/fonts/X11/misc/</li>
+
+        <li>sudo mkfontdir</li>
+
+        <li>vncserver <em>If vncserver is not found, try <code>sudo
+        apt install tightvncserver</code></em></li>
+      </ol>
+    </li>
+
+    <li>Now go to VNC viewer and start the connection.</li>
+
+    <li>In UserLAnd execute
+      <ol>
+        <li><code>export DISPLAY=:1</code>
+        </li>
+
+        <li><code>java -jar /opt/ublu/ublu.jar -w</code>
+        </li>
+      </ol>
+      to start windowed Ublu.
+    </li>
+
+    <li>Switch to the VNC Viewer and use windowed Ublu.</li>
+
+    <li>When you are done with the VNC Viewer remember to execute
+    <code>vncserver -kill :1</code> so that the vncserver cleans up
+    after itself. If you shut down UserLAnd (e.g., by turning off
+    your phone) without having exited the vncserver, you will have
+    <code>rm -rf /tmp/.X11-unix</code> to clear the lockfile.</li>
+  </ol>
+
+  <p>VNC is a wrapper around the X Windowing System. UserLAnd
+  Ubuntu's default windowing manager for the XWindowing System is
+  <code>twm</code> which is pretty sparse. I'm using <a href=
+  "https://www.fvwm.org/" target="_top">FVMW</a>.</p>
+
+  <ul>
+    <li><code>sudo apt install fvwm2</code>
+    </li>
+
+    <li><code>update-alternatives --set x-window-manager
+    /usr/bin/fvwm2</code>
     </li>
   </ul>
 
@@ -3802,8 +3900,11 @@ UbluInputAreaFGColor=ff36b80b</code>
       "Ublu on UserLAnd Ubuntu on Android 8">
       </td>
       <td><img src="images/goublu_userland_20220203-133721.png"
-      width="375" height="640" alt=
+      width="360" height="640" alt=
       "Goublu on UserLAnd Ubuntu on Android 8">
+      </td>
+      <td><img src="images/vnc_ubluwin.png" width="360" height=
+      "640" alt="Ublu window UserLAnd Ubuntu on Android 8">
       </td>
     </tr>
 
@@ -3811,6 +3912,8 @@ UbluInputAreaFGColor=ff36b80b</code>
       <td><em>Ublu on UserLAnd Ubuntu on Android 8</em>
       </td>
       <td><em>Goublu on UserLAnd Ubuntu on Android 8</em>
+      </td>
+      <td><em>Ublu window UserLAnd Ubuntu on Android 8</em>
       </td>
     </tr>
   </table>
