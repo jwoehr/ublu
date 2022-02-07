@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for HTML5 for Linux version 5.6.0">
-  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12" >
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <title>Guide to Ublu</title>
@@ -3832,9 +3830,9 @@ UbluInputAreaFGColor=ff36b80b</code>
   <ol>
     <li>Install VNC Viewer from Google Play Store</li>
 
-    <li>Open VNC Viewer. It will try to get you to create an
-    account and subscribe, but get past that to creating a local
-    connection.</li>
+    <li>Open VNC Viewer. It will offer you the choice to create an
+    account and subscribe, but that is not necessary for creating a
+    local connection.</li>
 
     <li>Create a local connection for 127.0.0.1 port 5901 ... don't
     start the connection yet, because UserLAnd isn't serving
@@ -3842,18 +3840,25 @@ UbluInputAreaFGColor=ff36b80b</code>
 
     <li>In a UserLAnd shell, perform the following:
       <ol>
-        <li>sudo apt install xfonts-base</li>
+        <li><code>sudo apt install xfonts-base</code>
+        </li>
 
-        <li>cd /usr/share/fonts/X11/misc/</li>
+        <li><code>cd /usr/share/fonts/X11/misc/</code>
+        </li>
 
-        <li>sudo mkfontdir</li>
+        <li><code>sudo mkfontdir</code>
+        </li>
 
-        <li>vncserver <em>If vncserver is not found, try <code>sudo
-        apt install tightvncserver</code></em></li>
+        <li><code>sudo apt install tightvncserver</code>
+        </li>
+
+        <li><code>vncserver</code>
+        </li>
       </ol>
     </li>
 
-    <li>Now go to VNC viewer and start the connection.</li>
+    <li>Now go to VNC viewer and start the local connection you
+    defined.</li>
 
     <li>In UserLAnd execute
       <ol>
@@ -3900,7 +3905,7 @@ UbluInputAreaFGColor=ff36b80b</code>
       "Goublu on UserLAnd Ubuntu on Android 8">
       </td>
       <td><img src="images/vnc_ubluwin.png" width="360" height=
-      "640" alt="Ublu window UserLAnd Ubuntu on Android 8">
+      "640" alt="Ublu window UserLAnd Ubuntu (twm)on Android 8">
       </td>
     </tr>
 
@@ -3909,7 +3914,7 @@ UbluInputAreaFGColor=ff36b80b</code>
       </td>
       <td><em>Goublu on UserLAnd Ubuntu on Android 8</em>
       </td>
-      <td><em>Ublu window UserLAnd Ubuntu on Android 8</em>
+      <td><em>Ublu window UserLAnd Ubuntu (twm) on Android 8</em>
       </td>
     </tr>
   </table>
