@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta name="generator" content="Bluefish 2.2.12" >
+  <meta name="generator" content="Bluefish 2.2.12" >
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <title>Guide to Ublu</title>
@@ -11,7 +12,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Sun, 6 Feb UTC 08:27:26 PM">
+  "Tue, 8 Feb UTC 04:26:54 AM">
 </head>
 <body>
   <table cellspacing="0" height="456" cellpadding="2" width="100%"
@@ -283,11 +284,10 @@
 
   <p>I wrote Ublu because I wanted a language to run on
   OpenBSD/Mac/Linux/Windows to perform ad-hoc process automation
-  primarily on IBM i Series OS &#174;. I was supporting consulting
-  clients by writing individual utility programs using JTOpen which
-  I have used since 1998 to control the AS/400. I decided to
-  consolidate the programs in a language, and the result is
-  Ublu.</p>
+  primarily on IBM i &#174;. I was supporting consulting clients by
+  writing individual utility programs using JTOpen which I have
+  used since 1998 to control the AS/400. I decided to consolidate
+  the programs in a language, and the result is Ublu.</p>
 
   <p>Additionally, Ublu can call Java directly allowing the user
   him- or herself to extend the language interpretively in nearly
@@ -310,9 +310,9 @@
     <li>Teams designing follow-on systems who need to explore the
     legacy environment can use Ublu.</li>
 
-    <li>Ublu also runs locally on IBM i Series OS and is sometimes
-    used to model programs which later may be written in straight
-    Java to run locally on the server.</li>
+    <li>Ublu also runs locally on IBM i and is sometimes used to
+    model programs which later may be written in straight Java to
+    run locally on the server.</li>
   </ul>
 
   <p><small><em>I also previously wrote <a href=
@@ -701,11 +701,11 @@ alias gw='java -Djavax.net.ssl.trustStore=/home/me/keystores/ublutruststore -jar
   "mozTocId185354"></a> A Full Ublu Program</h2>
   Here is a full Ublu program. It uses <a href=
   "./ubluref.html#FUNC">FUNC</a> to define a number of functions
-  allowing the user to checks a message queue on an i Series OS
-  server and lists the messages, asking the user on each if s/he
-  would like to reply, and parsing the reply if one is given.&nbsp;
-  Take a look at the program (and its associate shell script given
-  here) and then we will <a href=
+  allowing the user to checks a message queue on an IBM i server
+  and lists the messages, asking the user on each if s/he would
+  like to reply, and parsing the reply if one is given.&nbsp; Take
+  a look at the program (and its associate shell script given here)
+  and then we will <a href=
   "#Understanding_examplesautoreply.ublu">discuss the program
   line-by-line</a> below.<br>
   <br>
@@ -1175,7 +1175,7 @@ e.g., <code>@@password</code>.<br>
 </pre>These lines declare another function which says, "Given a
 message queue instance and a variable name in which to store the
 result of this function, create a list of messages needing reply
-waiting on the remoted i Series OS message queue represented by the
+waiting on the remote IBM i message queue represented by the
 message queue instance."<br>
 
   <pre>
@@ -2404,8 +2404,8 @@ message queue instance."<br>
   "eponymous dash-command" which represents an object identified in
   the command description with same name as the command itself. For
   example, the <code>as400</code> command instances and operates on
-  objects representing a connection to a remote i Series OS server.
-  Once you have instanced such an object and stored it <code>-to
+  objects representing a connection to a remote IBM i server. Once
+  you have instanced such an object and stored it <code>-to
   @someServer</code> you can use it and then later test if it is
   still connected by passing the same variable back to the
   <code>as400</code> command like this:<br>
