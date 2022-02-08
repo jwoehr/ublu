@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for HTML5 for Linux version 5.6.0">
-  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12" >
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
   <title>Ublu Midrange and Mainframe Life Cycle Extension
@@ -13,7 +11,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Tue, 8 Feb UTC 09:47:04 PM">
+  "Tue, 8 Feb UTC 10:59:20 PM">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 <body>
@@ -114,6 +112,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <li>
       <a href="#Invocation">Invocation</a>
       <ul>
+        <li>
+          <a href="#Invocation_directly_from_Java">Invocation
+          directly from Java</a>
+        </li>
+
         <li>
           <a href="#Ublu_Invocation_Script">Ublu Invocation Script
           (bash/ksh)</a>
@@ -844,7 +847,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <h2><a name="Installation" id="Installation">Installation</a>
   </h2>
 
-  <p>Each Ublu release is distributed as an archive containing</p>
+  <p>Each Ublu release is distributed as an archive
+  <code>ublu-dist.zip</code> containing</p>
 
   <ul>
     <li>
@@ -854,11 +858,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </ul>
     </li>
 
-    <li>the <code>lib</code> directory
-      <ul>
-        <li>libraries Ublu depends on for execution</li>
-      </ul>
-    </li>
+    <li>a <code>bin</code> directory with a launcher script for
+    Ublu</li>
 
     <li>the <code>examples</code> directory
       <ul>
@@ -873,26 +874,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </ul>
     </li>
 
-    <li>documentation
-      <ul>
-        <li>javadoc</li>
-
-        <li>userdoc</li>
-      </ul>
-    </li>
-
-    <li>edit modes</li>
+    <li>documentation in the <code>userdoc</code> directory</li>
 
     <li>licenses</li>
 
-    <li><em>miscellaneous</em>
-    </li>
+    <li>various useful items in the <code>share</code>
+    directory</li>
   </ul>
-
-  <p>The <code>lib</code> directory contains third-party .jar files
-  containing classes referenced by Ublu. The <code>lib</code>
-  directory should be a subdirectory of the directory containing
-  <code>ublu.jar</code> .</p>
 
   <p>We recommend the following layout:</p>
 
@@ -923,6 +911,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </ul>
     </li>
   </ul>
+  or use the script <code>bin/ublu</code> .
+  <p>For more on installation, see the <a href=
+  "./ubluguide.html#Typical_Installation">Ublu Guide : A Typical
+  Installation</a></p>
 
   <h3><a name="Android_Install" id="Android_Install">Android
   Installation</a>
@@ -934,22 +926,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </h2>
 
   <p>It can be a good idea to <a href=
-  "https://github.com/jwoehr/ublu">download the full source</a> or
-  check it out via <code>git</code> or <code>svn</code> from
-  <code>https://github.com/jwoehr/ublu.git</code> Changes, features
-  and bug fixes come pretty frequently at present.</p>
+  "https://github.com/jwoehr/ublu/releases">download the source
+  archive for a release</a> or check out the current development
+  version via from
+  <code>https://github.com/jwoehr/ublu.git</code></p>
 
   <p>When you have the source tree, change directory to the top
-  level and execute <a href=
-  "http://ant.apache.org/"><code>ant</code></a> (which you will
-  need to have installed separately). Ant will build the default
-  target and leave its output in the <code>dist</code>
-  directory.</p>
+  level and choose a <a href="https://maven.apache.org/" target=
+  "_top">Maven</a> target (typically, <code>mvn package</code>) or
+  execute <code>make clean dist</code> as there is a
+  <code>Makefile</code> in the base directory of the source to
+  invoke Maven for you. The output will be in the
+  <code>target</code> directory.</p>
 
   <h2><a name="Invocation" id="Invocation"></a>Invocation</h2>
 
+  <h3><a name="Invocation_directly_from_Java" id=
+  "Invocation_directly_from_Java">Invocation directly from Java</a>
+  </h3>
+  You can invoke Ublu using the <code>java</code> command on your
+  system.
   <blockquote>
-    <p><code><strong>Ublu invocation: java [ java options .. ] -jar
+    <p><code>Ublu invocation: java [ java options .. ] -jar
     ublu.jar [ ublu options .. ] [ ublu commands .. ]<br>
     Ublu options:<br>
     -i filename [-i filename ..] include all indicated source
@@ -961,9 +959,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     -h display help and then exit<br>
     -v display version info and then exit<br>
     -w [properties_file_path] [ ublu commands .. ] starts Ublu in a
-    GUI window which <em>processes no other options</em> and
-    interprets the commands, then waits for more input or menu
-    selections.</strong></code>
+    GUI window which reads from the properties file path provided
+    <em>processing no other options</em>, interprets any commands
+    provided then finally waits for more input or menu
+    selections.</code>
     </p>
 
     <blockquote>
@@ -972,21 +971,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       discussed <a href="#NoteOnSSL">here</a>.
     </blockquote>
 
-    <p>If the <code>lib</code> directory is a subdirectory of the
-    directory in which <code>ublu.jar</code> resides, Ublu can be
-    invoked via <code>java -jar</code> as shown. Otherwise, prior
-    to invocation the <strong><code>CLASSPATH</code></strong> must
-    be set to include each of the supporting .jar files found in
-    the lib directory.<br></p>
   </blockquote>
 
   <h3><a name="Ublu_Invocation_Script" id=
   "Ublu_Invocation_Script">Ublu Invocation Script (bash/ksh)</a>
   </h3>
 
-  <p><code>bin/ublu</code> is a bash/ksh invocation script. If it
-  is in your path, then <code>ublu --help</code> will tell you what
-  you need to know about invoking Ublu in this manner.</p>
+  <p><code>bin/ublu</code> is a bash/ksh invocation script. <code>ublu
+  --help</code> will tell you what you need to know about invoking
+  Ublu in this manner.</p>
 
   <blockquote>
     <pre>
@@ -1014,6 +1007,11 @@ On options error, this usage message is issued to stderr instead of to stdout.
 Copyright (C) 2018 Jack J. Woehr https://github.com/jwoehr/ublu jwoehr@softwoehr.com
   </pre>
   </blockquote>
+
+  <p>Note that these options are slightly different from the
+  options used when <a href=
+  "#Invocation_directly_from_Java">invoking directly from
+  Java</a>.</p>
 
   <h3><a name="Ublu_Startup" id="Ublu_Startup">Ublu Startup</a>
   </h3>
@@ -7131,8 +7129,8 @@ db -to @xyzdb -dbtype as400 -as400 @xyz -rdb ABC -connect
     ~@{password} : record file access</code>
     </p>
 
-    <p>The <code>file</code> command provides IBM i record
-    file access.</p>
+    <p>The <code>file</code> command provides IBM i record file
+    access.</p>
 
     <p>The <code>/fully/qualified/ifspathname</code> indicates a
     file or a member, e.g</p>
@@ -14372,10 +14370,10 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
     <p>The following example uses the <a href=
     "#file"><code>file</code></a> command to fetch info about the
-    members of an IBM i record file into a tuple @ml then
-    first does a <code>put @ml</code> then a <code>put -from
-    @ml</code> illustrating the difference between the two
-    semantics of <code>put</code>.</p>
+    members of an IBM i record file into a tuple @ml then first
+    does a <code>put @ml</code> then a <code>put -from @ml</code>
+    illustrating the difference between the two semantics of
+    <code>put</code>.</p>
 
     <p><code>&gt; file -to @f -as400 @s -keyed
     /QSYS.LIB/MYSRC.LIB/QCLSRC.FILE<br>
@@ -18442,8 +18440,8 @@ watson -s language-translator/api/v2/translate -m POST -req ${ { "text": [ "elep
   </blockquote>
 
   <h3><a name="Searching_for_tables_in_the_IBM_i" id=
-  "Searching_for_tables_in_the_IBM_i"></a> Searching for tables
-  in the IBM i database</h3>
+  "Searching_for_tables_in_the_IBM_i"></a> Searching for tables in
+  the IBM i database</h3>
 
   <p><em>Submitted by Kevin McGinnis</em><br>
   </p>
