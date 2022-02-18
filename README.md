@@ -16,7 +16,7 @@ See file LICENSE for license information.
 Ublu is an interpretive language for remote systems programming of midrange or
 mainframe hosts from a Java platform such as Linux, Mac, OpenBSD or Windows. It
 also can run natively on IBM i ®, IBM z/OS USS ® or any other reasonable Java
-platform.
+platform including Android [UserLAnd](https://userland.tech/).
 
 I wrote Ublu because I wanted a language to run on OpenBSD/Mac/Linux/Windows to
 perform ad-hoc process automation primarily on IBM i. I was
@@ -43,8 +43,6 @@ Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/
 The example is syntax-colored using a [jEdit](https://jedit.org) edit mode provided with Ublu.
 
 The latest release version of Ublu is [version 2.0.0](https://github.com/jwoehr/ublu/releases/tag/v2.0.0).
-
-It is strongly advised you use a release version of Ublu, preferably the latest.
 
 Ublu is distributed with some of the open source libraries it needs and their license files which permit such distribution.
 Others are fetched into the project at build time via <a href="https://maven.apache.org/">`maven`</a>.
