@@ -6,6 +6,10 @@ All rights reserved.
 -----
 * Libraries
 	* GitHub DependaBot bumps postgresql from 42.2.5 to 42.2.25
+* Userdoc
+	* Updates to the Reference and User Guide
+		* IBM i vs iSeries etc.
+		* Installation under UserLAnd on Android 11
 
 2.0.0 2022-02-01
 -----
