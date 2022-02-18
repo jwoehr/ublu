@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta name="generator" content="Bluefish 2.2.12" >
+  <meta name="generator" content="Bluefish 2.2.12" >
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <title>Guide to Ublu</title>
@@ -11,7 +12,7 @@
   name="description">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 14 Feb UTC 04:35:46 AM">
+  "Fri, 18 Feb UTC 05:44:10 PM">
 </head>
 <body>
   <table cellspacing="0" height="456" cellpadding="2" width="100%"
@@ -234,11 +235,6 @@
           <a href="#Ublu_Android">Running Ublu on Android</a>
           <ul>
             <li>
-              <a href="#GNURootDebian"><del>GNURootDebian (before
-              Android 8)</del></a>
-            </li>
-
-            <li>
               <a href="#UserLAnd_Ubuntu">UserLAnd Ubuntu (Android 8
               and above)</a>
               <ul>
@@ -248,6 +244,11 @@
                   windowing</a>
                 </li>
               </ul>
+            </li>
+
+            <li>
+              <a href="#GNURootDebian"><del>GNURootDebian (before
+              Android 8)</del></a>
             </li>
           </ul>
         </li>
@@ -3685,87 +3686,6 @@ UbluInputAreaFGColor=ff36b80b</code>
   Android</a>
   </h2>
 
-  <h3><a name="GNURootDebian" id="GNURootDebian"><del>GNURootDebian
-  (before Android 8)</del></a>
-  </h3>
-
-  <p><strong>Note:</strong> <em>GNURootDebian stopped working at
-  Android 8 and the project was totally rewritten as <a href=
-  "https://github.com/CypherpunkArmory/UserLAnd">UserLAnd</a>. See
-  the <a href="#UserLAnd_Ubuntu">UserLAnd Ubuntu</a> section below
-  for information on current technology.</em></p>
-
-  <p>Ublu can run under <a href=
-  "https://github.com/corbinlc/GNURootDebian">GnuRoot
-  Debian</a>.</p>
-
-  <ol>
-    <li>Install GnuRoot Debian</li>
-
-    <li>Open a GnuRoot Debian terminal</li>
-
-    <li>Finish install steps as prompted</li>
-
-    <li>Test Xwindowing support to confirm install of base system
-    finished</li>
-
-    <li><code>apt-get upgrade</code>
-    </li>
-
-    <li><code>apt update</code>
-    </li>
-
-    <li><code>apt upgrade</code>
-    </li>
-
-    <li>
-      <code>apt install jedit</code>
-      <ul>
-        <li>This is the quickest way I have found to install Java
-        under GnuRoot Debian.</li>
-      </ul>
-    </li>
-
-    <li>Use ssh to copy your Ublu .zip archive to a directory such
-    as <code>/opt/ublu</code></li>
-
-    <li>Unpack archive</li>
-
-    <li>Run Ublu from the terminal or open XWindows to run Ublu in
-    a Window</li>
-  </ol>
-
-  <p>Learning GnuRoot Debian can require some patience. You may
-  have to install manually via <code>apt</code> or
-  <code>apt-get</code> some packages I have not mentioned
-  above.</p>
-
-  <table>
-    <tr>
-      <td><img src="images/Screenshot_2017-09-14-09-56-18.png"
-      width="360" height="640" alt=
-      "Ublu in a terminal under GnuRoot Debian on Android">
-      </td>
-      <td><img src="images/Screenshot_2017-09-12-17-05-56.png"
-      width="375" height="640" alt=
-      "Ublu in an xterm under GnuRoot Debian on Android">
-      </td>
-      <td><img src="images/Screenshot_2017-09-15-22-06-44.png"
-      width="1024" height="600" alt=
-      "Ublu in a window under GnuRoot Debian on Android">
-      </td>
-    </tr>
-
-    <tr>
-      <td><em>Ublu on GnuRoot Debian on Android</em>
-      </td>
-      <td><em>Ublu in an xterm under GnuRoot Debian on Android</em>
-      </td>
-      <td><em>Ublu in a window under GnuRoot Debian on Android</em>
-      </td>
-    </tr>
-  </table>
-
   <h3><a name="UserLAnd_Ubuntu" id="UserLAnd_Ubuntu">UserLAnd
   Ubuntu(Android 8 and above)</a>
   </h3>
@@ -3925,6 +3845,95 @@ UbluInputAreaFGColor=ff36b80b</code>
       <td><em>Goublu on UserLAnd Ubuntu on Android 8</em>
       </td>
       <td><em>Ublu window UserLAnd Ubuntu (twm) on Android 8</em>
+      </td>
+    </tr>
+  </table>
+  <img src="images/Screenshot_20220217-220822_VNC_Viewer.jpg"
+  width="960" height="600" alt=
+  "Ublu, iACS, xterm: UserLAnd Ubuntu (fvwm) on Android 11"><br>
+  <em>Ublu, iACS, xterm: UserLAnd Ubuntu (fvwm) on Android
+  11</em><br>
+
+  <h3><a name="GNURootDebian" id="GNURootDebian"><del>GNURootDebian
+  (before Android 8)</del></a>
+  </h3>
+
+  <p><strong>Note:</strong> <em>GNURootDebian stopped working at
+  Android 8 and the project was totally rewritten as <a href=
+  "https://github.com/CypherpunkArmory/UserLAnd">UserLAnd</a>. See
+  the <a href="#UserLAnd_Ubuntu">UserLAnd Ubuntu</a> section below
+  for information on current technology.</em></p>
+
+  <p><em>This section is included for historical purposes</em>
+  </p>
+
+  <p>Ublu can run under <a href=
+  "https://github.com/corbinlc/GNURootDebian">GnuRoot
+  Debian</a>.</p>
+
+  <ol>
+    <li>Install GnuRoot Debian</li>
+
+    <li>Open a GnuRoot Debian terminal</li>
+
+    <li>Finish install steps as prompted</li>
+
+    <li>Test Xwindowing support to confirm install of base system
+    finished</li>
+
+    <li><code>apt-get upgrade</code>
+    </li>
+
+    <li><code>apt update</code>
+    </li>
+
+    <li><code>apt upgrade</code>
+    </li>
+
+    <li>
+      <code>apt install jedit</code>
+      <ul>
+        <li>This is the quickest way I have found to install Java
+        under GnuRoot Debian.</li>
+      </ul>
+    </li>
+
+    <li>Use ssh to copy your Ublu .zip archive to a directory such
+    as <code>/opt/ublu</code></li>
+
+    <li>Unpack archive</li>
+
+    <li>Run Ublu from the terminal or open XWindows to run Ublu in
+    a Window</li>
+  </ol>
+
+  <p>Learning GnuRoot Debian can require some patience. You may
+  have to install manually via <code>apt</code> or
+  <code>apt-get</code> some packages I have not mentioned
+  above.</p>
+
+  <table>
+    <tr>
+      <td><img src="images/Screenshot_2017-09-14-09-56-18.png"
+      width="360" height="640" alt=
+      "Ublu in a terminal under GnuRoot Debian on Android">
+      </td>
+      <td><img src="images/Screenshot_2017-09-12-17-05-56.png"
+      width="375" height="640" alt=
+      "Ublu in an xterm under GnuRoot Debian on Android">
+      </td>
+      <td><img src="images/Screenshot_2017-09-15-22-06-44.png"
+      width="1024" height="600" alt=
+      "Ublu in a window under GnuRoot Debian on Android">
+      </td>
+    </tr>
+
+    <tr>
+      <td><em>Ublu on GnuRoot Debian on Android</em>
+      </td>
+      <td><em>Ublu in an xterm under GnuRoot Debian on Android</em>
+      </td>
+      <td><em>Ublu in a window under GnuRoot Debian on Android</em>
       </td>
     </tr>
   </table>
