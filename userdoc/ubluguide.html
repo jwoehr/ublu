@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for HTML5 for Linux version 5.6.0">
-  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12" >
   <meta http-equiv="content-type" content=
   "text/html; charset=utf-8">
   <title>Guide to Ublu</title>
@@ -236,13 +234,20 @@
           <a href="#Ublu_Android">Running Ublu on Android</a>
           <ul>
             <li>
-              <a href="#GNURootDebian">GNURootDebian (before
-              Android 8)</a>
+              <a href="#GNURootDebian"><del>GNURootDebian (before
+              Android 8)</del></a>
             </li>
 
             <li>
               <a href="#UserLAnd_Ubuntu">UserLAnd Ubuntu (Android 8
               and above)</a>
+              <ul>
+                <li>
+                  <a href=
+                  "#Troubleshooting_windowing">Troubleshooting
+                  windowing</a>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>
@@ -3680,8 +3685,8 @@ UbluInputAreaFGColor=ff36b80b</code>
   Android</a>
   </h2>
 
-  <h3><a name="GNURootDebian" id="GNURootDebian">GNURootDebian
-  (before Android 8)</a>
+  <h3><a name="GNURootDebian" id="GNURootDebian"><del>GNURootDebian
+  (before Android 8)</del></a>
   </h3>
 
   <p><strong>Note:</strong> <em>GNURootDebian stopped working at
@@ -3761,8 +3766,8 @@ UbluInputAreaFGColor=ff36b80b</code>
     </tr>
   </table>
 
-  <h3><a name="UserLAnd_Ubuntu" id="UserLAnd_Ubuntu" userland=
-  "">UserLAnd Ubuntu(Android 8 and above)</a>
+  <h3><a name="UserLAnd_Ubuntu" id="UserLAnd_Ubuntu">UserLAnd
+  Ubuntu(Android 8 and above)</a>
   </h3>
 
   <p>The modern Linux environment on Android 8 and above is
@@ -3787,12 +3792,18 @@ UbluInputAreaFGColor=ff36b80b</code>
     just simpler for our purposes to start with a terminal
     interface.</li>
 
-    <li><code>sudo apt install openjdk-11-jdk git maven make
-    golang</code>
+    <li><code>sudo apt install openjdk-11-jdk git maven make golang
+    zip</code>
     </li>
 
-    <li><code>cd &amp;&amp; mkdir work; cd work; mkdir gopath;
-    export GOPATH=`pwd`/gopath</code>
+    <li>
+      <code>cd &amp;&amp; mkdir work; cd work; mkdir gopath; export
+      GOPATH=`pwd`/gopath</code>
+      <ul>
+        <li>You should also add this export to your
+        <code>~/.bashrc</code> and add or append
+        <code>$GOPATH/bin</code> to your <code>PATH</code></li>
+      </ul>
     </li>
 
     <li><code>git clone https://github.com/jwoehr/ublu.git</code>
@@ -3805,17 +3816,10 @@ UbluInputAreaFGColor=ff36b80b</code>
     <li><code>go get github.com/jwoehr/goublu</code>
     </li>
 
-    <li><code>cd $GOPATH/src/github/jwoehr/goublu</code>
-    </li>
-
-    <li><code>go build . &amp;&amp; go install # goublu will be
-    installed in $GOPATH/bin</code>
-    </li>
-
     <li><code>cd /opt &amp;&amp; sudo mkdir ublu &amp;&amp; cd ublu
     &amp;&amp; sudo ln -s $HOME/work/ublu/target/ublu.jar
     &amp;&amp; sudo ln -s $HOME/work/ublu/extensions &amp;&amp;
-    sudo ln -s $HOME/work/ublu/extensions &amp;&amp;sudo ln -s
+    sudo ln -s $HOME/work/ublu/examples &amp;&amp;sudo ln -s
     $HOME/work/ublu/userdoc</code>
     </li>
   </ul>
@@ -3834,28 +3838,11 @@ UbluInputAreaFGColor=ff36b80b</code>
     account and subscribe, but that is not necessary for creating a
     local connection.</li>
 
-    <li>Create a local connection for 127.0.0.1 port 5901 ... don't
-    start the connection yet, because UserLAnd isn't serving
-    yet.</li>
+    <li>Create a local connection for <code>localhost:5901</code>
+    ... don't start the connection yet, because UserLAnd isn't
+    serving yet.</li>
 
-    <li>In a UserLAnd shell, perform the following:
-      <ol>
-        <li><code>sudo apt install xfonts-base</code>
-        </li>
-
-        <li><code>cd /usr/share/fonts/X11/misc/</code>
-        </li>
-
-        <li><code>sudo mkfontdir</code>
-        </li>
-
-        <li><code>sudo apt install tightvncserver</code>
-        </li>
-
-        <li><code>vncserver</code>
-        </li>
-      </ol>
-    </li>
+    <li>In a UserLAnd shell, start <code>vncserver</code></li>
 
     <li>Now go to VNC viewer and start the local connection you
     defined.</li>
@@ -3889,8 +3876,31 @@ UbluInputAreaFGColor=ff36b80b</code>
     <li><code>sudo apt install fvwm</code>
     </li>
 
-    <li><code>update-alternatives --set x-window-manager
-    /usr/bin/fvwm2</code>
+    <li>You may need to <code>update-alternatives --set
+    x-window-manager /usr/bin/fvwm2</code> but in recent installs I
+    have not had to do so.</li>
+  </ul>
+
+  <h4><a name="Troubleshooting_windowing" id=
+  "Troubleshooting_windowing">Troubleshooting windowing</a>
+  </h4>
+
+  <ul>
+    <li>If the <code>vncserver</code> command is missing, to
+    <code>sudo apt install tightvncserver</code></li>
+
+    <li>If you have trouble with fonts being missing, some
+    combination of steps like the following may help:
+      <ul>
+        <li><code>sudo apt install xfonts-base</code>
+        </li>
+
+        <li><code>cd /usr/share/fonts/X11/misc/</code>
+        </li>
+
+        <li><code>sudo mkfontdir</code>
+        </li>
+      </ul>
     </li>
   </ul>
 
