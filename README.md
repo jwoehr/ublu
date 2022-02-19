@@ -1,7 +1,7 @@
 # ublu
 Ublu Midrange and Mainframe Life Cycle Extension Language<br>
 Copyright (c) 2015, Absolute Performance, Inc. http://www.absolute-performance.com<br>
-Copyright (c) 2018, Jack J. Woehr http://www.softwoehr.com<br>
+Copyright (c) 2016, 2018, 2022, Jack J. Woehr http://www.softwoehr.com<br>
 All rights reserved.<br>
 See file LICENSE for license information.
 
@@ -112,4 +112,4 @@ git fetch origin
 git branch -u origin/main main
 git remote set-head origin -a
 ```
-Jack Woehr 2022-02-02
+Jack Woehr 2022-02-20
