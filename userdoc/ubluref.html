@@ -11998,11 +11998,13 @@ exit <span class="syntax-KEYWORD2">$?</span>
 &gt; put -to ~ 1
 &gt; put -to ~ ${ foo bar woof }$
 &gt; calljava -to ~ -forname java.sql.DriverManager
+&gt; lifo -null
 &gt; num -to @fargle 42
 &gt; lifo -push @fargle
 &gt; lifo -show
 <em>top &lt;== 
         @fargle=[42](class java.lang.Integer)
+        null=[null](null)
         null=[class java.sql.DriverManager](class java.lang.Class)
         null=[foo bar woof ](class java.lang.String)
         null=[1](class java.lang.String)</em>

@@ -181,9 +181,14 @@ public class CmdLifo extends Command {
                             sb.append("(empty)");
                         } else {
                             for (Tuple t : ts) {
-                                sb.insert(0,
-                                        "\n\t" + t.getKey() + "=[" + t.getValue()
-                                        + "]" + "(" + t.getValue().getClass() + ")");
+                                String tuplenews = "\n\t" + t.getKey() + "=[" + t.getValue() + "]" + "(";
+                                if (t.getValue() != null) {
+                                    tuplenews += t.getValue().getClass();
+                                } else {
+                                    tuplenews += "null";
+                                }
+                                tuplenews += ")";
+                                sb.insert(0, tuplenews);
                             }
                             sb.insert(0, "top <== ");
                         }
