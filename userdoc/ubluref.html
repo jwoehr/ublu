@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for HTML5 for Linux version 5.6.0">
-  <meta name="generator" content="Bluefish 2.2.12">
+  <meta name="generator" content="Bluefish 2.2.12" >
   <meta content="text/html; charset=utf-8" http-equiv=
   "Content-Type">
   <title>Ublu Midrange and Mainframe Life Cycle Extension
@@ -13,7 +11,7 @@
   "Documenting usage of Ublu which is an extensible object-disoriented interpretive language for midrange and mainframe remote system programming"
   name="description">
   <meta http-equiv="Last-Modified" content=
-  "Mon, 14 Feb UTC 04:35:46 AM">
+  "Tue, 22 Feb UTC 03:25:40 PM">
   <link rel="stylesheet" type="text/css" href="ublujedit.css">
 </head>
 <body>
@@ -55,7 +53,7 @@
 
   <p>Author: Jack J. Woehr<br>
   Original date: 2013-07-11<br>
-  Last edit: 2022-02-08</p>
+  Last edit: 2022-02-22</p>
 
   <pre>
  Copyright © 2015, Absolute Performance, Inc.
@@ -11979,9 +11977,9 @@ exit <span class="syntax-KEYWORD2">$?</span>
 
       <li><code>-drop</code> removes TOS</li>
 
-      <li><code>-show</code> shows the tuple names (possibly null)
-      of all entries on the stack. This is the default
-      operation</li>
+      <li><code>-show</code> shows the tuple names (possibly null),
+      values, and Java class types of all entries on the stack.
+      This is the default operation</li>
 
       <li><code>-true</code> pushes <code>true</code> to the
       stack.</li>
@@ -11992,6 +11990,23 @@ exit <span class="syntax-KEYWORD2">$?</span>
       <li><code>-null</code> pushes <code>null</code> to the
       stack.</li>
     </ul>
+
+    <p><em>Example</em>
+    </p>
+
+    <pre>
+&gt; put -to ~ 1
+&gt; put -to ~ ${ foo bar woof }$
+&gt; calljava -to ~ -forname java.sql.DriverManager
+&gt; num -to @fargle 42
+&gt; lifo -push @fargle
+&gt; lifo -show
+<em>top &lt;== 
+        @fargle=[42](class java.lang.Integer)
+        null=[class java.sql.DriverManager](class java.lang.Class)
+        null=[foo bar woof ](class java.lang.String)
+        null=[1](class java.lang.String)</em>
+</pre>
   </blockquote>
 
   <h4><a name="list" id="list"></a><code>list</code>

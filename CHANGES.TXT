@@ -4,21 +4,25 @@ All rights reserved.
 
 2.0.1
 -----
+* Commands
+    * `lifo -show` now displays value and class as well as tuple name
+* Examples
+    * jsheety.ublu demos Jesse Gorzinki's JSheetyDriver
 * Libraries
-	* GitHub DependaBot bumps postgresql from 42.2.5 to 42.2.25
+    * GitHub DependaBot bumps postgresql from 42.2.5 to 42.2.25
 * Userdoc
-	* Updates to the Reference and User Guide
-		* IBM i vs iSeries etc.
-		* Installation under UserLAnd on Android 11
+    * Updates to the Reference and User Guide
+    * IBM i vs iSeries etc.
+    * Installation under UserLAnd on Android 11
 
 2.0.0 2022-02-01
 -----
 * Build
-	* Maven now builds Ublu (thanks Jesse Gorzinski of IBM)
-	* Builds from `make clean package` at command line
-	* Builds from Eclipse and NetBeans
+    * Maven now builds Ublu (thanks Jesse Gorzinski of IBM)
+    * Builds from `make clean package` at command line
+    * Builds from Eclipse and NetBeans
 * System
-	* Minor technical code mods
+    * Minor technical code mods
 
 1.2.2 2020-03-28
 -----
