@@ -1,0 +1,94 @@
+# jsheety.ublu ... example of using Jesse Gorzinki's JSheetyDriver in Ublu
+# see: https://github.com/ThePrez/JSheetyDriver
+# Example from Ublu Midrange and Mainframe Life Cycle Extension language
+# https://github.com/jwoehr/ublu
+# Copyright (C) 2022 Jack J. Woehr http://www.softwoehr.com
+# See the Ublu license (BSD-2 open source)
+#
+# JSheetyDriver is a jdbc driver that enables conversion of data formats
+# in an excahnge, e.g., fetch Db2 data from an IBM i server and save it
+# locally as a .CSV file.
+#
+# To use the driver, you need to launch Ublu with the driver in the CLASSPATH,
+# e.g., in the bash shell:
+# CLASSPATH=$CLASSPATH:~/somedir/jsheetydriver-0.0.8-jar-with-dependencies.jar:/opt/ublu/ublu.jar java ublu.Ublu
+
+
+# FUNC get_sheety ( ibmi uid passwd turbo filename )
+# Make connection and push to lifo
+# ... ibmi the IBM i server name
+# ... uid user profile name
+# ... passwd password
+# ... turbo string 'true' or 'false' (without the quotes)
+# ... filename file to work on, need not exist, may get overwritten asumes .csv
+FUNC get_sheety ( ibmi uid passwd turbo filename ) $[
+    LOCAL @prop LOCAL @jsheetyclass LOCAL @connstring LOCAL @dmgr
+    LOCAL @_ibmi LOCAL @_uid LOCAL @_passwd LOCAL @_turbo LOCAL @_filename
+    put -to @_ibmi @@ibmi
+    put -to @_uid @@uid
+    put -to @_passwd @@passwd
+    put -to @_turbo @@turbo
+    put -to @_filename @@filename
+
+    calljava -to @prop -new java.util.Properties
+
+    put -to ~ turbo
+    put -to ~ DB2PW
+    put -to ~ DB2UID
+    put -to ~ DB2SYSTEM
+
+    calljava -to NULL: -- @prop -method setProperty -arg ~ -arg @_ibmi
+    calljava -to NULL: -- @prop -method setProperty -arg ~ -arg @_uid
+    calljava -to NULL: -- @prop -method setProperty -arg ~ -arg @_passwd
+    calljava -to NULL: -- @prop -method setProperty -arg ~ -arg @_turbo
+
+    put -n -s  ${ Properties for JSheetyDriver : }$ put -from @prop
+
+    put -to @connstring sheety:
+    @connstring -to @connstring -cat @_filename
+    @connstring -to @connstring -cat ;
+    \\ ${
+    @connstring -to @connstring -cat DB2SYSTEM=
+    @connstring -to @connstring -cat @_ibmi
+    @connstring -to @connstring -cat ;
+    @connstring -to @connstring -cat DB2UID=
+    @connstring -to @connstring -cat @_uid
+    @connstring -to @connstring -cat ;
+    @connstring -to @connstring -cat DB2PW=
+    @connstring -to @connstring -cat @_passwd
+    @connstring -to @connstring -cat ;
+    @connstring -to @connstring -cat turbo=
+    @connstring -to @connstring -cat @_turbo
+    }$
+
+    put -n -s  ${ Connection string for JSheetyDriver : }$ put -from @connstring
+    calljava -to @jsheetyclass -forname com.github.theprez.jsheetydriver.JSheetyDriver
+    put -n -s  ${ Loaded JSheetyDriver : }$ put -from @jsheetyclass
+    calljava -to ~ -class java.sql.DriverManager -method getConnection -arg @connstring -arg @prop
+]$
+
+# FUNC sheety_to_csv ( connection remote_tablename local_filename )
+# Converts first member of IBM i Db2 file to CSV locally
+# E.g., sheety_to_csv ( @conn qgpl.qclsrc foo.csv )
+FUNC sheety_to_csv ( connection remote_tablename local_filename ) $[
+    LOCAL @conn LOCAL @qstring LOCAL @statement
+    tuple -assign @conn @@connection
+    calljava -to @statement -- @conn -method createStatement
+    put -to @qstring ${ sheety load }$
+    @qstring -to @qstring -cat @@local_filename
+    calljava -- @statement -method executeUpdate -arg @qstring
+    put -to @qstring ${ sheety linkdb2as }$
+    @qstring -to @qstring -cat @@local_filename
+    @qstring -to @qstring -bl
+    @qstring -to @qstring -cat @@remote_tablename
+    calljava -- @statement -method executeUpdate -arg @qstring
+    put -to @qstring commit
+    calljava -- @statement -method executeUpdate -arg @qstring
+    calljava -- @statement -method close
+]$
+
+# FUNC close_connection ( connection )
+# Close the @@connection instance
+FUNC close_connection ( connection ) $[
+    calljava -- @@connection -method close
+]$
