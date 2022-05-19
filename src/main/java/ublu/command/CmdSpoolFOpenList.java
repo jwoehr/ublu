@@ -304,7 +304,7 @@ public class CmdSpoolFOpenList extends Command {
                     case FILTER_FORM:
                         if (splfolist == null) {
                             noSplfOL();
-                            
+
                         } else {
                             if (formType != null) {
                                 splfolist.setFilterFormType(formType);
@@ -457,12 +457,12 @@ public class CmdSpoolFOpenList extends Command {
                         break;
                     case NEW:
                         try {
-                            put(splfolist);
-                        } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
-                            getLogger().log(Level.SEVERE, "Exception putting SpooledFileOpenList in " + getNameAndDescription(), ex);
-                            setCommandResult(COMMANDRESULT.FAILURE);
-                        }
-                        break;
+                        put(splfolist);
+                    } catch (SQLException | IOException | AS400SecurityException | ErrorCompletingRequestException | InterruptedException | ObjectDoesNotExistException | RequestNotSupportedException ex) {
+                        getLogger().log(Level.SEVERE, "Exception putting SpooledFileOpenList in " + getNameAndDescription(), ex);
+                        setCommandResult(COMMANDRESULT.FAILURE);
+                    }
+                    break;
                     case OPEN:
                         if (splfolist == null) {
                             noSplfOL();
@@ -534,9 +534,12 @@ public class CmdSpoolFOpenList extends Command {
             case 300:
                 result = SpooledFileOpenList.FORMAT_0300;
                 break;
-            case 400:
-                result = SpooledFileOpenList.FORMAT_0400;
-                break;
+//            case 400:
+//                result = SpooledFileOpenList.FORMAT_0400;
+//                break;
+            default:
+                getLogger().log(Level.SEVERE, "Unknown format selector {0}", Integer.toString(sel) + " in " + getNameAndDescription());
+                setCommandResult(COMMANDRESULT.FAILURE);
         }
         return result;
 

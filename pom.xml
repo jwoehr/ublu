@@ -267,15 +267,22 @@
             <artifactId>sblim-cim-client2-HEAD</artifactId>
             <version>only</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.jt400/jt400 -->
         <dependency>
+            <groupId>net.sf.jt400</groupId>
+            <artifactId>jt400</artifactId>
+            <version>11.0</version>
+        </dependency>
+        <!--        <dependency>
             <groupId>ublu.staticlib</groupId>
             <artifactId>jt400</artifactId>
             <version>9.6-patched</version>
-        </dependency>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.3.3</version>
+            <version>42.3.5</version>
         </dependency>
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
