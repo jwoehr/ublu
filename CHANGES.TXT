@@ -6,10 +6,13 @@ All rights reserved.
 -----
 * Commands
     * `lifo -show` now displays value and class as well as tuple name
+    * comment out Format 400 from CmdSpoolFOpenList.java
+      * will submit later to mainline source
 * Examples
     * jsheety.ublu demos Jesse Gorzinki's JSheetyDriver
 * Libraries
     * GitHub DependaBot bumps postgresql from 42.2.5 to 42.2.25
+    * Use mainline jt400 instead of my modified version
 * Userdoc
     * Updates to the Reference and User Guide
     * IBM i vs iSeries etc.
