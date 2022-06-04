@@ -93,8 +93,8 @@ There is some more information in the [Ublu Wiki](https://github.com/jwoehr/ublu
 
 Discuss Ublu in the [IBMiOSS Java forum on Ryver](https://ibmioss.ryver.com/index.html#forums/1057363).
 
-Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](https://ibmioss.ryver.com/application/signup/members/9tJsXDG7_iSSi1Q)
-that hosts Java forum.
+Here is the [IBMiOSS signup page for the free Open Source Software on IBM i organization on Ryver](http://ibm.biz/ibmioss-chat)
+that hosts the Java forum.
 
 ![Ublu running native on IBM i](https://user-images.githubusercontent.com/4604036/30892141-33301764-a2f4-11e7-88e6-e7583866037e.jpg)
 *_Ublu running native on IBM i_*
@@ -112,4 +112,4 @@ git fetch origin
 git branch -u origin/main main
 git remote set-head origin -a
 ```
-Jack Woehr 2022-02-20
+Jack Woehr 2022-06-04
