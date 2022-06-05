@@ -182,7 +182,7 @@ public class ArgArray extends ArrayList<String> {
     public Tuple peekNextTupleOrPop() {
         Tuple result = null;
         if (isNextPopTuple()) {
-            if (getInterpreter().getTupleStack().size() > 0) {
+            if (!getInterpreter().getTupleStack().isEmpty()) {
                 result = getInterpreter().getTupleStack().peek();
             }
         } else if (isNextTupleName()) {
