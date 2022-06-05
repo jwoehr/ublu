@@ -17,6 +17,8 @@ All rights reserved.
     * Updates to the Reference and User Guide
     * IBM i vs iSeries etc.
     * Installation under UserLAnd on Android 11
+* Misc
+    * Some cleanup prompted by various IDEs nagging me.
 
 2.0.0 2022-02-01
 -----

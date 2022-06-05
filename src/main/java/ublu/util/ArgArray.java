@@ -94,12 +94,6 @@ public class ArgArray extends ArrayList<String> {
     }
 
     /**
-     * Instance empty
-     */
-    private ArgArray() {
-    }
-
-    /**
      * Instance from just an Interpreter
      *
      * @param i associated Interpreter
