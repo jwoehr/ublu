@@ -11,7 +11,7 @@ All rights reserved.
 * Examples
     * jsheety.ublu demos Jesse Gorzinki's JSheetyDriver
 * Libraries
-    * GitHub DependaBot bumps postgresql from 42.2.5 to 42.2.25
+    * GitHub DependaBot bumps postgresql from 42.2.5 to 42.4.1
     * Use mainline jt400 instead of my modified version
 * Userdoc
     * Updates to the Reference and User Guide
