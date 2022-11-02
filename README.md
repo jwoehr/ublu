@@ -56,7 +56,7 @@ suitability for any given application</b>.
 
 Download the release, unpack and `java -jar ublu.jar` to run Ublu.
 
-Or clone https://maven.apache.org/the source for Ublu and do a `maven` build:
+Or clone the source for Ublu and do a `maven` build:
 
 * Clone the [Ublu GitHub repository](https://github.com/jwoehr/ublu.git) or download source from the [latest release](https://github.com/jwoehr/ublu/releases)
 * Load the project in [NetBeans](http://www.netbeans.org) or [Eclipse](https://www.eclipse.org/) or cd to the top dir of the checkout and type `make clean dist` which will run the appropriate `maven` commands for you.
