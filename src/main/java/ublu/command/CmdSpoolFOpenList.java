@@ -534,9 +534,9 @@ public class CmdSpoolFOpenList extends Command {
             case 300:
                 result = SpooledFileOpenList.FORMAT_0300;
                 break;
-//            case 400:
-//                result = SpooledFileOpenList.FORMAT_0400;
-//                break;
+            case 400:
+                result = SpooledFileOpenList.FORMAT_0400;
+                break;
             default:
                 getLogger().log(Level.SEVERE, "Unknown format selector {0}", Integer.toString(sel) + " in " + getNameAndDescription());
                 setCommandResult(COMMANDRESULT.FAILURE);
