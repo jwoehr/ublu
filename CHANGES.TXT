@@ -5,6 +5,7 @@ All rights reserved.
 2.0.2-dev
 -----
 * Libraries
+	* Add FORMAT_0400 back into SpooledFileOpenList support
     * Bump postgresql to 42.5.1
     * Bump mssql-jdbc to 11.2.1.jre8
 
