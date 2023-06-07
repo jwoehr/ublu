@@ -112,4 +112,7 @@ git fetch origin
 git branch -u origin/main main
 git remote set-head origin -a
 ```
-Jack Woehr 2022-06-04
+## Software Bill of Materials
+The [Software Bill of Materials (SBOM)](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/exporting-a-software-bill-of-materials-for-your-repository) is `SBOM_ublu_jwoehr_*.json`
+
+Jack Woehr 2023-06-07
