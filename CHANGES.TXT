@@ -5,8 +5,9 @@ All rights reserved.
 2.0.2-dev
 -----
 * Libraries
-    * Bump postgresql to 42.5.1
-    * Bump mssql-jdbc to 11.2.1.jre8
+    * Bump postgresql to 42.6.0
+    * Bump mssql-jdbc to 12.4.0
+    * Bump jt400 to 20.0.2
 
 2.0.1 2022-10-10
 -----
