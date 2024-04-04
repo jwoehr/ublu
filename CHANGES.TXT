@@ -7,9 +7,11 @@ All rights reserved.
 * Features
     * Add FORMAT_0400 back into CmdSpoolFOpenList
 * Libraries
-    * Bump postgresql to 42.6.0
-    * Bump mssql-jdbc to 12.4.0
-    * Bump jt400 to 20.0.2
+    * Bump postgresql to 42.7	
+    * Bump mssql-jdbc to 12.6.1
+    * Bump jt400 to 20.0.7
+* Userdoc
+	* `db` accepts `-dbtype mssql`
 
 2.0.1 2022-10-10
 -----
