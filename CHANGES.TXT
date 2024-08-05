@@ -1,17 +1,19 @@
 CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
-Copyright (c) 2019, 2022 Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
-All rights reserved.
+Copyright (c) 2019, 2022, 2024 Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
+All rights reserved. Open Source, see LICENSE
 
-2.0.2-dev
+2.0.2 2024-08-05
 -----
 * Features
     * Add FORMAT_0400 back into CmdSpoolFOpenList
 * Libraries
-    * Bump postgresql to 42.7	
-    * Bump mssql-jdbc to 12.6.1
+    * Bump postgresql to 42.7.3
+    * Bump mssql-jdbc to 12.8.0
     * Bump jt400 to 20.0.7
 * Userdoc
-	* `db` accepts `-dbtype mssql`
+    * `db` accepts `-dbtype mssql`
+* Misc
+    * fix email address in pom.xml
 
 2.0.1 2022-10-10
 -----
