@@ -1,0 +1,262 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-bdc39ae9f92f862e5685a1c104b5460202533e6dcb7892421ceaab842b21e771",
+  "author": "Unknown Author",
+  "timestamp": "2024-10-07T16:51:42.568925+02:00",
+  "last_updated": "2024-10-07T16:51:43.051173+02:00",
+  "version": 21,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2020-13692"
+      },
+      "timestamp": "2024-10-07T16:51:42.568926+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-21724"
+      },
+      "timestamp": "2024-10-07T16:51:42.594078+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-26520"
+      },
+      "timestamp": "2024-10-07T16:51:42.619425+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.25"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-26520"
+      },
+      "timestamp": "2024-10-07T16:51:42.643779+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-31197"
+      },
+      "timestamp": "2024-10-07T16:51:42.6672+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.25"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-31197"
+      },
+      "timestamp": "2024-10-07T16:51:42.690515+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-31197"
+      },
+      "timestamp": "2024-10-07T16:51:42.714541+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.3.3"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-31197"
+      },
+      "timestamp": "2024-10-07T16:51:42.739907+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.3.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-41946"
+      },
+      "timestamp": "2024-10-07T16:51:42.763534+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.25"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-41946"
+      },
+      "timestamp": "2024-10-07T16:51:42.787067+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-41946"
+      },
+      "timestamp": "2024-10-07T16:51:42.810867+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.3.3"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-41946"
+      },
+      "timestamp": "2024-10-07T16:51:42.834523+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.3.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-41946"
+      },
+      "timestamp": "2024-10-07T16:51:42.858704+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.4.1"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-41946"
+      },
+      "timestamp": "2024-10-07T16:51:42.88269+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.5.0"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:42.906877+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.25"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:42.930752+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.2.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:42.95484+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.3.3"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:42.978436+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.3.5"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:43.002817+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.4.1"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:43.026967+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.5.0"
+        }
+      ],
+      "status": "under_investigation"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2024-1597"
+      },
+      "timestamp": "2024-10-07T16:51:43.051176+02:00",
+      "products": [
+        {
+          "@id": "pkg:maven/org.postgresql/postgresql@42.5.1"
+        }
+      ],
+      "status": "under_investigation"
+    }
+  ]
+}
