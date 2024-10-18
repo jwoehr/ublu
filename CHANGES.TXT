@@ -4,6 +4,8 @@ All rights reserved. Open Source, see LICENSE
 
 2.0.3-dev
 ---------
+* Libraries
+	* Bump postgresql to 42.7.4
 
 2.0.2 2024-08-05
 -----
