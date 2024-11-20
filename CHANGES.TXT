@@ -7,6 +7,8 @@ All rights reserved. Open Source, see LICENSE
 * Libraries
 	* Bump postgresql to 42.7.4
 * Update SBOM
+* Documentation
+	* Update info about database drivers
 
 2.0.2 2024-08-05
 -----
