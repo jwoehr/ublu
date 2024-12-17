@@ -12,3 +12,4 @@ MakeVer.class
 .classpath
 .project
 .settings/
+.vscode/settings.json
