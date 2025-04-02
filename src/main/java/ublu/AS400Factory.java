@@ -36,8 +36,10 @@ package ublu;
  */
 import ublu.util.Interpreter;
 import com.ibm.as400.access.AS400;
+import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.SecureAS400;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -102,8 +104,8 @@ public class AS400Factory {
     /**
      * Create a new AS400 object with our custom signon handler and with the
      * system name, user id and password already set. Connections (when made)
-     * will be via SSL if the property <code> signon.security.type </code> is set to
-     * <code> SSL </code>, plain if that property is unset or set to <code> none
+     * will be via SSL if the property <code> signon.security.type </code> is
+     * set to <code> SSL </code>, plain if that property is unset or set to <code> none
      * </code>.
      *
      * @deprecated use public static AS400 newAS400(Interpreter interpreter,
@@ -120,7 +122,7 @@ public class AS400Factory {
         AS400 as400 = newAS400();
         as400.setSystemName(systemName);
         as400.setUserId(userid);
-        as400.setPassword(password);
+        as400.setPassword(password.toCharArray());
         return as400;
     }
 
@@ -136,11 +138,53 @@ public class AS400Factory {
      * @param password password
      * @return the new AS400 object
      */
-    protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type, SIGNON_HANDLER_TYPE signon_handler_type, String systemName, String userId, String password) {
+    protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type,
+            SIGNON_HANDLER_TYPE signon_handler_type,
+            String systemName,
+            String userId,
+            String password) {
         AS400 as400
                 = signon_security_type == SIGNON_SECURITY_TYPE.NONE
-                        ? new AS400(systemName, userId, password)
-                        : new SecureAS400(systemName, userId, password);
+                        ? new AS400(systemName, userId, password.toCharArray())
+                        : new SecureAS400(systemName, userId, password.toCharArray());
+        switch (signon_handler_type) {
+            case CUSTOM:
+                as400.setSignonHandler(new SignonHandler());
+                break;
+            case NULL:
+                as400.setSignonHandler(new NullSignonHandler());
+                break;
+            case BUILTIN:
+                break;
+        }
+        return as400;
+    }
+
+    /**
+     * Create a new AS400 object with the correct security type and signon
+     * handler using our extenders to have the password at our disposal for use
+     * with JTOpenLite classes.
+     *
+     * @param signon_security_type is this none or ssl?
+     * @param signon_handler_type handler type for failed signons
+     * @param systemName systemName
+     * @param userId userId
+     * @param password password
+     * @param additionalAuthenticationFactor e.g., MFA TTOP
+     * @throws AS400SecurityException
+     * @throws IOException
+     * @return the new AS400 object
+     */
+    protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type,
+            SIGNON_HANDLER_TYPE signon_handler_type,
+            String systemName,
+            String userId,
+            char[] password,
+            char[] additionalAuthenticationFactor) throws AS400SecurityException, IOException {
+        AS400 as400
+                = signon_security_type == SIGNON_SECURITY_TYPE.NONE
+                        ? new AS400(systemName, userId, password, additionalAuthenticationFactor)
+                        : new SecureAS400(systemName, userId, password, additionalAuthenticationFactor);
         switch (signon_handler_type) {
             case CUSTOM:
                 as400.setSignonHandler(new SignonHandler());
@@ -157,8 +201,8 @@ public class AS400Factory {
     /**
      * Create a new AS400 object with our custom signon handler and with the
      * system name, user id and password already set. Connections (when made)
-     * will be via SSL if the property <code> signon.security.type </code> is set to
-     * <code> SSL </code>, plain if that property is unset or set to <code> none
+     * will be via SSL if the property <code> signon.security.type </code> is
+     * set to <code> SSL </code>, plain if that property is unset or set to <code> none
      * </code>.
      *
      *
