@@ -50,7 +50,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/3? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-nodefault] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} : instance, connect to, query connection, or disconnect from an as400 system");
+                "/4? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-nodefault] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} ~@{additionalAuthenticationFactor : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -271,7 +271,7 @@ public class CmdAS400 extends Command {
                     } else {
                         try {
                             setAs400(instanceAS400(argArray, useSSL));
-                        } catch (PropertyVetoException ex) {
+                        } catch (PropertyVetoException | AS400SecurityException | IOException ex) {
                             getLogger().log(Level.SEVERE,
                                     locMsg("Encountered_an_exception") + " " + locMsg("instancing_the_AS400_object") + inNameAndDescription(), ex);
                         }
@@ -553,8 +553,10 @@ public class CmdAS400 extends Command {
      * @param useSSL true if SSL should be used
      * @return the AS400 instance or null
      * @throws PropertyVetoException
+     * @throws com.ibm.as400.access.AS400SecurityException
+     * @throws java.io.IOException
      */
-    public AS400 instanceAS400(ArgArray args, boolean useSSL) throws PropertyVetoException {
+    public AS400 instanceAS400(ArgArray args, boolean useSSL) throws PropertyVetoException, AS400SecurityException, IOException {
         AS400 as400 = null;
         if (args.size() < 3) {
             logArgArrayTooShortError(args);

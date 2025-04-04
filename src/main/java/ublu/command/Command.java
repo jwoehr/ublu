@@ -511,9 +511,10 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
-     * Parse the arg array for system username password in that order (each and
-     * any tuples or plain words) and come back with an AS400 object that has
-     * not yet attempted to log in.
+     * Parse the arg array for system username password (and, optionally,
+     * additionalAuthenticationFactor) in that order (each and any tuples or
+     * plain words) and come back with an AS400 object that has not yet
+     * attempted to log in.
      *
      * @param argArray the arg array to the command where the next three
      * elements (either tuple references or plain words) represent system userid
@@ -529,9 +530,10 @@ public abstract class Command implements CommandInterface {
     }
 
     /**
-     * Parse the arg array for system username password in that order (each and
-     * any tuples or plain words) and come back with an AS400 object that has
-     * not yet attempted to log in.
+     * Parse the arg array for system username password (and, optionally,
+     * additionalAuthenticationFactor) in that order (each and any tuples or
+     * plain words) and come back with an AS400 object whose ssl security is set
+     * as indicated and that has not yet attempted to log in.
      *
      * @param argArray the arg array to the command where the next three
      * elements (either tuple references or plain words) represent system userid
@@ -539,12 +541,21 @@ public abstract class Command implements CommandInterface {
      * @param signon_security_type if set to SIGNON_SECURITY_TYPE.SSL use ssl
      * @return the AS400 object or null
      * @throws PropertyVetoException
+     * @throws com.ibm.as400.access.AS400SecurityException
+     * @throws java.io.IOException
      */
-    protected AS400 as400FromArgs(ArgArray argArray, AS400Factory.SIGNON_SECURITY_TYPE signon_security_type) throws PropertyVetoException {
+    protected AS400 as400FromArgs(ArgArray argArray, AS400Factory.SIGNON_SECURITY_TYPE signon_security_type) throws PropertyVetoException, AS400SecurityException, IOException {
+        AS400 as400 = null;
         String system = argArray.nextMaybeQuotationTuplePopString();
         String username = argArray.nextMaybeQuotationTuplePopString();
         String password = argArray.nextMaybeQuotationTuplePopString();
-        return AS400Factory.newAS400(getInterpreter(), system, username, password, signon_security_type);
+        if (argArray.size() == 4) {
+            String additionalAuthenticationFactor = argArray.nextMaybeQuotationTuplePopString();
+            as400 = AS400Factory.newAS400(getInterpreter(), system, username, password.toCharArray(), additionalAuthenticationFactor.toCharArray(), signon_security_type);
+        } else {
+            as400 = AS400Factory.newAS400(getInterpreter(), system, username, password, signon_security_type);
+        }
+        return as400;
     }
 
     /**

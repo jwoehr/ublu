@@ -240,6 +240,29 @@ public class AS400Factory {
         AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password);
         return as400;
     }
+    /**
+     * Create a new AS400 object with our custom signon handler and with the
+     * system name, user id and password already set.Connections (when made)
+ will be via SSL if <code> signon_security_type </code> argument is set to
+    <code> SSL </code>.
+     *
+     * @return the new AS400 object
+     * @param interpreter the interpreter calling us
+     * @param systemName name or dotted ip addr
+     * @param userid d'oh
+     * @param password d'oh
+     * @param additionalAuthenticationFactor e.g. TOTP for MFA
+     * @param signon_security_type provides whether we want SSL
+     * @throws java.beans.PropertyVetoException if server name or user id cannot
+     * be set
+     * @throws com.ibm.as400.access.AS400SecurityException
+     * @throws java.io.IOException
+     */
+    public static AS400 newAS400(Interpreter interpreter, String systemName, String userid, char [] password, char[] additionalAuthenticationFactor, SIGNON_SECURITY_TYPE signon_security_type)
+            throws PropertyVetoException, AS400SecurityException, IOException {
+        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password, additionalAuthenticationFactor);
+        return as400;
+    }
 
     private static SIGNON_HANDLER_TYPE propertyStringToSignonHandlerType(String s) {
         SIGNON_HANDLER_TYPE sht = SIGNON_HANDLER_TYPE.CUSTOM;
