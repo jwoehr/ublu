@@ -170,7 +170,7 @@ public class AS400Factory {
      * @param systemName systemName
      * @param userId userId
      * @param password password
-     * @param additionalAuthenticationFactor e.g., MFA TTOP
+     * @param additionalAuthenticationFactor e.g., MFA TOTP
      * @throws AS400SecurityException
      * @throws IOException
      * @return the new AS400 object
