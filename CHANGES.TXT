@@ -8,7 +8,11 @@ All rights reserved. Open Source, see LICENSE
 	* Support the new additionalAuthenticationFactor argument to `as400`
 		* This enables IBM i 7.6 MFA
 * Libraries
-	* Bump jt400 to 21.0.0
+	* Bump jt400 to 21.0.3
+        * Bump Postgresql to 42.7.5
+        * Bump ssql-jdbc to 12.10.0.jre8
+* Misc
+        * Deleted old "only" repos not used anymore
 
 2.0.4 2024-12-24
 ----------------
