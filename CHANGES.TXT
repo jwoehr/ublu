@@ -8,6 +8,9 @@ All rights reserved. Open Source, see LICENSE
 	* Bump jt400 to 21.0.5
 	* Bump mssql to 12.10.1.jre8
 	* Bump postgresql to 42.7.7
+* Update SBOM
+* Update README.md
+* Add public key
 
 2.0.4 2024-12-24
 ----------------
