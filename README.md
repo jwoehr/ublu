@@ -37,10 +37,10 @@ in Ublu. Whatever works!
 
 Ublu is Open Source Software under the BSD-2 license.
 
-* The user's guide is [userdoc/ubluguide.html](http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluguide.html)
-* The full reference is [userdoc/ubluref.html](http://www.softwoehr.com/softwoehr/oss/ubludoc/ubluref.html)
+* The user's guide is [userdoc/ubluguide.html](http://www.softwoehr.com/oss/ubludoc/ubluguide.html)
+* The full reference is [userdoc/ubluref.html](http://www.softwoehr.com/oss/ubludoc/ubluref.html)
   * Both documents are found in the source tree in the `userdoc` directory.
-* Here's an [example of Ublu code](http://www.softwoehr.com/softwoehr/oss/ubludoc/jobstuff-example.html)
+* Here's an [example of Ublu code](http://www.softwoehr.com/oss/ubludoc/jobstuff-example.html)
   * The example is syntax-colored using a [jEdit](https://jedit.org) edit mode provided with Ublu in the `share/jEdit` directory.
 
 The latest release version of Ublu is [version 2.0.5](https://github.com/jwoehr/ublu/releases/tag/v2.0.5).
