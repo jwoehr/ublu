@@ -42,6 +42,7 @@ Ublu is Open Source Software under the BSD-2 license.
   * Both documents are found in the source tree in the `userdoc` directory.
 * Here's an [example of Ublu code](http://www.softwoehr.com/oss/ubludoc/jobstuff-example.html)
   * The example is syntax-colored using a [jEdit](https://jedit.org) edit mode provided with Ublu in the `share/jEdit` directory.
+* [Ublu Notebook](https://notebooklm.google.com/notebook/0799833f-a57b-4ad7-a017-aecc2069827b) offers _**experimental**_ AI assistance based on the source and the extant documentation.
 
 The latest release version of Ublu is [version 2.0.5](https://github.com/jwoehr/ublu/releases/tag/v2.0.5).
 
