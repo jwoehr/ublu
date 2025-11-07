@@ -2,6 +2,13 @@ CHANGES.TXT for Ublu Midrange and Mainframe Life Cycle Extension Language
 Copyright (c) 2019, 2022, 2024 Jack J. Woehr jwoehr@softwoehr.com http://www.softwoehr.com
 All rights reserved. Open Source, see LICENSE
 
+2.0.6
+-----
+* Security
+    * Bump mssql to 12.0.2.jre8
+* Workflow
+    * remove github maven cache statement
+
 2.0.5 2025-08-09
 ----------------
 * Libraries

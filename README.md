@@ -44,7 +44,7 @@ Ublu is Open Source Software under the BSD-2 license.
   * The example is syntax-colored using a [jEdit](https://jedit.org) edit mode provided with Ublu in the `share/jEdit` directory.
 * [Ublu Notebook](https://notebooklm.google.com/notebook/0799833f-a57b-4ad7-a017-aecc2069827b) offers _**experimental**_ AI assistance based on the source and the extant documentation.
 
-The latest release version of Ublu is [version 2.0.5](https://github.com/jwoehr/ublu/releases/tag/v2.0.5).
+The latest release version of Ublu is [version 2.0.6](https://github.com/jwoehr/ublu/releases/tag/v2.0.6).
 
 Ublu is distributed with some of the open source libraries it needs and their license files which permit such distribution. Others are fetched into the project at build time via [`maven`](https://maven.apache.org/).
 
@@ -108,4 +108,4 @@ git remote set-head origin -a
 
 The [Software Bill of Materials (SBOM)](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/exporting-a-software-bill-of-materials-for-your-repository) is `SBOM_ublu_jwoehr_*.json`
 
-Jack Woehr 2025-08-09
+Jack Woehr 2025-11-07
