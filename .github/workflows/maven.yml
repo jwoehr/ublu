@@ -23,8 +23,7 @@ jobs:
     - name: Cache Maven packages
       uses: actions/cache@v3
       with:
-        path: |
-          ~/.m2/repository
+        path: ~/.m2/repository
         # key must not be empty; hashFiles will produce a stable value if pom.xml exists
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
