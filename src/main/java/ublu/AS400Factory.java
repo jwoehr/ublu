@@ -243,8 +243,8 @@ public class AS400Factory {
     /**
      * Create a new AS400 object with our custom signon handler and with the
      * system name, user id and password already set.Connections (when made)
- will be via SSL if <code> signon_security_type </code> argument is set to
-    <code> SSL </code>.
+     * will be via SSL if <code> signon_security_type </code> argument is set to
+     * <code> SSL </code>.
      *
      * @return the new AS400 object
      * @param interpreter the interpreter calling us
