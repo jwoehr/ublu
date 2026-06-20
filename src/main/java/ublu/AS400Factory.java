@@ -173,21 +173,21 @@ public class AS400Factory {
             String userId,
             String password,
             String certificatePath) {
+        
+        // Configure custom certificate if provided and using SSL
+        if (signon_security_type == SIGNON_SECURITY_TYPE.SSL && certificatePath != null && !certificatePath.isEmpty()) {
+            try {
+                configureCustomCertificate(certificatePath);
+            } catch (Exception e) {
+                Logger.getLogger(AS400Factory.class.getName())
+                        .log(Level.SEVERE, "Failed to configure certificate from " + certificatePath, e);
+            }
+        }
+        
         AS400 as400
                 = signon_security_type == SIGNON_SECURITY_TYPE.NONE
                         ? new AS400(systemName, userId, password.toCharArray())
                         : new SecureAS400(systemName, userId, password.toCharArray());
-        
-        // Apply custom certificate if provided and using SSL
-        if (signon_security_type == SIGNON_SECURITY_TYPE.SSL && certificatePath != null && !certificatePath.isEmpty()) {
-            try {
-                SSLSocketFactory sslSocketFactory = createSSLSocketFactoryFromCertificate(certificatePath);
-                ((SecureAS400) as400).setSocketFactory(sslSocketFactory);
-            } catch (Exception e) {
-                Logger.getLogger(AS400Factory.class.getName())
-                        .log(Level.SEVERE, "Failed to load certificate from " + certificatePath, e);
-            }
-        }
         
         switch (signon_handler_type) {
             case CUSTOM:
@@ -249,22 +249,22 @@ public class AS400Factory {
             char[] password,
             char[] additionalAuthenticationFactor,
             String certificatePath) throws AS400SecurityException, IOException {
+        
+        // Configure custom certificate if provided and using SSL
+        if (signon_security_type == SIGNON_SECURITY_TYPE.SSL && certificatePath != null && !certificatePath.isEmpty()) {
+            try {
+                configureCustomCertificate(certificatePath);
+            } catch (Exception e) {
+                Logger.getLogger(AS400Factory.class.getName())
+                        .log(Level.SEVERE, "Failed to configure certificate from " + certificatePath, e);
+                throw new IOException("Failed to configure certificate from " + certificatePath, e);
+            }
+        }
+        
         AS400 as400
                 = signon_security_type == SIGNON_SECURITY_TYPE.NONE
                         ? new AS400(systemName, userId, password, additionalAuthenticationFactor)
                         : new SecureAS400(systemName, userId, password, additionalAuthenticationFactor);
-        
-        // Apply custom certificate if provided and using SSL
-        if (signon_security_type == SIGNON_SECURITY_TYPE.SSL && certificatePath != null && !certificatePath.isEmpty()) {
-            try {
-                SSLSocketFactory sslSocketFactory = createSSLSocketFactoryFromCertificate(certificatePath);
-                ((SecureAS400) as400).setSocketFactory(sslSocketFactory);
-            } catch (Exception e) {
-                Logger.getLogger(AS400Factory.class.getName())
-                        .log(Level.SEVERE, "Failed to load certificate from " + certificatePath, e);
-                throw new IOException("Failed to load certificate from " + certificatePath, e);
-            }
-        }
         
         switch (signon_handler_type) {
             case CUSTOM:
@@ -478,36 +478,75 @@ public class AS400Factory {
     }
 
     /**
-     * Create an SSLSocketFactory from a certificate file.
+     * Configure custom certificate for SSL connections by merging it with
+     * the default truststore. This allows trusting both the custom certificate
+     * and all standard CA certificates.
      * Supports X.509 certificates in PEM or DER format.
      *
      * @param certificatePath path to the certificate file
-     * @return SSLSocketFactory configured with the certificate
-     * @throws Exception if certificate loading or SSL context creation fails
+     * @throws Exception if certificate loading or configuration fails
      */
-    private static SSLSocketFactory createSSLSocketFactoryFromCertificate(String certificatePath) throws Exception {
-        // Load the certificate
+    private static void configureCustomCertificate(String certificatePath) throws Exception {
+        // Load the custom certificate
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        Certificate cert;
+        Certificate customCert;
         
         try (FileInputStream fis = new FileInputStream(certificatePath)) {
-            cert = cf.generateCertificate(fis);
+            customCert = cf.generateCertificate(fis);
         }
         
-        // Create a KeyStore containing the certificate
-        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        keyStore.load(null, null);
-        keyStore.setCertificateEntry("server-cert", cert);
+        // Load the default truststore to preserve existing trusted certificates
+        TrustManagerFactory defaultTmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        defaultTmf.init((KeyStore) null); // null loads the default truststore
         
-        // Create a TrustManager that trusts the certificate in our KeyStore
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(keyStore);
-        TrustManager[] trustManagers = tmf.getTrustManagers();
+        // Get the default KeyStore and add our custom certificate to it
+        KeyStore mergedKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        mergedKeyStore.load(null, null);
         
-        // Create an SSLContext with our TrustManager
+        // Add the custom certificate
+        mergedKeyStore.setCertificateEntry("custom-server-cert", customCert);
+        
+        // Copy all certificates from the default truststore
+        KeyStore defaultKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        String defaultTruststorePath = System.getProperty("javax.net.ssl.trustStore");
+        if (defaultTruststorePath != null) {
+            try (FileInputStream defaultFis = new FileInputStream(defaultTruststorePath)) {
+                String password = System.getProperty("javax.net.ssl.trustStorePassword");
+                defaultKeyStore.load(defaultFis, password != null ? password.toCharArray() : null);
+                
+                // Copy all entries from default keystore
+                java.util.Enumeration<String> aliases = defaultKeyStore.aliases();
+                while (aliases.hasMoreElements()) {
+                    String alias = aliases.nextElement();
+                    if (defaultKeyStore.isCertificateEntry(alias)) {
+                        mergedKeyStore.setCertificateEntry(alias, defaultKeyStore.getCertificate(alias));
+                    }
+                }
+            }
+        } else {
+            // If no custom truststore is set, use the JVM's default CA certificates
+            // by initializing from the default TrustManager's certificates
+            for (TrustManager tm : defaultTmf.getTrustManagers()) {
+                if (tm instanceof javax.net.ssl.X509TrustManager) {
+                    javax.net.ssl.X509TrustManager x509tm = (javax.net.ssl.X509TrustManager) tm;
+                    int i = 0;
+                    for (java.security.cert.X509Certificate cert : x509tm.getAcceptedIssuers()) {
+                        mergedKeyStore.setCertificateEntry("default-ca-" + i++, cert);
+                    }
+                }
+            }
+        }
+        
+        // Create a TrustManager with the merged KeyStore
+        TrustManagerFactory mergedTmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        mergedTmf.init(mergedKeyStore);
+        
+        // Set the default SSLContext to use our merged TrustManager
         SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, trustManagers, new java.security.SecureRandom());
+        sslContext.init(null, mergedTmf.getTrustManagers(), new java.security.SecureRandom());
+        SSLContext.setDefault(sslContext);
         
-        return sslContext.getSocketFactory();
+        Logger.getLogger(AS400Factory.class.getName())
+                .log(Level.INFO, "Configured custom SSL certificate from {0} (merged with default truststore)", certificatePath);
     }
 }
