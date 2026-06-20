@@ -39,9 +39,17 @@ import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.SecureAS400;
 import java.beans.PropertyVetoException;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 
 /**
  * A factory to produce correctly configured AS400 objects.
@@ -143,10 +151,44 @@ public class AS400Factory {
             String systemName,
             String userId,
             String password) {
+        return newAS400(signon_security_type, signon_handler_type, systemName, userId, password, null);
+    }
+
+    /**
+     * Create a new AS400 object with the correct security type and signon
+     * handler using our extenders to have the password at our disposal for use
+     * with JTOpenLite classes. Optionally specify a certificate file for SSL.
+     *
+     * @param signon_security_type is this none or ssl?
+     * @param signon_handler_type handler type for failed signons
+     * @param systemName systemName
+     * @param userId userId
+     * @param password password
+     * @param certificatePath path to certificate file (optional, for SSL only)
+     * @return the new AS400 object
+     */
+    protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type,
+            SIGNON_HANDLER_TYPE signon_handler_type,
+            String systemName,
+            String userId,
+            String password,
+            String certificatePath) {
         AS400 as400
                 = signon_security_type == SIGNON_SECURITY_TYPE.NONE
                         ? new AS400(systemName, userId, password.toCharArray())
                         : new SecureAS400(systemName, userId, password.toCharArray());
+        
+        // Apply custom certificate if provided and using SSL
+        if (signon_security_type == SIGNON_SECURITY_TYPE.SSL && certificatePath != null && !certificatePath.isEmpty()) {
+            try {
+                SSLSocketFactory sslSocketFactory = createSSLSocketFactoryFromCertificate(certificatePath);
+                ((SecureAS400) as400).setSocketFactory(sslSocketFactory);
+            } catch (Exception e) {
+                Logger.getLogger(AS400Factory.class.getName())
+                        .log(Level.SEVERE, "Failed to load certificate from " + certificatePath, e);
+            }
+        }
+        
         switch (signon_handler_type) {
             case CUSTOM:
                 as400.setSignonHandler(new SignonHandler());
@@ -181,10 +223,49 @@ public class AS400Factory {
             String userId,
             char[] password,
             char[] additionalAuthenticationFactor) throws AS400SecurityException, IOException {
+        return newAS400(signon_security_type, signon_handler_type, systemName, userId, password, additionalAuthenticationFactor, null);
+    }
+
+    /**
+     * Create a new AS400 object with the correct security type and signon
+     * handler using our extenders to have the password at our disposal for use
+     * with JTOpenLite classes. Optionally specify a certificate file for SSL.
+     *
+     * @param signon_security_type is this none or ssl?
+     * @param signon_handler_type handler type for failed signons
+     * @param systemName systemName
+     * @param userId userId
+     * @param password password
+     * @param additionalAuthenticationFactor e.g., MFA TOTP
+     * @param certificatePath path to certificate file (optional, for SSL only)
+     * @throws AS400SecurityException
+     * @throws IOException
+     * @return the new AS400 object
+     */
+    protected static AS400 newAS400(SIGNON_SECURITY_TYPE signon_security_type,
+            SIGNON_HANDLER_TYPE signon_handler_type,
+            String systemName,
+            String userId,
+            char[] password,
+            char[] additionalAuthenticationFactor,
+            String certificatePath) throws AS400SecurityException, IOException {
         AS400 as400
                 = signon_security_type == SIGNON_SECURITY_TYPE.NONE
                         ? new AS400(systemName, userId, password, additionalAuthenticationFactor)
                         : new SecureAS400(systemName, userId, password, additionalAuthenticationFactor);
+        
+        // Apply custom certificate if provided and using SSL
+        if (signon_security_type == SIGNON_SECURITY_TYPE.SSL && certificatePath != null && !certificatePath.isEmpty()) {
+            try {
+                SSLSocketFactory sslSocketFactory = createSSLSocketFactoryFromCertificate(certificatePath);
+                ((SecureAS400) as400).setSocketFactory(sslSocketFactory);
+            } catch (Exception e) {
+                Logger.getLogger(AS400Factory.class.getName())
+                        .log(Level.SEVERE, "Failed to load certificate from " + certificatePath, e);
+                throw new IOException("Failed to load certificate from " + certificatePath, e);
+            }
+        }
+        
         switch (signon_handler_type) {
             case CUSTOM:
                 as400.setSignonHandler(new SignonHandler());
@@ -237,7 +318,30 @@ public class AS400Factory {
      */
     public static AS400 newAS400(Interpreter interpreter, String systemName, String userid, String password, SIGNON_SECURITY_TYPE signon_security_type)
             throws PropertyVetoException {
-        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password);
+        String certificatePath = interpreter.getProperty("ssl.certificate.path", null);
+        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password, certificatePath);
+        return as400;
+    }
+
+    /**
+     * Create a new AS400 object with our custom signon handler and with the
+     * system name, user id and password already set. Connections (when made)
+     * will be via SSL if <code> signon_security_type </code> argument is set to
+     * <code> SSL </code>. Optionally specify a certificate file path.
+     *
+     * @return the new AS400 object
+     * @param interpreter the interpreter calling us
+     * @param systemName name or dotted ip
+     * @param userid d'oh
+     * @param password d'oh
+     * @param signon_security_type provides whether we want SSL
+     * @param certificatePath path to certificate file (optional, for SSL only)
+     * @throws java.beans.PropertyVetoException if server name or user id cannot
+     * be set
+     */
+    public static AS400 newAS400(Interpreter interpreter, String systemName, String userid, String password, SIGNON_SECURITY_TYPE signon_security_type, String certificatePath)
+            throws PropertyVetoException {
+        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password, certificatePath);
         return as400;
     }
     /**
@@ -260,7 +364,33 @@ public class AS400Factory {
      */
     public static AS400 newAS400(Interpreter interpreter, String systemName, String userid, char [] password, char[] additionalAuthenticationFactor, SIGNON_SECURITY_TYPE signon_security_type)
             throws PropertyVetoException, AS400SecurityException, IOException {
-        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password, additionalAuthenticationFactor);
+        String certificatePath = interpreter.getProperty("ssl.certificate.path", null);
+        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password, additionalAuthenticationFactor, certificatePath);
+        return as400;
+    }
+
+    /**
+     * Create a new AS400 object with our custom signon handler and with the
+     * system name, user id and password already set. Connections (when made)
+     * will be via SSL if <code> signon_security_type </code> argument is set to
+     * <code> SSL </code>. Optionally specify a certificate file path.
+     *
+     * @return the new AS400 object
+     * @param interpreter the interpreter calling us
+     * @param systemName name or dotted ip addr
+     * @param userid d'oh
+     * @param password d'oh
+     * @param additionalAuthenticationFactor e.g. TOTP for MFA
+     * @param signon_security_type provides whether we want SSL
+     * @param certificatePath path to certificate file (optional, for SSL only)
+     * @throws java.beans.PropertyVetoException if server name or user id cannot
+     * be set
+     * @throws com.ibm.as400.access.AS400SecurityException
+     * @throws java.io.IOException
+     */
+    public static AS400 newAS400(Interpreter interpreter, String systemName, String userid, char [] password, char[] additionalAuthenticationFactor, SIGNON_SECURITY_TYPE signon_security_type, String certificatePath)
+            throws PropertyVetoException, AS400SecurityException, IOException {
+        AS400 as400 = newAS400(signon_security_type, getSignonHandlerType(interpreter), systemName, userid, password, additionalAuthenticationFactor, certificatePath);
         return as400;
     }
 
@@ -345,5 +475,39 @@ public class AS400Factory {
                 break;
         }
         return serviceInteger;
+    }
+
+    /**
+     * Create an SSLSocketFactory from a certificate file.
+     * Supports X.509 certificates in PEM or DER format.
+     *
+     * @param certificatePath path to the certificate file
+     * @return SSLSocketFactory configured with the certificate
+     * @throws Exception if certificate loading or SSL context creation fails
+     */
+    private static SSLSocketFactory createSSLSocketFactoryFromCertificate(String certificatePath) throws Exception {
+        // Load the certificate
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        Certificate cert;
+        
+        try (FileInputStream fis = new FileInputStream(certificatePath)) {
+            cert = cf.generateCertificate(fis);
+        }
+        
+        // Create a KeyStore containing the certificate
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keyStore.load(null, null);
+        keyStore.setCertificateEntry("server-cert", cert);
+        
+        // Create a TrustManager that trusts the certificate in our KeyStore
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init(keyStore);
+        TrustManager[] trustManagers = tmf.getTrustManagers();
+        
+        // Create an SSLContext with our TrustManager
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, trustManagers, new java.security.SecureRandom());
+        
+        return sslContext.getSocketFactory();
     }
 }
