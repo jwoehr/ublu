@@ -478,33 +478,48 @@ public class AS400Factory {
     }
 
     /**
-     * Configure custom certificate for SSL connections by merging it with
-     * the default truststore. This allows trusting both the custom certificate
+     * Configure custom certificate(s) for SSL connections by merging with
+     * the default truststore. This allows trusting both custom certificates
      * and all standard CA certificates.
-     * Supports X.509 certificates in PEM or DER format.
      *
-     * @param certificatePath path to the certificate file
+     * Supports:
+     * - Self-signed server certificates
+     * - Self-signed CA certificates
+     * - Certificate chains (multiple certificates in one file)
+     * - X.509 certificates in PEM or DER format
+     *
+     * @param certificatePath path to the certificate file (can contain multiple certs)
      * @throws Exception if certificate loading or configuration fails
      */
     private static void configureCustomCertificate(String certificatePath) throws Exception {
-        // Load the custom certificate
+        // Load all certificates from the file (supports certificate chains)
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        Certificate customCert;
+        java.util.Collection<? extends Certificate> customCerts;
         
         try (FileInputStream fis = new FileInputStream(certificatePath)) {
-            customCert = cf.generateCertificate(fis);
+            customCerts = cf.generateCertificates(fis);
+        }
+        
+        if (customCerts.isEmpty()) {
+            throw new Exception("No certificates found in file: " + certificatePath);
         }
         
         // Load the default truststore to preserve existing trusted certificates
         TrustManagerFactory defaultTmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         defaultTmf.init((KeyStore) null); // null loads the default truststore
         
-        // Get the default KeyStore and add our custom certificate to it
+        // Get the default KeyStore and add our custom certificates to it
         KeyStore mergedKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         mergedKeyStore.load(null, null);
         
-        // Add the custom certificate
-        mergedKeyStore.setCertificateEntry("custom-server-cert", customCert);
+        // Add all custom certificates (handles certificate chains)
+        int certIndex = 0;
+        for (Certificate cert : customCerts) {
+            mergedKeyStore.setCertificateEntry("custom-cert-" + certIndex++, cert);
+        }
+        
+        Logger.getLogger(AS400Factory.class.getName())
+                .log(Level.INFO, "Loaded {0} certificate(s) from {1}", new Object[]{customCerts.size(), certificatePath});
         
         // Copy all certificates from the default truststore
         KeyStore defaultKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -547,6 +562,6 @@ public class AS400Factory {
         SSLContext.setDefault(sslContext);
         
         Logger.getLogger(AS400Factory.class.getName())
-                .log(Level.INFO, "Configured custom SSL certificate from {0} (merged with default truststore)", certificatePath);
+                .log(Level.INFO, "Configured custom SSL certificates (merged with default truststore)");
     }
 }
