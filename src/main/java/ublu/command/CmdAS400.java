@@ -50,7 +50,7 @@ public class CmdAS400 extends Command {
 
     {
         setNameAndDescription("as400",
-                "/4? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-nodefault] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} [~@{additionalAuthenticationFactor}] : instance, connect to, query connection, or disconnect from an as400 system");
+                "/4? [-to @var] [--,-as400,-from ~@var] [-usessl] [-ssl ~@tf] [-certpath ~@full_path_to_cert_chain] [-nodefault] [-new,-instance | -alive | -alivesvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connectedsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -connected | -disconnect | -disconnectsvc ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -ping sysname ~@{[ALL|CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -local | -validate | -qsvcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} | -svcport ~@{[CENTRAL|COMMAND|DATABASE|DATAQUEUE|FILE|PRINT|RECORDACCESS|SIGNON]} ~@portnum | -setaspgrp -@{aspgrp} ~@{curlib} ~@{liblist} | -svcportdefault | -proxy ~@{server[:portnum]} | -sockets ~@tf | -netsockets ~@tf | -vrm ] ~@{system} ~@{user} ~@{password} [~@{additionalAuthenticationFactor}] : instance, connect to, query connection, or disconnect from an as400 system");
     }
 
     /**
@@ -152,6 +152,7 @@ public class CmdAS400 extends Command {
         String aspGroup = "";
         String curLib = "";
         String libList = "";
+        String certPath = "";
         boolean defaultServicePorts = true;
         boolean useSSL = false;
         boolean useSockets = false;
@@ -232,6 +233,9 @@ public class CmdAS400 extends Command {
                 case "-ssl":
                     useSSL = argArray.nextTupleOrPop().getValue().equals(true);
                     break;
+                case "-certpath":
+                    certPath = argArray.nextMaybeQuotationTuplePopString();
+                    break;
                 case "-sockets":
                     operation = OPERATIONS.USESOCKETS;
                     useSockets = argArray.nextTupleOrPop().getValue().equals(true);
@@ -257,6 +261,9 @@ public class CmdAS400 extends Command {
             setCommandResult(COMMANDRESULT.FAILURE);
         } else {
             Integer serviceInteger;
+            if (certPath.length() > 0) {
+                this.getInterpreter().setProperty("ssl.certificate.path", certPath);
+            }
             switch (operation) {
                 case INSTANCE:
                     if (getAs400() != null) {

@@ -7,6 +7,9 @@ All rights reserved. Open Source, see LICENSE
 -----
 * Security
     * Bump mssql to 12.0.2.jre8
+* TLS
+	* `as400` command now takes optional `-certpath full_path_to_cert_chain` merging
+	  provided cert or cert chain to keystore allowing self-signed certs
 * Workflow
     * remove github maven cache statement
 
