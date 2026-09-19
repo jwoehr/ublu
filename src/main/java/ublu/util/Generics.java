@@ -50,7 +50,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -971,7 +973,7 @@ public class Generics {
         public static FunctorMap fromByteArray(byte[] byteArray) throws IOException, ClassNotFoundException {
             FunctorMap fm = null;
             ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
-            ObjectInputStream ois = new ObjectInputStream(bais);
+            ObjectInputStream ois = new SafeObjectInputStream(bais);
             Object restoredObject = ois.readObject();
             if (restoredObject instanceof FunctorMap) {
                 fm = FunctorMap.class.cast(restoredObject);
@@ -1051,7 +1053,7 @@ public class Generics {
         public static ConstMap fromByteArray(byte[] byteArray) throws IOException, ClassNotFoundException {
             ConstMap fm = null;
             ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
-            ObjectInputStream ois = new ObjectInputStream(bais);
+            ObjectInputStream ois = new SafeObjectInputStream(bais);
             Object restoredObject = ois.readObject();
             if (restoredObject instanceof ConstMap) {
                 fm = ConstMap.class.cast(restoredObject);
@@ -1469,6 +1471,48 @@ public class Generics {
                 sb.append(key).append(" ");
             }
             return sb.toString();
+        }
+    }
+
+    /**
+     * A filtering {@link ObjectInputStream} that restricts deserialization to
+     * the small set of classes that Ublu legitimately serializes. Any attempt
+     * to deserialize a class outside this allow-list throws
+     * {@link InvalidClassException}, preventing deserialization gadget-chain
+     * attacks.
+     */
+    public static class SafeObjectInputStream extends ObjectInputStream {
+
+        private static final java.util.Set<String> ALLOWED = new java.util.HashSet<>(
+                java.util.Arrays.asList(
+                        "ublu.util.Generics$FunctorMap",
+                        "ublu.util.Generics$ConstMap",
+                        "ublu.util.Functor",
+                        "ublu.util.ArgArray",
+                        "ublu.util.Const",
+                        "java.lang.String",
+                        "java.util.LinkedHashMap",
+                        "java.util.HashMap",
+                        "java.util.ArrayList"
+                ));
+
+        public SafeObjectInputStream(java.io.InputStream in) throws IOException {
+            super(in);
+        }
+
+        @Override
+        protected Class<?> resolveClass(ObjectStreamClass desc)
+                throws IOException, ClassNotFoundException {
+            String name = desc.getName();
+            // Strip array prefixes (e.g. "[Ljava.lang.String;")
+            String baseName = name.startsWith("[L") && name.endsWith(";")
+                    ? name.substring(2, name.length() - 1)
+                    : name;
+            if (!ALLOWED.contains(baseName)) {
+                throw new InvalidClassException(
+                        "Unauthorized deserialization of class: " + name);
+            }
+            return super.resolveClass(desc);
         }
     }
 

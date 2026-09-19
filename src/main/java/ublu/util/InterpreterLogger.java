@@ -26,6 +26,7 @@
 package ublu.util;
 
 import java.io.PrintStream;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
@@ -98,8 +99,13 @@ public class InterpreterLogger extends Logger {
         getErrOutStream().print(sb.toString());
         Throwable t = record.getThrown();
         if (t != null) {
-            getErrOutStream().println(t.getLocalizedMessage());
-            t.printStackTrace(getErrOutStream());
+            // Send only the brief message to the output stream (which may be a
+            // network socket). The full stack trace is forwarded to the parent
+            // logger so it appears in the server-side log, not in client output.
+            getErrOutStream().println("Error: " + t.getLocalizedMessage());
+            if (getParent() != null) {
+                getParent().log(Level.SEVERE, "Exception in interpreter", t);
+            }
         }
     }
 }

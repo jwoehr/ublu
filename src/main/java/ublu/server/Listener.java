@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLParameters;
@@ -52,8 +53,11 @@ public class Listener extends Thread {
      *
      */
     public static int DEFAULT_ACCEPT_TIMEOUT_MS = 4000;
+    /** Default maximum number of simultaneous client connections. */
+    public static final int DEFAULT_MAX_CONNECTIONS = 20;
     private int acceptTimeoutMS = DEFAULT_ACCEPT_TIMEOUT_MS;
-    private int spawns = 0;
+    private int maxConnections = DEFAULT_MAX_CONNECTIONS;
+    private final AtomicInteger spawns = new AtomicInteger(0);
     private Interpreter parentInterpreter;
     private boolean useSSL;
     private Ublu ublu;
@@ -61,7 +65,7 @@ public class Listener extends Thread {
     private int portnum;
     private int backlog;
     private ServerSocket serverSocket;
-    private boolean listening;
+    private volatile boolean listening;
     private String executionBlock;
 
     /**
@@ -142,7 +146,7 @@ public class Listener extends Thread {
      * @return count of {@link Server} threads spawned
      */
     public int getSpawns() {
-        return spawns;
+        return spawns.get();
     }
 
     /**
@@ -151,14 +155,14 @@ public class Listener extends Thread {
      * @param spawns count of {@link Server} threads spawned
      */
     protected void setSpawns(int spawns) {
-        this.spawns = spawns;
+        this.spawns.set(spawns);
     }
 
     /**
      * Bump the count of spawns by 1.
      */
     protected void incSpawns() {
-        spawns++;
+        spawns.incrementAndGet();
     }
 
     /**
@@ -540,14 +544,22 @@ public class Listener extends Thread {
             try {
                 while (listening) {
                     try {
-                        Server s;
-                        if (getExecutionBlock() != null) {
-                            s = new Server(getUblu(), getServerSocket().accept(), getExecutionBlock(), getParentInterpreter());
+                        java.net.Socket accepted = getServerSocket().accept();
+                        if (spawns.get() >= maxConnections) {
+                            getLogger().log(Level.WARNING,
+                                    "Max connections ({0}) reached, rejecting connection", maxConnections);
+                            accepted.close();
                         } else {
-                            s = new Server(getUblu(), getServerSocket().accept(), getParentInterpreter());
+                            Server s;
+                            if (getExecutionBlock() != null) {
+                                s = new Server(getUblu(), accepted, getExecutionBlock(), getParentInterpreter());
+                            } else {
+                                s = new Server(getUblu(), accepted, getParentInterpreter());
+                            }
+                            s.setActiveConnections(spawns);
+                            s.start();
+                            incSpawns(); // If we get here without timeout exception there has been a spawn
                         }
-                        s.start();
-                        incSpawns(); // If we get here without timeout exception there has been a spawn
                     } catch (SocketTimeoutException ex) {
                         // we don't care
                     }

@@ -40,6 +40,26 @@ import java.util.logging.Logger;
  */
 public class Server extends Thread {
 
+    /** Maximum line length accepted from a network client (64 KiB). */
+    private static final int MAX_LINE_LENGTH = 65536;
+
+    /** Default socket read timeout in milliseconds (30 seconds). */
+    private static final int DEFAULT_READ_TIMEOUT_MS = 30_000;
+
+    private int readTimeoutMs = DEFAULT_READ_TIMEOUT_MS;
+
+    /** Shared connection counter from the owning {@link Listener}; may be null. */
+    private java.util.concurrent.atomic.AtomicInteger activeConnections;
+
+    /**
+     * Set the shared active-connection counter so this thread decrements it on exit.
+     *
+     * @param activeConnections the counter from the owning Listener
+     */
+    void setActiveConnections(java.util.concurrent.atomic.AtomicInteger activeConnections) {
+        this.activeConnections = activeConnections;
+    }
+
     private String executionBlock;
     private Socket socket;
     private Ublu ublu;
@@ -184,12 +204,23 @@ public class Server extends Thread {
         } else {
             i = new Interpreter(parentInterpreter);
         }
+        getSocket().setSoTimeout(readTimeoutMs);
         i.setOutputStream(new PrintStream(getSocket().getOutputStream()));
         i.setInputStream(getSocket().getInputStream());
         i.setInputStreamBufferedReader(new BufferedReader(new InputStreamReader(i.getInputStream())));
         while (!i.isGoodBye()) {
-            String s = i.getInputStreamBufferedReader().readLine();
+            String s;
+            try {
+                s = i.getInputStreamBufferedReader().readLine();
+            } catch (java.net.SocketTimeoutException e) {
+                getLogger().log(Level.WARNING, "Client read timeout, closing connection");
+                break;
+            }
             if (s != null) {
+                if (s.length() > MAX_LINE_LENGTH) {
+                    getLogger().log(Level.WARNING, "Line too long from client ({0} chars), closing connection", s.length());
+                    break;
+                }
                 i.setArgArray(new Parser(i, s).parseAnArgArray());
                 i.loop();
             }
@@ -239,6 +270,10 @@ public class Server extends Thread {
             }
         } catch (IOException e) {
             getLogger().log(Level.SEVERE, "I/O exception running server", e);
+        } finally {
+            if (activeConnections != null) {
+                activeConnections.decrementAndGet();
+            }
         }
     }
 }

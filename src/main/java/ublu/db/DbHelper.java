@@ -27,6 +27,7 @@ package ublu.db;
 
 import static ublu.db.Db.cpEBCDIC;
 import static ublu.db.Db.fromEBCDIC;
+import static ublu.db.Db.validateIdentifier;
 import ublu.util.Generics;
 import ublu.util.Generics.ByteArrayList;
 import ublu.util.Generics.ColumnNameList;
@@ -563,6 +564,7 @@ public class DbHelper {
      * @throws SQLException
      */
     public static ResultSetClosure selectStarFrom(Db db, String tablename, Integer resultSetType, Integer resultSetConcurrency, Integer resultSetHoldability) throws SQLException {
+        validateIdentifier(tablename);
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT * FROM ").append(tablename);
 
@@ -587,6 +589,7 @@ public class DbHelper {
      * @throws SQLException
      */
     public static DbHelper newDbHelperStarFrom(Db db, String tablename) throws SQLException {
+        validateIdentifier(tablename);
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT * FROM ").append(tablename);
         Statement statement = db.getConnection().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,

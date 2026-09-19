@@ -632,7 +632,24 @@ public abstract class Db {
      * @return the result set
      * @throws SQLException
      */
+    /**
+     * Validate that a SQL identifier (table name, column name, etc.) contains
+     * only safe characters. This guards against SQL injection via identifier
+     * concatenation. Allowed characters: letters, digits, {@code _}, {@code $},
+     * {@code .}, {@code /}, and {@code \}.
+     *
+     * @param name the identifier to validate
+     * @throws IllegalArgumentException if {@code name} is null or contains
+     *         characters outside the safe set
+     */
+    static void validateIdentifier(String name) {
+        if (name == null || !name.matches("[A-Za-z0-9_$./\\\\]+")) {
+            throw new IllegalArgumentException("Invalid SQL identifier: " + name);
+        }
+    }
+
     public ResultSet selectStarFrom(String tableName) throws SQLException {
+        validateIdentifier(tableName);
         StringBuilder query = new StringBuilder("SELECT * FROM \"");
         query.append(tableName).append("\"");
         return executeSQL(query.toString());
@@ -648,6 +665,7 @@ public abstract class Db {
      * @throws SQLException
      */
     public ResultSet selectStarFrom(String tableName, int resultSetType, int resultSetConcurrency) throws SQLException {
+        validateIdentifier(tableName);
         StringBuilder query = new StringBuilder("SELECT * FROM \"");
         query.append(tableName).append("\"");
         return createStatement(resultSetType, resultSetConcurrency).executeQuery(query.toString());

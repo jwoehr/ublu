@@ -29,6 +29,7 @@ package ublu.command;
 
 import ublu.util.ArgArray;
 import ublu.util.Generics.FunctorMap;
+import ublu.util.Generics.SafeObjectInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -200,7 +201,7 @@ public class CmdSaveSys extends Command {
     }
 
     private void readSys(InputStream is, boolean merging) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream ois = new ObjectInputStream(is)) {
+        try (SafeObjectInputStream ois = new SafeObjectInputStream(is)) {
             FunctorMap fm = (FunctorMap) ois.readObject();
             ConstMap cm = (ConstMap) ois.readObject();
             FunctorMap oldfm = getInterpreter().getFunctorMap();
