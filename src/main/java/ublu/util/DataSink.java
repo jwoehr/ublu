@@ -88,6 +88,9 @@ public class DataSink {
      * @return sink type
      */
     public static SINKTYPE sinkNameType(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("DataSink name must not be null");
+        }
         SINKTYPE sinkType;
         if (name.startsWith("@")) {
             sinkType = SINKTYPE.TUPLE;

@@ -27,6 +27,7 @@
 package ublu.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -460,7 +461,7 @@ public class GetArgs {
                 /* Get a new line. */
                 try {
                     st = new StringTokenizer(br.readLine());
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace(System.err);
                 }
                 /* Process the line/ */
@@ -476,7 +477,7 @@ public class GetArgs {
         /* We're done, clean up. */
         try {
             br.close();
-        } /* End try*/ catch (Exception e) {
+        } /* End try*/ catch (IOException e) {
             e.printStackTrace(System.err);
         }
     }

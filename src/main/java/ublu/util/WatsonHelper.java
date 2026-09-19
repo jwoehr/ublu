@@ -40,27 +40,27 @@ public class WatsonHelper {
     /**
      *
      */
-    public static String BLUEMIX_HOST = "watson-api-explorer.mybluemix.net";
+    public static final String BLUEMIX_HOST = "watson-api-explorer.mybluemix.net";
 
     /**
      *
      */
-    public static String URL_BASE = "https://";
+    public static final String URL_BASE = "https://";
 
     /**
      *
      */
-    public static String DEFAULT_REQUEST_CONTENT_TYPE = "application/json";
+    public static final String DEFAULT_REQUEST_CONTENT_TYPE = "application/json";
 
     /**
      *
      */
-    public static String DEFAULT_RESPONSE_CONTENT_TYPE = "application/json";
+    public static final String DEFAULT_RESPONSE_CONTENT_TYPE = "application/json";
 
     /**
      *
      */
-    public static String DEFAULT_METHOD = "GET";
+    public static final String DEFAULT_METHOD = "GET";
 
     /**
      * Perform a Watson operation

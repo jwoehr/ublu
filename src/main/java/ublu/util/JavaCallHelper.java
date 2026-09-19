@@ -320,7 +320,7 @@ public class JavaCallHelper {
          * @return obj list of the method call args
          */
         public Object[] toArgList() {
-            ArrayList al = new ArrayList();
+            ArrayList<Object> al = new ArrayList<>();
             for (MethodArgPair marg : this) {
                 al.add(marg.argObject);
             }

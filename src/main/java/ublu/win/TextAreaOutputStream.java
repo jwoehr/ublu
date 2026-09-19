@@ -7,6 +7,7 @@
  */
 package ublu.win;
 
+import java.nio.charset.StandardCharsets;
 import javax.swing.JTextArea;
 
 /**
@@ -84,7 +85,7 @@ public class TextAreaOutputStream extends java.io.OutputStream {
     public void write(int b) {
         byte b1[] = new byte[1];
         b1[0] = (byte) b;
-        String s = new String(b1);
+        String s = new String(b1, StandardCharsets.UTF_8);
 
         /**
          * Append if text area, otherwise print error.
@@ -106,7 +107,7 @@ public class TextAreaOutputStream extends java.io.OutputStream {
      */
     @Override
     public void write(byte b[]) {
-        String s = new String(b);
+        String s = new String(b, StandardCharsets.UTF_8);
 
         /**
          * Append if text area, otherwise print error.
@@ -130,7 +131,7 @@ public class TextAreaOutputStream extends java.io.OutputStream {
      */
     @Override
     public void write(byte b[], int offset, int length) {
-        String s = new String(b, offset, length);
+        String s = new String(b, offset, length, StandardCharsets.UTF_8);
 
         /**
          * Append if text area, otherwise print error.
